@@ -18,9 +18,11 @@ ordering, but the explanations, code, and figures here are original work; this c
 reproduce the textbooks and is no substitute for them nor for full lectures themselves. Where a full
 derivation belongs in a book, the notebooks point you there.
 
-The course is now complete, and its shape is worth a sentence. A short **Prologue** opens it — one
-gentle notebook that works a single question (how long does a pendulum take to swing?) at three levels
-of honesty, so you meet the course's whole method before any formalism. A short **Volume 0 —
+The course is now complete, and its shape is worth a sentence. A short set of **Meditations** opens
+it — a few pages on what it means to compute in the age of generative AI, and why this course is built
+the way it is — followed by a **Prologue**: one gentle notebook that works a single question (how long
+does a pendulum take to swing?) at three levels of honesty, so you meet the course's whole method
+before any formalism. A short **Volume 0 —
 Foundations** then precedes the physics: the mathematical and computational tools every later notebook
 relies on, beginning with floating-point arithmetic and numerical error. Seven physics volumes follow,
 from projectile motion to quantum statistical mechanics; Volume VII carries an optional **Coda** — a
@@ -46,6 +48,9 @@ reference named, and every one kept.
 - **Run everything.** The notebooks are meant to be executed and modified; change a parameter and watch
   what happens.
 - **Don't skip the validation cells.** They are the point: they tell you whether your physics is right.
+- **Use your assistant freely.** The course assumes you have an AI assistant and that you use it — the
+  Meditations explain the working arrangement. The few cells you should write entirely by hand are
+  marked; the checks you should never delegate are every one of them.
 - **New to computational work?** Start with the Prologue — it is the course in miniature, and it
   explains the notebook machinery as you go. If you are comfortable already, you may skip straight to
   Volume 0.
