@@ -70,7 +70,9 @@ Nothing in it is a black box, and reading it is encouraged; it supplies the infr
 validation, animation, the occasional piece of genuine machinery — while the physics, throughout, is
 written out on the page. Notebook prose is licensed under CC BY 4.0 and the
 code under MIT. Exercise solutions are maintained by the author and are not distributed with the
-notebooks; the validation cells are your feedback.
+notebooks; the validation cells are your feedback. To cite the course, use its DOI,
+[10.5281/zenodo.21418790](https://doi.org/10.5281/zenodo.21418790) (all versions; full metadata in the
+repository's `CITATION.cff`).
 
 ## A note on how this course was written
 
