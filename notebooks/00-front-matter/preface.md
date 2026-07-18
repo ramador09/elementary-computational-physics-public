@@ -62,7 +62,13 @@ reference named, and every one kept.
 ## Conventions
 
 Code style, figure aesthetics, and the validation helpers are shared across every notebook (the `ecp`
-package), so the series reads as one coherent work. Notebook prose is licensed under CC BY 4.0 and the
+package), so the series reads as one coherent work. The package is small and deliberately readable:
+every helper carries a full NumPy-style docstring — `help(validate.close)` works in any running
+notebook — and its complete source is public in the
+[course's runnable repository](https://github.com/ramador09/elementary-computational-physics-binder/tree/main/ecp).
+Nothing in it is a black box, and reading it is encouraged; it supplies the infrastructure — styling,
+validation, animation, the occasional piece of genuine machinery — while the physics, throughout, is
+written out on the page. Notebook prose is licensed under CC BY 4.0 and the
 code under MIT. Exercise solutions are maintained by the author and are not distributed with the
 notebooks; the validation cells are your feedback.
 
