@@ -72,7 +72,9 @@ written out on the page. Notebook prose is licensed under CC BY 4.0 and the
 code under MIT. Exercise solutions are maintained by the author and are not distributed with the
 notebooks; the validation cells are your feedback. To cite the course, use its DOI,
 [10.5281/zenodo.21418790](https://doi.org/10.5281/zenodo.21418790) (all versions; full metadata in the
-repository's `CITATION.cff`).
+repository's `CITATION.cff`). The whole course is also available as a single typeset
+[PDF edition](https://github.com/ramador09/elementary-computational-physics-public/releases/latest/download/elementary-computational-physics.pdf)
+(2,500+ pages), rebuilt with each release.
 
 ## A note on how this course was written
 
