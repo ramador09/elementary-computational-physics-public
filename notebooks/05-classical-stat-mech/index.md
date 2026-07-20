@@ -78,3 +78,11 @@ After the three-notebook arsenal, the physics proper begins (kinetic theory,
 ensembles, Monte Carlo, the Ising model, thermodynamic cycles) from [§5.4](microstates-entropy-temperature.ipynb) onward.
 Work the notebooks in order; the arsenal is genuinely used, not decorative, and
 every later notebook reaches back into it.
+
+Two codas extend the volume past its finale. [§5.12](kinetic-theory.ipynb)
+finally puts the collisions themselves on stage — mean free paths, an
+event-driven hard-disk gas, the transport coefficients, and the effusion
+physics that once separated isotopes — and [§5.13](random-walks.ipynb) gives
+the random walk the systematic treatment its cameos deserved: from coin flips
+to the diffusion equation, first passages, Pólya's drunkard, and the polymer
+that swells because it may not cross itself.
