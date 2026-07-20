@@ -803,6 +803,73 @@ def solenoid(ax, x0, x1, y, radius, n_turns, *, shear=0.65, color=INK, lw=2.0,
                 zorder=z + 1, solid_capstyle="round")
 
 
+def flux_region(ax, center, r, direction="out", n_marks=7, color=ACCENT,
+                label=None, normal=(0.0, 1.0), z=2):
+    """A region of magnetic flux perpendicular to the page: a shaded disk of
+    ⊙ (out of the page) or ⊗ (into the page) symbols.
+
+    The end-on view of a solenoid or flux tube — the standard textbook way to
+    draw a field normal to the drawing plane. The disk outline registers as
+    real geometry for the collision gate; the ⊙/⊗ glyphs inside are part of
+    the prop (exempt, like a card's rank). A general primitive for any
+    into/out-of-page field patch (Aharonov–Bohm flux tubes, induction loops,
+    Hall-bar fields).
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axes
+        Axes to draw on.
+    center : tuple of float
+        Centre of the flux region.
+    r : float
+        Radius of the shaded disk.
+    direction : {"out", "in"}, optional
+        Field direction relative to the page: ``"out"`` draws ⊙ dots,
+        ``"in"`` draws ⊗ crosses (default ``"out"``).
+    n_marks : int, optional
+        Approximate number of symbols scattered over the disk (default ``7``;
+        one central symbol is always drawn).
+    color : str, optional
+        Outline and symbol colour (default the series accent).
+    label : str, optional
+        Collision-free label placed outside the disk (e.g. ``r"$\\Phi$"``).
+    normal : tuple of float, optional
+        Preferred outward direction for the label (default up).
+    z : int, optional
+        Draw z-order (default ``2``).
+
+    Returns
+    -------
+    None
+        Draws the region onto ``ax`` in place.
+    """
+    cx, cy = float(center[0]), float(center[1])
+    theta = np.linspace(0.0, 2.0 * np.pi, 121)
+    ax.fill(cx + r * np.cos(theta), cy + r * np.sin(theta), color=color,
+            alpha=0.10, zorder=z - 1, lw=0)
+    ax.plot(cx + r * np.cos(theta), cy + r * np.sin(theta), "-", color=color,
+            lw=1.6, zorder=z)
+    # symbol sites: centre + a ring at 0.55r (part of the prop -> _nocheck)
+    sites = [(cx, cy)]
+    m = max(int(n_marks) - 1, 0)
+    for k in range(m):
+        a = 2.0 * np.pi * k / m + 0.35
+        sites.append((cx + 0.55 * r * np.cos(a), cy + 0.55 * r * np.sin(a)))
+    glyph = "$\\odot$" if direction == "out" else "$\\otimes$"
+    for sx, sy in sites:
+        ax.text(sx, sy, glyph, color=color, ha="center", va="center",
+                fontsize=11, zorder=z + 1, gid="_nocheck")
+    if label is not None:
+        # Anchor at the disk edge and ALWAYS use a leader line: the disk
+        # interior is full of _nocheck prop glyphs, which the collision gate
+        # ignores, so a fallback placement could land "clear" on top of them.
+        # The leader keeps the label visibly outside the prop instead.
+        edge = (cx + r * normal[0] / np.hypot(*normal),
+                cy + r * normal[1] / np.hypot(*normal))
+        place_label(ax, label, edge, normal=normal, color=color,
+                    clearance=0.55 * r, leader=True)
+
+
 # ---------------------------------------------------------------------------
 # Circuit primitives (IEC 60617 style: rectangle resistor, NOT the ANSI zigzag)
 # ---------------------------------------------------------------------------

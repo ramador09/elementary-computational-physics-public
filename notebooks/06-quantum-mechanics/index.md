@@ -66,3 +66,9 @@ the well, the barrier, the oscillator, the hydrogen atom — whose spectra and s
 we will compute rather than merely quote. Work the notebooks in order; the arsenal
 is genuinely used, not decorative, and every later notebook computes in the space
 built here.
+
+One coda stands after the capstone. Volume III introduced the vector potential as
+bookkeeping and promised, three times over, that quantum mechanics would make its
+gauge structure physical. [§6.28](aharonov-bohm.ipynb) keeps that promise: the
+Aharonov–Bohm effect, the flux-threaded ring, and the $h/2e$ quantum of the
+superconducting ring, computed from the machinery this volume built.
