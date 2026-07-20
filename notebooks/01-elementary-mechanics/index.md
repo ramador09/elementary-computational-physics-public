@@ -23,6 +23,12 @@ way you will pick up the machinery the rest of the course leans on: adaptive
 integrators, phase portraits, Lyapunov exponents, and the habit of asking not just
 "what is the answer" but "why should I believe it."
 
+The volume ends by cashing in every one of those habits at once: [§1.8](solar-system.ipynb)
+puts the real solar system — all eight planets, NASA's masses and orbits — into the
+computer, races the symplectic integrator of [§1.6](integrators.ipynb) against an
+adaptive one for a thousand years, and closes with a measurement of Mercury's
+perihelion precession that Volume IV will pick up where Newton leaves off.
+
 Work the notebooks in order; each assumes the tools (and the habits!) of the ones
 before it.
 
