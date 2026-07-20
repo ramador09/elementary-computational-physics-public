@@ -31,3 +31,10 @@ Mercury carries a stubborn advance that no Newtonian accounting can remove. You 
 the mechanism here, with your own integrator; the general-relativity capstone of
 Volume IV supplies the missing piece, closing a thread that began with the perfectly
 closed Kepler orbit of Volume I.
+
+The volume's last word belongs to honesty: after [§2.10](hamilton-jacobi.ipynb)
+perfects the integrable picture, [§2.11](nonlinear-chaos.ipynb) shows what the
+generic case actually looks like — tori breaking, period-doublings converging on
+a universal constant you measure yourself, and deterministic motion that must be
+described statistically. It is the hinge on which mechanics turns toward
+Volume V.

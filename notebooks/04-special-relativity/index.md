@@ -52,3 +52,9 @@ Work the notebooks in order. The volume is short by the standards of this course
 and unusually self-contained, but each notebook leans on the one before, and the
 whole point of relativity is that it is a single idea followed without flinching
 to its conclusions.
+
+After the capstone, one coda: [§4.9](relativistic-optics.ipynb) asks what an
+observer actually *sees* — Doppler and aberration from a single boost, the twin
+paradox settled by counting light pulses, the CMB dipole reproduced to four
+digits, quasar jets that only appear to outrun light, and a camera you build
+yourself that photographs a passing cube as rotated, never flattened.
