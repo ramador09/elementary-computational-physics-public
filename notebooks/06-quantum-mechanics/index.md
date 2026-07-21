@@ -67,8 +67,13 @@ we will compute rather than merely quote. Work the notebooks in order; the arsen
 is genuinely used, not decorative, and every later notebook computes in the space
 built here.
 
-One coda stands after the capstone. Volume III introduced the vector potential as
+Two codas stand after the capstone. Volume III introduced the vector potential as
 bookkeeping and promised, three times over, that quantum mechanics would make its
 gauge structure physical. [§6.28](aharonov-bohm.ipynb) keeps that promise: the
 Aharonov–Bohm effect, the flux-threaded ring, and the $h/2e$ quantum of the
-superconducting ring, computed from the machinery this volume built.
+superconducting ring, computed from the machinery this volume built. And
+[§6.29](scattering-3d.ipynb) takes scattering into three dimensions, where the
+experiments that mapped the subatomic world actually live: partial waves and
+phase shifts, the optical theorem verified to eight decimals, Born's
+approximation caught working and failing, a Breit–Wigner resonance, and the
+quantum transparency of Ramsauer's argon.
