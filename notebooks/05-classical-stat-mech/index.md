@@ -85,8 +85,12 @@ event-driven hard-disk gas, the transport coefficients, and the effusion
 physics that once separated isotopes; [§5.13](random-walks.ipynb) gives
 the random walk the systematic treatment its cameos deserved: from coin flips
 to the diffusion equation, first passages, Pólya's drunkard, and the polymer
-that swells because it may not cross itself; and [§5.14](heat-engines.ipynb)
+that swells because it may not cross itself; [§5.14](heat-engines.ipynb)
 spends the whole apparatus on the subject thermodynamics was invented for —
 Carnot's bound earned leg by leg, the Otto cycle in the driveway, the heat-pump
 bargain, and the endoreversible square root that out-predicts Carnot on real
-power plants.
+power plants; and [§5.15](van-der-waals.ipynb) takes the promised step beyond
+the ideal gas, where two small corrections conjure a liquid: Maxwell's
+equal-area coexistence, a latent heat honoring Clausius–Clapeyron, mean-field
+critical exponents measured from our own dome, and the corresponding-states
+vote of five real fluids.
