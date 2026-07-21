@@ -51,3 +51,10 @@ but it leans on special relativity. If you are meeting relativity for the first 
 you may prefer to read Volume IV's special-relativity notebooks ([§4.1](../04-special-relativity/crisis-and-postulates.ipynb)–[§4.5](../04-special-relativity/four-momentum-energy.ipynb)) first and
 return to [§3.12](relativistic-maxwell.ipynb) afterwards; we develop just enough relativity inline for it to stand on
 its own, but the fuller story is in Volume IV.
+
+A coda closes the volume where most fields actually live: inside matter.
+[§3.13](fields-in-matter.ipynb) works both halves of the story — bound charges
+summed into the polarized sphere's exact interior field, a permittivity-jump
+relaxation solver benchmarked against the dielectric sphere, Clausius–Mossotti
+pricing argon's permittivity from one atom, the magnetized cylinder unmasked as
+a solenoid, and the mean-field hysteresis that turns response into memory.
