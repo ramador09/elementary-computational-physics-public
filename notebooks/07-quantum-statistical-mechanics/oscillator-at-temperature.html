@@ -1,0 +1,1727 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/oscillator-at-temperature.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: This notebook does the volume’s founding calculation: the one Planck performed in 1900 to fit the blackbody spectrum, and the one Einstein..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: This notebook does the volume’s founding calculation: the one Planck performed in 1900 to fit the blackbody spectrum, and the one Einstein..." />
+
+    <title>7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/07-quantum-statistical-mechanics/oscillator-at-temperature';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/oscillator-at-temperature.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase" href="molecules-rotation-vibration.html" />
+    <link rel="prev" title="7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble" href="thermal-density-matrix.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VII — Quantum Statistical Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/07-quantum-statistical-mechanics/oscillator-at-temperature.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/07-quantum-statistical-mechanics/oscillator-at-temperature.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/07-quantum-statistical-mechanics/oscillator-at-temperature.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/07-quantum-statistical-mechanics/oscillator-at-temperature.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-exact-partition-function">The exact partition function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-planck-occupation-and-the-movement-s-symmetry">The Planck occupation, and the movement’s symmetry</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#freezing-out-where-equipartition-dies">Freezing out: where equipartition dies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-classical-limit-made-honest-twice">The classical limit, made honest twice</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-einstein-solid-and-the-diamond-anomaly">The Einstein solid and the diamond anomaly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#thermal-photon-statistics-the-geometric-distribution-and-bunching">Thermal photon statistics: the geometric distribution and bunching</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-thermal-width-the-curve-the-path-integral-will-resample">The thermal width: the curve the path integral will resample</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-exact-partition-function">Exercise 1 — The exact partition function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-planck-occupation-the-bose-function-one-movement-early">Exercise 2 — The Planck occupation: the Bose function, one movement early</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-freezing-out">Exercise 3 — Freezing out</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-classical-limit-derives-h">Exercise 4 — The classical limit derives h</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-einstein-solid-and-the-diamond-anomaly">Exercise 5 — The Einstein solid and the diamond anomaly</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-thermal-photon-statistics-the-geometric-distribution-and-bunching">Exercise 6 — Thermal photon statistics: the geometric distribution and bunching</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-thermal-width-the-curve-the-path-integral-will-resample">Exercise 7 — The thermal width: the curve the path integral will resample</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-one-oscillator-the-whole-volume-in-miniature">Exercise 8 — One oscillator, the whole volume in miniature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-quantum-oscillator-at-temperature-planck-s-occupation-freezing-out-and-the-classical-limit">
+<h1>7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit<a class="headerlink" href="#the-quantum-oscillator-at-temperature-planck-s-occupation-freezing-out-and-the-classical-limit" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VII — Quantum Statistical Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;7.5
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">The calculation quantum mechanics was born from, done exactly. One warm oscillator yields the Planck occupation — the Bose function, one movement early — a heat capacity that freezes below a characteristic temperature and turns classical above it, and a high-temperature limit so sharp it derives the h that classical statistical mechanics had to insert by hand. Einstein&#x27;s solid then closes a nineteenth-century scandal to three digits, and fails at low temperature in exactly the way that summons Debye.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;185–225 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>This notebook does the volume’s founding calculation: the one Planck performed in 1900 to fit the
+blackbody spectrum, and the one Einstein pointed at solid matter in 1907. The system is the
+harmonic oscillator of <a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a> (the ladder spectrum <span class="math notranslate nohighlight">\(E_n = \hbar\omega(n + \tfrac12)\)</span>), placed in
+contact with a heat bath by the machinery of <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a>. It is <em>exactly</em> solvable: the partition function is
+a geometric series, so every claim made here is verified to machine precision rather than
+estimated, and one warm oscillator turns out to contain a remarkable fraction of the volume in
+miniature.</p>
+<p>The haul, in order. The exact <span class="math notranslate nohighlight">\(Z\)</span> delivers <span class="math notranslate nohighlight">\(\langle E\rangle = \hbar\omega(\langle n\rangle +
+\tfrac12)\)</span> with the <strong>Planck occupation</strong> <span class="math notranslate nohighlight">\(\langle n\rangle = 1/(e^{\beta\hbar\omega}-1)\)</span> — and
+the reader should recognize it: this is the <strong>Bose–Einstein function</strong> at <span class="math notranslate nohighlight">\(\mu = 0\)</span>, appearing
+one movement before <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> derives it from the grand canonical ensemble. No accident: a bosonic
+mode <em>is</em> a harmonic oscillator, its quanta the rungs of the ladder. Movement I thereby completes
+a quiet symmetry — the warm qubit of <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a> produced the Fermi function, this notebook’s warm oscillator
+produces the Bose function, each from a single exactly-solvable system, and the ensemble
+derivation of <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> (plus the Matsubara contours of <a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a>) must land on the same two functions. The
+heat capacity then tells the volume’s second “where classical failed” story quantitatively: below
+the <strong>Einstein temperature</strong> <span class="math notranslate nohighlight">\(\theta_E = \hbar\omega/k_B\)</span> the oscillator <strong>freezes out</strong> —
+equipartition’s guaranteed <span class="math notranslate nohighlight">\(k_B\)</span> simply switches off — and above it the classical answer returns.
+The classical limit is made honest twice over: the high-temperature limit of the quantum <span class="math notranslate nohighlight">\(Z\)</span>
+<em>derives</em> the <span class="math notranslate nohighlight">\(1/h\)</span> that Volume V inserted into its phase-space measure by fiat, and the leading
+quantum correction <span class="math notranslate nohighlight">\((\hbar\omega)^2/12k_BT\)</span> is measured converging — the first term of the Wigner
+expansion. Scaled up to <span class="math notranslate nohighlight">\(3N\)</span> oscillators, the <strong>Einstein solid</strong> closes the nineteenth century’s
+diamond scandal to three digits and then fails, honestly, in exactly the way that makes Debye
+(<a class="reference internal" href="phonons-debye.html"><span class="std std-doc">§7.16</span></a>) necessary.</p>
+<p>Two payload exercises plant seeds. The oscillator’s thermal number distribution is <em>geometric</em>,
+and two million samples of it exhibit <strong>bunching</strong> — the super-Poissonian variance
+<span class="math notranslate nohighlight">\(\langle\Delta n^2\rangle = \langle n\rangle(1 + \langle n\rangle)\)</span> whose <span class="math notranslate nohighlight">\(+\langle n\rangle^2\)</span>
+excess Einstein read, in 1909, as the wave half of wave–particle duality: the photon gas of <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>
+begins here. And the <strong>thermal width</strong> <span class="math notranslate nohighlight">\(\langle x^2\rangle = (\hbar/2m\omega)\coth(\beta\hbar
+\omega/2)\)</span>, computed by ladder-operator trace machinery, traces the full arc from the pure
+ground-state spread (a quantum width that never freezes) to classical equipartition growth —
+flagged now as the exact curve that path-integral Monte Carlo (<a class="reference internal" href="path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a>) will re-derive by sampling
+classical ring polymers. Molecules are deliberately deferred to <a class="reference internal" href="molecules-rotation-vibration.html"><span class="std std-doc">§7.6</span></a>, coupled oscillators to <a class="reference internal" href="phonons-debye.html"><span class="std std-doc">§7.16</span></a>.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Working units <span class="math notranslate nohighlight">\(\hbar = \omega = k_B = 1\)</span> (so <span class="math notranslate nohighlight">\(\beta = 1/T\)</span>,
+the level spacing is <span class="math notranslate nohighlight">\(1\)</span>, and <span class="math notranslate nohighlight">\(\theta_E = 1\)</span>), with physical units restored where the physics
+demands them — the Einstein-solid section speaks Kelvin and J mol⁻¹K⁻¹. Truncated spectral sums
+always state their <span class="math notranslate nohighlight">\(n_{\max}\)</span>, governed by the rule <span class="math notranslate nohighlight">\(n_{\max} \gg k_BT/\hbar\omega\)</span>: the
+truncation trap bites at <em>high</em> temperature, not low. Planck denominators are evaluated with
+<code class="docutils literal notranslate"><span class="pre">numpy.expm1</span></code> to dodge catastrophic cancellation at small <span class="math notranslate nohighlight">\(\beta\hbar\omega\)</span>. Random sampling
+uses a fixed seed.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against an independent
+fact: the geometric-series <span class="math notranslate nohighlight">\(Z\)</span> against brute-force truncated sums (and the stated failure of an
+undersized <span class="math notranslate nohighlight">\(n_{\max}\)</span>); <span class="math notranslate nohighlight">\(-\partial\ln Z/\partial\beta\)</span> against <span class="math notranslate nohighlight">\(\hbar\omega(n_B + \tfrac12)\)</span> by
+central differences; the frozen and classical heat-capacity values at <span class="math notranslate nohighlight">\(0.1\,\theta_E\)</span> and
+<span class="math notranslate nohighlight">\(50\,\theta_E\)</span> with the exponential law fitted on a log axis; the <span class="math notranslate nohighlight">\(1/h\)</span> measure derived from
+the high-<span class="math notranslate nohighlight">\(T\)</span> ratio and the Wigner correction converging to <span class="math notranslate nohighlight">\(1\)</span>; the diamond number against the
+measured <span class="math notranslate nohighlight">\(0.245\)</span>; two million geometric samples against the exact mean and bunched variance
+(cross-checked by <span class="math notranslate nohighlight">\(\partial^2\ln Z/\partial\beta^2\)</span>); and the ladder-trace <span class="math notranslate nohighlight">\(\langle x^2\rangle\)</span>
+against the <span class="math notranslate nohighlight">\(\coth\)</span> closed form at three temperatures. A ✓ is strong evidence; a ✗ is a prompt
+to <em>locate the discrepancy</em>.</p>
+<p><strong>Scope.</strong> One oscillator (and <span class="math notranslate nohighlight">\(3N\)</span> independent copies of it), exactly. Molecules and their
+staircase are <a class="reference internal" href="molecules-rotation-vibration.html"><span class="std std-doc">§7.6</span></a>; the ensemble derivations of <span class="math notranslate nohighlight">\(n_B\)</span>/<span class="math notranslate nohighlight">\(n_F\)</span> are <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>; the photon <em>gas</em> is <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>;
+coupled oscillators and the Debye spectrum are <a class="reference internal" href="phonons-debye.html"><span class="std std-doc">§7.16</span></a> (motivated here, not built); the
+path-integral resampling of today’s <span class="math notranslate nohighlight">\(\langle x^2\rangle\)</span> is <a class="reference internal" href="path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a>. See Pathria &amp; Beale (Ch. 7);
+Kittel, <em>Introduction to Solid State Physics</em> (the Einstein and Debye models and the diamond
+data); Planck (1900) and Einstein (1907), the historical seeds; Mandel &amp; Wolf on photon
+statistics. Cross-reference <a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a> (the ladder spectrum and operators, reused wholesale), <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a> (the
+canonical identities and the <span class="math notranslate nohighlight">\(n_F\)</span> twin), <a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a> (the Matsubara route), <a class="reference internal" href="../05-classical-stat-mech/ergodicity.html"><span class="std std-doc">§5.5</span></a>/<a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html"><span class="std std-doc">§5.6</span></a> (equipartition and
+the classical measure, about to be derived).</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-exact-partition-function">
+<h3>The exact partition function<a class="headerlink" href="#the-exact-partition-function" title="Link to this heading">#</a></h3>
+<p>The oscillator’s spectrum is the ladder <span class="math notranslate nohighlight">\(E_n = \hbar\omega(n + \tfrac12)\)</span>, <span class="math notranslate nohighlight">\(n = 0, 1, 2, \dots\)</span>
+(<a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a>), so the canonical sum is geometric:</p>
+<div class="math notranslate nohighlight" id="equation-eq-oscillator-z">
+<span class="eqno">(588)<a class="headerlink" href="#equation-eq-oscillator-z" title="Link to this equation">#</a></span>\[Z = \sum_{n=0}^{\infty} e^{-\beta\hbar\omega(n+\frac12)}
+= \frac{e^{-\beta\hbar\omega/2}}{1 - e^{-\beta\hbar\omega}}
+= \frac{1}{2\sinh(\beta\hbar\omega/2)} .\]</div>
+<p>The first equality pulls out the zero-point factor and sums the geometric series in
+<span class="math notranslate nohighlight">\(e^{-\beta\hbar\omega}\)</span>; the <span class="math notranslate nohighlight">\(\sinh\)</span> form is the same expression folded symmetrically. Because the
+series is infinite, any <em>truncated</em> check must respect the convergence rule <span class="math notranslate nohighlight">\(n_{\max} \gg
+k_BT/\hbar\omega\)</span> — the occupied rungs reach up to <span class="math notranslate nohighlight">\(n \sim k_BT/\hbar\omega\)</span>, so the truncation
+trap bites at <strong>high</strong> temperature, where intuition least expects it. Free energy and entropy
+follow from the identities of <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a>, and <span class="math notranslate nohighlight">\(S \to 0\)</span> as <span class="math notranslate nohighlight">\(T \to 0\)</span>: the third law holds on an infinite
+spectrum exactly as it did on two levels.</p>
+</section>
+<section id="the-planck-occupation-and-the-movement-s-symmetry">
+<h3>The Planck occupation, and the movement’s symmetry<a class="headerlink" href="#the-planck-occupation-and-the-movement-s-symmetry" title="Link to this heading">#</a></h3>
+<p>One derivative generates the physics:</p>
+<div class="math notranslate nohighlight" id="equation-eq-planck-occupation">
+<span class="eqno">(589)<a class="headerlink" href="#equation-eq-planck-occupation" title="Link to this equation">#</a></span>\[\langle E\rangle = -\frac{\partial\ln Z}{\partial\beta}
+= \hbar\omega\left(\langle n\rangle + \tfrac12\right),
+\qquad
+\langle n\rangle = \frac{1}{e^{\beta\hbar\omega} - 1} .\]</div>
+<p>The <span class="math notranslate nohighlight">\(\tfrac12\)</span> is the zero-point energy of <a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a>, now a <em>thermodynamic</em> floor that survives at <span class="math notranslate nohighlight">\(T = 0\)</span>.
+And <span class="math notranslate nohighlight">\(\langle n\rangle\)</span> deserves a long look: it is the <strong>Bose–Einstein function</strong> <span class="math notranslate nohighlight">\(n_B(\hbar
+\omega)\)</span> at <span class="math notranslate nohighlight">\(\mu = 0\)</span>, one movement before its official derivation. The reason is structural,
+not coincidental: a bosonic <em>mode</em> is a harmonic oscillator, and the number of quanta on the
+ladder is the mode’s occupation. Movement I has now produced both quantum statistics from single
+systems (the two-level qubit gave <span class="math notranslate nohighlight">\(n_F\)</span> in <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a>, the oscillator gives <span class="math notranslate nohighlight">\(n_B\)</span>), and when <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> derives
+both from the grand canonical ensemble (and the Matsubara contours of <a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a> are recalled), three
+independent routes will have converged on the same pair of functions.</p>
+</section>
+<section id="freezing-out-where-equipartition-dies">
+<h3>Freezing out: where equipartition dies<a class="headerlink" href="#freezing-out-where-equipartition-dies" title="Link to this heading">#</a></h3>
+<p>Differentiating <span class="math notranslate nohighlight">\(\langle E\rangle(T)\)</span> gives the oscillator’s heat capacity,</p>
+<div class="math notranslate nohighlight" id="equation-eq-freezing-out">
+<span class="eqno">(590)<a class="headerlink" href="#equation-eq-freezing-out" title="Link to this equation">#</a></span>\[C(T) = k_B\,\frac{x^2 e^{x}}{(e^{x}-1)^2},
+\qquad
+x = \beta\hbar\omega = \frac{\theta_E}{T},
+\qquad
+\theta_E \equiv \frac{\hbar\omega}{k_B},\]</div>
+<p>and the <strong>Einstein temperature</strong> <span class="math notranslate nohighlight">\(\theta_E\)</span> splits the world in two. Below it the oscillator is
+<strong>frozen</strong>: <span class="math notranslate nohighlight">\(k_BT\)</span> cannot reach the first excited state, the Boltzmann factor strangles every
+excitation, and <span class="math notranslate nohighlight">\(C \approx k_B x^2 e^{-x}\)</span> dives exponentially. Above it, equipartition returns:
+<span class="math notranslate nohighlight">\(C \to k_B\)</span>, Volume V’s answer. This is the volume’s second “where classical failed” resolution:
+classical equipartition (<a class="reference internal" href="../05-classical-stat-mech/ergodicity.html"><span class="std std-doc">§5.5</span></a>/<a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html"><span class="std std-doc">§5.6</span></a>) assigns <span class="math notranslate nohighlight">\(k_B\)</span> per oscillator <em>unconditionally</em>, and experiment
+said otherwise; quantum discreteness switches degrees of freedom <strong>off</strong> when <span class="math notranslate nohighlight">\(k_BT\)</span> sinks below
+their quantum. The single number <span class="math notranslate nohighlight">\(\theta_E\)</span> organizes this notebook and the two after it.</p>
+</section>
+<section id="the-classical-limit-made-honest-twice">
+<h3>The classical limit, made honest twice<a class="headerlink" href="#the-classical-limit-made-honest-twice" title="Link to this heading">#</a></h3>
+<p>At high temperature the quantum partition function approaches</p>
+<div class="math notranslate nohighlight" id="equation-eq-classical-limit">
+<span class="eqno">(591)<a class="headerlink" href="#equation-eq-classical-limit" title="Link to this equation">#</a></span>\[Z_q \;\xrightarrow{\;\beta\hbar\omega\to0\;}\; \frac{k_BT}{\hbar\omega},
+\qquad\text{while}\qquad
+\int \frac{dp\,dx}{h}\,e^{-\beta H_{cl}} = \frac{2\pi k_BT/\omega}{h} = \frac{k_BT}{\hbar\omega} .\]</div>
+<p>Volume V’s classical oscillator integral <span class="math notranslate nohighlight">\(\int dp\,dx\,e^{-\beta H}\)</span> equals <span class="math notranslate nohighlight">\(2\pi k_BT/\omega\)</span> —
+a quantity with <em>dimensions of action</em>, which cannot be a state count as it stands. It becomes
+one, and matches the quantum limit, only when divided by <span class="math notranslate nohighlight">\(h = 2\pi\hbar\)</span>: the <span class="math notranslate nohighlight">\(1/h\)</span> that Volume V
+inserted by convention is thereby <strong>derived</strong> as the unique normalization under which classical
+statistical mechanics is the high-temperature limit of quantum statistical mechanics. (The
+measure’s other mystery factor, the <span class="math notranslate nohighlight">\(1/N!\)</span>, is derived the same way in <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a>.) The <em>approach</em> to the
+limit is itself measurable: expanding <span class="math notranslate nohighlight">\(x/(e^x-1)\)</span> gives <span class="math notranslate nohighlight">\(\langle E\rangle = k_BT +
+(\hbar\omega)^2/12k_BT + \dots\)</span>, and the normalized correction <span class="math notranslate nohighlight">\((\langle E\rangle - k_BT)\cdot
+12k_BT/(\hbar\omega)^2 \to 1\)</span> — the leading term of the <strong>Wigner expansion</strong>, the systematic
+<span class="math notranslate nohighlight">\(\hbar^2\)</span> bookkeeping of the quantum–classical borderland.</p>
+</section>
+<section id="the-einstein-solid-and-the-diamond-anomaly">
+<h3>The Einstein solid and the diamond anomaly<a class="headerlink" href="#the-einstein-solid-and-the-diamond-anomaly" title="Link to this heading">#</a></h3>
+<p>Einstein’s 1907 move: model a crystal of <span class="math notranslate nohighlight">\(N\)</span> atoms as <span class="math notranslate nohighlight">\(3N\)</span> independent oscillators at one
+frequency <span class="math notranslate nohighlight">\(\omega_E\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-einstein-solid">
+<span class="eqno">(592)<a class="headerlink" href="#equation-eq-einstein-solid" title="Link to this equation">#</a></span>\[\frac{C_{\text{solid}}}{3Nk_B} = \frac{x^2 e^{x}}{(e^{x}-1)^2},
+\qquad
+x = \frac{\theta_E}{T} .\]</div>
+<p>At high temperature this is the <strong>Dulong–Petit law</strong> <span class="math notranslate nohighlight">\(C = 3Nk_B \approx 24.9\)</span> J mol⁻¹K⁻¹, which
+nineteenth-century calorimetry confirmed for most solids at room temperature. <strong>Diamond</strong> was the
+scandal: its room-temperature heat capacity is a quarter of the law’s value. Einstein’s curve
+resolves it: light atoms and stiff bonds give diamond <span class="math notranslate nohighlight">\(\theta_E \approx 1320\)</span> K, so room
+temperature sits <em>deep in the frozen regime</em>, and the model predicts <span class="math notranslate nohighlight">\(C/3Nk_B = 0.244\)</span> at 300 K
+against the measured <span class="math notranslate nohighlight">\(\approx 0.245\)</span> — a sixty-year-old anomaly closed to three digits. The model
+also fails honestly: at low <span class="math notranslate nohighlight">\(T\)</span> its exponential tail collapses far below the <em>observed</em> <span class="math notranslate nohighlight">\(T^3\)</span>
+law, because independent equal-frequency oscillators all share one gap, while a real crystal’s
+coupled modes include arbitrarily soft long-wavelength sound that no temperature can freeze.
+That discrepancy is Debye’s cue (<a class="reference internal" href="phonons-debye.html"><span class="std std-doc">§7.16</span></a>) — motivated here, not merely announced.</p>
+</section>
+<section id="thermal-photon-statistics-the-geometric-distribution-and-bunching">
+<h3>Thermal photon statistics: the geometric distribution and bunching<a class="headerlink" href="#thermal-photon-statistics-the-geometric-distribution-and-bunching" title="Link to this heading">#</a></h3>
+<p>The thermal state’s number distribution is the Boltzmann ladder itself,</p>
+<div class="math notranslate nohighlight" id="equation-eq-photon-statistics">
+<span class="eqno">(593)<a class="headerlink" href="#equation-eq-photon-statistics" title="Link to this equation">#</a></span>\[p_n = \left(1 - e^{-x}\right)e^{-n x},
+\qquad
+\langle\Delta n^2\rangle = \langle n\rangle\left(1 + \langle n\rangle\right)
+\;&gt;\; \langle n\rangle_{\text{Poisson}},\]</div>
+<p>a <strong>geometric distribution</strong> on <span class="math notranslate nohighlight">\(n \ge 0\)</span> — samplable directly (with one off-by-one care point:
+<code class="docutils literal notranslate"><span class="pre">numpy</span></code>’s geometric sampler counts trials from <span class="math notranslate nohighlight">\(1\)</span>, so <span class="math notranslate nohighlight">\(n = k - 1\)</span>). Its variance <em>exceeds</em> the
+Poisson value <span class="math notranslate nohighlight">\(\langle n\rangle\)</span> by <span class="math notranslate nohighlight">\(\langle n\rangle^2\)</span>: thermal light is <strong>super-Poissonian</strong>,
+<em>bunched</em>. That excess is precisely the “wave” term of Einstein’s 1909 fluctuation formula, and
+the classical face of what Hanbury Brown and Twiss later measured in starlight. The contrast with
+Poissonian laser light, and the full photon gas, are <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a> and the business of <a class="reference internal" href="einstein-a-b-coefficients.html"><span class="std std-doc">§7.15</span></a> — this is the seed.</p>
+</section>
+<section id="the-thermal-width-the-curve-the-path-integral-will-resample">
+<h3>The thermal width: the curve the path integral will resample<a class="headerlink" href="#the-thermal-width-the-curve-the-path-integral-will-resample" title="Link to this heading">#</a></h3>
+<p>Averaging the eigenstate widths <span class="math notranslate nohighlight">\(\langle x^2\rangle_n = (n + \tfrac12)\hbar/m\omega\)</span> over the
+Boltzmann populations gives</p>
+<div class="math notranslate nohighlight" id="equation-eq-thermal-width">
+<span class="eqno">(594)<a class="headerlink" href="#equation-eq-thermal-width" title="Link to this equation">#</a></span>\[\begin{split}\langle x^2\rangle(T) = \frac{\hbar}{2m\omega}\coth\!\left(\frac{\beta\hbar\omega}{2}\right)
+\;\longrightarrow\;
+\begin{cases}
+\hbar/2m\omega &amp; T \to 0 \quad(\text{the pure ground-state spread})\\[4pt]
+k_BT/m\omega^2 &amp; T \to \infty \quad(\text{classical equipartition of } \tfrac12 m\omega^2 x^2),
+\end{cases}\end{split}\]</div>
+<p>a single curve running from a quantum floor that never freezes to classical linear growth. We
+compute it twice — the closed form, and the machine route <span class="math notranslate nohighlight">\(\operatorname{Tr}(\rho\,x^2)\)</span> with the
+ladder matrices of Volume VI — and flag it explicitly: this is the exact curve that
+path-integral Monte Carlo (<a class="reference internal" href="path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a>) will re-derive by Metropolis sampling of classical ring
+polymers, and the comparison will be that method’s acid test.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">quad</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>
+<span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;#c1121f&quot;</span>
+
+<span class="c1"># Conventions: working units ħ = ω = k_B = m = 1 (level spacing 1,</span>
+<span class="c1"># θ_E = 1, β = 1/T); the Einstein-solid exercise restores Kelvin and J/(mol·K).</span>
+<span class="c1"># Truncated spectral sums STATE their n_max and obey n_max &gt;&gt; k_BT/ħω — the trap</span>
+<span class="c1"># bites at HIGH temperature. Planck denominators use numpy.expm1 (e^x − 1 without</span>
+<span class="c1"># cancellation at small x). Seeds fixed where sampling appears.</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">Z_oscillator</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">n_max</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The oscillator partition function: closed form, or truncated spectral sum (eq-oscillator-Z).</span>
+
+<span class="sd">    With n_max None (default), returns the geometric-series closed form</span>
+<span class="sd">    1/(2 sinh(β/2)) in working units ħω = 1. With n_max given, returns the brute-force</span>
+<span class="sd">    truncated sum Σ_(n=0..n_max) exp(−β(n + 1/2)) — the check the closed form must</span>
+<span class="sd">    survive. Convergence rule: the occupied rungs reach n ~ k_BT/ħω = 1/β, so demand</span>
+<span class="sd">    n_max &gt;&gt; 1/β; at β = 0.2 an n_max of 60 already fails the eight-digit standard</span>
+<span class="sd">    (Exercise 1 demonstrates it).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    beta : float</span>
+<span class="sd">        Inverse temperature (working units).</span>
+<span class="sd">    n_max : int, optional</span>
+<span class="sd">        Truncation of the spectral sum; None (default) selects the closed form.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        Z(β) by the requested route.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="n">beta</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">))</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">))))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">planck_occupation</span><span class="p">(</span><span class="n">beta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Planck occupation ⟨n⟩ = 1/(e^(βħω) − 1) — the Bose function at μ = 0.</span>
+
+<span class="sd">    Evaluated as 1/expm1(β) (working units): numpy.expm1 computes e^x − 1 without the</span>
+<span class="sd">    catastrophic cancellation that &#39;np.exp(x) − 1&#39; suffers for small x, where the</span>
+<span class="sd">    result is ~x and a naive subtraction loses most of its digits — the difference</span>
+<span class="sd">    between a clean classical limit and numerical noise at β ~ 1e-8.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    beta : float or numpy.ndarray</span>
+<span class="sd">        Inverse temperature (working units ħω = 1).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float or numpy.ndarray</span>
+<span class="sd">        The mean occupation ⟨n⟩.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">heat_capacity</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The oscillator heat capacity C/k_B = x^2 e^x/(e^x − 1)^2 at x = βħω (eq-freezing-out).</span>
+
+<span class="sd">    Written expm1-safely as x^2 (expm1(x) + 1)/expm1(x)^2, which keeps full accuracy in</span>
+<span class="sd">    the classical regime x → 0 (where C/k_B → 1 − x^2/12 and the naive denominator</span>
+<span class="sd">    cancels catastrophically) and underflows benignly to 0 in the frozen regime x &gt;&gt; 1.</span>
+<span class="sd">    Doubles as the Einstein-solid curve per mode: C_solid/(3N k_B) is this function at</span>
+<span class="sd">    x = θ_E/T.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : float or numpy.ndarray</span>
+<span class="sd">        The dimensionless gap-to-temperature ratio βħω = θ_E/T.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float or numpy.ndarray</span>
+<span class="sd">        C/k_B per oscillator.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">em</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">em</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">em</span><span class="o">**</span><span class="mi">2</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_photon_number</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">rng</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Draw thermal (geometric) occupation numbers n ≥ 0 for one mode (eq-photon-statistics).</span>
+
+<span class="sd">    numpy&#39;s rng.geometric(p) counts the TRIALS to first success, k = 1, 2, 3, …, while</span>
+<span class="sd">    the thermal distribution p_n = (1 − e^(−β)) e^(−nβ) lives on n = 0, 1, 2, … —</span>
+<span class="sd">    identical shapes, shifted by one. The mapping n = k − 1 is applied here, once,</span>
+<span class="sd">    where it belongs; missing it silently inflates ⟨n⟩ by exactly 1 and is the classic</span>
+<span class="sd">    off-by-one of thermal-photon sampling. The success probability is p = 1 − e^(−β),</span>
+<span class="sd">    computed as −expm1(−β).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    beta : float</span>
+<span class="sd">        Inverse temperature (working units ħω = 1).</span>
+<span class="sd">    size : int</span>
+<span class="sd">        Number of samples.</span>
+<span class="sd">    rng : numpy.random.Generator</span>
+<span class="sd">        The seeded generator (numpy.random.default_rng).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Integer occupation samples n ≥ 0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">rng</span><span class="o">.</span><span class="n">geometric</span><span class="p">(</span><span class="n">p</span><span class="o">=-</span><span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="o">-</span><span class="n">beta</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">thermal_x2</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">n_max</span><span class="o">=</span><span class="mi">400</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;⟨x^2⟩ at inverse temperature β by the ladder-operator trace route (eq-thermal-width).</span>
+
+<span class="sd">    Volume VI&#39;s construction, reused verbatim: a = numpy.diag(sqrt(1..n_max), +1) is</span>
+<span class="sd">    the annihilation matrix in the truncated number basis, x = (a + a†)/√2 in working</span>
+<span class="sd">    units (ħ = m = ω = 1), and the thermal average is Tr(ρ x^2) with ρ the shifted</span>
+<span class="sd">    Boltzmann populations on the ladder. Truncation is honest as long as the thermal</span>
+<span class="sd">    occupation has died well below n_max — the default 400 covers β down to 0.1 (where</span>
+<span class="sd">    ⟨n⟩ ≈ 10) with e^(−40)-level tails; only the single corner element ⟨n_max|x^2|n_max⟩</span>
+<span class="sd">    is wrong, and it carries exponentially negligible weight.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    beta : float</span>
+<span class="sd">        Inverse temperature (working units).</span>
+<span class="sd">    n_max : int, optional</span>
+<span class="sd">        Number-basis truncation (default 400).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The thermal width ⟨x^2⟩ = Tr(ρ x^2).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># annihilation: a|n⟩ = √n |n−1⟩</span>
+    <span class="n">x_op</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">a</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="n">x_op</span> <span class="o">@</span> <span class="n">x_op</span>
+    <span class="n">E_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="o">-</span><span class="n">beta</span> <span class="o">*</span> <span class="n">E_n</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">w</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">p</span> <span class="o">/=</span> <span class="n">p</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">@</span> <span class="n">x2</span><span class="p">)</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-the-exact-partition-function">
+<h2>Exercise 1 — The exact partition function<a class="headerlink" href="#exercise-1-the-exact-partition-function" title="Link to this heading">#</a></h2>
+<p>Planck’s geometric series — the volume’s founding calculation, done in closed form and checked
+against brute force, with the truncation trap demonstrated where it actually bites. Cite
+<a class="reference internal" href="#equation-eq-oscillator-z">Eq. 588</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive <span class="math notranslate nohighlight">\(Z = e^{-\beta\hbar\omega/2}/(1-e^{-\beta\hbar\omega}) = 1/(2\sinh(\beta\hbar\omega/2))\)</span>
+by summing the geometric series over <span class="math notranslate nohighlight">\(E_n = \hbar\omega(n+\tfrac12)\)</span>.</p></li>
+<li><p>Implement both routes in <code class="docutils literal notranslate"><span class="pre">Z_oscillator</span></code>, the closed form and the truncated spectral sum, and
+confirm agreement to at least eight digits at <span class="math notranslate nohighlight">\(\beta = 2\)</span> (<span class="math notranslate nohighlight">\(n_{\max} = 60\)</span>) and <span class="math notranslate nohighlight">\(\beta = 0.2\)</span>
+(<span class="math notranslate nohighlight">\(n_{\max} = 400\)</span>).</p></li>
+<li><p>State and demonstrate the truncation rule: convergence requires <span class="math notranslate nohighlight">\(n_{\max} \gg k_BT/\hbar\omega\)</span>,
+so the trap bites at <em>high</em> temperature — show <span class="math notranslate nohighlight">\(n_{\max} = 60\)</span> failing the eight-digit standard
+at <span class="math notranslate nohighlight">\(\beta = 0.2\)</span>.</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(F(T)\)</span> and <span class="math notranslate nohighlight">\(S(T)\)</span> via the identities of <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a> and confirm <span class="math notranslate nohighlight">\(S \to 0\)</span> as <span class="math notranslate nohighlight">\(T \to 0\)</span>: the third
+law holding on an infinite spectrum, not just the two levels of <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>β = 2.0:  closed = 0.425459064120   truncated(60)  = 0.425459064120
+β = 0.2:  closed = 4.991676378648   truncated(400) = 4.991676378648
+
+β = 0.2 truncation:  n_max = 60 → rel. error 5.0e-06   (FAILS 1e-8)
+                     n_max = 400 → rel. error 3.6e-16
+rule: n_max &gt;&gt; k_BT/ħω — the trap bites at HIGH temperature
+  T =  0.05:  F =  0.50000   S = 4.328e-08
+  T =  0.20:  F =  0.49865   S = 4.068e-02
+  T =  1.00:  F =  0.04132   S = 1.041e+00
+  T =  5.00:  F = -8.03886   S = 2.611e+00
+S(T → 0) → 0 and F(T → 0) → E_0 = 1/2: the third law on the infinite ladder
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the oscillator partition function: geometric series, verified by brute force at both regimes   [max|Δ| = 1.77636e-15 (rtol=1e-08, atol=1e-09)]
+✓  the truncation rule n_max &gt;&gt; k_BT/ħω: n_max = 60 fails at β = 0.2, n_max = 400 does not   [errors 5.0e-06 vs 3.6e-16]
+✓  S → 0 and F → E_0 = ħω/2 as T → 0: the third law on an infinite spectrum   [S(0.05) = 4.3e-08, F(0.05) = 0.500000]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-planck-occupation-the-bose-function-one-movement-early">
+<h2>Exercise 2 — The Planck occupation: the Bose function, one movement early<a class="headerlink" href="#exercise-2-the-planck-occupation-the-bose-function-one-movement-early" title="Link to this heading">#</a></h2>
+<p>One derivative of <span class="math notranslate nohighlight">\(\ln Z\)</span>, and the second of the two quantum statistics appears. Cite
+<a class="reference internal" href="#equation-eq-planck-occupation">Eq. 589</a>.</p>
+<ol class="arabic simple">
+<li><p>Compute <span class="math notranslate nohighlight">\(\langle E\rangle = -\partial\ln Z/\partial\beta\)</span> by central differences (step
+<span class="math notranslate nohighlight">\(10^{-6}\)</span>) and confirm it equals <span class="math notranslate nohighlight">\(\hbar\omega(\langle n\rangle + \tfrac12)\)</span> with
+<span class="math notranslate nohighlight">\(\langle n\rangle = 1/(e^{\beta\hbar\omega}-1)\)</span> (the <code class="docutils literal notranslate"><span class="pre">planck_occupation</span></code> helper, <code class="docutils literal notranslate"><span class="pre">numpy.expm1</span></code>
+inside) to at least eight digits.</p></li>
+<li><p>Identify the two pieces: the zero-point floor <span class="math notranslate nohighlight">\(\hbar\omega/2\)</span> — present at <span class="math notranslate nohighlight">\(T = 0\)</span>, the
+ground energy of <a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a> now thermodynamic — and the thermal occupation <span class="math notranslate nohighlight">\(\langle n\rangle\)</span>.</p></li>
+<li><p>Recognize <span class="math notranslate nohighlight">\(\langle n\rangle\)</span> as the Bose–Einstein function <span class="math notranslate nohighlight">\(n_B(\hbar\omega)\)</span> at <span class="math notranslate nohighlight">\(\mu = 0\)</span>,
+and explain why: a bosonic mode <em>is</em> an oscillator, its quanta the rungs.</p></li>
+<li><p>Pair with <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a> in prose: the qubit produced <span class="math notranslate nohighlight">\(n_F\)</span>, the oscillator produces <span class="math notranslate nohighlight">\(n_B\)</span> — both
+statistics have now appeared from single exactly-solvable systems, and the ensemble
+derivation of <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> (plus the Matsubara contours of <a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a>) must land on the same functions.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>β = 1.3:  −∂lnZ/∂β = 0.8746305204
+         ħω(⟨n⟩ + ½) = 0.8746305205   (⟨n⟩ = 0.3746305205)
+
+zero-point floor: 0.5 ħω (temperature-independent)
+thermal part at β = 1.3: ħω⟨n⟩ = 0.374631
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-osc-energy">
+<img alt="../../_images/9b62723ebe8144cd665c6b75073777e4152cc2281fa8f3028224032f7029a001.png" src="../../_images/9b62723ebe8144cd665c6b75073777e4152cc2281fa8f3028224032f7029a001.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 544 </span><span class="caption-text">The warm oscillator’s energy. <span class="math notranslate nohighlight">\(\langle E\rangle(T) = \hbar\omega(\langle n\rangle + \tfrac12)\)</span> (amber) between its two truths: the <strong>zero-point floor</strong> <span class="math notranslate nohighlight">\(\hbar\omega/2\)</span> (dark dashed), which survives at <span class="math notranslate nohighlight">\(T = 0\)</span> because the ground state’s spread is quantum, not thermal, and the <strong>classical asymptote</strong> <span class="math notranslate nohighlight">\(\langle E\rangle = k_BT\)</span> (red dashed), equipartition’s <span class="math notranslate nohighlight">\(\tfrac12 k_BT\)</span> per quadratic term, which the curve joins once <span class="math notranslate nohighlight">\(k_BT \gg \hbar\omega\)</span> blurs the ladder into a ramp. The gap between curve and asymptote at intermediate <span class="math notranslate nohighlight">\(T\)</span> is the <span class="math notranslate nohighlight">\((\hbar\omega)^2/12k_BT\)</span> Wigner correction that Exercise 4 measures. The occupation <span class="math notranslate nohighlight">\(\langle n\rangle = 1/(e^{\hbar\omega/k_BT}-1)\)</span> riding underneath is the Bose–Einstein function at <span class="math notranslate nohighlight">\(\mu = 0\)</span>, one movement before its ensemble derivation (<a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>).</span><a class="headerlink" href="#fig-osc-energy" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  ⟨E⟩ = −∂lnZ/∂β = ħω(n_B + ½): the Planck occupation, by central differences   [got 0.874631 vs expected 0.874631 (rtol=1e-08)]
+✓  the expm1-safe occupation equals the textbook form where both are accurate   [max|Δ| = 0 (rtol=1e-12, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-freezing-out">
+<h2>Exercise 3 — Freezing out<a class="headerlink" href="#exercise-3-freezing-out" title="Link to this heading">#</a></h2>
+<p>The heat capacity’s cliff — where equipartition dies, and the temperature scale that organizes
+three notebooks. Cite <a class="reference internal" href="#equation-eq-freezing-out">Eq. 590</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive <span class="math notranslate nohighlight">\(C(T) = k_B\,x^2e^x/(e^x-1)^2\)</span> from <span class="math notranslate nohighlight">\(\langle E\rangle\)</span> and implement it
+<code class="docutils literal notranslate"><span class="pre">numpy.expm1</span></code>-safely (the <code class="docutils literal notranslate"><span class="pre">heat_capacity</span></code> helper).</p></li>
+<li><p>Evaluate across <span class="math notranslate nohighlight">\(T/\theta_E = 0.1\)</span> to <span class="math notranslate nohighlight">\(50\)</span> and confirm the two regimes: <span class="math notranslate nohighlight">\(C/k_B = 0.0045\)</span> at
+<span class="math notranslate nohighlight">\(0.1\,\theta_E\)</span> (frozen) and <span class="math notranslate nohighlight">\(0.9997\)</span> or better at <span class="math notranslate nohighlight">\(50\,\theta_E\)</span> (classical).</p></li>
+<li><p>Show the low-<span class="math notranslate nohighlight">\(T\)</span> law is exponential, <span class="math notranslate nohighlight">\(C \approx k_B x^2 e^{-x}\)</span>, by fitting the slope of
+<span class="math notranslate nohighlight">\(\ln(C/x^2)\)</span> against <span class="math notranslate nohighlight">\(x\)</span> with <code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code> (expect <span class="math notranslate nohighlight">\(-1\)</span>), and explain the gap’s role: no
+thermal energy, no accessible excited state, no heat absorbed.</p></li>
+<li><p>State the resolution (prose): Volume V’s equipartition assigns <span class="math notranslate nohighlight">\(k_B\)</span> per oscillator
+unconditionally; quantum discreteness switches oscillators <em>off</em> below <span class="math notranslate nohighlight">\(\theta_E\)</span> — the
+volume’s second “where classical failed” entry, and the switch that builds the staircase of <a class="reference internal" href="molecules-rotation-vibration.html"><span class="std std-doc">§7.6</span></a>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C/k_B at T = 0.1 θ_E: 0.0045   (frozen: the gap starves the oscillator)
+C/k_B at T = 50 θ_E:  0.999967   (equipartition recovered)
+
+log-fit slope of ln(C/x^2) vs x on x ∈ [8, 16]: -1.00005   (expected −1)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-osc-freezeout">
+<img alt="../../_images/679a7f0d2eb6e2d3302263a69aff32741a84022ac39b830ed20e70d0c0a6482e.png" src="../../_images/679a7f0d2eb6e2d3302263a69aff32741a84022ac39b830ed20e70d0c0a6482e.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 545 </span><span class="caption-text">Freezing out: where equipartition dies. The oscillator heat capacity <span class="math notranslate nohighlight">\(C(T)/k_B = x^2e^x/(e^x-1)^2\)</span>, <span class="math notranslate nohighlight">\(x = \theta_E/T\)</span>, across three decades of temperature (log axis): <strong>frozen</strong> below the Einstein temperature (the exponential cliff <span class="math notranslate nohighlight">\(C \approx k_B x^2 e^{-x}\)</span>, slope <span class="math notranslate nohighlight">\(-1\)</span> on the fitted log-plot, because <span class="math notranslate nohighlight">\(k_BT\)</span> cannot pay the gap <span class="math notranslate nohighlight">\(\hbar\omega\)</span>), and <strong>classical</strong> above it, saturating on the equipartition plateau <span class="math notranslate nohighlight">\(C = k_B\)</span> (dashed) that Volume V promised unconditionally. The crossover is organized by the single scale <span class="math notranslate nohighlight">\(\theta_E = \hbar\omega/k_B\)</span>. Quantum discreteness acts as a temperature-controlled switch on each degree of freedom: several such switches at different <span class="math notranslate nohighlight">\(\hbar\omega\)</span>, flipping in sequence, build the molecular heat-capacity staircase of <a class="reference internal" href="molecules-rotation-vibration.html"><span class="std std-doc">§7.6</span></a>.</span><a class="headerlink" href="#fig-osc-freezeout" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  deep freeze at T = 0.1 θ_E: C/k_B ≈ 0.0045, the gap starving the oscillator   [got 0.00454041 vs expected 0.0045 (rtol=0.02)]
+✓  equipartition recovered at T = 50 θ_E: the classical k_B per oscillator returns   [got 0.999967 vs expected 1 (rtol=0.001)]
+✓  the frozen regime is exponential: the fitted slope of ln(C/x^2) vs x is −1 (Boltzmann)   [got -1.00005 vs expected -1 (rtol=0.001)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-the-classical-limit-derives-h">
+<h2>Exercise 4 — The classical limit derives h<a class="headerlink" href="#exercise-4-the-classical-limit-derives-h" title="Link to this heading">#</a></h2>
+<p>Volume V divided phase space by <span class="math notranslate nohighlight">\(h\)</span> on faith; the quantum high-temperature limit supplies the missing derivation —
+and the <em>approach</em> to the limit is measured, not waved at. Cite <a class="reference internal" href="#equation-eq-classical-limit">Eq. 591</a>.</p>
+<ol class="arabic simple">
+<li><p>Show <span class="math notranslate nohighlight">\(Z_q \to 1/(\beta\hbar\omega)\)</span> at small <span class="math notranslate nohighlight">\(\beta\hbar\omega\)</span> and verify the ratio
+<span class="math notranslate nohighlight">\(Z_q/(k_BT/\hbar\omega) \to 1\)</span> numerically across <span class="math notranslate nohighlight">\(T/\theta_E = 1\)</span> to <span class="math notranslate nohighlight">\(100\)</span>.</p></li>
+<li><p>Evaluate Volume V’s classical phase-space integral <span class="math notranslate nohighlight">\(\int dp\,dx\,e^{-\beta H}\)</span> for the
+oscillator by two <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> Gaussian factors, and note it has dimensions of
+<em>action</em> — it cannot be a state count as it stands.</p></li>
+<li><p>Divide by <span class="math notranslate nohighlight">\(h = 2\pi\hbar\)</span> and confirm the match to <span class="math notranslate nohighlight">\(Z_q\)</span> at high <span class="math notranslate nohighlight">\(T\)</span>: the <span class="math notranslate nohighlight">\(1/h\)</span> measure is the
+unique normalization making classical statistical mechanics the high-temperature limit of
+quantum statistical mechanics — Volume V’s convention, derived.</p></li>
+<li><p>Extract the approach to the limit: verify <span class="math notranslate nohighlight">\((\langle E\rangle - k_BT)\cdot12k_BT/(\hbar\omega)^2
+\to 1\)</span>, identify the <span class="math notranslate nohighlight">\((\hbar\omega)^2/12k_BT\)</span> term, and name the Wigner <span class="math notranslate nohighlight">\(\hbar^2\)</span> expansion it
+leads. (Prose + computation.)</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Z_q / (k_BT/ħω), the approach to the classical count:
+  T =    1.0 θ_E:  ratio = 0.959517
+  T =   10.0 θ_E:  ratio = 0.999583
+  T =  100.0 θ_E:  ratio = 0.999996
+
+∫dp dx e^(−βH) at T = 100:  quad = 628.318531   (2π/β = 628.318531)
+dimensions: action — a count it is not, yet
+Z_q / [(1/h)∫dp dx e^(−βH)] at T = 100: 0.999996
+
+the Wigner correction, normalized: (⟨E⟩ − k_BT)·12k_BT/(ħω)²
+  T =   2.0:  0.995858
+  T =   5.0:  0.999334
+  T =  20.0:  0.999958
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the 1/h phase-space measure is derived: Z_q meets (1/h)∫dp dx e^(−βH) at high T   [got 0.999996 vs expected 1 (rtol=0.0001)]
+✓  the leading quantum correction (ħω)²/12k_BT, with the next Wigner term visible at T = 2   [max|Δ| = 4.16642e-05 (rtol=0.01, atol=1e-09)]
+✓  the approach to the classical count is monotone from below   [ratios 0.9595 → 0.999583 → 0.999996]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-the-einstein-solid-and-the-diamond-anomaly">
+<h2>Exercise 5 — The Einstein solid and the diamond anomaly<a class="headerlink" href="#exercise-5-the-einstein-solid-and-the-diamond-anomaly" title="Link to this heading">#</a></h2>
+<p>A nineteenth-century scandal, closed to three digits — and an honest failure that summons Debye.
+Cite <a class="reference internal" href="#equation-eq-einstein-solid">Eq. 592</a>.</p>
+<ol class="arabic simple">
+<li><p>Assemble <span class="math notranslate nohighlight">\(C_{\text{solid}}(T) = 3Nk_B\cdot x^2e^x/(e^x-1)^2\)</span> with <span class="math notranslate nohighlight">\(x = \theta_E/T\)</span> (the
+<code class="docutils literal notranslate"><span class="pre">heat_capacity</span></code> helper per mode) and confirm Dulong–Petit (<span class="math notranslate nohighlight">\(C \to 3Nk_B\)</span>, i.e. <span class="math notranslate nohighlight">\(24.9\)</span>
+J mol⁻¹K⁻¹) at high <span class="math notranslate nohighlight">\(T\)</span>.</p></li>
+<li><p>With diamond’s <span class="math notranslate nohighlight">\(\theta_E \approx 1320\)</span> K, evaluate <span class="math notranslate nohighlight">\(C/3Nk_B\)</span> at <span class="math notranslate nohighlight">\(300\)</span> K and compare: predicted
+<span class="math notranslate nohighlight">\(0.244\)</span> vs measured <span class="math notranslate nohighlight">\(\approx 0.245\)</span> (<span class="math notranslate nohighlight">\(6.1\)</span> of <span class="math notranslate nohighlight">\(24.9\)</span> J mol⁻¹K⁻¹) — and explain <em>why</em> diamond
+(light atoms, stiff bonds → high <span class="math notranslate nohighlight">\(\omega_E\)</span> → frozen at room temperature).</p></li>
+<li><p>Evaluate the low-<span class="math notranslate nohighlight">\(T\)</span> tail at <span class="math notranslate nohighlight">\(100\)</span> K and <span class="math notranslate nohighlight">\(50\)</span> K and state the failure: experiment shows
+<span class="math notranslate nohighlight">\(C \propto T^3\)</span>, not an exponential dive.</p></li>
+<li><p>Diagnose in prose: independent equal-frequency oscillators share one gap; a real crystal’s
+coupled modes include arbitrarily soft long-wavelength sound that no temperature can freeze —
+the physics Debye (<a class="reference internal" href="phonons-debye.html"><span class="std std-doc">§7.16</span></a>) supplies.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C/3Nk_B at T = 5000 K (θ_E = 1320 K): 0.9942   (Dulong–Petit)
+3R = 24.9 J/(mol K) — the classical plateau in physical units
+
+diamond at 300 K:  predicted C/3Nk_B = 0.2436
+                   measured  C/3Nk_B ≈ 0.2450   (6.1 of 24.9 J/(mol K))
+the sixty-year &#39;anomaly&#39; closes to three digits — diamond was frozen, not lawless
+
+the low-T tail:  C/3Nk_B = 3.2e-04 at 100 K,   2.4e-09 at 50 K
+experiment: C ∝ T³ — a power law, not an exponential
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-osc-einstein">
+<img alt="../../_images/e31de8e13c1e58fadef7a4dfce59f3128693e9c5ac2da75876e0c6c40052fcd9.png" src="../../_images/e31de8e13c1e58fadef7a4dfce59f3128693e9c5ac2da75876e0c6c40052fcd9.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 546 </span><span class="caption-text">The Einstein solid closes the diamond scandal. The Einstein heat-capacity curve <span class="math notranslate nohighlight">\(C/3Nk_B\)</span> against <span class="math notranslate nohighlight">\(T\)</span> for diamond’s <span class="math notranslate nohighlight">\(\theta_E \approx 1320\)</span> K (amber), with the Dulong–Petit plateau <span class="math notranslate nohighlight">\(C = 3Nk_B\)</span> (dashed) that most 19th-century solids obeyed at room temperature. Diamond’s light atoms and stiff bonds push <span class="math notranslate nohighlight">\(\theta_E\)</span> so high that room temperature (red point: the measured <span class="math notranslate nohighlight">\(C/3Nk_B \approx 0.245\)</span> at 300 K) sits deep in the frozen regime, and the curve passes through the measurement to three digits (<span class="math notranslate nohighlight">\(0.244\)</span> predicted): the famous ‘anomaly’ was freezing out, quantitatively. The failure is equally instructive: below <span class="math notranslate nohighlight">\(\sim100\)</span> K the exponential Einstein tail collapses beneath the <strong>observed</strong> <span class="math notranslate nohighlight">\(T^3\)</span> law, because a single shared frequency freezes all at once while a real crystal’s coupled modes include arbitrarily soft sound: the missing physics Debye supplies in <a class="reference internal" href="phonons-debye.html"><span class="std std-doc">§7.16</span></a>.</span><a class="headerlink" href="#fig-osc-einstein" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Einstein&#39;s resolution of the diamond anomaly: C/3Nk_B = 0.244 predicted at 300 K   [got 0.243635 vs expected 0.2436 (rtol=0.01)]
+✓  the prediction meets the measured 6.1/24.9 ≈ 0.245 to better than a percent   [got 0.243635 vs expected 0.24498 (rtol=0.01)]
+✓  the honest failure: an exponential low-T dive (vs the observed T³) under a correct plateau   [C/3Nk_B = 3.2e-04 (100 K), 2.4e-09 (50 K)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-thermal-photon-statistics-the-geometric-distribution-and-bunching">
+<h2>Exercise 6 — Thermal photon statistics: the geometric distribution and bunching<a class="headerlink" href="#exercise-6-thermal-photon-statistics-the-geometric-distribution-and-bunching" title="Link to this heading">#</a></h2>
+<p>The oscillator’s number statistics, sampled two million times — and found guilty of bunching.
+Cite <a class="reference internal" href="#equation-eq-photon-statistics">Eq. 593</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive <span class="math notranslate nohighlight">\(p_n = (1-e^{-x})e^{-nx}\)</span> (geometric on <span class="math notranslate nohighlight">\(n \ge 0\)</span>) from the Boltzmann populations.</p></li>
+<li><p>Sample <span class="math notranslate nohighlight">\(2\times10^6\)</span> values with <code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng().geometric(p</span> <span class="pre">=</span> <span class="pre">1-e^{-x})</span></code>,
+applying the <span class="math notranslate nohighlight">\(n = k-1\)</span> mapping (the sampler counts trials from <span class="math notranslate nohighlight">\(1\)</span> — the off-by-one is stated
+in the <code class="docutils literal notranslate"><span class="pre">sample_photon_number</span></code> helper).</p></li>
+<li><p>Verify the sampled mean against <span class="math notranslate nohighlight">\(\langle n\rangle\)</span> and the sampled variance against
+<span class="math notranslate nohighlight">\(\langle\Delta n^2\rangle = \langle n\rangle(1+\langle n\rangle)\)</span>, and cross-check the
+variance against <span class="math notranslate nohighlight">\(\partial^2\ln Z/\partial\beta^2\)</span> by central second differences.</p></li>
+<li><p>Interpret (prose): the <span class="math notranslate nohighlight">\(+\langle n\rangle^2\)</span> excess over Poisson is <em>bunching</em> — Einstein’s
+1909 “wave” fluctuation term, the thermal-light signature Hanbury Brown and Twiss measured —
+and the contrast with Poissonian laser light is the business of <a class="reference internal" href="einstein-a-b-coefficients.html"><span class="std std-doc">§7.15</span></a>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x = βħω = 0.510826  →  ⟨n⟩ = 1.500000,  ⟨Δn²⟩ = ⟨n⟩(1+⟨n⟩) = 3.750000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2e6 samples:  mean = 1.500558   variance = 3.744675
+∂²lnZ/∂β² (central 2nd difference) = 3.75000008   (closed form 3.75000000)
+
+Poisson variance at the same mean would be ⟨n⟩ = 1.5000
+thermal excess: ⟨Δn²⟩ − ⟨n⟩ = 2.2500 = ⟨n⟩² — bunching
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-osc-photon-stats">
+<img alt="../../_images/cc56a689f8ead3b3d42be28108479c52f0a3c27b02188342cf3bd53ac1f8872c.png" src="../../_images/cc56a689f8ead3b3d42be28108479c52f0a3c27b02188342cf3bd53ac1f8872c.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 547 </span><span class="caption-text">Thermal number statistics, sampled and exact. The histogram of <span class="math notranslate nohighlight">\(2\times10^6\)</span> geometric samples of the thermal occupation (bars) against the exact distribution <span class="math notranslate nohighlight">\(p_n = (1-e^{-x})e^{-nx}\)</span> (dark points), at <span class="math notranslate nohighlight">\(\langle n\rangle = 1.5\)</span>: a monotone geometric ladder: <span class="math notranslate nohighlight">\(n = 0\)</span> is always the most probable occupation of a thermal mode, however bright the mode. The sampled variance <span class="math notranslate nohighlight">\(\langle\Delta n^2\rangle = \langle n\rangle(1+\langle n\rangle) = 3.75\)</span> exceeds the Poissonian <span class="math notranslate nohighlight">\(\langle n\rangle = 1.5\)</span> of a coherent beam at the same mean (the <span class="math notranslate nohighlight">\(+\langle n\rangle^2\)</span> excess): thermal light is <strong>bunched</strong>, Einstein’s 1909 ‘wave’ fluctuation term and the effect Hanbury Brown and Twiss made into an instrument. The <code class="docutils literal notranslate"><span class="pre">numpy</span></code> sampler counts trials from <span class="math notranslate nohighlight">\(k = 1\)</span>; the <span class="math notranslate nohighlight">\(n = k-1\)</span> mapping is the classic off-by-one of photon sampling, stated in the helper.</span><a class="headerlink" href="#fig-osc-photon-stats" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the sampled thermal mean lands on the Planck occupation ⟨n⟩   [got 1.50056 vs expected 1.5 (rtol=0.01)]
+✓  thermal light is super-Poissonian: ⟨Δn²⟩ = ⟨n⟩(1+⟨n⟩), sampled at 2e6 shots   [got 3.74467 vs expected 3.75 (rtol=0.01)]
+✓  the thermodynamic route agrees: ∂²lnZ/∂β² = ⟨Δn²⟩ by central second differences   [got 3.75 vs expected 3.75 (rtol=1e-05)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-the-thermal-width-the-curve-the-path-integral-will-resample">
+<h2>Exercise 7 — The thermal width: the curve the path integral will resample<a class="headerlink" href="#exercise-7-the-thermal-width-the-curve-the-path-integral-will-resample" title="Link to this heading">#</a></h2>
+<p><span class="math notranslate nohighlight">\(\langle x^2\rangle(T)\)</span> computed by trace machinery, from quantum floor to classical growth — and
+flagged as a promise to a method four notebooks away. Cite <a class="reference internal" href="#equation-eq-thermal-width">Eq. 594</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive <span class="math notranslate nohighlight">\(\langle x^2\rangle = (\hbar/2m\omega)\coth(\beta\hbar\omega/2)\)</span> from
+<span class="math notranslate nohighlight">\(\langle x^2\rangle_n = (n+\tfrac12)\hbar/m\omega\)</span> averaged over the Boltzmann populations.</p></li>
+<li><p>Build <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(a^\dagger\)</span> as matrices with <code class="docutils literal notranslate"><span class="pre">numpy.diag(numpy.sqrt(n),</span> <span class="pre">±1)</span></code> (Volume VI’s
+construction), form <span class="math notranslate nohighlight">\(x = \sqrt{\hbar/2m\omega}\,(a+a^\dagger)\)</span> and <span class="math notranslate nohighlight">\(x^2\)</span>, and compute
+<span class="math notranslate nohighlight">\(\operatorname{Tr}(\rho\,x^2)\)</span> in a truncated number basis (<span class="math notranslate nohighlight">\(n_{\max} = 400\)</span>; the
+<code class="docutils literal notranslate"><span class="pre">thermal_x2</span></code> helper).</p></li>
+<li><p>Confirm trace and closed form agree at <span class="math notranslate nohighlight">\(\beta = 20, 1, 0.1\)</span>, and verify the two limits:
+<span class="math notranslate nohighlight">\(\hbar/2m\omega\)</span> at low <span class="math notranslate nohighlight">\(T\)</span> (the pure ground-state spread — quantum width that never freezes)
+and <span class="math notranslate nohighlight">\(k_BT/m\omega^2\)</span> at high <span class="math notranslate nohighlight">\(T\)</span> (classical equipartition of the potential term).</p></li>
+<li><p>Flag the rendezvous (prose): this single curve is exactly what path-integral Monte Carlo
+(<a class="reference internal" href="path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a>) will recover by Metropolis sampling of classical ring polymers — the isomorphism’s
+acid test, promised now.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⟨x²⟩: ladder-operator trace vs (1/2)coth(β/2):
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  β =  20.0:  trace = 0.5000000021   closed = 0.5000000021
+  β =   1.0:  trace = 1.0819767069   closed = 1.0819767069
+  β =   0.1:  trace = 10.0083319448   closed = 10.0083319448
+
+limits: β = 20 → 0.500000 (ground-state width ħ/2mω = 0.5)
+        β = 0.1 → 10.0083 ≈ k_BT/mω² = 10 (classical equipartition)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-osc-thermal-width">
+<img alt="../../_images/e9497d274d1af9390147baea2a8e6c8c4a78d3ff6ee437e16e15d8f51b584508.png" src="../../_images/e9497d274d1af9390147baea2a8e6c8c4a78d3ff6ee437e16e15d8f51b584508.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 548 </span><span class="caption-text">The thermal width <span class="math notranslate nohighlight">\(\langle x^2\rangle = (\hbar/2m\omega)\coth(\beta\hbar\omega/2)\)</span> (amber), from quantum floor to classical growth: at low <span class="math notranslate nohighlight">\(T\)</span> it settles on the <strong>ground-state spread</strong> <span class="math notranslate nohighlight">\(\hbar/2m\omega\)</span> (dark dashed), a width that never freezes because it is uncertainty rather than agitation, and at high <span class="math notranslate nohighlight">\(T\)</span> it joins the <strong>classical equipartition line</strong> <span class="math notranslate nohighlight">\(k_BT/m\omega^2\)</span> (red dashed), the spread of a classical particle in the potential <span class="math notranslate nohighlight">\(\tfrac12 m\omega^2x^2\)</span>. The dark points are the ladder-operator trace <span class="math notranslate nohighlight">\(\operatorname{Tr}(\rho x^2)\)</span> in a truncated number basis (<span class="math notranslate nohighlight">\(n_{\max} = 400\)</span>), agreeing with the closed form to <span class="math notranslate nohighlight">\(10^{-10}\)</span>. This exact curve is the promised acid test for path-integral Monte Carlo (<a class="reference internal" href="path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a>): classical ring polymers, Metropolis-sampled, must reproduce it point for point — quantum floor included.</span><a class="headerlink" href="#fig-osc-thermal-width" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  ⟨x²⟩ = (ħ/2mω)coth(βħω/2): the ladder-operator trace meets the closed form at all three β   [max|Δ| = 1.77636e-15 (rtol=1e-08, atol=1e-09)]
+✓  the two limits: the ground-state width at low T, classical equipartition k_BT/mω² at high T   [max|Δ| = 0.000833194 (rtol=0.01, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-one-oscillator-the-whole-volume-in-miniature">
+<h2>Exercise 8 — One oscillator, the whole volume in miniature<a class="headerlink" href="#exercise-8-one-oscillator-the-whole-volume-in-miniature" title="Link to this heading">#</a></h2>
+<p>It is hard to overstate how much this single system contains. Its geometric-series partition
+function produced the Bose function to partner the Fermi function of <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a> — Movement I has now met both
+quantum statistics one exactly-solvable system at a time, with the ensemble derivation of <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> and
+the contour route of <a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a> converging on the same pair. Its heat capacity died below a characteristic
+temperature and resurrected equipartition above it, resolving the second classical failure on our
+ledger with a single organizing scale, <span class="math notranslate nohighlight">\(\theta_E\)</span>. Its high-temperature limit reached back into
+Volume V and derived the <span class="math notranslate nohighlight">\(h\)</span> that classical mechanics had adopted on trust — and gave more than
+was asked, since the approach to the limit carried the first Wigner correction, measured
+converging like <span class="math notranslate nohighlight">\(1/T^2\)</span>. Scaled up by <span class="math notranslate nohighlight">\(3N\)</span> it closed the diamond scandal to three digits and then
+failed, honestly and instructively, in exactly the way that makes Debye necessary. Its number
+fluctuations bunched, seeding the photon gas. And its thermal width traced the full arc from
+quantum floor to classical spread — the curve the path integral will one day resample as its own
+validation.</p>
+<p>Notice what “classical limit” turned out to mean. Not a different theory taking over — just the
+quantum one, viewed from far enough above its energy spacing that the rungs blur into a ramp. The
+<span class="math notranslate nohighlight">\(h\)</span> was there all along; classical mechanics simply could not see what it was normalizing by.
+Planck quantized this oscillator to fit a spectrum; a century later it is still the clearest
+window onto where the quantum world ends and the classical one begins. Next (<a class="reference internal" href="molecules-rotation-vibration.html"><span class="std std-doc">§7.6</span></a>): molecules,
+where several such switches (rotation, vibration) flip in sequence, and the heat capacity
+climbs a staircase that nineteenth-century chemistry could measure but not explain.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>The volume’s founding calculation, exactly solvable and exactly verified.</p>
+<ul class="simple">
+<li><p><strong>The partition function is a geometric series</strong> <a class="reference internal" href="#equation-eq-oscillator-z">Eq. 588</a>: <span class="math notranslate nohighlight">\(Z = 1/(2\sinh(\beta
+\hbar\omega/2))\)</span>, checked against truncated sums with the truncation rule demonstrated where it
+bites — at <em>high</em> temperature (<span class="math notranslate nohighlight">\(n_{\max} = 60\)</span> fails the eight-digit standard at <span class="math notranslate nohighlight">\(\beta = 0.2\)</span>).
+<span class="math notranslate nohighlight">\(F \to \hbar\omega/2\)</span> and <span class="math notranslate nohighlight">\(S \to 0\)</span> at <span class="math notranslate nohighlight">\(T \to 0\)</span>: the third law on an infinite ladder.</p></li>
+<li><p><strong>The Planck occupation</strong> <a class="reference internal" href="#equation-eq-planck-occupation">Eq. 589</a>: <span class="math notranslate nohighlight">\(\langle E\rangle = \hbar\omega(\langle
+n\rangle + \tfrac12)\)</span> with <span class="math notranslate nohighlight">\(\langle n\rangle = 1/(e^{\beta\hbar\omega}-1)\)</span> — the Bose–Einstein
+function at <span class="math notranslate nohighlight">\(\mu = 0\)</span>, one movement early, because a bosonic mode <em>is</em> an oscillator.
+Movement I’s symmetry is complete: the qubit gave <span class="math notranslate nohighlight">\(n_F\)</span>, the oscillator gives <span class="math notranslate nohighlight">\(n_B\)</span>.</p></li>
+<li><p><strong>Freezing out</strong> <a class="reference internal" href="#equation-eq-freezing-out">Eq. 590</a>: <span class="math notranslate nohighlight">\(C\)</span> dives exponentially below <span class="math notranslate nohighlight">\(\theta_E\)</span> (fitted slope
+<span class="math notranslate nohighlight">\(-1\)</span> on the log-plot; <span class="math notranslate nohighlight">\(0.0045\,k_B\)</span> at <span class="math notranslate nohighlight">\(0.1\,\theta_E\)</span>) and recovers equipartition above it —
+the second “where classical failed” resolution, and the switch that will build the staircase of <a class="reference internal" href="molecules-rotation-vibration.html"><span class="std std-doc">§7.6</span></a>.</p></li>
+<li><p><strong>The classical limit derives <span class="math notranslate nohighlight">\(h\)</span></strong> <a class="reference internal" href="#equation-eq-classical-limit">Eq. 591</a>: Volume V’s phase-space integral
+has dimensions of action and matches <span class="math notranslate nohighlight">\(Z_q\)</span> at high <span class="math notranslate nohighlight">\(T\)</span> only when divided by <span class="math notranslate nohighlight">\(h\)</span> — the measure’s
+<span class="math notranslate nohighlight">\(1/h\)</span>, derived; and the approach carries the <span class="math notranslate nohighlight">\((\hbar\omega)^2/12k_BT\)</span> Wigner correction,
+measured converging to its coefficient.</p></li>
+<li><p><strong>The Einstein solid</strong> <a class="reference internal" href="#equation-eq-einstein-solid">Eq. 592</a>: Dulong–Petit at high <span class="math notranslate nohighlight">\(T\)</span>; diamond’s
+room-temperature “anomaly” closed to three digits (<span class="math notranslate nohighlight">\(0.244\)</span> predicted vs <span class="math notranslate nohighlight">\(0.245\)</span> measured at
+<span class="math notranslate nohighlight">\(\theta_E = 1320\)</span> K); and the exponential low-<span class="math notranslate nohighlight">\(T\)</span> tail failing against the observed <span class="math notranslate nohighlight">\(T^3\)</span> —
+Debye’s cue (<a class="reference internal" href="phonons-debye.html"><span class="std std-doc">§7.16</span></a>), motivated by a wrong functional form rather than a wrong digit.</p></li>
+<li><p><strong>Thermal photon statistics</strong> <a class="reference internal" href="#equation-eq-photon-statistics">Eq. 593</a>: the geometric <span class="math notranslate nohighlight">\(p_n\)</span>, sampled
+<span class="math notranslate nohighlight">\(2\times10^6\)</span> times (with the sampler’s <span class="math notranslate nohighlight">\(n = k-1\)</span> off-by-one stated), is super-Poissonian —
+<span class="math notranslate nohighlight">\(\langle\Delta n^2\rangle = \langle n\rangle(1+\langle n\rangle)\)</span>, bunching, Einstein’s 1909
+wave term and the seed of <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a> — triangulated against <span class="math notranslate nohighlight">\(\partial^2\ln Z/\partial\beta^2\)</span>.</p></li>
+<li><p><strong>The thermal width</strong> <a class="reference internal" href="#equation-eq-thermal-width">Eq. 594</a>: <span class="math notranslate nohighlight">\((\hbar/2m\omega)\coth(\beta\hbar\omega/2)\)</span> by
+ladder-operator trace and closed form, from a quantum floor that never freezes to classical
+equipartition growth — the exact curve path-integral Monte Carlo (<a class="reference internal" href="path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a>) is now on record as
+owing us.</p></li>
+</ul>
+<p>One oscillator; the volume in miniature.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Molecules (<a class="reference internal" href="molecules-rotation-vibration.html"><span class="std std-doc">§7.6</span></a>).</strong> The rotational and vibrational staircase built from today’s freeze-out
+switch; ortho/para hydrogen.</p></li>
+<li><p><strong>The rendezvous (<a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>).</strong> The grand-canonical derivation of <span class="math notranslate nohighlight">\(n_B\)</span> and <span class="math notranslate nohighlight">\(n_F\)</span>, meeting the qubit,
+the oscillator, and the Matsubara contours of <a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a>.</p></li>
+<li><p><strong>The payoffs.</strong> The photon gas and Planck’s law proper, with bunching and lasers (<a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>, <a class="reference internal" href="einstein-a-b-coefficients.html"><span class="std std-doc">§7.15</span></a>);
+Debye’s coupled modes and the <span class="math notranslate nohighlight">\(T^3\)</span> law (<a class="reference internal" href="phonons-debye.html"><span class="std std-doc">§7.16</span></a>); PIMC resampling the thermal width (<a class="reference internal" href="path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a>).</p></li>
+<li><p><strong>The Wigner <span class="math notranslate nohighlight">\(\hbar^2\)</span> expansion</strong> and semiclassical thermodynamics — a horizon, named.</p></li>
+<li><p><strong>Cross-reference</strong> <a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a> (spectrum and ladder operators, reused), <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a> (the canonical identities,
+the <span class="math notranslate nohighlight">\(n_F\)</span> twin, the third law), <a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a> (the Matsubara route to the same <span class="math notranslate nohighlight">\(\coth\)</span>), <a class="reference internal" href="../05-classical-stat-mech/ergodicity.html"><span class="std std-doc">§5.5</span></a>/<a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html"><span class="std std-doc">§5.6</span></a>
+(equipartition and the classical measure, now derived).</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/07-quantum-statistical-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="thermal-density-matrix.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="molecules-rotation-vibration.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-exact-partition-function">The exact partition function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-planck-occupation-and-the-movement-s-symmetry">The Planck occupation, and the movement’s symmetry</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#freezing-out-where-equipartition-dies">Freezing out: where equipartition dies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-classical-limit-made-honest-twice">The classical limit, made honest twice</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-einstein-solid-and-the-diamond-anomaly">The Einstein solid and the diamond anomaly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#thermal-photon-statistics-the-geometric-distribution-and-bunching">Thermal photon statistics: the geometric distribution and bunching</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-thermal-width-the-curve-the-path-integral-will-resample">The thermal width: the curve the path integral will resample</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-exact-partition-function">Exercise 1 — The exact partition function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-planck-occupation-the-bose-function-one-movement-early">Exercise 2 — The Planck occupation: the Bose function, one movement early</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-freezing-out">Exercise 3 — Freezing out</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-classical-limit-derives-h">Exercise 4 — The classical limit derives h</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-einstein-solid-and-the-diamond-anomaly">Exercise 5 — The Einstein solid and the diamond anomaly</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-thermal-photon-statistics-the-geometric-distribution-and-bunching">Exercise 6 — Thermal photon statistics: the geometric distribution and bunching</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-thermal-width-the-curve-the-path-integral-will-resample">Exercise 7 — The thermal width: the curve the path integral will resample</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-one-oscillator-the-whole-volume-in-miniature">Exercise 8 — One oscillator, the whole volume in miniature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

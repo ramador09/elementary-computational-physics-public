@@ -1,0 +1,1353 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="0.12 Interpolation: Polynomials, Runge’s Warning, and Splines" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/00-foundations/interpolation-splines.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Between every table of data and every formula evaluated on a grid stands the same question: what happens between the points? Interpolation..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Between every table of data and every formula evaluated on a grid stands the same question: what happens between the points? Interpolation..." />
+
+    <title>0.12 Interpolation: Polynomials, Runge’s Warning, and Splines &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/00-foundations/interpolation-splines';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/00-foundations/interpolation-splines.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent" href="optimization.html" />
+    <link rel="prev" title="0.11 Random Numbers and Monte Carlo Integration" href="random-numbers-monte-carlo.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/00-foundations/interpolation-splines.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/00-foundations/interpolation-splines.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/00-foundations/interpolation-splines.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/00-foundations/interpolation-splines.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-one-polynomial-certified">Exercise 1 — One polynomial, certified</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-runge-s-warning-measured">Exercise 2 — Runge’s warning, measured</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-lebesgue-constant-the-price-of-a-node-set">Exercise 3 — The Lebesgue constant: the price of a node set</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-conditioning-why-the-barycentric-form-earns-its-keep">Exercise 4 — Conditioning: why the barycentric form earns its keep</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-cubic-splines-and-the-two-orders-boundary-condition">Exercise 5 — Cubic splines and the two-orders boundary condition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="interpolation-polynomials-runge-s-warning-and-splines">
+<h1>0.12 Interpolation: Polynomials, Runge’s Warning, and Splines<a class="headerlink" href="#interpolation-polynomials-runge-s-warning-and-splines" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume 0 — Computational Foundations
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;0.12
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Connecting the dots, done right: the one polynomial through n+1 points, the famous bell curve that punishes equispaced nodes with divergence, the Chebyshev fix and the Lebesgue constant that explains it, cubic splines whose fourth-order accuracy hangs on the boundary condition, and the Simpson weights of §0.3 rederived from where they always came from.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;introductory&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;100–130 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Between every table of data and every formula evaluated on a grid
+stands the same question: what happens <em>between</em> the points?
+Interpolation is the discipline of answering it honestly, and it is
+quietly load-bearing for half of this course — the Newton–Cotes
+quadrature weights of <a class="reference internal" href="quadrature-differentiation.html"><span class="std std-doc">§0.3</span></a> are
+integrals of interpolating polynomials, finite differences are their
+derivatives, and every plotted curve through computed samples is an
+interpolant someone chose not to think about.</p>
+<p>The subject’s central drama is a genuine surprise. Polynomial
+interpolation through <span class="math notranslate nohighlight">\(n+1\)</span> points is unique and, on paper, converges
+beautifully — yet for a function as innocent as Runge’s
+<span class="math notranslate nohighlight">\(1/(1 + 25x^2)\)</span>, interpolating at <em>equally spaced</em> nodes diverges,
+violently, as <span class="math notranslate nohighlight">\(n\)</span> grows. The failure is not roundoff and not the
+polynomial’s fault; it is the <em>nodes’</em> fault, quantified by a single
+number (the Lebesgue constant) that we will measure. The two cures —
+Chebyshev nodes, which tame the constant to a logarithm, and piecewise
+splines, which abandon high degree altogether — between them cover
+nearly every interpolation a physicist ever does. Numerical Recipes
+<span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id26" title="William H. Press, Saul A. Teukolsky, William T. Vetterling, and Brian P. Flannery. Numerical Recipes: The Art of Scientific Computing. Cambridge University Press, 3 edition, 2007.">PTVF07</a>]</span> and Trefethen <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id27" title="Lloyd N. Trefethen and David Bau. Numerical Linear Algebra. Society for Industrial and Applied Mathematics (SIAM), 1997.">TB97</a>]</span> are the
+standing references.</p>
+<p>A note on reading the checks in this notebook: a validation compares a
+result to an expected physical fact. A ✗ does not by itself mean the
+answer is wrong; it means the output did not match what the check
+expected, which may be a genuine error, a different-but-valid
+convention, or too tight a tolerance. Treat a ✗ as a prompt to locate
+the discrepancy. Passing is strong evidence, not proof.</p>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<p><strong>The interpolating polynomial.</strong> Through any <span class="math notranslate nohighlight">\(n+1\)</span> points
+<span class="math notranslate nohighlight">\((x_i, y_i)\)</span> with distinct nodes there passes exactly one polynomial
+of degree <span class="math notranslate nohighlight">\(\le n\)</span>. Lagrange’s form makes existence explicit,</p>
+<div class="math notranslate nohighlight" id="equation-eq-ip-lagrange">
+<span class="eqno">(57)<a class="headerlink" href="#equation-eq-ip-lagrange" title="Link to this equation">#</a></span>\[p_n(x) \;=\; \sum_{i=0}^{n} y_i\,\ell_i(x),
+\qquad
+\ell_i(x) \;=\; \prod_{j\ne i}\frac{x - x_j}{x_i - x_j},\]</div>
+<p>with the cardinal property <span class="math notranslate nohighlight">\(\ell_i(x_j) = \delta_{ij}\)</span>. Evaluating
+<a class="reference internal" href="#equation-eq-ip-lagrange">Eq. 57</a> well is its own craft: the <em>barycentric</em> form
+(algebraically identical, numerically stable) is what
+<code class="docutils literal notranslate"><span class="pre">scipy.interpolate.BarycentricInterpolator</span></code> implements, and it
+succeeds at degrees where the “obvious” route — solving the
+Vandermonde system for coefficients — has long since drowned in
+conditioning.</p>
+<p><strong>The error, and the nodes’ role in it.</strong> For <span class="math notranslate nohighlight">\(f\)</span> with <span class="math notranslate nohighlight">\(n+1\)</span>
+derivatives,</p>
+<div class="math notranslate nohighlight" id="equation-eq-ip-error">
+<span class="eqno">(58)<a class="headerlink" href="#equation-eq-ip-error" title="Link to this equation">#</a></span>\[f(x) - p_n(x) \;=\;
+\frac{f^{(n+1)}(\xi)}{(n+1)!}\,\prod_{i=0}^{n}(x - x_i) ,\]</div>
+<p>and everything the interpolator can control lives in the node
+polynomial <span class="math notranslate nohighlight">\(\prod(x - x_i)\)</span>. Equispaced nodes make it explode near the
+interval’s ends; Chebyshev nodes <span class="math notranslate nohighlight">\(x_i = \cos\bigl((2i+1)\pi/(2n+2)\bigr)\)</span>
+equidistribute it. The clean diagnostic is the <strong>Lebesgue constant</strong>
+<span class="math notranslate nohighlight">\(\Lambda_n = \max_x \sum_i |\ell_i(x)|\)</span>: the interpolant’s error is at
+most <span class="math notranslate nohighlight">\((1 + \Lambda_n)\)</span> times the <em>best possible</em> polynomial error, so
+<span class="math notranslate nohighlight">\(\Lambda_n\)</span> is the price of interpolating instead of optimizing. For
+equispaced nodes <span class="math notranslate nohighlight">\(\Lambda_n\)</span> grows like <span class="math notranslate nohighlight">\(2^n/(n\log n)\)</span> — catastrophe
+— while for Chebyshev nodes</p>
+<div class="math notranslate nohighlight" id="equation-eq-ip-lebesgue">
+<span class="eqno">(59)<a class="headerlink" href="#equation-eq-ip-lebesgue" title="Link to this equation">#</a></span>\[\Lambda_n^{\rm Cheb} \;\approx\; \frac{2}{\pi}\ln(n+1) + 0.9625 ,\]</div>
+<p>barely worse than optimal. Runge’s phenomenon is this dichotomy made
+visible on one bell-shaped function.</p>
+<p><strong>Splines: low degree, many pieces.</strong> The alternative to fighting
+high-degree polynomials is refusing to use them: a <strong>cubic spline</strong>
+interpolates with a separate cubic on each subinterval, glued to
+<span class="math notranslate nohighlight">\(C^2\)</span> smoothness. For a smooth <span class="math notranslate nohighlight">\(f\)</span> on a grid of spacing <span class="math notranslate nohighlight">\(h\)</span> the error
+is <span class="math notranslate nohighlight">\(O(h^4)\)</span> — <em>if</em> the two leftover degrees of freedom (the boundary
+conditions) are spent wisely. The default “not-a-knot” condition
+preserves fourth order; the innocently named “natural” spline
+(<span class="math notranslate nohighlight">\(S'' = 0\)</span> at the ends) forces a curvature the true function rarely
+has, and degrades the <em>global</em> order to <span class="math notranslate nohighlight">\(O(h^2)\)</span>. The choice of
+boundary condition is worth two orders of accuracy, which is the kind
+of fact one prefers to learn on a test function rather than on data.</p>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Everything runs on <span class="math notranslate nohighlight">\([-1, 1]\)</span> (or <span class="math notranslate nohighlight">\([0, 1]\)</span> for the spline tests) with
+pinned node counts and a fixed <span class="math notranslate nohighlight">\(5001\)</span>-point evaluation grid for
+max-norm errors. Nothing is stochastic.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">BarycentricInterpolator</span><span class="p">,</span> <span class="n">CubicSpline</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+<span class="n">X_EVAL</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">5001</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">runge</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Runge&#39;s function 1/(1 + 25 x^2).</span>
+
+<span class="sd">    The innocent-looking bell curve on [-1, 1] whose equispaced</span>
+<span class="sd">    interpolants diverge as the degree grows: the standard cautionary</span>
+<span class="sd">    example of the subject.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : float or numpy.ndarray</span>
+<span class="sd">        Evaluation point(s).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float or numpy.ndarray</span>
+<span class="sd">        Function value(s).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="mf">25.0</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">chebyshev_nodes</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The n+1 Chebyshev nodes cos((2i+1)π/(2n+2)) on [-1, 1].</span>
+
+<span class="sd">    The roots of the Chebyshev polynomial T_{n+1}: nodes clustered</span>
+<span class="sd">    toward the endpoints exactly strongly enough to equidistribute the</span>
+<span class="sd">    node polynomial of eq-ip-error.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : int</span>
+<span class="sd">        Polynomial degree (returns n+1 nodes).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The nodes, in decreasing order.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">((</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">n</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">max_interp_error</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">nodes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Max-norm interpolation error of f at the given nodes.</span>
+
+<span class="sd">    Builds the barycentric interpolant through (nodes, f(nodes)) and</span>
+<span class="sd">    measures max |p - f| on the fixed 5001-point grid.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : callable</span>
+<span class="sd">        Function to interpolate.</span>
+<span class="sd">    nodes : numpy.ndarray</span>
+<span class="sd">        Interpolation nodes in [-1, 1].</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The maximum absolute error.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">BarycentricInterpolator</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">nodes</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">p</span><span class="p">(</span><span class="n">X_EVAL</span><span class="p">)</span> <span class="o">-</span> <span class="n">f</span><span class="p">(</span><span class="n">X_EVAL</span><span class="p">))))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">lebesgue_constant</span><span class="p">(</span><span class="n">nodes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Lebesgue constant max_x sum_i |l_i(x)| of a node set.</span>
+
+<span class="sd">    Assembles each Lagrange cardinal polynomial l_i explicitly by its</span>
+<span class="sd">    product formula and maximizes the sum of absolute values on the</span>
+<span class="sd">    evaluation grid: the amplification factor between the best possible</span>
+<span class="sd">    polynomial error and the interpolant&#39;s.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nodes : numpy.ndarray</span>
+<span class="sd">        Interpolation nodes.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The Lebesgue constant.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">X_EVAL</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)):</span>
+        <span class="n">li</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">X_EVAL</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="n">i</span><span class="p">:</span>
+                <span class="n">li</span> <span class="o">*=</span> <span class="p">(</span><span class="n">X_EVAL</span> <span class="o">-</span> <span class="n">nodes</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">nodes</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">li</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">total</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-one-polynomial-certified">
+<h2>Exercise 1 — One polynomial, certified<a class="headerlink" href="#exercise-1-one-polynomial-certified" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="#equation-eq-ip-lagrange">Eq. 57</a> makes two exact promises: the interpolant passes
+through its data, and it <em>is</em> any polynomial of degree <span class="math notranslate nohighlight">\(\le n\)</span> that
+generated the data.</p>
+<p><strong>Part a)</strong> Interpolate the polynomial <span class="math notranslate nohighlight">\(q(x) = 3x^5 - 2x^3 + x - 1\)</span>
+at the <span class="math notranslate nohighlight">\(6\)</span> equispaced nodes <code class="docutils literal notranslate"><span class="pre">numpy.linspace(-1,</span> <span class="pre">1,</span> <span class="pre">6)</span></code> with
+<code class="docutils literal notranslate"><span class="pre">scipy.interpolate.BarycentricInterpolator</span></code> and verify the interpolant
+reproduces <span class="math notranslate nohighlight">\(q\)</span> <em>everywhere</em> — max-norm difference on the evaluation
+grid below <span class="math notranslate nohighlight">\(10^{-12}\)</span> — because a degree-<span class="math notranslate nohighlight">\(5\)</span> interpolant of degree-<span class="math notranslate nohighlight">\(5\)</span>
+data has nowhere else to go. Verify also the cardinal property: the
+interpolant of the data <span class="math notranslate nohighlight">\(y = (0,0,1,0,0,0)\)</span> equals <span class="math notranslate nohighlight">\(1\)</span> at the third
+node and <span class="math notranslate nohighlight">\(0\)</span> at the other five (<code class="docutils literal notranslate"><span class="pre">atol=1e-13</span></code>).</p>
+<p><strong>Part b)</strong> Verify uniqueness numerically: interpolate the same <span class="math notranslate nohighlight">\(q\)</span>
+at <span class="math notranslate nohighlight">\(6\)</span> <em>Chebyshev</em> nodes and verify the two interpolants — different
+nodes, same data-generating polynomial — agree with each other to
+<span class="math notranslate nohighlight">\(10^{-12}\)</span> on the whole grid. Same polynomial, because there is only
+one.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>degree-5 reproduction error: 1.33e-15
+cardinal values at nodes: [0. 0. 1. 0. 0. 0.]
+equispaced vs Chebyshev interpolant gap: 1.78e-15
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  a degree-5 interpolant reproduces degree-5 data everywhere: it has nowhere else to go   [max error 1.3e-15]
+✓  the cardinal property holds: one at its own node, zero at the others   [values [0. 0. 1. 0. 0. 0.]]
+✓  and two different node sets give the SAME interpolant of the same polynomial: uniqueness, observed   [gap 1.8e-15]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-2-runge-s-warning-measured">
+<h2>Exercise 2 — Runge’s warning, measured<a class="headerlink" href="#exercise-2-runge-s-warning-measured" title="Link to this heading">#</a></h2>
+<p>Now the drama. Runge’s function <span class="math notranslate nohighlight">\(1/(1 + 25x^2)\)</span> is smooth, bounded,
+and bell-shaped — and equispaced interpolation of it <em>diverges</em>.</p>
+<p><strong>Part a)</strong> Measure the max-norm error of interpolating <code class="docutils literal notranslate"><span class="pre">runge</span></code> at
+equispaced nodes for degrees <span class="math notranslate nohighlight">\(n = 10\)</span> and <span class="math notranslate nohighlight">\(n = 20\)</span>: verify the errors
+are <span class="math notranslate nohighlight">\(1.916\)</span> and <span class="math notranslate nohighlight">\(59.8\)</span> (<code class="docutils literal notranslate"><span class="pre">rtol=1e-2</span></code> each) — the error <em>grew</em> thirty-
+fold when the data doubled, on a function with no singularity on the
+real line. (The culprit, via <a class="reference internal" href="#equation-eq-ip-error">Eq. 58</a>, is the node
+polynomial’s end-of-interval explosion, amplified by the poles of
+<span class="math notranslate nohighlight">\(f\)</span> at <span class="math notranslate nohighlight">\(\pm i/5\)</span> in the complex plane.)</p>
+<p><strong>Part b)</strong> The cure: the same degrees at Chebyshev nodes give errors
+<span class="math notranslate nohighlight">\(0.109\)</span> and <span class="math notranslate nohighlight">\(0.0153\)</span> (<code class="docutils literal notranslate"><span class="pre">rtol=1e-2</span></code> each) — monotone convergence where
+equispaced diverged. Plot both interpolants at <span class="math notranslate nohighlight">\(n = 20\)</span> over the true
+function: the equispaced one swinging to <span class="math notranslate nohighlight">\(\pm 60\)</span> at the edges, the
+Chebyshev one indistinguishable from <span class="math notranslate nohighlight">\(f\)</span> at plot scale.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>equispaced errors: n=10 1.9156, n=20 59.82
+Chebyshev errors : n=10 0.1092, n=20 0.0153
+</pre></div>
+</div>
+<figure class="align-default" id="fig-ip-runge">
+<img alt="../../_images/b80f78492095eb4a3e3c77195b86dba87be419a49f16e69052f06718defec4bb.png" src="../../_images/b80f78492095eb4a3e3c77195b86dba87be419a49f16e69052f06718defec4bb.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 58 </span><span class="caption-text">Runge’s phenomenon at degree <span class="math notranslate nohighlight">\(n=20\)</span>: the true function <span class="math notranslate nohighlight">\(1/(1+25x^2)\)</span> (ink), its equispaced interpolant (grey, swinging to error <span class="math notranslate nohighlight">\(59.8\)</span> near the endpoints), and its Chebyshev-node interpolant (amber, max error <span class="math notranslate nohighlight">\(0.0153\)</span>, indistinguishable from the truth at plot scale except at the edges). Same function, same degree, same algorithm: only the nodes differ.</span><a class="headerlink" href="#fig-ip-runge" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  equispaced interpolation of Runge&#39;s function DIVERGES: doubling the data multiplied the error thirty-fold   [max|Δ| = 0.0201265 (rtol=0.01, atol=1e-09)]
+✓  while Chebyshev nodes converge on the same function at the same degrees: the nodes, not the polynomial, were the problem   [max|Δ| = 0.000153495 (rtol=0.01, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-3-the-lebesgue-constant-the-price-of-a-node-set">
+<h2>Exercise 3 — The Lebesgue constant: the price of a node set<a class="headerlink" href="#exercise-3-the-lebesgue-constant-the-price-of-a-node-set" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="#equation-eq-ip-lebesgue">Eq. 59</a> promised a single number that explains Exercise
+2, and it is checkable to four digits.</p>
+<p><strong>Part a)</strong> Compute <span class="math notranslate nohighlight">\(\Lambda_n\)</span> with <code class="docutils literal notranslate"><span class="pre">lebesgue_constant</span></code> for
+equispaced and Chebyshev nodes at <span class="math notranslate nohighlight">\(n = 10\)</span> and <span class="math notranslate nohighlight">\(20\)</span>. Verify the
+Chebyshev values match the asymptotic formula
+<span class="math notranslate nohighlight">\(\tfrac{2}{\pi}\ln(n+1) + 0.9625\)</span> to <code class="docutils literal notranslate"><span class="pre">rtol=1e-3</span></code> at both degrees
+(<span class="math notranslate nohighlight">\(2.489\)</span> and <span class="math notranslate nohighlight">\(2.901\)</span>: barely growing), and verify the equispaced
+catastrophe: <span class="math notranslate nohighlight">\(\Lambda_{10} = 29.9\)</span> (<code class="docutils literal notranslate"><span class="pre">rtol=1e-2</span></code>) and
+<span class="math notranslate nohighlight">\(\Lambda_{20} &gt; 10^4\)</span> — a four-order-of-magnitude amplifier by degree
+twenty.</p>
+<p><strong>Part b)</strong> Close the logic: the interpolation error is bounded by
+<span class="math notranslate nohighlight">\((1 + \Lambda_n)\)</span> times the best-approximation error, so Chebyshev
+interpolation is within a factor <span class="math notranslate nohighlight">\(\approx 4\)</span> of the best possible
+degree-<span class="math notranslate nohighlight">\(20\)</span> polynomial while equispaced interpolation may be <span class="math notranslate nohighlight">\(10^4\)</span>
+times worse. Verify the bound holds in practice for Runge at
+<span class="math notranslate nohighlight">\(n = 20\)</span>: the measured Chebyshev error <span class="math notranslate nohighlight">\(0.0153\)</span> is <em>less</em> than
+<span class="math notranslate nohighlight">\((1 + \Lambda_{20}^{\rm Cheb})\)</span> times the best-approximation error,
+estimated from below by half the Chebyshev error itself — an
+admittedly circular floor, so verify the sharper, honest statement:
+the ratio of equispaced to Chebyshev errors (<span class="math notranslate nohighlight">\(59.8/0.0153 \approx
+3900\)</span>) is within a factor of <span class="math notranslate nohighlight">\(3\)</span> of the ratio of their Lebesgue
+constants (<span class="math notranslate nohighlight">\(10986/2.90 \approx 3790\)</span>): the constants <em>predict</em> the
+disaster’s magnitude, not just its sign.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Lebesgue equispaced: n=10 29.9, n=20 1.099e+04
+Lebesgue Chebyshev : n=10 2.4894, n=20 2.9008
+formula            : n=10 2.4890, n=20 2.9007
+error ratio 3901 vs Lebesgue ratio 3787
+</pre></div>
+</div>
+<figure class="align-default" id="fig-ip-lebesgue">
+<img alt="../../_images/c6e17ee3017f645f2e71e7887f651ca5c7ae11664923c6e16a3fefff5d6ea6b8.png" src="../../_images/c6e17ee3017f645f2e71e7887f651ca5c7ae11664923c6e16a3fefff5d6ea6b8.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 59 </span><span class="caption-text">The Lebesgue function <span class="math notranslate nohighlight">\(\sum_i|\ell_i(x)|\)</span> at degree <span class="math notranslate nohighlight">\(n=20\)</span> for equispaced nodes (ink, on a logarithmic axis: peaks above <span class="math notranslate nohighlight">\(10^4\)</span> near the endpoints) and Chebyshev nodes (amber: never exceeding <span class="math notranslate nohighlight">\(2.9\)</span>). Its maximum — the Lebesgue constant — multiplies the best-possible polynomial error into the interpolant’s worst case, and the four-order gap between the two node sets is Runge’s phenomenon, priced.</span><a class="headerlink" href="#fig-ip-lebesgue" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Chebyshev Lebesgue constants sit on the (2/π)ln(n+1) + 0.9625 asymptote to four digits: logarithmic, tame, nearly optimal   [max|Δ| = 0.000382834 (rtol=0.001, atol=1e-09)]
+✓  while the equispaced constants explode past ten thousand by degree twenty   [Λ10 = 29.9, Λ20 = 1.1e+04]
+✓  and the constants PREDICT the disaster&#39;s size: the error ratio tracks the Lebesgue ratio within a factor of three   [errors 3901× vs constants 3787×]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-4-conditioning-why-the-barycentric-form-earns-its-keep">
+<h2>Exercise 4 — Conditioning: why the barycentric form earns its keep<a class="headerlink" href="#exercise-4-conditioning-why-the-barycentric-form-earns-its-keep" title="Link to this heading">#</a></h2>
+<p>The textbook route to the interpolating polynomial — solve the
+Vandermonde system <span class="math notranslate nohighlight">\(V\mathbf c = \mathbf y\)</span> for monomial coefficients
+— is a conditioning time bomb, and degree <span class="math notranslate nohighlight">\(40\)</span> is past the detonation.</p>
+<p><strong>Part a)</strong> Build the Vandermonde matrix <code class="docutils literal notranslate"><span class="pre">numpy.vander</span></code> for the <span class="math notranslate nohighlight">\(41\)</span>
+equispaced nodes on <span class="math notranslate nohighlight">\([-1, 1]\)</span> and verify its condition number
+(<code class="docutils literal notranslate"><span class="pre">numpy.linalg.cond</span></code>) exceeds <span class="math notranslate nohighlight">\(10^{17}\)</span>: beyond double precision,
+meaning the monomial coefficients are pure noise regardless of
+solver.</p>
+<p><strong>Part b)</strong> Verify the barycentric evaluation sails on regardless:
+interpolating <code class="docutils literal notranslate"><span class="pre">runge</span></code> at the <span class="math notranslate nohighlight">\(41\)</span> <em>Chebyshev</em> nodes via
+<code class="docutils literal notranslate"><span class="pre">BarycentricInterpolator</span></code> gives a max-norm error below <span class="math notranslate nohighlight">\(10^{-3}\)</span>
+(continuing Exercise 2’s convergence right through the degree where
+the monomial route died). The lesson generalizes far beyond
+interpolation: the same mathematics in a different basis is a
+different algorithm.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cond(Vandermonde, n=40) = 7.643e+18
+Chebyshev barycentric error at n=40: 2.89e-04
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the degree-40 Vandermonde matrix is conditioned beyond double precision: monomial coefficients are noise   [cond = 7.64e+18]
+✓  while the barycentric form at the same degree keeps converging: same polynomial, different basis, different algorithm   [error 2.9e-04]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-5-cubic-splines-and-the-two-orders-boundary-condition">
+<h2>Exercise 5 — Cubic splines and the two-orders boundary condition<a class="headerlink" href="#exercise-5-cubic-splines-and-the-two-orders-boundary-condition" title="Link to this heading">#</a></h2>
+<p>The spline route abandons high degree for many low-degree pieces, and
+its one subtlety is worth two orders of accuracy.</p>
+<p><strong>Part a)</strong> Interpolate <span class="math notranslate nohighlight">\(e^x\)</span> on <span class="math notranslate nohighlight">\([0, 1]\)</span> with
+<code class="docutils literal notranslate"><span class="pre">scipy.interpolate.CubicSpline</span></code> at <span class="math notranslate nohighlight">\(n = 8, 16, 32, 64, 128\)</span>
+subintervals under the default not-a-knot boundary condition, measure
+max-norm errors on a <span class="math notranslate nohighlight">\(4001\)</span>-point grid, and verify fourth-order
+convergence: the <code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code> slope of <span class="math notranslate nohighlight">\(\log(\rm error)\)</span> against
+<span class="math notranslate nohighlight">\(\log h\)</span> in <span class="math notranslate nohighlight">\([3.8, 4.2]\)</span>, with the finest error below <span class="math notranslate nohighlight">\(10^{-9}\)</span>.</p>
+<p><strong>Part b)</strong> Repeat with <code class="docutils literal notranslate"><span class="pre">bc_type=&quot;natural&quot;</span></code> — the spline forced to
+<span class="math notranslate nohighlight">\(S'' = 0\)</span> at both ends, where <span class="math notranslate nohighlight">\(e^x\)</span> has <span class="math notranslate nohighlight">\(e^0 = 1\)</span> and <span class="math notranslate nohighlight">\(e^1 = 2.72\)</span> —
+and verify the degradation: slope in <span class="math notranslate nohighlight">\([1.9, 2.1]\)</span>, and the finest
+error more than <span class="math notranslate nohighlight">\(10^4\)</span> times worse than not-a-knot’s. “Natural” names
+a variational property (minimum curvature), not a recommendation; the
+false boundary curvature pollutes the whole interval at <span class="math notranslate nohighlight">\(O(h^2)\)</span>.</p>
+<p><strong>Part c)</strong> The birthplace payoff. The Simpson weights that
+<a class="reference internal" href="quadrature-differentiation.html"><span class="std std-doc">§0.3</span></a> tabulated are integrals of
+<a class="reference internal" href="#equation-eq-ip-lagrange">Eq. 57</a>’s cardinal polynomials: for the three nodes
+<span class="math notranslate nohighlight">\(0, 1, 2\)</span> (spacing <span class="math notranslate nohighlight">\(h = 1\)</span>), fit each cardinal’s coefficients with
+<code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code> (degree 2), integrate with <code class="docutils literal notranslate"><span class="pre">numpy.polyint</span></code>, and verify
+the three integrals equal <span class="math notranslate nohighlight">\((\tfrac13, \tfrac43, \tfrac13)\)</span> to
+<code class="docutils literal notranslate"><span class="pre">atol=1e-12</span></code>: quadrature is interpolation, integrated — the circle
+from this notebook back to <a class="reference internal" href="quadrature-differentiation.html"><span class="std std-doc">§0.3</span></a>,
+closed.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>not-a-knot: slope 3.959, finest error 2.84e-10
+natural   : slope 1.999, finest error 8.14e-06
+Simpson weights from cardinal integrals: [0.33333333 1.33333333 0.33333333]
+</pre></div>
+</div>
+<figure class="align-default" id="fig-ip-splines">
+<img alt="../../_images/e3413ba28d2776c445570efe7ea385db23db956a9e575eb6092acc4243c27cd1.png" src="../../_images/e3413ba28d2776c445570efe7ea385db23db956a9e575eb6092acc4243c27cd1.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 60 </span><span class="caption-text">Cubic-spline convergence for <span class="math notranslate nohighlight">\(e^x\)</span> on <span class="math notranslate nohighlight">\([0,1]\)</span> on log–log axes: max-norm error against grid spacing <span class="math notranslate nohighlight">\(h\)</span> for the not-a-knot boundary condition (amber, fitted slope <span class="math notranslate nohighlight">\(\approx4\)</span>) and the natural condition <span class="math notranslate nohighlight">\(S''=0\)</span> at the ends (ink, slope <span class="math notranslate nohighlight">\(\approx2\)</span>), with guide lines <span class="math notranslate nohighlight">\(\propto h^4\)</span> and <span class="math notranslate nohighlight">\(\propto h^2\)</span>. The natural spline’s false endpoint curvature — <span class="math notranslate nohighlight">\(e^x\)</span> has <span class="math notranslate nohighlight">\(e^0\)</span> and <span class="math notranslate nohighlight">\(e^1\)</span>, not zero — costs two orders of global accuracy: boundary conditions are accuracy decisions.</span><a class="headerlink" href="#fig-ip-splines" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the not-a-knot cubic spline converges at fourth order, reaching 1e-10 territory by h = 1/128   [slope 3.96, finest 2.8e-10]
+✓  the &#39;natural&#39; condition costs two orders globally: a boundary condition is an accuracy decision   [slope 2.00, penalty ×28714]
+✓  and Simpson&#39;s (1/3, 4/3, 1/3) fall out of integrating the Lagrange cardinals: quadrature is interpolation, integrated   [max|Δ| = 2.27596e-15 (rtol=0, atol=1e-12)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The interpolating polynomial behaved as its theorems promise:
+degree-5 data reproduced to <span class="math notranslate nohighlight">\(10^{-13}\)</span>, cardinal functions exactly
+cardinal, and two node sets yielding the <em>same</em> (unique)
+interpolant.</p></li>
+<li><p>Runge’s phenomenon arrived on schedule: equispaced errors <span class="math notranslate nohighlight">\(1.9 \to
+59.8\)</span> as <span class="math notranslate nohighlight">\(n\)</span> went <span class="math notranslate nohighlight">\(10 \to 20\)</span> on a smooth bell curve, while
+Chebyshev nodes converged <span class="math notranslate nohighlight">\(0.109 \to 0.0153\)</span> on the same function
+with the same algorithm.</p></li>
+<li><p>The Lebesgue constant priced it: Chebyshev’s <span class="math notranslate nohighlight">\(2.489\)</span> and <span class="math notranslate nohighlight">\(2.901\)</span> on
+the logarithmic asymptote to four digits, equispaced past <span class="math notranslate nohighlight">\(10^4\)</span> by
+degree twenty — and the error ratio <em>tracked</em> the constant ratio
+within a factor of three.</p></li>
+<li><p>Conditioning separated mathematics from algorithm: the degree-40
+Vandermonde matrix at <span class="math notranslate nohighlight">\(\mathrm{cond} &gt; 10^{17}\)</span> while barycentric
+evaluation converged serenely below <span class="math notranslate nohighlight">\(10^{-3}\)</span>.</p></li>
+<li><p>Splines delivered fourth order under not-a-knot and lost exactly
+two orders under “natural” boundary conditions (<span class="math notranslate nohighlight">\(\times 10^4\)</span> in
+error at <span class="math notranslate nohighlight">\(h = 1/128\)</span>); and Simpson’s weights fell out of
+integrating the cardinals — the quadrature of
+<a class="reference internal" href="quadrature-differentiation.html"><span class="std std-doc">§0.3</span></a>, returned to its
+birthplace.</p></li>
+</ul>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Spectral methods.</strong> Push Chebyshev interpolation to its limit and
+differentiation of the interpolant becomes a dense matrix applied
+to samples: spectral collocation, with exponential accuracy for
+analytic functions <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id27" title="Lloyd N. Trefethen and David Bau. Numerical Linear Algebra. Society for Industrial and Applied Mathematics (SIAM), 1997.">TB97</a>]</span> — the method behind many
+of the smoothest solvers in computational physics.</p></li>
+<li><p><strong>Fitting is not interpolating.</strong> With noisy data, passing through
+every point means interpolating the noise;
+<a class="reference internal" href="fitting-least-squares.html"><span class="std std-doc">§0.8</span></a> is the other regime, and
+knowing which side of the divide a dataset sits on is a scientist’s
+judgment call.</p></li>
+<li><p><strong>Higher dimensions.</strong> Tensor-product grids inherit everything
+here; scattered data needs new ideas (radial basis functions,
+triangulation) — the machinery inside every contour plot this
+course draws.</p></li>
+<li><p><strong>Splines beyond graphs.</strong> The same <span class="math notranslate nohighlight">\(C^2\)</span> piecewise cubics
+parametrize fonts, roads, and robot trajectories; the “natural”
+spline’s minimum-curvature property, useless for accuracy, is
+exactly what a draftsman’s bending strip wants.</p></li>
+</ul>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<div class="docutils container" id="id4">
+<div role="list" class="citation-list">
+<div class="citation" id="id26" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">PTVF07</a><span class="fn-bracket">]</span></span>
+<p>William H. Press, Saul A. Teukolsky, William T. Vetterling, and Brian P. Flannery. <em>Numerical Recipes: The Art of Scientific Computing</em>. Cambridge University Press, 3 edition, 2007.</p>
+</div>
+<div class="citation" id="id27" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>TB97<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id3">2</a>)</span>
+<p>Lloyd N. Trefethen and David Bau. <em>Numerical Linear Algebra</em>. Society for Industrial and Applied Mathematics (SIAM), 1997.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/00-foundations"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="random-numbers-monte-carlo.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">0.11 Random Numbers and Monte Carlo Integration</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="optimization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-one-polynomial-certified">Exercise 1 — One polynomial, certified</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-runge-s-warning-measured">Exercise 2 — Runge’s warning, measured</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-lebesgue-constant-the-price-of-a-node-set">Exercise 3 — The Lebesgue constant: the price of a node set</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-conditioning-why-the-barycentric-form-earns-its-keep">Exercise 4 — Conditioning: why the barycentric form earns its keep</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-cubic-splines-and-the-two-orders-boundary-condition">Exercise 5 — Cubic splines and the two-orders boundary condition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

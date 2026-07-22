@@ -1,0 +1,1540 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="6.3 Dirac Notation, Bases, and Spectral Decomposition" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/dirac-notation-spectral-decomposition.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Two notebooks ago we built the space; one notebook ago we built the operators. This notebook builds the language in which the rest of the ..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Two notebooks ago we built the space; one notebook ago we built the operators. This notebook builds the language in which the rest of the ..." />
+
+    <title>6.3 Dirac Notation, Bases, and Spectral Decomposition &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/06-quantum-mechanics/dirac-notation-spectral-decomposition';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/dirac-notation-spectral-decomposition.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="6.4 The Stern–Gerlach Experiment and the Birth of the Qubit" href="stern-gerlach-qubit.html" />
+    <link rel="prev" title="6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem" href="operators-spectral-theorem.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VI — Quantum Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/06-quantum-mechanics/dirac-notation-spectral-decomposition.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/06-quantum-mechanics/dirac-notation-spectral-decomposition.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/06-quantum-mechanics/dirac-notation-spectral-decomposition.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/06-quantum-mechanics/dirac-notation-spectral-decomposition.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>6.3 Dirac Notation, Bases, and Spectral Decomposition</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kets-bras-and-the-dual-space">Kets, bras, and the dual space</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-outer-product">The outer product</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#projectors">Projectors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-resolution-of-the-identity">The resolution of the identity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#change-of-basis-as-a-unitary">Change of basis as a unitary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-spectral-decomposition-in-projector-form">The spectral decomposition in projector form</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-of-operators">Functions of operators</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-kets-bras-and-the-outer-product">Exercise 1 — Kets, bras, and the outer product</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-projectors">Exercise 2 — Projectors</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-resolution-of-the-identity">Exercise 3 — The resolution of the identity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-change-of-basis-as-a-unitary">Exercise 4 — Change of basis as a unitary</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-spectral-decomposition-in-projector-form">Exercise 5 — The spectral decomposition in projector form</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-functions-of-operators">Exercise 6 — Functions of operators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-qubit-in-two-bases-and-a-projector-measurement">Exercise 7 — The qubit in two bases, and a projector measurement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-the-calculus-of-states-and-operators">Exercise 8 — The calculus of states and operators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="dirac-notation-bases-and-spectral-decomposition">
+<h1>6.3 Dirac Notation, Bases, and Spectral Decomposition<a class="headerlink" href="#dirac-notation-bases-and-spectral-decomposition" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VI — Quantum Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;6.3
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">The language. We give the inner product and the operators of the last two notebooks their proper notation — kets, bras, and the outer product — and find it is not shorthand but a calculus. Projectors extract components, the resolution of the identity lets us expand in any basis at will, and the spectral decomposition turns any function of an operator into a function of its eigenvalues. With this in hand, the physics can begin.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;150–190 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Two notebooks ago we built the space; one notebook ago we built the operators. This notebook builds
+the <strong>language</strong> in which the rest of the volume is written — Dirac’s notation of kets and bras — and
+the surprise it holds is that the notation is not a convenience laid on top of the mathematics but a
+<em>calculus</em>: a small set of symbols whose manipulation rules do the work for us. It is the closing
+notebook of Movement 0, the mathematical arsenal, and by its end the formalism is complete and the
+physics can begin.</p>
+<p>The notebook also keeps two promises. In <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a> we used <span class="math notranslate nohighlight">\(\langle u|v\rangle\)</span> as shorthand and promised
+that the <strong>bra</strong> <span class="math notranslate nohighlight">\(\langle u|\)</span> would later become an object in its own right; here it does — a <em>dual
+vector</em>, the linear functional “take the inner product with <span class="math notranslate nohighlight">\(u\)</span>.” In <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a> we wrote the spectral
+theorem as a matrix factorization <span class="math notranslate nohighlight">\(A=V\Lambda V^{\dagger}\)</span> and promised an outer-product form; here
+it arrives as <span class="math notranslate nohighlight">\(A=\sum_\lambda\lambda\,|\lambda\rangle\langle\lambda|\)</span>, a Hermitian operator written
+as its eigenvalues times the <strong>projectors</strong> onto its eigenvectors. After this notebook there are no
+remaining notation deferrals in the arsenal.</p>
+<p>Three constructions carry the whole calculus, and the notebook is built around them. The <strong>projector</strong>
+<span class="math notranslate nohighlight">\(|e\rangle\langle e|\)</span> extracts the component of a state along <span class="math notranslate nohighlight">\(|e\rangle\)</span>. The <strong>resolution of the
+identity</strong> <span class="math notranslate nohighlight">\(\sum_i|e_i\rangle\langle e_i|=I\)</span> is the compact statement that any state expands in any
+orthonormal basis — and the single most useful move in the formalism is to <em>insert the identity</em>
+anywhere a change of basis is wanted. The <strong>spectral decomposition</strong> <span class="math notranslate nohighlight">\(A=\sum_i\lambda_i|\lambda_i
+\rangle\langle\lambda_i|\)</span> is “diagonalize” in its cleanest dress, and it makes <em>any function of an
+operator</em> trivial: apply the function to the eigenvalues. That last fact is the general machinery
+behind the exponential map of <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a> and behind the time-evolution operator <span class="math notranslate nohighlight">\(U(t)=e^{-iHt/\hbar}\)</span> that will
+run all of dynamics (<a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>).</p>
+<p>As in every Volume VI notebook, each exercise opens with a <strong>crystal-clear statement</strong> and enumerated parts that name the exact operation to run — <code class="docutils literal notranslate"><span class="pre">numpy.outer</span></code> (with <code class="docutils literal notranslate"><span class="pre">numpy.conj</span></code> for the bra) to
+build <span class="math notranslate nohighlight">\(|u\rangle\langle v|\)</span>, explicit projector and resolution-of-identity construction,
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> for the spectral data, <code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code> to cross-check the spectral
+exponential — so the method is never something to reverse-engineer.</p>
+<blockquote>
+<div><p><strong>A word on what closes here.</strong> This notebook <em>resolves</em> the two boundaries the arsenal carried.
+The bra <span class="math notranslate nohighlight">\(\langle u|\)</span> is now a dual vector (as promised in <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a>), and the outer product, projectors, the
+projector form of the spectral theorem, and functions of operators are all developed (as promised in
+<a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>). What we deliberately do <em>not</em> do is the physics: the projector <em>is</em> the mathematics of a
+measurement, but the measurement postulate itself — outcomes, probabilities, collapse — is <a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>. We
+build the apparatus here and let the physics out in the next movement.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against an independent
+fact: the outer product acting as an operator; a projector’s idempotence, Hermiticity, and rank;
+the resolution of the identity to machine precision; a change of basis preserving eigenvalues and
+inner products; the spectral decomposition reconstructing a Hermitian operator from its
+eigen-projectors; a function of an operator matching <code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code> and a square root squaring
+back; and a qubit’s outcome-weights summing to one in two different bases. A ✓ is strong evidence;
+a ✗ is a prompt to <em>locate the discrepancy</em>.</p>
+<p><strong>Scope.</strong> Finite-dimensional, orthonormal bases throughout. The measurement postulate is <a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>; the
+Stern–Gerlach experiment and the two-state system that open the physics are <a class="reference internal" href="stern-gerlach-qubit.html"><span class="std std-doc">§6.4</span></a>; the
+time-evolution operator is <a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>; the Bloch sphere is <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>. See Sakurai &amp; Napolitano (Ch. 1); Dirac,
+<em>The Principles of Quantum Mechanics</em>; and Notebooks <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a> (the inner product), <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a> (the spectral
+theorem, the exponential map).</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="kets-bras-and-the-dual-space">
+<h3>Kets, bras, and the dual space<a class="headerlink" href="#kets-bras-and-the-dual-space" title="Link to this heading">#</a></h3>
+<p>A <strong>ket</strong> <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> is a state vector, a column of complex numbers. A <strong>bra</strong> <span class="math notranslate nohighlight">\(\langle\phi|\)</span> is
+the <strong>linear functional</strong> that eats a ket and returns the number <span class="math notranslate nohighlight">\(\langle\phi|\psi\rangle\)</span> — “take
+the inner product with <span class="math notranslate nohighlight">\(\phi\)</span>.” The bras form the <strong>dual space</strong>; in components a bra is the
+conjugate-transpose row vector, the adjoint of the ket,</p>
+<div class="math notranslate nohighlight" id="equation-eq-bra-ket">
+<span class="eqno">(392)<a class="headerlink" href="#equation-eq-bra-ket" title="Link to this equation">#</a></span>\[\begin{split}|\psi\rangle=\begin{pmatrix}\psi_1\\\vdots\\\psi_n\end{pmatrix},\qquad \langle\phi|=(\phi_1^{*},\dots,\phi_n^{*}),\qquad \langle\phi|\psi\rangle=\sum_i\phi_i^{*}\psi_i .\end{split}\]</div>
+<p>This is the meaning deferred from <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a>: the inner product is a bra acting on a ket.</p>
+</section>
+<section id="the-outer-product">
+<h3>The outer product<a class="headerlink" href="#the-outer-product" title="Link to this heading">#</a></h3>
+<p>Multiplied the <em>other</em> way, <span class="math notranslate nohighlight">\(|u\rangle\langle v|\)</span> is an <strong>operator</strong>. Acting on a ket it gives</p>
+<div class="math notranslate nohighlight" id="equation-eq-outer">
+<span class="eqno">(393)<a class="headerlink" href="#equation-eq-outer" title="Link to this equation">#</a></span>\[\big(|u\rangle\langle v|\big)\,|w\rangle=\langle v|w\rangle\,|u\rangle ,\]</div>
+<p>“measure the overlap with <span class="math notranslate nohighlight">\(v\)</span>, output that much of <span class="math notranslate nohighlight">\(u\)</span>.” In components it is <code class="docutils literal notranslate"><span class="pre">numpy.outer(u,</span> <span class="pre">numpy.conj(v))</span></code>. The inner product <span class="math notranslate nohighlight">\(\langle v|u\rangle\)</span> is a <em>number</em>; the outer product <span class="math notranslate nohighlight">\(|u\rangle
+\langle v|\)</span> is an <em>operator</em>. This is the construction deferred from <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>.</p>
+</section>
+<section id="projectors">
+<h3>Projectors<a class="headerlink" href="#projectors" title="Link to this heading">#</a></h3>
+<p>For a normalized <span class="math notranslate nohighlight">\(|e\rangle\)</span>, the operator</p>
+<div class="math notranslate nohighlight" id="equation-eq-projector">
+<span class="eqno">(394)<a class="headerlink" href="#equation-eq-projector" title="Link to this equation">#</a></span>\[P=|e\rangle\langle e|,\qquad P|\psi\rangle=\langle e|\psi\rangle\,|e\rangle,\qquad P^2=P,\quad P=P^{\dagger},\quad \text{eigenvalues }\{0,1\} ,\]</div>
+<p>is the <strong>projector</strong> onto the <span class="math notranslate nohighlight">\(e\)</span>-direction: it keeps only the part of <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> along <span class="math notranslate nohighlight">\(|e
+\rangle\)</span>. Projectors are <strong>idempotent</strong> (<span class="math notranslate nohighlight">\(P^2=P\)</span> — projecting twice is projecting once), <strong>Hermitian</strong>,
+and <strong>rank-1</strong>. Physically the projector is the mathematical content of a measurement (the postulate
+is <a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>).</p>
+</section>
+<section id="the-resolution-of-the-identity">
+<h3>The resolution of the identity<a class="headerlink" href="#the-resolution-of-the-identity" title="Link to this heading">#</a></h3>
+<p>For any orthonormal basis <span class="math notranslate nohighlight">\(\{|e_i\rangle\}\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-dirac-resolution">
+<span class="eqno">(395)<a class="headerlink" href="#equation-eq-dirac-resolution" title="Link to this equation">#</a></span>\[\sum_i|e_i\rangle\langle e_i|=I,\qquad |\psi\rangle=\sum_i|e_i\rangle\langle e_i|\psi\rangle=\sum_i c_i|e_i\rangle,\quad c_i=\langle e_i|\psi\rangle .\]</div>
+<p>This compact identity <em>is</em> “every state expands in the basis” — recovering the expansion
+coefficients of <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a>, now as projections. The trick that makes the notation flow is to <strong>insert the identity</strong>
+anywhere a basis change or expansion is wanted.</p>
+</section>
+<section id="change-of-basis-as-a-unitary">
+<h3>Change of basis as a unitary<a class="headerlink" href="#change-of-basis-as-a-unitary" title="Link to this heading">#</a></h3>
+<p>Changing from one orthonormal basis to another is a <strong>unitary</strong> <span class="math notranslate nohighlight">\(U\)</span> whose columns are the new basis
+vectors; components and operators transform as</p>
+<div class="math notranslate nohighlight" id="equation-eq-change-basis">
+<span class="eqno">(396)<a class="headerlink" href="#equation-eq-change-basis" title="Link to this equation">#</a></span>\[\psi'=U^{\dagger}\psi,\qquad A'=U^{\dagger}AU,\qquad \text{eigenvalues and inner products preserved} .\]</div>
+<p>A change of basis is a passive relabelling, not a physical change (cf. the unitary operators of <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>).</p>
+</section>
+<section id="the-spectral-decomposition-in-projector-form">
+<h3>The spectral decomposition in projector form<a class="headerlink" href="#the-spectral-decomposition-in-projector-form" title="Link to this heading">#</a></h3>
+<p>The spectral theorem of <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>, <span class="math notranslate nohighlight">\(A=V\Lambda V^{\dagger}\)</span>, is exactly</p>
+<div class="math notranslate nohighlight" id="equation-eq-spectral-dirac">
+<span class="eqno">(397)<a class="headerlink" href="#equation-eq-spectral-dirac" title="Link to this equation">#</a></span>\[A=\sum_i\lambda_i\,|\lambda_i\rangle\langle\lambda_i|,\qquad P_iP_j=\delta_{ij}P_i,\quad \sum_iP_i=I ,\]</div>
+<p>a Hermitian operator as its eigenvalues times the <strong>projectors</strong> onto its eigenvectors. The spectral
+projectors are orthogonal and resolve the identity. This is the cleanest statement of “diagonalize,”
+and the form the measurement postulate uses (<a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>).</p>
+</section>
+<section id="functions-of-operators">
+<h3>Functions of operators<a class="headerlink" href="#functions-of-operators" title="Link to this heading">#</a></h3>
+<p>Because <span class="math notranslate nohighlight">\(A=\sum_i\lambda_i|\lambda_i\rangle\langle\lambda_i|\)</span>, <em>any</em> function of the operator is</p>
+<div class="math notranslate nohighlight" id="equation-eq-function-operator">
+<span class="eqno">(398)<a class="headerlink" href="#equation-eq-function-operator" title="Link to this equation">#</a></span>\[f(A)=\sum_i f(\lambda_i)\,|\lambda_i\rangle\langle\lambda_i| ,\]</div>
+<p>apply <span class="math notranslate nohighlight">\(f\)</span> to the eigenvalues, in the eigenbasis. This is the general machinery behind the
+exponential map of <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>, <span class="math notranslate nohighlight">\(e^{-iH}=\sum_i e^{-i\lambda_i}|\lambda_i\rangle\langle\lambda_i|\)</span>, and behind the
+<strong>time-evolution operator</strong> <span class="math notranslate nohighlight">\(U(t)=e^{-iHt/\hbar}=\sum_n e^{-iE_nt/\hbar}|n\rangle\langle n|\)</span> — the
+single most important function of an operator in the volume (<a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>).</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">expm</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>
+<span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;#c1121f&quot;</span>
+
+<span class="c1"># Conventions: kets are 1-D complex arrays in a fixed orthonormal basis of ℂⁿ; a bra is the</span>
+<span class="c1"># conjugate (row functional), so ⟨φ|ψ⟩ = bra(φ) @ ψ = numpy.vdot(φ, ψ) (the §6.1 convention). The outer</span>
+<span class="c1"># product |u⟩⟨v| = numpy.outer(u, numpy.conj(v)) is an operator. We diagonalize with numpy.linalg.eigh.</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ket</span><span class="p">(</span><span class="n">components</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct a ket $|\\psi\\rangle$ from its components {eq}`eq-bra-ket`.</span>
+
+<span class="sd">    A ket is a state vector — a 1-D complex array of components in a fixed orthonormal basis.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    components : array_like</span>
+<span class="sd">        The components $\\psi_i$ in the working basis.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The ket as a complex 1-D array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">components</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">bra</span><span class="p">(</span><span class="n">psi</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the bra $\\langle\\psi|$ dual to the ket ``psi`` {eq}`eq-bra-ket`.</span>
+
+<span class="sd">    The bra is the linear functional &quot;take the inner product with $\\psi$&quot;; in components it is the</span>
+<span class="sd">    conjugate (the adjoint row vector, ``psi.conj()``), and it acts on a ket by the matrix product</span>
+<span class="sd">    ``bra(psi) @ phi`` $=\\langle\\psi|\\phi\\rangle=$ ``numpy.vdot(psi, phi)``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    psi : numpy.ndarray</span>
+<span class="sd">        A ket (1-D complex array).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The conjugated components, to be applied to a ket with ``@``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">psi</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">outer</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The outer product $|u\\rangle\\langle v|$, an operator {eq}`eq-outer`.</span>
+
+<span class="sd">    Built with ``numpy.outer(u, numpy.conj(v))`` (the bra conjugates ``v``). Acting on a ket it returns</span>
+<span class="sd">    $\\langle v|w\\rangle\\,|u\\rangle$ — it measures the overlap with $v$ and outputs that much of $u$.</span>
+<span class="sd">    Contrast the inner product $\\langle v|u\\rangle$, which is a number.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u, v : numpy.ndarray</span>
+<span class="sd">        Kets (1-D complex arrays).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The operator $|u\\rangle\\langle v|$ as a 2-D array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">projector</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The projector $P=|e\\rangle\\langle e|$ onto a normalized state ``e`` {eq}`eq-projector`.</span>
+
+<span class="sd">    Equal to ``outer(e, e)``. It is idempotent ($P^2=P$), Hermitian, and rank-1, and $P|\\psi\\rangle=</span>
+<span class="sd">    \\langle e|\\psi\\rangle|e\\rangle$ keeps only the component of $|\\psi\\rangle$ along $|e\\rangle$.</span>
+<span class="sd">    Physically it is the mathematical content of a measurement outcome (the postulate is §6.5).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : numpy.ndarray</span>
+<span class="sd">        A normalized ket.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The rank-1 projector onto ``e``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">resolution_of_identity</span><span class="p">(</span><span class="n">basis</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sum the rank-1 projectors of an orthonormal basis, $\\sum_i|e_i\\rangle\\langle e_i|$ {eq}`eq-dirac-resolution`.</span>
+
+<span class="sd">    For an orthonormal basis this sum equals the identity — the statement that every state expands in</span>
+<span class="sd">    the basis. ``basis`` holds the basis vectors as rows; the function sums ``projector(e_i)`` over them.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    basis : numpy.ndarray, shape (n, n)</span>
+<span class="sd">        An orthonormal basis, one vector per row.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        $\\sum_i|e_i\\rangle\\langle e_i|$, which is the identity for an orthonormal basis.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">projector</span><span class="p">(</span><span class="n">basis</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">function_of_operator</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply a scalar function ``f`` to a Hermitian operator via its spectral decomposition {eq}`eq-function-operator`.</span>
+
+<span class="sd">    Diagonalizes ``H`` with ``numpy.linalg.eigh`` and returns $\\sum_i f(\\lambda_i)|\\lambda_i\\rangle</span>
+<span class="sd">    \\langle\\lambda_i|$ — the function applied to the eigenvalues in the eigenbasis. This is the general</span>
+<span class="sd">    machine behind the exponential map ($f=e^{-i\\,\\cdot}$) and the time-evolution operator (§6.7).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    H : numpy.ndarray</span>
+<span class="sd">        A Hermitian matrix.</span>
+<span class="sd">    f : callable</span>
+<span class="sd">        A scalar function applied elementwise to the eigenvalues.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The operator $f(H)$.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">eigenvalues</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">projector</span><span class="p">(</span><span class="n">V</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-kets-bras-and-the-outer-product">
+<h2>Exercise 1 — Kets, bras, and the outer product<a class="headerlink" href="#exercise-1-kets-bras-and-the-outer-product" title="Link to this heading">#</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(|\phi\rangle=(1,\ i,\ 0)^{\mathsf T}\)</span> and <span class="math notranslate nohighlight">\(|\psi\rangle=(0,\ 1,\ i)^{\mathsf T}\)</span> and
+<span class="math notranslate nohighlight">\(|w\rangle=(2,\ 0,\ 1)^{\mathsf T}\)</span> in <span class="math notranslate nohighlight">\(\mathbb{C}^3\)</span>. Form the inner product <span class="math notranslate nohighlight">\(\langle\phi|\psi
+\rangle\)</span> and the outer product <span class="math notranslate nohighlight">\(|\phi\rangle\langle\psi|\)</span>, identify what <em>kind</em> of object each is,
+and verify that the outer product acts as an operator via <span class="math notranslate nohighlight">\(\big(|u\rangle\langle
+v|\big)|w\rangle=\langle v|w\rangle|u\rangle\)</span> <a class="reference internal" href="#equation-eq-bra-ket">Eq. 392</a>, <a class="reference internal" href="#equation-eq-outer">Eq. 393</a>.</p>
+<ol class="arabic simple">
+<li><p>Build the kets with the <code class="docutils literal notranslate"><span class="pre">ket</span></code> helper (1-D complex arrays).</p></li>
+<li><p>Form the inner product <span class="math notranslate nohighlight">\(\langle\phi|\psi\rangle\)</span> with <code class="docutils literal notranslate"><span class="pre">bra(phi)</span> <span class="pre">&#64;</span> <span class="pre">psi</span></code> (equivalently
+<code class="docutils literal notranslate"><span class="pre">numpy.vdot(phi,</span> <span class="pre">psi)</span></code>) and confirm it is a <strong>scalar</strong> (<code class="docutils literal notranslate"><span class="pre">numpy.ndim</span></code> is 0).</p></li>
+<li><p>Form the outer product <span class="math notranslate nohighlight">\(|\phi\rangle\langle\psi|\)</span> with the <code class="docutils literal notranslate"><span class="pre">outer</span></code> helper (<code class="docutils literal notranslate"><span class="pre">numpy.outer(phi,</span> <span class="pre">numpy.conj(psi))</span></code>) and confirm it is an <strong>operator</strong> (a 2-D array, shape <span class="math notranslate nohighlight">\(3\times3\)</span>).</p></li>
+<li><p>Verify the action: compute <span class="math notranslate nohighlight">\(\big(|\phi\rangle\langle\psi|\big)|w \rangle\)</span> as <code class="docutils literal notranslate"><span class="pre">outer(phi,</span> <span class="pre">psi)</span> <span class="pre">&#64;</span> <span class="pre">w</span></code> and compare with <span class="math notranslate nohighlight">\(\langle\psi|w\rangle|\phi\rangle\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.vdot(</span> <span class="pre">psi,</span> <span class="pre">w)</span> <span class="pre">*</span> <span class="pre">phi</span></code>) using
+<code class="docutils literal notranslate"><span class="pre">numpy.allclose</span></code>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⟨φ|ψ⟩ = -1j   (a scalar: ndim = 0)
+|φ⟩⟨ψ| is an operator of shape (3, 3)
+(|φ⟩⟨ψ|)|w⟩ = ⟨ψ|w⟩|φ⟩ ?  True
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the inner product ⟨φ|ψ⟩ is a number; the outer product |φ⟩⟨ψ| is an operator with (|φ⟩⟨ψ|)|w⟩ = ⟨ψ|w⟩|φ⟩
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-projectors">
+<h2>Exercise 2 — Projectors<a class="headerlink" href="#exercise-2-projectors" title="Link to this heading">#</a></h2>
+<p>For the normalized state <span class="math notranslate nohighlight">\(|e\rangle=(1,\ i,\ 1)^{\mathsf T}/\sqrt3\)</span>, build the projector
+<span class="math notranslate nohighlight">\(P=|e\rangle\langle e|\)</span> and verify its three defining properties — idempotence (<span class="math notranslate nohighlight">\(P^2=P\)</span>),
+Hermiticity (<span class="math notranslate nohighlight">\(P=P^{\dagger}\)</span>), and rank-1 spectrum (eigenvalues <span class="math notranslate nohighlight">\(\{0,0,1\}\)</span>) — then show that
+<span class="math notranslate nohighlight">\(P|\psi\rangle=\langle e|\psi\rangle|e\rangle\)</span> extracts the <span class="math notranslate nohighlight">\(e\)</span>-component of a state
+<a class="reference internal" href="#equation-eq-projector">Eq. 394</a>.</p>
+<ol class="arabic simple">
+<li><p>Normalize <span class="math notranslate nohighlight">\(|e\rangle\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.linalg.norm</span></code>) and build <span class="math notranslate nohighlight">\(P\)</span> with the <code class="docutils literal notranslate"><span class="pre">projector</span></code> helper
+(<code class="docutils literal notranslate"><span class="pre">numpy.outer(e,</span> <span class="pre">numpy.conj(e))</span></code>).</p></li>
+<li><p>Verify idempotence with <code class="docutils literal notranslate"><span class="pre">numpy.allclose(P</span> <span class="pre">&#64;</span> <span class="pre">P,</span> <span class="pre">P)</span></code>, Hermiticity with <code class="docutils literal notranslate"><span class="pre">numpy.allclose(P,</span> <span class="pre">P.conj().T)</span></code>, and the rank-1 spectrum with <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code> (eigenvalues sort to
+<span class="math notranslate nohighlight">\(\{0,0,1\}\)</span>).</p></li>
+<li><p>Take an arbitrary state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> and confirm <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">&#64;</span> <span class="pre">psi</span></code> equals <span class="math notranslate nohighlight">\(\langle
+e|\psi\rangle|e\rangle\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.vdot(e,</span> <span class="pre">psi)</span> <span class="pre">*</span> <span class="pre">e</span></code>). Frame: a projector is the mathematics of a
+measurement outcome (<a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P² = P (idempotent) ?  True
+P = P† (Hermitian) ?  True
+eigenvalues of P: [-0.  0.  1.]  → rank-1 {0,0,1}: True
+P|ψ⟩ = ⟨e|ψ⟩|e⟩ (keeps only the e-component) ?  True
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  a projector P=|e⟩⟨e| is idempotent (P²=P), Hermitian, rank-1 (eigenvalues {0,1}), and extracts the e-component, P|ψ⟩=⟨e|ψ⟩|e⟩
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-the-resolution-of-the-identity">
+<h2>Exercise 3 — The resolution of the identity<a class="headerlink" href="#exercise-3-the-resolution-of-the-identity" title="Link to this heading">#</a></h2>
+<p>For an orthonormal basis <span class="math notranslate nohighlight">\(\{|e_i\rangle\}\)</span> of <span class="math notranslate nohighlight">\(\mathbb{C}^4\)</span>, show that the sum of its rank-1
+projectors is the identity, <span class="math notranslate nohighlight">\(\sum_i|e_i\rangle\langle e_i|=I\)</span>, and use this to expand an arbitrary
+state as <span class="math notranslate nohighlight">\(|\psi\rangle=\sum_i\langle e_i|\psi\rangle|e_i\rangle\)</span> <a class="reference internal" href="#equation-eq-dirac-resolution">Eq. 395</a>.</p>
+<ol class="arabic simple">
+<li><p>Build an orthonormal basis by <code class="docutils literal notranslate"><span class="pre">numpy.linalg.qr</span></code> of a random complex matrix (its columns are
+orthonormal); take the columns as the basis vectors.</p></li>
+<li><p>Sum the projectors with the <code class="docutils literal notranslate"><span class="pre">resolution_of_identity</span></code> helper and confirm the result equals
+<code class="docutils literal notranslate"><span class="pre">numpy.eye(4)</span></code> (<code class="docutils literal notranslate"><span class="pre">numpy.max(numpy.abs(</span> <span class="pre">R</span> <span class="pre">-</span> <span class="pre">numpy.eye(4)))</span></code>).</p></li>
+<li><p>Expand a state by <em>inserting the identity</em>: compute <span class="math notranslate nohighlight">\(\sum_i\langle e_i|\psi \rangle|e_i\rangle\)</span>
+(a sum of <code class="docutils literal notranslate"><span class="pre">numpy.vdot(e_i,</span> <span class="pre">psi)</span> <span class="pre">*</span> <span class="pre">e_i</span></code>) and confirm with <code class="docutils literal notranslate"><span class="pre">numpy.allclose</span></code> that it reconstructs
+<span class="math notranslate nohighlight">\(|\psi\rangle\)</span> — recovering the expansion coefficients of <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a> as projections. Frame: “insert the
+identity” is the move that makes Dirac notation flow.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Σ|e_i⟩⟨e_i| = I ?  max|Σ − I| = 4.4e-16
+|ψ⟩ = Σ⟨e_i|ψ⟩|e_i⟩ reconstructs the state ?  True
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  an orthonormal basis resolves the identity, Σ|e_i⟩⟨e_i| = I   [got 4.38195e-16 vs expected 0 (rtol=1e-06)]
+✓  inserting the identity expands any state, |ψ⟩ = Σ⟨e_i|ψ⟩|e_i⟩ (the coefficients of §6.1 as projections)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-change-of-basis-as-a-unitary">
+<h2>Exercise 4 — Change of basis as a unitary<a class="headerlink" href="#exercise-4-change-of-basis-as-a-unitary" title="Link to this heading">#</a></h2>
+<p>Take the Hermitian operator <span class="math notranslate nohighlight">\(H\)</span> built below and the orthonormal basis <span class="math notranslate nohighlight">\(\{|e_i\rangle\}\)</span> of
+Exercise 3. Transform a state and the operator into that basis, show the basis-change matrix is
+unitary, and confirm the transformation preserves eigenvalues and inner products — a passive
+relabelling, not a physical change <a class="reference internal" href="#equation-eq-change-basis">Eq. 396</a>.</p>
+<ol class="arabic simple">
+<li><p>Assemble the basis-change matrix <span class="math notranslate nohighlight">\(U\)</span> with <code class="docutils literal notranslate"><span class="pre">numpy.column_stack</span></code> so its columns are the new basis
+vectors.</p></li>
+<li><p>Verify <span class="math notranslate nohighlight">\(U^{\dagger}U=I\)</span> with <code class="docutils literal notranslate"><span class="pre">numpy.allclose(U.conj().T</span> <span class="pre">&#64;</span> <span class="pre">U,</span> <span class="pre">numpy.eye(4))</span></code>.</p></li>
+<li><p>Transform the state as <span class="math notranslate nohighlight">\(\psi'=U^{\dagger}\psi\)</span> (<code class="docutils literal notranslate"><span class="pre">U.conj().T</span> <span class="pre">&#64;</span> <span class="pre">psi</span></code>) and the operator as
+<span class="math notranslate nohighlight">\(A'=U^{\dagger}AU\)</span> (<code class="docutils literal notranslate"><span class="pre">U.conj().T</span> <span class="pre">&#64;</span> <span class="pre">H</span> <span class="pre">&#64;</span> <span class="pre">U</span></code>).</p></li>
+<li><p>Verify the eigenvalues are unchanged (<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code> of <span class="math notranslate nohighlight">\(H\)</span> and of <span class="math notranslate nohighlight">\(A'\)</span> agree) and an
+inner product is preserved (<span class="math notranslate nohighlight">\(\langle U^{\dagger}u|U^{\dagger}v\rangle=\langle u|v\rangle\)</span>).
+Frame: a change of basis is a unitary (<a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>), physically inert.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>U†U = I (basis change is unitary) ?  True
+eigenvalues preserved under A&#39; = U†AU ?  True
+inner products preserved, ⟨U†u|U†v⟩ = ⟨u|v⟩ ?  True
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  a change of basis is a unitary transformation (U†U=I) that preserves eigenvalues and inner products — a passive relabelling
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-the-spectral-decomposition-in-projector-form">
+<h2>Exercise 5 — The spectral decomposition in projector form<a class="headerlink" href="#exercise-5-the-spectral-decomposition-in-projector-form" title="Link to this heading">#</a></h2>
+<p>For the Hermitian operator <span class="math notranslate nohighlight">\(H\)</span> of Exercise 4, write it as a sum of eigenvalues times the
+projectors onto its eigenvectors, <span class="math notranslate nohighlight">\(H=\sum_i\lambda_i|\lambda_i\rangle\langle\lambda_i|\)</span>, and
+verify the reconstruction together with the orthogonality and completeness of the spectral
+projectors <a class="reference internal" href="#equation-eq-spectral-dirac">Eq. 397</a>.</p>
+<ol class="arabic simple">
+<li><p>Diagonalize <span class="math notranslate nohighlight">\(H\)</span> with <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code>, giving eigenvalues <span class="math notranslate nohighlight">\(\lambda_i\)</span> and the eigenvectors
+as the columns of <span class="math notranslate nohighlight">\(V\)</span>.</p></li>
+<li><p>Build the spectral projectors <span class="math notranslate nohighlight">\(P_i=|\lambda_i\rangle\langle \lambda_i|\)</span> with the <code class="docutils literal notranslate"><span class="pre">projector</span></code>
+helper on each column <code class="docutils literal notranslate"><span class="pre">V[:,</span> <span class="pre">i]</span></code>.</p></li>
+<li><p>Reconstruct <span class="math notranslate nohighlight">\(\sum_i\lambda_iP_i\)</span> (a sum of <code class="docutils literal notranslate"><span class="pre">lambda_i</span> <span class="pre">*</span> <span class="pre">P_i</span></code>) and compare with <span class="math notranslate nohighlight">\(H\)</span> via
+<code class="docutils literal notranslate"><span class="pre">numpy.max(numpy.abs(H</span> <span class="pre">-</span> <span class="pre">sum))</span></code>.</p></li>
+<li><p>Verify the projectors are orthogonal (<span class="math notranslate nohighlight">\(P_iP_j=0\)</span> for <span class="math notranslate nohighlight">\(i\neq j\)</span>, via <code class="docutils literal notranslate"><span class="pre">numpy.allclose(P_i</span> <span class="pre">&#64;</span> <span class="pre">P_j,</span> <span class="pre">0)</span></code>) and resolve the identity (<span class="math notranslate nohighlight">\(\sum_iP_i=I\)</span>). Frame: this is “diagonalize” in its cleanest
+form — the form measurement uses (<a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>H = Σλ_i|λ_i⟩⟨λ_i| ?  max|H − Σλ_iP_i| = 3.1e-15
+spectral projectors orthogonal, P_iP_j = 0 (i≠j) ?  max = 2.0e-16
+spectral projectors complete, ΣP_i = I ?  True
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the spectral decomposition A = Σλ_i|λ_i⟩⟨λ_i| writes a Hermitian operator via its eigen-projectors   [got 3.10871e-15 vs expected 0 (rtol=1e-06)]
+✓  the spectral projectors are orthogonal (P_iP_j=0, i≠j) and resolve the identity (ΣP_i=I)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-functions-of-operators">
+<h2>Exercise 6 — Functions of operators<a class="headerlink" href="#exercise-6-functions-of-operators" title="Link to this heading">#</a></h2>
+<p>Define a function of a Hermitian operator through its spectral decomposition, <span class="math notranslate nohighlight">\(f(A)=\sum_i
+f(\lambda_i)|\lambda_i\rangle\langle\lambda_i|\)</span>, and verify it on two functions: the exponential
+<span class="math notranslate nohighlight">\(e^{-iH}\)</span> (cross-checked against <code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code>) and the square root <span class="math notranslate nohighlight">\(\sqrt{H_+}\)</span> of a
+positive operator (which must square back to <span class="math notranslate nohighlight">\(H_+\)</span>) <a class="reference internal" href="#equation-eq-function-operator">Eq. 398</a>.</p>
+<ol class="arabic simple">
+<li><p>Implement <span class="math notranslate nohighlight">\(f(A)\)</span> with the <code class="docutils literal notranslate"><span class="pre">function_of_operator</span></code> helper, which diagonalizes with
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> and sums <span class="math notranslate nohighlight">\(f(\lambda_i)\,\)</span><code class="docutils literal notranslate"><span class="pre">projector(V[:,</span> <span class="pre">i])</span></code>.</p></li>
+<li><p>Build <span class="math notranslate nohighlight">\(e^{-iH}\)</span> as <code class="docutils literal notranslate"><span class="pre">function_of_operator(H,</span> <span class="pre">lambda</span> <span class="pre">x:</span> <span class="pre">numpy.exp(-1j</span> <span class="pre">*</span> <span class="pre">x))</span></code> and compare it to
+the <em>true</em> matrix exponential <code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm(-1j</span> <span class="pre">*</span> <span class="pre">H)</span></code> (<code class="docutils literal notranslate"><span class="pre">numpy.max(numpy.abs(...))</span></code>) — they
+must agree.</p></li>
+<li><p>Build a positive operator <span class="math notranslate nohighlight">\(H_+=HH^{\dagger}+I\)</span>, take <span class="math notranslate nohighlight">\(\sqrt{H_+}\)</span> as
+<code class="docutils literal notranslate"><span class="pre">function_of_operator(H_plus,</span> <span class="pre">numpy.sqrt)</span></code>, and confirm it squares back: <code class="docutils literal notranslate"><span class="pre">sqrtH</span> <span class="pre">&#64;</span> <span class="pre">sqrtH</span></code> equals
+<span class="math notranslate nohighlight">\(H_+\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.allclose</span></code>). Frame: any function of an operator is <span class="math notranslate nohighlight">\(f\)</span> applied to its eigenvalues;
+the time-evolution operator <span class="math notranslate nohighlight">\(e^{-iHt/\hbar}\)</span> (<a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>) is the prime example.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e^(−iH): spectral Σe^(−iλ)|λ⟩⟨λ| vs scipy.linalg.expm:  max diff = 1.6e-15
+√(H₊): (√H₊)² = H₊ ?  max|(√H₊)² − H₊| = 3.2e-14
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  a function of an operator is f applied to its eigenvalues, f(A)=Σf(λ_i)|λ_i⟩⟨λ_i| (e^{-iH} matches scipy.linalg.expm; √(H₊) squares back)   [max|Δ| = 3.19744e-14 (rtol=1e-06, atol=1e-10)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-the-qubit-in-two-bases-and-a-projector-measurement">
+<h2>Exercise 7 — The qubit in two bases, and a projector measurement<a class="headerlink" href="#exercise-7-the-qubit-in-two-bases-and-a-projector-measurement" title="Link to this heading">#</a></h2>
+<p>Take the qubit state <span class="math notranslate nohighlight">\(|\psi\rangle=\cos\tfrac{\theta}{2}|0\rangle+e^{i\varphi}\sin
+\tfrac{\theta}{2}|1\rangle\)</span> with <span class="math notranslate nohighlight">\(\theta=1.4,\ \varphi=1.1\)</span>. Express it in the computational (<span class="math notranslate nohighlight">\(z\)</span>)
+basis <span class="math notranslate nohighlight">\(\{|0\rangle,|1\rangle\}\)</span> and the (<span class="math notranslate nohighlight">\(x\)</span>) basis <span class="math notranslate nohighlight">\(\{|{+}\rangle,|{-}\rangle\}\)</span>, relate the two
+by a unitary, verify each basis resolves the identity, and compute the projector weights <span class="math notranslate nohighlight">\(|\langle
+e|\psi \rangle|^2\)</span> in each — confirming they sum to one in <em>both</em> <a class="reference internal" href="#equation-eq-change-basis">Eq. 396</a>,
+<a class="reference internal" href="#equation-eq-projector">Eq. 394</a>, <a class="reference internal" href="#equation-eq-dirac-resolution">Eq. 395</a>.</p>
+<ol class="arabic simple">
+<li><p>Build <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> with the <code class="docutils literal notranslate"><span class="pre">ket</span></code> helper and both bases (<span class="math notranslate nohighlight">\(|{\pm}\rangle=(|0\rangle
+\pm|1\rangle)/\sqrt2\)</span>).</p></li>
+<li><p>Form the Hadamard-like unitary <span class="math notranslate nohighlight">\(U\)</span> connecting them with <code class="docutils literal notranslate"><span class="pre">numpy.column_stack</span></code> of
+<span class="math notranslate nohighlight">\(|{+}\rangle,|{-}\rangle\)</span>, and confirm <code class="docutils literal notranslate"><span class="pre">is</span></code>-unitary via <code class="docutils literal notranslate"><span class="pre">numpy.allclose(U.conj().T</span> <span class="pre">&#64;</span> <span class="pre">U,</span> <span class="pre">numpy.eye(2))</span></code>.</p></li>
+<li><p>Verify each basis resolves the identity with the <code class="docutils literal notranslate"><span class="pre">resolution_of_identity</span></code> helper (both equal
+<code class="docutils literal notranslate"><span class="pre">numpy.eye(2)</span></code>).</p></li>
+<li><p>Compute the projector weights <span class="math notranslate nohighlight">\(|\langle e|\psi\rangle|^2\)</span> in each basis (<code class="docutils literal notranslate"><span class="pre">abs(numpy.vdot(e,</span> <span class="pre">psi))**2</span></code>) and confirm each set sums to 1 (<code class="docutils literal notranslate"><span class="pre">numpy.sum</span></code>). Frame: the same state, two bases, two
+sets of outcome-probabilities — a direct preview of measurement in different bases (<a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>) and of
+the Bloch sphere (<a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>basis-change U†U = I ?  True
+z-basis resolves I ?  True;   x-basis resolves I ?  True
+z-basis weights [0.585 0.415]  sum 1.000000
+x-basis weights [0.7235 0.2765]  sum 1.000000
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  a state has well-defined outcome probabilities in any orthonormal basis: both bases resolve the identity and their projector weights sum to 1
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<figure class="align-default" id="fig-two-bases">
+<img alt="../../_images/bd996ea2299b2e9fe13ba6470140c8ef02b8285a6d0099c179c0f463b1790930.png" src="../../_images/bd996ea2299b2e9fe13ba6470140c8ef02b8285a6d0099c179c0f463b1790930.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 423 </span><span class="caption-text">One state, two bases, two sets of outcome-probabilities. The same qubit <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> is resolved in the computational <span class="math notranslate nohighlight">\(z\)</span>-basis <span class="math notranslate nohighlight">\(\{|0\rangle,|1\rangle\}\)</span> (left, ink) and the <span class="math notranslate nohighlight">\(x\)</span>-basis <span class="math notranslate nohighlight">\(\{|{+}\rangle,|{-}\rangle\}\)</span> (right, amber); the bars are the projector weights <span class="math notranslate nohighlight">\(|\langle e|\psi\rangle|^2\)</span>. In each basis the weights sum to one (dashed line) — the resolution of the identity guarantees it — yet the two distributions differ, because the bases ask different questions of the state. This is the whole content of <em>measuring in different bases</em>, here pure linear algebra; the physics of why these are probabilities is the Born rule (<a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>), and the geometry behind the two bases is the Bloch sphere (<a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>).</span><a class="headerlink" href="#fig-two-bases" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-the-calculus-of-states-and-operators">
+<h2>Exercise 8 — The calculus of states and operators<a class="headerlink" href="#exercise-8-the-calculus-of-states-and-operators" title="Link to this heading">#</a></h2>
+<p>Dirac notation turned the inner product into a <strong>bra acting on a ket</strong>, the outer product into an
+<strong>operator</strong>, and three constructions into the working calculus of quantum mechanics. With the
+<strong>projector</strong> <span class="math notranslate nohighlight">\(|e\rangle\langle e|\)</span> we extract a component; with the <strong>resolution of the identity</strong>
+<span class="math notranslate nohighlight">\(\sum_i|e_i\rangle\langle e_i|=I\)</span> we expand in any basis at will — <em>insert the identity</em>; with the
+<strong>spectral decomposition</strong> <span class="math notranslate nohighlight">\(A=\sum_i\lambda_i|\lambda_i\rangle\langle\lambda_i|\)</span> we diagonalize; and
+with <span class="math notranslate nohighlight">\(f(A)=\sum_i f(\lambda_i)|\lambda_i\rangle\langle\lambda_i|\)</span> we apply any function to an operator
+by applying it to the eigenvalues. The arsenal is complete: we have the <strong>space</strong> (<a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a>), the
+<strong>operators</strong> (<a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>), and now the <strong>language</strong> (§6.3). Movement 0 is closed.</p>
+<p><strong>This exercise (synthesis).</strong> No new computation: the calculus is the result. We have spent three
+notebooks building it and have not yet measured anything — and yet the apparatus of measurement is
+already in our hands. The projector we built <em>is</em> a measurement outcome; the resolution of the
+identity <em>is</em> the set of possible outcomes; the spectral decomposition <em>is</em> the observable, its
+eigenvalues the results and its projectors the outcomes. The physics was hiding in the notation. The
+next notebook (<a class="reference internal" href="stern-gerlach-qubit.html"><span class="std std-doc">§6.4</span></a>) lets it out, taking this entire apparatus to the Stern–Gerlach experiment and the
+two-state system — the first real measurement of the volume, and the start of Movement I.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>Dirac notation, the language of the rest of the volume, and the close of Movement 0.</p>
+<ul class="simple">
+<li><p><strong>Kets, bras, the dual space</strong> <a class="reference internal" href="#equation-eq-bra-ket">Eq. 392</a>: a ket is a state; a bra <span class="math notranslate nohighlight">\(\langle\phi|=\)</span><code class="docutils literal notranslate"><span class="pre">phi.conj()</span></code>
+is the linear functional “inner product with <span class="math notranslate nohighlight">\(\phi\)</span>”; <span class="math notranslate nohighlight">\(\langle\phi|\psi\rangle\)</span> is a number.</p></li>
+<li><p><strong>The outer product</strong> <a class="reference internal" href="#equation-eq-outer">Eq. 393</a>: <span class="math notranslate nohighlight">\(|u\rangle\langle v|=\)</span><code class="docutils literal notranslate"><span class="pre">numpy.outer(u,</span> <span class="pre">numpy.conj(v))</span></code> is an
+<em>operator</em>, <span class="math notranslate nohighlight">\(\big(|u\rangle\langle v|\big)|w\rangle=\langle v|w\rangle|u\rangle\)</span>.</p></li>
+<li><p><strong>Projectors</strong> <a class="reference internal" href="#equation-eq-projector">Eq. 394</a>: <span class="math notranslate nohighlight">\(P=|e\rangle\langle e|\)</span> is idempotent, Hermitian, rank-1, and
+extracts the <span class="math notranslate nohighlight">\(e\)</span>-component — the mathematics of a measurement (<a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>).</p></li>
+<li><p><strong>The resolution of the identity</strong> <a class="reference internal" href="#equation-eq-dirac-resolution">Eq. 395</a>: <span class="math notranslate nohighlight">\(\sum_i|e_i\rangle\langle e_i|=I\)</span> — <em>insert
+the identity</em> to expand in any basis; recovers the coefficients of <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a> as projections.</p></li>
+<li><p><strong>Change of basis</strong> <a class="reference internal" href="#equation-eq-change-basis">Eq. 396</a>: a unitary <span class="math notranslate nohighlight">\(A'=U^{\dagger}AU\)</span>, <span class="math notranslate nohighlight">\(\psi'=U^{\dagger}\psi\)</span>,
+preserving eigenvalues and inner products — a passive relabelling.</p></li>
+<li><p><strong>The spectral decomposition</strong> <a class="reference internal" href="#equation-eq-spectral-dirac">Eq. 397</a>: <span class="math notranslate nohighlight">\(A=\sum_i\lambda_i|\lambda_i\rangle\langle
+\lambda_i|\)</span>, the eigen-projectors orthogonal and complete — “diagonalize” in its cleanest form.</p></li>
+<li><p><strong>Functions of operators</strong> <a class="reference internal" href="#equation-eq-function-operator">Eq. 398</a>: <span class="math notranslate nohighlight">\(f(A)=\sum_i f(\lambda_i)|\lambda_i\rangle
+\langle\lambda_i|\)</span>; <span class="math notranslate nohighlight">\(e^{-iH}\)</span> matches <code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code>, the seed of time evolution (<a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>).</p></li>
+</ul>
+<p>The arsenal is complete — the space, the operators, the language. The projector is already a
+measurement, the resolution of the identity already the set of outcomes, the spectral decomposition
+already the observable. The physics was hiding in the notation; Movement I lets it out.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The postulates of quantum mechanics (<a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>)</strong>, written in this language: observables as Hermitian
+operators, outcomes as eigenvalues, probabilities as <span class="math notranslate nohighlight">\(|\langle\lambda|\psi\rangle|^2\)</span>, measurement
+as projection.</p></li>
+<li><p><strong>The Stern–Gerlach experiment and the two-state system (<a class="reference internal" href="stern-gerlach-qubit.html"><span class="std std-doc">§6.4</span></a>)</strong>: the formalism meets a real
+measurement, and Movement I begins.</p></li>
+<li><p><strong>The time-evolution operator (<a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>)</strong>: <span class="math notranslate nohighlight">\(U(t)=e^{-iHt/\hbar}=\sum_n e^{-iE_nt/\hbar}|n\rangle\langle
+n|\)</span>, the prime function of an operator.</p></li>
+<li><p><strong>Cross-reference</strong> <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a> (the inner product, expansion coefficients), <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a> (the spectral theorem, the
+exponential map), and forward to <a class="reference internal" href="stern-gerlach-qubit.html"><span class="std std-doc">§6.4</span></a>, <a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>, <a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>, <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>.</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/06-quantum-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="operators-spectral-theorem.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="stern-gerlach-qubit.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kets-bras-and-the-dual-space">Kets, bras, and the dual space</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-outer-product">The outer product</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#projectors">Projectors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-resolution-of-the-identity">The resolution of the identity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#change-of-basis-as-a-unitary">Change of basis as a unitary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-spectral-decomposition-in-projector-form">The spectral decomposition in projector form</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-of-operators">Functions of operators</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-kets-bras-and-the-outer-product">Exercise 1 — Kets, bras, and the outer product</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-projectors">Exercise 2 — Projectors</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-resolution-of-the-identity">Exercise 3 — The resolution of the identity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-change-of-basis-as-a-unitary">Exercise 4 — Change of basis as a unitary</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-spectral-decomposition-in-projector-form">Exercise 5 — The spectral decomposition in projector form</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-functions-of-operators">Exercise 6 — Functions of operators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-qubit-in-two-bases-and-a-projector-measurement">Exercise 7 — The qubit in two bases, and a projector measurement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-the-calculus-of-states-and-operators">Exercise 8 — The calculus of states and operators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

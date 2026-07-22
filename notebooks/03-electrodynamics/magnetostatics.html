@@ -1,0 +1,1734 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="3.6 Magnetostatics and the Vector Potential" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/03-electrodynamics/magnetostatics.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Everything in this notebook is the magnetic mirror of the three that came before. Where static charges made an electric field, steady curr..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Everything in this notebook is the magnetic mirror of the three that came before. Where static charges made an electric field, steady curr..." />
+
+    <title>3.6 Magnetostatics and the Vector Potential &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/03-electrodynamics/magnetostatics';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/03-electrodynamics/magnetostatics.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="3.7 Electromagnetic Induction" href="induction.html" />
+    <link rel="prev" title="3.5 The Multipole Expansion" href="multipole-expansion.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume III — Classical Electrodynamics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/03-electrodynamics/magnetostatics.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/03-electrodynamics/magnetostatics.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/03-electrodynamics/magnetostatics.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/03-electrodynamics/magnetostatics.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3.6 Magnetostatics and the Vector Potential</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steady-currents-and-the-magnetic-field">Steady currents and the magnetic field</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-biotsavart-law">The Biot–Savart law</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ampere-s-law">Ampère’s law</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#no-magnetic-monopoles">No magnetic monopoles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-vector-potential">The vector potential</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gauge-freedom">Gauge freedom</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-biotsavart-the-straight-wire">Exercise 1 — Biot–Savart: the straight wire</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-biotsavart-the-circular-loop">Exercise 2 — Biot–Savart: the circular loop</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-no-magnetic-monopoles-b-0">Exercise 3 — No magnetic monopoles: ∇·B = 0</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-ampere-s-law">Exercise 4 — Ampère’s law</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-solenoid">Exercise 5 — The solenoid</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-vector-potential-b-a">Exercise 6 — The vector potential: B = ∇×A</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-gauge-freedom">Exercise 7 — Gauge freedom</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-the-magnetic-dipole">Exercise 8 — The magnetic dipole</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-the-four-field-equations-so-far-and-what-is-missing">Exercise 9 — The four field equations so far, and what is missing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-9">Validation 9</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="magnetostatics-and-the-vector-potential">
+<h1>3.6 Magnetostatics and the Vector Potential<a class="headerlink" href="#magnetostatics-and-the-vector-potential" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume III — Classical Electrodynamics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;3.6
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Magnetism from steady currents: the Biot–Savart law, Ampère&#x27;s law, the absence of magnetic monopoles (∇·B = 0), and the vector potential A — whose freedom to be redefined is our first encounter with gauge invariance.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;120–150 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Everything in this notebook is the magnetic mirror of the three that came before.
+Where static charges made an electric field, <strong>steady currents</strong> make a magnetic
+field; where Coulomb’s law summed contributions from charge elements, the
+<strong>Biot–Savart law</strong> sums them from current elements; where Gauss’s law turned
+symmetry into the field, <strong>Ampère’s law</strong> does the same for magnetism. We will draw
+those parallels at every step, because the mirror is the fastest way to learn
+magnetostatics once electrostatics is in hand.</p>
+<p>Two things, though, are genuinely new. First, the magnetic field <strong>circulates
+around</strong> its source rather than pointing toward it, a fact encoded by the <strong>cross
+product</strong> in Biot–Savart, which we introduce in line with the physics. And there is
+no magnetic charge: <span class="math notranslate nohighlight">\(\nabla\cdot\mathbf B=0\)</span> everywhere, the second of the four field
+equations the volume assembles, the magnetic counterpart of
+<span class="math notranslate nohighlight">\(\nabla\cdot\mathbf E=\rho/\varepsilon_0\)</span> but with zero on the right.</p>
+<p>Because <span class="math notranslate nohighlight">\(\mathbf B\)</span> is divergence-free, it can always be written as the curl of a
+<strong>vector potential</strong>, <span class="math notranslate nohighlight">\(\mathbf B=\nabla\times\mathbf A\)</span>, the magnetic analogue of
+the scalar potential <span class="math notranslate nohighlight">\(V\)</span> but a vector. And here we meet an idea that will grow to
+dominate the rest of physics: <span class="math notranslate nohighlight">\(\mathbf A\)</span> is <strong>not unique</strong>. We can add the gradient
+of any scalar to it without changing <span class="math notranslate nohighlight">\(\mathbf B\)</span> at all. That freedom is <strong>gauge
+invariance</strong>. We meet it concretely and computationally here, show two different
+<span class="math notranslate nohighlight">\(\mathbf A\)</span> fields giving the identical <span class="math notranslate nohighlight">\(\mathbf B\)</span>, and plant the arc that runs
+forward to Maxwell (<a class="reference internal" href="maxwell-waves.html"><span class="std std-doc">§3.8</span></a>), the relativistic field tensor
+(<a class="reference internal" href="relativistic-maxwell.html"><span class="std std-doc">§3.12</span></a>), and the quantum
+Aharonov–Bohm effect (Vol VI).</p>
+<p>Everything is in <strong>SI units</strong>, with <span class="math notranslate nohighlight">\(\mu_0 = 4\pi\times10^{-7}\,\)</span>T·m/A. Steady
+currents make static fields, so every figure here is a still; there is no motion to
+animate.</p>
+<blockquote>
+<div><p><strong>How to read the checks.</strong> Each exercise ends with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against an
+independent fact: a Biot–Savart integral matching <span class="math notranslate nohighlight">\(\mu_0 I/2\pi r\)</span>, a circulation
+equal to <span class="math notranslate nohighlight">\(\mu_0 I\)</span>, a numerical curl recovering <span class="math notranslate nohighlight">\(\mathbf B\)</span>, two gauges differing
+by an exact gradient. A ✓ is strong evidence; a ✗ is a prompt to <em>locate the
+discrepancy</em>, not a verdict.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Scope.</strong> A working review, not a full course. See Nolting, <em>Theoretical Physics
+3</em> <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id11" title="Wolfgang Nolting. Theoretical Physics 3: Electrodynamics. Springer, 2016.">Nol16</a>]</span>; Griffiths, <em>Introduction to Electrodynamics</em>
+<span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id12" title="David J. Griffiths. Introduction to Electrodynamics. Cambridge University Press, 4 edition, 2017.">Gri17</a>]</span> (ch. 5); Jackson <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id14" title="John David Jackson. Classical Electrodynamics. Wiley, 3 edition, 1998.">Jac98</a>]</span> (ch. 5).</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="steady-currents-and-the-magnetic-field">
+<h3>Steady currents and the magnetic field<a class="headerlink" href="#steady-currents-and-the-magnetic-field" title="Link to this heading">#</a></h3>
+<p>Magnetostatics treats steady currents (constant in time, <span class="math notranslate nohighlight">\(\partial_t\rho=0\)</span>, so
+<span class="math notranslate nohighlight">\(\nabla\cdot\mathbf J=0\)</span>) and the static magnetic field they produce. It runs
+parallel to electrostatics throughout, with current density <span class="math notranslate nohighlight">\(\mathbf J\)</span> in the role
+of charge density and <span class="math notranslate nohighlight">\(\mathbf B\)</span> in the role of <span class="math notranslate nohighlight">\(\mathbf E\)</span>.</p>
+</section>
+<section id="the-biotsavart-law">
+<h3>The Biot–Savart law<a class="headerlink" href="#the-biotsavart-law" title="Link to this heading">#</a></h3>
+<p>The field of a current element <span class="math notranslate nohighlight">\(I\,d\boldsymbol\ell\)</span> is</p>
+<div class="math notranslate nohighlight" id="equation-eq-biot-savart">
+<span class="eqno">(185)<a class="headerlink" href="#equation-eq-biot-savart" title="Link to this equation">#</a></span>\[d\mathbf B = \frac{\mu_0}{4\pi}\,\frac{I\,d\boldsymbol\ell\times\hat{\mathbf r}}{r^2},\]</div>
+<p>the magnetic mirror of Coulomb’s <span class="math notranslate nohighlight">\(d\mathbf E=(1/4\pi\varepsilon_0)\,dq\,
+\hat{\mathbf r}/r^2\)</span>. The decisive difference is the <strong>cross product</strong>: the field is
+perpendicular to both the current and the line of sight, so <span class="math notranslate nohighlight">\(\mathbf B\)</span>
+<em>circulates around</em> the current (right-hand rule) instead of pointing toward it.</p>
+</section>
+<section id="ampere-s-law">
+<h3>Ampère’s law<a class="headerlink" href="#ampere-s-law" title="Link to this heading">#</a></h3>
+<p>The magnetic analogue of Gauss’s law is <strong>Ampère’s law</strong>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-ampere">
+<span class="eqno">(186)<a class="headerlink" href="#equation-eq-ampere" title="Link to this equation">#</a></span>\[\oint \mathbf B\cdot d\boldsymbol\ell = \mu_0\,I_{\text{enc}},\]</div>
+<p>the line integral of <span class="math notranslate nohighlight">\(\mathbf B\)</span> around a closed loop equals <span class="math notranslate nohighlight">\(\mu_0\)</span> times the
+current threading it. When symmetry makes <span class="math notranslate nohighlight">\(\mathbf B\)</span> constant and tangent along a
+well-chosen loop, it gives the field directly (wire, solenoid, toroid). Its
+differential form is <span class="math notranslate nohighlight">\(\nabla\times\mathbf B=\mu_0\mathbf J\)</span>. Both forms follow from
+the Biot–Savart law by a curl computation that Griffiths <span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id12" title="David J. Griffiths. Introduction to Electrodynamics. Cambridge University Press, 4 edition, 2017.">Gri17</a>]</span>
+(ch. 5) carries out in full.</p>
+</section>
+<section id="no-magnetic-monopoles">
+<h3>No magnetic monopoles<a class="headerlink" href="#no-magnetic-monopoles" title="Link to this heading">#</a></h3>
+<p>There is no magnetic charge, so</p>
+<div class="math notranslate nohighlight" id="equation-eq-divb">
+<span class="eqno">(187)<a class="headerlink" href="#equation-eq-divb" title="Link to this equation">#</a></span>\[\nabla\cdot\mathbf B = 0 \quad\text{everywhere, always.}\]</div>
+<p>Field lines of <span class="math notranslate nohighlight">\(\mathbf B\)</span> never begin or end; they close on themselves. This is the
+second of the four static field equations, the magnetic counterpart of
+<span class="math notranslate nohighlight">\(\nabla\cdot\mathbf E=\rho/\varepsilon_0\)</span> with zero on the right.</p>
+</section>
+<section id="the-vector-potential">
+<h3>The vector potential<a class="headerlink" href="#the-vector-potential" title="Link to this heading">#</a></h3>
+<p>Any divergence-free field is a curl (a consequence of the Helmholtz theorem;
+Griffiths <span class="bibtex-citation" id="id5">[<a class="reference internal" href="#id12" title="David J. Griffiths. Introduction to Electrodynamics. Cambridge University Press, 4 edition, 2017.">Gri17</a>]</span>, appendix B, proves it), so <a class="reference internal" href="#equation-eq-divb">Eq. 187</a> lets us write</p>
+<div class="math notranslate nohighlight" id="equation-eq-vector-potential">
+<span class="eqno">(188)<a class="headerlink" href="#equation-eq-vector-potential" title="Link to this equation">#</a></span>\[\mathbf B = \nabla\times\mathbf A,\]</div>
+<p>with <span class="math notranslate nohighlight">\(\mathbf A\)</span> the <strong>vector potential</strong>, the magnetic analogue of <span class="math notranslate nohighlight">\(V\)</span> but a
+vector. Writing <span class="math notranslate nohighlight">\(\mathbf B\)</span> this way builds <span class="math notranslate nohighlight">\(\nabla\cdot\mathbf B=0\)</span> in automatically
+(the divergence of a curl is identically zero).</p>
+</section>
+<section id="gauge-freedom">
+<h3>Gauge freedom<a class="headerlink" href="#gauge-freedom" title="Link to this heading">#</a></h3>
+<p>The vector potential is <strong>not unique</strong>. Because the curl of a gradient vanishes,
+<span class="math notranslate nohighlight">\(\nabla\times(\nabla\chi)=0\)</span>, the transformation</p>
+<div class="math notranslate nohighlight" id="equation-eq-gauge">
+<span class="eqno">(189)<a class="headerlink" href="#equation-eq-gauge" title="Link to this equation">#</a></span>\[\mathbf A \to \mathbf A + \nabla\chi\]</div>
+<p>leaves <span class="math notranslate nohighlight">\(\mathbf B=\nabla\times\mathbf A\)</span> unchanged for <em>any</em> scalar field <span class="math notranslate nohighlight">\(\chi\)</span>.
+This freedom to redefine <span class="math notranslate nohighlight">\(\mathbf A\)</span> without touching the physics is <strong>gauge
+invariance</strong>. A common way to use up the freedom is the <strong>Coulomb gauge</strong>
+<span class="math notranslate nohighlight">\(\nabla\cdot\mathbf A=0\)</span>, a convenient <em>choice</em>, not a physical constraint. We make
+all of this concrete in Exercise 7, and pitch the larger arc there.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">mu_0</span> <span class="k">as</span> <span class="n">MU0</span>  <span class="c1"># vacuum permeability, T·m/A</span>
+
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">biot_savart</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">current</span><span class="p">,</span> <span class="n">P</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Biot-Savart field of a current path (eq-biot-savart).</span>
+
+<span class="sd">    Sums (μ0·I/4π)·dl × R̂/R^2 (`numpy.cross`) over the path&#39;s straight</span>
+<span class="sd">    segments; a segment loop keeps memory O(P) even on a 3-D grid.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : numpy.ndarray</span>
+<span class="sd">        Points ``(M, 3)`` tracing the wire.</span>
+<span class="sd">    current : float</span>
+<span class="sd">        Current $I$ in amperes.</span>
+<span class="sd">    P : numpy.ndarray</span>
+<span class="sd">        Field points of shape ``(..., 3)``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The magnetic field at ``P``, in tesla.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">mids</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">dls</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">dl</span><span class="p">,</span> <span class="n">mid</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dls</span><span class="p">,</span> <span class="n">mids</span><span class="p">):</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">P</span> <span class="o">-</span> <span class="n">mid</span>
+        <span class="n">Rn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">divide</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">invalid</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">):</span>
+            <span class="n">B</span> <span class="o">=</span> <span class="n">B</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">dl</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span> <span class="o">/</span> <span class="n">Rn</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">**</span> <span class="mi">3</span>
+    <span class="k">return</span> <span class="n">MU0</span> <span class="o">*</span> <span class="n">current</span> <span class="o">/</span> <span class="p">(</span><span class="mf">4.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">curl_3d</span><span class="p">(</span><span class="n">Fx</span><span class="p">,</span> <span class="n">Fy</span><span class="p">,</span> <span class="n">Fz</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Numerical curl of a vector field on a 3-D grid.</span>
+
+<span class="sd">    Central differences (`numpy.gradient`) on an ``indexing=&#39;ij&#39;`` grid; the</span>
+<span class="sd">    discrete form of the curl that detects circulation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Fx, Fy, Fz : numpy.ndarray</span>
+<span class="sd">        The field components on the grid.</span>
+<span class="sd">    x, y, z : numpy.ndarray</span>
+<span class="sd">        1-D coordinate arrays for the three axes.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple of numpy.ndarray</span>
+<span class="sd">        The three components of the curl.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dFz_dy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">Fz</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dFy_dz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">Fy</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">dFx_dz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">Fx</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">dFz_dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">Fz</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">dFy_dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">Fy</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">dFx_dy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">Fx</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dFz_dy</span> <span class="o">-</span> <span class="n">dFy_dz</span><span class="p">,</span> <span class="n">dFx_dz</span> <span class="o">-</span> <span class="n">dFz_dx</span><span class="p">,</span> <span class="n">dFy_dx</span> <span class="o">-</span> <span class="n">dFx_dy</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">div_3d</span><span class="p">(</span><span class="n">Fx</span><span class="p">,</span> <span class="n">Fy</span><span class="p">,</span> <span class="n">Fz</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Numerical divergence of a vector field on a 3-D grid.</span>
+
+<span class="sd">    Central differences (`numpy.gradient`) on an ``indexing=&#39;ij&#39;`` grid;</span>
+<span class="sd">    should vanish for B away from currents.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Fx, Fy, Fz : numpy.ndarray</span>
+<span class="sd">        The field components.</span>
+<span class="sd">    x, y, z : numpy.ndarray</span>
+<span class="sd">        1-D coordinate arrays.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The divergence on the grid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">Fx</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">Fy</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">Fz</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">straight_wire</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mf">200.0</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">4000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A long straight wire along the z-axis (approximately infinite).</span>
+
+<span class="sd">    A path from −L/2 to L/2 to feed :func:`biot_savart`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    length : float, optional</span>
+<span class="sd">        Total wire length (default 200.0).</span>
+<span class="sd">    n : int, optional</span>
+<span class="sd">        Number of points (default 4000).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The wire path of shape ``(n, 3)``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">z</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">current_loop</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">z0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A circular current loop in a plane of constant z.</span>
+
+<span class="sd">    A closed path tracing a ring of given radius, for :func:`biot_savart`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    radius : float</span>
+<span class="sd">        Loop radius.</span>
+<span class="sd">    n : int, optional</span>
+<span class="sd">        Number of points (default 400).</span>
+<span class="sd">    z0 : float, optional</span>
+<span class="sd">        Plane height (default 0.0).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The loop path of shape ``(n, 3)``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">),</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">z0</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-biotsavart-the-straight-wire">
+<h2>Exercise 1 — Biot–Savart: the straight wire<a class="headerlink" href="#exercise-1-biotsavart-the-straight-wire" title="Link to this heading">#</a></h2>
+<p>The field of a current element <a class="reference internal" href="#equation-eq-biot-savart">Eq. 185</a> is built from a <strong>cross product</strong>,
+<span class="math notranslate nohighlight">\(d\mathbf B\propto I\,d\boldsymbol\ell\times\hat{\mathbf r}\)</span>, which is what makes the
+magnetic field circulate <em>around</em> the current rather than point toward it like
+Coulomb’s. Summed along a long straight wire on the <span class="math notranslate nohighlight">\(z\)</span>-axis, the contributions give
+a purely azimuthal field whose magnitude Ampère’s law (Exercise 4) will confirm is
+<span class="math notranslate nohighlight">\(\mu_0 I/2\pi r\)</span> (<a class="reference internal" href="#fig-ms-wire-setup"><span class="std std-numref">Fig. 220</span></a>).</p>
+<p><strong>This exercise.</strong> Take <span class="math notranslate nohighlight">\(I=1\,\)</span>A on a wire from <span class="math notranslate nohighlight">\(z=-100\)</span> to <span class="math notranslate nohighlight">\(z=+100\,\)</span>m
+(4000 segments, effectively infinite).</p>
+<ol class="arabic simple">
+<li><p>Integrate the Biot–Savart law numerically (a segment sum with
+<code class="docutils literal notranslate"><span class="pre">numpy.cross</span></code>, in the <code class="docutils literal notranslate"><span class="pre">biot_savart</span></code> helper) at field points <span class="math notranslate nohighlight">\(r=0.1\)</span> and
+<span class="math notranslate nohighlight">\(0.2\,\)</span>m in the <span class="math notranslate nohighlight">\(z=0\)</span> plane, and compare <span class="math notranslate nohighlight">\(|\mathbf B|\)</span> to
+<span class="math notranslate nohighlight">\(\mu_0 I/2\pi r\)</span>.</p></li>
+<li><p>Confirm the field is azimuthal (perpendicular to both the wire and the
+radius) (<a class="reference internal" href="#fig-ms-wire-field"><span class="std std-numref">Fig. 221</span></a>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ms-wire-setup">
+<img alt="../../_images/74254d78734fb1d54684d732fafdb429c35d45a65632d85a5b2424bcc6075bce.png" src="../../_images/74254d78734fb1d54684d732fafdb429c35d45a65632d85a5b2424bcc6075bce.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 220 </span><span class="caption-text">A straight current-carrying wire along <span class="math notranslate nohighlight">\(\hat{\mathbf z}\)</span> (red), with a field point at perpendicular distance <span class="math notranslate nohighlight">\(r\)</span>. By the cross product in the Biot–Savart law, the magnetic field (amber) circulates around the wire in azimuthal loops (right-hand rule), perpendicular to both the current and the radius, rather than pointing toward the source as the electric field would.</span><a class="headerlink" href="#fig-ms-wire-setup" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r=0.1 m: |B| Biot–Savart = 2.000063e-06 T, Ampère μ₀I/2πr = 2.000000e-06 T, ratio = 1.00003
+r=0.2 m: |B| Biot–Savart = 9.999980e-07 T, Ampère μ₀I/2πr = 1.000000e-06 T, ratio = 1.00000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>field at (0.1,0,0): B = [0.00000000e+00 2.00006297e-06 0.00000000e+00] T  (azimuthal: |Bx|+|Bz| / |B| = 0.00e+00)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<figure class="align-default" id="fig-ms-wire-field">
+<img alt="../../_images/083c5d214fd665199600026e995878038d5643524fd24dd5b392a64672708977.png" src="../../_images/083c5d214fd665199600026e995878038d5643524fd24dd5b392a64672708977.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 221 </span><span class="caption-text">Faithful map of the wire’s magnetic field in the plane perpendicular to it (<code class="docutils literal notranslate"><span class="pre">ecp.draw.field_quiver</span></code>): each arrow’s length and colour encode <span class="math notranslate nohighlight">\(|\mathbf B|\propto 1/r\)</span>. The field forms closed azimuthal loops around the wire (which pierces the plane at the centre), circulating counter-clockwise for current out of the page, and weakens with distance.</span><a class="headerlink" href="#fig-ms-wire-field" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Biot–Savart reproduces the wire field μ₀I/2πr   [got 1.00003 vs expected 1 (rtol=0.001)]
+✓  the wire&#39;s field is azimuthal (perpendicular to wire and radius)   [got 0 vs expected 0 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-biotsavart-the-circular-loop">
+<h2>Exercise 2 — Biot–Savart: the circular loop<a class="headerlink" href="#exercise-2-biotsavart-the-circular-loop" title="Link to this heading">#</a></h2>
+<p>A current loop is the magnetic workhorse: it is the elementary magnetic dipole, and
+its on-axis field has a clean closed form. Summing Biot–Savart around the ring, the
+transverse contributions cancel by symmetry and only the axial component survives
+(<a class="reference internal" href="#fig-ms-loop-setup"><span class="std std-numref">Fig. 222</span></a>),</p>
+<div class="math notranslate nohighlight">
+\[ B_z(z) = \frac{\mu_0 I R^2}{2\,(R^2+z^2)^{3/2}}. \]</div>
+<p><strong>This exercise.</strong> Take a loop of radius <span class="math notranslate nohighlight">\(R=0.05\,\)</span>m carrying <span class="math notranslate nohighlight">\(I=1\,\)</span>A in
+the <span class="math notranslate nohighlight">\(xy\)</span>-plane (400 segments).</p>
+<ol class="arabic simple">
+<li><p>Integrate the Biot–Savart law (the <code class="docutils literal notranslate"><span class="pre">biot_savart</span></code> helper, <code class="docutils literal notranslate"><span class="pre">numpy.cross</span></code>
+summed over the ring) for the on-axis <span class="math notranslate nohighlight">\(B_z\)</span> at <span class="math notranslate nohighlight">\(z=0,\,0.05,\,0.1\,\)</span>m and
+compare to the closed form.</p></li>
+<li><p>Map the field in the axial plane (<a class="reference internal" href="#fig-ms-loop-field"><span class="std std-numref">Fig. 223</span></a>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_3169/2088655233.py:8: UserWarning: linestyle is redundantly defined by the &#39;linestyle&#39; keyword argument and the fmt string &quot;-&quot; (-&gt; linestyle=&#39;-&#39;). The keyword argument will take precedence.
+  ax.plot([0, 0], [-1.0, 1.3], &quot;-&quot;, color=SOFT, lw=1.0, ls=&quot;:&quot;)
+</pre></div>
+</div>
+<figure class="align-default" id="fig-ms-loop-setup">
+<img alt="../../_images/b65359698e139761d8b6dc0db1a6379692408a28eff9d0751d0e4d6db8872249.png" src="../../_images/b65359698e139761d8b6dc0db1a6379692408a28eff9d0751d0e4d6db8872249.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 222 </span><span class="caption-text">A circular current loop of radius <span class="math notranslate nohighlight">\(R\)</span> in the <span class="math notranslate nohighlight">\(xy\)</span>-plane, with the on-axis field point at height <span class="math notranslate nohighlight">\(z\)</span>. By symmetry the transverse Biot–Savart contributions cancel and only the axial field <span class="math notranslate nohighlight">\(B_z\)</span> survives, giving the closed form <span class="math notranslate nohighlight">\(\mu_0 I R^2/2(R^2+z^2)^{3/2}\)</span>. The loop is the elementary magnetic dipole.</span><a class="headerlink" href="#fig-ms-loop-setup" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>z=0.0 m: Bz Biot–Savart = 1.256702e-05 T, closed form = 1.256637e-05 T, ratio = 1.00005
+z=0.05 m: Bz Biot–Savart = 4.442906e-06 T, closed form = 4.442883e-06 T, ratio = 1.00001
+z=0.1 m: Bz Biot–Savart = 1.123945e-06 T, closed form = 1.123970e-06 T, ratio = 0.99998
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ms-loop-field">
+<img alt="../../_images/2612a088bf29bb1ca12e286c918759a419dee35849ec0ffc98d7e0d869e5f034.png" src="../../_images/2612a088bf29bb1ca12e286c918759a419dee35849ec0ffc98d7e0d869e5f034.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 223 </span><span class="caption-text">The current loop’s field in the axial (<span class="math notranslate nohighlight">\(x\)</span>–<span class="math notranslate nohighlight">\(z\)</span>) plane (<code class="docutils literal notranslate"><span class="pre">ecp.draw.field_quiver</span></code>, arrows <span class="math notranslate nohighlight">\(\propto|\mathbf B|\)</span>). The two red marks are where the ring pierces the plane. The field threads up through the loop and returns around the outside in closed loops — the dipole pattern, with no sources or sinks anywhere (<span class="math notranslate nohighlight">\(\nabla\cdot\mathbf B=0\)</span>).</span><a class="headerlink" href="#fig-ms-loop-field" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the loop&#39;s on-axis field matches the closed form μ₀IR²/2(R²+z²)^{3/2}   [got 5.16641e-05 vs expected 0 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-no-magnetic-monopoles-b-0">
+<h2>Exercise 3 — No magnetic monopoles: ∇·B = 0<a class="headerlink" href="#exercise-3-no-magnetic-monopoles-b-0" title="Link to this heading">#</a></h2>
+<p>The deepest structural fact of magnetostatics is that there is no magnetic charge:
+<span class="math notranslate nohighlight">\(\nabla\cdot\mathbf B=0\)</span> everywhere <a class="reference internal" href="#equation-eq-divb">Eq. 187</a>. Field lines of <span class="math notranslate nohighlight">\(\mathbf B\)</span> never
+start or stop. We test it on the loop’s field by taking the <strong>numerical divergence</strong>
+(a sum of central differences with <code class="docutils literal notranslate"><span class="pre">numpy.gradient</span></code>, the <code class="docutils literal notranslate"><span class="pre">div_3d</span></code> helper) on a
+3-D grid, away from the ring itself.</p>
+<p><strong>This exercise.</strong> Build the loop’s <span class="math notranslate nohighlight">\(\mathbf B\)</span> (Exercise 2) on a <span class="math notranslate nohighlight">\(31^3\)</span> grid
+over <span class="math notranslate nohighlight">\([-0.15, 0.15]^3\,\)</span>m, compute <span class="math notranslate nohighlight">\(\nabla\cdot\mathbf B\)</span> with the <code class="docutils literal notranslate"><span class="pre">div_3d</span></code>
+helper, and confirm it vanishes in the region away from the wire. The exact value is identically
+zero; the small residual that remains is pure discretization (the central
+differences straddle the steep field near the ring), so we measure it on nodes a few
+grid steps from the current and scale the tolerance to the grid, the same philosophy
+as the corner discontinuity of <a class="reference internal" href="laplace-poisson.html"><span class="std std-doc">§3.4</span></a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>grid 31³, spacing h=0.0100 m
+max |∇·B| / (|B|/h) away from the ring = 8.38e-09  (exact value is 0: no monopoles)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  ∇·B vanishes away from the current — there are no magnetic monopoles   [relative residual 8.38e-09 (pure discretization; → 0 as the grid refines)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-ampere-s-law">
+<h2>Exercise 4 — Ampère’s law<a class="headerlink" href="#exercise-4-ampere-s-law" title="Link to this heading">#</a></h2>
+<p>Ampère’s law <a class="reference internal" href="#equation-eq-ampere">Eq. 186</a> is the magnetic Gauss’s law: <span class="math notranslate nohighlight">\(\oint\mathbf B\cdot
+d\boldsymbol\ell=\mu_0 I_{\text{enc}}\)</span>, the circulation of <span class="math notranslate nohighlight">\(\mathbf B\)</span> around any
+closed loop equals <span class="math notranslate nohighlight">\(\mu_0\)</span> times the enclosed current, independent of the loop’s
+size or shape (<a class="reference internal" href="#fig-ms-ampere-setup"><span class="std std-numref">Fig. 224</span></a>). For the straight wire it turns the
+azimuthal symmetry directly into <span class="math notranslate nohighlight">\(B=\mu_0 I/2\pi r\)</span>.</p>
+<p><strong>This exercise.</strong> For the wire of Exercise 1 (<span class="math notranslate nohighlight">\(I=1\,\)</span>A), compute the
+circulation <span class="math notranslate nohighlight">\(\oint\mathbf B\cdot d\boldsymbol\ell\)</span> around a circular Amperian
+loop of radius <span class="math notranslate nohighlight">\(d=0.15\,\)</span>m in the <span class="math notranslate nohighlight">\(z=0\)</span> plane (the field from <code class="docutils literal notranslate"><span class="pre">biot_savart</span></code>,
+the line integral by <code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code> over the azimuth), and confirm it
+equals <span class="math notranslate nohighlight">\(\mu_0 I_{\text{enc}}\)</span>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ms-ampere-setup">
+<img alt="../../_images/247704414913092db650b380dd0987ebbe6d1a5a4a4632ebcba8d2c4ba2daf77.png" src="../../_images/247704414913092db650b380dd0987ebbe6d1a5a4a4632ebcba8d2c4ba2daf77.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 224 </span><span class="caption-text">Ampère’s law for the straight wire: a circular Amperian loop of radius <span class="math notranslate nohighlight">\(d\)</span> encircling the current <span class="math notranslate nohighlight">\(I\)</span>. The field is tangent to the loop everywhere and constant in magnitude, so <span class="math notranslate nohighlight">\(\oint\mathbf B\cdot d\boldsymbol\ell = B\,(2\pi d) = \mu_0 I\)</span> — independent of <span class="math notranslate nohighlight">\(d\)</span>, the magnetic analogue of Gauss’s law.</span><a class="headerlink" href="#fig-ms-ampere-setup" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>∮B·dl around d=0.15 m = 1.256636e-06  vs  μ₀I = 1.256637e-06  (ratio 1.00000)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Ampère&#39;s law: ∮B·dl = μ₀I_enc   [got 1.25664e-06 vs expected 1.25664e-06 (rtol=0.001)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-the-solenoid">
+<h2>Exercise 5 — The solenoid<a class="headerlink" href="#exercise-5-the-solenoid" title="Link to this heading">#</a></h2>
+<p>A solenoid is Ampère’s law’s showcase: a long, tightly wound coil with <span class="math notranslate nohighlight">\(n\)</span> turns per
+unit length carrying current <span class="math notranslate nohighlight">\(I\)</span>. A rectangular Amperian loop with one side inside
+and one far outside (<a class="reference internal" href="#fig-ms-solenoid-setup"><span class="std std-numref">Fig. 225</span></a>) gives a <strong>uniform</strong> interior
+field <span class="math notranslate nohighlight">\(B=\mu_0 n I\)</span> along the axis and (ideally) zero outside. We confirm it by
+superposing the Biot–Savart fields of many individual loops.</p>
+<p><strong>This exercise (student).</strong> Take <span class="math notranslate nohighlight">\(n=1000\)</span> turns/m and <span class="math notranslate nohighlight">\(I=1\,\)</span>A. From
+Ampère’s law the interior field is <span class="math notranslate nohighlight">\(\mu_0 n I\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Confirm it by building a finite solenoid as a stack of current loops
+(radius <span class="math notranslate nohighlight">\(0.02\,\)</span>m, length <span class="math notranslate nohighlight">\(0.4\,\)</span>m, summed with <code class="docutils literal notranslate"><span class="pre">biot_savart</span></code>),
+evaluating <span class="math notranslate nohighlight">\(B_z\)</span> on the axis at the centre, and comparing to <span class="math notranslate nohighlight">\(\mu_0 n I\)</span>
+(a finite-length tolerance applies).</p></li>
+<li><p>Check the field is far smaller outside
+(<a class="reference internal" href="#fig-ms-solenoid-field"><span class="std std-numref">Fig. 226</span></a>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ms-solenoid-setup">
+<img alt="../../_images/d82b29beb8a78153a6f9c6585dcd5519a358e7aeb58686b79076deff4cd3c632.png" src="../../_images/d82b29beb8a78153a6f9c6585dcd5519a358e7aeb58686b79076deff4cd3c632.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 225 </span><span class="caption-text">A long solenoid (<span class="math notranslate nohighlight">\(n\)</span> turns per unit length, current <span class="math notranslate nohighlight">\(I\)</span>) with a rectangular Amperian loop straddling the wall. Only the inside leg contributes (<span class="math notranslate nohighlight">\(\mathbf B\approx0\)</span> outside, <span class="math notranslate nohighlight">\(\perp\)</span> the radial legs), so <span class="math notranslate nohighlight">\(\oint\mathbf B\cdot d\boldsymbol\ell = B\,L = \mu_0 (nL) I\)</span>, giving the uniform interior field <span class="math notranslate nohighlight">\(B=\mu_0 n I\)</span>.</span><a class="headerlink" href="#fig-ms-solenoid-setup" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>interior B_z (centre) = 1.247600e-03 T  vs  μ₀nI = 1.256637e-03 T  (ratio 0.9928)
+B_z half a length beyond the end = 2.777e-06 T  (0.223% of interior)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ms-solenoid-field">
+<img alt="../../_images/de5029d8e3480db0acb900063895e23b1e02f5502116e091060003960684bb74.png" src="../../_images/de5029d8e3480db0acb900063895e23b1e02f5502116e091060003960684bb74.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 226 </span><span class="caption-text">Axial-plane field of the finite solenoid (<code class="docutils literal notranslate"><span class="pre">ecp.draw.field_quiver</span></code>, arrows <span class="math notranslate nohighlight">\(\propto|\mathbf B|\)</span>; coil cross-sections marked red). The field is strong and uniform along the interior axis (<span class="math notranslate nohighlight">\(B\approx\mu_0 nI\)</span>) and fans out into weak fringing fields at the ends, the closed loops returning outside — the controlled uniform field a solenoid is built to provide.</span><a class="headerlink" href="#fig-ms-solenoid-field" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the solenoid interior field is μ₀nI   [got 0.0012476 vs expected 0.00125664 (rtol=0.02)]
+✓  the solenoid field is far weaker outside than inside   [outside/inside = 0.002]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-the-vector-potential-b-a">
+<h2>Exercise 6 — The vector potential: B = ∇×A<a class="headerlink" href="#exercise-6-the-vector-potential-b-a" title="Link to this heading">#</a></h2>
+<p>Because <span class="math notranslate nohighlight">\(\nabla\cdot\mathbf B=0\)</span> <a class="reference internal" href="#equation-eq-divb">Eq. 187</a>, the field is always a curl,
+<span class="math notranslate nohighlight">\(\mathbf B=\nabla\times\mathbf A\)</span> <a class="reference internal" href="#equation-eq-vector-potential">Eq. 188</a>. To work with <span class="math notranslate nohighlight">\(\mathbf A\)</span>
+we need the <strong>numerical curl</strong>, <span class="math notranslate nohighlight">\(\nabla\times\mathbf A\)</span>, built from central
+differences of the components (the <code class="docutils literal notranslate"><span class="pre">curl_3d</span></code> helper, <code class="docutils literal notranslate"><span class="pre">numpy.gradient</span></code>). We test
+it on a case with a known answer: a uniform field <span class="math notranslate nohighlight">\(\mathbf B=B_0\hat{\mathbf z}\)</span>,
+whose symmetric (“Coulomb-gauge”) vector potential is
+<span class="math notranslate nohighlight">\(\mathbf A=\tfrac12\mathbf B\times\mathbf r=\tfrac{B_0}{2}(-y,\,x,\,0)\)</span>.</p>
+<p><strong>This exercise.</strong> On a <span class="math notranslate nohighlight">\(21^3\)</span> grid over <span class="math notranslate nohighlight">\([-1,1]^3\)</span>, build
+<span class="math notranslate nohighlight">\(\mathbf A=\tfrac{B_0}{2}(-y,x,0)\)</span> with <span class="math notranslate nohighlight">\(B_0=2\,\)</span>T, take its numerical curl
+with the <code class="docutils literal notranslate"><span class="pre">curl_3d</span></code> helper, and confirm it recovers the uniform
+<span class="math notranslate nohighlight">\(\mathbf B=B_0\hat{\mathbf z}\)</span>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>∇×A on the interior: max|Bx|=8.88e-16, max|By|=8.88e-16, max|Bz−B₀|=1.78e-15 T
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  B = ∇×A recovers the uniform field B₀ẑ from the vector potential   [got 3.55271e-15 vs expected 0 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-gauge-freedom">
+<h2>Exercise 7 — Gauge freedom<a class="headerlink" href="#exercise-7-gauge-freedom" title="Link to this heading">#</a></h2>
+<p>Here is the idea that grows to organize all of physics, made concrete. The vector
+potential is <strong>not unique</strong>: adding <span class="math notranslate nohighlight">\(\nabla\chi\)</span> for any scalar <span class="math notranslate nohighlight">\(\chi\)</span> leaves
+<span class="math notranslate nohighlight">\(\mathbf B=\nabla\times\mathbf A\)</span> unchanged <a class="reference internal" href="#equation-eq-gauge">Eq. 189</a>, because
+<span class="math notranslate nohighlight">\(\nabla\times(\nabla\chi)=0\)</span>. We demonstrate it with two genuinely different
+potentials for the <em>same</em> uniform <span class="math notranslate nohighlight">\(\mathbf B=B_0\hat{\mathbf z}\)</span>: the symmetric
+Coulomb-gauge <span class="math notranslate nohighlight">\(\mathbf A_1=\tfrac{B_0}{2}(-y,x,0)\)</span> and the Landau-gauge
+<span class="math notranslate nohighlight">\(\mathbf A_2=(-B_0 y,0,0)\)</span>. Both have the same curl, they differ by an exact
+gradient, and <span class="math notranslate nohighlight">\(\mathbf A_1\)</span> satisfies the convenient <strong>Coulomb gauge</strong>
+<span class="math notranslate nohighlight">\(\nabla\cdot\mathbf A=0\)</span>.</p>
+<p><strong>This exercise.</strong> On the <span class="math notranslate nohighlight">\(21^3\)</span> grid, take
+<span class="math notranslate nohighlight">\(\mathbf A_1=\tfrac{B_0}{2}(-y,x,0)\)</span> and <span class="math notranslate nohighlight">\(\mathbf A_2=(-B_0 y,0,0)\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Confirm with the <code class="docutils literal notranslate"><span class="pre">curl_3d</span></code> helper that
+<span class="math notranslate nohighlight">\(\nabla\times\mathbf A_1=\nabla\times\mathbf A_2=B_0\hat{\mathbf z}\)</span>.</p></li>
+<li><p>Confirm <span class="math notranslate nohighlight">\(\mathbf A_1-\mathbf A_2\)</span> equals <span class="math notranslate nohighlight">\(\nabla\chi\)</span> for
+<span class="math notranslate nohighlight">\(\chi=B_0 xy/2\)</span> (an exact gauge transformation).</p></li>
+<li><p>Verify <span class="math notranslate nohighlight">\(\mathbf A_1\)</span> satisfies <span class="math notranslate nohighlight">\(\nabla\cdot\mathbf A=0\)</span> with the
+<code class="docutils literal notranslate"><span class="pre">div_3d</span></code> helper.</p></li>
+</ol>
+<p>This freedom is <strong>gauge invariance</strong>, and it is no accident of magnetostatics. It
+returns as a <em>tool</em> in <a class="reference internal" href="maxwell-waves.html"><span class="std std-doc">§3.8</span></a>, where the Lorenz gauge decouples
+Maxwell’s equations into
+wave equations; as <em>structure</em> in the relativistic capstone
+<a class="reference internal" href="relativistic-maxwell.html"><span class="std std-doc">§3.12</span></a>, where the
+four-potential and the manifestly gauge-invariant field tensor make it geometric;
+and as <em>physics</em> in the quantum volume (Vol VI), where the Aharonov–Bohm effect shows
+<span class="math notranslate nohighlight">\(\mathbf A\)</span> has observable consequences even where <span class="math notranslate nohighlight">\(\mathbf B=0\)</span>. Its root is the
+symmetry–conservation link of Noether
+(<a class="reference internal" href="../02-classical-mechanics/noether.html"><span class="std std-doc">§2.2</span></a>): a global phase symmetry gives charge
+conservation, and local gauge symmetry is its generalization. We plant the arc here
+and move on.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>both gauges give B_z=B₀: residual 3.55e-15 T
+A₁−A₂ = ∇χ (χ=B₀xy/2): max residual 2.89e-15
+Coulomb gauge ∇·A₁ = 0: max |∇·A₁| = 1.33e-15
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  two gauges (Coulomb and Landau) give the same physical field B   [got 3.55271e-15 vs expected 0 (rtol=1e-06)]
+✓  the two vector potentials differ by a pure gradient ∇χ — a gauge transformation   [got 2.88658e-15 vs expected 0 (rtol=1e-06)]
+✓  the symmetric choice satisfies the Coulomb gauge ∇·A = 0   [got 1.33227e-15 vs expected 0 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-the-magnetic-dipole">
+<h2>Exercise 8 — The magnetic dipole<a class="headerlink" href="#exercise-8-the-magnetic-dipole" title="Link to this heading">#</a></h2>
+<p>Far from a current loop, the field takes the <strong>magnetic dipole</strong> form, the exact
+mirror of the electric dipole of
+<a class="reference internal" href="coulomb-field.html"><span class="std std-doc">§3.1</span></a>/<a class="reference internal" href="multipole-expansion.html"><span class="std std-doc">§3.5</span></a>: it falls as <span class="math notranslate nohighlight">\(1/r^3\)</span>
+and is set by the
+magnetic moment <span class="math notranslate nohighlight">\(\mathbf m=I\pi R^2\hat{\mathbf z}\)</span>
+(<a class="reference internal" href="#fig-ms-dipole-setup"><span class="std std-numref">Fig. 227</span></a>). On axis, the loop’s field
+<span class="math notranslate nohighlight">\(\mu_0 I R^2/2(R^2+z^2)^{3/2}\)</span> reduces for <span class="math notranslate nohighlight">\(z\gg R\)</span> to <span class="math notranslate nohighlight">\(\mu_0 m/2\pi z^3\)</span>, the <span class="math notranslate nohighlight">\(1/r^3\)</span>
+dipole falloff. There is no magnetic monopole term (the series starts at the dipole),
+because <span class="math notranslate nohighlight">\(\nabla\cdot\mathbf B=0\)</span>.</p>
+<p><strong>This exercise (student).</strong> For the loop of Exercise 2 (<span class="math notranslate nohighlight">\(R=0.05\,\)</span>m,
+<span class="math notranslate nohighlight">\(I=1\,\)</span>A):</p>
+<ol class="arabic simple">
+<li><p>Evaluate the on-axis <span class="math notranslate nohighlight">\(B_z\)</span> with <code class="docutils literal notranslate"><span class="pre">biot_savart</span></code> at <span class="math notranslate nohighlight">\(z\)</span> and <span class="math notranslate nohighlight">\(2z\)</span> in the far
+zone (<span class="math notranslate nohighlight">\(z=0.5\,\)</span>m) and confirm the ratio is <span class="math notranslate nohighlight">\(\approx 8\)</span>, the signature of
+a <span class="math notranslate nohighlight">\(1/r^3\)</span> dipole.</p></li>
+<li><p>Compare the far field to <span class="math notranslate nohighlight">\(\mu_0 m/2\pi z^3\)</span> with <span class="math notranslate nohighlight">\(m=I\pi R^2\)</span>
+(<a class="reference internal" href="#fig-ms-dipole-field"><span class="std std-numref">Fig. 228</span></a>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ms-dipole-setup">
+<img alt="../../_images/bc7c108ac4c42cb1529c4ab53310d76cdb9988f48ced5576f65761b39ccd28d8.png" src="../../_images/bc7c108ac4c42cb1529c4ab53310d76cdb9988f48ced5576f65761b39ccd28d8.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 227 </span><span class="caption-text">A small current loop with magnetic moment <span class="math notranslate nohighlight">\(\mathbf m = I\pi R^2\hat{\mathbf z}\)</span> (amber). Seen from far away its field is a magnetic dipole, falling as <span class="math notranslate nohighlight">\(1/r^3\)</span> with the same angular pattern as an electric dipole — but with no monopole term, since <span class="math notranslate nohighlight">\(\nabla\cdot\mathbf B=0\)</span> forbids magnetic charge.</span><a class="headerlink" href="#fig-ms-dipole-setup" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>on-axis B_z(z)/B_z(2z) = 7.9111  (1/r³ ⇒ 8)
+far field B_z(0.5) = 1.2380e-08 T  vs  μ₀m/2πz³ = 1.2566e-08 T  (ratio 0.9851)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ms-dipole-field">
+<img alt="../../_images/2b6985094852b3c94fe15c02375e176c9aef69a75164385f77387c52f15e9bb3.png" src="../../_images/2b6985094852b3c94fe15c02375e176c9aef69a75164385f77387c52f15e9bb3.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 228 </span><span class="caption-text">The current loop’s field over a wide axial-plane view (<code class="docutils literal notranslate"><span class="pre">ecp.draw.field_quiver</span></code>, arrows <span class="math notranslate nohighlight">\(\propto|\mathbf B|\)</span>): the closed dipole loops, threading up through the ring and returning outside, identical in form to the electric dipole’s field but sourced by current rather than charge. Far out the field is the magnetic-dipole <span class="math notranslate nohighlight">\(1/r^3\)</span> pattern.</span><a class="headerlink" href="#fig-ms-dipole-field" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-8">
+<h3>Validation 8<a class="headerlink" href="#validation-8" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the current loop&#39;s far field falls as 1/r³ (a magnetic dipole)   [got 7.91106 vs expected 8 (rtol=0.02)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-9-the-four-field-equations-so-far-and-what-is-missing">
+<h2>Exercise 9 — The four field equations so far, and what is missing<a class="headerlink" href="#exercise-9-the-four-field-equations-so-far-and-what-is-missing" title="Link to this heading">#</a></h2>
+<p>Step back and collect what we have built. Across electrostatics and magnetostatics
+we have assembled four field equations:</p>
+<div class="math notranslate nohighlight">
+\[ \nabla\cdot\mathbf E = \frac{\rho}{\varepsilon_0}\ (3.3), \qquad
+\nabla\cdot\mathbf B = 0\ (\text{here}), \qquad
+\nabla\times\mathbf E = 0\ (3.2), \qquad
+\nabla\times\mathbf B = \mu_0\mathbf J\ (\text{here}). \]</div>
+<p>These are <strong>Maxwell’s equations in the static limit</strong>. They are almost the whole
+story, but two of them change the moment fields vary in time. A changing magnetic
+field makes <span class="math notranslate nohighlight">\(\nabla\times\mathbf E\)</span> pick up a term <span class="math notranslate nohighlight">\(-\partial_t\mathbf B\)</span> (Faraday’s
+induction, <a class="reference internal" href="induction.html"><span class="std std-doc">§3.7</span></a>), so the electric field is no longer curl-free. And
+consistency with charge conservation forces <span class="math notranslate nohighlight">\(\nabla\times\mathbf B\)</span> to gain a term
+<span class="math notranslate nohighlight">\(\mu_0\varepsilon_0\,\partial_t\mathbf E\)</span> (Maxwell’s displacement current,
+<a class="reference internal" href="maxwell-waves.html"><span class="std std-doc">§3.8</span></a>). With those two additions the equations couple <span class="math notranslate nohighlight">\(\mathbf E\)</span> and <span class="math notranslate nohighlight">\(\mathbf B\)</span> into
+a self-sustaining wave, and <strong>light appears</strong>.</p>
+<p><strong>This exercise.</strong> Close the static story with a <em>measurement</em> of the fourth
+equation in its current-free case: away from the ring the current density is
+zero, so Ampère’s differential law demands <span class="math notranslate nohighlight">\(\nabla\times\mathbf B=0\)</span> there.
+Compute the numerical curl of the loop field already gridded in Exercise 3
+(the <code class="docutils literal notranslate"><span class="pre">curl_3d</span></code> helper) and confirm it vanishes off the current, just as the
+divergence did. The time-derivative terms are identically zero here (the
+field is static), so neither dynamic Maxwell term is active yet. We are two
+terms, and two notebooks, from light.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>max |∇×B| / (|B|/h) away from the ring = 4.80e-09  (J = 0 there)
+  ∇·E = ρ/ε₀      — Gauss (§3.3)
+  ∇·B = 0         — no monopoles (here)
+  ∇×E = 0         — electrostatics (§3.2)
+  ∇×B = μ₀J       — Ampère (here)
+dynamic terms (static limit): ∂B/∂t = 0, ∂E/∂t = 0  → added in §3.7 and §3.8
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-9">
+<h3>Validation 9<a class="headerlink" href="#validation-9" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  ∇×B vanishes off the current (Ampère&#39;s differential law, measured), closing the static quartet   [relative curl residual 4.80e-09 away from the ring]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>A vectorised Biot–Savart integrator (<code class="docutils literal notranslate"><span class="pre">numpy.cross</span></code>): the straight wire <span class="math notranslate nohighlight">\(B=\mu_0I/2\pi r\)</span>
+(azimuthal) and the loop on-axis <span class="math notranslate nohighlight">\(\mu_0IR^2/2(R^2+z^2)^{3/2}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\nabla\cdot\mathbf B=0\)</span> away from the current (no monopoles); Ampère’s <span class="math notranslate nohighlight">\(\oint\mathbf B
+\cdot d\boldsymbol\ell=\mu_0 I\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code>); the solenoid interior <span class="math notranslate nohighlight">\(\mu_0 nI\)</span>;
+the vector potential <span class="math notranslate nohighlight">\(\mathbf B=\nabla\times\mathbf A\)</span> by numerical curl; and the loop’s
+<span class="math notranslate nohighlight">\(1/r^3\)</span> magnetic-dipole far field.</p></li>
+<li><p>The gauge-freedom centrepiece: Coulomb- and Landau-gauge <span class="math notranslate nohighlight">\(\mathbf A\)</span> giving the same
+<span class="math notranslate nohighlight">\(\mathbf B\)</span> and differing by an exact gradient <span class="math notranslate nohighlight">\(\nabla\chi\)</span>. The four static field
+equations assembled, with the two time-derivative terms
+(<a class="reference internal" href="induction.html"><span class="std std-doc">§3.7</span></a>, <a class="reference internal" href="maxwell-waves.html"><span class="std std-doc">§3.8</span></a>) still zero.</p></li>
+</ul>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The magnetic scalar potential.</strong> In current-free regions <span class="math notranslate nohighlight">\(\nabla\times\mathbf
+B=0\)</span>, so <span class="math notranslate nohighlight">\(\mathbf B\)</span> can briefly be written as <span class="math notranslate nohighlight">\(-\nabla\Omega\)</span> like an electric
+field; it fails wherever current flows, which is why the <em>vector</em> potential is the
+general tool.</p></li>
+<li><p><strong>Forces and energy.</strong> The force between currents defines the ampere; a current
+distribution stores magnetic energy <span class="math notranslate nohighlight">\(\tfrac12 L I^2\)</span>, the magnetic mirror of the
+capacitor’s <span class="math notranslate nohighlight">\(\tfrac12 C V^2\)</span>.</p></li>
+<li><p><strong>Gauges and their uses.</strong> The Coulomb gauge here versus the Lorenz gauge that
+decouples Maxwell’s equations (<a class="reference internal" href="maxwell-waves.html"><span class="std std-doc">§3.8</span></a>); the Aharonov–Bohm
+effect, where <span class="math notranslate nohighlight">\(\mathbf A\)</span> is
+physically observable even where <span class="math notranslate nohighlight">\(\mathbf B=0\)</span> (Vol VI).</p></li>
+<li><p><strong>Forward links.</strong> Induction (<a class="reference internal" href="induction.html"><span class="std std-doc">§3.7</span></a>), the displacement current
+and electromagnetic
+waves (<a class="reference internal" href="maxwell-waves.html"><span class="std std-doc">§3.8</span></a>), the four-potential and field tensor
+(<a class="reference internal" href="relativistic-maxwell.html"><span class="std std-doc">§3.12</span></a>), gauge invariance in
+quantum mechanics (Vol VI), and its Noether root
+(<a class="reference internal" href="../02-classical-mechanics/noether.html"><span class="std std-doc">§2.2</span></a>).</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div class="docutils container" id="id6">
+<div role="list" class="citation-list">
+<div class="citation" id="id12" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Gri17<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id4">2</a>,<a role="doc-backlink" href="#id5">3</a>)</span>
+<p>David J. Griffiths. <em>Introduction to Electrodynamics</em>. Cambridge University Press, 4 edition, 2017.</p>
+</div>
+<div class="citation" id="id14" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">Jac98</a><span class="fn-bracket">]</span></span>
+<p>John David Jackson. <em>Classical Electrodynamics</em>. Wiley, 3 edition, 1998.</p>
+</div>
+<div class="citation" id="id11" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Nol16</a><span class="fn-bracket">]</span></span>
+<p>Wolfgang Nolting. <em>Theoretical Physics 3: Electrodynamics</em>. Springer, 2016.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/03-electrodynamics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="multipole-expansion.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">3.5 The Multipole Expansion</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="induction.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">3.7 Electromagnetic Induction</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steady-currents-and-the-magnetic-field">Steady currents and the magnetic field</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-biotsavart-law">The Biot–Savart law</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ampere-s-law">Ampère’s law</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#no-magnetic-monopoles">No magnetic monopoles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-vector-potential">The vector potential</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gauge-freedom">Gauge freedom</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-biotsavart-the-straight-wire">Exercise 1 — Biot–Savart: the straight wire</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-biotsavart-the-circular-loop">Exercise 2 — Biot–Savart: the circular loop</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-no-magnetic-monopoles-b-0">Exercise 3 — No magnetic monopoles: ∇·B = 0</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-ampere-s-law">Exercise 4 — Ampère’s law</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-solenoid">Exercise 5 — The solenoid</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-vector-potential-b-a">Exercise 6 — The vector potential: B = ∇×A</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-gauge-freedom">Exercise 7 — Gauge freedom</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-the-magnetic-dipole">Exercise 8 — The magnetic dipole</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-the-four-field-equations-so-far-and-what-is-missing">Exercise 9 — The four field equations so far, and what is missing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-9">Validation 9</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

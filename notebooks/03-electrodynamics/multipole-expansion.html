@@ -1,0 +1,1661 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="3.5 The Multipole Expansion" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/03-electrodynamics/multipole-expansion.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Stand far enough from any localized clump of charge and its details blur: a complicated molecule, seen from across the room, is just a poi..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Stand far enough from any localized clump of charge and its details blur: a complicated molecule, seen from across the room, is just a poi..." />
+
+    <title>3.5 The Multipole Expansion &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/03-electrodynamics/multipole-expansion';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/03-electrodynamics/multipole-expansion.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="3.6 Magnetostatics and the Vector Potential" href="magnetostatics.html" />
+    <link rel="prev" title="3.4 Laplace’s and Poisson’s Equations" href="laplace-poisson.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume III — Classical Electrodynamics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/03-electrodynamics/multipole-expansion.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/03-electrodynamics/multipole-expansion.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/03-electrodynamics/multipole-expansion.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/03-electrodynamics/multipole-expansion.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3.5 The Multipole Expansion</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-far-field-problem">The far-field problem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-legendre-expansion-of-the-coulomb-kernel">The Legendre expansion of the Coulomb kernel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multipole-moments">Multipole moments</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonality-and-projection">Orthogonality and projection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spherical-harmonics">Spherical harmonics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-legendre-polynomials-from-the-generating-function">Exercise 1 — Legendre polynomials from the generating function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-orthogonality-and-projection">Exercise 2 — Orthogonality and projection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-legendre-expansion-of-the-coulomb-kernel">Exercise 3 — The Legendre expansion of the Coulomb kernel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-multipole-moments-of-a-discrete-distribution">Exercise 4 — Multipole moments of a discrete distribution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-pure-dipole-and-quadrupole">Exercise 5 — The pure dipole and quadrupole</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-spherical-harmonics">Exercise 6 — Spherical harmonics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-general-multipole-expansion-in-spherical-harmonics">Exercise 7 — The general multipole expansion in spherical harmonics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-the-gravitational-quadrupole">Exercise 8 — The gravitational quadrupole</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-why-the-multipole-expansion-matters">Exercise 9 — Why the multipole expansion matters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-9">Validation 9</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-multipole-expansion">
+<h1>3.5 The Multipole Expansion<a class="headerlink" href="#the-multipole-expansion" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume III — Classical Electrodynamics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;3.5
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">What a charge distribution looks like from far away: the potential as a series in 1/r, the monopole–dipole–quadrupole moments, and the Legendre polynomials and spherical harmonics that organise the angular structure.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;120–150 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Stand far enough from any localized clump of charge and its details blur: a
+complicated molecule, seen from across the room, is just a point with a slight
+lopsidedness. The <strong>multipole expansion</strong> makes that intuition exact. It writes the
+potential of a distribution as a series in powers of <span class="math notranslate nohighlight">\(1/r\)</span>, ordered so that each
+term captures a coarser feature than the last: the <strong>monopole</strong> (the net charge,
+falling as <span class="math notranslate nohighlight">\(1/r\)</span>), the <strong>dipole</strong> (the separation of <span class="math notranslate nohighlight">\(+\)</span> from <span class="math notranslate nohighlight">\(-\)</span>, as <span class="math notranslate nohighlight">\(1/r^2\)</span>), the
+<strong>quadrupole</strong> (the shape, as <span class="math notranslate nohighlight">\(1/r^3\)</span>), and on. Far away, the lowest non-zero
+moment dominates, so a handful of numbers, the moments, are the distribution’s
+fingerprint seen from afar.</p>
+<p>Organising that series brings in two families of <strong>special functions</strong>: the
+<strong>Legendre polynomials</strong> <span class="math notranslate nohighlight">\(P_l\)</span>, which carry the angular structure of an
+axially symmetric problem, and the <strong>spherical harmonics</strong> <span class="math notranslate nohighlight">\(Y_l^m\)</span>, which carry the
+general angular structure on the sphere. We do not pull these from a hat. For each,
+we state the differential equation it solves, write the first few members out in
+closed form, state the <strong>orthogonality</strong> that makes it a usable basis (and say why
+orthogonality is exactly what lets us <em>project</em> a distribution onto it and read off
+the moments), point to where the full derivation lives, and then evaluate it with
+SciPy while <em>checking SciPy against the closed forms</em>. That is the standard this
+notebook sets for special functions: rigorous about what the tool is, without
+rederiving Sturm–Liouville theory from scratch.</p>
+<p>Two forward-looking notes. The <span class="math notranslate nohighlight">\(Y_l^m\)</span> here are, exactly, the angular part of the
+hydrogen-atom wavefunctions; the quantum-mechanics volume (Vol VI) inherits this
+machinery and only adds the radial piece, so this is a down-payment on quantum
+mechanics. And the very same expansion describes gravity: Earth’s equatorial bulge
+is a mass quadrupole, the <span class="math notranslate nohighlight">\(J_2\)</span> term that makes satellite orbits precess.</p>
+<p>Everything is in <strong>SI units</strong> (<span class="math notranslate nohighlight">\(\varepsilon_0 = 8.854\times10^{-12}\,\)</span>F/m,
+<span class="math notranslate nohighlight">\(k=1/4\pi\varepsilon_0\)</span>). The objects here are static angular patterns and
+converging series, so every figure is a still: there is no motion to animate.</p>
+<blockquote>
+<div><p><strong>How to read the checks.</strong> Each exercise ends with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against an
+independent fact: a generating function reproduced, an orthogonality integral
+equal to <span class="math notranslate nohighlight">\(2/(2n+1)\)</span>, a SciPy special function matched to its closed form, a
+truncated series converging to the exact potential. A ✓ is strong evidence; a ✗
+is a prompt to <em>locate the discrepancy</em>, not a verdict.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Scope.</strong> A working review, not a special-functions course. See Nolting,
+<em>Theoretical Physics 3</em> <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id14" title="Wolfgang Nolting. Theoretical Physics 3: Electrodynamics. Springer, 2016.">Nol16</a>]</span>; Griffiths, <em>Introduction to
+Electrodynamics</em> <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id15" title="David J. Griffiths. Introduction to Electrodynamics. Cambridge University Press, 4 edition, 2017.">Gri17</a>]</span> (ch. 3); Jackson <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id17" title="John David Jackson. Classical Electrodynamics. Wiley, 3 edition, 1998.">Jac98</a>]</span> (ch. 3–4)
+for the full multipole and spherical-harmonic treatment; and Arfken, Weber &amp;
+Harris <span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id18" title="George B. Arfken, Hans J. Weber, and Frank E. Harris. Mathematical Methods for Physicists. Academic Press, 7 edition, 2013.">AWH13</a>]</span> for the Sturm–Liouville origin of the special functions.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-far-field-problem">
+<h3>The far-field problem<a class="headerlink" href="#the-far-field-problem" title="Link to this heading">#</a></h3>
+<p>For a charge distribution <span class="math notranslate nohighlight">\(\rho(\mathbf r')\)</span> confined to a small region near the
+origin, the potential at a distant field point <span class="math notranslate nohighlight">\(\mathbf r\)</span> is</p>
+<div class="math notranslate nohighlight" id="equation-eq-multipole-setup">
+<span class="eqno">(180)<a class="headerlink" href="#equation-eq-multipole-setup" title="Link to this equation">#</a></span>\[\varphi(\mathbf r) = \frac{1}{4\pi\varepsilon_0}\int
+\frac{\rho(\mathbf r')}{|\mathbf r - \mathbf r'|}\,d^3r' ,\]</div>
+<p>and when <span class="math notranslate nohighlight">\(r \gg r'\)</span> we can expand the kernel <span class="math notranslate nohighlight">\(1/|\mathbf r-\mathbf r'|\)</span> in the small
+ratio <span class="math notranslate nohighlight">\(r'/r\)</span>. The expansion is a systematic answer to “what does this distribution
+look like from far away?”</p>
+</section>
+<section id="the-legendre-expansion-of-the-coulomb-kernel">
+<h3>The Legendre expansion of the Coulomb kernel<a class="headerlink" href="#the-legendre-expansion-of-the-coulomb-kernel" title="Link to this heading">#</a></h3>
+<p>With <span class="math notranslate nohighlight">\(\gamma\)</span> the angle between <span class="math notranslate nohighlight">\(\mathbf r\)</span> and <span class="math notranslate nohighlight">\(\mathbf r'\)</span>,
+<span class="math notranslate nohighlight">\(|\mathbf r-\mathbf r'| = r\sqrt{1 - 2(r'/r)\cos\gamma + (r'/r)^2}\)</span>, and the kernel
+expands as</p>
+<div class="math notranslate nohighlight" id="equation-eq-generating">
+<span class="eqno">(181)<a class="headerlink" href="#equation-eq-generating" title="Link to this equation">#</a></span>\[\frac{1}{|\mathbf r-\mathbf r'|}
+= \frac{1}{r}\sum_{l=0}^{\infty}\Big(\frac{r'}{r}\Big)^{l} P_l(\cos\gamma) ,\]</div>
+<p>where the <strong>Legendre polynomials</strong> <span class="math notranslate nohighlight">\(P_l\)</span> enter through their <strong>generating function</strong>
+<span class="math notranslate nohighlight">\(1/\sqrt{1-2xt+t^2} = \sum_l P_l(x)\,t^l\)</span>. This is <em>where</em> the Legendre polynomials
+come from in electrostatics; Griffiths <span class="bibtex-citation" id="id5">[<a class="reference internal" href="#id15" title="David J. Griffiths. Introduction to Electrodynamics. Cambridge University Press, 4 edition, 2017.">Gri17</a>]</span> (ch. 3) carries the
+expansion out term by term. They solve <strong>Legendre’s equation</strong></p>
+<div class="math notranslate nohighlight">
+\[ (1-x^2)\,y'' - 2x\,y' + l(l+1)\,y = 0, \]</div>
+<p>and the first few are, in closed form,</p>
+<div class="math notranslate nohighlight">
+\[ P_0 = 1,\quad P_1 = x,\quad P_2 = \tfrac12(3x^2-1),\quad P_3 = \tfrac12(5x^3-3x). \]</div>
+</section>
+<section id="multipole-moments">
+<h3>Multipole moments<a class="headerlink" href="#multipole-moments" title="Link to this heading">#</a></h3>
+<p>Substituting <a class="reference internal" href="#equation-eq-generating">Eq. 181</a> into <a class="reference internal" href="#equation-eq-multipole-setup">Eq. 180</a> groups the potential
+into terms of definite falloff,</p>
+<div class="math notranslate nohighlight" id="equation-eq-moments">
+<span class="eqno">(182)<a class="headerlink" href="#equation-eq-moments" title="Link to this equation">#</a></span>\[\varphi(\mathbf r) = \frac{1}{4\pi\varepsilon_0}\left[
+\frac{Q}{r} + \frac{\mathbf p\cdot\hat{\mathbf r}}{r^2}
++ \frac{1}{2}\frac{\sum_{ij}Q_{ij}\hat r_i\hat r_j}{r^3} + \cdots \right],\]</div>
+<p>with the <strong>monopole</strong> <span class="math notranslate nohighlight">\(Q=\int\rho\,d^3r'\)</span> (total charge), the <strong>dipole moment</strong>
+<span class="math notranslate nohighlight">\(\mathbf p=\int\mathbf r'\rho\,d^3r'\)</span>, and the <strong>quadrupole tensor</strong>
+<span class="math notranslate nohighlight">\(Q_{ij}=\int(3r'_ir'_j - r'^2\delta_{ij})\rho\,d^3r'\)</span>. Each term falls one power of
+<span class="math notranslate nohighlight">\(r\)</span> faster than the last, so far away the lowest non-zero moment dominates.</p>
+</section>
+<section id="orthogonality-and-projection">
+<h3>Orthogonality and projection<a class="headerlink" href="#orthogonality-and-projection" title="Link to this heading">#</a></h3>
+<p>The moments are obtained by <strong>projecting</strong> the distribution onto an orthogonal
+basis. That is the whole reason orthogonality matters: if a basis <span class="math notranslate nohighlight">\(\{f_n\}\)</span>
+satisfies <span class="math notranslate nohighlight">\(\langle f_m, f_n\rangle = N_n\delta_{mn}\)</span>, then the coefficient of <span class="math notranslate nohighlight">\(f_n\)</span>
+in any expansion is just <span class="math notranslate nohighlight">\(\langle f_n, \cdot\rangle/N_n\)</span>, read off with a single
+integral. For Legendre polynomials (a Sturm–Liouville consequence; Arfken, Weber &amp;
+Harris <span class="bibtex-citation" id="id6">[<a class="reference internal" href="#id18" title="George B. Arfken, Hans J. Weber, and Frank E. Harris. Mathematical Methods for Physicists. Academic Press, 7 edition, 2013.">AWH13</a>]</span> supply the proof),</p>
+<div class="math notranslate nohighlight" id="equation-eq-orthogonality">
+<span class="eqno">(183)<a class="headerlink" href="#equation-eq-orthogonality" title="Link to this equation">#</a></span>\[\int_{-1}^{1} P_m(x)\,P_n(x)\,dx = \frac{2}{2n+1}\,\delta_{mn} .\]</div>
+</section>
+<section id="spherical-harmonics">
+<h3>Spherical harmonics<a class="headerlink" href="#spherical-harmonics" title="Link to this heading">#</a></h3>
+<p>When the distribution is not axially symmetric, the angular dependence needs the
+full <strong>spherical harmonics</strong> <span class="math notranslate nohighlight">\(Y_l^m(\theta,\varphi)\)</span>, the eigenfunctions of the
+angular part of the Laplacian,</p>
+<div class="math notranslate nohighlight" id="equation-eq-spherical-harmonics">
+<span class="eqno">(184)<a class="headerlink" href="#equation-eq-spherical-harmonics" title="Link to this equation">#</a></span>\[\frac{1}{\sin\theta}\partial_\theta(\sin\theta\,\partial_\theta Y_l^m)
++ \frac{1}{\sin^2\theta}\partial_\varphi^2 Y_l^m = -l(l+1)\,Y_l^m ,\]</div>
+<p>the natural orthonormal basis on the sphere,
+<span class="math notranslate nohighlight">\(\int Y_l^{m\,*}Y_{l'}^{m'}\,d\Omega = \delta_{ll'}\delta_{mm'}\)</span>. The first few are</p>
+<div class="math notranslate nohighlight">
+\[ Y_0^0 = \tfrac{1}{\sqrt{4\pi}},\quad
+Y_1^0 = \sqrt{\tfrac{3}{4\pi}}\cos\theta,\quad
+Y_1^{\pm1} = \mp\sqrt{\tfrac{3}{8\pi}}\sin\theta\,e^{\pm i\varphi}. \]</div>
+<p>Their derivation is separation of variables of Laplace’s equation in spherical
+coordinates, a Sturm–Liouville problem; we treat that as deferred (Arfken
+<span class="bibtex-citation" id="id7">[<a class="reference internal" href="#id18" title="George B. Arfken, Hans J. Weber, and Frank E. Harris. Mathematical Methods for Physicists. Academic Press, 7 edition, 2013.">AWH13</a>]</span>; a candidate dedicated notebook). These are exactly the angular
+hydrogen states of Vol VI. And the same expansion, with mass for charge, gives the
+<strong>gravitational</strong> multipoles: Earth’s oblateness is a quadrupole, the <span class="math notranslate nohighlight">\(J_2\)</span> term of
+satellite geodesy.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">eval_legendre</span><span class="p">,</span> <span class="n">sph_harm_y</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">quad</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="c1"># NOTE on the SciPy API: scipy.special.sph_harm was REMOVED. We use</span>
+<span class="c1"># sph_harm_y(n, m, theta, phi) with n the degree (l), m the order, theta the polar</span>
+<span class="c1"># angle in [0, π], and phi the azimuth in [0, 2π]. Legendre polynomials come from</span>
+<span class="c1"># eval_legendre(l, x). We verify both against their closed forms below.</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">epsilon_0</span> <span class="k">as</span> <span class="n">EPS0</span>  <span class="c1"># vacuum permittivity, F/m</span>
+
+<span class="n">K</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">4.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">EPS0</span><span class="p">)</span>  <span class="c1"># Coulomb constant ≈ 8.99e9 N·m²/C²</span>
+<span class="n">NANO</span> <span class="o">=</span> <span class="mf">1e-9</span>  <span class="c1"># 1 nC</span>
+<span class="n">POS</span><span class="p">,</span> <span class="n">NEG</span> <span class="o">=</span> <span class="s2">&quot;#c1121f&quot;</span><span class="p">,</span> <span class="s2">&quot;#16213e&quot;</span>  <span class="c1"># positive red, negative dark blue</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">point_potential</span><span class="p">(</span><span class="n">charges</span><span class="p">,</span> <span class="n">P</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exact superposed potential of a set of point charges.</span>
+
+<span class="sd">    The direct Coulomb sum of k·q_i/|P − r_i|, the truth the multipole series</span>
+<span class="sd">    is checked against.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    charges : list of tuple</span>
+<span class="sd">        Each ``(q, r_i)``: a charge and its 3-D position.</span>
+<span class="sd">    P : numpy.ndarray</span>
+<span class="sd">        Field points of shape ``(..., 3)``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The exact potential at ``P``, in volts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">r0</span> <span class="ow">in</span> <span class="n">charges</span><span class="p">:</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="n">K</span> <span class="o">*</span> <span class="n">q</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">P</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">total</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-legendre-polynomials-from-the-generating-function">
+<h2>Exercise 1 — Legendre polynomials from the generating function<a class="headerlink" href="#exercise-1-legendre-polynomials-from-the-generating-function" title="Link to this heading">#</a></h2>
+<p>The Legendre polynomials are not an arbitrary choice of basis: they fall out of the
+Coulomb kernel itself, through the <strong>generating function</strong>
+<span class="math notranslate nohighlight">\(1/\sqrt{1-2xt+t^2}=\sum_l P_l(x)\,t^l\)</span> <a class="reference internal" href="#equation-eq-generating">Eq. 181</a>. They solve Legendre’s
+equation <span class="math notranslate nohighlight">\((1-x^2)y''-2xy'+l(l+1)y=0\)</span>, with closed forms <span class="math notranslate nohighlight">\(P_0=1\)</span>, <span class="math notranslate nohighlight">\(P_1=x\)</span>,
+<span class="math notranslate nohighlight">\(P_2=\tfrac12(3x^2-1)\)</span>, <span class="math notranslate nohighlight">\(P_3=\tfrac12(5x^3-3x)\)</span>.</p>
+<p><strong>This exercise.</strong></p>
+<ol class="arabic simple">
+<li><p>Verify the generating function numerically: at <span class="math notranslate nohighlight">\(x=\cos\gamma=0.37\)</span> and
+<span class="math notranslate nohighlight">\(t=r'/r=0.6\)</span>, confirm the truncated sum
+<span class="math notranslate nohighlight">\(\sum_l\)</span> <code class="docutils literal notranslate"><span class="pre">scipy.special.eval_legendre</span></code><span class="math notranslate nohighlight">\((l,x)\,t^l\)</span> reproduces
+<span class="math notranslate nohighlight">\(1/\sqrt{1-2xt+t^2}\)</span>.</p></li>
+<li><p>Check <code class="docutils literal notranslate"><span class="pre">eval_legendre</span></code> against the closed forms <span class="math notranslate nohighlight">\(P_0\ldots P_3\)</span> on a grid
+<span class="math notranslate nohighlight">\(x\in[-1,1]\)</span> (<a class="reference internal" href="#fig-mp-legendre"><span class="std std-numref">Fig. 209</span></a>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>generating function: Σ Pₗ(x)tˡ = 1.0448459488  vs  1/√(1−2xt+t²) = 1.0448459488
+max |eval_legendre − closed form| for P₀..P₃: 8.88e-16
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<figure class="align-default" id="fig-mp-legendre">
+<img alt="../../_images/b9a43d770561aa7e5e2462c71a21bfe5e39a2b7dc58daebc1b9bdfc4f2630bba.png" src="../../_images/b9a43d770561aa7e5e2462c71a21bfe5e39a2b7dc58daebc1b9bdfc4f2630bba.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 209 </span><span class="caption-text">The first five Legendre polynomials <span class="math notranslate nohighlight">\(P_0\ldots P_4\)</span> on <span class="math notranslate nohighlight">\([-1,1]\)</span> (<code class="docutils literal notranslate"><span class="pre">scipy.special.eval_legendre</span></code>). Each <span class="math notranslate nohighlight">\(P_l\)</span> has <span class="math notranslate nohighlight">\(l\)</span> roots and <span class="math notranslate nohighlight">\(P_l(1)=1\)</span>; they are the angular building blocks of the axially symmetric multipole expansion and are mutually orthogonal over <span class="math notranslate nohighlight">\([-1,1]\)</span> (Exercise 2).</span><a class="headerlink" href="#fig-mp-legendre" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the generating function reproduces 1/√(1−2xt+t²)   [got 1.04485 vs expected 1.04485 (rtol=1e-08)]
+✓  scipy&#39;s Legendre polynomials match the closed forms   [got 8.88178e-16 vs expected 0 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-orthogonality-and-projection">
+<h2>Exercise 2 — Orthogonality and projection<a class="headerlink" href="#exercise-2-orthogonality-and-projection" title="Link to this heading">#</a></h2>
+<p>What makes the Legendre polynomials a <em>usable</em> basis is their <strong>orthogonality</strong>
+<a class="reference internal" href="#equation-eq-orthogonality">Eq. 183</a>: <span class="math notranslate nohighlight">\(\int_{-1}^{1}P_m P_n\,dx = \tfrac{2}{2n+1}\delta_{mn}\)</span>.
+Orthogonality is exactly what lets us <strong>project</strong>: the coefficient of <span class="math notranslate nohighlight">\(P_n\)</span> in any
+expansion <span class="math notranslate nohighlight">\(f=\sum_n c_n P_n\)</span> is <span class="math notranslate nohighlight">\(c_n=\tfrac{2n+1}{2}\int_{-1}^{1}f\,P_n\,dx\)</span>, a
+single integral. The multipole moments are this projection, applied to a charge
+distribution.</p>
+<p><strong>This exercise.</strong></p>
+<ol class="arabic simple">
+<li><p>Compute <span class="math notranslate nohighlight">\(\int_{-1}^{1}P_m P_n\,dx\)</span> for <span class="math notranslate nohighlight">\(m,n\le3\)</span> with
+<code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> and confirm the diagonal is <span class="math notranslate nohighlight">\(2/(2n+1)\)</span> and the
+off-diagonal vanishes.</p></li>
+<li><p><strong>Project</strong> <span class="math notranslate nohighlight">\(f(x)=|x|\)</span> onto the first twelve Legendre polynomials
+(coefficients <span class="math notranslate nohighlight">\(c_n\)</span> by <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code>) and reconstruct it,
+watching the partial sums converge (<a class="reference internal" href="#fig-mp-projection"><span class="std std-numref">Fig. 210</span></a>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>∫PₙPₙ dx = [2.       0.666667 0.4      0.285714]  expected 2/(2n+1) = [2.       0.666667 0.4      0.285714]
+max off-diagonal |∫PₘPₙ| = 9.71e-17
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<figure class="align-default" id="fig-mp-projection">
+<img alt="../../_images/a77b98fe16fc67aa5b5475ea756dab1d0da54b0fbe3137a8c1279a2ea8f4be47.png" src="../../_images/a77b98fe16fc67aa5b5475ea756dab1d0da54b0fbe3137a8c1279a2ea8f4be47.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 210 </span><span class="caption-text">Projecting <span class="math notranslate nohighlight">\(f(x)=|x|\)</span> onto the Legendre basis and reconstructing it from partial sums (2, 4, and 12 terms). The coefficients are the orthogonal projections <span class="math notranslate nohighlight">\(c_n=\tfrac{2n+1}{2}\int f P_n\,dx\)</span>; the series converges to <span class="math notranslate nohighlight">\(f\)</span>, with the mild ripple near the kink at <span class="math notranslate nohighlight">\(x=0\)</span> the Legendre analogue of the Gibbs phenomenon.</span><a class="headerlink" href="#fig-mp-projection" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Legendre polynomials are orthogonal with norm 2/(2n+1)   [max|Δ| = 5.55112e-17 (rtol=1e-06, atol=1e-09)]
+✓  distinct Legendre polynomials are orthogonal (zero overlap)   [got 9.71445e-17 vs expected 0 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-the-legendre-expansion-of-the-coulomb-kernel">
+<h2>Exercise 3 — The Legendre expansion of the Coulomb kernel<a class="headerlink" href="#exercise-3-the-legendre-expansion-of-the-coulomb-kernel" title="Link to this heading">#</a></h2>
+<p>With the generating function in hand, the kernel expansion <a class="reference internal" href="#equation-eq-generating">Eq. 181</a>
+follows directly. For a source point on the <span class="math notranslate nohighlight">\(z\)</span>-axis at distance <span class="math notranslate nohighlight">\(d\)</span> and a field
+point at radius <span class="math notranslate nohighlight">\(r&gt;d\)</span> and polar angle <span class="math notranslate nohighlight">\(\theta\)</span>, the angle between them is <span class="math notranslate nohighlight">\(\theta\)</span>
+itself, so <span class="math notranslate nohighlight">\(1/|\mathbf r-\mathbf r'| = (1/r)\sum_l (d/r)^l P_l(\cos\theta)\)</span>.</p>
+<p><strong>This exercise.</strong> Take <span class="math notranslate nohighlight">\(d=0.3\,\)</span>m on the <span class="math notranslate nohighlight">\(z\)</span>-axis and field points at
+<span class="math notranslate nohighlight">\(r=1.0\,\)</span>m over <span class="math notranslate nohighlight">\(\theta\in[0,\pi]\)</span>. Confirm the truncated sum (24 terms of
+<code class="docutils literal notranslate"><span class="pre">scipy.special.eval_legendre</span></code>) reproduces the exact kernel
+<span class="math notranslate nohighlight">\(1/\sqrt{r^2+d^2-2rd\cos\theta}\)</span>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>max |Legendre series − exact kernel| over θ∈[0,π]: 4.03e-13
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Legendre expansion reproduces the Coulomb kernel 1/|r−r&#39;|   [max|Δ| = 4.02789e-13 (rtol=1e-06, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-multipole-moments-of-a-discrete-distribution">
+<h2>Exercise 4 — Multipole moments of a discrete distribution<a class="headerlink" href="#exercise-4-multipole-moments-of-a-discrete-distribution" title="Link to this heading">#</a></h2>
+<p>For a set of point charges the integrals become sums: the <strong>monopole</strong> is
+<span class="math notranslate nohighlight">\(Q=\sum_i q_i\)</span> and the <strong>dipole moment</strong> is <span class="math notranslate nohighlight">\(\mathbf p=\sum_i q_i\mathbf r_i\)</span>
+<a class="reference internal" href="#equation-eq-moments">Eq. 182</a>. Truncating the expansion after the dipole gives the far-field
+approximation <span class="math notranslate nohighlight">\(\varphi\approx (kQ)/r + k\,\mathbf p\cdot\hat{\mathbf r}/r^2\)</span>, which
+should track the exact superposed potential ever better as <span class="math notranslate nohighlight">\(r\)</span> grows
+(<a class="reference internal" href="#fig-mp-discrete-setup"><span class="std std-numref">Fig. 211</span></a>).</p>
+<p><strong>This exercise.</strong> Take <span class="math notranslate nohighlight">\(q_1=+1\,\)</span>nC at <span class="math notranslate nohighlight">\((0,0,0.03)\)</span>, <span class="math notranslate nohighlight">\(q_2=-1\,\)</span>nC at
+<span class="math notranslate nohighlight">\((0.02,0,0)\)</span>, and <span class="math notranslate nohighlight">\(q_3=+0.5\,\)</span>nC at <span class="math notranslate nohighlight">\((0,0,-0.02)\,\)</span>m.</p>
+<ol class="arabic simple">
+<li><p>Compute <span class="math notranslate nohighlight">\(Q=\sum_i q_i\)</span> and <span class="math notranslate nohighlight">\(\mathbf p=\sum_i q_i\mathbf r_i\)</span>.</p></li>
+<li><p>Evaluate the monopole-only and monopole+dipole approximations along an
+outward ray, and compare both to the exact superposed potential
+(<a class="reference internal" href="#fig-mp-discrete-potential"><span class="std std-numref">Fig. 212</span></a>). Adding the dipole term should
+sharply cut the far-field error.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-mp-discrete-setup">
+<img alt="../../_images/5baf6cc06546c686b658b8e8ea0544ac4c8fbaa27552895ee913c01f22951fdb.png" src="../../_images/5baf6cc06546c686b658b8e8ea0544ac4c8fbaa27552895ee913c01f22951fdb.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 211 </span><span class="caption-text">The discrete charge configuration (red positive, blue negative; <span class="math notranslate nohighlight">\(+1\)</span>, <span class="math notranslate nohighlight">\(-1\)</span>, <span class="math notranslate nohighlight">\(+0.5\,\)</span>nC) confined near the origin, viewed in the <span class="math notranslate nohighlight">\(x\)</span>–<span class="math notranslate nohighlight">\(z\)</span> plane, with a distant field point along <span class="math notranslate nohighlight">\(\hat{\mathbf r}\)</span>. From far away the cloud is summarised by its monopole <span class="math notranslate nohighlight">\(Q=\sum q_i\)</span> and dipole <span class="math notranslate nohighlight">\(\mathbf p=\sum q_i\mathbf r_i\)</span>; higher moments fall off faster still.</span><a class="headerlink" href="#fig-mp-discrete-setup" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>monopole Q = 0.500 nC
+dipole p = [-0.02  0.    0.02] nC·m  (|p| = 0.0283 nC·m)
+relative error at r=2.0 m: monopole only = 0.423%, monopole+dipole = 2.45e-04
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-mp-discrete-potential">
+<img alt="../../_images/669219e184932e4591fcf6b73a09ef391d5d4cabf7f384f0e6b28750652e448f.png" src="../../_images/669219e184932e4591fcf6b73a09ef391d5d4cabf7f384f0e6b28750652e448f.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 212 </span><span class="caption-text">Exact superposed potential along an outward ray (solid) versus the monopole-only (<span class="math notranslate nohighlight">\(kQ/r\)</span>) and monopole+dipole (<span class="math notranslate nohighlight">\(kQ/r + k\,\mathbf p\cdot\hat{\mathbf r}/r^2\)</span>) approximations. The monopole alone misses the near-field structure; adding the dipole term tracks the exact curve closely once <span class="math notranslate nohighlight">\(r\)</span> exceeds the cloud’s size, the multipole series earning its keep term by term.</span><a class="headerlink" href="#fig-mp-discrete-potential" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  adding the dipole term sharply improves the far-field potential   [monopole 0.423% → monopole+dipole 2.45e-04]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-the-pure-dipole-and-quadrupole">
+<h2>Exercise 5 — The pure dipole and quadrupole<a class="headerlink" href="#exercise-5-the-pure-dipole-and-quadrupole" title="Link to this heading">#</a></h2>
+<p>The two leading non-trivial moments have signature angular patterns
+(<a class="reference internal" href="#fig-mp-dipole-quad-setup"><span class="std std-numref">Fig. 213</span></a>). A <strong>point dipole</strong> (two opposite charges a
+small distance apart) has potential <span class="math notranslate nohighlight">\(\varphi=k\,p\cos\theta/r^2\)</span>, the <span class="math notranslate nohighlight">\(P_1=\cos\theta\)</span>
+pattern. A <strong>linear quadrupole</strong> (<span class="math notranslate nohighlight">\(+q\)</span> at <span class="math notranslate nohighlight">\(+a\hat{\mathbf z}\)</span>, <span class="math notranslate nohighlight">\(-2q\)</span> at the origin,
+<span class="math notranslate nohighlight">\(+q\)</span> at <span class="math notranslate nohighlight">\(-a\hat{\mathbf z}\)</span>) has zero charge and zero dipole, so its leading term is
+the quadrupole, <span class="math notranslate nohighlight">\(\varphi\propto P_2(\cos\theta)/r^3\)</span>.</p>
+<p><strong>This exercise.</strong> Build both configurations (<span class="math notranslate nohighlight">\(q=1\,\)</span>nC, <span class="math notranslate nohighlight">\(a=0.01\,\)</span>m).</p>
+<ol class="arabic simple">
+<li><p>Confirm the exact dipole potential, scaled by <span class="math notranslate nohighlight">\(r^2/(kp)\)</span>, equals
+<span class="math notranslate nohighlight">\(P_1=\cos\theta\)</span>.</p></li>
+<li><p>Confirm the exact quadrupole potential at large <span class="math notranslate nohighlight">\(r\)</span>, normalised, carries
+the <span class="math notranslate nohighlight">\(P_2(\cos\theta)\)</span> pattern (<code class="docutils literal notranslate"><span class="pre">scipy.special.eval_legendre</span></code>)
+(<a class="reference internal" href="#fig-mp-dipole-quad-angular"><span class="std std-numref">Fig. 214</span></a>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-mp-dipole-quad-setup">
+<img alt="../../_images/af5a170d3a7a3cb7478998ae6e7642a7fcd7374a7b69c46bce7fd3330719a5ff.png" src="../../_images/af5a170d3a7a3cb7478998ae6e7642a7fcd7374a7b69c46bce7fd3330719a5ff.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 213 </span><span class="caption-text">Left: a point dipole, <span class="math notranslate nohighlight">\(+q\)</span> and <span class="math notranslate nohighlight">\(-q\)</span> separated along <span class="math notranslate nohighlight">\(\hat{\mathbf z}\)</span>, whose potential carries the <span class="math notranslate nohighlight">\(P_1=\cos\theta\)</span> pattern. Right: a linear quadrupole, <span class="math notranslate nohighlight">\(+q,\,-2q,\,+q\)</span> along the axis, with zero net charge and zero dipole, so its leading far field is the quadrupole <span class="math notranslate nohighlight">\(\propto P_2(\cos\theta)/r^3\)</span>.</span><a class="headerlink" href="#fig-mp-dipole-quad-setup" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dipole: max |φ·r²/(kp) − cosθ| = 3.97e-04
+quadrupole: max |normalised φ − normalised P₂(cosθ)| = 1.36e-04
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-mp-dipole-quad-angular">
+<img alt="../../_images/54a4a178572821c52782cae5dbde428d86855791fd5326c5ec8dbe0534df59d6.png" src="../../_images/54a4a178572821c52782cae5dbde428d86855791fd5326c5ec8dbe0534df59d6.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 214 </span><span class="caption-text">Angular patterns of the two configurations. Left: the dipole potential scaled by <span class="math notranslate nohighlight">\(r^2/(kp)\)</span> lies on <span class="math notranslate nohighlight">\(P_1=\cos\theta\)</span>. Right: the linear-quadrupole potential at large <span class="math notranslate nohighlight">\(r\)</span>, normalised, follows <span class="math notranslate nohighlight">\(P_2(\cos\theta)\)</span> (<code class="docutils literal notranslate"><span class="pre">scipy.special.eval_legendre</span></code>). The leading multipole’s angular law is exactly its Legendre polynomial.</span><a class="headerlink" href="#fig-mp-dipole-quad-angular" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the dipole potential carries the P₁=cosθ angular pattern   [got 0.000397162 vs expected 0 (rtol=1e-06)]
+✓  the linear-quadrupole far field carries the P₂(cosθ) pattern   [got 0.000136226 vs expected 0 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-spherical-harmonics">
+<h2>Exercise 6 — Spherical harmonics<a class="headerlink" href="#exercise-6-spherical-harmonics" title="Link to this heading">#</a></h2>
+<p>Drop axial symmetry and the angular structure needs the full <strong>spherical harmonics</strong>
+<span class="math notranslate nohighlight">\(Y_l^m(\theta,\varphi)\)</span> <a class="reference internal" href="#equation-eq-spherical-harmonics">Eq. 184</a>, eigenfunctions of the angular
+Laplacian with eigenvalue <span class="math notranslate nohighlight">\(-l(l+1)\)</span>, orthonormal on the sphere,
+<span class="math notranslate nohighlight">\(\int Y_l^{m\,*}Y_{l'}^{m'}\,d\Omega=\delta_{ll'}\delta_{mm'}\)</span>. The first few are
+<span class="math notranslate nohighlight">\(Y_0^0=1/\sqrt{4\pi}\)</span>, <span class="math notranslate nohighlight">\(Y_1^0=\sqrt{3/4\pi}\cos\theta\)</span>,
+<span class="math notranslate nohighlight">\(Y_1^{\pm1}=\mp\sqrt{3/8\pi}\sin\theta\,e^{\pm i\varphi}\)</span>. Their derivation
+(separation of Laplace’s equation, a Sturm–Liouville problem) is deferred to
+<span class="bibtex-citation" id="id8">[<a class="reference internal" href="#id18" title="George B. Arfken, Hans J. Weber, and Frank E. Harris. Mathematical Methods for Physicists. Academic Press, 7 edition, 2013.">AWH13</a>]</span>.</p>
+<p><strong>This exercise.</strong> Using <code class="docutils literal notranslate"><span class="pre">scipy.special.sph_harm_y(l,</span> <span class="pre">m,</span> <span class="pre">theta,</span> <span class="pre">phi)</span></code> (the
+current API; the old <code class="docutils literal notranslate"><span class="pre">sph_harm</span></code> was removed):</p>
+<ol class="arabic simple">
+<li><p>Confirm <span class="math notranslate nohighlight">\(\int|Y_l^m|^2\,d\Omega=1\)</span> for several <span class="math notranslate nohighlight">\((l,m)\)</span> by integrating
+with <code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code> over <span class="math notranslate nohighlight">\(\theta,\varphi\)</span> with the <span class="math notranslate nohighlight">\(\sin\theta\)</span>
+measure.</p></li>
+<li><p>Verify <span class="math notranslate nohighlight">\(Y_1^0\)</span> against its closed form <span class="math notranslate nohighlight">\(\sqrt{3/4\pi}\cos\theta\)</span>.</p></li>
+<li><p><strong>Visualise the angular structure</strong> in 3-D.</p></li>
+</ol>
+<p>A
+subtlety guides <em>what</em> to plot: <span class="math notranslate nohighlight">\(|Y_l^m|^2\)</span> is <strong>axially symmetric</strong> for every
+<span class="math notranslate nohighlight">\((l,m)\)</span>, because the <span class="math notranslate nohighlight">\(\varphi\)</span>-dependence <span class="math notranslate nohighlight">\(e^{im\varphi}\)</span> has unit modulus, so a
+balloon of <span class="math notranslate nohighlight">\(|Y_l^m|^2\)</span> is just the <span class="math notranslate nohighlight">\(\theta\)</span>-profile spun about the axis and shows
+nothing a 2-D plot would not — the azimuthal structure lives in the <strong>phase</strong>.
+Plot instead the <strong>real</strong> spherical harmonics <span class="math notranslate nohighlight">\(Y_{lm}^{\mathrm{real}}\propto
+P_l^m(\cos\theta)\cos m\varphi\)</span> (or <span class="math notranslate nohighlight">\(\sin|m|\varphi\)</span> for <span class="math notranslate nohighlight">\(m&lt;0\)</span>) as 3-D surfaces with
+radius <span class="math notranslate nohighlight">\(\propto|Y_{lm}^{\mathrm{real}}|\)</span> and colour set by its sign: these are the
+familiar lobed orbital shapes, and the <span class="math notranslate nohighlight">\(m\neq0\)</span> cases show the genuine azimuthal
+lobes a 2-D polar plot cannot (<a class="reference internal" href="#fig-mp-ylm"><span class="std std-numref">Fig. 215</span></a>).</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>∫|Yₗᵐ|² dΩ for [(0, 0), (1, 0), (1, 1), (2, 0), (2, 1), (3, 2)] = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+max |∫|Yₗᵐ|²dΩ − 1| = 2.58e-05
+Y₁⁰ vs √(3/4π)cosθ: max deviation = 1.11e-16
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<figure class="align-default" id="fig-mp-ylm">
+<img alt="../../_images/773bb07efe97c4e42d3e86e5ac1bc7eb80687ba6fd91efa142dcb4f7a9deded0.png" src="../../_images/773bb07efe97c4e42d3e86e5ac1bc7eb80687ba6fd91efa142dcb4f7a9deded0.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 215 </span><span class="caption-text">Three-dimensional surfaces of the <strong>real</strong> spherical harmonics <span class="math notranslate nohighlight">\(Y_{lm}^{\mathrm{real}}\)</span> for several <span class="math notranslate nohighlight">\((l,m)\)</span> (<code class="docutils literal notranslate"><span class="pre">scipy.special.sph_harm_y</span></code>): the radius is <span class="math notranslate nohighlight">\(\propto|Y_{lm}^{\mathrm{real}}|\)</span> and the colour is its sign (red positive, blue negative). These are the familiar lobed orbital shapes, and the <span class="math notranslate nohighlight">\(m\neq0\)</span> cases (<span class="math notranslate nohighlight">\(Y_2^{+1}\)</span>, <span class="math notranslate nohighlight">\(Y_3^{+2}\)</span>, <span class="math notranslate nohighlight">\(Y_2^{-1}\)</span>) show genuine azimuthal lobes a 2-D polar plot cannot. The squared modulus <span class="math notranslate nohighlight">\(|Y_l^m|^2\)</span> is itself axially symmetric, so its azimuthal information lives entirely in the phase drawn here; these same patterns return as the angular hydrogen orbitals in Vol VI.</span><a class="headerlink" href="#fig-mp-ylm" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the spherical harmonics are normalized on the sphere   [got 2.58316e-05 vs expected 0 (rtol=1e-06)]
+✓  Y₁⁰ matches its closed form √(3/4π)cosθ   [got 1.11022e-16 vs expected 0 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-the-general-multipole-expansion-in-spherical-harmonics">
+<h2>Exercise 7 — The general multipole expansion in spherical harmonics<a class="headerlink" href="#exercise-7-the-general-multipole-expansion-in-spherical-harmonics" title="Link to this heading">#</a></h2>
+<p>For a distribution with no axial symmetry, the moments become the
+<strong>spherical-harmonic multipole moments</strong>
+<span class="math notranslate nohighlight">\(q_{lm}=\sum_i q_i\,r_i^{\,l}\,Y_l^{m\,*}(\theta_i,\varphi_i)\)</span>, and the exterior
+potential is <span class="math notranslate nohighlight">\(\varphi(\mathbf r)=\tfrac{1}{\varepsilon_0}\sum_{l,m}
+\tfrac{1}{2l+1}\,q_{lm}\,Y_l^m(\theta,\varphi)/r^{l+1}\)</span>
+(<a class="reference internal" href="#fig-mp-offaxis-setup"><span class="std std-numref">Fig. 216</span></a>).</p>
+<p><strong>This exercise (student).</strong> Take <span class="math notranslate nohighlight">\(q_1=+2\,\)</span>nC at <span class="math notranslate nohighlight">\((0.02,0.01,0.0)\)</span> and
+<span class="math notranslate nohighlight">\(q_2=-2\,\)</span>nC at <span class="math notranslate nohighlight">\((-0.01,0.02,0.015)\,\)</span>m (off every axis).</p>
+<ol class="arabic simple">
+<li><p>Compute the <span class="math notranslate nohighlight">\(q_{lm}\)</span> for <span class="math notranslate nohighlight">\(l\le3\)</span> with <code class="docutils literal notranslate"><span class="pre">scipy.special.sph_harm_y</span></code>.</p></li>
+<li><p>Reconstruct the potential on a sphere of radius <span class="math notranslate nohighlight">\(0.4\,\)</span>m.</p></li>
+<li><p>Confirm the relative error against the exact superposed potential
+<strong>falls as more <span class="math notranslate nohighlight">\((l,m)\)</span> terms are kept</strong>
+(<a class="reference internal" href="#fig-mp-offaxis-error"><span class="std std-numref">Fig. 217</span></a>).</p></li>
+</ol>
+<p>These <span class="math notranslate nohighlight">\(Y_l^m\)</span> are, identically, the angular hydrogen states of Vol VI: a
+down-payment on quantum mechanics.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-mp-offaxis-setup">
+<img alt="../../_images/34ed1b3a075a9ea72f29a2626b53450b4a38ec9f0a49bfbd798bf1c5d90b5fcb.png" src="../../_images/34ed1b3a075a9ea72f29a2626b53450b4a38ec9f0a49bfbd798bf1c5d90b5fcb.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 216 </span><span class="caption-text">An asymmetric pair, <span class="math notranslate nohighlight">\(+2\,\)</span>nC and <span class="math notranslate nohighlight">\(-2\,\)</span>nC placed off every coordinate axis, shown in the <span class="math notranslate nohighlight">\(x\)</span>–<span class="math notranslate nohighlight">\(y\)</span> plane. With no axial symmetry the angular structure needs the full spherical-harmonic basis <span class="math notranslate nohighlight">\(Y_l^m\)</span>, not just the axial <span class="math notranslate nohighlight">\(P_l(\cos\theta)\)</span>; the moments <span class="math notranslate nohighlight">\(q_{lm}\)</span> are the projections onto that basis.</span><a class="headerlink" href="#fig-mp-offaxis-setup" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  up to l=0: max relative reconstruction error = 1.000e+00
+  up to l=1: max relative reconstruction error = 7.132e-02
+  up to l=2: max relative reconstruction error = 3.763e-03
+  up to l=3: max relative reconstruction error = 1.993e-04
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-mp-offaxis-error">
+<img alt="../../_images/6bd2ade37c2217e84a4275fe3756aa736b8d0511e3bd1ea9d909c0b2e7468eb8.png" src="../../_images/6bd2ade37c2217e84a4275fe3756aa736b8d0511e3bd1ea9d909c0b2e7468eb8.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 217 </span><span class="caption-text">Relative error of the spherical-harmonic reconstruction of the off-axis pair’s potential on a sphere of radius <span class="math notranslate nohighlight">\(0.4\,\)</span>m, as terms up to degree <span class="math notranslate nohighlight">\(l\)</span> are kept. Each new multipole order drops the error by orders of magnitude, the series converging to the exact potential, with the dipole (<span class="math notranslate nohighlight">\(l=1\)</span>) doing most of the work here because the net charge is zero.</span><a class="headerlink" href="#fig-mp-offaxis-error" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the spherical-harmonic multipole series converges to the exact potential   [errors by l: [&#39;1.0e+00&#39;, &#39;7.1e-02&#39;, &#39;3.8e-03&#39;, &#39;2.0e-04&#39;]]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-the-gravitational-quadrupole">
+<h2>Exercise 8 — The gravitational quadrupole<a class="headerlink" href="#exercise-8-the-gravitational-quadrupole" title="Link to this heading">#</a></h2>
+<p>The expansion is blind to whether its source is charge or mass: replace <span class="math notranslate nohighlight">\(q\)</span> by <span class="math notranslate nohighlight">\(m\)</span>
+(and <span class="math notranslate nohighlight">\(k\)</span> by <span class="math notranslate nohighlight">\(-G\)</span>) and it describes <strong>gravity</strong>. A spherical body has only a
+monopole, but a flattened one has a <strong>quadrupole</strong> (<a class="reference internal" href="#fig-mp-oblate-setup"><span class="std std-numref">Fig. 218</span></a>).
+Earth is oblate, and its quadrupole is the famous <span class="math notranslate nohighlight">\(J_2\)</span> term that makes satellite
+orbits precess. The relevant moment is <span class="math notranslate nohighlight">\(Q_{zz}=\sum_i m_i(3z_i^2-r_i^2)\)</span>; for an
+oblate body (mass pushed toward the equator, where <span class="math notranslate nohighlight">\(z^2\ll r^2\)</span>) it is <strong>negative</strong>,
+and <span class="math notranslate nohighlight">\(J_2=-Q_{zz}/(2Ma^2)&gt;0\)</span>.</p>
+<p><strong>This exercise (student).</strong> Model an oblate spheroid (equatorial radius
+<span class="math notranslate nohighlight">\(a=1\)</span>, polar radius <span class="math notranslate nohighlight">\(c=0.9\)</span>, in scaled units) by sampling it with equal point
+masses (a seeded <code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng</span></code> rejection sample).</p>
+<ol class="arabic simple">
+<li><p>Compute <span class="math notranslate nohighlight">\(Q_{zz}=\sum_i m_i(3z_i^2-r_i^2)\)</span>.</p></li>
+<li><p>Confirm it is negative and matches the uniform-spheroid closed form
+<span class="math notranslate nohighlight">\(\tfrac25 M(c^2-a^2)&lt;0\)</span>, so the gravitational quadrupole (the <span class="math notranslate nohighlight">\(J_2\)</span>
+term) is non-zero with the sign oblateness demands.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-mp-oblate-setup">
+<img alt="../../_images/917e6051eec42dc0fbbde3436a3a19a2cc80450ea4e6146114d4c0eba2a943e8.png" src="../../_images/917e6051eec42dc0fbbde3436a3a19a2cc80450ea4e6146114d4c0eba2a943e8.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 218 </span><span class="caption-text">An oblate body (equatorial radius <span class="math notranslate nohighlight">\(a\)</span>, polar radius <span class="math notranslate nohighlight">\(c&lt;a\)</span>): the equatorial bulge places mass at large cylindrical radius and small <span class="math notranslate nohighlight">\(|z|\)</span>, so <span class="math notranslate nohighlight">\(3z^2-r^2&lt;0\)</span> there and the gravitational quadrupole <span class="math notranslate nohighlight">\(Q_{zz}=\sum m_i(3z_i^2-r_i^2)\)</span> is negative. This is Earth’s <span class="math notranslate nohighlight">\(J_2\)</span>, the dominant departure from a point mass and the cause of satellite-orbit precession.</span><a class="headerlink" href="#fig-mp-oblate-setup" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Q_zz (sampled) = -0.0769   closed form (2/5)M(c²−a²) = -0.0760
+Q_zz &lt; 0 ⇒ J₂ &gt; 0 (oblate): J₂-sign proxy = 0.0769
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-8">
+<h3>Validation 8<a class="headerlink" href="#validation-8" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  an oblate mass has a negative Q_zz, i.e. a positive gravitational quadrupole J₂   [Q_zz = -0.0769]
+✓  the sampled quadrupole matches the uniform-spheroid closed form (2/5)M(c²−a²)   [got -0.0768849 vs expected -0.076 (rtol=0.02)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-9-why-the-multipole-expansion-matters">
+<h2>Exercise 9 — Why the multipole expansion matters<a class="headerlink" href="#exercise-9-why-the-multipole-expansion-matters" title="Link to this heading">#</a></h2>
+<p>The thread running through every exercise is one idea: <strong>the lowest non-zero moment
+dominates the far field</strong>, so a distribution we cannot resolve in detail is
+characterised, from afar, by a few numbers. A neutral molecule is invisible as a
+monopole but speaks through its dipole and quadrupole (the basis of intermolecular
+forces in chemistry); the cosmic microwave background is described by its angular
+multipoles <span class="math notranslate nohighlight">\(C_l\)</span> (the cosmologist’s spherical-harmonic spectrum of the sky); an
+antenna’s reach is set by its radiation multipoles
+(<a class="reference internal" href="radiation.html"><span class="std std-doc">§3.10</span></a>). The moments are
+the <strong>fingerprint</strong> of a source seen from a distance.</p>
+<p><strong>This exercise.</strong> Make the dominance concrete for the Exercise 4 cloud: along the
+outward ray, evaluate the fraction of the exact potential captured by the monopole
+alone, and watch it approach <span class="math notranslate nohighlight">\(1\)</span> as <span class="math notranslate nohighlight">\(r\)</span> grows, the higher moments fading as powers
+of <span class="math notranslate nohighlight">\(1/r\)</span> (<a class="reference internal" href="#fig-mp-dominance"><span class="std std-numref">Fig. 219</span></a>).</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>monopole fraction of the exact potential at r=3.0 m: 0.9972
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-mp-dominance">
+<img alt="../../_images/494fef042e31ebd10a773f28b27c7fd5c21066068ea98b0cba09783b963cc30d.png" src="../../_images/494fef042e31ebd10a773f28b27c7fd5c21066068ea98b0cba09783b963cc30d.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 219 </span><span class="caption-text">The fraction of the exact potential captured by the monopole term alone, along an outward ray for the Exercise 4 cloud. As <span class="math notranslate nohighlight">\(r\)</span> grows the higher moments fade as powers of <span class="math notranslate nohighlight">\(1/r\)</span> and the fraction approaches <span class="math notranslate nohighlight">\(1\)</span>: far enough away, the lowest non-zero moment is the whole story, which is why a few multipole numbers fingerprint a source we cannot otherwise resolve.</span><a class="headerlink" href="#fig-mp-dominance" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-9">
+<h3>Validation 9<a class="headerlink" href="#validation-9" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  far away the monopole term captures almost all of the potential (lowest moment dominates)   [monopole fraction at r=3 m = 0.997]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The Legendre polynomials from the generating function (<code class="docutils literal notranslate"><span class="pre">scipy.special.eval_legendre</span></code>,
+matched to the closed forms), their orthogonality <span class="math notranslate nohighlight">\(\int P_mP_n=2/(2n+1)\,\delta_{mn}\)</span>, and
+the Legendre expansion of the Coulomb kernel.</p></li>
+<li><p>Discrete monopole and dipole moments and the far-field truncation; the dipole (<span class="math notranslate nohighlight">\(P_1\)</span>) and
+quadrupole (<span class="math notranslate nohighlight">\(P_2\)</span>) angular patterns; the spherical harmonics via the current
+<code class="docutils literal notranslate"><span class="pre">scipy.special.sph_harm_y</span></code> API (rendered in 3-D as the real-harmonic orbital lobes,
+orthonormal to <span class="math notranslate nohighlight">\(\sim10^{-2}\)</span>); and the general <span class="math notranslate nohighlight">\(q_{lm}\)</span> expansion converging to the exact
+potential.</p></li>
+<li><p>Earth’s gravitational quadrupole (<span class="math notranslate nohighlight">\(J_2\)</span>) of an oblate spheroid, the same machinery applied
+to gravity. Established the tools-with-a-note standard for special functions.</p></li>
+</ul>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The quadrupole tensor.</strong> Its trace-free form and principal axes are the same
+mathematics as the rigid-body inertia tensor
+(<a class="reference internal" href="../02-classical-mechanics/rigid-body.html"><span class="std std-doc">§2.6</span></a>); diagonalizing it gives the
+distribution’s natural axes.</p></li>
+<li><p><strong>The full <span class="math notranslate nohighlight">\(Y_l^m\)</span> for <span class="math notranslate nohighlight">\(m\ne0\)</span>.</strong> Built from the associated Legendre functions
+<span class="math notranslate nohighlight">\(P_l^m\)</span> (<code class="docutils literal notranslate"><span class="pre">scipy.special.assoc_legendre_p</span></code>/<code class="docutils literal notranslate"><span class="pre">lpmv</span></code>); the addition theorem for
+spherical harmonics ties the <span class="math notranslate nohighlight">\(Y_l^m\)</span> basis back to the single <span class="math notranslate nohighlight">\(P_l(\cos\gamma)\)</span> of
+<a class="reference internal" href="#equation-eq-generating">Eq. 181</a>.</p></li>
+<li><p><strong>Forward links.</strong> Radiation multipoles (<a class="reference internal" href="radiation.html"><span class="std std-doc">§3.10</span></a>); the angular hydrogen states and
+the full Sturm–Liouville derivation of these special functions (Vol VI); the CMB
+and gravitational (<span class="math notranslate nohighlight">\(J_2\)</span>, and beyond) multipoles.</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div class="docutils container" id="id9">
+<div role="list" class="citation-list">
+<div class="citation" id="id18" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>AWH13<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id4">1</a>,<a role="doc-backlink" href="#id6">2</a>,<a role="doc-backlink" href="#id7">3</a>,<a role="doc-backlink" href="#id8">4</a>)</span>
+<p>George B. Arfken, Hans J. Weber, and Frank E. Harris. <em>Mathematical Methods for Physicists</em>. Academic Press, 7 edition, 2013.</p>
+</div>
+<div class="citation" id="id15" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Gri17<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id5">2</a>)</span>
+<p>David J. Griffiths. <em>Introduction to Electrodynamics</em>. Cambridge University Press, 4 edition, 2017.</p>
+</div>
+<div class="citation" id="id17" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">Jac98</a><span class="fn-bracket">]</span></span>
+<p>John David Jackson. <em>Classical Electrodynamics</em>. Wiley, 3 edition, 1998.</p>
+</div>
+<div class="citation" id="id14" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Nol16</a><span class="fn-bracket">]</span></span>
+<p>Wolfgang Nolting. <em>Theoretical Physics 3: Electrodynamics</em>. Springer, 2016.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/03-electrodynamics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="laplace-poisson.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">3.4 Laplace’s and Poisson’s Equations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="magnetostatics.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">3.6 Magnetostatics and the Vector Potential</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-far-field-problem">The far-field problem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-legendre-expansion-of-the-coulomb-kernel">The Legendre expansion of the Coulomb kernel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multipole-moments">Multipole moments</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonality-and-projection">Orthogonality and projection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spherical-harmonics">Spherical harmonics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-legendre-polynomials-from-the-generating-function">Exercise 1 — Legendre polynomials from the generating function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-orthogonality-and-projection">Exercise 2 — Orthogonality and projection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-legendre-expansion-of-the-coulomb-kernel">Exercise 3 — The Legendre expansion of the Coulomb kernel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-multipole-moments-of-a-discrete-distribution">Exercise 4 — Multipole moments of a discrete distribution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-pure-dipole-and-quadrupole">Exercise 5 — The pure dipole and quadrupole</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-spherical-harmonics">Exercise 6 — Spherical harmonics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-general-multipole-expansion-in-spherical-harmonics">Exercise 7 — The general multipole expansion in spherical harmonics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-the-gravitational-quadrupole">Exercise 8 — The gravitational quadrupole</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-why-the-multipole-expansion-matters">Exercise 9 — Why the multipole expansion matters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-9">Validation 9</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1868 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="7.1 Complex Analysis I: Analytic Functions and the Residue Theorem" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/complex-analysis-residues.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Volume VII begins the way Volumes 0, V, and VI did: with its mathematics, built once and properly, before any physics is allowed to depend..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Volume VII begins the way Volumes 0, V, and VI did: with its mathematics, built once and properly, before any physics is allowed to depend..." />
+
+    <title>7.1 Complex Analysis I: Analytic Functions and the Residue Theorem &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/07-quantum-statistical-mechanics/complex-analysis-residues';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/complex-analysis-residues.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent" href="complex-analysis-applications.html" />
+    <link rel="prev" title="Volume VII — Quantum Statistical Mechanics" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VII — Quantum Statistical Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/07-quantum-statistical-mechanics/complex-analysis-residues.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/07-quantum-statistical-mechanics/complex-analysis-residues.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/07-quantum-statistical-mechanics/complex-analysis-residues.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/07-quantum-statistical-mechanics/complex-analysis-residues.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analyticity-and-the-cauchyriemann-equations">Analyticity and the Cauchy–Riemann equations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#harmonic-consequences">Harmonic consequences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#elementary-functions-and-branch-cuts">Elementary functions and branch cuts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contour-integrals-and-cauchy-s-theorem">Contour integrals and Cauchy’s theorem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-cauchy-integral-formula">The Cauchy integral formula</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#laurent-series-poles-and-residues">Laurent series, poles, and residues</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-residue-theorem">The residue theorem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-four-classic-families-of-real-integrals">The four classic families of real integrals</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-analyticity-is-a-sharp-property">Exercise 1 — Analyticity is a sharp property</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-branch-cut-of-the-logarithm">Exercise 2 — The branch cut of the logarithm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-cauchy-s-theorem-and-an-integral-that-measures-area">Exercise 3 — Cauchy’s theorem, and an integral that measures area</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-cauchy-integral-formula-the-boundary-knows-the-interior">Exercise 4 — The Cauchy integral formula: the boundary knows the interior</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-laurent-series-and-residues">Exercise 5 — Laurent series and residues</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-residue-theorem-and-the-rational-family">Exercise 6 — The residue theorem, and the rational family</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-trigonometric-and-fourier-families-where-residues-beat-the-computer">Exercise 7 — Trigonometric and Fourier families: where residues beat the computer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-the-keyhole-an-integral-around-a-branch-cut">Exercise 8 — The keyhole: an integral around a branch cut</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-rigidity-as-a-tool">Exercise 9 — Rigidity as a tool</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="complex-analysis-i-analytic-functions-and-the-residue-theorem">
+<h1>7.1 Complex Analysis I: Analytic Functions and the Residue Theorem<a class="headerlink" href="#complex-analysis-i-analytic-functions-and-the-residue-theorem" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VII — Quantum Statistical Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;7.1
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">A volume on quantum statistics opens with a detour that is not one. The functions of a complex variable that possess a derivative are rigid objects: their values on a curve fix them everywhere inside, their real and imaginary parts solve Laplace&#x27;s equation, and their closed-contour integrals are governed entirely by a handful of residues at their singularities. That rigidity turns impossible integrals into two-line calculations — including, soon, the integrals that carry all of quantum statistics.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;185–225 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Volume VII begins the way Volumes 0, V, and VI did: with its mathematics, built once and properly,
+before any physics is allowed to depend on it. The mathematics this volume runs on is the analysis
+of functions of a <strong>complex variable</strong>. The claim deserves justification, because at first sight
+quantum statistical mechanics is about counting states and weighting them by <span class="math notranslate nohighlight">\(e^{-\beta E}\)</span> — where
+is the complex plane in that? Everywhere, it turns out. The Bose and Fermi integrals that carry the
+photon gas, the degenerate electron gas, and Bose–Einstein condensation are integrals wrapped
+around branch cuts; the frequency sums of thermal physics (the Matsubara sums of
+<a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a>) are evaluated
+by trading a sum for the poles of a function that has one at every term; the Stirling approximation
+that Volume V leaned on is the shallowest case of an asymptotic method (steepest descent) that
+lives entirely in the complex plane; and the response functions of matter obey exact relations —
+the Kramers–Kronig relations of <a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a> — that are theorems
+about analyticity, with causality as the
+only physical input. A subject whose integrals, sums, asymptotics, and response theory all route
+through the complex plane deserves to have that plane built carefully.</p>
+<p>So this notebook builds the core machinery: what it means for a complex function to be
+<strong>differentiable</strong> (the Cauchy–Riemann equations, and the rigidity they impose), the
+<strong>multivaluedness</strong> of the logarithm and the branch cuts that tame it, <strong>contour integration</strong> and
+Cauchy’s theorem, the <strong>integral formula</strong> that lets a boundary dictate an interior, <strong>Laurent
+series</strong> and the classification of singularities, and the <strong>residue theorem</strong> — the machine that
+converts closed-contour integrals into arithmetic. The chapter’s climax spends that machinery on
+the four classic families of real integrals, each chosen with intent: the Fourier-type family is
+the Lorentzian-lineshape and exponential-decay pair behind
+<a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html"><span class="std std-doc">§6.24</span></a>, and the closing keyhole integral
+is one Boltzmann factor away from the Bose and Fermi integrals of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>.</p>
+<p>A word on curriculum, recorded deliberately. This course ordinarily teaches a complete <em>minimal</em>
+toolkit — each technique introduced exactly when needed, to exactly the depth needed. The
+three-notebook arsenal that opens this volume is a deliberate exception: complex analysis is
+developed in full, Cauchy–Riemann equations and all, because the subject is too central — to
+physics and to the education of anyone who computes for a living — to be issued on a need-to-know
+basis. It is a detour that is not one.</p>
+<blockquote>
+<div><p><strong>Conventions (fixed for the whole volume).</strong> We use the <strong>principal branch</strong> of the logarithm
+and the argument, <span class="math notranslate nohighlight">\(\arg z \in (-\pi, \pi]\)</span>, which is exactly the convention of <code class="docutils literal notranslate"><span class="pre">numpy.log</span></code> and
+<code class="docutils literal notranslate"><span class="pre">numpy.angle</span></code>; its branch cut lies along the negative real axis. Closed contours are traversed
+<strong>counterclockwise</strong> (positive orientation) unless stated otherwise. Contour integrals are
+computed numerically by parametrization, <span class="math notranslate nohighlight">\(\oint f\,dz = \int f(z(t))\,z'(t)\,dt\)</span>, with
+<code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code> on <span class="math notranslate nohighlight">\(N \gtrsim 10^4\)</span> points — and for a <em>closed</em> contour this humble rule is
+secretly spectral: on a smooth periodic integrand its error falls geometrically with <span class="math notranslate nohighlight">\(N\)</span>, which
+is why the checks below routinely reach <span class="math notranslate nohighlight">\(10^{-15}\)</span>.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against an independent
+fact: Cauchy–Riemann residuals at rounding level for <span class="math notranslate nohighlight">\(z^2\)</span> and <span class="math notranslate nohighlight">\(e^z\)</span> against an exactly-2
+violation for <span class="math notranslate nohighlight">\(\bar z\)</span>; the <span class="math notranslate nohighlight">\(2\pi i\)</span> jump of the logarithm across its cut; <span class="math notranslate nohighlight">\(\oint z^2\,dz\)</span>
+vanishing to machine precision while <span class="math notranslate nohighlight">\(\oint \bar z\,dz\)</span> measures the enclosed area exactly; the
+integral formula reconstructing <span class="math notranslate nohighlight">\(e^a\)</span> from boundary values; residues extracted by small-circle
+contours agreeing with the limit formulas; and all four real-integral families matching
+<code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> — except where quadrature itself strains, which is part of the lesson.
+A ✓ is strong evidence; a ✗ is a prompt to <em>locate the discrepancy</em>.</p>
+<p><strong>Scope.</strong> One complex variable, computationally, from analyticity to the residue theorem and
+its classic applications. The physicist’s payload — principal values and Sokhotski–Plemelj, the
+Kramers–Kronig relations, Matsubara sums, steepest descent — is
+<a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a>; the statistical toolkit
+(Gamma and zeta functions, polylogarithms, the Bose and Fermi integrals, the Sommerfeld
+expansion) is <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>. Conformal mapping is named as a horizon, not
+developed. See Arfken, Weber &amp;
+Harris, <em>Mathematical Methods for Physicists</em>; Ablowitz &amp; Fokas, <em>Complex Variables</em>; and — for
+the geometrically curious — Needham, <em>Visual Complex Analysis</em>. Cross-reference
+<a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a> (the algebra
+of <span class="math notranslate nohighlight">\(\mathbb{C}\)</span>), Volume III (two-dimensional electrostatics and harmonic potentials),
+<a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html"><span class="std std-doc">§5.3</span></a>
+(Stirling, re-derived by steepest descent in <a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a>), and
+<a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html"><span class="std std-doc">§6.24</span></a> (the Lorentzian lineshape).</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="analyticity-and-the-cauchyriemann-equations">
+<h3>Analyticity and the Cauchy–Riemann equations<a class="headerlink" href="#analyticity-and-the-cauchyriemann-equations" title="Link to this heading">#</a></h3>
+<p>Write <span class="math notranslate nohighlight">\(f(z) = u(x,y) + i\,v(x,y)\)</span> for <span class="math notranslate nohighlight">\(z = x + iy\)</span>. The function is <strong>analytic</strong> (holomorphic) at
+<span class="math notranslate nohighlight">\(z\)</span> if the complex derivative</p>
+<div class="math notranslate nohighlight">
+\[
+f'(z) = \lim_{\Delta z \to 0} \frac{f(z + \Delta z) - f(z)}{\Delta z}
+\]</div>
+<p>exists — with the <em>same</em> value for every direction of approach. That innocuous clause is the whole
+subject. Approach horizontally (<span class="math notranslate nohighlight">\(\Delta z = h\)</span>, real) and the limit is <span class="math notranslate nohighlight">\(\partial f/\partial x
+= u_x + i v_x\)</span>. Approach vertically (<span class="math notranslate nohighlight">\(\Delta z = ih\)</span>) and it is <span class="math notranslate nohighlight">\(\tfrac{1}{i}\,\partial f/\partial
+y = v_y - i u_y\)</span>. Demanding these agree, real and imaginary parts separately, gives the
+<strong>Cauchy–Riemann equations</strong>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-cauchy-riemann">
+<span class="eqno">(559)<a class="headerlink" href="#equation-eq-cauchy-riemann" title="Link to this equation">#</a></span>\[\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y},
+\qquad
+\frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}.\]</div>
+<p>Two real constraints on four partial derivatives: complex differentiability is not a notation but
+a <em>condition</em>, and most smooth functions of <span class="math notranslate nohighlight">\((x, y)\)</span> fail it. It is also sharply checkable:
+<span class="math notranslate nohighlight">\(z^2\)</span> and <span class="math notranslate nohighlight">\(e^z\)</span> satisfy <a class="reference internal" href="#equation-eq-cauchy-riemann">Eq. 559</a> (numerically, residuals near <span class="math notranslate nohighlight">\(10^{-10}\)</span>), while
+<span class="math notranslate nohighlight">\(\bar z\)</span> and <span class="math notranslate nohighlight">\(|z|^2\)</span> violate it at order one — for <span class="math notranslate nohighlight">\(\bar z\)</span> the violation is <em>exactly</em> <span class="math notranslate nohighlight">\(2\)</span>.
+The analytic functions are the aristocracy of functions, and admission is strict.</p>
+</section>
+<section id="harmonic-consequences">
+<h3>Harmonic consequences<a class="headerlink" href="#harmonic-consequences" title="Link to this heading">#</a></h3>
+<p>Differentiate <a class="reference internal" href="#equation-eq-cauchy-riemann">Eq. 559</a> once more and cross the equations:
+<span class="math notranslate nohighlight">\(u_{xx} = v_{yx} = v_{xy} = -u_{yy}\)</span>. The real part of an analytic function — and, by the same
+argument, the imaginary part — satisfies <strong>Laplace’s equation</strong>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-harmonic">
+<span class="eqno">(560)<a class="headerlink" href="#equation-eq-harmonic" title="Link to this equation">#</a></span>\[\nabla^2 u = \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0,
+\qquad
+\nabla^2 v = 0 .\]</div>
+<p>Every analytic function therefore packages <em>two</em> solutions of the two-dimensional Laplace equation
+— the equation of the charge-free electrostatics of Volume III — and the Cauchy–Riemann equations
+make their level curves mutually orthogonal: equipotentials and field lines, delivered as a pair.
+This is the doorway to <strong>conformal mapping</strong>, the classical art of solving two-dimensional
+electrostatics and ideal flow by bending the plane analytically; we name the horizon and move on.</p>
+</section>
+<section id="elementary-functions-and-branch-cuts">
+<h3>Elementary functions and branch cuts<a class="headerlink" href="#elementary-functions-and-branch-cuts" title="Link to this heading">#</a></h3>
+<p>The exponential <span class="math notranslate nohighlight">\(e^z = e^x(\cos y + i \sin y)\)</span> is <strong>entire</strong> — analytic everywhere. Its inverse
+cannot be: since <span class="math notranslate nohighlight">\(e^{z + 2\pi i} = e^z\)</span>, the logarithm is <strong>multivalued</strong>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-branch-cuts">
+<span class="eqno">(561)<a class="headerlink" href="#equation-eq-branch-cuts" title="Link to this equation">#</a></span>\[\log z = \ln|z| + i \arg z,
+\qquad
+\arg z \in (-\pi, \pi] \ \text{(principal branch, the convention of numpy.log)},\]</div>
+<p>and choosing the principal branch introduces a <strong>branch cut</strong> along the negative real axis, across
+which <span class="math notranslate nohighlight">\(\log z\)</span> jumps by <span class="math notranslate nohighlight">\(2\pi i\)</span>. Fractional powers inherit the cut through <span class="math notranslate nohighlight">\(z^{\alpha} =
+e^{\alpha \log z}\)</span>: follow <span class="math notranslate nohighlight">\(\sqrt z\)</span> continuously once around the origin and it returns to <em>minus</em>
+its starting value — the function lives on two sheets, and the cut is where we have chosen to
+staple them. Branch cuts are not pathology but bookkeeping, and the bookkeeping becomes
+load-bearing twice below: in the keyhole integral of Exercise 8, where the cut is the mechanism
+that makes the method work, and in the polylogarithms of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>, which
+carry their physics on their cuts.</p>
+</section>
+<section id="contour-integrals-and-cauchy-s-theorem">
+<h3>Contour integrals and Cauchy’s theorem<a class="headerlink" href="#contour-integrals-and-cauchy-s-theorem" title="Link to this heading">#</a></h3>
+<p>The integral of <span class="math notranslate nohighlight">\(f\)</span> along a path is defined by parametrization,
+<span class="math notranslate nohighlight">\(\int_C f\,dz = \int_{t_0}^{t_1} f(z(t))\,z'(t)\,dt\)</span>, and this is exactly how we compute it
+throughout (<code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code> on a discretized contour). The first pillar of the subject is
+<strong>Cauchy’s theorem</strong>: for <span class="math notranslate nohighlight">\(f\)</span> analytic on and inside a closed contour <span class="math notranslate nohighlight">\(C\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-cauchy-theorem">
+<span class="eqno">(562)<a class="headerlink" href="#equation-eq-cauchy-theorem" title="Link to this equation">#</a></span>\[\oint_C f(z)\,dz = 0 .\]</div>
+<p>(Verified below to <span class="math notranslate nohighlight">\(\sim 10^{-16}\)</span>.) The classical proof runs through Green’s theorem and
+the Cauchy–Riemann equations <a class="reference internal" href="#equation-eq-cauchy-riemann">Eq. 559</a>; Ablowitz &amp; Fokas, <em>Complex Variables</em>,
+Ch. 2, carries it out in full. The practical reading is that contours may be
+<strong>deformed</strong> freely through analytic territory without changing the integral — the single
+most-used move in the subject, and the one that powers everything after. The converse spectacle is
+just as instructive: for the non-analytic <span class="math notranslate nohighlight">\(\bar z\)</span>, the closed integral does not merely fail to
+vanish, it <em>measures geometry</em>, <span class="math notranslate nohighlight">\(\oint \bar z\,dz = 2i \times (\text{enclosed area})\)</span>, exactly.</p>
+</section>
+<section id="the-cauchy-integral-formula">
+<h3>The Cauchy integral formula<a class="headerlink" href="#the-cauchy-integral-formula" title="Link to this heading">#</a></h3>
+<p>For <span class="math notranslate nohighlight">\(f\)</span> analytic on and inside <span class="math notranslate nohighlight">\(C\)</span> and <span class="math notranslate nohighlight">\(a\)</span> any interior point,</p>
+<div class="math notranslate nohighlight" id="equation-eq-integral-formula">
+<span class="eqno">(563)<a class="headerlink" href="#equation-eq-integral-formula" title="Link to this equation">#</a></span>\[f(a) = \frac{1}{2\pi i} \oint_C \frac{f(z)}{z - a}\,dz .\]</div>
+<p>The derivation is one contour deformation: shrink <span class="math notranslate nohighlight">\(C\)</span> to a small circle about <span class="math notranslate nohighlight">\(a\)</span>, where
+<span class="math notranslate nohighlight">\(f(z) \approx f(a)\)</span> and the integral of <span class="math notranslate nohighlight">\((z-a)^{-1}\)</span> supplies the <span class="math notranslate nohighlight">\(2\pi i\)</span>; Arfken, Weber &amp;
+Harris, Ch. 11, writes it out line by line.
+This is the rigidity thesis made literal: the values of <span class="math notranslate nohighlight">\(f\)</span> on the <em>boundary</em> determine its value
+at every <em>interior</em> point — knowing an analytic function on a curve is knowing it inside.
+Differentiating under the integral gives <span class="math notranslate nohighlight">\(f^{(n)}(a)\)</span> for every <span class="math notranslate nohighlight">\(n\)</span>: an analytic function is
+automatically infinitely differentiable, and its Taylor series converges to it. (Compare real
+analysis, where differentiability once buys nothing further; here it buys everything, unasked.)</p>
+</section>
+<section id="laurent-series-poles-and-residues">
+<h3>Laurent series, poles, and residues<a class="headerlink" href="#laurent-series-poles-and-residues" title="Link to this heading">#</a></h3>
+<p>Around an isolated singularity at <span class="math notranslate nohighlight">\(a\)</span>, an analytic function expands in a <strong>Laurent series</strong>, a
+Taylor series extended to negative powers (the expansion follows from the integral formula
+applied to an annulus; Arfken, Weber &amp; Harris, Ch. 11, derives it in full),</p>
+<div class="math notranslate nohighlight" id="equation-eq-laurent">
+<span class="eqno">(564)<a class="headerlink" href="#equation-eq-laurent" title="Link to this equation">#</a></span>\[f(z) = \sum_{n=-\infty}^{\infty} c_n (z - a)^n,
+\qquad
+\oint (z-a)^n\,dz = 2\pi i\,\delta_{n,-1},
+\qquad
+\operatorname{Res}_{z=a} f = c_{-1} .\]</div>
+<p>If the negative powers terminate at <span class="math notranslate nohighlight">\(n = -m\)</span> the singularity is a <strong>pole of order <span class="math notranslate nohighlight">\(m\)</span></strong>; if they
+do not terminate it is an <strong>essential singularity</strong> (<span class="math notranslate nohighlight">\(e^{1/z}\)</span> is the standard specimen). The
+orthogonality relation in the middle of <a class="reference internal" href="#equation-eq-laurent">Eq. 564</a> — direct parametrization shows every
+power of <span class="math notranslate nohighlight">\((z-a)\)</span> integrates to zero around a circle <em>except</em> <span class="math notranslate nohighlight">\(n = -1\)</span> — is why the coefficient
+<span class="math notranslate nohighlight">\(c_{-1}\)</span>, the <strong>residue</strong>, is the sole survivor of closed-contour integration, and hence the only
+number the theorem below needs. Extracting residues is a craft with three tools: the limit formula
+<span class="math notranslate nohighlight">\(c_{-1} = \lim_{z\to a}(z-a)f(z)\)</span> for simple poles, a derivative formula for higher order, and —
+always available, whatever the order — the <em>numerical small-circle contour</em>, which reads
+<span class="math notranslate nohighlight">\(c_{-1}\)</span> off directly.</p>
+</section>
+<section id="the-residue-theorem">
+<h3>The residue theorem<a class="headerlink" href="#the-residue-theorem" title="Link to this heading">#</a></h3>
+<p>Combine Cauchy’s theorem (deform the contour into small circles around each enclosed singularity)
+with the survival of <span class="math notranslate nohighlight">\(c_{-1}\)</span> (evaluate each small circle), and the pillars merge into the machine:</p>
+<div class="math notranslate nohighlight" id="equation-eq-residue-theorem">
+<span class="eqno">(565)<a class="headerlink" href="#equation-eq-residue-theorem" title="Link to this equation">#</a></span>\[\oint_C f(z)\,dz = 2\pi i \sum_{\text{poles } a_k \text{ inside } C} \operatorname{Res}_{z=a_k} f .\]</div>
+<p>Three moves, endlessly repeated: <strong>close</strong> a contour, <strong>locate</strong> the poles, <strong>read off</strong> the
+residues. Integrals that resist every elementary technique fall in two lines.</p>
+</section>
+<section id="the-four-classic-families-of-real-integrals">
+<h3>The four classic families of real integrals<a class="headerlink" href="#the-four-classic-families-of-real-integrals" title="Link to this heading">#</a></h3>
+<p>The machine’s classic applications, each verified against quadrature below:</p>
+<div class="math notranslate nohighlight" id="equation-eq-real-integrals">
+<span class="eqno">(566)<a class="headerlink" href="#equation-eq-real-integrals" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
+\text{(i) rational:}\quad &amp; \int_{-\infty}^{\infty} \frac{dx}{1+x^4} = \frac{\pi}{\sqrt 2}
+&amp;&amp; \text{(close a semicircle above)} \\[2pt]
+\text{(ii) trigonometric:}\quad &amp; \int_0^{2\pi} \frac{d\theta}{2+\cos\theta} = \frac{2\pi}{\sqrt 3}
+&amp;&amp; (z = e^{i\theta} \text{ walks the unit circle}) \\[2pt]
+\text{(iii) Fourier:}\quad &amp; \int_{-\infty}^{\infty} \frac{e^{ikx}}{x^2+a^2}\,dx
+  = \frac{\pi}{a}\,e^{-|k|a}
+&amp;&amp; \text{(Jordan's lemma picks the half-plane)} \\[2pt]
+\text{(iv) keyhole:}\quad &amp; \int_0^{\infty} \frac{x^{\alpha-1}}{1+x}\,dx
+  = \frac{\pi}{\sin \pi\alpha}, \quad 0&lt;\alpha&lt;1
+&amp;&amp; \text{(a contour wrapped around a branch cut).}
+\end{aligned}\end{split}\]</div>
+<p>For (i), the closing semicircle contributes nothing because the integrand decays faster than
+<span class="math notranslate nohighlight">\(1/|z|\)</span>; for (iii), <strong>Jordan’s lemma</strong> closes <span class="math notranslate nohighlight">\(e^{ikz}\)</span> in the half-plane where it <em>decays</em>
+(<span class="math notranslate nohighlight">\(\operatorname{Im} z &gt; 0\)</span> for <span class="math notranslate nohighlight">\(k &gt; 0\)</span>), and the result is the <strong>Lorentzian–exponential pair</strong>
+behind every linewidth and lifetime in <a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html"><span class="std std-doc">§6.24</span></a>
+— a pole’s imaginary part <em>is</em> a decay rate. Family
+(iii) is also where the contour method beats the computer outright: <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> warns
+and drifts on the oscillatory integrand while the residue answer is exact. And family (iv), the
+<strong>keyhole</strong>, is a deliberate pre-echo: replace <span class="math notranslate nohighlight">\(1 + x\)</span> by <span class="math notranslate nohighlight">\(e^x - 1\)</span> or <span class="math notranslate nohighlight">\(e^x + 1\)</span> and these are the
+Bose and Fermi integrals of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a> — same anatomy, same cut, same three
+moves.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntegrationWarning</span><span class="p">,</span> <span class="n">quad</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>
+<span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;#c1121f&quot;</span>
+
+<span class="c1"># Conventions: the PRINCIPAL branch of log and arg</span>
+<span class="c1"># (numpy.log / numpy.angle, arg ∈ (−π, π], cut on the negative real axis) unless an</span>
+<span class="c1"># exercise explicitly builds another branch; closed contours run COUNTERCLOCKWISE;</span>
+<span class="c1"># contour integrals are computed by parametrization with numpy.trapezoid, N ≳ 10^4.</span>
+<span class="c1"># On a CLOSED contour the trapezoid rule is spectrally accurate (the integrand is</span>
+<span class="c1"># periodic in t), so these checks reach near machine precision at modest N — until</span>
+<span class="c1"># a pole crowds the path, which Exercise 4 measures deliberately.</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">contour_integral</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">z_of_t</span><span class="p">,</span> <span class="n">dz_of_t</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">20001</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The path integral ∫ f(z) dz along z(t), t from t0 to t1, by numpy.trapezoid.</span>
+
+<span class="sd">    The workhorse of the notebook: discretize t, evaluate f(z(t))·z&#39;(t), and hand the</span>
+<span class="sd">    samples to numpy.trapezoid. For a CLOSED contour the integrand is periodic in t and</span>
+<span class="sd">    the trapezoid rule converges geometrically with N (its error is controlled by the</span>
+<span class="sd">    distance of the nearest singularity of f from the path), which is why closed-contour</span>
+<span class="sd">    checks below sit at 1e-15 with N = 20001. Passing t0 &gt; t1 reverses the orientation,</span>
+<span class="sd">    which flips the sign — used for the clockwise inner circle of the keyhole contour.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : callable</span>
+<span class="sd">        The integrand f(z); must accept complex numpy arrays.</span>
+<span class="sd">    z_of_t, dz_of_t : callable</span>
+<span class="sd">        The path z(t) and its derivative dz/dt.</span>
+<span class="sd">    t0, t1 : float</span>
+<span class="sd">        Parameter limits; t0 &gt; t1 gives the reversed (negative) orientation.</span>
+<span class="sd">    N : int, optional</span>
+<span class="sd">        Number of sample points (default 20001).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    complex</span>
+<span class="sd">        The contour integral ∫ f(z(t)) z&#39;(t) dt.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">z_of_t</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="o">*</span> <span class="n">dz_of_t</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">t</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">circle</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">R</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parametrization pair (z(t), dz/dt) for the counterclockwise circle z = c + R e^(it).</span>
+
+<span class="sd">    A tiny factory, but it keeps every call site honest about the two things that are</span>
+<span class="sd">    silently easy to get wrong: the orientation (counterclockwise, t from 0 to 2π, the</span>
+<span class="sd">    positive orientation of the residue theorem) and the Jacobian dz/dt = iR e^(it)</span>
+<span class="sd">    that the parametrized integral must carry.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    c : complex</span>
+<span class="sd">        Centre of the circle.</span>
+<span class="sd">    R : float</span>
+<span class="sd">        Radius.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple of callable</span>
+<span class="sd">        (z_of_t, dz_of_t), ready for :func:`contour_integral`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">c</span> <span class="o">+</span> <span class="n">R</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">t</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">R</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">t</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cauchy_riemann_residual</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">z0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Max Cauchy–Riemann violation max(|u_x − v_y|, |u_y + v_x|) at z0, by central differences.</span>
+
+<span class="sd">    Writes f = u + iv and forms the four partials from two symmetric differences:</span>
+<span class="sd">    (f(z0+h) − f(z0−h))/2h gives u_x + i·v_x, and (f(z0+ih) − f(z0−ih))/2h gives</span>
+<span class="sd">    u_y + i·v_y (eq-cauchy-riemann). The step h = 1e-5 balances the O(h^2) truncation</span>
+<span class="sd">    error against the O(eps/h) rounding error, putting the floor near 1e-10: an analytic</span>
+<span class="sd">    function lands on that floor, a non-analytic one shows an O(1) violation — there is</span>
+<span class="sd">    no middle ground, which is the point of Exercise 1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : callable</span>
+<span class="sd">        The function to test; must accept complex scalars.</span>
+<span class="sd">    z0 : complex</span>
+<span class="sd">        The point at which to test analyticity.</span>
+<span class="sd">    h : float, optional</span>
+<span class="sd">        Central-difference step (default 1e-5).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        max(|u_x − v_y|, |u_y + v_x|); ~1e-10 for analytic f, O(1) otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fx</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">z0</span> <span class="o">+</span> <span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="n">f</span><span class="p">(</span><span class="n">z0</span> <span class="o">-</span> <span class="n">h</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span>  <span class="c1"># ∂f/∂x = u_x + i v_x</span>
+    <span class="n">fy</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">z0</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="n">f</span><span class="p">(</span><span class="n">z0</span> <span class="o">-</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">h</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span>  <span class="c1"># ∂f/∂y = u_y + i v_y</span>
+    <span class="n">ux</span><span class="p">,</span> <span class="n">vx</span> <span class="o">=</span> <span class="n">fx</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">fx</span><span class="o">.</span><span class="n">imag</span>
+    <span class="n">uy</span><span class="p">,</span> <span class="n">vy</span> <span class="o">=</span> <span class="n">fy</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">fy</span><span class="o">.</span><span class="n">imag</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ux</span> <span class="o">-</span> <span class="n">vy</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">uy</span> <span class="o">+</span> <span class="n">vx</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">residue_numeric</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">20001</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The residue of f at a, read off as (1/2πi) ∮ f dz on the small circle |z − a| = r.</span>
+
+<span class="sd">    Only the 1/(z − a) term of the Laurent series survives integration around the pole</span>
+<span class="sd">    (eq-laurent), so one small-circle contour integral IS the residue — no limit formula,</span>
+<span class="sd">    no derivatives, and the pole&#39;s order is irrelevant. Choose r small enough that no</span>
+<span class="sd">    OTHER singularity is enclosed (the extraction is only as honest as that geometry),</span>
+<span class="sd">    but not so small that the integrand&#39;s growth near the pole, ~ r^(−m) for an order-m</span>
+<span class="sd">    pole, erodes the quadrature accuracy.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : callable</span>
+<span class="sd">        The function whose residue is wanted; accepts complex arrays.</span>
+<span class="sd">    a : complex</span>
+<span class="sd">        Location of the isolated singularity.</span>
+<span class="sd">    r : float, optional</span>
+<span class="sd">        Radius of the extraction circle (default 0.2).</span>
+<span class="sd">    N : int, optional</span>
+<span class="sd">        Sample points for the contour (default 20001).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    complex</span>
+<span class="sd">        The residue of f at a.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">z_of_t</span><span class="p">,</span> <span class="n">dz_of_t</span> <span class="o">=</span> <span class="n">circle</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">contour_integral</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">z_of_t</span><span class="p">,</span> <span class="n">dz_of_t</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">close_and_sum_residues</span><span class="p">(</span><span class="n">residues</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The residue theorem&#39;s right-hand side, 2πi Σ residues (eq-residue-theorem).</span>
+
+<span class="sd">    Deliberately trivial arithmetic, packaged: closing a contour and summing residues is</span>
+<span class="sd">    the three-move machine of this notebook (close, locate, read off), and the factor</span>
+<span class="sd">    2πi is the single most-forgotten constant in the subject. The analysis remains the</span>
+<span class="sd">    caller&#39;s job — that the closing arc vanishes (the decay condition of Exercise 6,</span>
+<span class="sd">    Jordan&#39;s lemma in Exercise 7) and that exactly the enclosed poles are listed.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    residues : sequence of complex</span>
+<span class="sd">        The residues at the poles enclosed by the (counterclockwise) closed contour.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    complex</span>
+<span class="sd">        2πi times the sum of the residues.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">residues</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-analyticity-is-a-sharp-property">
+<h2>Exercise 1 — Analyticity is a sharp property<a class="headerlink" href="#exercise-1-analyticity-is-a-sharp-property" title="Link to this heading">#</a></h2>
+<p>Complex differentiability is not a formality: it either holds, with far-reaching consequences, or
+it fails completely, and a one-line numerical test tells us which. We make the test and run it.
+Cite <a class="reference internal" href="#equation-eq-cauchy-riemann">Eq. 559</a>, <a class="reference internal" href="#equation-eq-harmonic">Eq. 560</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive the Cauchy–Riemann equations by equating the horizontal and vertical limits of the
+difference quotient defining <span class="math notranslate nohighlight">\(f'(z)\)</span>.</p></li>
+<li><p>Using the <code class="docutils literal notranslate"><span class="pre">cauchy_riemann_residual</span></code> helper (central differences of step <span class="math notranslate nohighlight">\(h = 10^{-5}\)</span>),
+evaluate the violation <span class="math notranslate nohighlight">\(\max(|u_x - v_y|,\ |u_y + v_x|)\)</span> for <span class="math notranslate nohighlight">\(z^2\)</span>, <span class="math notranslate nohighlight">\(e^z\)</span>, <span class="math notranslate nohighlight">\(\bar z\)</span>, and
+<span class="math notranslate nohighlight">\(|z|^2\)</span> at several points of the plane.</p></li>
+<li><p>Confirm that the analytic pair sits at rounding level (<span class="math notranslate nohighlight">\(\sim 10^{-9}\)</span> or below) while <span class="math notranslate nohighlight">\(\bar z\)</span>
+and <span class="math notranslate nohighlight">\(|z|^2\)</span> violate at order one — and show <em>why</em> the <span class="math notranslate nohighlight">\(\bar z\)</span> violation is exactly <span class="math notranslate nohighlight">\(2\)</span>.</p></li>
+<li><p>Verify with a five-point Laplacian (central differences via plain <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arithmetic) that
+<span class="math notranslate nohighlight">\(\operatorname{Re} z^2 = x^2 - y^2\)</span> is harmonic, and state the consequence: the real and
+imaginary parts of analytic functions are two-dimensional electrostatic potentials.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cauchy–Riemann residual max(|u_x − v_y|, |u_y + v_x|)  (h = 1e-5):
+  z^2      at [(0.7+0.3j), (-1.2+0.8j), (2-1j)]:  5.55e-12   2.22e-11   2.22e-11
+  e^z      at [(0.7+0.3j), (-1.2+0.8j), (2-1j)]:  6.11e-11   9.71e-12   2.44e-10
+  conj(z)  at [(0.7+0.3j), (-1.2+0.8j), (2-1j)]:  2.00e+00   2.00e+00   2.00e+00
+  |z|^2    at [(0.7+0.3j), (-1.2+0.8j), (2-1j)]:  1.40e+00   2.40e+00   4.00e+00
+
+analytic pair, worst residual: 2.44e-10   (rounding floor)
+conj(z) violation: 1.9999999999964486   (= 1 − (−1), exact)
+|z|^2 violation at z = (0.7+0.3j): 1.40   (= max(|2x|, |2y|))
+
+five-point Laplacian of Re z^2 at (0.7, 0.3): 2.22e-10   (harmonic)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the analytic pair z^2, e^z satisfies the Cauchy–Riemann equations to rounding level   [worst residual 2.4e-10]
+✓  the Cauchy–Riemann violation of conj(z) is exactly 2 (u_x − v_y = 1 − (−1))   [got 2 vs expected 2 (rtol=1e-12)]
+✓  |z|^2 violates Cauchy–Riemann at O(1), while Re z^2 is harmonic (∇²u ≈ 0)   [violation 1.40, Laplacian 2.2e-10]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-branch-cut-of-the-logarithm">
+<h2>Exercise 2 — The branch cut of the logarithm<a class="headerlink" href="#exercise-2-the-branch-cut-of-the-logarithm" title="Link to this heading">#</a></h2>
+<p>The logarithm’s multivaluedness is bookkeeping we must own before fractional powers, the keyhole
+contour of Exercise 8, and the polylogarithms of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>. We make the
+cut visible and watch a function
+change sheets. Cite <a class="reference internal" href="#equation-eq-branch-cuts">Eq. 561</a>.</p>
+<ol class="arabic simple">
+<li><p>Evaluate <code class="docutils literal notranslate"><span class="pre">numpy.log</span></code> just above and just below the negative real axis (offsets <span class="math notranslate nohighlight">\(\pm 10^{-9}i\)</span>
+at <span class="math notranslate nohighlight">\(z = -1\)</span> — never <em>on</em> the axis, where the convention alone decides) and exhibit the <span class="math notranslate nohighlight">\(2\pi i\)</span>
+jump across the cut.</p></li>
+<li><p>Plot <span class="math notranslate nohighlight">\(\operatorname{Im}\log z = \arg z\)</span> over the plane with <code class="docutils literal notranslate"><span class="pre">numpy.angle</span></code> on a grid, using a
+<em>cyclic</em> colormap so the only visible seam is the genuine cut on the negative real axis.</p></li>
+<li><p>Show that <span class="math notranslate nohighlight">\(\sqrt z = e^{\frac{1}{2}\log z}\)</span> inherits the cut: track <span class="math notranslate nohighlight">\(\sqrt z\)</span> <em>continuously</em>
+along the unit circle (unwrap the phase with <code class="docutils literal notranslate"><span class="pre">numpy.unwrap</span></code> + <code class="docutils literal notranslate"><span class="pre">numpy.angle</span></code>) and watch it
+return to <em>minus</em> its starting value after one full loop.</p></li>
+<li><p>State the convention adopted for the rest of the volume (principal branch, cut on the negative
+real axis) and why a choice must be made at all.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>log(−1 + 1e-9 i) = 0.000000000+3.141592653j
+log(−1 − 1e-9 i) = 0.000000000-3.141592653j
+jump across the cut = 0.000000000+6.283185305j   (2πi = 0.000000000+6.283185307j)
+
+√z tracked continuously around the unit circle:
+  start: √z = 1.000000+0.000000j
+  after one loop: √z = -1.000000+0.000000j   (= minus the start)
+
+convention for the volume: principal branch, arg ∈ (−π, π], cut on the negative axis
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ca-branch-cut">
+<img alt="../../_images/424a973d9656afa37316477227638498b0311ff42ae31c2d981b614f488b95da.png" src="../../_images/424a973d9656afa37316477227638498b0311ff42ae31c2d981b614f488b95da.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 528 </span><span class="caption-text">The branch cut of the logarithm, made visible. The hue shows <span class="math notranslate nohighlight">\(\operatorname{Im}\log z = \arg z\)</span> on the principal branch, <span class="math notranslate nohighlight">\(\arg z \in (-\pi, \pi]\)</span>, over the complex plane. The colormap is <strong>cyclic</strong> (values <span class="math notranslate nohighlight">\(\pm\pi\)</span> share a hue), so any seam the eye can find is a genuine discontinuity of the function, not an artifact of the palette — and the only one is the <strong>branch cut</strong> on the negative real axis (dashed), where <span class="math notranslate nohighlight">\(\log z\)</span> jumps by <span class="math notranslate nohighlight">\(2\pi i\)</span>. Everywhere else the phase winds smoothly around the origin, the lone <strong>branch point</strong>, where all sheets meet. Fractional powers <span class="math notranslate nohighlight">\(z^{\alpha}=e^{\alpha\log z}\)</span> inherit exactly this cut; Exercise 8 will deliberately move it to the positive axis and wrap a contour around it.</span><a class="headerlink" href="#fig-ca-branch-cut" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the principal logarithm jumps by 2πi across its branch cut   [got 6.283185305179586j vs expected 6.283185307179586j (rtol=1e-06)]
+✓  √z, continued around the origin, returns to minus itself (two sheets)   [got (-1+1.2246467991473532e-16j) vs expected (-1-0j) (rtol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-cauchy-s-theorem-and-an-integral-that-measures-area">
+<h2>Exercise 3 — Cauchy’s theorem, and an integral that measures area<a class="headerlink" href="#exercise-3-cauchy-s-theorem-and-an-integral-that-measures-area" title="Link to this heading">#</a></h2>
+<p>Closed-contour integrals of analytic functions vanish — and can therefore be deformed at will —
+while the failure for a non-analytic integrand is so total that the integral turns into a
+surveyor’s tool. Cite <a class="reference internal" href="#equation-eq-cauchy-theorem">Eq. 562</a>.</p>
+<ol class="arabic simple">
+<li><p>Compute <span class="math notranslate nohighlight">\(\oint z^2\,dz\)</span> around the unit circle with the <code class="docutils literal notranslate"><span class="pre">contour_integral</span></code> helper
+(parametrization <span class="math notranslate nohighlight">\(z(t) = e^{it}\)</span>, integrated with <code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code>).</p></li>
+<li><p>Confirm the result vanishes to <span class="math notranslate nohighlight">\(\sim 10^{-15}\)</span>, and check the deformation property by
+repeating on an ellipse <span class="math notranslate nohighlight">\(z(t) = a\cos t + i\,b\sin t\)</span>: still zero.</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(\oint \bar z\,dz\)</span> around both contours and confirm the value is <span class="math notranslate nohighlight">\(2i \times
+(\text{enclosed area})\)</span> in both cases — <span class="math notranslate nohighlight">\(2\pi i\)</span> for the unit disk, <span class="math notranslate nohighlight">\(2i\,\pi a b\)</span> for the
+ellipse.</p></li>
+<li><p>Interpret: analytic integrands forget the path; the non-analytic <span class="math notranslate nohighlight">\(\bar z\)</span> remembers
+everything, down to the geometry.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>∮ z^2 dz on the unit circle:   -1.11e-16-4.44e-16j   |·| = 4.58e-16
+∮ z^2 dz on the 1.5 × 0.7 ellipse: -8.88e-16-5.55e-16j   |·| = 1.05e-15
+
+∮ conj(z) dz on the unit circle: -0.000000000+6.283185307j   (2i·π = 0.000000000+6.283185307j)
+∮ conj(z) dz on the ellipse:     0.000000000+6.597344573j   (2i·πab = 0.000000000+6.597344573j)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ca-deformation">
+<img alt="../../_images/159a093b1673855781dd5cbd0a704167b30d8a0811fd4d3bee47d41d4600e19a.png" src="../../_images/159a093b1673855781dd5cbd0a704167b30d8a0811fd4d3bee47d41d4600e19a.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 529 </span><span class="caption-text">Deformation through analytic territory. Both closed contours — the unit circle (dark) and the <span class="math notranslate nohighlight">\(1.5 \times 0.7\)</span> ellipse (red), each traversed counterclockwise — give <span class="math notranslate nohighlight">\(\oint z^2\,dz = 0\)</span> to machine precision: between them lies only territory where <span class="math notranslate nohighlight">\(z^2\)</span> is analytic, so one contour can be deformed into the other without changing the integral. That freedom is Cauchy’s theorem in its working clothes, and every contour built later in the notebook (the semicircle of Fig. 3, the keyhole of Fig. 4) is such a deformation, shaped so that the unwanted pieces either vanish or can be read off. For the non-analytic <span class="math notranslate nohighlight">\(\bar z\)</span> the same two contours instead return <span class="math notranslate nohighlight">\(2i\)</span> times their enclosed areas — <span class="math notranslate nohighlight">\(2\pi i\)</span> and <span class="math notranslate nohighlight">\(2i\,\pi ab\)</span> — exactly.</span><a class="headerlink" href="#fig-ca-deformation" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Cauchy&#39;s theorem: ∮ z^2 dz = 0 on the circle and on the deformed (elliptical) contour   [|circle| = 4.6e-16, |ellipse| = 1.0e-15]
+✓  ∮ conj(z) dz = 2i × Area detects the geometry: 2πi for the unit disk   [got (-7.964408111363253e-19+6.283185307179586j) vs expected 6.283185307179586j (rtol=1e-09)]
+✓  ∮ conj(z) dz = 2i × Area holds on the ellipse too (2i·πab)   [got (1.1102230246251565e-16+6.5973445725385655j) vs expected 6.5973445725385655j (rtol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-the-cauchy-integral-formula-the-boundary-knows-the-interior">
+<h2>Exercise 4 — The Cauchy integral formula: the boundary knows the interior<a class="headerlink" href="#exercise-4-the-cauchy-integral-formula-the-boundary-knows-the-interior" title="Link to this heading">#</a></h2>
+<p>Rigidity made computational: the values of an analytic function on a closed curve determine its
+value at every point inside, and we can carry out the reconstruction numerically.
+Cite <a class="reference internal" href="#equation-eq-integral-formula">Eq. 563</a>.</p>
+<ol class="arabic simple">
+<li><p>For <span class="math notranslate nohighlight">\(f = e^z\)</span> and an interior point <span class="math notranslate nohighlight">\(a\)</span>, evaluate <span class="math notranslate nohighlight">\(\frac{1}{2\pi i}\oint f(z)/(z-a)\,dz\)</span> on
+the unit circle with <code class="docutils literal notranslate"><span class="pre">contour_integral</span></code>.</p></li>
+<li><p>Confirm it reproduces <span class="math notranslate nohighlight">\(e^a\)</span> to at least six digits, and repeat for a second function
+(<span class="math notranslate nohighlight">\(f = \cos z\)</span>, <code class="docutils literal notranslate"><span class="pre">numpy.cos</span></code>) and several points <span class="math notranslate nohighlight">\(a\)</span>.</p></li>
+<li><p>Move <span class="math notranslate nohighlight">\(a\)</span> toward the contour (<span class="math notranslate nohighlight">\(|a| = 0.5,\ 0.9,\ 0.99,\ 0.999\)</span> at fixed <span class="math notranslate nohighlight">\(N\)</span>) and watch the
+accuracy degrade — explain why (the pole of the integrand approaches the discretized path,
+and the trapezoid rule’s geometric convergence rate collapses).</p></li>
+<li><p>State the consequences in prose: analytic functions are infinitely differentiable and equal
+their Taylor series; knowing <span class="math notranslate nohighlight">\(f\)</span> on a curve is knowing <span class="math notranslate nohighlight">\(f\)</span> inside.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1/2πi) ∮ e^z/(z − a) dz at a = (0.3+0.2j):
+  reconstructed: 1.322951502110+0.268175545969j
+  exact e^a:     1.322951502110+0.268175545969j
+  |error| = 0.0e+00
+f = cos z, a = 0.0:  |reconstruction error| = 0.0e+00
+f = cos z, a = (-0.4+0.1j):  |reconstruction error| = 1.4e-17
+f = cos z, a = (0.2-0.5j):  |reconstruction error| = 2.2e-16
+
+pole approaching the contour (f = e^z, N = 2001 fixed):
+  |a| = 0.5:  error = 2.22e-16   (e^(−N·ln(1/|a|)) ≈ 0.0e+00)
+  |a| = 0.9:  error = 8.99e-16   (e^(−N·ln(1/|a|)) ≈ 2.7e-92)
+  |a| = 0.99:  error = 5.02e-09   (e^(−N·ln(1/|a|)) ≈ 1.8e-09)
+  |a| = 0.999:  error = 4.25e-01   (e^(−N·ln(1/|a|)) ≈ 1.4e-01)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Cauchy integral formula reconstructs interior values from the boundary (f = e^z)   [got (1.3229515021098726+0.2681755459689439j) vs expected (1.3229515021098726+0.2681755459689439j) (rtol=1e-10)]
+✓  the reconstruction is universal: f = cos z rebuilt at several interior points   [worst error 2.2e-16]
+✓  accuracy degrades as the pole approaches the discretized contour (geometric rate e^(−N·d))   [error 2.2e-16 at |a|=0.5 vs 4.2e-01 at |a|=0.999]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-laurent-series-and-residues">
+<h2>Exercise 5 — Laurent series and residues<a class="headerlink" href="#exercise-5-laurent-series-and-residues" title="Link to this heading">#</a></h2>
+<p>Around an isolated singularity a function expands in powers both positive and negative, and
+exactly one coefficient survives closed-contour integration. We verify the survival, then extract
+residues three ways. Cite <a class="reference internal" href="#equation-eq-laurent">Eq. 564</a>.</p>
+<ol class="arabic simple">
+<li><p>Show by direct parametrization (<code class="docutils literal notranslate"><span class="pre">contour_integral</span></code> on a circle around <span class="math notranslate nohighlight">\(a\)</span>) that
+<span class="math notranslate nohighlight">\(\oint (z-a)^n\,dz = 2\pi i\,\delta_{n,-1}\)</span> for <span class="math notranslate nohighlight">\(n = -3, \dots, 2\)</span>.</p></li>
+<li><p>For <span class="math notranslate nohighlight">\(f(z) = 1/\big((z-\tfrac12)(z+2)\big)\)</span>, compute the residue at <span class="math notranslate nohighlight">\(z = \tfrac12\)</span> by the
+simple-pole limit formula and by <code class="docutils literal notranslate"><span class="pre">residue_numeric</span></code> (small-circle extraction); confirm both
+give <span class="math notranslate nohighlight">\(0.4\)</span>.</p></li>
+<li><p>For <span class="math notranslate nohighlight">\(f(z) = e^z/z^2\)</span>, write the Laurent expansion around <span class="math notranslate nohighlight">\(0\)</span>, identify the residue (the <span class="math notranslate nohighlight">\(1/z\)</span>
+coefficient, <span class="math notranslate nohighlight">\(= 1\)</span>), confirm with <code class="docutils literal notranslate"><span class="pre">residue_numeric</span></code>, and read off the first four Laurent
+coefficients numerically via <span class="math notranslate nohighlight">\(c_n = \frac{1}{2\pi i}\oint f(z)/z^{\,n+1}\,dz\)</span>.</p></li>
+<li><p>Classify in prose: pole orders, essential singularities (<span class="math notranslate nohighlight">\(e^{1/z}\)</span>), and why the residue is
+the only survivor.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>∮ (z − a)^n dz on a circle around a (should be 2πi at n = −1, zero otherwise):
+  n = -3:  -4.441e-16-4.441e-16j
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  n = -2:  -4.441e-16-2.220e-16j
+  n = -1:  1.585e-18+6.283e+00j
+  n = +0:  0.000e+00-2.220e-16j
+  n = +1:  0.000e+00-1.943e-16j
+  n = +2:  0.000e+00-8.327e-17j
+
+residue of 1/((z − 1/2)(z + 2)) at z = 1/2:
+  limit formula:            0.4
+  small-circle extraction:  0.400000000000+0.000000000000j
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>residue of e^z/z^2 at 0 (pole of order 2): 1.000000000000+0.000000000000j   (Laurent: c_(−1) = 1)
+  c_-2 by contour: +1.0000000000   (exact 1/(n+2)! = +1.0000000000)
+  c_-1 by contour: +1.0000000000   (exact 1/(n+2)! = +1.0000000000)
+  c_+0 by contour: +0.5000000000   (exact 1/(n+2)! = +0.5000000000)
+  c_+1 by contour: +0.1666666667   (exact 1/(n+2)! = +0.1666666667)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  ∮ (z − a)^n dz = 2πi δ_(n,−1): only the residue term survives integration   [max|Δ| = 4.96507e-16 (rtol=1e-06, atol=1e-10)]
+✓  residues by the limit formula and by small-circle contour extraction agree   [max|Δ| = 0 (rtol=1e-06, atol=1e-09)]
+✓  the small-circle contour reads off the whole Laurent series of e^z/z^2 (c_n = 1/(n+2)!)   [max|Δ| = 4.13491e-16 (rtol=1e-08, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-the-residue-theorem-and-the-rational-family">
+<h2>Exercise 6 — The residue theorem, and the rational family<a class="headerlink" href="#exercise-6-the-residue-theorem-and-the-rational-family" title="Link to this heading">#</a></h2>
+<p>The machine assembled and first used: closed contours reduce to residue arithmetic, and the first
+family of impossible-looking real integrals falls. Cite <a class="reference internal" href="#equation-eq-residue-theorem">Eq. 565</a>,
+<a class="reference internal" href="#equation-eq-real-integrals">Eq. 566</a>.</p>
+<ol class="arabic simple">
+<li><p>Verify the residue theorem numerically with <code class="docutils literal notranslate"><span class="pre">contour_integral</span></code>: for the two-pole
+<span class="math notranslate nohighlight">\(f(z) = 1/\big((z-\tfrac12)(z+2)\big)\)</span> of Exercise 5, integrate on a contour enclosing <em>both</em>
+poles and confirm <span class="math notranslate nohighlight">\(\oint f\,dz = 2\pi i \sum \text{Res} = 0\)</span> (the residues cancel), then on a
+contour enclosing only <span class="math notranslate nohighlight">\(z = \tfrac12\)</span> and confirm the single-residue value.</p></li>
+<li><p>Evaluate <span class="math notranslate nohighlight">\(\int_{-\infty}^{\infty} dx/(1+x^4)\)</span> by closing a semicircle in the upper half-plane:
+locate the two enclosed poles (the fourth roots of <span class="math notranslate nohighlight">\(-1\)</span>), extract their residues
+with <code class="docutils literal notranslate"><span class="pre">residue_numeric</span></code>, check them against the analytic values <span class="math notranslate nohighlight">\(-p/4\)</span>, and assemble the answer
+<span class="math notranslate nohighlight">\(\pi/\sqrt 2\)</span> with <code class="docutils literal notranslate"><span class="pre">close_and_sum_residues</span></code>.</p></li>
+<li><p>Justify discarding the arc: integrate the semicircular arc numerically at <span class="math notranslate nohighlight">\(R = 10, 30, 100\)</span>
+with <code class="docutils literal notranslate"><span class="pre">contour_integral</span></code>, watch it shrink like <span class="math notranslate nohighlight">\(R^{-3}\)</span>, and state the general decay condition.</p></li>
+<li><p>Confirm against <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>∮ f dz enclosing both poles:  -1.11e-16-5.55e-17j   (residues 0.4 − 0.4 cancel)
+∮ f dz enclosing z = 1/2 only: 0.000000000+2.513274123j   (2πi·0.4 = 0.000000000+2.513274123j)
+
+poles enclosed by the upper semicircle: 0.707107+0.707107j, -0.707107+0.707107j
+residues (extracted): -0.176776695-0.176776695j, 0.176776695-0.176776695j
+residues (analytic −p/4): -0.176776695-0.176776695j, 0.176776695-0.176776695j
+2πi Σ Res = 2.221441469079+0.000000000000j
+π/√2      = 2.221441469079
+
+the semicircular arc, integrated at finite R:
+  R =    10:  |arc| = 6.67e-04   (π/R^3 = 3.14e-03)
+  R =    30:  |arc| = 2.47e-05   (π/R^3 = 1.16e-04)
+  R =   100:  |arc| = 6.67e-07   (π/R^3 = 3.14e-06)
+
+scipy.integrate.quad: 2.221441469079   (reported error 4.5e-09)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ca-semicircle">
+<img alt="../../_images/abc096abd2cb4b4ca8fcbef940c42c96c9d6c7b580102070d4685bb491828cd7.png" src="../../_images/abc096abd2cb4b4ca8fcbef940c42c96c9d6c7b580102070d4685bb491828cd7.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 530 </span><span class="caption-text">Closing the contour: the rational family. The real-axis integral <span class="math notranslate nohighlight">\(\int_{-\infty}^{\infty} dx/(1+x^4)\)</span> is completed into a closed contour by a semicircle of radius <span class="math notranslate nohighlight">\(R\)</span> in the upper half-plane (amber, dashed); as <span class="math notranslate nohighlight">\(R \to \infty\)</span> the arc’s contribution dies like <span class="math notranslate nohighlight">\(R^{-3}\)</span> (measured in the solution: <span class="math notranslate nohighlight">\(\pi R \cdot R^{-4}\)</span>), leaving the real integral equal to <span class="math notranslate nohighlight">\(2\pi i\)</span> times the residues at the two <strong>enclosed</strong> poles <span class="math notranslate nohighlight">\(e^{i\pi/4}\)</span> and <span class="math notranslate nohighlight">\(e^{3i\pi/4}\)</span> (red crosses) — the two poles in the lower half-plane (grey crosses) never enter. The result, <span class="math notranslate nohighlight">\(\pi/\sqrt{2}\)</span>, agrees with quadrature to ten digits. The same picture with <span class="math notranslate nohighlight">\(e^{ikz}\)</span> in the numerator becomes the Fourier family of Exercise 7, where Jordan’s lemma decides which half-plane closes.</span><a class="headerlink" href="#fig-ca-semicircle" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the residue theorem with cancelling residues: ∮ f dz = 2πi(0.4 − 0.4) = 0   [got (-1.1102230246251565e-16-5.551115123125783e-17j) vs expected 0 (rtol=1e-06)]
+✓  a contour enclosing only z = 1/2 picks up 2πi times that residue alone   [got (1.1102230246251565e-16+2.5132741228718345j) vs expected 2.5132741228718345j (rtol=1e-09)]
+✓  small-circle extraction matches the analytic residues −p/4 at both enclosed poles   [max|Δ| = 2.77556e-17 (rtol=1e-09, atol=1e-09)]
+✓  ∫ dx/(1 + x^4) = π/√2 by the residue theorem   [got 2.22144 vs expected 2.22144 (rtol=1e-09)]
+✓  the residue answer matches scipy.integrate.quad   [got 2.22144 vs expected 2.22144 (rtol=1e-08)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-trigonometric-and-fourier-families-where-residues-beat-the-computer">
+<h2>Exercise 7 — Trigonometric and Fourier families: where residues beat the computer<a class="headerlink" href="#exercise-7-trigonometric-and-fourier-families-where-residues-beat-the-computer" title="Link to this heading">#</a></h2>
+<p>Two more closures — and the demonstration that the contour method wins computationally exactly
+where brute-force quadrature strains: on oscillatory integrands. Cite <a class="reference internal" href="#equation-eq-real-integrals">Eq. 566</a>.</p>
+<ol class="arabic simple">
+<li><p>Convert <span class="math notranslate nohighlight">\(\int_0^{2\pi} d\theta/(2+\cos\theta)\)</span> to a unit-circle contour integral via
+<span class="math notranslate nohighlight">\(z = e^{i\theta}\)</span> (so <span class="math notranslate nohighlight">\(\cos\theta = (z+1/z)/2\)</span> and <span class="math notranslate nohighlight">\(d\theta = dz/(iz)\)</span>), evaluate it by
+residues (<code class="docutils literal notranslate"><span class="pre">residue_numeric</span></code> + <code class="docutils literal notranslate"><span class="pre">close_and_sum_residues</span></code>, cross-checked by <code class="docutils literal notranslate"><span class="pre">contour_integral</span></code>
+on the unit circle), and confirm <span class="math notranslate nohighlight">\(2\pi/\sqrt 3\)</span> against <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> in <span class="math notranslate nohighlight">\(\theta\)</span>.</p></li>
+<li><p>Evaluate <span class="math notranslate nohighlight">\(\int_{-\infty}^{\infty} e^{ikx}/(x^2+a^2)\,dx\)</span> for <span class="math notranslate nohighlight">\(k = a = 1\)</span> by closing in the
+half-plane where <span class="math notranslate nohighlight">\(e^{ikz}\)</span> decays (Jordan’s lemma), obtaining <span class="math notranslate nohighlight">\((\pi/a)e^{-|k|a}\)</span>; the real
+part is the cosine integral.</p></li>
+<li><p>Benchmark against <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> with a large <code class="docutils literal notranslate"><span class="pre">limit</span></code>, recording its warning and its
+<span class="math notranslate nohighlight">\(\sim 5\times10^{-5}\)</span> drift on the oscillatory integrand — the residue result is exact where
+quadrature strains.</p></li>
+<li><p>Interpret physically: the Lorentzian–exponential pair is the lineshape–lifetime relation
+behind <a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html"><span class="std std-doc">§6.24</span></a>; a pole’s imaginary
+part is a decay rate. (Prose part.)</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>trigonometric family ∫ dθ/(2 + cos θ):
+  residue at z = −2 + √3: 0.000000000-0.577350269j   (analytic −i/√3 = -0.000000000-0.577350269j)
+  2πi Σ Res      = 3.627598728468
+  direct contour = 3.627598728468
+  quad in θ      = 3.627598728468
+  2π/√3          = 3.627598728468
+
+Fourier family ∫ e^(ikx)/(x^2 + a^2) dx  (k = a = 1):
+  residue at ia: -0.000000000-0.183939721j   (analytic e^(−ka)/(2ia) = 0.000000000-0.183939721j)
+  2πi Σ Res = 1.155727349791
+  (π/a)e^(−ka) = 1.155727349791
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>plain quad on cos(kx)/(x^2 + a^2) over (−∞, ∞), limit = 1000:
+  quad WARNED: IntegrationWarning: The maximum number of subdivisions (1000) has been achieved.
+  If increa…
+  quad value 1.1557496155, drift from exact = 2.2e-05, residue answer exact
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the trigonometric and Fourier families close by residues (2π/√3 and (π/a)e^(−ka))   [max|Δ| = 4.44089e-16 (rtol=0.0001, atol=1e-09)]
+✓  two independent routes agree: raw unit-circle contour and direct θ-quadrature   [max|Δ| = 8.88178e-16 (rtol=1e-08, atol=1e-09)]
+✓  plain quad lands near the answer but strains on the oscillatory integrand; the residue is exact   [quad drift 2.2e-05]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-the-keyhole-an-integral-around-a-branch-cut">
+<h2>Exercise 8 — The keyhole: an integral around a branch cut<a class="headerlink" href="#exercise-8-the-keyhole-an-integral-around-a-branch-cut" title="Link to this heading">#</a></h2>
+<p>The finale, and a deliberate pre-echo: the Bose and Fermi integrals of
+<a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a> have exactly this
+anatomy. The branch cut, bookkeeping until now, becomes the working part of the machine.
+Cite <a class="reference internal" href="#equation-eq-branch-cuts">Eq. 561</a>, <a class="reference internal" href="#equation-eq-real-integrals">Eq. 566</a>.</p>
+<ol class="arabic simple">
+<li><p>For <span class="math notranslate nohighlight">\(\int_0^\infty x^{\alpha-1}/(1+x)\,dx\)</span> with <span class="math notranslate nohighlight">\(\alpha = \tfrac13\)</span>, build the branch
+<span class="math notranslate nohighlight">\(z^{\alpha-1} = e^{(\alpha-1)\log z}\)</span> with <span class="math notranslate nohighlight">\(\arg z \in [0, 2\pi)\)</span> (fold <code class="docutils literal notranslate"><span class="pre">numpy.angle</span></code> into
+<span class="math notranslate nohighlight">\([0, 2\pi)\)</span> with <code class="docutils literal notranslate"><span class="pre">numpy.mod</span></code>), so the cut lies along the <em>positive</em> real axis, and assemble
+the keyhole contour’s four legs numerically: two straight edges hugging the cut (transformed
+to log-space and integrated with <code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code>), a large circle of radius <span class="math notranslate nohighlight">\(R\)</span>, and a
+small circle of radius <span class="math notranslate nohighlight">\(\varepsilon\)</span> (both with <code class="docutils literal notranslate"><span class="pre">contour_integral</span></code>).</p></li>
+<li><p>Show numerically that the two straight edges differ by the phase factor <span class="math notranslate nohighlight">\(e^{2\pi i(\alpha-1)}\)</span>
+— they do <em>not</em> cancel; the cut is what makes the method work.</p></li>
+<li><p>Confirm the four legs sum to <span class="math notranslate nohighlight">\(2\pi i\)</span> times the residue at <span class="math notranslate nohighlight">\(z = -1\)</span> (extracted with
+<code class="docutils literal notranslate"><span class="pre">residue_numeric</span></code> on the same branch), derive the closed form <span class="math notranslate nohighlight">\(\pi/\sin(\pi\alpha)\)</span>, and
+evaluate it from the <em>extracted</em> residue.</p></li>
+<li><p>Confirm numerically against <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code>, and note in prose what changes when the
+denominator becomes <span class="math notranslate nohighlight">\(e^x - 1\)</span> or <span class="math notranslate nohighlight">\(e^x + 1\)</span> (the integrals of
+<a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a> — the shape survives).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>keyhole legs (α = 1/3, ε = 1e-06, R = 1e+06):
+  upper edge  = 3.597448736-0.000000000j
+  lower edge  = 1.798724368-3.115481994j
+  big circle  = 2.250e-04-1.299e-04j   (|·| ~ 2πR^(α−1) = 6.3e-04)
+  small circle = 4.500e-02-2.598e-02j   (|·| ~ 2πε^α = 6.3e-02)
+
+lower/upper edge ratio: 0.500000000-0.866025404j
+−e^(2πiα)             : 0.500000000-0.866025404j
+
+residue at z = −1 (extracted): -0.500000000-0.866025404j   (analytic e^(iπ(α−1)) = -0.500000000-0.866025404j)
+sum of four legs: 5.441398093-3.141592654j
+2πi · Res       : 5.441398093-3.141592654j
+
+I from the extracted residue: 3.627598728468
+π/sin(πα) at α = 1/3        : 3.627598728468
+quad benchmark              : 3.627598728469
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ca-keyhole">
+<img alt="../../_images/b2d5071eea1ec9c65ec757db39ff9ba0f4836710688f4607d633bf2b5c5e09e4.png" src="../../_images/b2d5071eea1ec9c65ec757db39ff9ba0f4836710688f4607d633bf2b5c5e09e4.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 531 </span><span class="caption-text">The keyhole contour for <span class="math notranslate nohighlight">\(\int_0^\infty x^{\alpha-1}/(1+x)\,dx\)</span>. The branch cut of <span class="math notranslate nohighlight">\(z^{\alpha-1}\)</span> (thick grey) is deliberately laid along the <strong>positive</strong> real axis, and the contour wraps it: an outgoing edge just above the cut, a large circle <span class="math notranslate nohighlight">\(C_R\)</span> (amber, dashed), a returning edge just below, and a small circle <span class="math notranslate nohighlight">\(c_\varepsilon\)</span> backing around the origin. The two edges traverse the same points of the axis but different <strong>sheets</strong> — below the cut the integrand carries the extra phase <span class="math notranslate nohighlight">\(e^{2\pi i(\alpha-1)}\)</span> — so they do not cancel; their mismatch, <span class="math notranslate nohighlight">\((1-e^{2\pi i\alpha})I\)</span>, is set equal to <span class="math notranslate nohighlight">\(2\pi i\)</span> times the residue at the lone enclosed pole <span class="math notranslate nohighlight">\(z=-1\)</span> (red cross), giving <span class="math notranslate nohighlight">\(I=\pi/\sin\pi\alpha\)</span>. Replace <span class="math notranslate nohighlight">\(1+x\)</span> by <span class="math notranslate nohighlight">\(e^x-1\)</span> or <span class="math notranslate nohighlight">\(e^x+1\)</span> and this same picture computes the Bose and Fermi integrals of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>.</span><a class="headerlink" href="#fig-ca-keyhole" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-8">
+<h3>Validation 8<a class="headerlink" href="#validation-8" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the keyhole&#39;s edges differ by the branch phase −e^(2πiα): the cut prevents cancellation   [got (0.5000000000017367-0.8660254037834356j) vs expected (0.4999999999999998-0.8660254037844387j) (rtol=1e-06)]
+✓  the four legs of the keyhole sum to 2πi times the extracted residue at z = −1   [got (5.441398092688674-3.1415926535817214j) vs expected (5.441398092702652-3.141592653589794j) (rtol=1e-05)]
+✓  the keyhole contour gives ∫ x^(α−1)/(1+x) dx = π/sin(πα)   [got 3.6276 vs expected 3.6276 (rtol=1e-06)]
+✓  the residue-theorem value matches scipy.integrate.quad on the split, singular integral   [got 3.6276 vs expected 3.6276 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-9-rigidity-as-a-tool">
+<h2>Exercise 9 — Rigidity as a tool<a class="headerlink" href="#exercise-9-rigidity-as-a-tool" title="Link to this heading">#</a></h2>
+<p>Everything in this notebook followed from one demand — that a derivative exist in the complex
+sense — and the demand turned out to be nearly tyrannical. Functions that meet it are determined
+inside by their boundary, are infinitely smooth without being asked, solve Laplace’s equation
+twice over, and surrender their closed-contour integrals to a handful of numbers sitting at their
+singularities. We spent that rigidity on integrals: rational, trigonometric, oscillatory, and one
+wrapped around a branch cut, each falling to the same three moves — close, locate, read off. And
+the spending was not merely elegant: on the oscillatory Fourier integral the residue answer was
+exact where a good adaptive quadrature warned and drifted, because a method that works with the
+<em>analytic structure</em> of an integrand is playing a different game from one that samples its values.</p>
+<p>It is worth savouring how strange this is. In real analysis, differentiability is cheap and buys
+almost nothing — a function can be differentiable once and behave abominably thereafter. In
+complex analysis it is expensive and buys everything. The physicist’s luck is that nature keeps
+writing analytic functions: the next notebook (<a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a>)
+points the machine at physics proper, where
+the boundary values of response functions (Kramers–Kronig), the frequency sums of thermal physics
+(Matsubara), and the asymptotics of the large-<span class="math notranslate nohighlight">\(N\)</span> world (steepest descent, which finally <em>derives</em>
+the Stirling formula that Volume V borrowed) are all consequences of analyticity — and causality
+alone, we will see, is enough to force it. The notebook after that
+(<a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>) computes the integrals
+this whole volume runs on, and their anatomy is already in hand: they are the keyhole of
+Exercise 8 with a Boltzmann factor in the denominator.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>Volume VII opens its mathematical arsenal with the core machinery of complex analysis, built
+computationally and put to work immediately on the classic integral families.</p>
+<ul class="simple">
+<li><p><strong>Analyticity is the Cauchy–Riemann equations</strong> <a class="reference internal" href="#equation-eq-cauchy-riemann">Eq. 559</a>: equal limits from all
+directions force <span class="math notranslate nohighlight">\(u_x = v_y\)</span>, <span class="math notranslate nohighlight">\(u_y = -v_x\)</span> — a sharp, checkable property (residuals <span class="math notranslate nohighlight">\(10^{-10}\)</span>
+for <span class="math notranslate nohighlight">\(z^2, e^z\)</span>; exactly <span class="math notranslate nohighlight">\(2\)</span> for <span class="math notranslate nohighlight">\(\bar z\)</span>), and the real and imaginary parts of any analytic
+function are harmonic <a class="reference internal" href="#equation-eq-harmonic">Eq. 560</a>, the electrostatics of Volume III in two dimensions.</p></li>
+<li><p><strong>Branch cuts are bookkeeping for multivaluedness</strong> <a class="reference internal" href="#equation-eq-branch-cuts">Eq. 561</a>: the principal
+logarithm (numpy’s convention) jumps by <span class="math notranslate nohighlight">\(2\pi i\)</span> across the negative axis, <span class="math notranslate nohighlight">\(\sqrt z\)</span> returns
+from a loop as its own negative, and the cut can be <em>relocated</em> at will — later, deliberately,
+onto the positive axis.</p></li>
+<li><p><strong>Cauchy’s theorem</strong> <a class="reference internal" href="#equation-eq-cauchy-theorem">Eq. 562</a>: <span class="math notranslate nohighlight">\(\oint f\,dz = 0\)</span> over analytic territory
+(verified at <span class="math notranslate nohighlight">\(10^{-16}\)</span>), so contours deform freely; for the non-analytic <span class="math notranslate nohighlight">\(\bar z\)</span> the integral
+instead measures the enclosed area exactly.</p></li>
+<li><p><strong>The integral formula</strong> <a class="reference internal" href="#equation-eq-integral-formula">Eq. 563</a>: boundary values reconstruct interior ones
+(<span class="math notranslate nohighlight">\(e^a\)</span> to twelve digits), analytic functions are infinitely differentiable, and the
+reconstruction degrades on schedule (<span class="math notranslate nohighlight">\(e^{-Nd}\)</span>) as a pole grazes the discretized path.</p></li>
+<li><p><strong>Laurent series and residues</strong> <a class="reference internal" href="#equation-eq-laurent">Eq. 564</a>: only <span class="math notranslate nohighlight">\(c_{-1}\)</span> survives closed-contour
+integration, so a small-circle contour extracts residues of any pole order — and, with extra
+powers inserted, the entire series (<span class="math notranslate nohighlight">\(c_n = 1/(n+2)!\)</span> for <span class="math notranslate nohighlight">\(e^z/z^2\)</span>, read off numerically).</p></li>
+<li><p><strong>The residue theorem</strong> <a class="reference internal" href="#equation-eq-residue-theorem">Eq. 565</a> and <strong>the four families</strong>
+<a class="reference internal" href="#equation-eq-real-integrals">Eq. 566</a>: <span class="math notranslate nohighlight">\(\pi/\sqrt2\)</span> by a semicircle whose arc dies like <span class="math notranslate nohighlight">\(R^{-3}\)</span> (measured);
+<span class="math notranslate nohighlight">\(2\pi/\sqrt3\)</span> by walking the unit circle; <span class="math notranslate nohighlight">\((\pi/a)e^{-|k|a}\)</span> by Jordan’s lemma — the
+Lorentzian–exponential lifetime pair of
+<a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html"><span class="std std-doc">§6.24</span></a>, where the residue is exact
+while <code class="docutils literal notranslate"><span class="pre">quad</span></code> warns and
+drifts; and <span class="math notranslate nohighlight">\(\pi/\sin\pi\alpha\)</span> by a keyhole around a branch cut whose edges refuse to cancel
+by precisely the factor <span class="math notranslate nohighlight">\(e^{2\pi i\alpha}\)</span>.</p></li>
+</ul>
+<p>The rigidity of analytic functions is not a curiosity but a computational instrument — and the
+keyhole that closed this notebook is, one Boltzmann factor away, the Bose and Fermi integrals on
+which the rest of the volume runs.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The physicist’s applications (<a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a>).</strong> Principal
+values and the Sokhotski–Plemelj formula; the
+Kramers–Kronig relations, where causality alone forces the analyticity this notebook assumed;
+Matsubara frequency sums, which trade thermal sums for residue ladders; and steepest descent,
+which re-derives the Stirling formula of
+<a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html"><span class="std std-doc">§5.3</span></a> and grows into the saddle-point method of the
+large-<span class="math notranslate nohighlight">\(N\)</span> world.</p></li>
+<li><p><strong>The statistical toolkit (<a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>).</strong> Densities of states, the Gamma
+and zeta functions, the
+polylogarithms living on their branch cuts, the Bose and Fermi integrals (whose keyhole anatomy
+Exercise 8 rehearsed), and the Sommerfeld expansion.</p></li>
+<li><p><strong>Conformal mapping</strong> — the harmonic-function connection of Exercise 1 grown into a method for
+two-dimensional electrostatics and ideal flow: a horizon, named.</p></li>
+<li><p><strong>Cross-reference</strong> <a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a> (the algebra of
+<span class="math notranslate nohighlight">\(\mathbb{C}\)</span>), Volume III (harmonic potentials),
+<a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html"><span class="std std-doc">§5.3</span></a>
+(Stirling), <a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html"><span class="std std-doc">§6.24</span></a> (Lorentzian
+lineshapes and lifetimes), and forward to <a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a>,
+<a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>.</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/07-quantum-statistical-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Volume VII — Quantum Statistical Mechanics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="complex-analysis-applications.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analyticity-and-the-cauchyriemann-equations">Analyticity and the Cauchy–Riemann equations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#harmonic-consequences">Harmonic consequences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#elementary-functions-and-branch-cuts">Elementary functions and branch cuts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contour-integrals-and-cauchy-s-theorem">Contour integrals and Cauchy’s theorem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-cauchy-integral-formula">The Cauchy integral formula</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#laurent-series-poles-and-residues">Laurent series, poles, and residues</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-residue-theorem">The residue theorem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-four-classic-families-of-real-integrals">The four classic families of real integrals</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-analyticity-is-a-sharp-property">Exercise 1 — Analyticity is a sharp property</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-branch-cut-of-the-logarithm">Exercise 2 — The branch cut of the logarithm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-cauchy-s-theorem-and-an-integral-that-measures-area">Exercise 3 — Cauchy’s theorem, and an integral that measures area</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-cauchy-integral-formula-the-boundary-knows-the-interior">Exercise 4 — The Cauchy integral formula: the boundary knows the interior</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-laurent-series-and-residues">Exercise 5 — Laurent series and residues</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-residue-theorem-and-the-rational-family">Exercise 6 — The residue theorem, and the rational family</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-trigonometric-and-fourier-families-where-residues-beat-the-computer">Exercise 7 — Trigonometric and Fourier families: where residues beat the computer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-the-keyhole-an-integral-around-a-branch-cut">Exercise 8 — The keyhole: an integral around a branch cut</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-rigidity-as-a-tool">Exercise 9 — Rigidity as a tool</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

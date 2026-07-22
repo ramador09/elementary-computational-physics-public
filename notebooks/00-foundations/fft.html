@@ -1,0 +1,1572 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="0.6 The Fast Fourier Transform" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/00-foundations/fft.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: The Fourier transform we met in analysis as an integral over all time; a computer, with only a finite list of samples, uses its discrete c..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: The Fourier transform we met in analysis as an integral over all time; a computer, with only a finite list of samples, uses its discrete c..." />
+
+    <title>0.6 The Fast Fourier Transform &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/00-foundations/fft';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/00-foundations/fft.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="0.7 Solving Ordinary Differential Equations" href="ode-solvers.html" />
+    <link rel="prev" title="0.5 Eigenvalues, Diagonalization, and the SVD" href="eigenvalues-svd.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/00-foundations/fft.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/00-foundations/fft.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/00-foundations/fft.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/00-foundations/fft.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>0.6 The Fast Fourier Transform</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-fourier-series-to-the-dft">From Fourier series to the DFT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-inverse-and-the-analysis-synthesis-duality">The inverse, and the analysis/synthesis duality</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-fast-the-fft">Why “fast”: the FFT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bins-resolution-sampling-and-leakage">Bins, resolution, sampling, and leakage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-convolution-theorem-and-parseval">The convolution theorem, and Parseval</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-dft-from-scratch">Exercise 1 — The DFT from scratch</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-inverse-transform-and-the-analysis-synthesis-duality">Exercise 2 — The inverse transform and the analysis/synthesis duality</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-why-fast-o-n-log-n">Exercise 3 — Why “fast”: O(N log N)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-reading-a-spectrum-frequencies-and-amplitudes">Exercise 4 — Reading a spectrum: frequencies and amplitudes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-aliasing-and-the-sampling-theorem">Exercise 5 — Aliasing and the sampling theorem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-spectral-leakage-and-windowing">Exercise 6 — Spectral leakage and windowing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-filtering-via-the-transform-convolution-theorem">Exercise 7 — Filtering via the transform (convolution theorem)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-timbre-the-harmonic-spectrum-of-a-note">Exercise 8 — Timbre: the harmonic spectrum of a note</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-acoustic-resonances-of-a-bore-student-exercise">Exercise 9 — Acoustic resonances of a bore (student exercise)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-9">Validation 9</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-power-spectrum-and-parseval-s-theorem">Exercise 10 — Power spectrum and Parseval’s theorem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-10">Validation 10</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-fast-fourier-transform">
+<h1>0.6 The Fast Fourier Transform<a class="headerlink" href="#the-fast-fourier-transform" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume 0 — Mathematical &amp; Computational Foundations
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;0.6
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">From the discrete Fourier transform to the FFT: analysis and synthesis, aliasing and leakage, filtering, and why a violin and a saxophone playing the same note sound different.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;100–130 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>The Fourier transform we met in analysis as an integral over all time; a
+computer, with only a finite list of samples, uses its discrete cousin, the
+<strong>discrete Fourier transform</strong> (DFT). The DFT is nothing more exotic than a
+change of basis (rewriting a signal as a sum of pure complex exponentials), but
+computing it naively costs <span class="math notranslate nohighlight">\(O(N^2)\)</span>, and the <strong>fast Fourier transform</strong> (FFT)
+brings that down to <span class="math notranslate nohighlight">\(O(N\log N)\)</span>, a speed-up so consequential it reshaped
+twentieth-century science and engineering. This notebook builds the DFT from
+scratch, shows analysis and synthesis are an exact inverse pair, explains <em>why</em>
+the FFT is fast, and then puts the transform to work: reading frequencies and
+amplitudes off a spectrum, the sampling theorem and <strong>aliasing</strong>, <strong>spectral
+leakage</strong> and windowing, and <strong>filtering</strong> by the convolution theorem.</p>
+<p>The payoff is acoustic. The FFT of a sound’s pressure waveform lays bare its
+<strong>harmonic spectrum</strong>, and the <em>relative amplitudes</em> of the overtones are what
+the ear hears as <strong>timbre</strong>: why a violin and a clarinet playing the same note
+are instantly distinguishable. We will synthesize idealised string- and
+clarinet-like tones and read their spectra, then connect the spectrum to the
+instrument’s geometry: a closed-open tube resonates at odd multiples of <span class="math notranslate nohighlight">\(c/4L\)</span>,
+the hollow signature of the clarinet. (These are honest idealisations, not
+recordings: real instruments add formants, transients, and conical-bore effects,
+a caveat we keep in view.)</p>
+<p>Everything here is a spectrum or a waveform: a still plot tells the whole story,
+so there are no animations (a spectrogram of evolving timbre would be the place
+for one, in a later applied notebook).</p>
+<blockquote>
+<div><p><strong>How to read the checks.</strong> Each exercise ends with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against
+an independent fact: the hand-built DFT versus <code class="docutils literal notranslate"><span class="pre">np.fft.fft</span></code>, a known alias
+frequency, a resonance formula. A ✓ is strong evidence; a ✗ is a prompt to
+<em>locate the discrepancy</em>, not a verdict.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Scope.</strong> A working review, not a signal-processing course. See Press et al.,
+<em>Numerical Recipes</em>, ch. 12–13 <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id25" title="William H. Press, Saul A. Teukolsky, William T. Vetterling, and Brian P. Flannery. Numerical Recipes: The Art of Scientific Computing. Cambridge University Press, 3 edition, 2007.">PTVF07</a>]</span>; for the acoustics, Fletcher
+&amp; Rossing, <em>The Physics of Musical Instruments</em> <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id28" title="Neville H. Fletcher and Thomas D. Rossing. The Physics of Musical Instruments. Springer, 2 edition, 1998.">FR98</a>]</span>.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="from-fourier-series-to-the-dft">
+<h3>From Fourier series to the DFT<a class="headerlink" href="#from-fourier-series-to-the-dft" title="Link to this heading">#</a></h3>
+<p>A periodic signal is a sum of harmonics: that is the Fourier series we know.
+Sampling such a signal at <span class="math notranslate nohighlight">\(N\)</span> equally spaced points and asking for the discrete
+analogue gives the <strong>discrete Fourier transform</strong>: from samples <span class="math notranslate nohighlight">\(x_0,\dots,
+x_{N-1}\)</span> it produces</p>
+<div class="math notranslate nohighlight" id="equation-eq-dft">
+<span class="eqno">(28)<a class="headerlink" href="#equation-eq-dft" title="Link to this equation">#</a></span>\[X_k = \sum_{n=0}^{N-1} x_n\,e^{-2\pi i\,kn/N}, \qquad k = 0,\dots,N-1.\]</div>
+<p>Each <span class="math notranslate nohighlight">\(X_k\)</span> is the overlap of the signal with one complex exponential of frequency
+index <span class="math notranslate nohighlight">\(k\)</span>, so the DFT is a change of basis; in matrix form <span class="math notranslate nohighlight">\(\mathbf X = F\mathbf
+x\)</span> with <span class="math notranslate nohighlight">\(F_{kn}=e^{-2\pi i kn/N}\)</span> the <strong>DFT matrix</strong>.</p>
+</section>
+<section id="the-inverse-and-the-analysis-synthesis-duality">
+<h3>The inverse, and the analysis/synthesis duality<a class="headerlink" href="#the-inverse-and-the-analysis-synthesis-duality" title="Link to this heading">#</a></h3>
+<p>The transform is exactly invertible: the <strong>inverse DFT</strong> rebuilds the signal,</p>
+<div class="math notranslate nohighlight" id="equation-eq-idft">
+<span class="eqno">(29)<a class="headerlink" href="#equation-eq-idft" title="Link to this equation">#</a></span>\[x_n = \frac{1}{N}\sum_{k=0}^{N-1} X_k\,e^{+2\pi i\,kn/N},\]</div>
+<p>so the forward transform is <em>analysis</em> (signal → its frequency content) and the
+inverse is <em>synthesis</em> (frequency content → signal), and <span class="math notranslate nohighlight">\(\mathrm{ifft}\circ
+\mathrm{fft}\)</span> is the identity. (The one-line proof is the orthogonality of the
+complex exponentials over the <span class="math notranslate nohighlight">\(N\)</span> samples.) This duality is the conceptual heart, and it is
+what makes filtering possible: edit the spectrum, then synthesize back.</p>
+</section>
+<section id="why-fast-the-fft">
+<h3>Why “fast”: the FFT<a class="headerlink" href="#why-fast-the-fft" title="Link to this heading">#</a></h3>
+<p>Computed as written, <a class="reference internal" href="#equation-eq-dft">Eq. 28</a> is a matrix–vector product, <span class="math notranslate nohighlight">\(O(N^2)\)</span>. The
+<strong>Cooley–Tukey FFT</strong> instead splits the sum into its even- and odd-indexed terms,
+each of which is itself a DFT of length <span class="math notranslate nohighlight">\(N/2\)</span> that <em>shares</em> the same exponential
+“twiddle” factors:</p>
+<div class="math notranslate nohighlight" id="equation-eq-fft">
+<span class="eqno">(30)<a class="headerlink" href="#equation-eq-fft" title="Link to this equation">#</a></span>\[X_k = E_k + e^{-2\pi i k/N} O_k,\]</div>
+<p>where <span class="math notranslate nohighlight">\(E_k,O_k\)</span> are the half-length DFTs of the even and odd samples. Recursing
+this split costs <span class="math notranslate nohighlight">\(O(N\log N)\)</span>: the saving is reusing the shared twiddle factors
+rather than recomputing every <span class="math notranslate nohighlight">\(e^{-2\pi i kn/N}\)</span>.</p>
+</section>
+<section id="bins-resolution-sampling-and-leakage">
+<h3>Bins, resolution, sampling, and leakage<a class="headerlink" href="#bins-resolution-sampling-and-leakage" title="Link to this heading">#</a></h3>
+<p>With sampling rate <span class="math notranslate nohighlight">\(f_s\)</span> and <span class="math notranslate nohighlight">\(N\)</span> samples, bin <span class="math notranslate nohighlight">\(k\)</span> sits at frequency <span class="math notranslate nohighlight">\(k f_s/N\)</span>, so
+the resolution is <span class="math notranslate nohighlight">\(\Delta f = f_s/N\)</span> (this is what <code class="docutils literal notranslate"><span class="pre">rfftfreq</span></code> returns; real
+signals use <code class="docutils literal notranslate"><span class="pre">rfft</span></code>, which keeps only the non-redundant half by Hermitian
+symmetry). Sampling has a hard limit, the <strong>sampling theorem</strong>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-nyquist">
+<span class="eqno">(31)<a class="headerlink" href="#equation-eq-nyquist" title="Link to this equation">#</a></span>\[\text{a signal is faithfully represented only up to } f_{\text{Nyq}} = f_s/2;\]</div>
+<p>a frequency above <span class="math notranslate nohighlight">\(f_s/2\)</span> is indistinguishable from (it <strong>aliases</strong> to) a lower
+one (Press et al., <em>Numerical Recipes</em>, §12.1, state the theorem and its proof
+idea; Exercise 5 demonstrates the folding directly). Separately, analysing a
+finite stretch of a tone whose period does not fit a
+whole number of times into the window smears its energy across neighbouring bins,
+<strong>spectral leakage</strong>, which window functions (Hann, Hamming) suppress by tapering
+the window’s edges.</p>
+</section>
+<section id="the-convolution-theorem-and-parseval">
+<h3>The convolution theorem, and Parseval<a class="headerlink" href="#the-convolution-theorem-and-parseval" title="Link to this heading">#</a></h3>
+<p>Filtering rests on the <strong>convolution theorem</strong>: convolution in time is plain
+multiplication in frequency,</p>
+<div class="math notranslate nohighlight" id="equation-eq-convtheorem">
+<span class="eqno">(32)<a class="headerlink" href="#equation-eq-convtheorem" title="Link to this equation">#</a></span>\[\widehat{(f * g)} = \hat f \cdot \hat g,\]</div>
+<p>so to low-pass a signal one multiplies its spectrum by a mask and transforms back.
+(Substituting <a class="reference internal" href="#equation-eq-dft">Eq. 28</a> into the convolution sum proves it in a few lines;
+Press et al., <em>Numerical Recipes</em>, §13.1, carry it out and build fast
+convolution on it.) Finally, energy is the same whether counted in time or
+frequency, because the change of basis is unitary up to the <span class="math notranslate nohighlight">\(1/N\)</span> convention:
+<strong>Parseval’s theorem</strong>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-parseval">
+<span class="eqno">(33)<a class="headerlink" href="#equation-eq-parseval" title="Link to this equation">#</a></span>\[\sum_{n=0}^{N-1} |x_n|^2 = \frac{1}{N}\sum_{k=0}^{N-1} |X_k|^2 .\]</div>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-the-dft-from-scratch">
+<h2>Exercise 1 — The DFT from scratch<a class="headerlink" href="#exercise-1-the-dft-from-scratch" title="Link to this heading">#</a></h2>
+<p>The cleanest way to meet the DFT is to build its matrix and multiply. The DFT
+matrix has entries <span class="math notranslate nohighlight">\(F_{kn}=e^{-2\pi i kn/N}\)</span>, so <span class="math notranslate nohighlight">\(\mathbf X=F\mathbf x\)</span> is exactly
+<a class="reference internal" href="#equation-eq-dft">Eq. 28</a>. We test it on two explicit length-8 signals: the unit impulse
+<span class="math notranslate nohighlight">\(\mathbf x=[1,0,0,0,0,0,0,0]\)</span>, whose transform is a flat spectrum (every <span class="math notranslate nohighlight">\(X_k=1\)</span>,
+since the impulse contains every frequency equally), and the pure tone
+<span class="math notranslate nohighlight">\(x_n=\cos(2\pi\cdot 2n/8)\)</span>, whose energy should land entirely in bins <span class="math notranslate nohighlight">\(k=2\)</span> and
+<span class="math notranslate nohighlight">\(k=6\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Build the DFT matrix and the matrix-product transform (the <code class="docutils literal notranslate"><span class="pre">dft_matrix</span></code> and
+<code class="docutils literal notranslate"><span class="pre">dft_naive</span></code> helpers below, <code class="docutils literal notranslate"><span class="pre">numpy.outer</span></code> for the exponent grid).</p></li>
+<li><p>Transform the impulse and confirm the flat spectrum.</p></li>
+<li><p>Transform the tone, confirm the energy sits in bins 2 and 6, and check both
+results against <code class="docutils literal notranslate"><span class="pre">numpy.fft.fft</span></code>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DFT of the impulse  = [1. 1. 1. 1. 1. 1. 1. 1.]
+DFT of cos(2π·2n/8) = [-0. -0.  4.  0.  0.  0.  4.  0.]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the hand-built DFT matches np.fft.fft on the impulse   [max|Δ| = 0 (rtol=1e-06, atol=1e-10)]
+✓  the hand-built DFT matches np.fft.fft on cos(2π·2n/8)   [max|Δ| = 2.45392e-15 (rtol=1e-06, atol=1e-10)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-inverse-transform-and-the-analysis-synthesis-duality">
+<h2>Exercise 2 — The inverse transform and the analysis/synthesis duality<a class="headerlink" href="#exercise-2-the-inverse-transform-and-the-analysis-synthesis-duality" title="Link to this heading">#</a></h2>
+<p>Because the DFT is just a change of basis, it undoes exactly, via the inverse DFT,
+<a class="reference internal" href="#equation-eq-idft">Eq. 29</a>. Taking the impulse signal <span class="math notranslate nohighlight">\(\mathbf x=[1,0,0,0,0,0,0,0]\)</span> of
+Exercise 1:</p>
+<ol class="arabic simple">
+<li><p>Transform it (<code class="docutils literal notranslate"><span class="pre">numpy.fft.fft</span></code>) and transform back (<code class="docutils literal notranslate"><span class="pre">numpy.fft.ifft</span></code>),
+confirming the round trip returns the original to machine precision.</p></li>
+<li><p>Read each <span class="math notranslate nohighlight">\(X_k\)</span> as the complex amplitude of one exponential: analysis followed
+by synthesis is the identity, and summing those exponentials <em>is</em> the signal.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>max round-trip error = 0.0
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  ifft∘fft round-trips exactly   [max|Δ| = 0 (rtol=1e-06, atol=1e-12)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-why-fast-o-n-log-n">
+<h2>Exercise 3 — Why “fast”: O(N log N)<a class="headerlink" href="#exercise-3-why-fast-o-n-log-n" title="Link to this heading">#</a></h2>
+<p>The FFT’s speed comes from the even/odd split of <a class="reference internal" href="#equation-eq-fft">Eq. 30</a>, which we can write
+as a short recursion (radix-2, for power-of-two <span class="math notranslate nohighlight">\(N\)</span>): split the samples into
+even- and odd-indexed halves, transform each, and recombine with the twiddle
+factors <span class="math notranslate nohighlight">\(e^{-2\pi i k/N}\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Write the recursion (the <code class="docutils literal notranslate"><span class="pre">radix2_fft</span></code> helper) and check it against
+<code class="docutils literal notranslate"><span class="pre">numpy.fft.fft</span></code> on the impulse of Exercise 1.</p></li>
+<li><p>Time <code class="docutils literal notranslate"><span class="pre">numpy.fft.fft</span></code> against the <span class="math notranslate nohighlight">\(O(N^2)\)</span> matrix DFT of Exercise 1 across
+<span class="math notranslate nohighlight">\(N=2^4,\dots,2^{11}\)</span> (<code class="docutils literal notranslate"><span class="pre">time.perf_counter</span></code>, averaged over repeats).</p></li>
+<li><p>Watch the two scalings part ways against <span class="math notranslate nohighlight">\(N^2\)</span> and <span class="math notranslate nohighlight">\(N\log N\)</span> reference lines
+(<a class="reference internal" href="#fig-fft-scaling"><span class="std std-numref">Fig. 32</span></a>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>radix-2 FFT matches numpy: True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<figure class="align-default" id="fig-fft-scaling">
+<img alt="../../_images/8c8d78752d747a4e1410e3e27bfbd2fa2722fd2bf6b477b74ee4cc0bbdc86e43.png" src="../../_images/8c8d78752d747a4e1410e3e27bfbd2fa2722fd2bf6b477b74ee4cc0bbdc86e43.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 32 </span><span class="caption-text">Runtime of <code class="docutils literal notranslate"><span class="pre">np.fft.fft</span></code> versus the <span class="math notranslate nohighlight">\(O(N^2)\)</span> matrix DFT <span class="math notranslate nohighlight">\(F\mathbf x\)</span> (the rule of Exercise 1) on random real signals of length <span class="math notranslate nohighlight">\(N=2^4,\dots,2^{11}\)</span>, log–log. The FFT (amber) tracks the <span class="math notranslate nohighlight">\(N\log N\)</span> reference slope while the naive matrix product (dark) tracks <span class="math notranslate nohighlight">\(N^2\)</span>; the gap is the Cooley–Tukey saving from reusing shared twiddle factors.</span><a class="headerlink" href="#fig-fft-scaling" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the recursive radix-2 FFT matches numpy   [max|Δ| = 0 (rtol=1e-06, atol=1e-10)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-reading-a-spectrum-frequencies-and-amplitudes">
+<h2>Exercise 4 — Reading a spectrum: frequencies and amplitudes<a class="headerlink" href="#exercise-4-reading-a-spectrum-frequencies-and-amplitudes" title="Link to this heading">#</a></h2>
+<p>With the transform in hand, the everyday task is to read a real measurement.
+Take the explicit two-tone signal</p>
+<div class="math notranslate nohighlight">
+\[
+x(t) = 3\sin(2\pi\cdot 50\,t) + 1.5\sin(2\pi\cdot 120\,t),
+\]</div>
+<p>sampled at <span class="math notranslate nohighlight">\(f_s=1000\)</span> Hz for <span class="math notranslate nohighlight">\(T=1\)</span> s (so <span class="math notranslate nohighlight">\(N=1000\)</span> samples, resolution <span class="math notranslate nohighlight">\(\Delta f =
+f_s/N = 1\)</span> Hz).</p>
+<ol class="arabic simple">
+<li><p>Transform with <code class="docutils literal notranslate"><span class="pre">numpy.fft.rfft</span></code> and get the frequency axis from
+<code class="docutils literal notranslate"><span class="pre">numpy.fft.rfftfreq</span></code> (the right pair for a real signal).</p></li>
+<li><p>Locate the two peaks.</p></li>
+<li><p>Recover their amplitudes as <span class="math notranslate nohighlight">\(2|X_k|/N\)</span> (the single-sided amplitude of a sine).
+Both frequencies (50 and 120 Hz) and amplitudes (3 and 1.5) should come back
+exactly, because each tone sits on an integer bin (<a class="reference internal" href="#fig-fft-spectrum"><span class="std std-numref">Fig. 33</span></a>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>peaks at [ 50. 120.] Hz with amplitudes [3.  1.5]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-fft-spectrum">
+<img alt="../../_images/97da932c5cba75475b21f22902ff30904d9fecb120f93e8c168f917210e2764b.png" src="../../_images/97da932c5cba75475b21f22902ff30904d9fecb120f93e8c168f917210e2764b.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 33 </span><span class="caption-text">Single-sided amplitude spectrum of <span class="math notranslate nohighlight">\(x(t)=3\sin(2\pi\cdot 50\,t)+1.5\sin(2\pi\cdot 120\,t)\)</span> sampled at <span class="math notranslate nohighlight">\(f_s=1000\)</span> Hz for <span class="math notranslate nohighlight">\(1\)</span> s: two clean lines at 50 Hz (amplitude 3) and 120 Hz (amplitude 1.5), recovered exactly because each tone lands on an integer frequency bin (<span class="math notranslate nohighlight">\(\Delta f=1\)</span> Hz). The amplitude is read as <span class="math notranslate nohighlight">\(2|X_k|/N\)</span>.</span><a class="headerlink" href="#fig-fft-spectrum" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the two tones appear at 50 and 120 Hz   [max|Δ| = 0 (rtol=1e-06, atol=1)]
+✓  the peak amplitudes are recovered   [max|Δ| = 8.88178e-16 (rtol=0.01, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-aliasing-and-the-sampling-theorem">
+<h2>Exercise 5 — Aliasing and the sampling theorem<a class="headerlink" href="#exercise-5-aliasing-and-the-sampling-theorem" title="Link to this heading">#</a></h2>
+<p>The sampling theorem, <a class="reference internal" href="#equation-eq-nyquist">Eq. 31</a>, sets a hard ceiling: sampled at <span class="math notranslate nohighlight">\(f_s\)</span>, a
+signal is faithful only below <span class="math notranslate nohighlight">\(f_s/2\)</span>, and anything higher folds down to a lower
+frequency. Take the explicit tone <span class="math notranslate nohighlight">\(x(t)=\sin(2\pi\cdot 70\,t)\)</span> and sample it at
+<span class="math notranslate nohighlight">\(f_s=100\)</span> Hz, whose Nyquist limit is only 50 Hz. The 70 Hz tone exceeds it and
+aliases to <span class="math notranslate nohighlight">\(|70-100|=30\)</span> Hz.</p>
+<ol class="arabic simple">
+<li><p>Sample the tone at <span class="math notranslate nohighlight">\(f_s=100\)</span> Hz and locate the spectral peak: it <em>masquerades</em>
+as a 30 Hz tone, indistinguishable from the real thing in the samples
+(<a class="reference internal" href="#fig-fft-alias"><span class="std std-numref">Fig. 34</span></a>).</p></li>
+<li><p>Sample the same tone at <span class="math notranslate nohighlight">\(f_s=1000\)</span> Hz (Nyquist 500 Hz) and confirm it is
+recorded correctly at 70 Hz.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>70 Hz tone sampled at 100 Hz appears at 30.0 Hz
+70 Hz tone sampled at 1000 Hz appears at 70.0 Hz (correct)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-fft-alias">
+<img alt="../../_images/24bb3d0621d7bc1ebe48e3c12de43ee56157a609711d992b56b3f838f2678abc.png" src="../../_images/24bb3d0621d7bc1ebe48e3c12de43ee56157a609711d992b56b3f838f2678abc.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 34 </span><span class="caption-text">Aliasing of <span class="math notranslate nohighlight">\(x(t)=\sin(2\pi\cdot 70\,t)\)</span> sampled at <span class="math notranslate nohighlight">\(f_s=100\)</span> Hz (Nyquist 50 Hz): the samples (dark dots) lie on the true 70 Hz sinusoid (grey) but are equally consistent with a 30 Hz sinusoid (amber) — the alias <span class="math notranslate nohighlight">\(|70-100|=30\)</span> Hz. Below the Nyquist limit the two are indistinguishable, so the undersampled tone masquerades as 30 Hz.</span><a class="headerlink" href="#fig-fft-alias" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  a 70 Hz tone sampled at 100 Hz aliases to 30 Hz   [got 30 vs expected 30 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-spectral-leakage-and-windowing">
+<h2>Exercise 6 — Spectral leakage and windowing<a class="headerlink" href="#exercise-6-spectral-leakage-and-windowing" title="Link to this heading">#</a></h2>
+<p>A subtler artefact appears when a tone’s period does not fit a whole number of
+times into the analysis window. Take the explicit tone <span class="math notranslate nohighlight">\(x(t)=\sin(2\pi\cdot
+50.5\,t)\)</span>, sampled at <span class="math notranslate nohighlight">\(f_s=1000\)</span> Hz for <span class="math notranslate nohighlight">\(T=1\)</span> s: at 50.5 Hz the signal completes
+<span class="math notranslate nohighlight">\(50.5\)</span> periods in the window, falling <em>between</em> the 50 and 51 Hz bins, so its
+energy smears across many bins: <strong>spectral leakage</strong>. Multiplying the signal by a
+<strong>Hann window</strong> (a smooth taper to zero at both ends) concentrates the energy back
+into the main lobe (<a class="reference internal" href="#fig-fft-leakage"><span class="std std-numref">Fig. 35</span></a>).</p>
+<ol class="arabic simple">
+<li><p>Build the tone and quantify its leakage: the fraction of spectral energy lying
+<em>outside</em> the two bins nearest 50.5 Hz (the <code class="docutils literal notranslate"><span class="pre">leakage</span></code> helper).</p></li>
+<li><p>Apply a Hann window (<code class="docutils literal notranslate"><span class="pre">numpy.hanning</span></code>) and recompute.</p></li>
+<li><p>Confirm the window reduces the leakage, at the cost of a slightly wider peak.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>leakage (rectangular window) = 0.189
+leakage (Hann window)        = 0.040
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-fft-leakage">
+<img alt="../../_images/57e446660dcb215e46b61bd6b6f1e6eba98a3a42e57cdc8602f904a18b3ce1cd.png" src="../../_images/57e446660dcb215e46b61bd6b6f1e6eba98a3a42e57cdc8602f904a18b3ce1cd.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 35 </span><span class="caption-text">Spectral leakage of <span class="math notranslate nohighlight">\(x(t)=\sin(2\pi\cdot 50.5\,t)\)</span> (<span class="math notranslate nohighlight">\(f_s=1000\)</span> Hz, <span class="math notranslate nohighlight">\(1\)</span> s), whose 50.5 Hz falls between bins. With a rectangular window (dark) the energy smears across many bins; the Hann taper (amber) concentrates it into a clean main lobe at the cost of a slightly wider peak. Spectra are normalised to their peak.</span><a class="headerlink" href="#fig-fft-leakage" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Hann window reduces spectral leakage   [leakage Hann 0.040 &lt; rect 0.189]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-filtering-via-the-transform-convolution-theorem">
+<h2>Exercise 7 — Filtering via the transform (convolution theorem)<a class="headerlink" href="#exercise-7-filtering-via-the-transform-convolution-theorem" title="Link to this heading">#</a></h2>
+<p>The convolution theorem, <a class="reference internal" href="#equation-eq-convtheorem">Eq. 32</a>, makes filtering a one-liner in
+frequency space: rather than convolve in time, edit the spectrum and transform
+back. Take the explicit noisy signal</p>
+<div class="math notranslate nohighlight">
+\[
+x(t) = \sin(2\pi\cdot 5\,t) + 0.5\sin(2\pi\cdot 80\,t) + 0.3\,\eta(t),
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(f_s=1000\)</span> Hz, <span class="math notranslate nohighlight">\(T=2\)</span> s, and noise <span class="math notranslate nohighlight">\(\eta\)</span> drawn from
+<code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng(0).standard_normal</span></code> (one sample per time point). The
+wanted signal is the 5 Hz tone; the 80 Hz tone and the broadband noise are not.</p>
+<ol class="arabic simple">
+<li><p>Transform with <code class="docutils literal notranslate"><span class="pre">numpy.fft.rfft</span></code> and zero every bin above a <span class="math notranslate nohighlight">\(20\)</span> Hz cutoff.</p></li>
+<li><p>Inverse-transform with <code class="docutils literal notranslate"><span class="pre">numpy.fft.irfft</span></code>.</p></li>
+<li><p>Confirm the 80 Hz component (and most of the noise) has vanished
+(<a class="reference internal" href="#fig-fft-filter"><span class="std std-numref">Fig. 36</span></a>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>amplitude at 80 Hz: before 0.499, after 1.372e-17
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-fft-filter">
+<img alt="../../_images/929f9ea3c75ee60e6831349c77871e4cbe8dd2d8b13e5bd531c0d9cb1d4dd43e.png" src="../../_images/929f9ea3c75ee60e6831349c77871e4cbe8dd2d8b13e5bd531c0d9cb1d4dd43e.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 36 </span><span class="caption-text">Low-pass filtering of <span class="math notranslate nohighlight">\(x(t)=\sin(2\pi\cdot5\,t)+0.5\sin(2\pi\cdot80\,t)+0.3\eta(t)\)</span> (seed 0, <span class="math notranslate nohighlight">\(f_s=1000\)</span> Hz) by the convolution theorem: zeroing every spectral bin above the 20 Hz cutoff (dashed line, top) and inverse-transforming turns the noisy waveform (dark, bottom) into the clean 5 Hz tone (amber), removing the 80 Hz component and the broadband noise.</span><a class="headerlink" href="#fig-fft-filter" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  zeroing high-frequency bins and inverse-transforming removes the 80 Hz tone   [80 Hz amplitude 0.499 → 1.37e-17]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-timbre-the-harmonic-spectrum-of-a-note">
+<h2>Exercise 8 — Timbre: the harmonic spectrum of a note<a class="headerlink" href="#exercise-8-timbre-the-harmonic-spectrum-of-a-note" title="Link to this heading">#</a></h2>
+<p>Now the acoustics. Two instruments playing the same pitch sound different because
+their overtones have different <em>relative amplitudes</em>: that is timbre, and the FFT
+reads it directly. Synthesize two explicit half-second notes at the pitch
+<span class="math notranslate nohighlight">\(f_0=220\)</span> Hz (A3), sampled at <span class="math notranslate nohighlight">\(f_s=44100\)</span> Hz: a <strong>string/violin-like</strong> tone with
+<em>all</em> harmonics,</p>
+<div class="math notranslate nohighlight">
+\[
+x_\text{violin}(t) = \sum_{n=1}^{19} \tfrac1n \sin(2\pi n f_0 t),
+\]</div>
+<p>and a <strong>clarinet-like</strong> tone with only the <em>odd</em> harmonics,</p>
+<div class="math notranslate nohighlight">
+\[
+x_\text{clarinet}(t) = \sum_{n\ \text{odd},\,1}^{19} \tfrac1n \sin(2\pi n f_0 t).
+\]</div>
+<ol class="arabic simple">
+<li><p>Synthesize both tones.</p></li>
+<li><p>Compute their spectra (<code class="docutils literal notranslate"><span class="pre">numpy.fft.rfft</span></code>) and read off the harmonic amplitudes.</p></li>
+<li><p>Confirm the signature difference: the clarinet’s even harmonics are absent
+while the violin’s are all present (<a class="reference internal" href="#fig-fft-timbre"><span class="std std-numref">Fig. 37</span></a>).</p></li>
+</ol>
+<p>These are deliberate <strong>idealisations</strong> (real
+notes carry formants, transients, and bore-shape effects; a saxophone’s conical
+bore sounds a full harmonic series despite being closed-open), but the
+odd-versus-all contrast is the essential lesson.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>clarinet even-harmonic amplitudes (2,4,6,8 f₀) = [6.38307045e-18 4.06204221e-16 4.03911155e-16 1.92416798e-16]
+violin   even-harmonic amplitudes (2,4,6,8 f₀) = [0.5   0.25  0.167 0.125]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-fft-timbre">
+<img alt="../../_images/3a6812189d493c2b2b62ee5db12688a324c0e5c18c3749e241f9ba9a4e019567.png" src="../../_images/3a6812189d493c2b2b62ee5db12688a324c0e5c18c3749e241f9ba9a4e019567.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 37 </span><span class="caption-text">Harmonic spectra of two idealised half-second notes at <span class="math notranslate nohighlight">\(f_0=220\)</span> Hz (<span class="math notranslate nohighlight">\(f_s=44100\)</span> Hz): a violin-like tone <span class="math notranslate nohighlight">\(\sum_{n=1}^{19}\tfrac1n\sin(2\pi n f_0 t)\)</span> with all harmonics (top) and a clarinet-like tone with only odd harmonics (bottom). The clarinet’s missing even harmonics are the spectral signature of its hollow timbre; amplitudes fall as <span class="math notranslate nohighlight">\(1/n\)</span>.</span><a class="headerlink" href="#fig-fft-timbre" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-8">
+<h3>Validation 8<a class="headerlink" href="#validation-8" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the clarinet-like tone has only odd harmonics; the violin-like tone has all of them   [clarinet even max 4.1e-16, violin even min 0.125]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-9-acoustic-resonances-of-a-bore-student-exercise">
+<h2>Exercise 9 — Acoustic resonances of a bore (student exercise)<a class="headerlink" href="#exercise-9-acoustic-resonances-of-a-bore-student-exercise" title="Link to this heading">#</a></h2>
+<p>Where do those harmonics come from? An instrument sounds the frequencies its air
+column resonates at, and the geometry fixes them. For a <strong>closed-open cylindrical
+tube</strong> (closed at the mouthpiece, open at the bell, the clarinet’s idealisation)
+of length <span class="math notranslate nohighlight">\(L=0.66\)</span> m with sound speed <span class="math notranslate nohighlight">\(c=343\)</span> m/s, the resonances are the <em>odd</em>
+multiples</p>
+<div class="math notranslate nohighlight">
+\[
+f_n = (2n-1)\,\frac{c}{4L}, \qquad n = 1, 2, 3, \dots,
+\]</div>
+<p>which is exactly why the clarinet’s spectrum in Exercise 8 had only odd harmonics.</p>
+<ol class="arabic simple">
+<li><p>Compute the first four resonances and relate them to that FFT spectrum.</p></li>
+<li><p>Contrast with an <strong>open-open tube</strong> (a flute-like idealisation), whose
+resonances <span class="math notranslate nohighlight">\(f_n = n\,c/2L\)</span> form the <em>full</em> harmonic series.</p></li>
+<li><p>Connect the two: the bore’s resonance peaks select which harmonics the
+instrument can sound — the bridge from geometry to timbre.</p></li>
+</ol>
+<p>There is no animation here; this is a resonance calculation. <em>(A personal aside: I have always found it striking that one can hear
+the difference between a clarinet and a flute and that the reason is, at bottom,
+one boundary condition (open versus closed) turned into a factor of two.)</em></p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>closed-open (clarinet-like): [129.9 389.8 649.6 909.5] Hz
+open-open   (flute-like):    [ 259.8  519.7  779.5 1039.4] Hz
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-fft-bore">
+<img alt="../../_images/0606f8a62eef3e9532e4ed3d137dbe0ea412742f565e7e97f2ca7635f08183a1.png" src="../../_images/0606f8a62eef3e9532e4ed3d137dbe0ea412742f565e7e97f2ca7635f08183a1.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 38 </span><span class="caption-text">Resonance frequencies of two ideal cylindrical tubes of length <span class="math notranslate nohighlight">\(L=0.66\)</span> m (<span class="math notranslate nohighlight">\(c=343\)</span> m/s): a closed-open tube (dark) resonates at the odd multiples <span class="math notranslate nohighlight">\((2n-1)c/4L\)</span> (129.9, 389.8, 649.6, 909.5 Hz), an open-open tube (amber) at the full series <span class="math notranslate nohighlight">\(n\,c/2L\)</span>. The closed-open comb is the clarinet’s odd-harmonic signature seen in the timbre spectra above.</span><a class="headerlink" href="#fig-fft-bore" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-9">
+<h3>Validation 9<a class="headerlink" href="#validation-9" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  closed-open tube resonances are odd multiples of c/4L   [max|Δ| = 0 (rtol=1e-06, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-10-power-spectrum-and-parseval-s-theorem">
+<h2>Exercise 10 — Power spectrum and Parseval’s theorem<a class="headerlink" href="#exercise-10-power-spectrum-and-parseval-s-theorem" title="Link to this heading">#</a></h2>
+<p>A useful consistency check closes the loop: energy is conserved between the time
+and frequency domains, <strong>Parseval’s theorem</strong> of <a class="reference internal" href="#equation-eq-parseval">Eq. 33</a>.</p>
+<ol class="arabic simple">
+<li><p>For the two-tone signal of Exercise 4 (<span class="math notranslate nohighlight">\(f_s=1000\)</span> Hz, <span class="math notranslate nohighlight">\(1\)</span> s), compute the
+time-domain energy <span class="math notranslate nohighlight">\(\sum_n |x_n|^2\)</span> and the frequency-domain energy
+<span class="math notranslate nohighlight">\(\tfrac1N\sum_k |X_k|^2\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.fft.fft</span></code>).</p></li>
+<li><p>Confirm they agree to rounding.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>time-domain energy      = 5625.000000
+frequency-domain energy = 5625.000000
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-10">
+<h3>Validation 10<a class="headerlink" href="#validation-10" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Parseval: energy is conserved between time and frequency domains   [got 5625 vs expected 5625 (rtol=1e-10)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The DFT from scratch and its analysis/synthesis duality, then the <span class="math notranslate nohighlight">\(O(N\log N)\)</span> FFT; reading
+a spectrum’s frequencies and amplitudes; <strong>aliasing</strong> and the sampling theorem; spectral
+leakage and windowing.</p></li>
+<li><p>The convolution theorem for filtering; the harmonic spectrum behind timbre; acoustic bore
+resonances; and Parseval’s theorem tying the power spectrum to the signal energy.</p></li>
+</ul>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The 2-D FFT</strong> filters and compresses images, the spectral cousin of the SVD
+compression of <a class="reference internal" href="eigenvalues-svd.html"><span class="std std-doc">§0.5</span></a>: both discard small coefficients.</p></li>
+<li><p><strong>Spectral differentiation</strong> computes a derivative by multiplying by <span class="math notranslate nohighlight">\(ik\)</span> in
+frequency space, the seed of spectral methods for PDEs.</p></li>
+<li><p><strong>The short-time Fourier transform (spectrogram)</strong> tracks how timbre evolves
+(a vibrato, a note’s attack) and is the natural place for a genuine <em>animation</em>
+in a later applied notebook.</p></li>
+<li><p><strong>In physics</strong>, the FFT computes structure factors and diffraction patterns,
+correlation functions, and the spectral solution of field equations.</p></li>
+</ul>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<div class="docutils container" id="id3">
+<div role="list" class="citation-list">
+<div class="citation" id="id28" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">FR98</a><span class="fn-bracket">]</span></span>
+<p>Neville H. Fletcher and Thomas D. Rossing. <em>The Physics of Musical Instruments</em>. Springer, 2 edition, 1998.</p>
+</div>
+<div class="citation" id="id25" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">PTVF07</a><span class="fn-bracket">]</span></span>
+<p>William H. Press, Saul A. Teukolsky, William T. Vetterling, and Brian P. Flannery. <em>Numerical Recipes: The Art of Scientific Computing</em>. Cambridge University Press, 3 edition, 2007.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/00-foundations"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="eigenvalues-svd.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">0.5 Eigenvalues, Diagonalization, and the SVD</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ode-solvers.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">0.7 Solving Ordinary Differential Equations</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-fourier-series-to-the-dft">From Fourier series to the DFT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-inverse-and-the-analysis-synthesis-duality">The inverse, and the analysis/synthesis duality</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-fast-the-fft">Why “fast”: the FFT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bins-resolution-sampling-and-leakage">Bins, resolution, sampling, and leakage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-convolution-theorem-and-parseval">The convolution theorem, and Parseval</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-dft-from-scratch">Exercise 1 — The DFT from scratch</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-inverse-transform-and-the-analysis-synthesis-duality">Exercise 2 — The inverse transform and the analysis/synthesis duality</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-why-fast-o-n-log-n">Exercise 3 — Why “fast”: O(N log N)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-reading-a-spectrum-frequencies-and-amplitudes">Exercise 4 — Reading a spectrum: frequencies and amplitudes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-aliasing-and-the-sampling-theorem">Exercise 5 — Aliasing and the sampling theorem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-spectral-leakage-and-windowing">Exercise 6 — Spectral leakage and windowing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-filtering-via-the-transform-convolution-theorem">Exercise 7 — Filtering via the transform (convolution theorem)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-timbre-the-harmonic-spectrum-of-a-note">Exercise 8 — Timbre: the harmonic spectrum of a note</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-acoustic-resonances-of-a-bore-student-exercise">Exercise 9 — Acoustic resonances of a bore (student exercise)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-9">Validation 9</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-power-spectrum-and-parseval-s-theorem">Exercise 10 — Power spectrum and Parseval’s theorem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-10">Validation 10</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

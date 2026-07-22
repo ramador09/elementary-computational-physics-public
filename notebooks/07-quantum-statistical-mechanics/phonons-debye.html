@@ -1,0 +1,1733 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="7.16 Phonons and the Debye Model" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/phonons-debye.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Three promises come due in this notebook, and all three are kept in sound. The confession of §7.5(the Einstein solid collapsing exponentia..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Three promises come due in this notebook, and all three are kept in sound. The confession of §7.5(the Einstein solid collapsing exponentia..." />
+
+    <title>7.16 Phonons and the Debye Model &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/07-quantum-statistical-mechanics/phonons-debye';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/phonons-debye.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="7.17 Bose–Einstein Condensation: The Ceiling Saturates" href="bose-einstein-condensation.html" />
+    <link rel="prev" title="7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser" href="einstein-a-b-coefficients.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VII — Quantum Statistical Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/07-quantum-statistical-mechanics/phonons-debye.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/07-quantum-statistical-mechanics/phonons-debye.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/07-quantum-statistical-mechanics/phonons-debye.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/07-quantum-statistical-mechanics/phonons-debye.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7.16 Phonons and the Debye Model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-chain-diagonalized-one-matrix-two-physics">The chain, diagonalized — one matrix, two physics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantization-and-what-a-phonon-is">Quantization, and what a phonon is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-einstein-failed-the-census-argument">Why Einstein failed: the census argument</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-debye-model">The Debye model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-coefficient-7-10-used-derived">The coefficient 7.10 used, derived</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-experiments-one-number">Two experiments, one number</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diamond-closed-honestly">Diamond, closed honestly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dimension-counts">Dimension counts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-one-matrix-two-physics">Exercise 1 — One matrix, two physics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-quantize-and-reckon-with-einstein">Exercise 2 — Quantize, and reckon with Einstein</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-debye-model-and-both-limits">Exercise 3 — The Debye model, and both limits</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-coefficient-7-10-used-derived-to-the-digit">Exercise 4 — The coefficient 7.10 used, derived to the digit</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-two-experiments-one-number">Exercise 5 — Two experiments, one number</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-diamond-closed-honestly">Exercise 6 — Diamond, closed honestly</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-dimension-counts-and-a-chain-that-freezes">Exercise 7 — Dimension counts, and a chain that freezes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-the-audit-clears">Exercise 8 — The audit clears</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="phonons-and-the-debye-model">
+<h1>7.16 Phonons and the Debye Model<a class="headerlink" href="#phonons-and-the-debye-model" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VII — Quantum Statistical Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;7.16
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">A crystal is the radiation problem with two mercies: sound has a speed, and a lattice has a headcount — exactly 3N modes, so no catastrophe is even possible. We diagonalize the chain with the same matrix that hopped electrons four notebooks ago, derive at last the T-cubed law this volume has twice used on trust, recover Dulong–Petit as a limit instead of an assumption, and check the Debye temperature of copper two ways — by calorimeter and by loudspeaker — getting the same number to three digits.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;190–230 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Three promises come due in this notebook, and all three are kept in sound. The confession of <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> (the Einstein solid collapsing exponentially at 50 K where diamond’s measured heat capacity falls only as <span class="math notranslate nohighlight">\(T^3\)</span>) is resolved. The coefficient <span class="math notranslate nohighlight">\(A = 12\pi^4R/5\theta_D^3\)</span> that <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a>
+invoked on trust for its <span class="math notranslate nohighlight">\(C/T\)</span>-versus-<span class="math notranslate nohighlight">\(T^2\)</span> plot is derived here and evaluated for copper’s
+<span class="math notranslate nohighlight">\(\theta_D = 343\)</span> K: it returns <span class="math notranslate nohighlight">\(0.0482\)</span> mJ mol⁻¹K⁻⁴, the exact figure <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> displayed, and the
+crossover <span class="math notranslate nohighlight">\(T^* = 3.2\)</span> K of that notebook now stands fully first-principles. And Volume V’s
+Dulong–Petit law, asserted there as equipartition, is recovered as a high-temperature <em>limit</em>
+of an exact quantum expression.</p>
+<p>The mechanics comes first, and it is a reunion: the dynamical matrix of an <span class="math notranslate nohighlight">\(N\)</span>-atom ring of
+masses and springs is <em>the same circulant matrix</em> that hopped electrons in the tight-binding chain of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a>: one matrix, two physics; electrons hop, atoms sway. <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> returns the
+dispersion <span class="math notranslate nohighlight">\(\omega(k) = 2\sqrt{K/M}\,|\sin(ka/2)|\)</span> at machine precision, sound emerges as the
+small-<span class="math notranslate nohighlight">\(k\)</span> slope, and the structural point stands against <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>: the photon gas had infinitely
+many modes and needed <span class="math notranslate nohighlight">\(\hbar\)</span> to tame them, while a crystal has <strong>exactly <span class="math notranslate nohighlight">\(3N\)</span></strong> and cannot suffer a catastrophe: its ultraviolet cutoff is not a hypothesis but a census. Each mode is
+then the oscillator of <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> with <span class="math notranslate nohighlight">\(\mu = 0\)</span> by the unconserved-number argument of <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>, and the reason
+Einstein failed becomes physical before any integral: his solid, all modes at one frequency,
+has nothing soft to offer at low temperature, while a real chain’s acoustic branch offers modes at <em>every</em> softness: the modes with <span class="math notranslate nohighlight">\(\hbar\omega \lesssim k_BT\)</span> are awake, their count
+grows as <span class="math notranslate nohighlight">\(T^d\)</span>, and each carries <span class="math notranslate nohighlight">\(\sim k_BT\)</span>. Debye’s model is that census with its constant
+computed: linear dispersion cut off at <span class="math notranslate nohighlight">\(\omega_D\)</span>, the universal curve
+<span class="math notranslate nohighlight">\(C/3Nk_B = 3t^3\int_0^{1/t}x^4e^x/(e^x-1)^2\,dx\)</span> (nondimensionalized per the standing
+rule of <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>), Dulong–Petit above, <span class="math notranslate nohighlight">\((4\pi^4/5)\,t^3\)</span> below: the integral of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a> in its third starring role.</p>
+<p>The data jewel is an over-determination: <span class="math notranslate nohighlight">\(\theta_D\)</span> can be measured with a calorimeter,
+through <span class="math notranslate nohighlight">\(C(T)\)</span> — or with a loudspeaker, through the sound speeds and the atom density, two experiments that share no apparatus. Copper agrees with itself to three digits (342 K by sound, 343 K by heat); aluminum comes in at ratio 0.93; lead at 0.72. The misses are taught, not hidden: lead is soft, heavy, and anharmonic, its springs barely Hookean at
+accessible temperatures. Diamond is then closed honestly at both ends: Debye with the low-<span class="math notranslate nohighlight">\(T\)</span>
+<span class="math notranslate nohighlight">\(\theta_D = 2230\)</span> K owns the regime where Einstein collapses (the ratio of the two models
+falls from 1.5 to 0.002 between 300 and 75 K), yet <em>undershoots</em> the measured 300 K heat capacity, because the true phonon spectrum is not a parabola with a cliff, so the fitted
+<span class="math notranslate nohighlight">\(\theta_D\)</span> drifts with the fitting window, and that drift is itself data. A student exercise
+proves that dimension counts (the exact 1D chain’s <span class="math notranslate nohighlight">\(C/T\)</span> plateaus at exactly <span class="math notranslate nohighlight">\(\pi/3\)</span>) and meets the finite-size freeze on the way: a 64-atom chain goes silent below its softest mode.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> The chain runs in working units <span class="math notranslate nohighlight">\(K = M = a = 1\)</span> (so
+<span class="math notranslate nohighlight">\(\omega(k) = 2|\sin(k/2)|\)</span>, <span class="math notranslate nohighlight">\(v_s = 1\)</span>, <span class="math notranslate nohighlight">\(k_B = \hbar = 1\)</span>); the material data run in SI with
+cited inputs. The reduced temperature is <span class="math notranslate nohighlight">\(t = T/\theta_D\)</span>; heat capacities are per mode
+(<span class="math notranslate nohighlight">\(C/3Nk_B\)</span> for crystals, <span class="math notranslate nohighlight">\(C/Nk_B\)</span> for the chain) except where a molar unit is stated. The
+<span class="math notranslate nohighlight">\(k = 0\)</span> translation mode is a free coordinate, not an oscillator, and is excluded from every
+thermal sum. Frequencies from <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> pass through
+<code class="docutils literal notranslate"><span class="pre">numpy.sqrt(numpy.maximum(w2,</span> <span class="pre">0))</span></code> — the zero-mode round-off trap, demonstrated before it is
+clamped. The Debye integral is evaluated by <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> on the nondimensional
+kernel only (the rule of <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>), with <code class="docutils literal notranslate"><span class="pre">numpy.expm1</span></code> and a stated lower cutoff.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against an
+independent fact: the <code class="docutils literal notranslate"><span class="pre">eigh</span></code> spectrum against the closed-form dispersion at <span class="math notranslate nohighlight">\(10^{-12}\)</span>; the
+census estimate against the measured mode count; both Debye limits against their stated
+values; the <span class="math notranslate nohighlight">\(A\)</span> coefficient against the digit <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> displayed; copper’s acoustic <span class="math notranslate nohighlight">\(\theta_D\)</span>
+against the calorimetric one; diamond’s model ratios against the cited anchors; the chain’s
+<span class="math notranslate nohighlight">\(C/T\)</span> against <span class="math notranslate nohighlight">\(\pi/3\)</span>. A ✓ is strong evidence; a ✗ is a prompt to <em>locate the discrepancy</em>.</p>
+<p><strong>Scope.</strong> Real phonon spectra (neutron and X-ray spectroscopy), anharmonicity and thermal
+expansion, phonon transport, graphene’s flexural modes, and nanoparticle calorimetry are
+named horizons. See Debye 1912; Einstein 1907 (the story completed here); Ashcroft &amp; Mermin
+(Chs. 22–23); Kittel (Ch. 5). Cross-reference <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> (the oscillator; the confession), <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a>
+(the coefficient, now derived), <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> (the circulant matrix and the counting), <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>
+(<span class="math notranslate nohighlight">\(\mu = 0\)</span>; the nondimensionalization rule; the catastrophe contrast), <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a> (<span class="math notranslate nohighlight">\(\pi^4/15\)</span>,
+third use), <a class="reference internal" href="../05-classical-stat-mech/ergodicity.html"><span class="std std-doc">§5.5</span></a> (Dulong–Petit as equipartition), and forward to <a class="reference internal" href="bose-einstein-condensation.html"><span class="std std-doc">§7.17</span></a> (BEC, where the boson
+number <em>is</em> conserved and the ceiling bites).</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-chain-diagonalized-one-matrix-two-physics">
+<h3>The chain, diagonalized — one matrix, two physics<a class="headerlink" href="#the-chain-diagonalized-one-matrix-two-physics" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\(N\)</span> atoms of mass <span class="math notranslate nohighlight">\(M\)</span> on a ring, nearest neighbours coupled by springs <span class="math notranslate nohighlight">\(K\)</span>: Newton gives
+<span class="math notranslate nohighlight">\(M\ddot u_n = K(u_{n+1} - 2u_n + u_{n-1})\)</span>, so normal modes solve the eigenproblem of the
+<strong>dynamical matrix</strong></p>
+<div class="math notranslate nohighlight" id="equation-eq-chain-dispersion">
+<span class="eqno">(670)<a class="headerlink" href="#equation-eq-chain-dispersion" title="Link to this equation">#</a></span>\[D = \frac{K}{M}\left(2I - S - S^{\mathsf T}\right)
+\qquad\Longrightarrow\qquad
+\omega(k) = 2\sqrt{\frac{K}{M}}\,\left|\sin\frac{ka}{2}\right|,
+\qquad
+v_s = a\sqrt{K/M},\]</div>
+<p>with <span class="math notranslate nohighlight">\(S\)</span> the one-site shift. This is, to the letter, the tight-binding circulant of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a>. One matrix, two physics: electrons hop through it, atoms sway by it. Two facts carry the notebook.
+First, at small <span class="math notranslate nohighlight">\(k\)</span> the dispersion is linear: <strong>sound</strong>, with speed <span class="math notranslate nohighlight">\(v_s\)</span>. Second, the ring
+has <strong>exactly <span class="math notranslate nohighlight">\(N\)</span> modes</strong> (a 3D crystal, <span class="math notranslate nohighlight">\(3N\)</span>). Say it against <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>: the photon gas owned
+infinitely many modes and diverged classically; a crystal <em>cannot</em>: its ultraviolet cutoff is a census, not a hypothesis, and Debye’s <span class="math notranslate nohighlight">\(\omega_D\)</span> below is bookkeeping, not an ansatz.</p>
+</section>
+<section id="quantization-and-what-a-phonon-is">
+<h3>Quantization, and what a phonon is<a class="headerlink" href="#quantization-and-what-a-phonon-is" title="Link to this heading">#</a></h3>
+<p>Each normal mode is the harmonic oscillator of <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> (literally, in the mode coordinates), so its thermal energy is</p>
+<div class="math notranslate nohighlight" id="equation-eq-phonon-quantization">
+<span class="eqno">(671)<a class="headerlink" href="#equation-eq-phonon-quantization" title="Link to this equation">#</a></span>\[U = \sum_{\text{modes}} \hbar\omega_k\left(n_B(\hbar\omega_k) + \tfrac12\right),
+\qquad
+\mu = 0 \text{ (phonon number is not conserved)}.\]</div>
+<p>The honest sentence about what a phonon <em>is</em>: a bookkeeping quantum of collective lattice motion — not a particle sitting anywhere, but as real as anything that scatters neutrons, which it does (the outward breath: inelastic neutron spectroscopy). The zero-point sum is <span class="math notranslate nohighlight">\((9/8)Nk_B\theta_D\)</span> in the Debye model: real, and visible in isotope effects.</p>
+</section>
+<section id="why-einstein-failed-the-census-argument">
+<h3>Why Einstein failed: the census argument<a class="headerlink" href="#why-einstein-failed-the-census-argument" title="Link to this heading">#</a></h3>
+<p>The confession of <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>, recalled with its number: Einstein’s all-modes-at-<span class="math notranslate nohighlight">\(\omega_E\)</span> solid predicts <span class="math notranslate nohighlight">\(C \sim e^{-\theta_E/T}\)</span>, which for diamond at 50 K is <span class="math notranslate nohighlight">\(\sim 10^{-9}\)</span> of the classical value, while the measurement falls only as <span class="math notranslate nohighlight">\(T^3\)</span>. The resolution is physical before it is integral:</p>
+<div class="math notranslate nohighlight" id="equation-eq-census">
+<span class="eqno">(672)<a class="headerlink" href="#equation-eq-census" title="Link to this equation">#</a></span>\[N_{\text{awake}}(T) \sim N\left(\frac{T}{\theta}\right)^{d},
+\qquad
+C \sim N_{\text{awake}}\,k_B \;\propto\; T^{d}.\]</div>
+<p>An acoustic branch offers modes at <em>every</em> softness. At temperature <span class="math notranslate nohighlight">\(T\)</span> the modes with
+<span class="math notranslate nohighlight">\(\hbar\omega \lesssim k_BT\)</span> are awake and each holds <span class="math notranslate nohighlight">\(\sim k_BT\)</span>; in <span class="math notranslate nohighlight">\(d\)</span> dimensions their
+count grows as <span class="math notranslate nohighlight">\((T/\theta)^d\)</span>. That is the notebook’s actual content; Debye’s integral is this census with its constant computed. Einstein’s solid fails because it has nothing soft to
+offer: below <span class="math notranslate nohighlight">\(\theta_E\)</span> its one frequency freezes and the whole solid goes silent at once.</p>
+</section>
+<section id="the-debye-model">
+<h3>The Debye model<a class="headerlink" href="#the-debye-model" title="Link to this heading">#</a></h3>
+<p>Keep exactly the low-<span class="math notranslate nohighlight">\(\omega\)</span> physics — linear dispersion with the three acoustic
+polarizations averaged as <span class="math notranslate nohighlight">\(v_D = [3/(v_L^{-3} + 2v_T^{-3})]^{1/3}\)</span> — and cut off where the
+census says to stop:</p>
+<div class="math notranslate nohighlight" id="equation-eq-debye-model">
+<span class="eqno">(673)<a class="headerlink" href="#equation-eq-debye-model" title="Link to this equation">#</a></span>\[g(\omega) = \frac{3V\omega^2}{2\pi^2v_D^3},
+\quad
+\omega_D^3 = 6\pi^2 n\,v_D^3,
+\quad
+\frac{C}{3Nk_B} = 3t^3\!\int_0^{1/t}\!\frac{x^4e^x}{(e^x-1)^2}\,dx,
+\quad t = \frac{T}{\theta_D}.\]</div>
+<p>The integral is nondimensionalized per the standing rule of <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>, with <code class="docutils literal notranslate"><span class="pre">numpy.expm1</span></code> in the kernel.
+Both limits close old accounts: at <span class="math notranslate nohighlight">\(t \gg 1\)</span> the curve reaches <span class="math notranslate nohighlight">\(0.998\)</span> at <span class="math notranslate nohighlight">\(t = 5\)</span> (<strong>Dulong–Petit</strong>, Volume V’s <span class="math notranslate nohighlight">\(3Nk_B\)</span> now a <em>limit</em> rather than an assumption), and at
+<span class="math notranslate nohighlight">\(t \ll 1\)</span> it lands on <span class="math notranslate nohighlight">\((4\pi^4/5)\,t^3\)</span> at ratio 1.00000 by <span class="math notranslate nohighlight">\(t = 0.02\)</span>, since
+<span class="math notranslate nohighlight">\(\int_0^\infty x^4e^x/(e^x-1)^2dx = 4\pi^4/15\)</span>: the Bose integral of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>, in its third starring
+role.</p>
+</section>
+<section id="the-coefficient-7-10-used-derived">
+<h3>The coefficient 7.10 used, derived<a class="headerlink" href="#the-coefficient-7-10-used-derived" title="Link to this heading">#</a></h3>
+<p>Keep only the <span class="math notranslate nohighlight">\(t \ll 1\)</span> limit of the Debye curve, the <span class="math notranslate nohighlight">\((4\pi^4/5)\,t^3\)</span> law just verified,
+and restate it per mole (<span class="math notranslate nohighlight">\(Nk_B \to R\)</span>); the low-temperature coefficient follows with no
+free parameter:</p>
+<div class="math notranslate nohighlight" id="equation-eq-a-coefficient">
+<span class="eqno">(674)<a class="headerlink" href="#equation-eq-a-coefficient" title="Link to this equation">#</a></span>\[C = \frac{12\pi^4}{5}\,Nk_B\,t^3
+\;\Longrightarrow\;
+A = \frac{12\pi^4 R}{5\,\theta_D^3}
+= 0.0482\ \text{mJ mol}^{-1}\text{K}^{-4}
+\quad(\text{copper}, \theta_D = 343\ \text{K}),\]</div>
+<p>the exact figure <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> invoked for its <span class="math notranslate nohighlight">\(C/T\)</span>-versus-<span class="math notranslate nohighlight">\(T^2\)</span> plot with the derivation deferred to
+this notebook. The cross-reference closes in public: the coefficient invoked six notebooks ago
+and the coefficient derived today agree to the displayed digit, and the crossover of <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a>
+<span class="math notranslate nohighlight">\(T^* = \sqrt{\gamma/A} = 3.2\)</span> K now stands fully derived.</p>
+</section>
+<section id="two-experiments-one-number">
+<h3>Two experiments, one number<a class="headerlink" href="#two-experiments-one-number" title="Link to this heading">#</a></h3>
+<p>The census fixes <span class="math notranslate nohighlight">\(\omega_D^3 = 6\pi^2 n\,v_D^3\)</span>, so <span class="math notranslate nohighlight">\(k_B\theta_D = \hbar\omega_D\)</span> is
+computable from sound speeds and atom density with no calorimeter in sight; the same number
+must independently emerge from fitting the measured <span class="math notranslate nohighlight">\(C(T)\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-sound-vs-heat">
+<span class="eqno">(675)<a class="headerlink" href="#equation-eq-sound-vs-heat" title="Link to this equation">#</a></span>\[\theta_D^{\text{sound}} = \frac{\hbar v_D}{k_B}\,(6\pi^2 n)^{1/3}
+\qquad\text{versus}\qquad
+\theta_D^{\text{heat}} \text{ from } C(T).\]</div>
+<p><span class="math notranslate nohighlight">\(\theta_D\)</span> is over-determined: calorimetry fixes it through the heat capacity, but acoustics
+fixes it through <span class="math notranslate nohighlight">\(v_L\)</span>, <span class="math notranslate nohighlight">\(v_T\)</span>, and the atom density — two experiments sharing no apparatus.
+Copper: 342 K by sound against 343 K by heat (ratio 1.00: the harmonic approximation earning its keep). Aluminum: 399 vs 428 (0.93). Lead: 76 vs 105 (0.72), and the miss is the lesson:
+lead is soft, heavy, and low-<span class="math notranslate nohighlight">\(\theta\)</span>; its springs are not Hookean at accessible temperatures.
+<strong>Anharmonicity</strong> is the model’s edge, and thermal expansion is its everyday face (a purely harmonic crystal would not expand at all).</p>
+</section>
+<section id="diamond-closed-honestly">
+<h3>Diamond, closed honestly<a class="headerlink" href="#diamond-closed-honestly" title="Link to this heading">#</a></h3>
+<p>Diamond is where the story began: Einstein’s 1907 paper fit its heat capacity, far below
+Dulong–Petit at room temperature, and Debye’s 1912 density of states was the correction.
+We run both models against the measured values and read their ratio across three
+temperatures:</p>
+<div class="math notranslate nohighlight" id="equation-eq-diamond-closed">
+<span class="eqno">(676)<a class="headerlink" href="#equation-eq-diamond-closed" title="Link to this equation">#</a></span>\[\frac{C_{\text{Einstein}}(\theta_E = 1320)}{C_{\text{Debye}}(\theta_D = 2230)}
+= 1.5 \to 0.5 \to 0.002
+\quad\text{across } 300/150/75\ \text{K},\]</div>
+<p>the 1907 → 1912 story completed. Einstein’s fit matched the 300 K point by construction and
+collapses below it; Debye with the low-temperature <span class="math notranslate nohighlight">\(\theta_D = 2230\)</span> K owns the low-<span class="math notranslate nohighlight">\(T\)</span> law, and <em>undershoots</em> at 300 K (<span class="math notranslate nohighlight">\(C/3R = 0.163\)</span> against the measured <span class="math notranslate nohighlight">\(0.245\)</span>). The subtlety is
+taught as data: the fitted <span class="math notranslate nohighlight">\(\theta_D\)</span> drifts with the fitting window (the classic
+<span class="math notranslate nohighlight">\(\theta_D(T)\)</span> plot) because the true <span class="math notranslate nohighlight">\(g(\omega)\)</span> is not a parabola-with-cliff, and the drift is precisely the measured residual between Debye’s caricature and the real phonon spectrum, which neutron spectroscopy photographs directly (outward).</p>
+</section>
+<section id="dimension-counts">
+<h3>Dimension counts<a class="headerlink" href="#dimension-counts" title="Link to this heading">#</a></h3>
+<p>Nothing in the census argument is specifically three-dimensional, and the 1D chain lets us
+test it with no Debye caricature at all: the spectrum is known in closed form, so we sum
+the per-oscillator heat capacity of <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> over every mode of the ring, the <span class="math notranslate nohighlight">\(k = 0\)</span> translation
+excluded:</p>
+<div class="math notranslate nohighlight" id="equation-eq-dimension-counts">
+<span class="eqno">(677)<a class="headerlink" href="#equation-eq-dimension-counts" title="Link to this equation">#</a></span>\[\frac{C}{Nk_B} = \frac{1}{N}\sum_{k\neq0}\frac{x_k^2e^{x_k}}{(e^{x_k}-1)^2},
+\quad x_k = \frac{\hbar\omega_k}{k_BT}
+\qquad\Longrightarrow\qquad
+\frac{C}{Nk_BT} \to \frac{\pi}{3}\ \ (1\text{D}),\]</div>
+<p>the exact chain’s mode sum: <span class="math notranslate nohighlight">\(C \propto T\)</span> in one dimension with coefficient exactly <span class="math notranslate nohighlight">\(\pi/3\)</span>
+(from the chain’s constant low-<span class="math notranslate nohighlight">\(\omega\)</span> density of states), <span class="math notranslate nohighlight">\(T^2\)</span> in sheets (graphene’s flexural modes complicate the story, one breath), <span class="math notranslate nohighlight">\(T^3\)</span> in crystals: one census, dimension merely counting the awake modes. And a finite-size lesson en route: below its softest mode (<span class="math notranslate nohighlight">\(\omega_{\min} \approx 2\pi v_s/Na\)</span>) a finite chain freezes like a gapped system, the shell-staircase spirit of <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a> in phonon dress, and the reason nanoparticle calorimetry sees size
+effects.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">quad</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">brentq</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>
+<span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;#c1121f&quot;</span>
+
+<span class="c1"># Constants and cited material data. Sound speeds and atom densities: Kittel,</span>
+<span class="c1"># Introduction to Solid State Physics (Ch. 3/5 tables); calorimetric Debye</span>
+<span class="c1"># temperatures: Ashcroft &amp; Mermin Table 23.3 lineage (Cu 343, Al 428, Pb 105 K;</span>
+<span class="c1"># diamond low-T value 2230 K). Diamond&#39;s measured room-temperature heat capacity:</span>
+<span class="c1"># Cp(298.15 K) = 6.115 J mol^-1 K^-1 (JANAF tables). Cited, not tuned.</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">hbar</span> <span class="k">as</span> <span class="n">HBAR</span><span class="p">,</span>
+<span class="p">)</span>  <span class="c1"># J·s (CODATA; the exact-h derivation is the rule of §7.13, moot here)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">k</span> <span class="k">as</span> <span class="n">KB_SI</span>  <span class="c1"># J/K (exact)</span>
+
+<span class="n">R_GAS</span> <span class="o">=</span> <span class="mf">8.314462618</span>  <span class="c1"># J/(mol K) (exact)</span>
+<span class="n">SOUND</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># v_L, v_T (m/s), atom density n (m^-3)</span>
+    <span class="s2">&quot;Cu&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">4760.0</span><span class="p">,</span> <span class="mf">2325.0</span><span class="p">,</span> <span class="mf">8.49e28</span><span class="p">),</span>
+    <span class="s2">&quot;Al&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">6420.0</span><span class="p">,</span> <span class="mf">3040.0</span><span class="p">,</span> <span class="mf">6.03e28</span><span class="p">),</span>
+    <span class="s2">&quot;Pb&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1960.0</span><span class="p">,</span> <span class="mf">700.0</span><span class="p">,</span> <span class="mf">3.30e28</span><span class="p">),</span>
+<span class="p">}</span>
+<span class="n">THETA_CAL</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Cu&quot;</span><span class="p">:</span> <span class="mf">343.0</span><span class="p">,</span> <span class="s2">&quot;Al&quot;</span><span class="p">:</span> <span class="mf">428.0</span><span class="p">,</span> <span class="s2">&quot;Pb&quot;</span><span class="p">:</span> <span class="mf">105.0</span><span class="p">,</span> <span class="s2">&quot;diamond&quot;</span><span class="p">:</span> <span class="mf">2230.0</span><span class="p">}</span>
+<span class="n">THETA_E_DIAMOND</span> <span class="o">=</span> <span class="mf">1320.0</span>  <span class="c1"># the Einstein fit of §7.5, reused</span>
+<span class="n">CP_DIAMOND_298</span> <span class="o">=</span> <span class="mf">6.115</span>  <span class="c1"># J/(mol K), JANAF</span>
+<span class="n">GAMMA_CU_FREE</span> <span class="o">=</span> <span class="mf">0.505</span>  <span class="c1"># mJ/(mol K^2): the free-electron gamma of §7.10 for copper (provenance: §7.10)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">chain_modes</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normal modes of the N-atom ring: dynamical matrix eigenvalues via numpy.linalg.eigh.</span>
+
+<span class="sd">    D = (K/M)(2I − S − S^T) with S = numpy.roll(numpy.eye(N), 1, axis=1) — to the</span>
+<span class="sd">    letter the tight-binding circulant of §7.12 (one matrix, two physics). eigh returns</span>
+<span class="sd">    ω^2; the k = 0 translation mode comes back at ±1e-16 with a sign at the mercy</span>
+<span class="sd">    of round-off (build- and size-dependent), and a naive numpy.sqrt returns NaN</span>
+<span class="sd">    whenever it lands negative — so frequencies pass through</span>
+<span class="sd">    numpy.sqrt(numpy.maximum(w2, 0)) (the hazard Exercise 1 demonstrates before</span>
+<span class="sd">    clamping).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    N : int</span>
+<span class="sd">        Number of atoms on the ring.</span>
+<span class="sd">    K : float, optional</span>
+<span class="sd">        Spring constant (default 1, working units).</span>
+<span class="sd">    M : float, optional</span>
+<span class="sd">        Atomic mass (default 1).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The N mode frequencies, sorted ascending (the first is the zero mode).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="p">(</span><span class="n">K</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">-</span> <span class="n">S</span> <span class="o">-</span> <span class="n">S</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">w2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">D</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">w2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">debye_C</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The universal Debye heat capacity C/3Nk_B = 3t^3 ∫_0^{1/t} x^4 e^x/(e^x−1)^2 dx.</span>
+
+<span class="sd">    Nondimensionalized per the standing rule of §7.14 (quad meets physics only after the</span>
+<span class="sd">    physics is order one). The kernel is written with numpy.expm1 as</span>
+<span class="sd">    x^4 e^x / expm1(x)^2, and the lower limit is 1e-8 rather than a literal 0:</span>
+<span class="sd">    the integrand behaves as x^2 there (integrable, harmless), but expm1(0)^2 = 0</span>
+<span class="sd">    puts a 0/0 at the exact endpoint — the stated cutoff costs ~1e-25 of the</span>
+<span class="sd">    integral and buys a clean evaluation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : float</span>
+<span class="sd">        Reduced temperature T/θ_D.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        C/3Nk_B.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kernel</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">val</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">quad</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">t</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">t</span><span class="o">**</span><span class="mi">3</span> <span class="o">*</span> <span class="n">val</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">einstein_C</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Einstein heat capacity per mode of §7.5, C/k_B = x^2 e^{−x}/(1 − e^{−x})^2, x = 1/t.</span>
+
+<span class="sd">    Written in the overflow-safe e^{−x} form (x can reach several hundred at the</span>
+<span class="sd">    low temperatures this notebook visits; the naive e^x form overflows at</span>
+<span class="sd">    x ≈ 709).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : float</span>
+<span class="sd">        Reduced temperature T/θ_E.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        C/k_B per mode (equals C/3Nk_B for the Einstein solid).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">t</span>
+    <span class="n">em</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">em</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">em</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">debye_average_speed</span><span class="p">(</span><span class="n">vL</span><span class="p">,</span> <span class="n">vT</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Debye polarization average v_D = [3/(v_L^-3 + 2 v_T^-3)]^{1/3}.</span>
+
+<span class="sd">    One longitudinal and two transverse branches contribute their mode counts as</span>
+<span class="sd">    1/v^3 each — so the average is harmonic in v^3, heavily weighted toward the</span>
+<span class="sd">    SLOW transverse speeds. Using a single &quot;the&quot; sound speed silently shifts θ_D</span>
+<span class="sd">    (the stated trap): for copper the naive v_L would give θ_D off by ~80%.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    vL : float</span>
+<span class="sd">        Longitudinal sound speed, m/s.</span>
+<span class="sd">    vT : float</span>
+<span class="sd">        Transverse sound speed, m/s.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        v_D in m/s.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">vL</span><span class="o">**-</span><span class="mi">3</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">vT</span><span class="o">**-</span><span class="mi">3</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">theta_from_sound</span><span class="p">(</span><span class="n">vL</span><span class="p">,</span> <span class="n">vT</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The acoustic Debye temperature θ_D = (ħ v_D/k_B)(6π^2 n)^{1/3}.</span>
+
+<span class="sd">    The census fixes ω_D by ∫g dω = 3N (ω_D^3 = 6π^2 n v_D^3); the only inputs</span>
+<span class="sd">    are the two sound speeds (averaged by debye_average_speed) and the atom</span>
+<span class="sd">    density — no calorimeter anywhere. Exercise 5 compares this against the</span>
+<span class="sd">    calorimetric θ_D: two apparatus-independent routes to one parameter.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    vL : float</span>
+<span class="sd">        Longitudinal sound speed, m/s.</span>
+<span class="sd">    vT : float</span>
+<span class="sd">        Transverse sound speed, m/s.</span>
+<span class="sd">    n : float</span>
+<span class="sd">        Atom number density, m^-3.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        θ_D in kelvin.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vD</span> <span class="o">=</span> <span class="n">debye_average_speed</span><span class="p">(</span><span class="n">vL</span><span class="p">,</span> <span class="n">vT</span><span class="p">)</span>
+    <span class="n">omega_D</span> <span class="o">=</span> <span class="n">vD</span> <span class="o">*</span> <span class="p">(</span><span class="mf">6.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">HBAR</span> <span class="o">*</span> <span class="n">omega_D</span> <span class="o">/</span> <span class="n">KB_SI</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">chain_C_exact</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The exact chain heat capacity per atom: the mode sum of eq-dimension-counts.</span>
+
+<span class="sd">    C/Nk_B = (1/N) Σ_{k≠0} x^2 e^{−x}/(1 − e^{−x})^2 with x = ω_k/T (working</span>
+<span class="sd">    units), the k = 0 translation mode EXCLUDED (a free coordinate, not an</span>
+<span class="sd">    oscillator) and the summand written in the overflow-safe e^{−x} form (x</span>
+<span class="sd">    reaches ~200 in Exercise 7&#39;s freeze demonstration; e^x there would overflow).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    T : float</span>
+<span class="sd">        Temperature in working units (k_B = ħ = 1).</span>
+<span class="sd">    N : int</span>
+<span class="sd">        Chain length.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        C/(N k_B).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="o">/</span> <span class="n">N</span>  <span class="c1"># k = 0 excluded: the free-coordinate rule</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">k</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">omega</span> <span class="o">/</span> <span class="n">T</span>
+    <span class="n">em</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">em</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">em</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">N</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">A_coefficient</span><span class="p">(</span><span class="n">theta_D</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The low-temperature lattice coefficient A = 12π^4 R/(5 θ_D^3), in mJ mol^-1 K^-4.</span>
+
+<span class="sd">    The T^3 law&#39;s molar prefactor — the number §7.10 invoked for its C/T-vs-T^2</span>
+<span class="sd">    plot with the derivation deferred to this notebook (Exercise 4 performs the</span>
+<span class="sd">    comparison against the displayed digit of §7.10).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    theta_D : float</span>
+<span class="sd">        Debye temperature, K.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        A in mJ mol^-1 K^-4.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">12.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">4</span> <span class="o">*</span> <span class="n">R_GAS</span> <span class="o">/</span> <span class="p">(</span><span class="mf">5.0</span> <span class="o">*</span> <span class="n">theta_D</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e3</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cited: θ_D(cal) = </span><span class="si">{</span><span class="n">THETA_CAL</span><span class="si">}</span><span class="s2">   (A&amp;M Table 23.3 lineage)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;diamond anchors: θ_E = </span><span class="si">{</span><span class="n">THETA_E_DIAMOND</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> K (§7.5), Cp(298) = </span><span class="si">{</span><span class="n">CP_DIAMOND_298</span><span class="si">}</span><span class="s2"> J/(mol K) (JANAF)&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cited: θ_D(cal) = {&#39;Cu&#39;: 343.0, &#39;Al&#39;: 428.0, &#39;Pb&#39;: 105.0, &#39;diamond&#39;: 2230.0}   (A&amp;M Table 23.3 lineage)
+diamond anchors: θ_E = 1320 K (§7.5), Cp(298) = 6.115 J/(mol K) (JANAF)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-one-matrix-two-physics">
+<h2>Exercise 1 — One matrix, two physics<a class="headerlink" href="#exercise-1-one-matrix-two-physics" title="Link to this heading">#</a></h2>
+<p>The chain diagonalized, with the circulant of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> returning as a spring problem. Cite
+<a class="reference internal" href="#equation-eq-chain-dispersion">Eq. 670</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive the equations of motion and the dynamical matrix <span class="math notranslate nohighlight">\(D = (K/M)(2I - S - S^{\mathsf T})\)</span>;
+state the identity with the tight-binding matrix of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a>.</p></li>
+<li><p>Diagonalize with <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> and verify <span class="math notranslate nohighlight">\(\omega(k) = 2\sqrt{K/M}|\sin(ka/2)|\)</span> to
+<span class="math notranslate nohighlight">\(\sim10^{-15}\)</span> — demonstrating the zero-mode round-off hazard first (the translation
+eigenvalue returns at <span class="math notranslate nohighlight">\(\pm10^{-16}\)</span> with build- and size-dependent sign, and naive
+<code class="docutils literal notranslate"><span class="pre">numpy.sqrt</span></code> yields NaN whenever it lands negative) and clamping with
+<code class="docutils literal notranslate"><span class="pre">numpy.sqrt(numpy.maximum(w2,</span> <span class="pre">0))</span></code>.</p></li>
+<li><p>Extract the sound speed from the small-<span class="math notranslate nohighlight">\(k\)</span> slope and verify <span class="math notranslate nohighlight">\(v_s = a\sqrt{K/M}\)</span>; plot the
+dispersion with the sound line tangent.</p></li>
+<li><p>Count (prose + one line): exactly <span class="math notranslate nohighlight">\(N\)</span> modes, against the infinity of <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>: a crystal cannot catastrophe; its cutoff is a census.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>the zero mode across sizes (sign = a round-off coin flip):
+  N =    64:  min eigenvalue = -1.73e-16
+  N =   128:  min eigenvalue = +7.14e-17
+  N =   256:  min eigenvalue = +3.35e-16
+  N =   512:  min eigenvalue = +1.25e-16
+  N =  1024:  min eigenvalue = +6.18e-16
+naive numpy.sqrt on a negative round-off value: nan — silent spectrum poison
+the clamped zero mode: freqs[0] = 1.1e-08  (√(round-off) — a spurious phonon)
+clamped eigh spectrum vs 2|sin(k/2)| on the physical modes: max|Δ| = 5.3e-15
+sound speed from the small-k slope: v_s = 0.999994   (exact a√(K/M) = 1)
+
+mode count: 512 modes for 512 atoms — exactly N
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-phonon-dispersion">
+<img alt="../../_images/81f19bdefb838687ff71795c63a7e900e5ce00ad1c72c855223779d2d62e1c56.png" src="../../_images/81f19bdefb838687ff71795c63a7e900e5ce00ad1c72c855223779d2d62e1c56.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 600 </span><span class="caption-text">One matrix, two physics. The 512-atom chain’s mode frequencies from <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> of the dynamical matrix (amber points — every one lands on the closed form <span class="math notranslate nohighlight">\(\omega = 2\sqrt{K/M}\,|\sin(ka/2)|\)</span>, dark line, at <span class="math notranslate nohighlight">\(10^{-15}\)</span>), with the sound line <span class="math notranslate nohighlight">\(\omega = v_sk\)</span> (dashed) tangent at the origin: the linear, sounding part of the spectrum is exactly what Debye will keep. The dynamical matrix is, entry for entry, the tight-binding circulant of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> — electrons hopped through it four notebooks ago; atoms sway by it here. And the spectrum simply <em>ends</em>: exactly <span class="math notranslate nohighlight">\(N\)</span> modes for <span class="math notranslate nohighlight">\(N\)</span> atoms (Eq. <a class="reference internal" href="#equation-eq-chain-dispersion">Eq. 670</a>), which is why no ultraviolet catastrophe is possible in a crystal — the cutoff is a census, not a hypothesis.</span><a class="headerlink" href="#fig-phonon-dispersion" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the zero-mode hazard: the translation eigenvalue sits at round-off with unspecified sign, and naive sqrt fails whenever it lands negative   [zero modes -1.7e-16 … +6.2e-16]
+✓  the chain: one circulant, two physics — eigh lands on 2√(K/M)|sin(ka/2)| on every physical mode   [max|Δ| = 5.26489e-15 (rtol=1e-06, atol=1e-12)]
+✓  and the clamped zero mode is a √(round-off) artifact, removed by the free-coordinate rule   [freqs[0] = 1.1e-08]
+✓  and sound emerges at small k with speed a√(K/M)   [got 0.999994 vs expected 1 (rtol=0.001)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-quantize-and-reckon-with-einstein">
+<h2>Exercise 2 — Quantize, and reckon with Einstein<a class="headerlink" href="#exercise-2-quantize-and-reckon-with-einstein" title="Link to this heading">#</a></h2>
+<p>Each mode an oscillator; the confession recalled; the census argument that resolves it. Cite
+<a class="reference internal" href="#equation-eq-phonon-quantization">Eq. 671</a>, <a class="reference internal" href="#equation-eq-census">Eq. 672</a>.</p>
+<ol class="arabic simple">
+<li><p>Quantize the modes (<a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> invoked; <span class="math notranslate nohighlight">\(\mu = 0\)</span> by the argument of <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a> in one line) and write
+<span class="math notranslate nohighlight">\(U = \sum\hbar\omega(n_B + \tfrac12)\)</span>; state honestly what a phonon is.</p></li>
+<li><p>Recall the confession of <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> quantitatively: evaluate <code class="docutils literal notranslate"><span class="pre">einstein_C</span></code> for diamond at 50 K
+(<span class="math notranslate nohighlight">\(\theta_E = 1320\)</span> K) and compare with the <span class="math notranslate nohighlight">\(T^3\)</span> behaviour experiment shows.</p></li>
+<li><p>Make the census argument concrete on the chain: count the modes with <span class="math notranslate nohighlight">\(\omega &lt; T\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.count_nonzero</span></code> on the Exercise 1 spectrum) at two temperatures and verify the count doubles when <span class="math notranslate nohighlight">\(T\)</span> doubles: <span class="math notranslate nohighlight">\(C \propto T^d\)</span> before any integral.</p></li>
+<li><p>State the division (prose): Einstein proved quantization was the point (1907); the spectrum’s <em>shape</em> at low <span class="math notranslate nohighlight">\(\omega\)</span> is what he missed; Debye supplies it (1912). The story is completed in Exercise 6.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Einstein diamond at 50 K: C/3Nk_B = 2.4e-09
+experiment at 50 K: a T^3 law — parts in 1e-4 of classical, not parts in 1e-9
+
+awake modes on the N = 512 chain: 17 at T = 0.1, 33 at T = 0.2
+ratio: 1.941  (the census: doubling T doubles the awake count in 1D)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the confession, quantified: Einstein&#39;s diamond is exponentially silent at 50 K   [C/3Nk_B = 2.4e-09]
+✓  why Einstein failed: the acoustic census — awake modes scale with T before any integral   [got 1.94118 vs expected 2 (rtol=0.05)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-the-debye-model-and-both-limits">
+<h2>Exercise 3 — The Debye model, and both limits<a class="headerlink" href="#exercise-3-the-debye-model-and-both-limits" title="Link to this heading">#</a></h2>
+<p>The universal curve, nondimensionalized per the standing rule. Cite <a class="reference internal" href="#equation-eq-debye-model">Eq. 673</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive <span class="math notranslate nohighlight">\(g(\omega) = 3V\omega^2/2\pi^2v_D^3\)</span> with the polarization average
+<span class="math notranslate nohighlight">\(v_D = [3/(v_L^{-3}+2v_T^{-3})]^{1/3}\)</span>, and fix <span class="math notranslate nohighlight">\(\omega_D\)</span> (<span class="math notranslate nohighlight">\(\theta_D\)</span>) by the census
+<span class="math notranslate nohighlight">\(\int g = 3N\)</span>.</p></li>
+<li><p>Implement <code class="docutils literal notranslate"><span class="pre">debye_C(t)</span></code> via <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> on <span class="math notranslate nohighlight">\(3t^3\int x^4e^x/(e^x-1)^2dx\)</span>
+(<code class="docutils literal notranslate"><span class="pre">numpy.expm1</span></code> in the kernel; the stated lower cutoff <span class="math notranslate nohighlight">\(10^{-8}\)</span>; the nondimensionalization rule of <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>
+re-stated in the solution).</p></li>
+<li><p>Verify both limits: <span class="math notranslate nohighlight">\(C/3Nk_B = 0.998\)</span> at <span class="math notranslate nohighlight">\(t = 5\)</span> (Dulong–Petit: Volume V’s law recovered as a limit) and the <span class="math notranslate nohighlight">\(T^3\)</span> law with coefficient <span class="math notranslate nohighlight">\(4\pi^4/5\)</span> at ratio 1.00000 at <span class="math notranslate nohighlight">\(t = 0.02\)</span>
+(the integral of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a> credited).</p></li>
+<li><p>Plot the universal curve with both limiting laws dashed, and place Cu, Al, Pb, and diamond
+on it at <span class="math notranslate nohighlight">\(t = 300\,\text{K}/\theta_D\)</span> — why lead is classical and diamond quantum at room
+temperature, in one sentence.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C/3Nk_B at t = 5:    0.9980   (Dulong–Petit limit 1 — Volume V&#39;s 3Nk_B, now a limit)
+C/(4π^4/5 t^3) at t = 0.02: 1.000000   (the T^3 law, exact coefficient)
+  Cu       t(300 K) =  0.875   C/3Nk_B = 0.938
+  Al       t(300 K) =  0.701   C/3Nk_B = 0.905
+  Pb       t(300 K) =  2.857   C/3Nk_B = 0.994
+  diamond  t(300 K) =  0.135   C/3Nk_B = 0.166
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-phonon-universal">
+<img alt="../../_images/9eb47cabeecbc708ef1630a7ac4e0a951c462bdf482108425a6a034c10ec159d.png" src="../../_images/9eb47cabeecbc708ef1630a7ac4e0a951c462bdf482108425a6a034c10ec159d.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 601 </span><span class="caption-text">One curve for every harmonic solid. The universal Debye heat capacity <span class="math notranslate nohighlight">\(C/3Nk_B\)</span> against <span class="math notranslate nohighlight">\(t = T/\theta_D\)</span> (amber, Eq. <a class="reference internal" href="#equation-eq-debye-model">Eq. 673</a>), with its two limiting laws dashed: Dulong–Petit above (<span class="math notranslate nohighlight">\(C \to 3Nk_B\)</span> — Volume V’s equipartition value, recovered here as a <em>limit</em>; 0.998 at <span class="math notranslate nohighlight">\(t = 5\)</span>) and the <span class="math notranslate nohighlight">\(T^3\)</span> law below with its exact coefficient <span class="math notranslate nohighlight">\(4\pi^4/5\)</span> (the Bose integral of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>, third appearance). The four materials sit at their room-temperature reduced temperatures: lead (<span class="math notranslate nohighlight">\(t \approx 2.9\)</span>) is classical at 300 K, copper and aluminum are near the shoulder, and diamond (<span class="math notranslate nohighlight">\(t \approx 0.13\)</span>) is still deeply quantum — stiffness alone decides. The integral is evaluated nondimensionalized, per the standing rule of <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>.</span><a class="headerlink" href="#fig-phonon-universal" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Debye: Dulong–Petit above, the exact T^3 below — Volume V&#39;s law now a limit   [max|Δ| = 2.85362e-06 (rtol=0.002, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-the-coefficient-7-10-used-derived-to-the-digit">
+<h2>Exercise 4 — The coefficient 7.10 used, derived to the digit<a class="headerlink" href="#exercise-4-the-coefficient-7-10-used-derived-to-the-digit" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> invoked a lattice coefficient with its derivation deferred here; this exercise derives
+it and compares, digit for digit. Cite <a class="reference internal" href="#equation-eq-a-coefficient">Eq. 674</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive <span class="math notranslate nohighlight">\(A = 12\pi^4R/5\theta_D^3\)</span> from the low-<span class="math notranslate nohighlight">\(T\)</span> limit of Exercise 3.</p></li>
+<li><p>Evaluate <code class="docutils literal notranslate"><span class="pre">A_coefficient(343)</span></code> for copper and compare against the number <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> used,
+verbatim: <span class="math notranslate nohighlight">\(0.0482\)</span> mJ mol⁻¹K⁻⁴.</p></li>
+<li><p>Re-assemble the <span class="math notranslate nohighlight">\(C/T\)</span>-versus-<span class="math notranslate nohighlight">\(T^2\)</span> plot of <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> now fully first-principles (<span class="math notranslate nohighlight">\(\gamma\)</span> from
+the free-electron value of <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a>, <span class="math notranslate nohighlight">\(A\)</span> from here) and confirm <span class="math notranslate nohighlight">\(T^* = \sqrt{\gamma/A} = 3.2\)</span> K.</p></li>
+<li><p>Note the practice (prose, one paragraph): a coefficient invoked six notebooks ago and derived today, identical to the displayed digit; anti-redundancy as an auditable habit.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A(Cu, θ_D = 343 K) = 0.0482 mJ mol^-1 K^-4
+§7.10 displayed:      0.0482 mJ mol^-1 K^-4 — the same figure, now derived
+T* = √(γ/A) = 3.24 K   (§7.10 reported 3.2 K — now fully first-principles)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-phonon-crossover">
+<img alt="../../_images/5adc802b0b80f98f8b3eba019beacf7f619f661a1e2ccb07d9f948281d2bc9a8.png" src="../../_images/5adc802b0b80f98f8b3eba019beacf7f619f661a1e2ccb07d9f948281d2bc9a8.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 602 </span><span class="caption-text">The experimenter’s plot of <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a>, now fully first-principles. <span class="math notranslate nohighlight">\(C/T\)</span> against <span class="math notranslate nohighlight">\(T^2\)</span> for copper with both coefficients derived: the intercept <span class="math notranslate nohighlight">\(\gamma = 0.505\)</span> mJ mol<span class="math notranslate nohighlight">\(^{-1}\)</span>K<span class="math notranslate nohighlight">\(^{-2}\)</span> is the free-electron value of <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a>, and the slope <span class="math notranslate nohighlight">\(A = 0.0482\)</span> mJ mol<span class="math notranslate nohighlight">\(^{-1}\)</span>K<span class="math notranslate nohighlight">\(^{-4}\)</span> is Eq. <a class="reference internal" href="#equation-eq-a-coefficient">Eq. 674</a>, evaluated for <span class="math notranslate nohighlight">\(\theta_D = 343\)</span> K — the exact figure <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> displayed with its derivation deferred here. The crossover <span class="math notranslate nohighlight">\(T^* = \sqrt{\gamma/A} = 3.2\)</span> K (dashed) divides the electron gas’s linear law from the lattice’s cubic one: above it phonons drown the electrons, below it the metal’s heat is electronic — the liquid-helium window where Sommerfeld’s <span class="math notranslate nohighlight">\(\gamma\)</span> is read off as an intercept.</span><a class="headerlink" href="#fig-phonon-crossover" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the T^3 coefficient, derived: the same figure §7.10 displayed   [got 0.0481684 vs expected 0.0482 (rtol=0.001)]
+✓  and the crossover of §7.10 now stands fully first-principles   [got 3.23791 vs expected 3.2 (rtol=0.03)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-two-experiments-one-number">
+<h2>Exercise 5 — Two experiments, one number<a class="headerlink" href="#exercise-5-two-experiments-one-number" title="Link to this heading">#</a></h2>
+<p><span class="math notranslate nohighlight">\(\theta_D\)</span> by calorimeter and by loudspeaker — copper agrees with itself to three digits.
+Cite <a class="reference internal" href="#equation-eq-sound-vs-heat">Eq. 675</a>.</p>
+<ol class="arabic simple">
+<li><p>Implement <code class="docutils literal notranslate"><span class="pre">theta_from_sound(vL,</span> <span class="pre">vT,</span> <span class="pre">n)</span></code> with the mandatory polarization average
+<code class="docutils literal notranslate"><span class="pre">debye_average_speed</span></code> (the single-speed trap stated) and the cited inputs.</p></li>
+<li><p>Verify: Cu 342 vs calorimetric 343 K (ratio 1.00); Al 399 vs 428 (0.93); Pb 76 vs 105
+(0.72); plot the bar pairs.</p></li>
+<li><p>Teach the pattern (prose): copper is the harmonic approximation earning its keep; lead’s 28% miss is <em>anharmonicity</em> (soft, heavy, non-Hookean at accessible temperatures), with thermal expansion named as its everyday face.</p></li>
+<li><p>Weigh the epistemics (prose): two apparatus-independent routes to one parameter is the strongest kind of validation this course can stage: sound and heat agreeing about <span class="math notranslate nohighlight">\(\hbar\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>θ_D by loudspeaker vs by calorimeter:
+  Cu: v_D =   2612 m/s → θ_D =   342 K   (cal.   343 K, ratio 1.00)
+  Al: v_D =   3420 m/s → θ_D =   399 K   (cal.   428 K, ratio 0.93)
+  Pb: v_D =    795 m/s → θ_D =    76 K   (cal.   105 K, ratio 0.72)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-phonon-sound-vs-heat">
+<img alt="../../_images/ba7ba38249712de7b3dedb8f1576554b4fc6e58519326a7dfb8f01fc24f3c054.png" src="../../_images/ba7ba38249712de7b3dedb8f1576554b4fc6e58519326a7dfb8f01fc24f3c054.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 603 </span><span class="caption-text">Two experiments, one number. The Debye temperature measured by <em>loudspeaker</em> — the acoustic route <span class="math notranslate nohighlight">\(\theta_D = (\hbar v_D/k_B)(6\pi^2n)^{1/3}\)</span> from cited sound speeds and atom densities (amber) — against the <em>calorimetric</em> value from <span class="math notranslate nohighlight">\(C(T)\)</span> (dark), for copper, aluminum, and lead (Eq. <a class="reference internal" href="#equation-eq-sound-vs-heat">Eq. 675</a>). The two apparatus share nothing, and copper agrees with itself to three digits (342 vs 343 K): the harmonic approximation earning its keep. The misses are the lesson — aluminum at ratio 0.93, soft heavy lead at 0.72 — anharmonicity’s signature, whose everyday face is thermal expansion. The transverse-weighted average <span class="math notranslate nohighlight">\(v_D\)</span> is mandatory: copper’s longitudinal speed alone would miss by 80%.</span><a class="headerlink" href="#fig-phonon-sound-vs-heat" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  copper&#39;s Debye temperature, by loudspeaker: the calorimeter&#39;s number to three digits   [got 341.744 vs expected 343 (rtol=0.01)]
+✓  aluminum and lead land on their stated acoustic values — the misses are anharmonicity&#39;s   [max|Δ| = 0.329698 (rtol=0.03, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-diamond-closed-honestly">
+<h2>Exercise 6 — Diamond, closed honestly<a class="headerlink" href="#exercise-6-diamond-closed-honestly" title="Link to this heading">#</a></h2>
+<p>The 1907 → 1912 story completed — including the part where Debye is only a caricature. The
+two cited anchors are the Einstein fit of <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> (<span class="math notranslate nohighlight">\(\theta_E = 1320\)</span> K) with the literature low-<span class="math notranslate nohighlight">\(T\)</span>
+Debye value (<span class="math notranslate nohighlight">\(\theta_D = 2230\)</span> K), and diamond’s measured room-temperature heat capacity
+(<span class="math notranslate nohighlight">\(C_p(298) = 6.115\)</span> J mol⁻¹K⁻¹, JANAF). Cite <a class="reference internal" href="#equation-eq-diamond-closed">Eq. 676</a>.</p>
+<ol class="arabic simple">
+<li><p>Exhibit the Einstein collapse: the ratio <code class="docutils literal notranslate"><span class="pre">einstein_C</span></code>/<code class="docutils literal notranslate"><span class="pre">debye_C</span></code> at 300, 150, and 75 K (<span class="math notranslate nohighlight">\(1.5 \to 0.5 \to 0.002\)</span>) on a log axis; Debye owns the regime Einstein could not reach.</p></li>
+<li><p>Exhibit the 300 K <em>undershoot</em> honestly: Debye with the low-<span class="math notranslate nohighlight">\(T\)</span> <span class="math notranslate nohighlight">\(\theta_D = 2230\)</span> K gives
+<span class="math notranslate nohighlight">\(C/3R = 0.163\)</span> against the measured <span class="math notranslate nohighlight">\(0.245\)</span>.</p></li>
+<li><p>Quantify the drift: solve <code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code> on <span class="math notranslate nohighlight">\(C_{\text{Debye}}(298/\theta) =
+C_p^{\text{JANAF}}/3R\)</span> for the <em>effective</em> <span class="math notranslate nohighlight">\(\theta_D(298)\)</span> and compare with the low-<span class="math notranslate nohighlight">\(T\)</span>
+2230 K — the fitted <span class="math notranslate nohighlight">\(\theta_D\)</span> depends on the fitting window because the true <span class="math notranslate nohighlight">\(g(\omega)\)</span>
+is not a parabola-with-cliff (the classic <span class="math notranslate nohighlight">\(\theta_D(T)\)</span> plot named).</p></li>
+<li><p>Complete the story (prose): Einstein 1907 proved heat capacity is quantum; Debye 1912 got
+the spectrum’s low-<span class="math notranslate nohighlight">\(\omega\)</span> shape right; the drift is the caricature’s measured residual,
+and neutron spectroscopy photographs the real <span class="math notranslate nohighlight">\(g(\omega)\)</span> (outward); the anomaly of <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> is now closed at both ends.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>diamond, Einstein(1320) vs Debye(2230):
+  T =   300 K:  E = 2.436e-01   D = 1.657e-01   E/D = 1.470
+  T =   150 K:  E = 1.168e-02   D = 2.370e-02   E/D = 0.493
+  T =    75 K:  E = 7.038e-06   D = 2.965e-03   E/D = 0.002
+
+at 298 K: Debye(2230) C/3R = 0.163   measured (JANAF) = 0.245
+effective θ_D fitted to the 298 K point alone: 1861 K   (low-T value: 2230 K)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-phonon-diamond">
+<img alt="../../_images/d6c2e5840f8f820e8fa8c05aeaa0207abe4fa37cea816b2cc1e7e4235e04aacb.png" src="../../_images/d6c2e5840f8f820e8fa8c05aeaa0207abe4fa37cea816b2cc1e7e4235e04aacb.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 604 </span><span class="caption-text">Diamond, closed honestly — the 1907 → 1912 story with its fine print. <strong>Left:</strong> Einstein (<span class="math notranslate nohighlight">\(\theta_E = 1320\)</span> K, the fit of <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>) against Debye (<span class="math notranslate nohighlight">\(\theta_D = 2230\)</span> K, the literature low-<span class="math notranslate nohighlight">\(T\)</span> value) on a log axis: comparable at 300 K, then the exponential collapse — the ratio falls to 0.002 by 75 K (Eq. <a class="reference internal" href="#equation-eq-diamond-closed">Eq. 676</a>) as Einstein’s single frequency freezes and Debye’s acoustic tail keeps its <span class="math notranslate nohighlight">\(T^3\)</span> floor. <strong>Right:</strong> the honest part. The low-<span class="math notranslate nohighlight">\(T\)</span> <span class="math notranslate nohighlight">\(\theta_D\)</span> <em>undershoots</em> the measured room-temperature point (JANAF, marker): <span class="math notranslate nohighlight">\(C/3R = 0.163\)</span> against 0.245. Refit the one-parameter model to that point alone and <span class="math notranslate nohighlight">\(\theta_D\)</span> drifts to <span class="math notranslate nohighlight">\(\approx 1860\)</span> K — two windows, two <span class="math notranslate nohighlight">\(\theta_D\)</span>’s, because the true phonon spectrum is not a parabola-with-cliff. The drift is the caricature’s residual, measured; neutron spectroscopy photographs the rest.</span><a class="headerlink" href="#fig-phonon-diamond" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  diamond closed: comparable at 300 K, Einstein 500× silent by 75 K   [max|Δ| = 0.000374017 (rtol=0.5, atol=1e-09)]
+✓  and the honest undershoot: the low-T θ_D misses the room-temperature point by a third   [got 0.163249 vs expected 0.163 (rtol=0.05)]
+✓  the θ_D(T) drift, quantified: two fitting windows, two Debye temperatures   [θ_eff(298 K) = 1861 K vs low-T 2230 K]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-dimension-counts-and-a-chain-that-freezes">
+<h2>Exercise 7 — Dimension counts, and a chain that freezes<a class="headerlink" href="#exercise-7-dimension-counts-and-a-chain-that-freezes" title="Link to this heading">#</a></h2>
+<p>The exact 1D mode sum: a <span class="math notranslate nohighlight">\(\pi/3\)</span>, a general law, and a finite-size lesson. Cite
+<a class="reference internal" href="#equation-eq-dimension-counts">Eq. 677</a>.</p>
+<ol class="arabic simple">
+<li><p>Implement <code class="docutils literal notranslate"><span class="pre">chain_C_exact(T,</span> <span class="pre">N)</span></code> as the mode sum (<span class="math notranslate nohighlight">\(k = 0\)</span> excluded — the free-coordinate
+rule; the overflow-safe <span class="math notranslate nohighlight">\(e^{-x}\)</span> form stated).</p></li>
+<li><p>Verify <span class="math notranslate nohighlight">\(C/NT \to \pi/3\)</span> above the finite-size gap (<span class="math notranslate nohighlight">\(N = 4096\)</span>, <span class="math notranslate nohighlight">\(t = 0.05\)</span>), and derive the
+<span class="math notranslate nohighlight">\(\pi/3\)</span> from the chain’s constant low-<span class="math notranslate nohighlight">\(\omega\)</span> density of states.</p></li>
+<li><p>Exhibit the <em>freeze</em>: at <span class="math notranslate nohighlight">\(N = 64\)</span> the softest mode sits at <span class="math notranslate nohighlight">\(\omega_{\min} \approx 2\pi
+v_s/Na\)</span>, and at <span class="math notranslate nohighlight">\(T = 0.01\)</span> the chain’s heat capacity has collapsed to <span class="math notranslate nohighlight">\(\sim10^{-4}\)</span>;
+choose windows consciously, and read the freeze as physics (nanoparticle calorimetry, one
+breath; the staircase spirit of <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a>).</p></li>
+<li><p>Generalize (prose + the census): <span class="math notranslate nohighlight">\(C \propto T^d\)</span> (<span class="math notranslate nohighlight">\(T\)</span> in chains, <span class="math notranslate nohighlight">\(T^2\)</span> in sheets with graphene’s flexural caveat, <span class="math notranslate nohighlight">\(T^3\)</span> in crystals); one argument, dimension merely counting the awake modes.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 4096, T = 0.05:  C/(NT) = 1.0449   (π/3 = 1.0472)
+
+N = 64: softest mode ω_min = 0.0981 ≈ 2πv_s/Na = 0.0982
+at T = 0.01 (x_min = 10): C/Nk_B = 1.65e-04 — the chain is frozen
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-phonon-dimension">
+<img alt="../../_images/8d3fb8c741b279be5aa961f0a2c422e8e34995f0a63272acd787854dbcf7eb32.png" src="../../_images/8d3fb8c741b279be5aa961f0a2c422e8e34995f0a63272acd787854dbcf7eb32.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 605 </span><span class="caption-text">Dimension counts — and finiteness freezes. The exact chain heat capacity as <span class="math notranslate nohighlight">\(C/(Nk_BT)\)</span> against temperature for <span class="math notranslate nohighlight">\(N = 4096\)</span> (amber) and <span class="math notranslate nohighlight">\(N = 64\)</span> (dark), from the mode sum of Eq. <a class="reference internal" href="#equation-eq-dimension-counts">Eq. 677</a> (<span class="math notranslate nohighlight">\(k = 0\)</span> excluded, overflow-safe form). The long chain shows the 1D law: a plateau at exactly <span class="math notranslate nohighlight">\(\pi/3\)</span> (dashed) — the census argument’s <span class="math notranslate nohighlight">\(C \propto T^d\)</span> with its constant computed from the chain’s flat low-<span class="math notranslate nohighlight">\(\omega\)</span> density of states. The short chain <em>freezes</em> below its softest mode <span class="math notranslate nohighlight">\(\omega_{\min} \approx 2\pi v_s/Na\)</span> (dotted): below the gap every oscillator is exponentially silent — the shell staircase of <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a> in phonon dress, the size effect nanoparticle calorimetry measures, and a standing warning to choose simulation windows consciously.</span><a class="headerlink" href="#fig-phonon-dimension" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  dimension counts: the chain&#39;s linear law with its exact π/3 coefficient   [got 1.04493 vs expected 1.0472 (rtol=0.01)]
+✓  and the finite-size freeze: below its softest mode the 64-atom chain goes silent   [C/Nk_B = 1.6e-04 at T = 0.01]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-the-audit-clears">
+<h2>Exercise 8 — The audit clears<a class="headerlink" href="#exercise-8-the-audit-clears" title="Link to this heading">#</a></h2>
+<p>This notebook was an audit, and every line cleared. The oscillator that <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> warmed became a
+crystal’s normal mode; the matrix that hopped electrons in <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> swayed atoms here; the
+<span class="math notranslate nohighlight">\(\mu = 0\)</span> of <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a> carried over in a sentence; and the integral <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a> computed before any of this existed delivered, at last, the <span class="math notranslate nohighlight">\(T^3\)</span> coefficient that <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> had used on trust: derived today, identical to the displayed digit. Dulong–Petit, which Volume V asserted, is now a
+high-temperature limit; Einstein’s diamond, which <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> could only match at one point, is closed across the range, including the honest part, where Debye’s one-parameter caricature drifts and the drift itself is data. And the quietest result may be the strongest: copper’s
+Debye temperature, measured once with a calorimeter and once with sound, agreeing to three digits: heat and acoustics cross-examining each other about Planck’s constant and telling the same story.</p>
+<p>There is something satisfying about a model that knows its own size. The photon gas needed quantum mechanics to escape an infinity; the crystal never faced one: it has <span class="math notranslate nohighlight">\(3N\)</span> modes because it has <span class="math notranslate nohighlight">\(N\)</span> atoms, and Debye’s famous cutoff is just the model refusing to invent
+degrees of freedom it was never given. Half of good physics is bookkeeping done with
+conviction.</p>
+<p>One boson gas remains, the one whose particle number is protected: when <em>its</em> ceiling bites,
+the gas does not glow or hum — it condenses (<a class="reference internal" href="bose-einstein-condensation.html"><span class="std std-doc">§7.17</span></a>).</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>Movement IV’s third notebook: the crystal as a photon gas with a speed limit and a headcount.</p>
+<ul class="simple">
+<li><p><strong>One matrix, two physics</strong> <a class="reference internal" href="#equation-eq-chain-dispersion">Eq. 670</a>: the ring’s dynamical matrix is
+the tight-binding circulant of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a>; <code class="docutils literal notranslate"><span class="pre">eigh</span></code> lands on <span class="math notranslate nohighlight">\(2\sqrt{K/M}|\sin(ka/2)|\)</span> at <span class="math notranslate nohighlight">\(10^{-12}\)</span> (gated) with sound at small <span class="math notranslate nohighlight">\(k\)</span> (gated), after the zero-mode hazard is demonstrated and clamped (gated). Exactly <span class="math notranslate nohighlight">\(N\)</span> modes: the cutoff is a census, and no catastrophe is possible.</p></li>
+<li><p><strong>Quantization and the census</strong> <a class="reference internal" href="#equation-eq-phonon-quantization">Eq. 671</a>, <a class="reference internal" href="#equation-eq-census">Eq. 672</a>: each mode is
+the oscillator of <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> at <span class="math notranslate nohighlight">\(\mu = 0\)</span> (the argument of <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>); Einstein’s diamond is <span class="math notranslate nohighlight">\(10^{-9}\)</span>-silent at 50 K (gated) because his solid has nothing soft to offer, while the chain’s awake-mode count doubles with <span class="math notranslate nohighlight">\(T\)</span> (gated): <span class="math notranslate nohighlight">\(C \propto T^d\)</span> before any integral.</p></li>
+<li><p><strong>Debye, both limits</strong> <a class="reference internal" href="#equation-eq-debye-model">Eq. 673</a>: the universal curve (nondimensionalized per the rule of <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>, <code class="docutils literal notranslate"><span class="pre">expm1</span></code> kernel, stated cutoff) reaches 0.998 at <span class="math notranslate nohighlight">\(t = 5\)</span> (Dulong–Petit as a <em>limit</em>) and lands on <span class="math notranslate nohighlight">\((4\pi^4/5)t^3\)</span> at ratio 1.00000 (both gated; the integral of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>,
+third use).</p></li>
+<li><p><strong>The coefficient, derived</strong> <a class="reference internal" href="#equation-eq-a-coefficient">Eq. 674</a>: <span class="math notranslate nohighlight">\(A(343\,\text{K}) = 0.0482\)</span> mJ mol⁻¹K⁻⁴, the displayed digit of <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> (gated), and <span class="math notranslate nohighlight">\(T^* = 3.2\)</span> K now first-principles (gated).</p></li>
+<li><p><strong>Two experiments, one number</strong> <a class="reference internal" href="#equation-eq-sound-vs-heat">Eq. 675</a>: acoustic <span class="math notranslate nohighlight">\(\theta_D\)</span> from cited <span class="math notranslate nohighlight">\(v_L, v_T, n\)</span> against calorimetric: Cu 342/343 (gated at 1%), Al 0.93, Pb 0.72 (gated), with lead’s miss taught as anharmonicity and the single-speed trap stated.</p></li>
+<li><p><strong>Diamond, closed honestly</strong> <a class="reference internal" href="#equation-eq-diamond-closed">Eq. 676</a>: Einstein/Debye = 1.5 → 0.002 across
+300–75 K (gated); the low-<span class="math notranslate nohighlight">\(T\)</span> <span class="math notranslate nohighlight">\(\theta_D = 2230\)</span> K undershoots the JANAF 298 K point
+(<span class="math notranslate nohighlight">\(0.163\)</span> vs <span class="math notranslate nohighlight">\(0.245\)</span>, gated); the window-fitted <span class="math notranslate nohighlight">\(\theta_D \approx 1860\)</span> K (gated as a band)
+exhibits the <span class="math notranslate nohighlight">\(\theta_D(T)\)</span> drift as the caricature’s measured residual.</p></li>
+<li><p><strong>Dimension counts</strong> <a class="reference internal" href="#equation-eq-dimension-counts">Eq. 677</a>: the exact mode sum plateaus at <span class="math notranslate nohighlight">\(\pi/3\)</span> (gated); the 64-atom chain freezes below <span class="math notranslate nohighlight">\(2\pi v_s/Na\)</span> (gated): the staircase spirit of <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a> in phonon dress.</p></li>
+</ul>
+<p>Next door, the boson gas whose number is conserved runs out of room.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>BEC (<a class="reference internal" href="bose-einstein-condensation.html"><span class="std std-doc">§7.17</span></a>).</strong> The conserved-number boson gas and its saturating ceiling: when this one
+bites, the gas condenses.</p></li>
+<li><p><strong>Real phonon spectra.</strong> Neutron and X-ray spectroscopy (where <span class="math notranslate nohighlight">\(g(\omega)\)</span> is photographed);
+anharmonicity, thermal expansion, and phonon–phonon scattering (outward horizons, named).</p></li>
+<li><p><strong>Transport.</strong> Thermal conductivity: the phonon gas as a transport problem (outward, named).</p></li>
+<li><p><strong>Low dimensions.</strong> Graphene’s flexural branch and the <span class="math notranslate nohighlight">\(T^2\)</span> story’s fine print;
+nanoparticle calorimetry and the finite-size freeze (outward, named).</p></li>
+<li><p><strong>Cross-reference</strong> <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> (the confession, resolved), <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> (the coefficient, now derived),
+<a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> (the circulant; the counting), <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a> (<span class="math notranslate nohighlight">\(\mu = 0\)</span>; the nondimensionalization rule; the
+catastrophe contrast), <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a> (the integral, thrice), <a class="reference internal" href="../05-classical-stat-mech/ergodicity.html"><span class="std std-doc">§5.5</span></a> (Dulong–Petit, now a limit).</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/07-quantum-statistical-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="einstein-a-b-coefficients.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="bose-einstein-condensation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">7.17 Bose–Einstein Condensation: The Ceiling Saturates</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-chain-diagonalized-one-matrix-two-physics">The chain, diagonalized — one matrix, two physics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantization-and-what-a-phonon-is">Quantization, and what a phonon is</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-einstein-failed-the-census-argument">Why Einstein failed: the census argument</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-debye-model">The Debye model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-coefficient-7-10-used-derived">The coefficient 7.10 used, derived</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-experiments-one-number">Two experiments, one number</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diamond-closed-honestly">Diamond, closed honestly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dimension-counts">Dimension counts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-one-matrix-two-physics">Exercise 1 — One matrix, two physics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-quantize-and-reckon-with-einstein">Exercise 2 — Quantize, and reckon with Einstein</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-debye-model-and-both-limits">Exercise 3 — The Debye model, and both limits</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-coefficient-7-10-used-derived-to-the-digit">Exercise 4 — The coefficient 7.10 used, derived to the digit</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-two-experiments-one-number">Exercise 5 — Two experiments, one number</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-diamond-closed-honestly">Exercise 6 — Diamond, closed honestly</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-dimension-counts-and-a-chain-that-freezes">Exercise 7 — Dimension counts, and a chain that freezes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-the-audit-clears">Exercise 8 — The audit clears</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

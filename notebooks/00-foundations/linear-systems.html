@@ -1,0 +1,1528 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="0.4 Linear Systems and Matrix Factorizations" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/00-foundations/linear-systems.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Solving A\mathbf x=\mathbf b is the most-run computation in physics: it sits under every equilibrium, every normal-mode problem, every fit..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Solving A\mathbf x=\mathbf b is the most-run computation in physics: it sits under every equilibrium, every normal-mode problem, every fit..." />
+
+    <title>0.4 Linear Systems and Matrix Factorizations &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/00-foundations/linear-systems';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/00-foundations/linear-systems.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="0.5 Eigenvalues, Diagonalization, and the SVD" href="eigenvalues-svd.html" />
+    <link rel="prev" title="0.3 Numerical Integration and Differentiation" href="quadrature-differentiation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/00-foundations/linear-systems.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/00-foundations/linear-systems.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/00-foundations/linear-systems.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/00-foundations/linear-systems.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>0.4 Linear Systems and Matrix Factorizations</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solve-by-factoring-not-by-inverting">Solve by factoring, not by inverting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditioning-the-problem-not-the-method">Conditioning: the problem, not the method</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lu-qr-cholesky">LU, QR, Cholesky</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-triangular-systems-and-back-substitution">Exercise 1 — Triangular systems and back-substitution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-lu-factorization-with-partial-pivoting">Exercise 2 — LU factorization with partial pivoting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-conditioning-the-hilbert-matrix-catastrophe">Exercise 3 — Conditioning: the Hilbert matrix catastrophe</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-residual-versus-error-the-conditioning-lesson-sharpened">Exercise 4 — Residual versus error (the conditioning lesson, sharpened)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-qr-factorization">Exercise 5 — QR factorization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-cholesky-for-symmetric-positive-definite-matrices">Exercise 6 — Cholesky for symmetric positive-definite matrices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-never-invert-solve-via-factorization-vs-forming-a1">Exercise 7 — Never invert: solve via factorization vs. forming A⁻¹</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-choosing-the-right-factorization-synthesis">Exercise 8 — Choosing the right factorization (synthesis)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="linear-systems-and-matrix-factorizations">
+<h1>0.4 Linear Systems and Matrix Factorizations<a class="headerlink" href="#linear-systems-and-matrix-factorizations" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume 0 — Mathematical &amp; Computational Foundations
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;0.4
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Solving Ax=b the way computers actually do it: conditioning, LU, QR, and Cholesky — why one factors a matrix instead of inverting it, and how a deceptively simple matrix can destroy the answer.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;intermediate&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;90–120 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Solving <span class="math notranslate nohighlight">\(A\mathbf x=\mathbf b\)</span> is the most-run computation in physics: it sits
+under every equilibrium, every normal-mode problem, every fit. We learned to
+solve it by Gaussian elimination, and perhaps to write <span class="math notranslate nohighlight">\(\mathbf x = A^{-1}\mathbf
+b\)</span>. A computer does <strong>neither</strong> of those literally. It <strong>factors</strong> <span class="math notranslate nohighlight">\(A\)</span> into
+pieces that are trivial to solve (triangular or orthogonal) and it <strong>never
+forms the inverse</strong>, because doing so is slower <em>and</em> less accurate. This
+notebook is about how that works and, just as importantly, when it <strong>fails</strong>:
+some matrices are so <strong>ill-conditioned</strong> that no algorithm, however perfect, can
+return a correct answer.</p>
+<p>We will build back-substitution by hand, then meet the three factorizations a
+numerical library actually uses: <strong>LU</strong> (the general workhorse), <strong>QR</strong>
+(orthogonal, stable, the basis of least squares), and <strong>Cholesky</strong> (for
+symmetric positive-definite matrices), each on an explicit, written-out matrix.
+The centrepiece is the <strong>Hilbert matrix</strong>, a one-line definition whose condition
+number explodes so fast that by <span class="math notranslate nohighlight">\(12\times12\)</span> the solution is <em>destroyed</em> despite
+a microscopic residual: the linear-algebra face of the round-off limits of
+<a class="reference internal" href="floating-point.html"><span class="std std-doc">§0.1</span></a> (<span class="math notranslate nohighlight">\(\text{achievable accuracy}\approx\varepsilon\,\kappa(A)\)</span>).</p>
+<p>This is the engine under much of what follows: the eigenproblems of
+<a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html"><span class="std std-doc">§1.5</span></a>,
+<a class="reference internal" href="../02-classical-mechanics/rigid-body.html"><span class="std std-doc">§2.6</span></a>, and
+<a class="reference internal" href="../02-classical-mechanics/small-oscillations.html"><span class="std std-doc">§2.7</span></a> and the
+least-squares fitting of <a class="reference internal" href="fitting-least-squares.html"><span class="std std-doc">§0.8</span></a> all rest on these
+factorizations. It is the first of two linear-algebra notebooks:
+<a class="reference internal" href="eigenvalues-svd.html"><span class="std std-doc">§0.5</span></a> takes up eigenvalues,
+diagonalization, and the SVD. There are no animations here: factorization is
+static algebra, and the one geometric motion worth animating (how a matrix maps
+the unit circle to an ellipse) belongs with the SVD in
+<a class="reference internal" href="eigenvalues-svd.html"><span class="std std-doc">§0.5</span></a>.</p>
+<blockquote>
+<div><p><strong>How to read the checks.</strong> Each exercise ends with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against
+an independent fact: a reconstruction <span class="math notranslate nohighlight">\(PA=LU\)</span>, an orthogonality <span class="math notranslate nohighlight">\(Q^\top Q=I\)</span>,
+a known solution. A ✓ is strong evidence; a ✗ is a prompt to <em>locate the
+discrepancy</em>, not a verdict.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Scope.</strong> A working review, not a numerical-linear-algebra course. The
+standard references are Trefethen &amp; Bau, <em>Numerical Linear Algebra</em>
+<span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id26" title="Lloyd N. Trefethen and David Bau. Numerical Linear Algebra. Society for Industrial and Applied Mathematics (SIAM), 1997.">TB97</a>]</span>, and Golub &amp; Van Loan, <em>Matrix Computations</em>
+<span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id27" title="Gene H. Golub and Charles F. Van Loan. Matrix Computations. Johns Hopkins University Press, 4 edition, 2013.">GVL13</a>]</span>; round-off limits trace back to
+<a class="reference internal" href="floating-point.html"><span class="std std-doc">§0.1</span></a>.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="solve-by-factoring-not-by-inverting">
+<h3>Solve by factoring, not by inverting<a class="headerlink" href="#solve-by-factoring-not-by-inverting" title="Link to this heading">#</a></h3>
+<p>To solve <span class="math notranslate nohighlight">\(A\mathbf x=\mathbf b\)</span> a computer does not form the inverse, even though
+pencil-and-paper linear algebra writes the answer as <span class="math notranslate nohighlight">\(\mathbf x=A^{-1}\mathbf b\)</span>.
+Instead we factor <span class="math notranslate nohighlight">\(A\)</span> into triangular or orthogonal pieces, on which the system
+becomes trivial. A <strong>triangular</strong> system, in particular, is solved directly by
+substitution in <span class="math notranslate nohighlight">\(O(n^2)\)</span> operations: for an upper-triangular <span class="math notranslate nohighlight">\(U\)</span>,
+back-substitution sweeps from the last row up, <span class="math notranslate nohighlight">\(x_i = \big(b_i - \sum_{j&gt;i}
+U_{ij}x_j\big)/U_{ii}\)</span>.</p>
+<p>Why avoid the inverse? There are two decisive reasons. First, forming <span class="math notranslate nohighlight">\(A^{-1}\)</span> is
+not one solve but <span class="math notranslate nohighlight">\(n\)</span> of them: the <span class="math notranslate nohighlight">\(j\)</span>-th column of the inverse is the solution of
+<span class="math notranslate nohighlight">\(A\mathbf x_j=\mathbf e_j\)</span> for the <span class="math notranslate nohighlight">\(j\)</span>-th unit vector <span class="math notranslate nohighlight">\(\mathbf e_j\)</span>, so assembling
+the whole inverse costs roughly three times a single factor-and-solve, and one
+must then <em>still</em> multiply <span class="math notranslate nohighlight">\(A^{-1}\)</span> by <span class="math notranslate nohighlight">\(\mathbf b\)</span>. That surplus arithmetic
+accumulates surplus rounding, leaving the inverse route both slower and less
+accurate. Second, the inverse destroys structure: a sparse or banded <span class="math notranslate nohighlight">\(A\)</span> (the
+tridiagonal stiffness matrices of <a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a> are typical) has a generally <em>dense</em>
+inverse, throwing away exactly the memory and speed the structure was buying,
+whereas a factorization keeps the sparsity. One almost never wants <span class="math notranslate nohighlight">\(A^{-1}\)</span> itself;
+one wants its action on one particular <span class="math notranslate nohighlight">\(\mathbf b\)</span>, and <code class="docutils literal notranslate"><span class="pre">solve</span></code> delivers precisely
+that. Exercise 7 makes the cost-and-accuracy gap quantitative.</p>
+</section>
+<section id="conditioning-the-problem-not-the-method">
+<h3>Conditioning: the problem, not the method<a class="headerlink" href="#conditioning-the-problem-not-the-method" title="Link to this heading">#</a></h3>
+<p>How accurately <em>can</em> <span class="math notranslate nohighlight">\(A\mathbf x=\mathbf b\)</span> be solved? That is set by the
+<strong>condition number</strong></p>
+<div class="math notranslate nohighlight" id="equation-eq-condition">
+<span class="eqno">(18)<a class="headerlink" href="#equation-eq-condition" title="Link to this equation">#</a></span>\[\kappa(A) = \lVert A\rVert\,\lVert A^{-1}\rVert = \frac{\sigma_{\max}}{\sigma_{\min}},
+\qquad
+\frac{\lVert \Delta\mathbf x\rVert}{\lVert \mathbf x\rVert}
+\;\lesssim\; \kappa(A)\,\frac{\lVert \Delta\mathbf b\rVert}{\lVert \mathbf b\rVert},\]</div>
+<p>the ratio of largest to smallest singular value. It measures how much a relative
+perturbation of the input is amplified in the output (Trefethen &amp; Bau,
+<em>Numerical Linear Algebra</em>, Lecture 12, derives the bound). Since the input is
+already stored with relative error <span class="math notranslate nohighlight">\(\sim\varepsilon\)</span>
+(<a class="reference internal" href="floating-point.html"><span class="std std-doc">§0.1</span></a>), the best achievable
+accuracy is <span class="math notranslate nohighlight">\(\sim\varepsilon\,\kappa(A)\)</span>: a large <span class="math notranslate nohighlight">\(\kappa\)</span> means even a <em>perfect</em>
+algorithm loses digits. Conditioning is a property of the <strong>problem</strong>, not the
+method.</p>
+</section>
+<section id="lu-qr-cholesky">
+<h3>LU, QR, Cholesky<a class="headerlink" href="#lu-qr-cholesky" title="Link to this heading">#</a></h3>
+<p>We now introduce <strong>LU factorization with partial pivoting</strong>, the general-purpose
+workhorse here, and also exactly what <code class="docutils literal notranslate"><span class="pre">scipy.linalg.solve</span></code> runs under the hood.
+Writing</p>
+<div class="math notranslate nohighlight" id="equation-eq-lu">
+<span class="eqno">(19)<a class="headerlink" href="#equation-eq-lu" title="Link to this equation">#</a></span>\[PA = LU,\]</div>
+<p>whereby <span class="math notranslate nohighlight">\(P\)</span> is a permutation matrix (row pivoting, for numerical stability), <span class="math notranslate nohighlight">\(L\)</span>
+is unit-lower-triangular, and <span class="math notranslate nohighlight">\(U\)</span> upper-triangular, we then solve <span class="math notranslate nohighlight">\(L\mathbf y =
+P\mathbf b\)</span> and <span class="math notranslate nohighlight">\(U\mathbf x = \mathbf y\)</span> by substitution. When orthogonality is
+what we want instead, <strong>QR factorization</strong></p>
+<div class="math notranslate nohighlight" id="equation-eq-qr">
+<span class="eqno">(20)<a class="headerlink" href="#equation-eq-qr" title="Link to this equation">#</a></span>\[A = QR, \qquad Q^\top Q = I,\ R\ \text{upper-triangular},\]</div>
+<p>writes <span class="math notranslate nohighlight">\(A\)</span> via an orthogonal <span class="math notranslate nohighlight">\(Q\)</span>; it is numerically stable and the basis of
+least squares (forward link <a class="reference internal" href="fitting-least-squares.html"><span class="std std-doc">§0.8</span></a>) and the QR
+eigenvalue algorithm (forward link <a class="reference internal" href="eigenvalues-svd.html"><span class="std std-doc">§0.5</span></a>).
+<strong>Cholesky factorization</strong>, for a symmetric positive-definite (SPD) <span class="math notranslate nohighlight">\(A\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-chol">
+<span class="eqno">(21)<a class="headerlink" href="#equation-eq-chol" title="Link to this equation">#</a></span>\[A = LL^\top,\]</div>
+<p>is about twice as cheap as LU and is the natural tool for the mass/stiffness
+matrices of <a class="reference internal" href="../02-classical-mechanics/small-oscillations.html"><span class="std std-doc">§2.7</span></a>,
+covariance matrices, and any energy quadratic form.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">lu</span><span class="p">,</span> <span class="n">qr</span><span class="p">,</span> <span class="n">cholesky</span><span class="p">,</span> <span class="n">solve</span><span class="p">,</span> <span class="n">solve_triangular</span><span class="p">,</span> <span class="n">hilbert</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">back_substitution</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Solve an upper-triangular system by back-substitution.</span>
+
+<span class="sd">    The O(n^2) final step of every LU/QR solve, working from the last unknown upward.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    U : numpy.ndarray</span>
+<span class="sd">        Upper-triangular matrix.</span>
+<span class="sd">    b : numpy.ndarray</span>
+<span class="sd">        Right-hand side.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The solution x.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">U</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span> <span class="o">@</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:])</span> <span class="o">/</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-triangular-systems-and-back-substitution">
+<h2>Exercise 1 — Triangular systems and back-substitution<a class="headerlink" href="#exercise-1-triangular-systems-and-back-substitution" title="Link to this heading">#</a></h2>
+<p>A triangular system is the easy case every
+factorization reduces to. For an upper-triangular <span class="math notranslate nohighlight">\(U\)</span>, the last equation involves
+only <span class="math notranslate nohighlight">\(x_n\)</span>, the second-last only <span class="math notranslate nohighlight">\(x_{n-1}, x_n\)</span>, and so on, so the unknowns follow from the
+bottom up, each in one step. The cost is <span class="math notranslate nohighlight">\(O(n^2)\)</span> (one division and a dot
+product per row), and the result is exact up to rounding.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+U = \begin{bmatrix} 2 &amp; 1 &amp; 1 \\ 0 &amp; 3 &amp; 1 \\ 0 &amp; 0 &amp; 4 \end{bmatrix},
+\qquad
+\mathbf b = \begin{bmatrix} 5 \\ 6 \\ 8 \end{bmatrix}.
+\end{split}\]</div>
+<ol class="arabic simple">
+<li><p>Implement back-substitution (the <code class="docutils literal notranslate"><span class="pre">back_substitution</span></code> helper above) and solve
+this explicit system.</p></li>
+<li><p>Confirm <span class="math notranslate nohighlight">\(U\mathbf x = \mathbf b\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>solution x = [0.8333 1.3333 2.    ]
+check U x  = [5. 6. 8.]  (should equal b = [5. 6. 8.])
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  back-substitution solves the triangular system Ux=b   [max|Δ| = 0 (rtol=1e-06, atol=1e-12)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-lu-factorization-with-partial-pivoting">
+<h2>Exercise 2 — LU factorization with partial pivoting<a class="headerlink" href="#exercise-2-lu-factorization-with-partial-pivoting" title="Link to this heading">#</a></h2>
+<p>A general matrix is solved by reducing it to
+triangular pieces: LU with partial pivoting, <span class="math notranslate nohighlight">\(PA=LU\)</span> (<a class="reference internal" href="#equation-eq-lu">Eq. 19</a>), where row
+swaps recorded in <span class="math notranslate nohighlight">\(P\)</span> keep the elimination numerically stable. Once factored, two
+triangular solves (<span class="math notranslate nohighlight">\(L\mathbf y=P\mathbf b\)</span>, then <span class="math notranslate nohighlight">\(U\mathbf x=\mathbf y\)</span>) finish
+the job, and the <em>same</em> factorization can be reused for many right-hand sides.</p>
+<p><strong>This exercise.</strong> Factor the explicit matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A = \begin{bmatrix} 2 &amp; 1 &amp; 1 \\ 4 &amp; 3 &amp; 3 \\ 8 &amp; 7 &amp; 9 \end{bmatrix}
+\end{split}\]</div>
+<p>with <code class="docutils literal notranslate"><span class="pre">scipy.linalg.lu</span></code>:</p>
+<ol class="arabic simple">
+<li><p>Factor <span class="math notranslate nohighlight">\(A\)</span> and confirm the product of the returned factors reconstructs it.</p></li>
+<li><p>Solve <span class="math notranslate nohighlight">\(A\mathbf x = \begin{bmatrix}1\\2\\3\end{bmatrix}\)</span> with
+<code class="docutils literal notranslate"><span class="pre">scipy.linalg.solve</span></code> (LU under the hood).</p></li>
+<li><p>Check the residual <span class="math notranslate nohighlight">\(\lVert A\mathbf x-\mathbf b\rVert\)</span> sits at the rounding
+floor.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>L =
+ [[1.     0.     0.    ]
+ [0.25   1.     0.    ]
+ [0.5    0.6667 1.    ]]
+U =
+ [[ 8.      7.      9.    ]
+ [ 0.     -0.75   -1.25  ]
+ [ 0.      0.     -0.6667]]
+solve residual ||A x - b|| = 6.28e-16
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  PA=LU reconstructs A   [max|Δ| = 4.44089e-16 (rtol=1e-06, atol=1e-12)]
+✓  the LU solve satisfies A x = b   [max|Δ| = 4.44089e-16 (rtol=1e-06, atol=1e-12)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-conditioning-the-hilbert-matrix-catastrophe">
+<h2>Exercise 3 — Conditioning: the Hilbert matrix catastrophe<a class="headerlink" href="#exercise-3-conditioning-the-hilbert-matrix-catastrophe" title="Link to this heading">#</a></h2>
+<p>This is the centrepiece. The <strong>Hilbert matrix</strong> of
+size <span class="math notranslate nohighlight">\(n\)</span> is defined entrywise by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+H_{ij} = \frac{1}{i+j-1}, \qquad i,j = 1,\dots,n
+\quad\Longrightarrow\quad
+H = \begin{bmatrix} 1 &amp; \tfrac12 &amp; \tfrac13 &amp; \cdots \\
+    \tfrac12 &amp; \tfrac13 &amp; \tfrac14 &amp; \cdots \\
+    \tfrac13 &amp; \tfrac14 &amp; \tfrac15 &amp; \cdots \\
+    \vdots &amp; &amp; &amp; \ddots \end{bmatrix}.
+\end{split}\]</div>
+<p>It looks utterly benign (small rational entries, symmetric, positive-definite),
+yet its condition number <span class="math notranslate nohighlight">\(\kappa(H_n)\)</span> of <a class="reference internal" href="#equation-eq-condition">Eq. 18</a> grows roughly like
+<span class="math notranslate nohighlight">\(e^{3.5n}\)</span>, so the achievable accuracy <span class="math notranslate nohighlight">\(\varepsilon\,\kappa\)</span> collapses fast.</p>
+<ol class="arabic simple">
+<li><p>For <span class="math notranslate nohighlight">\(n=4,8,12\)</span> form the Hilbert matrix <span class="math notranslate nohighlight">\(H_n\)</span> (<code class="docutils literal notranslate"><span class="pre">scipy.linalg.hilbert</span></code>), take
+the <strong>known exact solution</strong> <span class="math notranslate nohighlight">\(\mathbf x=(1,1,\dots,1)\)</span>, and build
+<span class="math notranslate nohighlight">\(\mathbf b = H_n\mathbf x\)</span>.</p></li>
+<li><p>Solve <span class="math notranslate nohighlight">\(H_n\hat{\mathbf x}=\mathbf b\)</span> and compare <span class="math notranslate nohighlight">\(\hat{\mathbf x}\)</span> to
+<span class="math notranslate nohighlight">\(\mathbf x\)</span> alongside <span class="math notranslate nohighlight">\(\kappa(H_n)\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.linalg.cond</span></code>).</p></li>
+<li><p>Show that at <span class="math notranslate nohighlight">\(n=12\)</span> the recovered solution is wildly wrong despite the exact
+arithmetic being flawless — <span class="math notranslate nohighlight">\(\kappa(H_{12})&gt;10^{15}\)</span> has consumed every digit.
+<a class="reference internal" href="#fig-linsys-hilbert-cond"><span class="std std-numref">Fig. 26</span></a> plots <span class="math notranslate nohighlight">\(\kappa(H_n)\)</span> against <span class="math notranslate nohighlight">\(n\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n= 4:  κ(H) = 1.55e+04,  ‖x̂ − x‖∞ = 4.23e-13
+n= 8:  κ(H) = 1.53e+10,  ‖x̂ − x‖∞ = 5.44e-07
+n=12:  κ(H) = 1.81e+16,  ‖x̂ − x‖∞ = 3.87e-01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2316/1367173583.py:9: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 2.5560824980624142e-17.
+  x_hat = solve(H, b)
+/tmp/ipykernel_2316/1367173583.py:20: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 2.5560824980624142e-17.
+  x_hat12 = solve(H12, b12)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<figure class="align-default" id="fig-linsys-hilbert-cond">
+<img alt="../../_images/0a8d0eb17e0a1f8d35d60751d6ca3cf4880d2a1c60e251b4c50c19836f2db102.png" src="../../_images/0a8d0eb17e0a1f8d35d60751d6ca3cf4880d2a1c60e251b4c50c19836f2db102.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 26 </span><span class="caption-text">Condition number <span class="math notranslate nohighlight">\(\kappa(H_n)\)</span> of the Hilbert matrix <span class="math notranslate nohighlight">\(H_{ij}=1/(i+j-1)\)</span> versus size <span class="math notranslate nohighlight">\(n\)</span> (log <span class="math notranslate nohighlight">\(y\)</span>-axis): <span class="math notranslate nohighlight">\(\kappa\)</span> grows almost exponentially, crossing <span class="math notranslate nohighlight">\(1/\varepsilon\approx4.5\times10^{15}\)</span> (dashed) around <span class="math notranslate nohighlight">\(n=12\)</span>. Past that line the achievable accuracy <span class="math notranslate nohighlight">\(\varepsilon\,\kappa\)</span> exceeds 1 — every digit of the solution can be wrong, exactly as seen for <span class="math notranslate nohighlight">\(n=12\)</span> in the text.</span><a class="headerlink" href="#fig-linsys-hilbert-cond" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Hilbert matrix is so ill-conditioned that the n=12 solution is destroyed   [κ(H₁₂) = 1.81e+16, ‖x̂ − x‖∞ = 0.39]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-residual-versus-error-the-conditioning-lesson-sharpened">
+<h2>Exercise 4 — Residual versus error (the conditioning lesson, sharpened)<a class="headerlink" href="#exercise-4-residual-versus-error-the-conditioning-lesson-sharpened" title="Link to this heading">#</a></h2>
+<p>A natural instinct is to trust a solution whose
+<strong>residual</strong> <span class="math notranslate nohighlight">\(\mathbf r = H\hat{\mathbf x}-\mathbf b\)</span> is tiny. For an
+ill-conditioned matrix that instinct is wrong. A backward-stable solver always
+returns a small residual, but <a class="reference internal" href="#equation-eq-condition">Eq. 18</a> relates the <em>error</em> to the
+residual through <span class="math notranslate nohighlight">\(\kappa\)</span>: <span class="math notranslate nohighlight">\(\lVert\hat{\mathbf x}-\mathbf x\rVert/\lVert\mathbf
+x\rVert \lesssim \kappa(H)\,\lVert\mathbf r\rVert/\lVert\mathbf b\rVert\)</span>. A small
+residual can therefore hide a huge error.</p>
+<ol class="arabic simple">
+<li><p>For the same <span class="math notranslate nohighlight">\(n=12\)</span> Hilbert system (exact <span class="math notranslate nohighlight">\(\mathbf x=(1,\dots,1)\)</span>,
+<span class="math notranslate nohighlight">\(\mathbf b=H_{12}\mathbf x\)</span>), compute the residual
+<span class="math notranslate nohighlight">\(\lVert H_{12}\hat{\mathbf x}-\mathbf b\rVert\)</span> and the error
+<span class="math notranslate nohighlight">\(\lVert\hat{\mathbf x}-\mathbf x\rVert\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.linalg.norm</span></code>).</p></li>
+<li><p>Confirm the residual sits at the rounding floor while the error is <span class="math notranslate nohighlight">\(O(1)\)</span> —
+and that <span class="math notranslate nohighlight">\(\kappa\cdot\lVert r\rVert/\lVert b\rVert\)</span> correctly bounds it.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>‖H x̂ − b‖   (residual)   = 5.44e-16
+‖x̂ − x‖     (abs. error) = 6.25e-01
+‖x̂ − x‖/‖x‖ (rel. error) = 1.80e-01
+κ(H₁₂)·(‖r‖/‖b‖)         ≈ 1.88e+00  (bounds the rel. error)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  a tiny residual can hide a huge error when κ is large   [residual 5.44e-16, error 0.62]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-qr-factorization">
+<h2>Exercise 5 — QR factorization<a class="headerlink" href="#exercise-5-qr-factorization" title="Link to this heading">#</a></h2>
+<p>Not every matrix is square, and not every problem
+wants LU. The <strong>QR factorization</strong> <span class="math notranslate nohighlight">\(A=QR\)</span> (<a class="reference internal" href="#equation-eq-qr">Eq. 20</a>) writes any
+<span class="math notranslate nohighlight">\(m\times n\)</span> matrix (<span class="math notranslate nohighlight">\(m\ge n\)</span>) as an orthogonal <span class="math notranslate nohighlight">\(Q\)</span> (columns orthonormal,
+<span class="math notranslate nohighlight">\(Q^\top Q=I\)</span>) times an upper-triangular <span class="math notranslate nohighlight">\(R\)</span>. Because orthogonal maps preserve
+lengths, QR is exceptionally stable, and it is the foundation of least-squares
+fitting (forward link <a class="reference internal" href="fitting-least-squares.html"><span class="std std-doc">§0.8</span></a>) and the QR
+eigenvalue algorithm (forward link <a class="reference internal" href="eigenvalues-svd.html"><span class="std std-doc">§0.5</span></a>).</p>
+<p><strong>This exercise.</strong> Factor the explicit <span class="math notranslate nohighlight">\(3\times2\)</span> matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A = \begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \\ 5 &amp; 6 \end{bmatrix}
+\end{split}\]</div>
+<p>with <code class="docutils literal notranslate"><span class="pre">scipy.linalg.qr</span></code>:</p>
+<ol class="arabic simple">
+<li><p>Factor <span class="math notranslate nohighlight">\(A=QR\)</span> in economy mode.</p></li>
+<li><p>Confirm <span class="math notranslate nohighlight">\(QR\)</span> reconstructs <span class="math notranslate nohighlight">\(A\)</span>.</p></li>
+<li><p>Verify the columns of <span class="math notranslate nohighlight">\(Q\)</span> are orthonormal (<span class="math notranslate nohighlight">\(Q^\top Q = I_2\)</span>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Q =
+ [[-0.169   0.8971]
+ [-0.5071  0.276 ]
+ [-0.8452 -0.345 ]]
+R =
+ [[-5.9161 -7.4374]
+ [ 0.      0.8281]]   (upper-triangular)
+QᵀQ =
+ [[1. 0.]
+ [0. 1.]]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  A=QR reconstructs A   [max|Δ| = 4.44089e-16 (rtol=1e-06, atol=1e-12)]
+✓  Q has orthonormal columns (QᵀQ=I)   [max|Δ| = 6.1844e-17 (rtol=1e-06, atol=1e-12)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-cholesky-for-symmetric-positive-definite-matrices">
+<h2>Exercise 6 — Cholesky for symmetric positive-definite matrices<a class="headerlink" href="#exercise-6-cholesky-for-symmetric-positive-definite-matrices" title="Link to this heading">#</a></h2>
+<p>When <span class="math notranslate nohighlight">\(A\)</span> is <strong>symmetric positive-definite</strong> (SPD),
+symmetric with all eigenvalues positive, equivalently <span class="math notranslate nohighlight">\(\mathbf z^\top A\mathbf
+z&gt;0\)</span> for all <span class="math notranslate nohighlight">\(\mathbf z\ne\mathbf 0\)</span>, it has a <strong>Cholesky factorization</strong>
+<span class="math notranslate nohighlight">\(A=LL^\top\)</span> (<a class="reference internal" href="#equation-eq-chol">Eq. 21</a>) with <span class="math notranslate nohighlight">\(L\)</span> lower-triangular. It is about twice as cheap
+as LU and never needs pivoting. SPD matrices are everywhere in physics: the
+mass and stiffness matrices of
+<a class="reference internal" href="../02-classical-mechanics/small-oscillations.html"><span class="std std-doc">§2.7</span></a>, covariance
+matrices, and any energy quadratic form.</p>
+<p><strong>This exercise.</strong> Take the explicit matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A = \begin{bmatrix} 4 &amp; 2 &amp; 2 \\ 2 &amp; 5 &amp; 3 \\ 2 &amp; 3 &amp; 6 \end{bmatrix},
+\end{split}\]</div>
+<p>and:</p>
+<ol class="arabic simple">
+<li><p>Confirm it is SPD by showing all its eigenvalues are positive
+(<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code>).</p></li>
+<li><p>Factor it as <span class="math notranslate nohighlight">\(A=LL^\top\)</span> with <code class="docutils literal notranslate"><span class="pre">scipy.linalg.cholesky</span></code>.</p></li>
+<li><p>Check the reconstruction <span class="math notranslate nohighlight">\(LL^\top = A\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>eigenvalues = [2.3225 2.7858 9.8917]  (all &gt; 0 ⇒ SPD)
+L =
+ [[2. 0. 0.]
+ [1. 2. 0.]
+ [1. 1. 2.]]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the matrix is symmetric positive-definite (all eigenvalues &gt; 0)   [min eigenvalue = 2.323]
+✓  A=LLᵀ reconstructs the SPD matrix   [max|Δ| = 0 (rtol=1e-06, atol=1e-12)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-never-invert-solve-via-factorization-vs-forming-a1">
+<h2>Exercise 7 — Never invert: solve via factorization vs. forming A⁻¹<a class="headerlink" href="#exercise-7-never-invert-solve-via-factorization-vs-forming-a1" title="Link to this heading">#</a></h2>
+<p>Writing <span class="math notranslate nohighlight">\(\mathbf x = A^{-1}\mathbf b\)</span> is fine on
+paper, but <code class="docutils literal notranslate"><span class="pre">inv(A)</span> <span class="pre">&#64;</span> <span class="pre">b</span></code> is the wrong way to compute it: forming <span class="math notranslate nohighlight">\(A^{-1}\)</span> does
+roughly three times the arithmetic of a factor-and-solve, and (because it solves
+<span class="math notranslate nohighlight">\(n\)</span> extra systems to build the inverse columns) it accumulates <em>more</em> rounding. On
+an ill-conditioned matrix the gap is plainly visible.</p>
+<ol class="arabic simple">
+<li><p>For the Hilbert system <span class="math notranslate nohighlight">\(H_{10}\)</span> with known exact solution
+<span class="math notranslate nohighlight">\(\mathbf x=(1,\dots,1)\)</span> and <span class="math notranslate nohighlight">\(\mathbf b=H_{10}\mathbf x\)</span>, compare the error of
+<code class="docutils literal notranslate"><span class="pre">scipy.linalg.solve(H,</span> <span class="pre">b)</span></code> against <code class="docutils literal notranslate"><span class="pre">numpy.linalg.inv(H)</span> <span class="pre">&#64;</span> <span class="pre">b</span></code>.</p></li>
+<li><p>Show the same comparison across Hilbert sizes <span class="math notranslate nohighlight">\(n=2,\dots,13\)</span>
+(<a class="reference internal" href="#fig-linsys-solve-vs-inv"><span class="std std-numref">Fig. 27</span></a>).</p></li>
+<li><p>Confirm solving is at least as accurate as inverting.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n=10:  error via solve = 4.53e-04,  error via inv(H)@b = 5.55e-03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2316/2285410623.py:19: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 2.5560824980624142e-17.
+  errs_solve.append(np.linalg.norm(solve(Hn, bn) - xt, np.inf))
+/tmp/ipykernel_2316/2285410623.py:19: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 2.702756938617348e-19.
+  errs_solve.append(np.linalg.norm(solve(Hn, bn) - xt, np.inf))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-linsys-solve-vs-inv">
+<img alt="../../_images/86babf51579b1452b722b0ead6acbc1ca3e7d1ba17b947c613db1d1a4656d71f.png" src="../../_images/86babf51579b1452b722b0ead6acbc1ca3e7d1ba17b947c613db1d1a4656d71f.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 27 </span><span class="caption-text">Solution error <span class="math notranslate nohighlight">\(\lVert\hat{\mathbf x}-\mathbf x\rVert_\infty\)</span> for the Hilbert system <span class="math notranslate nohighlight">\(H_n\mathbf x=\mathbf b\)</span> with known <span class="math notranslate nohighlight">\(\mathbf x=(1,\dots,1)\)</span>, comparing <code class="docutils literal notranslate"><span class="pre">solve(H,b)</span></code> (dark) against <code class="docutils literal notranslate"><span class="pre">inv(H)&#64;b</span></code> (amber) versus size <span class="math notranslate nohighlight">\(n\)</span> (log <span class="math notranslate nohighlight">\(y\)</span>): factor-and-solve is consistently at least as accurate as forming the inverse, and never less so — the reason production code never computes <span class="math notranslate nohighlight">\(A^{-1}\mathbf b\)</span> explicitly.</span><a class="headerlink" href="#fig-linsys-solve-vs-inv" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  solving via factorization is at least as accurate as forming the inverse   [solve 4.53e-04 ≤ inv 5.55e-03]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-choosing-the-right-factorization-synthesis">
+<h2>Exercise 8 — Choosing the right factorization (synthesis)<a class="headerlink" href="#exercise-8-choosing-the-right-factorization-synthesis" title="Link to this heading">#</a></h2>
+<p>A short decision guide, each branch justified by
+what we saw:</p>
+<ul class="simple">
+<li><p><strong>general <span class="math notranslate nohighlight">\(A\)</span> → LU</strong> (<a class="reference internal" href="#equation-eq-lu">Eq. 19</a>): the default; what <code class="docutils literal notranslate"><span class="pre">scipy.linalg.solve</span></code> runs.</p></li>
+<li><p><strong>least squares / orthogonality wanted → QR</strong> (<a class="reference internal" href="#equation-eq-qr">Eq. 20</a>): stable, the basis
+of fitting (<a class="reference internal" href="fitting-least-squares.html"><span class="std std-doc">§0.8</span></a>).</p></li>
+<li><p><strong>symmetric positive-definite → Cholesky</strong> (<a class="reference internal" href="#equation-eq-chol">Eq. 21</a>): about twice as fast,
+no pivoting (the mass/stiffness matrices of
+<a class="reference internal" href="../02-classical-mechanics/small-oscillations.html"><span class="std std-doc">§2.7</span></a>).</p></li>
+</ul>
+<p>And always: <strong>factor and solve, never <code class="docutils literal notranslate"><span class="pre">inv(A)&#64;b</span></code></strong> (Exercise 7).</p>
+<p><strong>This exercise.</strong> For the well-conditioned explicit system</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A = \begin{bmatrix} 3 &amp; 1 \\ 1 &amp; 2 \end{bmatrix},
+\qquad \mathbf b = \begin{bmatrix} 9 \\ 8 \end{bmatrix},
+\end{split}\]</div>
+<ol class="arabic simple">
+<li><p>Solve it by LU, via <code class="docutils literal notranslate"><span class="pre">scipy.linalg.solve</span></code>.</p></li>
+<li><p>Solve it independently by QR: form <span class="math notranslate nohighlight">\(Q^\top\mathbf b\)</span>, then back-substitute
+<span class="math notranslate nohighlight">\(R\mathbf x=Q^\top\mathbf b\)</span> with <code class="docutils literal notranslate"><span class="pre">scipy.linalg.solve_triangular</span></code>.</p></li>
+<li><p>Confirm the two solutions agree. (The exact solution is <span class="math notranslate nohighlight">\(\mathbf x=(2,3)\)</span>.)</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x via LU = [2. 3.]
+x via QR = [2. 3.]   (exact: [2, 3])
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-8">
+<h3>Validation 8<a class="headerlink" href="#validation-8" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  LU and QR give the same solution to the well-conditioned system   [max|Δ| = 8.88178e-16 (rtol=1e-10, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Triangular solves and <strong>LU with partial pivoting</strong> (<span class="math notranslate nohighlight">\(PA=LU\)</span>, the solve satisfying <span class="math notranslate nohighlight">\(A\mathbf x
+=\mathbf b\)</span>); the Hilbert matrix as a conditioning catastrophe, and residual versus error.</p></li>
+<li><p><strong>QR</strong> (<span class="math notranslate nohighlight">\(Q^\top Q=I\)</span>) and <strong>Cholesky</strong> (<span class="math notranslate nohighlight">\(A=LL^\top\)</span> for symmetric positive-definite
+matrices); and why one never forms <span class="math notranslate nohighlight">\(A^{-1}\)</span> but solves via a factorization instead.</p></li>
+</ul>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Sparse and banded systems.</strong> Most physics matrices are mostly zeros;
+exploiting structure (a tridiagonal solver) is what makes the 1-D Schrödinger
+equation of <a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a> tractable: <span class="math notranslate nohighlight">\(O(n)\)</span> instead of <span class="math notranslate nohighlight">\(O(n^3)\)</span>.</p></li>
+<li><p><strong>Iterative solvers.</strong> For huge SPD systems, conjugate gradient never forms a
+factorization at all, converging in far fewer steps than the dimension.</p></li>
+<li><p><strong>The SVD.</strong> The ultimate “what is this matrix doing” tool, and the honest way
+to define <span class="math notranslate nohighlight">\(\kappa=\sigma_{\max}/\sigma_{\min}\)</span>, is taken up in
+<a class="reference internal" href="eigenvalues-svd.html"><span class="std std-doc">§0.5</span></a>.</p></li>
+<li><p><strong>Forward links.</strong> These factorizations underlie every eigen/normal-mode
+computation (<a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html"><span class="std std-doc">§1.5</span></a>,
+<a class="reference internal" href="../02-classical-mechanics/rigid-body.html"><span class="std std-doc">§2.6</span></a>,
+<a class="reference internal" href="../02-classical-mechanics/small-oscillations.html"><span class="std std-doc">§2.7</span></a>) and the
+least-squares fit of <a class="reference internal" href="fitting-least-squares.html"><span class="std std-doc">§0.8</span></a>.</p></li>
+</ul>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<div class="docutils container" id="id3">
+<div role="list" class="citation-list">
+<div class="citation" id="id27" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">GVL13</a><span class="fn-bracket">]</span></span>
+<p>Gene H. Golub and Charles F. Van Loan. <em>Matrix Computations</em>. Johns Hopkins University Press, 4 edition, 2013.</p>
+</div>
+<div class="citation" id="id26" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">TB97</a><span class="fn-bracket">]</span></span>
+<p>Lloyd N. Trefethen and David Bau. <em>Numerical Linear Algebra</em>. Society for Industrial and Applied Mathematics (SIAM), 1997.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/00-foundations"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="quadrature-differentiation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">0.3 Numerical Integration and Differentiation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="eigenvalues-svd.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">0.5 Eigenvalues, Diagonalization, and the SVD</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solve-by-factoring-not-by-inverting">Solve by factoring, not by inverting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditioning-the-problem-not-the-method">Conditioning: the problem, not the method</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lu-qr-cholesky">LU, QR, Cholesky</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-triangular-systems-and-back-substitution">Exercise 1 — Triangular systems and back-substitution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-lu-factorization-with-partial-pivoting">Exercise 2 — LU factorization with partial pivoting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-conditioning-the-hilbert-matrix-catastrophe">Exercise 3 — Conditioning: the Hilbert matrix catastrophe</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-residual-versus-error-the-conditioning-lesson-sharpened">Exercise 4 — Residual versus error (the conditioning lesson, sharpened)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-qr-factorization">Exercise 5 — QR factorization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-cholesky-for-symmetric-positive-definite-matrices">Exercise 6 — Cholesky for symmetric positive-definite matrices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-never-invert-solve-via-factorization-vs-forming-a1">Exercise 7 — Never invert: solve via factorization vs. forming A⁻¹</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-choosing-the-right-factorization-synthesis">Exercise 8 — Choosing the right factorization (synthesis)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

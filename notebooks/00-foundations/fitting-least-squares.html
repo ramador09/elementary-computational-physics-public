@@ -1,0 +1,1540 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="0.8 Fitting and Least Squares" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/00-foundations/fitting-least-squares.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Every experiment ends the same way: a cloud of points, a model with a few free parameters, and the question what values make the model fit..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Every experiment ends the same way: a cloud of points, a model with a few free parameters, and the question what values make the model fit..." />
+
+    <title>0.8 Fitting and Least Squares &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/00-foundations/fitting-least-squares';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/00-foundations/fitting-least-squares.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="0.9 Symbolic Computation with SymPy" href="symbolic-sympy.html" />
+    <link rel="prev" title="0.7 Solving Ordinary Differential Equations" href="ode-solvers.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/00-foundations/fitting-least-squares.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/00-foundations/fitting-least-squares.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/00-foundations/fitting-least-squares.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/00-foundations/fitting-least-squares.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>0.8 Fitting and Least Squares</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#least-squares-as-projection">Least squares as projection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-normal-equations-correct-but-dangerous">The normal equations (correct, but dangerous)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-through-qr-or-the-svd">Solving through QR or the SVD</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goodness-of-fit-chi-2-and-error-bars">Goodness of fit, <span class="math notranslate nohighlight">\(\chi^2\)</span>, and error bars</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-least-squares">Weighted least squares</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-least-squares">Nonlinear least squares</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overfitting">Overfitting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-linear-least-squares-three-ways">Exercise 1 — Linear least squares three ways</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-design-matrix-and-the-projection-picture">Exercise 2 — The design matrix and the projection picture</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-why-not-the-normal-equations-squaring-the-condition-number">Exercise 3 — Why not the normal equations: squaring the condition number</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-accuracy-loss-in-practice">Exercise 4 — Accuracy loss in practice</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-goodness-of-fit-2-and-error-bars">Exercise 5 — Goodness of fit, χ², and error bars</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-nonlinear-least-squares">Exercise 6 — Nonlinear least squares</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-overfitting-student-exercise">Exercise 7 — Overfitting (student exercise)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-weighted-least-squares-synthesis">Exercise 8 — Weighted least squares (synthesis)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="fitting-and-least-squares">
+<h1>0.8 Fitting and Least Squares<a class="headerlink" href="#fitting-and-least-squares" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume 0 — Mathematical &amp; Computational Foundations
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;0.8
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Extracting parameters from data the right way: least squares as a linear-algebra problem, why the textbook normal equations quietly lose twice as many digits as the problem demands, nonlinear fitting with honest error bars, and the ever-present temptation to overfit.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;intermediate&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;90–120 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Every experiment ends the same way: a cloud of points, a model with a few free
+parameters, and the question <em>what values make the model fit?</em> The answer, almost
+always, is <strong>least squares</strong>. The quiet thesis of this notebook is that least
+squares is not a statistics topic bolted onto linear algebra but a linear-algebra
+problem wearing a lab coat. Fitting a line, fitting a polynomial, fitting any
+model linear in its parameters is exactly the projection of a data vector onto the
+column space of a <strong>design matrix</strong>, the same geometry we met in
+<a class="reference internal" href="linear-systems.html"><span class="std std-doc">§0.4</span></a> and <a class="reference internal" href="eigenvalues-svd.html"><span class="std std-doc">§0.5</span></a>.</p>
+<p>That viewpoint yields an immediate dividend. The formula every textbook prints, the
+<strong>normal equations</strong> <span class="math notranslate nohighlight">\(A^\top A\,\mathbf c = A^\top\mathbf y\)</span>, is mathematically
+perfect and numerically treacherous: forming <span class="math notranslate nohighlight">\(A^\top A\)</span> <em>squares</em> the condition
+number, so it throws away twice as many digits as the problem itself demands. This
+is the conditioning lesson of <a class="reference internal" href="linear-systems.html"><span class="std std-doc">§0.4</span></a> and
+<a class="reference internal" href="eigenvalues-svd.html"><span class="std std-doc">§0.5</span></a>, now with consequences we can watch on
+a real fit. The cure is also from those notebooks: solve through <strong>QR</strong> or the
+<strong>SVD</strong>, never through <span class="math notranslate nohighlight">\(A^\top A\)</span>, which is precisely what <code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code> and
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.lstsq</span></code> do under the hood.</p>
+<p>From there we build the working toolkit a physicist actually needs: residuals and
+the <span class="math notranslate nohighlight">\(\chi^2\)</span> statistic, the parameter <strong>covariance matrix</strong> and the error bars it
+yields, <strong>nonlinear</strong> fitting when the model is not linear in its parameters
+(<code class="docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit</span></code>, an optimisation/root-finding problem that calls back
+to <a class="reference internal" href="root-finding.html"><span class="std std-doc">§0.2</span></a> and <a class="reference internal" href="ode-solvers.html"><span class="std std-doc">§0.7</span></a>), <strong>weighted</strong> least
+squares for data with unequal uncertainties,
+and the cautionary tale that never goes away: <strong>overfitting</strong>, where adding
+parameters fits the training points beautifully while tracking the noise and
+generalising worse. There are no animations here. A fit and its residuals are
+static objects, and a static plot states the lesson more clearly than motion
+would.</p>
+<p>This notebook is the payoff of the two linear-algebra notebooks before it, and it
+feeds everything experimental downstream: extracting rates, exponents, lattice
+constants, and spectral peaks is this computation, run again and again.</p>
+<blockquote>
+<div><p><strong>How to read the checks.</strong> Each exercise ends with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against an
+independent fact: three solution methods agreeing, a fitted parameter landing
+inside its error bar, a held-out error rising. A ✓ is strong evidence; a ✗ is a
+prompt to <em>locate the discrepancy</em>, not a verdict.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Scope.</strong> A working review, not a statistics course. The standard references
+are Press et al., <em>Numerical Recipes</em> <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id28" title="William H. Press, Saul A. Teukolsky, William T. Vetterling, and Brian P. Flannery. Numerical Recipes: The Art of Scientific Computing. Cambridge University Press, 3 edition, 2007.">PTVF07</a>]</span> (ch. 15), Trefethen &amp;
+Bau, <em>Numerical Linear Algebra</em> <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id29" title="Lloyd N. Trefethen and David Bau. Numerical Linear Algebra. Society for Industrial and Applied Mathematics (SIAM), 1997.">TB97</a>]</span> (least squares and QR),
+and Bevington &amp; Robinson <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id33" title="Philip R. Bevington and D. Keith Robinson. Data Reduction and Error Analysis for the Physical Sciences. McGraw-Hill, 3 edition, 2003.">BR03</a>]</span> for <span class="math notranslate nohighlight">\(\chi^2\)</span> and error analysis.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="least-squares-as-projection">
+<h3>Least squares as projection<a class="headerlink" href="#least-squares-as-projection" title="Link to this heading">#</a></h3>
+<p>Given data <span class="math notranslate nohighlight">\((x_i, y_i)\)</span> and a model <strong>linear in its parameters</strong> <span class="math notranslate nohighlight">\(\mathbf c\)</span>, we
+assemble the <strong>design matrix</strong> <span class="math notranslate nohighlight">\(A\)</span> whose columns are the basis functions evaluated
+at the <span class="math notranslate nohighlight">\(x_i\)</span> (for a line, the columns are <span class="math notranslate nohighlight">\(1\)</span> and <span class="math notranslate nohighlight">\(x_i\)</span>; for a degree-<span class="math notranslate nohighlight">\(d\)</span>
+polynomial, the powers <span class="math notranslate nohighlight">\(x_i^0,\dots,x_i^d\)</span>). The fit minimises the sum of squared
+residuals,</p>
+<div class="math notranslate nohighlight" id="equation-eq-lsq">
+<span class="eqno">(40)<a class="headerlink" href="#equation-eq-lsq" title="Link to this equation">#</a></span>\[\min_{\mathbf c}\ \lVert A\mathbf c - \mathbf y\rVert_2^2 .\]</div>
+<p>Geometrically, <span class="math notranslate nohighlight">\(A\mathbf c\)</span> ranges over the <strong>column space</strong> of <span class="math notranslate nohighlight">\(A\)</span>, and the
+minimiser is the orthogonal <strong>projection</strong> of <span class="math notranslate nohighlight">\(\mathbf y\)</span> onto that subspace: the
+residual <span class="math notranslate nohighlight">\(\mathbf y - A\mathbf c\)</span> is perpendicular to every column of <span class="math notranslate nohighlight">\(A\)</span>. That
+perpendicularity, written out, <em>is</em> the next equation.</p>
+</section>
+<section id="the-normal-equations-correct-but-dangerous">
+<h3>The normal equations (correct, but dangerous)<a class="headerlink" href="#the-normal-equations-correct-but-dangerous" title="Link to this heading">#</a></h3>
+<p>Setting the gradient of <a class="reference internal" href="#equation-eq-lsq">Eq. 40</a> to zero gives the <strong>normal equations</strong></p>
+<div class="math notranslate nohighlight" id="equation-eq-normal">
+<span class="eqno">(41)<a class="headerlink" href="#equation-eq-normal" title="Link to this equation">#</a></span>\[A^\top A\,\mathbf c = A^\top\mathbf y .\]</div>
+<p>They are exact on paper and the fastest thing to code, which is why every textbook
+shows them. They are also the wrong way to compute a fit, for a reason that is
+pure <a class="reference internal" href="linear-systems.html"><span class="std std-doc">§0.4</span></a>/<a class="reference internal" href="eigenvalues-svd.html"><span class="std std-doc">§0.5</span></a>: forming
+<span class="math notranslate nohighlight">\(A^\top A\)</span> <strong>squares the condition number</strong>,
+<span class="math notranslate nohighlight">\(\kappa(A^\top A) = \kappa(A)^2\)</span>. Since the achievable accuracy scales like
+<span class="math notranslate nohighlight">\(\varepsilon\,\kappa\)</span>, squaring <span class="math notranslate nohighlight">\(\kappa\)</span> doubles the number of digits lost. A
+fit that is mildly ill-conditioned in <span class="math notranslate nohighlight">\(A\)</span> becomes catastrophically so in
+<span class="math notranslate nohighlight">\(A^\top A\)</span>.</p>
+</section>
+<section id="solving-through-qr-or-the-svd">
+<h3>Solving through QR or the SVD<a class="headerlink" href="#solving-through-qr-or-the-svd" title="Link to this heading">#</a></h3>
+<p>The fix is to solve <a class="reference internal" href="#equation-eq-lsq">Eq. 40</a> <em>without ever forming</em> <span class="math notranslate nohighlight">\(A^\top A\)</span>. Using the QR
+factorization <span class="math notranslate nohighlight">\(A = QR\)</span> of <a class="reference internal" href="linear-systems.html"><span class="std std-doc">§0.4</span></a> (orthonormal <span class="math notranslate nohighlight">\(Q\)</span>,
+upper-triangular <span class="math notranslate nohighlight">\(R\)</span>),</p>
+<div class="math notranslate nohighlight" id="equation-eq-qr-lsq">
+<span class="eqno">(42)<a class="headerlink" href="#equation-eq-qr-lsq" title="Link to this equation">#</a></span>\[A = QR \quad\Longrightarrow\quad R\,\mathbf c = Q^\top\mathbf y ,\]</div>
+<p>a single triangular solve whose accuracy depends on <span class="math notranslate nohighlight">\(\kappa(A)\)</span>, not its square.
+The SVD-based <strong>pseudoinverse</strong> <span class="math notranslate nohighlight">\(A^+ = V\Sigma^+U^\top\)</span> of
+<a class="reference internal" href="eigenvalues-svd.html"><span class="std std-doc">§0.5</span></a> does the same job
+and is the most robust of all when <span class="math notranslate nohighlight">\(A\)</span> is nearly rank-deficient. These are exactly
+what the library routines use: <code class="docutils literal notranslate"><span class="pre">numpy.linalg.lstsq</span></code> is SVD-based, and
+<code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code> builds on the same idea. Use them; do not hand-roll the normal
+equations.</p>
+</section>
+<section id="goodness-of-fit-chi-2-and-error-bars">
+<h3>Goodness of fit, <span class="math notranslate nohighlight">\(\chi^2\)</span>, and error bars<a class="headerlink" href="#goodness-of-fit-chi-2-and-error-bars" title="Link to this heading">#</a></h3>
+<p>A fit is not finished until we know how good it is and how uncertain the
+parameters are. The <strong>residuals</strong> <span class="math notranslate nohighlight">\(r_i = y_i - (A\mathbf c)_i\)</span> give the root-mean-
+square error <span class="math notranslate nohighlight">\(\mathrm{RMSE} = \sqrt{\tfrac1n\sum r_i^2}\)</span>. When the data carry known
+uncertainties <span class="math notranslate nohighlight">\(\sigma_i\)</span>, the right scalar is the chi-square statistic, and the
+parameter <strong>covariance</strong> follows from it:</p>
+<div class="math notranslate nohighlight" id="equation-eq-chi2">
+<span class="eqno">(43)<a class="headerlink" href="#equation-eq-chi2" title="Link to this equation">#</a></span>\[\chi^2 = \sum_i \frac{r_i^2}{\sigma_i^2}, \qquad
+\operatorname{cov}(\mathbf c) = \hat\sigma^2\,(A^\top A)^{-1}, \quad
+\hat\sigma^2 = \frac{\lVert\mathbf r\rVert^2}{n - p},\]</div>
+<p>for <span class="math notranslate nohighlight">\(n\)</span> data points and <span class="math notranslate nohighlight">\(p\)</span> parameters. The <strong>standard error</strong> of each parameter
+is the square root of the corresponding diagonal entry of the covariance. The
+covariance formula comes from propagating the data uncertainties through the
+linear solve; Press et al., <em>Numerical Recipes</em>, §15.4, carry the derivation
+out, and Bevington &amp; Robinson <span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id33" title="Philip R. Bevington and D. Keith Robinson. Data Reduction and Error Analysis for the Physical Sciences. McGraw-Hill, 3 edition, 2003.">BR03</a>]</span> develop the statistics. (The
+<span class="math notranslate nohighlight">\((A^\top A)^{-1}\)</span> here is a small <span class="math notranslate nohighlight">\(p\times p\)</span> object used for uncertainty, not the
+route by which we <em>solve</em> the fit.)</p>
+</section>
+<section id="weighted-least-squares">
+<h3>Weighted least squares<a class="headerlink" href="#weighted-least-squares" title="Link to this heading">#</a></h3>
+<p>When points have different uncertainties <span class="math notranslate nohighlight">\(\sigma_i\)</span>, they should not count
+equally. Weighting each residual by <span class="math notranslate nohighlight">\(1/\sigma_i^2\)</span> minimises</p>
+<div class="math notranslate nohighlight" id="equation-eq-weighted">
+<span class="eqno">(44)<a class="headerlink" href="#equation-eq-weighted" title="Link to this equation">#</a></span>\[\min_{\mathbf c}\ \sum_i \frac{\big(y_i - (A\mathbf c)_i\big)^2}{\sigma_i^2}
+= \lVert W^{1/2}(A\mathbf c - \mathbf y)\rVert_2^2, \quad W = \operatorname{diag}(1/\sigma_i^2),\]</div>
+<p>which is the <strong>maximum-likelihood</strong> fit for independent Gaussian errors (writing
+the Gaussian likelihood and taking its logarithm shows the equivalence;
+Bevington &amp; Robinson <span class="bibtex-citation" id="id5">[<a class="reference internal" href="#id33" title="Philip R. Bevington and D. Keith Robinson. Data Reduction and Error Analysis for the Physical Sciences. McGraw-Hill, 3 edition, 2003.">BR03</a>]</span> spell it out). Precise
+points pull harder; noisy points are allowed to miss.</p>
+</section>
+<section id="nonlinear-least-squares">
+<h3>Nonlinear least squares<a class="headerlink" href="#nonlinear-least-squares" title="Link to this heading">#</a></h3>
+<p>If the model is <strong>nonlinear</strong> in its parameters (a decay rate inside an
+exponential, a frequency inside a sine), the residual norm is no longer quadratic
+and there is no closed form. We minimise iteratively,</p>
+<div class="math notranslate nohighlight" id="equation-eq-nonlin">
+<span class="eqno">(45)<a class="headerlink" href="#equation-eq-nonlin" title="Link to this equation">#</a></span>\[\min_{\boldsymbol\theta}\ \sum_i \big(y_i - f(x_i;\boldsymbol\theta)\big)^2 ,\]</div>
+<p>by Gauss–Newton or Levenberg–Marquardt: a sequence of <em>linearised</em> least-squares
+steps, each one an instance of everything above, and each one a root-finding/
+optimisation step in the spirit of <a class="reference internal" href="root-finding.html"><span class="std std-doc">§0.2</span></a> and
+<a class="reference internal" href="ode-solvers.html"><span class="std std-doc">§0.7</span></a> (Press et al., <em>Numerical Recipes</em>, §15.5, develop
+Levenberg–Marquardt in full). <code class="docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit</span></code>
+wraps this and returns the covariance for free.</p>
+</section>
+<section id="overfitting">
+<h3>Overfitting<a class="headerlink" href="#overfitting" title="Link to this heading">#</a></h3>
+<p>Finally, a warning that outlives every method. More parameters <em>always</em> reduce the
+residual on the data one fits, but past a point they fit the <strong>noise</strong>, not the
+signal, and the model generalises worse. The tell is the gap between the error on
+the training data and the error on held-out data: the first keeps falling, the
+second turns and climbs. This is the first taste of the bias–variance trade that
+runs through all of data analysis.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.polynomial</span><span class="w"> </span><span class="kn">import</span> <span class="n">Polynomial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">qr</span><span class="p">,</span> <span class="n">solve_triangular</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">curve_fit</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-linear-least-squares-three-ways">
+<h2>Exercise 1 — Linear least squares three ways<a class="headerlink" href="#exercise-1-linear-least-squares-three-ways" title="Link to this heading">#</a></h2>
+<p>A line is the simplest fit, and computing it three different
+ways (the normal equations <a class="reference internal" href="#equation-eq-normal">Eq. 41</a>, a QR solve <a class="reference internal" href="#equation-eq-qr-lsq">Eq. 42</a>, and the
+library <code class="docutils literal notranslate"><span class="pre">lstsq</span></code>) is the cleanest way to see that on a well-conditioned problem
+they all agree. The disagreements come later, on the hard problems.</p>
+<p>Take the explicit dataset <span class="math notranslate nohighlight">\(x = \)</span> <code class="docutils literal notranslate"><span class="pre">linspace(0,</span> <span class="pre">10,</span> <span class="pre">50)</span></code> and <span class="math notranslate nohighlight">\(y = 2 + 3x +
+\varepsilon\)</span> with <span class="math notranslate nohighlight">\(\varepsilon = \)</span> <code class="docutils literal notranslate"><span class="pre">default_rng(0).normal(0,</span> <span class="pre">1,</span> <span class="pre">50)</span></code>, and fit the
+line <span class="math notranslate nohighlight">\(y = a + bx\)</span>, whose design matrix has columns <span class="math notranslate nohighlight">\(1\)</span> and <span class="math notranslate nohighlight">\(x\)</span> (<a class="reference internal" href="#equation-eq-lsq">Eq. 40</a>,
+built with <code class="docutils literal notranslate"><span class="pre">numpy.vander</span></code>).</p>
+<ol class="arabic simple">
+<li><p>Solve via the normal equations (<code class="docutils literal notranslate"><span class="pre">numpy.linalg.solve</span></code> on <span class="math notranslate nohighlight">\(A^\top A\)</span>).</p></li>
+<li><p>Solve via QR (<code class="docutils literal notranslate"><span class="pre">scipy.linalg.qr</span></code> + <code class="docutils literal notranslate"><span class="pre">scipy.linalg.solve_triangular</span></code>).</p></li>
+<li><p>Solve via <code class="docutils literal notranslate"><span class="pre">numpy.linalg.lstsq</span></code>, and confirm all three coefficient vectors
+agree. <a class="reference internal" href="#fig-fit-linear"><span class="std std-numref">Fig. 43</span></a> shows the data and the line.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>normal equations :  a = 1.548845,  b = 3.116030
+QR               :  a = 1.548845,  b = 3.116030
+lstsq            :  a = 1.548845,  b = 3.116030
+(true a, b)      =  (2, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<figure class="align-default" id="fig-fit-linear">
+<img alt="../../_images/5fcf2364d7a555c6511ca19ad889fc8d2afd7eb459255dd036ac0be719f15529.png" src="../../_images/5fcf2364d7a555c6511ca19ad889fc8d2afd7eb459255dd036ac0be719f15529.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 43 </span><span class="caption-text">Linear least-squares fit of <span class="math notranslate nohighlight">\(y = a + bx\)</span> to the 50-point dataset <span class="math notranslate nohighlight">\(y = 2 + 3x + \varepsilon\)</span>, <span class="math notranslate nohighlight">\(\varepsilon\sim\mathcal N(0,1)\)</span> (seed 0): the data (dark points) and the fitted line (amber). On this well-conditioned problem the normal-equation, QR, and <code class="docutils literal notranslate"><span class="pre">lstsq</span></code> solutions are identical to machine precision, so a single line is drawn.</span><a class="headerlink" href="#fig-fit-linear" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the normal-equation and QR solutions agree on the well-conditioned fit   [max|Δ| = 9.32587e-15 (rtol=1e-08, atol=1e-09)]
+✓  the normal-equation and lstsq solutions agree on the well-conditioned fit   [max|Δ| = 1.28786e-14 (rtol=1e-08, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-design-matrix-and-the-projection-picture">
+<h2>Exercise 2 — The design matrix and the projection picture<a class="headerlink" href="#exercise-2-the-design-matrix-and-the-projection-picture" title="Link to this heading">#</a></h2>
+<p>Least squares <em>is</em> a projection (<a class="reference internal" href="#equation-eq-lsq">Eq. 40</a>), and this
+exercise makes the geometry literal. For a polynomial fit the design matrix is the
+<strong>Vandermonde</strong> matrix, columns <span class="math notranslate nohighlight">\(x^0, x^1, \dots, x^d\)</span>; the fitted values
+<span class="math notranslate nohighlight">\(A\mathbf c\)</span> are the projection of <span class="math notranslate nohighlight">\(\mathbf y\)</span> onto the column space of <span class="math notranslate nohighlight">\(A\)</span>. We can
+compute that projection two independent ways and check they coincide: the fit
+<span class="math notranslate nohighlight">\(A\mathbf c\)</span> from <code class="docutils literal notranslate"><span class="pre">lstsq</span></code>, and the explicit orthogonal projector <span class="math notranslate nohighlight">\(Q Q^\top\mathbf
+y\)</span> built from the QR factors.</p>
+<p>For the explicit dataset <span class="math notranslate nohighlight">\(x = \)</span> <code class="docutils literal notranslate"><span class="pre">linspace(-2,</span> <span class="pre">2,</span> <span class="pre">40)</span></code>,
+<span class="math notranslate nohighlight">\(y = 1 + 0.5x - 0.3x^2 + 0.2x^3 + \varepsilon\)</span> with <span class="math notranslate nohighlight">\(\varepsilon = \)</span>
+<code class="docutils literal notranslate"><span class="pre">default_rng(2).normal(0,</span> <span class="pre">0.4,</span> <span class="pre">40)</span></code>:</p>
+<ol class="arabic simple">
+<li><p>Build the degree-3 Vandermonde design matrix (<code class="docutils literal notranslate"><span class="pre">numpy.vander</span></code>) and fit it with
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.lstsq</span></code>.</p></li>
+<li><p>Confirm the vector of fitted values equals the projection of <span class="math notranslate nohighlight">\(\mathbf y\)</span> onto
+<span class="math notranslate nohighlight">\(\operatorname{col}(A)\)</span>, computed independently as <span class="math notranslate nohighlight">\(Q Q^\top\mathbf y\)</span> from
+the <code class="docutils literal notranslate"><span class="pre">scipy.linalg.qr</span></code> factors.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fitted coefficients (1, 0.5, -0.3, 0.2 true) = [ 1.0239  0.4873 -0.316   0.2062]
+max |A c − Q Qᵀ y| = 2.66e-15
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the least-squares fit is the orthogonal projection of y onto the column space of A   [max|Δ| = 2.66454e-15 (rtol=1e-08, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-why-not-the-normal-equations-squaring-the-condition-number">
+<h2>Exercise 3 — Why not the normal equations: squaring the condition number<a class="headerlink" href="#exercise-3-why-not-the-normal-equations-squaring-the-condition-number" title="Link to this heading">#</a></h2>
+<p>This is the centrepiece, and it is the
+conditioning lesson of <a class="reference internal" href="linear-systems.html"><span class="std std-doc">§0.4</span></a> and
+<a class="reference internal" href="eigenvalues-svd.html"><span class="std std-doc">§0.5</span></a> applied directly to fitting. Forming <span class="math notranslate nohighlight">\(A^\top A\)</span>
+squares the condition number, <span class="math notranslate nohighlight">\(\kappa(A^\top A) = \kappa(A)^2\)</span>, so the normal
+equations operate on a matrix that is <em>twice</em> as ill-conditioned (in digits) as
+the design matrix itself. Monomial Vandermonde matrices make this vivid: they grow
+ill-conditioned quickly with degree.</p>
+<ol class="arabic simple">
+<li><p>For Vandermonde design matrices of degree <span class="math notranslate nohighlight">\(d = 3, 6, 10\)</span> on
+<span class="math notranslate nohighlight">\(x = \)</span> <code class="docutils literal notranslate"><span class="pre">linspace(0,</span> <span class="pre">1,</span> <span class="pre">30)</span></code>, compute <span class="math notranslate nohighlight">\(\kappa(A)\)</span> and <span class="math notranslate nohighlight">\(\kappa(A^\top A)\)</span>
+(<code class="docutils literal notranslate"><span class="pre">numpy.linalg.cond</span></code>).</p></li>
+<li><p>Confirm the second is the square of the first (equivalently,
+<span class="math notranslate nohighlight">\(\log_{10}\kappa(A^\top A) = 2\log_{10}\kappa(A)\)</span>).
+<a class="reference internal" href="#fig-fit-condition"><span class="std std-numref">Fig. 44</span></a> plots both against degree.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>degree  3:  κ(A) = 1.139e+02,  κ(AᵀA) = 1.297e+04,  κ(A)² = 1.297e+04
+degree  6:  κ(A) = 1.887e+04,  κ(AᵀA) = 3.562e+08,  κ(A)² = 3.562e+08
+degree 10:  κ(A) = 2.067e+07,  κ(AᵀA) = 4.265e+14,  κ(A)² = 4.273e+14
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-fit-condition">
+<img alt="../../_images/1d45fa4d8ba72111c02292463c806d7d767e573fcf13f09988c9ab75f451bb71.png" src="../../_images/1d45fa4d8ba72111c02292463c806d7d767e573fcf13f09988c9ab75f451bb71.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 44 </span><span class="caption-text">Condition numbers of the monomial Vandermonde design matrix on <span class="math notranslate nohighlight">\(x=\)</span> <code class="docutils literal notranslate"><span class="pre">linspace(0,1,30)</span></code> versus polynomial degree, on a log <span class="math notranslate nohighlight">\(y\)</span>-axis: <span class="math notranslate nohighlight">\(\kappa(A)\)</span> (dark) and <span class="math notranslate nohighlight">\(\kappa(A^\top A)\)</span> (amber). The normal-equations matrix <span class="math notranslate nohighlight">\(A^\top A\)</span> tracks <span class="math notranslate nohighlight">\(\kappa(A)^2\)</span> (grey dashed), so by degree 10 it is roughly the <em>square</em> of an already-large number: the reason the normal equations lose twice as many digits as a QR or SVD solve.</span><a class="headerlink" href="#fig-fit-condition" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  forming AᵀA squares the condition number (log₁₀κ(AᵀA) = 2 log₁₀κ(A))   [max|Δ| = 0.000854859 (rtol=1e-06, atol=0.5)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-accuracy-loss-in-practice">
+<h2>Exercise 4 — Accuracy loss in practice<a class="headerlink" href="#exercise-4-accuracy-loss-in-practice" title="Link to this heading">#</a></h2>
+<p>The squared condition number is not academic: it
+destroys real coefficients. Here we set up a fit with a <em>known</em> answer and watch
+the normal equations get it wrong while the SVD-based solver gets it right. The
+only difference between the two is whether <span class="math notranslate nohighlight">\(A^\top A\)</span> is ever formed.</p>
+<ol class="arabic simple">
+<li><p>Build the degree-10 Vandermonde <span class="math notranslate nohighlight">\(V\)</span> on <span class="math notranslate nohighlight">\(x = \)</span> <code class="docutils literal notranslate"><span class="pre">linspace(0,</span> <span class="pre">1,</span> <span class="pre">30)</span></code>, choose
+true coefficients <span class="math notranslate nohighlight">\(\mathbf c_{\rm true} = \)</span> <code class="docutils literal notranslate"><span class="pre">default_rng(0).normal(size=11)</span></code>,
+and form the exact <span class="math notranslate nohighlight">\(\mathbf y = V\mathbf c_{\rm true}\)</span> (no noise — the only
+error will be numerical).</p></li>
+<li><p>Recover <span class="math notranslate nohighlight">\(\mathbf c\)</span> two ways: the normal equations
+<span class="math notranslate nohighlight">\(V^\top V\mathbf c = V^\top\mathbf y\)</span> and the SVD-based <code class="docutils literal notranslate"><span class="pre">numpy.linalg.lstsq</span></code>.</p></li>
+<li><p>Compare the recovery errors against <span class="math notranslate nohighlight">\(\mathbf c_{\rm true}\)</span>: the SVD solve
+should be dramatically more accurate.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>recovery error, normal equations = 4.80e-03
+recovery error, SVD (lstsq)      = 4.04e-11
+the SVD solve is 118808836× more accurate here
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the SVD-based solve recovers the coefficients far more accurately than the normal equations   [normal 4.80e-03  vs  SVD 4.04e-11]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-goodness-of-fit-2-and-error-bars">
+<h2>Exercise 5 — Goodness of fit, χ², and error bars<a class="headerlink" href="#exercise-5-goodness-of-fit-2-and-error-bars" title="Link to this heading">#</a></h2>
+<p>A fitted number without an uncertainty is half an
+answer. From the residuals of a fit we get the RMSE, and from the covariance
+<a class="reference internal" href="#equation-eq-chi2">Eq. 43</a> we get a <strong>standard error</strong> on every parameter: the <span class="math notranslate nohighlight">\(\pm\)</span> that
+belongs on every reported slope and intercept.</p>
+<p>For the linear fit of Exercise 1 (the same <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and design matrix):</p>
+<ol class="arabic simple">
+<li><p>Compute the residuals and the RMSE.</p></li>
+<li><p>Form the parameter covariance <span class="math notranslate nohighlight">\(\hat\sigma^2 (A^\top A)^{-1}\)</span> with
+<span class="math notranslate nohighlight">\(\hat\sigma^2 = \lVert\mathbf r\rVert^2/(n-p)\)</span> (<a class="reference internal" href="#equation-eq-chi2">Eq. 43</a>; the small
+<span class="math notranslate nohighlight">\(p\times p\)</span> inverse via <code class="docutils literal notranslate"><span class="pre">numpy.linalg.inv</span></code> is legitimate here — it is used for
+uncertainty, not to solve the fit).</p></li>
+<li><p>Report the slope and intercept with their standard errors, and confirm the
+true values <span class="math notranslate nohighlight">\((a, b) = (2, 3)\)</span> lie within a few standard errors of the fit.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RMSE of residuals = 0.8446
+intercept a = 1.5488 ± 0.2402   (true 2)
+slope     b = 3.1160 ± 0.0414   (true 3)
+true values lie 1.88σ (a) and 2.80σ (b) from the fit
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the true parameters lie within three standard errors of the fit   [deviations 1.88σ (a), 2.80σ (b)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-nonlinear-least-squares">
+<h2>Exercise 6 — Nonlinear least squares<a class="headerlink" href="#exercise-6-nonlinear-least-squares" title="Link to this heading">#</a></h2>
+<p>When a parameter sits <em>inside</em> a nonlinear function
+(a rate inside an exponential), there is no design matrix and no closed form
+(<a class="reference internal" href="#equation-eq-nonlin">Eq. 45</a>). <code class="docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit</span></code> minimises the residual norm
+iteratively with Levenberg–Marquardt: each step linearises the model and solves a
+least-squares problem, so it is built from everything above, and it is a
+root-finding/optimisation iteration in the spirit of <a class="reference internal" href="root-finding.html"><span class="std std-doc">§0.2</span></a>
+and <a class="reference internal" href="ode-solvers.html"><span class="std std-doc">§0.7</span></a>. It returns the
+parameter covariance too, so the error bars come for free.</p>
+<ol class="arabic simple">
+<li><p>Fit the model <span class="math notranslate nohighlight">\(y = A\,e^{-kt} + c\)</span> to the explicit dataset
+<span class="math notranslate nohighlight">\(t = \)</span> <code class="docutils literal notranslate"><span class="pre">linspace(0,</span> <span class="pre">5,</span> <span class="pre">40)</span></code>, with true <span class="math notranslate nohighlight">\((A, k, c) = (3, 1.2, 0.5)\)</span> and noise
+<code class="docutils literal notranslate"><span class="pre">default_rng(0).normal(0,</span> <span class="pre">0.05,</span> <span class="pre">40)</span></code>, using <code class="docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit</span></code>.</p></li>
+<li><p>Report the standard errors from the returned covariance.</p></li>
+<li><p>Confirm the recovery is accurate. <a class="reference internal" href="#fig-fit-nonlinear"><span class="std std-numref">Fig. 45</span></a> shows the data
+and the fitted curve.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A = 3.0233 ± 0.0275   (true 3.0)
+k = 1.2287 ± 0.0227   (true 1.2)
+c = 0.5042 ± 0.0102   (true 0.5)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<figure class="align-default" id="fig-fit-nonlinear">
+<img alt="../../_images/6b1e5582653f2be6ca0f0817fa9d8236c41de8d4e3c50e7dc5a7fb57b1648c60.png" src="../../_images/6b1e5582653f2be6ca0f0817fa9d8236c41de8d4e3c50e7dc5a7fb57b1648c60.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 45 </span><span class="caption-text">Nonlinear least-squares fit of <span class="math notranslate nohighlight">\(y = A\,e^{-kt} + c\)</span> to the 40-point dataset with true <span class="math notranslate nohighlight">\((A,k,c)=(3,1.2,0.5)\)</span> and Gaussian noise <span class="math notranslate nohighlight">\(\sigma=0.05\)</span> (seed 0): the data (dark points) and the <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code> result (amber). Levenberg–Marquardt recovers the parameters to within a few percent, each with a standard error from the returned covariance.</span><a class="headerlink" href="#fig-fit-nonlinear" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  nonlinear least squares recovers the exponential parameters (A, k, c)   [max|Δ| = 0.0286912 (rtol=0.1, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">With your assistant</p>
+<p>Ask your assistant to generate a <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code> call for the exponential data of
+Exercise 6 and run what it produces. Then apply the discipline of
+<a class="reference internal" href="scientific-python-age-of-ai.html"><span class="std std-doc">§0.10</span></a> to whatever came back: the rms
+residual held against the noise scale, and a handful of restarted <code class="docutils literal notranslate"><span class="pre">p0</span></code> draws —
+because a success flag tests convergence, not truth. The check is yours.</p>
+</div>
+</section>
+</section>
+<section id="exercise-7-overfitting-student-exercise">
+<h2>Exercise 7 — Overfitting (student exercise)<a class="headerlink" href="#exercise-7-overfitting-student-exercise" title="Link to this heading">#</a></h2>
+<p>Here is the lesson that never goes away, and it is yours
+to build. More parameters always fit the <em>training</em> points better, but past a
+point they fit the <strong>noise</strong> and generalise worse. The diagnostic is to measure
+error on two sets: the data we fit, and a held-out reference we did not. As the
+polynomial degree climbs, the training error falls monotonically while the error
+against the true curve turns and rises.</p>
+<p>Take the explicit data: 12 points <span class="math notranslate nohighlight">\(x = \)</span> <code class="docutils literal notranslate"><span class="pre">linspace(0,</span> <span class="pre">1,</span> <span class="pre">12)</span></code>, <span class="math notranslate nohighlight">\(y = \sin(2\pi x) +
+\varepsilon\)</span> with <span class="math notranslate nohighlight">\(\varepsilon = \)</span> <code class="docutils literal notranslate"><span class="pre">default_rng(1).normal(0,</span> <span class="pre">0.2,</span> <span class="pre">12)</span></code>, and a
+held-out <strong>test set</strong> on a dense grid <code class="docutils literal notranslate"><span class="pre">linspace(0,</span> <span class="pre">1,</span> <span class="pre">400)</span></code> compared against the
+true <span class="math notranslate nohighlight">\(\sin(2\pi x)\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Fit polynomials of degree 1, 3, and 9 with <code class="docutils literal notranslate"><span class="pre">numpy.polynomial.Polynomial.fit</span></code>
+(least squares on a rescaled domain, the stable variant).</p></li>
+<li><p>Compute both the training RMSE (against the noisy data) and the test RMSE
+(against the true curve).</p></li>
+<li><p>Show the degree-9 fit drives the training error down while the test error
+rises: it is fitting the noise. <a class="reference internal" href="#fig-fit-overfit"><span class="std std-numref">Fig. 46</span></a> shows all three fits
+with the true curve, and the degree-9 wiggle should be unmistakable.</p></li>
+</ol>
+<p>Because the check tests the <em>errors</em> (test RMSE rising with degree), a ✗ means
+“re-examine the fits or the RMSE computation,” never a problem with the plot.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>degree 1:  training RMSE = 0.4979,  test RMSE = 0.4670
+degree 3:  training RMSE = 0.1220,  test RMSE = 0.0956
+degree 9:  training RMSE = 0.0705,  test RMSE = 0.1430
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-fit-overfit">
+<img alt="../../_images/6de040b8e2d42c35183b44b96ee8ad566764aac448ca84ac1096a58d60770a75.png" src="../../_images/6de040b8e2d42c35183b44b96ee8ad566764aac448ca84ac1096a58d60770a75.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 46 </span><span class="caption-text">Polynomial fits of degree 1, 3, and 9 to 12 noisy samples of <span class="math notranslate nohighlight">\(\sin(2\pi x)\)</span> (Gaussian noise <span class="math notranslate nohighlight">\(\sigma=0.2\)</span>, seed 1): the data (dark points), the true curve (grey dashed), and the three fits. Degree 1 underfits; degree 3 captures the signal; degree 9 chases the 12 noisy points and wiggles wildly between them, driving its training error down while its error against the true curve climbs: the signature of overfitting.</span><a class="headerlink" href="#fig-fit-overfit" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the highest-degree polynomial generalises worse: it overfits the noise   [test RMSE: degree 9 = 0.143 &gt; degree 3 = 0.096]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-weighted-least-squares-synthesis">
+<h2>Exercise 8 — Weighted least squares (synthesis)<a class="headerlink" href="#exercise-8-weighted-least-squares-synthesis" title="Link to this heading">#</a></h2>
+<p>A closing synthesis: when points carry unequal
+uncertainties, an unweighted fit lets the noisy points shout as loudly as the
+precise ones. Weighting by <span class="math notranslate nohighlight">\(1/\sigma_i^2\)</span> (<a class="reference internal" href="#equation-eq-weighted">Eq. 44</a>) is the principled,
+maximum-likelihood choice, and in practice it recovers the truth more reliably.</p>
+<p>Build explicit heteroscedastic data on the line <span class="math notranslate nohighlight">\(2 + 3x\)</span> for
+<span class="math notranslate nohighlight">\(x = \)</span> <code class="docutils literal notranslate"><span class="pre">linspace(0,</span> <span class="pre">10,</span> <span class="pre">50)</span></code>, with per-point uncertainties <span class="math notranslate nohighlight">\(\sigma = \)</span>
+<code class="docutils literal notranslate"><span class="pre">linspace(0.5,</span> <span class="pre">2,</span> <span class="pre">50)</span></code> and noise drawn at those <span class="math notranslate nohighlight">\(\sigma\)</span>
+(<code class="docutils literal notranslate"><span class="pre">default_rng(3).normal(0,</span> <span class="pre">σ)</span></code>).</p>
+<ol class="arabic simple">
+<li><p>Fit the line <strong>unweighted</strong> (<code class="docutils literal notranslate"><span class="pre">numpy.linalg.lstsq</span></code>).</p></li>
+<li><p>Fit it <strong>weighted</strong>, with <span class="math notranslate nohighlight">\(W = \operatorname{diag}(1/\sigma^2)\)</span> implemented as
+a least-squares solve on the row-scaled system (each row of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(y\)</span>
+multiplied by <span class="math notranslate nohighlight">\(1/\sigma_i\)</span>).</p></li>
+<li><p>Confirm the weighted fit recovers the true parameters <span class="math notranslate nohighlight">\((2, 3)\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>unweighted:  a = 1.8595,  b = 3.0432
+weighted  :  a = 1.8662,  b = 3.0419   (true 2, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-8">
+<h3>Validation 8<a class="headerlink" href="#validation-8" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the weighted fit recovers the true parameters (a, b) = (2, 3)   [max|Δ| = 0.133782 (rtol=0.3, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Linear least squares three ways (normal equations, QR, SVD) and the design-matrix projection
+picture; why the normal equations square the condition number, and the accuracy loss that
+follows.</p></li>
+<li><p>Goodness of fit with <span class="math notranslate nohighlight">\(\chi^2\)</span> and error bars; nonlinear least squares
+(<code class="docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit</span></code>); overfitting; and weighted least squares.</p></li>
+</ul>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Regularisation (ridge / Tikhonov).</strong> When a fit is ill-posed, adding a penalty
+<span class="math notranslate nohighlight">\(\lambda\lVert\mathbf c\rVert^2\)</span> stabilises it, and connects directly to the
+truncated-SVD low-rank idea of <a class="reference internal" href="eigenvalues-svd.html"><span class="std std-doc">§0.5</span></a>.</p></li>
+<li><p><strong>Total least squares.</strong> When there is error in <span class="math notranslate nohighlight">\(x\)</span> as well as <span class="math notranslate nohighlight">\(y\)</span>, ordinary
+least squares is biased; orthogonal-distance regression fits the perpendicular
+residuals instead.</p></li>
+<li><p><strong>Better bases.</strong> The monomial Vandermonde of Exercise 3 is badly conditioned, and
+there are two distinct cures. Orthogonal polynomials fix it outright
+(<code class="docutils literal notranslate"><span class="pre">numpy.polynomial.Chebyshev.fit</span></code>), while <code class="docutils literal notranslate"><span class="pre">numpy.polynomial.Polynomial.fit</span></code> softens
+it a different way, rescaling the data window to <span class="math notranslate nohighlight">\([-1, 1]\)</span> in the monomial basis.</p></li>
+<li><p><strong>What the error bars mean.</strong> Bayesian curve fitting reinterprets the covariance
+as a posterior: a forward link to the statistical-mechanics volume.</p></li>
+<li><p><strong>Everywhere downstream.</strong> Fitting extracts rates, exponents, lattice constants,
+and spectroscopic peaks; this notebook is the machine under all of it.</p></li>
+</ul>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<div class="docutils container" id="id6">
+<div role="list" class="citation-list">
+<div class="citation" id="id33" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>BR03<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id4">2</a>,<a role="doc-backlink" href="#id5">3</a>)</span>
+<p>Philip R. Bevington and D. Keith Robinson. <em>Data Reduction and Error Analysis for the Physical Sciences</em>. McGraw-Hill, 3 edition, 2003.</p>
+</div>
+<div class="citation" id="id28" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">PTVF07</a><span class="fn-bracket">]</span></span>
+<p>William H. Press, Saul A. Teukolsky, William T. Vetterling, and Brian P. Flannery. <em>Numerical Recipes: The Art of Scientific Computing</em>. Cambridge University Press, 3 edition, 2007.</p>
+</div>
+<div class="citation" id="id29" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">TB97</a><span class="fn-bracket">]</span></span>
+<p>Lloyd N. Trefethen and David Bau. <em>Numerical Linear Algebra</em>. Society for Industrial and Applied Mathematics (SIAM), 1997.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/00-foundations"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ode-solvers.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">0.7 Solving Ordinary Differential Equations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="symbolic-sympy.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">0.9 Symbolic Computation with SymPy</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#least-squares-as-projection">Least squares as projection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-normal-equations-correct-but-dangerous">The normal equations (correct, but dangerous)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-through-qr-or-the-svd">Solving through QR or the SVD</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#goodness-of-fit-chi-2-and-error-bars">Goodness of fit, <span class="math notranslate nohighlight">\(\chi^2\)</span>, and error bars</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-least-squares">Weighted least squares</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-least-squares">Nonlinear least squares</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overfitting">Overfitting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-linear-least-squares-three-ways">Exercise 1 — Linear least squares three ways</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-design-matrix-and-the-projection-picture">Exercise 2 — The design matrix and the projection picture</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-why-not-the-normal-equations-squaring-the-condition-number">Exercise 3 — Why not the normal equations: squaring the condition number</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-accuracy-loss-in-practice">Exercise 4 — Accuracy loss in practice</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-goodness-of-fit-2-and-error-bars">Exercise 5 — Goodness of fit, χ², and error bars</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-nonlinear-least-squares">Exercise 6 — Nonlinear least squares</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-overfitting-student-exercise">Exercise 7 — Overfitting (student exercise)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-weighted-least-squares-synthesis">Exercise 8 — Weighted least squares (synthesis)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1412 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/03-electrodynamics/wave-optics.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: §3.8 established that light is an electromagnetic wave; this notebook computes what waves do when they meet obstacles — which is the subje..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: §3.8 established that light is an electromagnetic wave; this notebook computes what waves do when they meet obstacles — which is the subje..." />
+
+    <title>3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/03-electrodynamics/wave-optics';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/03-electrodynamics/wave-optics.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Volume IV — Special Relativity" href="../04-special-relativity/index.html" />
+    <link rel="prev" title="3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials" href="fields-in-matter.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume III — Classical Electrodynamics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/03-electrodynamics/wave-optics.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/03-electrodynamics/wave-optics.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/03-electrodynamics/wave-optics.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/03-electrodynamics/wave-optics.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-young-s-experiment-by-fourier-transform">Exercise 1 — Young’s experiment, by Fourier transform</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-airy-pattern-and-the-resolution-of-telescopes">Exercise 2 — The Airy pattern and the resolution of telescopes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-fresnel-number-s-arc-and-the-knife-edge">Exercise 3 — The Fresnel number’s arc, and the knife edge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-babinet-s-principle-and-the-arago-spot">Exercise 4 — Babinet’s principle and the Arago spot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-lens-as-an-analog-fourier-transformer">Exercise 5 — The lens as an analog Fourier transformer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="wave-optics-diffraction-interference-and-the-fourier-lens">
+<h1>3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens<a class="headerlink" href="#wave-optics-diffraction-interference-and-the-fourier-lens" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume III — Electrodynamics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;3.14
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Light behaving as the wave Maxwell said it is: Young&#x27;s fringes and the single-slit envelope computed by FFT and matched to their closed forms, the Airy disk and the resolution limit of every telescope, the Fresnel number&#x27;s arc from shadow to far field, the quarter-intensity knife edge, the bright spot at the center of a disk&#x27;s shadow that decided the wave theory in 1818, and a lens revealed as an analog Fourier transformer.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;intermediate&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;120–150 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="maxwell-waves.html"><span class="std std-doc">§3.8</span></a> established that light is an
+electromagnetic wave; this notebook computes what waves <em>do</em> when
+they meet obstacles — which is the subject that decided, between 1801
+and 1818, that light is a wave at all. The punchline that organizes
+everything: <strong>diffraction is a Fourier transform</strong>. The far field of
+an aperture is the Fourier transform of the aperture; a lens performs
+that transform optically, in analog, at the speed of light; and the
+FFT of <a class="reference internal" href="../00-foundations/fft.html"><span class="std std-doc">§0.6</span></a> is therefore the entire
+computational machinery of this notebook. One <code class="docutils literal notranslate"><span class="pre">numpy.fft</span></code> call
+replaces every diffraction integral we meet.</p>
+<p>We verify the machinery against every closed form the subject owns —
+the <span class="math notranslate nohighlight">\(\mathrm{sinc}^2\)</span> single-slit envelope, Young’s <span class="math notranslate nohighlight">\(\cos^2\)</span> fringes,
+the Airy pattern and Rayleigh’s resolution criterion, the
+quarter-intensity knife edge — and then spend it on the two showpieces:
+the Fresnel number’s continuous arc from geometric shadow to
+Fraunhofer far field, and the <strong>Arago spot</strong>, the bright point at the
+dead center of a circular obstacle’s shadow that Poisson derived as a
+<em>reductio ad absurdum</em> of Fresnel’s theory and Arago promptly
+observed. Born and Wolf <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id73" title="Max Born and Emil Wolf. Principles of Optics: Electromagnetic Theory of Propagation, Interference and Diffraction of Light. Cambridge University Press, 7 edition, 1999. doi:10.1017/CBO9781139644181.">BW99</a>]</span> and Goodman
+<span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id74" title="Joseph W. Goodman. Introduction to Fourier Optics. Roberts &amp; Company, 3 edition, 2005.">Goo05</a>]</span> are the standing references.</p>
+<p>A note on reading the checks in this notebook: a validation compares a
+result to an expected physical fact. A ✗ does not by itself mean the
+answer is wrong; it means the output did not match what the check
+expected, which may be a genuine error, a different-but-valid
+convention, or too tight a tolerance. Treat a ✗ as a prompt to locate
+the discrepancy. Passing is strong evidence, not proof.</p>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<p><strong>Fraunhofer diffraction is a Fourier transform.</strong> Huygens’
+principle — every point of a wavefront re-radiates — becomes, for an
+aperture <span class="math notranslate nohighlight">\(A(x)\)</span> illuminated by a plane wave and observed far away, a
+sum of spherical wavelets whose phases are linear in <span class="math notranslate nohighlight">\(x\)</span>: exactly a
+Fourier integral. The far-field amplitude in direction <span class="math notranslate nohighlight">\(\sin\theta\)</span>
+is</p>
+<div class="math notranslate nohighlight" id="equation-eq-wo-fraunhofer">
+<span class="eqno">(234)<a class="headerlink" href="#equation-eq-wo-fraunhofer" title="Link to this equation">#</a></span>\[U(\theta) \;\propto\; \int A(x)\,
+e^{-2\pi i\, x \sin\theta/\lambda}\, dx
+\;=\; \tilde A\!\left(\frac{\sin\theta}{\lambda}\right),\]</div>
+<p>the aperture’s transform evaluated at spatial frequency
+<span class="math notranslate nohighlight">\(\sin\theta/\lambda\)</span>. Every named pattern follows by transforming a
+shape: a slit gives <span class="math notranslate nohighlight">\(\mathrm{sinc}\)</span>, two slits give
+<span class="math notranslate nohighlight">\(\cos \times \mathrm{sinc}\)</span>, a circle gives the Airy function
+<span class="math notranslate nohighlight">\(2J_1(u)/u\)</span> with its first dark ring at</p>
+<div class="math notranslate nohighlight" id="equation-eq-wo-airy">
+<span class="eqno">(235)<a class="headerlink" href="#equation-eq-wo-airy" title="Link to this equation">#</a></span>\[\sin\theta_1 \;=\; 1.22\,\frac{\lambda}{d}\]</div>
+<p>— the resolution limit of every telescope, microscope, and camera,
+and the reason apertures are made large.</p>
+<p><strong>The angular spectrum: exact propagation at any distance.</strong> Between
+the aperture and the far field lives Fresnel diffraction, and the
+clean way to compute it is to decompose the field into plane waves
+(an FFT), advance each by its own phase, and resum (an inverse FFT):</p>
+<div class="math notranslate nohighlight" id="equation-eq-wo-angspec">
+<span class="eqno">(236)<a class="headerlink" href="#equation-eq-wo-angspec" title="Link to this equation">#</a></span>\[U(x, z) \;=\; \mathcal F^{-1}\!\left[
+\tilde U(f_x, 0)\; e^{\,2\pi i z \sqrt{1/\lambda^2 - f_x^2}}
+\right],\]</div>
+<p>exact for the scalar wave equation. One subtlety is physics, not
+numerics: for <span class="math notranslate nohighlight">\(f_x &gt; 1/\lambda\)</span> the square root turns imaginary and
+the wave is <strong>evanescent</strong> — it must decay, not propagate. Implement
+the root as a complex square root and the decay is automatic; clamp
+it to zero (a tempting shortcut) and sharp edges arrive at the screen
+haunted by frequencies that should have died in the first wavelength.
+These are the same decaying exponentials that tunnel through barriers
+in <a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html"><span class="std std-doc">§6.13</span></a>, and
+<a class="reference internal" href="#equation-eq-wo-angspec">Eq. 236</a> itself is the free-flight half of
+<a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a>’s
+split-step propagator with <span class="math notranslate nohighlight">\(t \to z\)</span>: light and wavefunctions ride
+the same mathematics.</p>
+<p><strong>One number rules the regimes.</strong> For an aperture of half-width <span class="math notranslate nohighlight">\(w\)</span>
+observed at distance <span class="math notranslate nohighlight">\(z\)</span>, the <strong>Fresnel number</strong></p>
+<div class="math notranslate nohighlight" id="equation-eq-wo-fresnel">
+<span class="eqno">(237)<a class="headerlink" href="#equation-eq-wo-fresnel" title="Link to this equation">#</a></span>\[N_F \;=\; \frac{w^2}{\lambda z}\]</div>
+<p>counts the Fresnel zones the aperture exposes. <span class="math notranslate nohighlight">\(N_F \gg 1\)</span>: geometric
+optics, a sharp shadow. <span class="math notranslate nohighlight">\(N_F \sim 1\)</span>: Fresnel diffraction, edge
+ringing and on-axis oscillations. <span class="math notranslate nohighlight">\(N_F \ll 1\)</span>: the Fraunhofer far
+field of <a class="reference internal" href="#equation-eq-wo-fraunhofer">Eq. 234</a>. One dial, three centuries of optics.</p>
+<p>Units: lengths in units of the wavelength <span class="math notranslate nohighlight">\(\lambda = 1\)</span> throughout,
+so <span class="math notranslate nohighlight">\(\sin\theta\)</span> and spatial frequency are the same number. Everything
+is deterministic.</p>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Two grids (a long 1D line for slits and edges, a 2D plane for
+circular apertures) and two helpers: the Fraunhofer pattern as a
+normalized FFT, and the angular-spectrum propagator with the
+evanescent decay done right.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">interp1d</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize_scalar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">j1</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+<span class="n">LAM</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">N_1D</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">17</span>
+<span class="n">L_1D</span> <span class="o">=</span> <span class="mf">8192.0</span>
+<span class="n">DX</span> <span class="o">=</span> <span class="n">L_1D</span> <span class="o">/</span> <span class="n">N_1D</span>
+<span class="n">x_1d</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N_1D</span><span class="p">)</span> <span class="o">-</span> <span class="n">N_1D</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">DX</span>
+
+<span class="n">N_2D</span> <span class="o">=</span> <span class="mi">2048</span>
+<span class="n">L_2D</span> <span class="o">=</span> <span class="mf">512.0</span>
+<span class="n">DXY</span> <span class="o">=</span> <span class="n">L_2D</span> <span class="o">/</span> <span class="n">N_2D</span>
+<span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N_2D</span><span class="p">)</span> <span class="o">-</span> <span class="n">N_2D</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">DXY</span>
+<span class="n">X2</span><span class="p">,</span> <span class="n">Y2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xy</span><span class="p">,</span> <span class="n">xy</span><span class="p">)</span>
+<span class="n">R2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">Y2</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fraunhofer</span><span class="p">(</span><span class="n">aperture</span><span class="p">,</span> <span class="n">dx</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Far-field intensity of a 1D aperture, normalized to its peak.</span>
+
+<span class="sd">    Implements eq-wo-fraunhofer with one FFT: the pattern is sampled</span>
+<span class="sd">    at sin θ = λ f_x on the FFT&#39;s own frequency grid.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    aperture : numpy.ndarray</span>
+<span class="sd">        Aperture transmission sampled on the working grid.</span>
+<span class="sd">    dx : float</span>
+<span class="sd">        Grid spacing.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple of numpy.ndarray</span>
+<span class="sd">        (sin θ values, normalized intensity).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftshift</span><span class="p">(</span><span class="n">aperture</span><span class="p">)))</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">LAM</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">aperture</span><span class="p">),</span> <span class="n">d</span><span class="o">=</span><span class="n">dx</span><span class="p">))</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">F</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">s</span><span class="p">,</span> <span class="n">I</span> <span class="o">/</span> <span class="n">I</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">propagate</span><span class="p">(</span><span class="n">u0</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Angular-spectrum propagation of a 1D field over distance z.</span>
+
+<span class="sd">    Implements eq-wo-angspec with the square root taken as a COMPLEX</span>
+<span class="sd">    root, so spatial frequencies beyond 1/λ decay as the evanescent</span>
+<span class="sd">    waves they are instead of propagating unphysically.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u0 : numpy.ndarray</span>
+<span class="sd">        Complex field at z = 0.</span>
+<span class="sd">    dx : float</span>
+<span class="sd">        Grid spacing.</span>
+<span class="sd">    z : float</span>
+<span class="sd">        Propagation distance.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The complex field at distance z.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">u0</span><span class="p">),</span> <span class="n">d</span><span class="o">=</span><span class="n">dx</span><span class="p">)</span>
+    <span class="n">kz</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">LAM</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">fx</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">complex</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">u0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">kz</span> <span class="o">*</span> <span class="n">z</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">propagate2d</span><span class="p">(</span><span class="n">u0</span><span class="p">,</span> <span class="n">dxy</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Angular-spectrum propagation of a 2D field over distance z.</span>
+
+<span class="sd">    The two-dimensional twin of `propagate`, with the same complex</span>
+<span class="sd">    square root carrying the evanescent decay.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u0 : numpy.ndarray</span>
+<span class="sd">        Complex field at z = 0, shape (N, N).</span>
+<span class="sd">    dxy : float</span>
+<span class="sd">        Grid spacing.</span>
+<span class="sd">    z : float</span>
+<span class="sd">        Propagation distance.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The complex field at distance z.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="n">u0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">d</span><span class="o">=</span><span class="n">dxy</span><span class="p">)</span>
+    <span class="n">FX</span><span class="p">,</span> <span class="n">FY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">fx</span><span class="p">,</span> <span class="n">fx</span><span class="p">)</span>
+    <span class="n">kz</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">LAM</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">FX</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">FY</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">complex</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft2</span><span class="p">(</span><span class="n">u0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">kz</span> <span class="o">*</span> <span class="n">z</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-young-s-experiment-by-fourier-transform">
+<h2>Exercise 1 — Young’s experiment, by Fourier transform<a class="headerlink" href="#exercise-1-young-s-experiment-by-fourier-transform" title="Link to this heading">#</a></h2>
+<p>The 1801 experiment that started it all, run as <a class="reference internal" href="#equation-eq-wo-fraunhofer">Eq. 234</a>
+says: transform the aperture.</p>
+<p><strong>Part a)</strong> Single slit of width <span class="math notranslate nohighlight">\(a = 8\lambda\)</span>. Compute the far
+field with <code class="docutils literal notranslate"><span class="pre">fraunhofer</span></code> and verify it against the closed form
+<span class="math notranslate nohighlight">\(\mathrm{sinc}^2(a_{\rm eff}\sin\theta/\lambda)\)</span> to <code class="docutils literal notranslate"><span class="pre">atol=1e-2</span></code> over
+<span class="math notranslate nohighlight">\(|\sin\theta| &lt; 0.4\)</span> — where <span class="math notranslate nohighlight">\(a_{\rm eff}\)</span> is the width <em>the sampled
+grid actually contains</em> (<span class="math notranslate nohighlight">\(n_{\rm px}\,\Delta x\)</span>, one pixel more than
+<span class="math notranslate nohighlight">\(a\)</span> because both edge samples are inside). Locate the first zero by
+minimizing a cubic interpolant of the pattern
+(<code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize_scalar</span></code>) and verify it sits at
+<span class="math notranslate nohighlight">\(\lambda/a_{\rm eff}\)</span> to <code class="docutils literal notranslate"><span class="pre">rtol=1e-4</span></code> — and within <span class="math notranslate nohighlight">\(1\%\)</span> of the
+textbook <span class="math notranslate nohighlight">\(\lambda/a\)</span>, the gap being exactly the pixelization the
+lesson of <a class="reference internal" href="../00-foundations/floating-point.html"><span class="std std-doc">§0.1</span></a> predicts:
+the FFT diffracts the aperture you <em>sampled</em>, not the one you meant.</p>
+<p><strong>Part b)</strong> Two slits of width <span class="math notranslate nohighlight">\(a\)</span> separated by <span class="math notranslate nohighlight">\(d = 24\lambda\)</span>.
+Verify the pattern is <span class="math notranslate nohighlight">\(\cos^2(\pi d \sin\theta/\lambda)\)</span> fringes
+under the <span class="math notranslate nohighlight">\(\mathrm{sinc}^2\)</span> envelope (<code class="docutils literal notranslate"><span class="pre">atol=1e-2</span></code>). Then measure the
+fringe spacing — carefully, because there is a trap worth a
+validation of its own: the <em>raw</em> intensity maxima are pulled inward
+by the envelope’s slope (a product’s peak is not the factor’s peak),
+by about <span class="math notranslate nohighlight">\(4\%\)</span> for slits this wide. Verify the pull is there (first
+raw peak below <span class="math notranslate nohighlight">\(\lambda/d\)</span>), then divide the envelope out and verify
+the <em>underlying</em> fringes sit at exactly <span class="math notranslate nohighlight">\(\lambda/d\)</span> spacing
+(<code class="docutils literal notranslate"><span class="pre">rtol=1e-3</span></code>). Two numbers — envelope from the slit, fringes from
+the pair — and Young could read <span class="math notranslate nohighlight">\(\lambda\)</span> off a wall.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>single slit: max |I - sinc²| = 2.00e-05
+first zero 0.124031; λ/a_eff = 0.124031, λ/a = 0.125000
+double slit: max |I - cos²·sinc²| = 1.64e-05
+first RAW peak 0.04004 vs λ/d = 0.04167 (envelope pull 3.9%)
+envelope-corrected fringe spacing 0.041687 (λ/d = 0.041667)
+</pre></div>
+</div>
+<figure class="align-default" id="fig-wo-slits">
+<img alt="../../_images/bb912f107a86cd2f09fc49379cb528ce4c02cf508995ac0292e60d11207bf98e.png" src="../../_images/bb912f107a86cd2f09fc49379cb528ce4c02cf508995ac0292e60d11207bf98e.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 273 </span><span class="caption-text">Diffraction as a Fourier transform, verified: the single-slit far field (left, ink) lying on its <span class="math notranslate nohighlight">\(\mathrm{sinc}^2\)</span> closed form (amber, dashed) with the first zero at <span class="math notranslate nohighlight">\(\lambda/a_{\rm eff}\)</span>, and the double-slit pattern (right) as <span class="math notranslate nohighlight">\(\cos^2\)</span> fringes of spacing <span class="math notranslate nohighlight">\(\lambda/d\)</span> riding under the same envelope. One FFT of the aperture replaces the diffraction integral; the <span class="math notranslate nohighlight">\(0.8\%\)</span> shift of the measured zero from the textbook <span class="math notranslate nohighlight">\(\lambda/a\)</span> is the sampled aperture’s extra pixel, not an error in the optics.</span><a class="headerlink" href="#fig-wo-slits" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the FFT of a slit IS the sinc² pattern: Fraunhofer diffraction as a Fourier transform, to a percent everywhere   [max deviation 2.0e-05]
+✓  the first dark fringe sits at λ/a_eff of the SAMPLED aperture — within 1% of the textbook λ/a, the gap being one pixel of aperture width   [got [0.12403078] vs expected [0.12403101] (rtol=0.0001)]
+✓  (and indeed within that 1% of λ/a itself: the FFT diffracts the aperture you sampled, not the one you meant)   [offset 0.7754%]
+✓  two slits give cos² fringes under the same envelope: interference times diffraction, as the transform of a pair demands   [max deviation 1.6e-05]
+✓  the trap, confirmed: the raw intensity maxima are pulled inward of mλ/d by the envelope&#39;s slope — a product&#39;s peak is not the factor&#39;s peak   [first raw peak 0.04004 &lt; λ/d = 0.04167]
+✓  and with the envelope divided out, the fringes sit at exactly λ/d: the number Young read a wavelength from, two centuries ago   [got [0.04168701] vs expected [0.04166667] (rtol=0.001)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-2-the-airy-pattern-and-the-resolution-of-telescopes">
+<h2>Exercise 2 — The Airy pattern and the resolution of telescopes<a class="headerlink" href="#exercise-2-the-airy-pattern-and-the-resolution-of-telescopes" title="Link to this heading">#</a></h2>
+<p>In two dimensions the circular aperture rules, and its transform is
+the Airy pattern — the point-spread function of every round lens and
+mirror ever built.</p>
+<p><strong>Part a)</strong> Transform a circular aperture of diameter <span class="math notranslate nohighlight">\(d = 16\lambda\)</span>
+on the 2D grid (<code class="docutils literal notranslate"><span class="pre">numpy.fft.fft2</span></code>) and verify the axis cut against
+the closed form <span class="math notranslate nohighlight">\([2 J_1(u)/u]^2\)</span>, <span class="math notranslate nohighlight">\(u = \pi d \sin\theta/\lambda\)</span>
+(<code class="docutils literal notranslate"><span class="pre">scipy.special.j1</span></code>, <code class="docutils literal notranslate"><span class="pre">atol=5e-3</span></code>), with the first dark ring at
+<a class="reference internal" href="#equation-eq-wo-airy">Eq. 235</a>’s <span class="math notranslate nohighlight">\(1.22\,\lambda/d\)</span> to <code class="docutils literal notranslate"><span class="pre">rtol=5e-3</span></code>.</p>
+<p><strong>Part b)</strong> Rayleigh’s criterion. Two <em>incoherent</em> point sources
+(their intensities add) separated by exactly <span class="math notranslate nohighlight">\(1.22\,\lambda/d\)</span> —
+one source’s peak on the other’s first dark ring. Verify the summed
+profile still shows two peaks with a central dip of <span class="math notranslate nohighlight">\(73.5\%\)</span> of the
+maximum (<code class="docutils literal notranslate"><span class="pre">rtol=1e-2</span></code>): the conventional edge of “resolved,” and the
+reason every gain in telescope aperture is a gain in what can be
+<em>seen</em>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Airy axis cut vs closed form: max |ΔI| = 8.71e-04
+first dark ring at 0.076141 (1.22 λ/d = 0.076250)
+Rayleigh dip/peak = 0.7346 (classic 0.735)
+</pre></div>
+</div>
+<figure class="align-default" id="fig-wo-airy">
+<img alt="../../_images/f5996e9cc3ee36f3675ef686cb237e1e552f7161c7b582c73a834577c9823ccd.png" src="../../_images/f5996e9cc3ee36f3675ef686cb237e1e552f7161c7b582c73a834577c9823ccd.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 274 </span><span class="caption-text">The circular aperture’s far field. Left: the Airy pattern of a <span class="math notranslate nohighlight">\(d = 16\lambda\)</span> aperture (logarithmic gray scale), the ring structure that every star image in every telescope carries. Right: two incoherent point sources separated by Rayleigh’s <span class="math notranslate nohighlight">\(1.22\,\lambda/d\)</span> — one peak sitting on the other’s first dark ring — summing to a double-humped profile whose central dip reaches <span class="math notranslate nohighlight">\(73.5\%\)</span> of the peaks: barely, conventionally, resolved.</span><a class="headerlink" href="#fig-wo-airy" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the 2D FFT of a circle is the Airy pattern, ring for ring   [max deviation 8.7e-04]
+✓  with the first dark ring at 1.22 λ/d: the diffraction limit of every round aperture   [got [0.07614138] vs expected [0.07625] (rtol=0.005)]
+✓  and two incoherent sources at exactly that separation dip to 73.5% between their peaks: Rayleigh&#39;s edge of resolved   [got [0.73459407] vs expected [0.735] (rtol=0.01)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-3-the-fresnel-number-s-arc-and-the-knife-edge">
+<h2>Exercise 3 — The Fresnel number’s arc, and the knife edge<a class="headerlink" href="#exercise-3-the-fresnel-number-s-arc-and-the-knife-edge" title="Link to this heading">#</a></h2>
+<p>Between the aperture and the far field, <a class="reference internal" href="#equation-eq-wo-angspec">Eq. 236</a> propagates
+exactly, and <a class="reference internal" href="#equation-eq-wo-fresnel">Eq. 237</a> predicts what each distance shows.</p>
+<p><strong>Part a)</strong> Propagate a slab of half-width <span class="math notranslate nohighlight">\(w = 20\lambda\)</span> to the
+distances where <span class="math notranslate nohighlight">\(N_F = 10, 1, 0.1\)</span>. Verify the arc: at <span class="math notranslate nohighlight">\(N_F = 10\)</span> the
+profile is still essentially the geometric shadow (on-axis intensity
+within <span class="math notranslate nohighlight">\(12\%\)</span> of unity, energy overwhelmingly inside the slab); at
+<span class="math notranslate nohighlight">\(N_F = 1\)</span> the on-axis intensity has swung to <span class="math notranslate nohighlight">\(1.588\)</span>
+(<code class="docutils literal notranslate"><span class="pre">rtol=2e-2</span></code>) — brighter <em>behind the middle of the aperture</em> than
+with no aperture at all, pure Fresnel-zone interference; at
+<span class="math notranslate nohighlight">\(N_F = 0.1\)</span> the light has left geometry behind (on-axis below
+<span class="math notranslate nohighlight">\(0.5\)</span>, the pattern relaxing toward Fraunhofer).</p>
+<p><strong>Part b)</strong> The knife edge — diffraction’s cleanest exact numbers.
+Propagate a half-plane screen and verify, at two distances: the
+intensity at the geometric shadow’s edge is exactly <span class="math notranslate nohighlight">\(1/4\)</span> of the
+incident (<code class="docutils literal notranslate"><span class="pre">atol=0.005</span></code>) — half the amplitude, squared; the first
+bright fringe overshoots to <span class="math notranslate nohighlight">\(1.370\)</span> (<code class="docutils literal notranslate"><span class="pre">rtol=1e-2</span></code>); and the deep
+shadow is dark (<span class="math notranslate nohighlight">\(I &lt; 0.05\)</span> three Fresnel scales in). This is the
+fringe pattern visible at the edge of every real shadow, and the
+<span class="math notranslate nohighlight">\(1/4\)</span> requires the evanescent decay of <a class="reference internal" href="#equation-eq-wo-angspec">Eq. 236</a> — clamp
+the square root to zero, as the Setup warns, and this validation is
+the one that catches it.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N_F =   10: z =     40.0, on-axis 0.8902, energy inside 0.989
+N_F =    1: z =    400.0, on-axis 1.5746, energy inside 0.916
+N_F =  0.1: z =   4000.0, on-axis 0.3983, energy inside 0.460
+knife z =    200: edge 0.2484, overshoot 1.3698, deep shadow 2.76e-03
+knife z =   1000: edge 0.2493, overshoot 1.3712, deep shadow 2.69e-03
+</pre></div>
+</div>
+<figure class="align-default" id="fig-wo-fresnel">
+<img alt="../../_images/e050aea33936003d4d8a020a6cebf3b8c6866d60c649c8762cb5cfac4569c243.png" src="../../_images/e050aea33936003d4d8a020a6cebf3b8c6866d60c649c8762cb5cfac4569c243.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 275 </span><span class="caption-text">The Fresnel number’s arc and the knife edge. Left: a <span class="math notranslate nohighlight">\(40\lambda\)</span> slab propagated to <span class="math notranslate nohighlight">\(N_F = 10\)</span> (near-geometric shadow with edge ripples), <span class="math notranslate nohighlight">\(N_F = 1\)</span> (Fresnel-zone interference, on-axis intensity <span class="math notranslate nohighlight">\(1.59\)</span> — brighter than no aperture at all), and <span class="math notranslate nohighlight">\(N_F = 0.1\)</span> (relaxing toward the far field). Right: the knife-edge pattern at two distances, rescaled to the Fresnel length <span class="math notranslate nohighlight">\(\sqrt{\lambda z}\)</span> — the profiles collapse onto one universal curve with exactly <span class="math notranslate nohighlight">\(1/4\)</span> intensity at the geometric edge (dot) and a <span class="math notranslate nohighlight">\(1.37\)</span> first overshoot: the fringes at the edge of every real shadow.</span><a class="headerlink" href="#fig-wo-fresnel" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  at N_F = 10 geometry still rules: on-axis near unity, the energy still inside the slab&#39;s shadow-to-be   [on-axis 0.890, inside fraction 0.989]
+✓  at N_F = 1 the axis is BRIGHTER than with no aperture at all — Fresnel-zone interference, geometry&#39;s first open failure   [got [1.5746487] vs expected [1.588] (rtol=0.02)]
+✓  and at N_F = 0.1 the light has left the aperture&#39;s geometry behind, relaxing toward the Fraunhofer far field   [on-axis 0.398]
+✓  the knife edge shows exactly 1/4 intensity at the geometric shadow&#39;s edge, at both distances: half the amplitude, squared — and the check that catches a clamped evanescent root   [edges [0.2484, 0.2493]]
+✓  with the universal 1.37 first overshoot and a genuinely dark deep shadow: every real shadow&#39;s edge, quantified   [overshoots [1.3698, 1.3712]]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-4-babinet-s-principle-and-the-arago-spot">
+<h2>Exercise 4 — Babinet’s principle and the Arago spot<a class="headerlink" href="#exercise-4-babinet-s-principle-and-the-arago-spot" title="Link to this heading">#</a></h2>
+<p>Two of wave optics’ most counterintuitive theorems, both one-liners
+in the Fourier picture.</p>
+<p><strong>Part a)</strong> Babinet: a screen and its <em>complement</em> (opaque where the
+screen is open, open where it is opaque) diffract <strong>identically</strong>
+everywhere off the forward direction, because their amplitudes sum
+to the unobstructed beam — which lives entirely in the forward spike.
+Verify on the discrete grid at machine precision: off the axis the
+slit’s and the anti-slit’s far-field intensities agree to
+<span class="math notranslate nohighlight">\(10^{-10}\)</span>, while on axis the complement dominates by more than
+<span class="math notranslate nohighlight">\(10^4\)</span> (it transmits almost the whole window).</p>
+<p><strong>Part b)</strong> The Arago spot. In 1818 Poisson computed, from Fresnel’s
+wave memoir, that the exact center of a circular obstacle’s shadow
+should be <em>bright</em> — intended as the theory’s death blow. Arago did
+the experiment; the spot is there; the wave theory won the prize.
+Reproduce the verdict: propagate the field past an opaque disk of
+diameter <span class="math notranslate nohighlight">\(16\lambda\)</span> with <code class="docutils literal notranslate"><span class="pre">propagate2d</span></code> (adding a soft super-Gaussian
+window absorber so the periodic grid edges stay quiet), normalize by
+the identically propagated unobstructed beam, and verify the on-axis
+intensity
+at <span class="math notranslate nohighlight">\(z = 100, 200, 400\lambda\)</span> equals the <em>unobstructed</em> beam’s to
+within <span class="math notranslate nohighlight">\(5\%\)</span> — every rim point is equidistant from the axis, so the
+wavelets arrive in phase, at any distance. The center of the shadow
+is as bright as no shadow at all.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Babinet off-axis relative gap: 0.00e+00
+axis ratio complement/slit: 4.140e+04
+Arago z =   100: I_axis / I_unobstructed = 0.9945
+Arago z =   200: I_axis / I_unobstructed = 1.0005
+Arago z =   400: I_axis / I_unobstructed = 1.0061
+</pre></div>
+</div>
+<figure class="align-default" id="fig-wo-arago">
+<img alt="../../_images/c36ac58255229ad9c96de376103c1cada74262302856692f59dd97323f7d0ae7.png" src="../../_images/c36ac58255229ad9c96de376103c1cada74262302856692f59dd97323f7d0ae7.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 276 </span><span class="caption-text">The Arago spot, the 1818 verdict for the wave theory: the intensity <span class="math notranslate nohighlight">\(200\lambda\)</span> behind an opaque disk of diameter <span class="math notranslate nohighlight">\(16\lambda\)</span> (left, logarithmic scale) shows a bright point at the exact center of the geometric shadow, where every rim wavelet arrives in phase; the axis cut (right) puts it at the unobstructed beam’s intensity to within a few percent, inside a shadow that is otherwise dark. Poisson derived it as an absurdity, Arago observed it, and the corpuscular theory never recovered.</span><a class="headerlink" href="#fig-wo-arago" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Babinet, at machine precision: screen and anti-screen diffract identically off-axis, differing only in the forward spike that carries the beam   [off-axis gap 0.0e+00, axis ratio 4.1e+04]
+✓  and Poisson&#39;s absurdity is real at all three distances: the center of the disk&#39;s shadow is as bright as no disk at all — the Arago spot, the wave theory&#39;s 1818 verdict   [max|Δ| = 0.00605548 (rtol=0.05, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-5-the-lens-as-an-analog-fourier-transformer">
+<h2>Exercise 5 — The lens as an analog Fourier transformer<a class="headerlink" href="#exercise-5-the-lens-as-an-analog-fourier-transformer" title="Link to this heading">#</a></h2>
+<p>A converging lens placed one focal length from an object produces,
+one focal length behind it, the object’s exact Fourier transform —
+in amplitude and phase, in analog, at the speed of light
+<span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id74" title="Joseph W. Goodman. Introduction to Fourier Optics. Roberts &amp; Company, 3 edition, 2005.">Goo05</a>]</span>. Put a mask in that focal plane and a second
+lens after it (the “<span class="math notranslate nohighlight">\(4f\)</span> system”), and you are editing the object’s
+spectrum by hand: optical information processing, decades before
+electronic computers could hold an image.</p>
+<p><strong>Part a)</strong> Simulate the <span class="math notranslate nohighlight">\(4f\)</span> system on a bright bar
+(<span class="math notranslate nohighlight">\(120\lambda \times 60\lambda\)</span>): forward FFT to the focal plane,
+apply a mask, inverse FFT to the image plane. Verify the exact
+identities the optics inherits from
+<a class="reference internal" href="../00-foundations/fft.html"><span class="std std-doc">§0.6</span></a>: an open mask returns the object
+to <span class="math notranslate nohighlight">\(10^{-12}\)</span>; the spectrum’s energy splits exactly (Parseval) into
+the low-pass and high-pass masks’ shares; a pinhole mask passing
+only the DC term produces a perfectly uniform image at the object’s
+mean.</p>
+<p><strong>Part b)</strong> Filter. Verify the low-pass image (frequencies below
+<span class="math notranslate nohighlight">\(0.02/\lambda\)</span>) has its sharpest gradient reduced more than
+<span class="math notranslate nohighlight">\(5\times\)</span> — edges are high-frequency, so removing high frequencies
+<em>blurs</em> — while the high-pass image has exactly zero mean (its DC
+is in the other mask) and lights up along the object’s edges. This
+is how a phase-contrast microscope, a spatial filter on a laser
+bench, and every “sharpen” button ever shipped all work: they are
+masks in a Fourier plane.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>open mask: max |image - object| = 6.67e-16
+Parseval split gap: 2.54e-16
+DC-only: max |image - mean| = 0.00e+00
+gradient: object 0.707, low-pass 0.0107 (ratio 66.0); high-pass mean 1.9e-19
+</pre></div>
+</div>
+<figure class="align-default" id="fig-wo-4f">
+<img alt="../../_images/6d51eb2c823b7c9ba3e57decea8e203412ca4d0d72716c27b084852664460831.png" src="../../_images/6d51eb2c823b7c9ba3e57decea8e203412ca4d0d72716c27b084852664460831.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 277 </span><span class="caption-text">The <span class="math notranslate nohighlight">\(4f\)</span> optical Fourier processor on a bright bar: the object (far left), its focal-plane spectrum (log scale — the separable <span class="math notranslate nohighlight">\(\mathrm{sinc}\)</span> structure of a rectangle), the low-pass image (edges blurred: their high frequencies were physically blocked in the focal plane), and the high-pass image (only the edges survive, and the mean is exactly zero). Every spatial filter, phase-contrast microscope, and sharpening algorithm is a mask in this plane.</span><a class="headerlink" href="#fig-wo-4f" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the 4f system with an open mask returns the object exactly, and a DC pinhole returns its uniform mean: the lens really computes the transform of §0.6   [open 6.7e-16, DC 0.0e+00]
+✓  the focal-plane masks split the object&#39;s energy exactly (Parseval): nothing is lost between the optical and the numerical transform   [split gap 2.5e-16]
+✓  blocking high frequencies blurs the sharpest edge more than fivefold, while the high-pass image carries exactly zero mean: edges LIVE at high spatial frequency   [gradient ratio 66.0, hp mean 1.9e-19]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>One FFT reproduced the <span class="math notranslate nohighlight">\(\mathrm{sinc}^2\)</span> single-slit pattern to a
+percent with its first zero at <span class="math notranslate nohighlight">\(\lambda/a_{\rm eff}\)</span> to <span class="math notranslate nohighlight">\(10^{-4}\)</span>
+(and within <span class="math notranslate nohighlight">\(1\%\)</span> of the textbook <span class="math notranslate nohighlight">\(\lambda/a\)</span> — the gap being one
+pixel of sampled aperture), and Young’s <span class="math notranslate nohighlight">\(\cos^2\)</span> fringes at
+spacing <span class="math notranslate nohighlight">\(\lambda/d\)</span>.</p></li>
+<li><p>The circular aperture’s transform was the Airy pattern with its
+dark ring at <span class="math notranslate nohighlight">\(1.22\,\lambda/d\)</span>, and two incoherent sources at that
+separation dipped to <span class="math notranslate nohighlight">\(73.5\%\)</span>: Rayleigh’s criterion, measured.</p></li>
+<li><p>The Fresnel number walked one slab from geometric shadow
+(<span class="math notranslate nohighlight">\(N_F = 10\)</span>) through zone interference (<span class="math notranslate nohighlight">\(N_F = 1\)</span>, on-axis <span class="math notranslate nohighlight">\(1.59\)</span>)
+toward the far field (<span class="math notranslate nohighlight">\(N_F = 0.1\)</span>); the knife edge showed exactly
+<span class="math notranslate nohighlight">\(1/4\)</span> at the geometric edge and the universal <span class="math notranslate nohighlight">\(1.37\)</span> overshoot —
+after the evanescent square root was implemented as the complex
+root it is.</p></li>
+<li><p>Babinet held at machine precision off-axis, and the Arago spot —
+Poisson’s intended absurdity — sat at the unobstructed intensity
+within <span class="math notranslate nohighlight">\(5\%\)</span> at all three distances.</p></li>
+<li><p>The <span class="math notranslate nohighlight">\(4f\)</span> system computed exact transforms (open mask <span class="math notranslate nohighlight">\(10^{-16}\)</span>,
+Parseval split exact), and focal-plane masks blurred or extracted
+edges: the lens as the analog ancestor of
+<a class="reference internal" href="../00-foundations/fft.html"><span class="std std-doc">§0.6</span></a>.</p></li>
+</ul>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Coherence.</strong> Everything here assumed perfectly coherent light;
+real sources are partially coherent, and fringe <em>visibility</em>
+measures it — the van Cittert–Zernike theorem turns that into
+stellar interferometry, sizing stars from fringe contrast
+<span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id73" title="Max Born and Emil Wolf. Principles of Optics: Electromagnetic Theory of Propagation, Interference and Diffraction of Light. Cambridge University Press, 7 edition, 1999. doi:10.1017/CBO9781139644181.">BW99</a>]</span>.</p></li>
+<li><p><strong>Holography.</strong> Record the focal- or image-plane <em>phase</em> (by
+interfering with a reference beam) and the full field can be
+reconstructed: the <span class="math notranslate nohighlight">\(4f\)</span> system’s masks generalized to recorded
+wavefronts.</p></li>
+<li><p><strong>Adaptive optics.</strong> Atmospheric turbulence corrugates the phase
+that <a class="reference internal" href="#equation-eq-wo-angspec">Eq. 236</a> propagates; deformable mirrors flatten it
+in real time, which is why ground telescopes reach the
+<span class="math notranslate nohighlight">\(1.22\,\lambda/d\)</span> limit Exercise 2 set.</p></li>
+<li><p><strong>The quantum handshake.</strong> The angular spectrum is
+<a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a>’s
+free propagator and the evanescent tail is
+<a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html"><span class="std std-doc">§6.13</span></a>’s
+tunneling wave; single photons sent one at a time through
+Exercise 1’s two slits still build the <span class="math notranslate nohighlight">\(\cos^2\)</span> pattern — the
+experiment that opens quantum mechanics, with this notebook’s
+classical pattern as its envelope.</p></li>
+</ul>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<div class="docutils container" id="id5">
+<div role="list" class="citation-list">
+<div class="citation" id="id73" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>BW99<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id4">2</a>)</span>
+<p>Max Born and Emil Wolf. <em>Principles of Optics: Electromagnetic Theory of Propagation, Interference and Diffraction of Light</em>. Cambridge University Press, 7 edition, 1999. <a class="reference external" href="https://doi.org/10.1017/CBO9781139644181">doi:10.1017/CBO9781139644181</a>.</p>
+</div>
+<div class="citation" id="id74" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Goo05<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id3">2</a>)</span>
+<p>Joseph W. Goodman. <em>Introduction to Fourier Optics</em>. Roberts &amp; Company, 3 edition, 2005.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/03-electrodynamics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="fields-in-matter.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../04-special-relativity/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Volume IV — Special Relativity</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-young-s-experiment-by-fourier-transform">Exercise 1 — Young’s experiment, by Fourier transform</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-airy-pattern-and-the-resolution-of-telescopes">Exercise 2 — The Airy pattern and the resolution of telescopes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-fresnel-number-s-arc-and-the-knife-edge">Exercise 3 — The Fresnel number’s arc, and the knife edge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-babinet-s-principle-and-the-arago-spot">Exercise 4 — Babinet’s principle and the Arago spot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-lens-as-an-analog-fourier-transformer">Exercise 5 — The lens as an analog Fourier transformer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

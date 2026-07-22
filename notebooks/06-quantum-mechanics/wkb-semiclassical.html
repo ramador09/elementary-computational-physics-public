@@ -1,0 +1,1743 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="6.23 The WKB Approximation and the Semiclassical Limit" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/wkb-semiclassical.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Almost nothing is exactly solvable, and this movement collects the three great ways around that fact. Perturbation theory ( §6.21) expands..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Almost nothing is exactly solvable, and this movement collects the three great ways around that fact. Perturbation theory ( §6.21) expands..." />
+
+    <title>6.23 The WKB Approximation and the Semiclassical Limit &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/06-quantum-mechanics/wkb-semiclassical';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/wkb-semiclassical.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule" href="time-dependent-perturbation.html" />
+    <link rel="prev" title="6.22 The Variational Method and Variational Monte Carlo" href="variational-method.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VI — Quantum Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/06-quantum-mechanics/wkb-semiclassical.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/06-quantum-mechanics/wkb-semiclassical.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/06-quantum-mechanics/wkb-semiclassical.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/06-quantum-mechanics/wkb-semiclassical.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>6.23 The WKB Approximation and the Semiclassical Limit</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-wkb-ansatz-and-the-expansion">The WKB ansatz and the ℏ-expansion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validity-and-the-turning-points">Validity and the turning points</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bohrsommerfeld-quantization">Bohr–Sommerfeld quantization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wkb-tunnelling-and-the-gamow-factor">WKB tunnelling and the Gamow factor</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-semiclassical-wavefunction">Exercise 1 — The semiclassical wavefunction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-amplitude-and-the-classical-distribution">Exercise 2 — The amplitude and the classical distribution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-turning-points-and-the-connection-formulas">Exercise 3 — Turning points and the connection formulas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-bohrsommerfeld-the-oscillator-exact">Exercise 4 — Bohr–Sommerfeld: the oscillator (exact)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-bohrsommerfeld-for-a-general-well">Exercise 5 — Bohr–Sommerfeld for a general well</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-wkb-tunnelling-vs-exact-transmission">Exercise 6 — WKB tunnelling vs exact transmission</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-alpha-decay-and-the-geigernuttall-law-student">Exercise 7 — Alpha decay and the Geiger–Nuttall law <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-synthesis-the-seam-between-two-mechanics">Exercise 8 — (Synthesis) The seam between two mechanics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-wkb-approximation-and-the-semiclassical-limit">
+<h1>6.23 The WKB Approximation and the Semiclassical Limit<a class="headerlink" href="#the-wkb-approximation-and-the-semiclassical-limit" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VI — Quantum Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;6.23
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Where the wave remembers it was a particle. When the wavelength is short, the wavefunction&#x27;s phase is just the classical action, and quantum mechanics folds back toward the mechanics of Volume II. From this single idea come the semiclassical wavefunction, the old quantization rule that counts wavelengths around an orbit, and a formula for tunnelling through a barrier of any shape — the one Gamow used to explain radioactive decay.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;175–215 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Almost nothing is exactly solvable, and this movement collects the three great
+ways around that fact. Perturbation theory (<a class="reference internal" href="perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a>) expands around a solvable
+Hamiltonian; the variational method (<a class="reference internal" href="variational-method.html"><span class="std std-doc">§6.22</span></a>) guesses a trial state and bounds the
+energy from above. The <strong>WKB approximation</strong> is the third and most geometric: it
+expands in <span class="math notranslate nohighlight">\(\hbar\)</span> itself. When a particle’s de Broglie wavelength is short
+compared with the scale over which the potential varies, quantum mechanics comes
+to <em>resemble</em> classical mechanics, and WKB makes the resemblance precise.</p>
+<p>The idea is the one Volume II’s Hamilton–Jacobi notebook (<a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html"><span class="std std-doc">§2.10</span></a>) set up. Write the
+wavefunction as <span class="math notranslate nohighlight">\(\psi\sim e^{iS/\hbar}\)</span> and expand the phase <span class="math notranslate nohighlight">\(S\)</span> in powers of
+<span class="math notranslate nohighlight">\(\hbar\)</span>: the leading term reproduces the classical <strong>action</strong> <span class="math notranslate nohighlight">\(\int p\,\mathrm
+dx\)</span> and the Hamilton–Jacobi equation, and the next term fixes the amplitude as
+<span class="math notranslate nohighlight">\(1/\sqrt p\)</span>, so the probability density <span class="math notranslate nohighlight">\(|\psi|^2\sim1/p\sim1/\text{velocity}\)</span> is
+exactly the classical position distribution of <a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a> — a particle is most likely
+found where it moves slowest. The approximation is good where the wavelength
+varies slowly and <strong>fails at the classical turning points</strong>, where <span class="math notranslate nohighlight">\(p\to0\)</span> and
+the wavelength diverges; there the exact solution is an Airy function, and the
+<strong>connection formulas</strong> built from it stitch the oscillating and decaying WKB
+solutions together. Their <span class="math notranslate nohighlight">\(\pi/4\)</span> phase shifts produce the <strong>Bohr–Sommerfeld
+quantization</strong> <span class="math notranslate nohighlight">\(\oint p\,\mathrm dx=(n+\tfrac12)h\)</span> — the old quantum rule of
+<a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html"><span class="std std-doc">§2.10</span></a>, now with the missing <span class="math notranslate nohighlight">\(\tfrac12\)</span> — exact for the harmonic oscillator and
+asymptotically exact for any well. In the forbidden region the same machinery
+gives the <strong>WKB tunnelling</strong> exponent <span class="math notranslate nohighlight">\(T\sim e^{-(2/\hbar)\int|p|\,\mathrm dx}\)</span>,
+the barrier-of-any-shape generalization of the rectangular result from <a class="reference internal" href="scattering-tunneling.html"><span class="std std-doc">§6.13</span></a>, and the
+basis of Gamow’s theory of alpha decay.</p>
+<p>Every result here is checked against something exact: the WKB wavefunction and
+spectra against the grid diagonalization of <a class="reference internal" href="schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a> (<code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code>),
+and the tunnelling exponent against the exact transmission of a smooth barrier.
+We will be honest about where WKB breaks: the turning points, the ground-state
+error, and the tunnelling prefactor it gets wrong at leading order.</p>
+<blockquote>
+<div><p><strong>Method specificity.</strong> Each exercise names the exact operation it uses:
+<code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> for the action integrals <span class="math notranslate nohighlight">\(\oint p\,\mathrm dx\)</span> and
+<span class="math notranslate nohighlight">\(\int|p|\,\mathrm dx\)</span>; <code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code> to solve the Bohr–Sommerfeld
+condition for <span class="math notranslate nohighlight">\(E_n\)</span>; and <code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code> for the exact
+benchmark spectra. This is the anti-drift discipline of Volume VI.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>How to read the checks.</strong> Each exercise ends with a validation comparing a
+computed result to an expected fact. A ✗ is a prompt to locate a discrepancy —
+a real error, a convention, or too tight a tolerance — not a verdict that the
+physics is wrong. Passing is strong evidence of correctness, not proof.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-wkb-ansatz-and-the-expansion">
+<h3>The WKB ansatz and the ℏ-expansion<a class="headerlink" href="#the-wkb-ansatz-and-the-expansion" title="Link to this heading">#</a></h3>
+<p>Write the stationary wavefunction as a single exponential, <span class="math notranslate nohighlight">\(\psi(x)=e^{iS(x)/\hbar}\)</span>,
+and substitute into the time-independent Schrödinger equation <span class="math notranslate nohighlight">\(-\frac{\hbar^2}{2m}
+\psi''+V\psi=E\psi\)</span>. With <span class="math notranslate nohighlight">\(p(x)=\sqrt{2m[E-V(x)]}\)</span> this gives <span class="math notranslate nohighlight">\((S')^2-i\hbar
+S''=p^2\)</span>. Expanding <span class="math notranslate nohighlight">\(S=S_0+\hbar S_1+\cdots\)</span> in powers of <span class="math notranslate nohighlight">\(\hbar\)</span> and matching
+orders,</p>
+<div class="math notranslate nohighlight" id="equation-eq-wkb-ansatz">
+<span class="eqno">(509)<a class="headerlink" href="#equation-eq-wkb-ansatz" title="Link to this equation">#</a></span>\[(S_0')^2 = p^2 \ \Rightarrow\ S_0 = \pm\!\int p\,\mathrm dx , \qquad
+2S_0'S_1' - i S_0'' = 0 \ \Rightarrow\ S_1 = \tfrac{i}{2}\ln p .\]</div>
+<p>The leading term is the <strong>classical action</strong> — the Hamilton–Jacobi equation of
+<a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html"><span class="std std-doc">§2.10</span></a>, so classical mechanics is the <span class="math notranslate nohighlight">\(\hbar\to0\)</span> limit — and the next term makes
+the amplitude <span class="math notranslate nohighlight">\(e^{iS_1}=1/\sqrt p\)</span>. In the classically <strong>allowed</strong> region (<span class="math notranslate nohighlight">\(p\)</span>
+real) the WKB wavefunction is therefore</p>
+<div class="math notranslate nohighlight" id="equation-eq-wkb-amplitude">
+<span class="eqno">(510)<a class="headerlink" href="#equation-eq-wkb-amplitude" title="Link to this equation">#</a></span>\[\psi(x) \approx \frac{1}{\sqrt{p(x)}}\exp\!\left(\pm\frac{i}{\hbar}\!\int
+p\,\mathrm dx\right) , \qquad
+\psi(x) \approx \frac{1}{\sqrt{|p(x)|}}\exp\!\left(\pm\frac{1}{\hbar}\!\int
+|p|\,\mathrm dx\right)\]</div>
+<p>in the <strong>forbidden</strong> region (<span class="math notranslate nohighlight">\(p\)</span> imaginary), where it grows or decays. The
+density <span class="math notranslate nohighlight">\(|\psi|^2\sim1/p\sim1/v\)</span> is the classical position distribution of <a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a>:
+the amplitude <span class="math notranslate nohighlight">\(1/\sqrt p\)</span> is just the statement that the probability flux
+<span class="math notranslate nohighlight">\(|\psi|^2 v\)</span> is conserved.</p>
+</section>
+<section id="validity-and-the-turning-points">
+<h3>Validity and the turning points<a class="headerlink" href="#validity-and-the-turning-points" title="Link to this heading">#</a></h3>
+<p>WKB holds when the wavelength <span class="math notranslate nohighlight">\(\lambda=2\pi\hbar/p\)</span> varies slowly, <span class="math notranslate nohighlight">\(|\mathrm
+d\lambda/\mathrm dx|\ll1\)</span> — the potential changes little over a wavelength. It
+<strong>fails at the classical turning points</strong> where <span class="math notranslate nohighlight">\(E=V\)</span>, <span class="math notranslate nohighlight">\(p\to0\)</span>, and <span class="math notranslate nohighlight">\(\lambda\to
+\infty\)</span>: precisely where the density <span class="math notranslate nohighlight">\(1/p\)</span> blows up.</p>
+<div class="math notranslate nohighlight" id="equation-eq-wkb-validity">
+<span class="eqno">(511)<a class="headerlink" href="#equation-eq-wkb-validity" title="Link to this equation">#</a></span>\[\left|\frac{\mathrm d\lambda}{\mathrm dx}\right|\ll 1
+\quad\text{everywhere except near } E=V(x),\ \text{where } p\to0 .\]</div>
+<p>Near a turning point the potential is approximately linear, and the exact
+solution of the Schrödinger equation is an <strong>Airy function</strong> — oscillatory on the
+allowed side, exponentially decaying on the forbidden side. Matching WKB onto the
+Airy solution gives the <strong>connection formulas</strong>, which carry a <span class="math notranslate nohighlight">\(\pi/4\)</span> phase
+shift across each turning point. We state their result and show the Airy behavior
+rather than grinding through the asymptotics.</p>
+</section>
+<section id="bohrsommerfeld-quantization">
+<h3>Bohr–Sommerfeld quantization<a class="headerlink" href="#bohrsommerfeld-quantization" title="Link to this heading">#</a></h3>
+<p>For a particle bound between two turning points <span class="math notranslate nohighlight">\(x_1&lt;x_2\)</span>, requiring the WKB
+solution to match consistently through <strong>both</strong> turning points — each
+contributing a <span class="math notranslate nohighlight">\(\pi/4\)</span> — quantizes the enclosed action:</p>
+<div class="math notranslate nohighlight" id="equation-eq-bohr-sommerfeld">
+<span class="eqno">(512)<a class="headerlink" href="#equation-eq-bohr-sommerfeld" title="Link to this equation">#</a></span>\[\oint p\,\mathrm dx = 2\!\int_{x_1}^{x_2}\! p\,\mathrm dx =
+\left(n+\tfrac12\right)h , \qquad n=0,1,2,\dots\]</div>
+<p>The <span class="math notranslate nohighlight">\(\tfrac12\)</span> is the turning-point correction the old quantum theory (<a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html"><span class="std std-doc">§2.10</span></a>, which
+used <span class="math notranslate nohighlight">\(\oint p\,\mathrm dx=nh\)</span>) lacked. It is <strong>exact</strong> for the harmonic
+oscillator, giving <span class="math notranslate nohighlight">\(E_n=(n+\tfrac12)\hbar\omega\)</span>, and <strong>asymptotically exact</strong> for
+a general well: the error is largest for the ground state and shrinks as <span class="math notranslate nohighlight">\(n\)</span> grows
+(the semiclassical limit). We solve <a class="reference internal" href="#equation-eq-bohr-sommerfeld">Eq. 512</a> for <span class="math notranslate nohighlight">\(E_n\)</span> with
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code> and compare to <code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code>.</p>
+</section>
+<section id="wkb-tunnelling-and-the-gamow-factor">
+<h3>WKB tunnelling and the Gamow factor<a class="headerlink" href="#wkb-tunnelling-and-the-gamow-factor" title="Link to this heading">#</a></h3>
+<p>In a classically forbidden region under a barrier the WKB solution decays as
+<span class="math notranslate nohighlight">\(e^{-\frac1\hbar\int|p|\,\mathrm dx}\)</span>, so the transmission probability is</p>
+<div class="math notranslate nohighlight" id="equation-eq-wkb-tunneling">
+<span class="eqno">(513)<a class="headerlink" href="#equation-eq-wkb-tunneling" title="Link to this equation">#</a></span>\[T \approx \exp\!\left(-\frac{2}{\hbar}\int_{x_1}^{x_2}\!|p|\,\mathrm dx\right)
+= \exp\!\left(-\frac{2}{\hbar}\int_{x_1}^{x_2}\!\sqrt{2m[V(x)-E]}\;\mathrm
+dx\right) ,\]</div>
+<p>the tunnelling exponent for a barrier of <strong>any</strong> shape (the constant-barrier
+<span class="math notranslate nohighlight">\(e^{-2\kappa a}\)</span> of <a class="reference internal" href="scattering-tunneling.html"><span class="std std-doc">§6.13</span></a> is the special case). It captures the <strong>dominant exponential
+suppression</strong>; the prefactor differs at leading order, and we say so honestly.
+This is the <strong>Gamow factor</strong> of alpha decay: because the exponent is enormous and
+exquisitely sensitive to energy, nuclear half-lives span nanoseconds to billions
+of years — the <strong>Geiger–Nuttall law</strong>, <span class="math notranslate nohighlight">\(\log(\text{half-life})\propto1/\sqrt E\)</span>.</p>
+<ul class="simple">
+<li><p>Reference: Griffiths <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id20" title="David J. Griffiths and Darrell F. Schroeter. Introduction to Quantum Mechanics. Cambridge University Press, 3 edition, 2018.">GS18</a>]</span> (the WKB approximation, connection
+formulas, Bohr–Sommerfeld, tunnelling) and Nolting <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id15" title="Wolfgang Nolting. Theoretical Physics 7: Quantum Mechanics — Methods and Applications. Springer, 2017.">Nol17</a>]</span>; cross-
+reference Volume II <a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html"><span class="std std-doc">§2.10</span></a> (Hamilton–Jacobi, the classical action, action-angle
+and the old quantization), <a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a> (the classical position distribution, the
+correspondence principle), <a class="reference internal" href="scattering-tunneling.html"><span class="std std-doc">§6.13</span></a> (tunnelling, the constant-barrier limit), <a class="reference internal" href="schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a>
+(the exact benchmark spectra), <a class="reference internal" href="perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a>/<a class="reference internal" href="variational-method.html"><span class="std std-doc">§6.22</span></a> (the other two approximation methods),
+and forward to <a class="reference internal" href="time-dependent-perturbation.html"><span class="std std-doc">§6.24</span></a> (time-dependent perturbation theory).</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>We work in units <span class="math notranslate nohighlight">\(\hbar=m=1\)</span> throughout (and, for the oscillator, <span class="math notranslate nohighlight">\(\omega=1\)</span>), so
+an oscillator energy is measured in units of <span class="math notranslate nohighlight">\(\hbar\omega\)</span>. The reusable core,
+each naming the operation it leans on:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">momentum(x,</span> <span class="pre">E,</span> <span class="pre">V)</span></code>: the classical momentum <span class="math notranslate nohighlight">\(p=\sqrt{2m[E-V]}\)</span> (clipped to zero
+in the forbidden region).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">classical_turning_points(E,</span> <span class="pre">V,</span> <span class="pre">search)</span></code>: the points <span class="math notranslate nohighlight">\(V(x)=E\)</span> where <span class="math notranslate nohighlight">\(p\to0\)</span>, by
+sign changes plus <code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">exact_spectrum(V,</span> <span class="pre">xmax,</span> <span class="pre">N,</span> <span class="pre">nlev)</span></code>: the benchmark eigenvalues of the <a class="reference internal" href="schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a>
+finite-difference Hamiltonian, via <code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bohr_sommerfeld_energy(n,</span> <span class="pre">V,</span> <span class="pre">search,</span> <span class="pre">bracket)</span></code>: solves <span class="math notranslate nohighlight">\(\int_{x_1}^{x_2}
+p\,\mathrm dx=(n+\tfrac12)\pi\hbar\)</span> for <span class="math notranslate nohighlight">\(E_n\)</span> (<code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> inside
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wkb_wavefunction(x,</span> <span class="pre">E,</span> <span class="pre">V)</span></code>: the allowed-region form <span class="math notranslate nohighlight">\(\frac1{\sqrt p}\cos\!\big(
+\frac1\hbar\!\int_{x_1}^{x}p\,\mathrm dx-\frac\pi4\big)\)</span> from
+<a class="reference internal" href="#equation-eq-wkb-amplitude">Eq. 510</a> with its connection-formula phase.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wkb_tunneling(E,</span> <span class="pre">V,</span> <span class="pre">search)</span></code>: the exponent <span class="math notranslate nohighlight">\(e^{-(2/\hbar)\int|p|\,\mathrm dx}\)</span>
+of <a class="reference internal" href="#equation-eq-wkb-tunneling">Eq. 513</a> between the barrier’s turning points.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">quad</span><span class="p">,</span> <span class="n">cumulative_trapezoid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">brentq</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eigh_tridiagonal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">airy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">HBAR</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">MASS</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">momentum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">MASS</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Classical momentum $p(x)=\sqrt{2m[E-V(x)]}$, clipped to zero where forbidden.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : float or numpy.ndarray</span>
+<span class="sd">        Position(s).</span>
+<span class="sd">    E : float</span>
+<span class="sd">        Energy.</span>
+<span class="sd">    V : callable</span>
+<span class="sd">        Potential ``V(x)``.</span>
+<span class="sd">    m : float, optional</span>
+<span class="sd">        Mass.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float or numpy.ndarray</span>
+<span class="sd">        The momentum, zero in the classically forbidden region.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">m</span> <span class="o">*</span> <span class="p">(</span><span class="n">E</span> <span class="o">-</span> <span class="n">V</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">classical_turning_points</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">search</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">4001</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Turning points $V(x)=E$ via sign changes + ``scipy.optimize.brentq``.</span>
+
+<span class="sd">    These are where $p\to0$ and WKB {eq}`eq-wkb-validity` breaks down.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    E : float</span>
+<span class="sd">        Energy.</span>
+<span class="sd">    V : callable</span>
+<span class="sd">        Potential.</span>
+<span class="sd">    search : tuple of float</span>
+<span class="sd">        ``(xmin, xmax)`` window to scan.</span>
+<span class="sd">    n : int, optional</span>
+<span class="sd">        Scan resolution.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The sorted turning points.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">search</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">search</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">V</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">-</span> <span class="n">E</span>
+    <span class="n">roots</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">roots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">roots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">brentq</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">V</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">E</span><span class="p">,</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">roots</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">exact_spectrum</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">nlev</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">MASS</span><span class="p">,</span> <span class="n">hbar</span><span class="o">=</span><span class="n">HBAR</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Benchmark spectrum of the §6.10 finite-difference Hamiltonian.</span>
+
+<span class="sd">    Builds the $(1,-2,1)/dx^2$ kinetic stencil plus $\mathrm{diag}\,V$ and</span>
+<span class="sd">    diagonalizes with ``scipy.linalg.eigh_tridiagonal`` (the specialized</span>
+<span class="sd">    tridiagonal solver of §6.10).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    V : callable</span>
+<span class="sd">        Potential.</span>
+<span class="sd">    xmax : float</span>
+<span class="sd">        Half-width of the symmetric grid $[-x_\max, x_\max]$.</span>
+<span class="sd">    N : int, optional</span>
+<span class="sd">        Grid points.</span>
+<span class="sd">    nlev : int, optional</span>
+<span class="sd">        Number of lowest levels to return.</span>
+<span class="sd">    m, hbar : float, optional</span>
+<span class="sd">        Mass and $\hbar$.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The ``nlev`` lowest eigenvalues.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">xmax</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">diag</span> <span class="o">=</span> <span class="n">hbar</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">V</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">offdiag</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">hbar</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span> <span class="o">*</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">eigh_tridiagonal</span><span class="p">(</span>
+        <span class="n">diag</span><span class="p">,</span> <span class="n">offdiag</span><span class="p">,</span> <span class="n">eigvals_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="n">select_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nlev</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">bohr_sommerfeld_energy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">search</span><span class="p">,</span> <span class="n">bracket</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">MASS</span><span class="p">,</span> <span class="n">hbar</span><span class="o">=</span><span class="n">HBAR</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Solve Bohr–Sommerfeld $\int_{x_1}^{x_2}p\,\mathrm dx=(n+\tfrac12)\pi\hbar$ for $E_n$.</span>
+
+<span class="sd">    The action integral is `scipy.integrate.quad`; the root is found with</span>
+<span class="sd">    `scipy.optimize.brentq`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : int</span>
+<span class="sd">        Quantum number.</span>
+<span class="sd">    V : callable</span>
+<span class="sd">        Potential.</span>
+<span class="sd">    search : tuple of float</span>
+<span class="sd">        Window for locating turning points.</span>
+<span class="sd">    bracket : tuple of float</span>
+<span class="sd">        ``(Elo, Ehi)`` energy bracket for the root.</span>
+<span class="sd">    m, hbar : float, optional</span>
+<span class="sd">        Mass and $\hbar$.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The Bohr–Sommerfeld energy $E_n$.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">condition</span><span class="p">(</span><span class="n">E</span><span class="p">):</span>
+        <span class="n">tp</span> <span class="o">=</span> <span class="n">classical_turning_points</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">search</span><span class="p">)</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">tp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">action</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">momentum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">action</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">hbar</span>
+
+    <span class="k">return</span> <span class="n">brentq</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="o">*</span><span class="n">bracket</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">wkb_wavefunction</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">MASS</span><span class="p">,</span> <span class="n">hbar</span><span class="o">=</span><span class="n">HBAR</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;WKB wavefunction $\frac1{\sqrt p}\cos(\frac1\hbar\int_{x_1}^x p\,dx-\frac\pi4)$.</span>
+
+<span class="sd">    The allowed-region form {eq}`eq-wkb-amplitude` with the connection-formula</span>
+<span class="sd">    $-\pi/4$ measured from the left turning point $x_1$; ``nan`` outside.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : numpy.ndarray</span>
+<span class="sd">        Sorted grid.</span>
+<span class="sd">    E : float</span>
+<span class="sd">        Energy.</span>
+<span class="sd">    V : callable</span>
+<span class="sd">        Potential.</span>
+<span class="sd">    m, hbar : float, optional</span>
+<span class="sd">        Mass and $\hbar$.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The (unnormalized) WKB wavefunction, ``nan`` in the forbidden region.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">momentum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="n">allowed</span> <span class="o">=</span> <span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">allowed</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># left turning point on this grid</span>
+    <span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">m_ok</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="n">x1</span>
+    <span class="n">phase</span><span class="p">[</span><span class="n">m_ok</span><span class="p">]</span> <span class="o">=</span> <span class="n">cumulative_trapezoid</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">m_ok</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">m_ok</span><span class="p">],</span> <span class="n">initial</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">hbar</span>
+    <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phase</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">allowed</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+    <span class="n">psi</span><span class="p">[</span><span class="o">~</span><span class="n">allowed</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">return</span> <span class="n">psi</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">wkb_tunneling</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">search</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">MASS</span><span class="p">,</span> <span class="n">hbar</span><span class="o">=</span><span class="n">HBAR</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;WKB transmission $T=e^{-(2/\hbar)\int_{x_1}^{x_2}|p|\,dx}$ {eq}`eq-wkb-tunneling`.</span>
+
+<span class="sd">    The barrier integral $\int\sqrt{2m[V-E]}\,dx$ between the turning points is</span>
+<span class="sd">    `scipy.integrate.quad`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    E : float</span>
+<span class="sd">        Energy (below the barrier top).</span>
+<span class="sd">    V : callable</span>
+<span class="sd">        Barrier potential.</span>
+<span class="sd">    search : tuple of float</span>
+<span class="sd">        Window for the turning points.</span>
+<span class="sd">    m, hbar : float, optional</span>
+<span class="sd">        Mass and $\hbar$.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The WKB transmission probability.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tp</span> <span class="o">=</span> <span class="n">classical_turning_points</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">search</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tp</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">tp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">integral</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">quad</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">E</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)),</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">integral</span> <span class="o">/</span> <span class="n">hbar</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-the-semiclassical-wavefunction">
+<h2>Exercise 1 — The semiclassical wavefunction<a class="headerlink" href="#exercise-1-the-semiclassical-wavefunction" title="Link to this heading">#</a></h2>
+<p>Construct the WKB wavefunction for a highly excited state of the harmonic oscillator
+<span class="math notranslate nohighlight">\(V(x)=\tfrac12 x^2\)</span> and compare it to the exact eigenfunction. Show that the two agree in the
+classically allowed bulk and that WKB breaks down at the turning points.</p>
+<ol class="arabic simple">
+<li><p>Diagonalize the oscillator with <code class="docutils literal notranslate"><span class="pre">exact_spectrum</span></code>’s machinery
+(<code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code>) to get the exact state <span class="math notranslate nohighlight">\(\psi_n\)</span> and energy
+<span class="math notranslate nohighlight">\(E_n\)</span> for a high <span class="math notranslate nohighlight">\(n\)</span> (take <span class="math notranslate nohighlight">\(n=12\)</span>).</p></li>
+<li><p>Build the WKB wavefunction with <code class="docutils literal notranslate"><span class="pre">wkb_wavefunction</span></code>: amplitude <span class="math notranslate nohighlight">\(1/\sqrt{p}\)</span> and
+phase <span class="math notranslate nohighlight">\(\frac1\hbar\int_{x_1}^x p\,\mathrm dx-\frac\pi4\)</span> from
+<a class="reference internal" href="#equation-eq-wkb-amplitude">Eq. 510</a>.</p></li>
+<li><p>Fix the single free amplitude by a least-squares match to <span class="math notranslate nohighlight">\(\psi_n\)</span> in the bulk
+(<span class="math notranslate nohighlight">\(|x|&lt;0.85\,A\)</span>, with <span class="math notranslate nohighlight">\(A=\sqrt{2E_n}\)</span> the turning point).</p></li>
+<li><p>Overlay the two and mark the turning points; note the agreement away from them
+and the <span class="math notranslate nohighlight">\(1/\sqrt p\)</span> blow-up at them.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-wkb-ansatz">Eq. 509</a>, <a class="reference internal" href="#equation-eq-wkb-amplitude">Eq. 510</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>oscillator n=12:  E_n = 12.4994  (exact (n+1/2) = 12.5)
+turning point A = 4.9999
+bulk relative RMS |psi_WKB - psi_exact| = 0.0168
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<figure class="align-default" id="fig-wkb-wavefunction">
+<img alt="../../_images/70a77ad04e867377a1424290561a9301d6eb03aff462d9acbc41391ac444f667.png" src="../../_images/70a77ad04e867377a1424290561a9301d6eb03aff462d9acbc41391ac444f667.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 488 </span><span class="caption-text">The semiclassical wavefunction. For the <span class="math notranslate nohighlight">\(n=12\)</span> oscillator state the WKB form <span class="math notranslate nohighlight">\(\psi\approx p^{-1/2}\cos(\tfrac1\hbar\!\int p\,\mathrm dx-\tfrac\pi4)\)</span> (amber) tracks the exact eigenfunction (grey) node for node across the classically allowed bulk, to a relative RMS of under 2%. It breaks down only at the turning points <span class="math notranslate nohighlight">\(x=\pm A\)</span> (dashed), where <span class="math notranslate nohighlight">\(p\to0\)</span> and the <span class="math notranslate nohighlight">\(1/\sqrt p\)</span> amplitude diverges — the one place the short-wavelength assumption fails.</span><a class="headerlink" href="#fig-wkb-wavefunction" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<p>The WKB wavefunction must reproduce the exact high-<span class="math notranslate nohighlight">\(n\)</span> eigenfunction across the
+classically allowed bulk (away from the turning points), confirming
+<span class="math notranslate nohighlight">\(\psi\sim(1/\sqrt p)e^{i\int p\,\mathrm dx/\hbar}\)</span> as the semiclassical state.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the WKB wavefunction matches the exact n=12 eigenfunction in the allowed bulk (relative RMS &lt; 5%)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-amplitude-and-the-classical-distribution">
+<h2>Exercise 2 — The amplitude and the classical distribution<a class="headerlink" href="#exercise-2-the-amplitude-and-the-classical-distribution" title="Link to this heading">#</a></h2>
+<p>Show that the WKB probability density reproduces the <strong>classical</strong> position distribution of <a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a>:
+<span class="math notranslate nohighlight">\(|\psi|^2\sim1/p\sim1/\text{velocity}\)</span>, so a particle is most likely found where it moves slowest.</p>
+<ol class="arabic simple">
+<li><p>Form the WKB density <span class="math notranslate nohighlight">\(|\psi_{\text{WKB}}|^2\propto1/p(x)\)</span> for the same oscillator
+state, and the smoothed exact density (a running average of <span class="math notranslate nohighlight">\(|\psi_n|^2\)</span> over a
+few wavelengths).</p></li>
+<li><p>Write the classical oscillator distribution <span class="math notranslate nohighlight">\(P_{\text{cl}}(x)=1/(\pi\sqrt{A^2-x^2})\)</span>
+(<a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a>).</p></li>
+<li><p>Compare all three in the bulk (<span class="math notranslate nohighlight">\(|x|&lt;0.7\,A\)</span>) and confirm they agree; note the
+divergence at the turning points.</p></li>
+<li><p>Interpret: <span class="math notranslate nohighlight">\(1/p\)</span> is <span class="math notranslate nohighlight">\(1/\text{velocity}\)</span>, the correspondence-principle result.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-wkb-amplitude">Eq. 510</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean smoothed-quantum / classical density in the bulk = 1.015  (≈ 1)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-wkb-density">
+<img alt="../../_images/96896d7255b0fba397a97bc83397a9d41dfcae8e3cdb8294b4ab5ff6cea95035.png" src="../../_images/96896d7255b0fba397a97bc83397a9d41dfcae8e3cdb8294b4ab5ff6cea95035.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 489 </span><span class="caption-text">The correspondence-principle density, three ways. The WKB density <span class="math notranslate nohighlight">\(|\psi|^2\sim1/p\)</span> (amber), the smoothed exact quantum density (grey), and the classical position distribution <span class="math notranslate nohighlight">\(P_{\mathrm{cl}}=1/(\pi\sqrt{A^2-x^2})\)</span> (dashed) coincide across the bulk: a particle spends most of its time — and is most likely found — where it moves slowest, near the turning points. All three diverge as <span class="math notranslate nohighlight">\(x\to\pm A\)</span>, where the classical speed vanishes; the true quantum density stays finite there and leaks beyond, but in the bulk the semiclassical picture is exact.</span><a class="headerlink" href="#fig-wkb-density" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<p>In the bulk the semiclassical density <span class="math notranslate nohighlight">\(1/p\)</span> (and the smoothed quantum density)
+must match the classical <span class="math notranslate nohighlight">\(1/(\pi\sqrt{A^2-x^2})\)</span> to within a few percent —
+<span class="math notranslate nohighlight">\(|\psi|^2\sim1/\text{velocity}\)</span>, the correspondence-principle distribution of <a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the WKB/quantum density matches the classical position distribution in the bulk
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-turning-points-and-the-connection-formulas">
+<h2>Exercise 3 — Turning points and the connection formulas<a class="headerlink" href="#exercise-3-turning-points-and-the-connection-formulas" title="Link to this heading">#</a></h2>
+<p>Analyze why WKB breaks at a turning point, and state the connection formulas that repair it. Show
+the exact solution near a linear turning point — the <strong>Airy function</strong> — passing from oscillation
+to exponential decay, and identify the <span class="math notranslate nohighlight">\(\pi/4\)</span> phase the connection carries.</p>
+<ol class="arabic simple">
+<li><p>Confirm the WKB density <span class="math notranslate nohighlight">\(1/p\)</span> diverges as <span class="math notranslate nohighlight">\(p\to0\)</span> at <span class="math notranslate nohighlight">\(E=V\)</span> (the amplitude
+<a class="reference internal" href="#equation-eq-wkb-amplitude">Eq. 510</a> is singular there).</p></li>
+<li><p>Near the turning point linearize <span class="math notranslate nohighlight">\(V\)</span>; the exact solution is the Airy function
+<span class="math notranslate nohighlight">\(\mathrm{Ai}(z)\)</span> (<code class="docutils literal notranslate"><span class="pre">scipy.special.airy</span></code>), oscillatory for <span class="math notranslate nohighlight">\(z&lt;0\)</span> (allowed) and
+decaying for <span class="math notranslate nohighlight">\(z&gt;0\)</span> (forbidden).</p></li>
+<li><p>State the connection formulas: an oscillatory <span class="math notranslate nohighlight">\(\frac{2}{\sqrt p}\cos(\frac1\hbar
+\int_x^{x_2}p\,\mathrm dx'-\frac\pi4)\)</span> on the allowed side joins a decaying
+<span class="math notranslate nohighlight">\(\frac{1}{\sqrt{|p|}}e^{-\frac1\hbar\int_{x_2}^x|p|\,\mathrm dx'}\)</span> on the
+forbidden side. The <span class="math notranslate nohighlight">\(\pi/4\)</span> is the fingerprint of the Airy match.</p></li>
+<li><p>Note that the turning point is where the semiclassical picture needs genuinely
+quantum repair.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-wkb-validity">Eq. 511</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/p at 90%/99% of the way to the turning point: 1.12 / 4.76 (diverging as p→0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-wkb-airy">
+<img alt="../../_images/97679d32a585d7f4a5bd9114d0bc9895405ceda946b24223630a887b36878c01.png" src="../../_images/97679d32a585d7f4a5bd9114d0bc9895405ceda946b24223630a887b36878c01.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 490 </span><span class="caption-text">The connection formula made visible. Near a classical turning point the potential is linear and the exact wavefunction is the Airy function <span class="math notranslate nohighlight">\(\mathrm{Ai}(z)\)</span> (<code class="docutils literal notranslate"><span class="pre">scipy.special.airy</span></code>): oscillatory on the classically allowed side (<span class="math notranslate nohighlight">\(z&lt;0\)</span>, where WKB gives <span class="math notranslate nohighlight">\(p^{-1/2}\cos(\ldots)\)</span>) and exponentially decaying on the forbidden side (<span class="math notranslate nohighlight">\(z&gt;0\)</span>, where WKB gives <span class="math notranslate nohighlight">\(|p|^{-1/2}e^{-\ldots}\)</span>). Matching the two WKB branches onto this single smooth Airy solution is what stitches them together — and the match forces the <span class="math notranslate nohighlight">\(\pi/4\)</span> phase shift that ultimately supplies the <span class="math notranslate nohighlight">\(\tfrac12\)</span> in Bohr–Sommerfeld. The turning point <span class="math notranslate nohighlight">\(z=0\)</span> (dashed) is exactly where the WKB amplitude <span class="math notranslate nohighlight">\(1/\sqrt p\)</span> diverges and quantum repair is needed.</span><a class="headerlink" href="#fig-wkb-airy" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<p>The Airy function must show the two regimes the connection formulas join:
+oscillatory for <span class="math notranslate nohighlight">\(z&lt;0\)</span> (several sign changes) and monotone decay for <span class="math notranslate nohighlight">\(z&gt;0\)</span>
+(<span class="math notranslate nohighlight">\(\mathrm{Ai}(z)\to0\)</span> without oscillating). That contrast is the turning-point
+physics WKB alone cannot supply.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Airy Ai(z) oscillates for z&lt;0 and decays for z&gt;0 (the connection-formula regimes)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-bohrsommerfeld-the-oscillator-exact">
+<h2>Exercise 4 — Bohr–Sommerfeld: the oscillator (exact)<a class="headerlink" href="#exercise-4-bohrsommerfeld-the-oscillator-exact" title="Link to this heading">#</a></h2>
+<p>Apply the Bohr–Sommerfeld condition <a class="reference internal" href="#equation-eq-bohr-sommerfeld">Eq. 512</a> to the harmonic oscillator and show
+it is <strong>exact</strong>: <span class="math notranslate nohighlight">\(E_n=(n+\tfrac12)\hbar\omega\)</span>, the <span class="math notranslate nohighlight">\(\tfrac12\)</span> now present (unlike the old quantum
+theory of <a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html"><span class="std std-doc">§2.10</span></a>).</p>
+<ol class="arabic simple">
+<li><p>For each <span class="math notranslate nohighlight">\(n\)</span>, form the action <span class="math notranslate nohighlight">\(\int_{x_1}^{x_2}p\,\mathrm dx\)</span> as a function of
+<span class="math notranslate nohighlight">\(E\)</span> (<code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> between the turning points).</p></li>
+<li><p>Solve <span class="math notranslate nohighlight">\(\int p\,\mathrm dx=(n+\tfrac12)\pi\hbar\)</span> for <span class="math notranslate nohighlight">\(E_n\)</span> with
+<code class="docutils literal notranslate"><span class="pre">bohr_sommerfeld_energy</span></code> (<code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code>).</p></li>
+<li><p>Confirm <span class="math notranslate nohighlight">\(E_n=(n+\tfrac12)\)</span> to numerical tolerance.</p></li>
+<li><p>Visualize the root-finding: the action curve crossing the quantized levels.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-bohr-sommerfeld">Eq. 512</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Bohr–Sommerfeld E_n: [0.5 1.5 2.5 3.5 4.5 5.5]
+exact (n+1/2)      : [0.5 1.5 2.5 3.5 4.5 5.5]
+max |error| = 8.881784197001252e-15
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-wkb-bohr-oscillator">
+<img alt="../../_images/e2ecaa1e7b92bdf2bb4d41baa5cd821120a5b4050dc4084a9bf0ae4c779aa2d1.png" src="../../_images/e2ecaa1e7b92bdf2bb4d41baa5cd821120a5b4050dc4084a9bf0ae4c779aa2d1.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 491 </span><span class="caption-text">Bohr–Sommerfeld solved graphically for the oscillator. The action <span class="math notranslate nohighlight">\(\int_{x_1}^{x_2}p\,\mathrm dx\)</span> rises linearly with energy (amber); the quantization condition sets it equal to <span class="math notranslate nohighlight">\((n+\tfrac12)\pi\hbar\)</span> (grey levels), and <code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code> returns the crossings <span class="math notranslate nohighlight">\(E_n\)</span> (dots). For the oscillator these land on <span class="math notranslate nohighlight">\((n+\tfrac12)\hbar\omega\)</span> to machine precision — WKB is exact here, and the half-integer offset is exactly the turning-point <span class="math notranslate nohighlight">\(\tfrac12\)</span> the old quantum theory of <a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html"><span class="std std-doc">§2.10</span></a> was missing.</span><a class="headerlink" href="#fig-wkb-bohr-oscillator" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<p>For the oscillator Bohr–Sommerfeld is exact: the roots of <a class="reference internal" href="#equation-eq-bohr-sommerfeld">Eq. 512</a>
+must equal <span class="math notranslate nohighlight">\((n+\tfrac12)\hbar\omega\)</span> to the tolerance of the quadrature and root
+finder.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Bohr–Sommerfeld is exact for the oscillator, E_n = (n+1/2)ℏω   [max|Δ| = 8.88178e-15 (rtol=0.0001, atol=0.0001)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-bohrsommerfeld-for-a-general-well">
+<h2>Exercise 5 — Bohr–Sommerfeld for a general well<a class="headerlink" href="#exercise-5-bohrsommerfeld-for-a-general-well" title="Link to this heading">#</a></h2>
+<p>Apply Bohr–Sommerfeld to the <strong>quartic</strong> well <span class="math notranslate nohighlight">\(V(x)=x^4\)</span>, which has no closed-form spectrum, and
+compare to exact diagonalization. Show that WKB is <strong>asymptotically exact</strong>: the error is largest
+for the ground state and shrinks as <span class="math notranslate nohighlight">\(n\)</span> grows.</p>
+<ol class="arabic simple">
+<li><p>Compute the exact quartic spectrum with <code class="docutils literal notranslate"><span class="pre">exact_spectrum</span></code>
+(<code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code>).</p></li>
+<li><p>For each <span class="math notranslate nohighlight">\(n\)</span>, solve <span class="math notranslate nohighlight">\(\int p\,\mathrm dx=(n+\tfrac12)\pi\hbar\)</span> with
+<code class="docutils literal notranslate"><span class="pre">bohr_sommerfeld_energy</span></code> (<code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code>, action by
+<code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code>).</p></li>
+<li><p>Tabulate the relative error <span class="math notranslate nohighlight">\(|E_n^{\text{WKB}}-E_n^{\text{exact}}|/E_n^{\text{exact}}\)</span>.</p></li>
+<li><p>Show it falls monotonically with <span class="math notranslate nohighlight">\(n\)</span> — the semiclassical limit — and plot both
+the levels and the error.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-bohr-sommerfeld">Eq. 512</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  n=0:  WKB= 0.5463  exact= 0.6680  rel err=18.22%
+  n=1:  WKB= 2.3636  exact= 2.3936  rel err= 1.26%
+  n=2:  WKB= 4.6705  exact= 4.6968  rel err= 0.56%
+  n=3:  WKB= 7.3148  exact= 7.3357  rel err= 0.28%
+  n=4:  WKB=10.2265  exact=10.2442  rel err= 0.17%
+  n=5:  WKB=13.3638  exact=13.3791  rel err= 0.11%
+error falls from 18.2% (n=0) to 0.11% (n=5)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<figure class="align-default" id="fig-wkb-quartic">
+<img alt="../../_images/066961cbdc28dbb57b76d44a4a357ecacbe682cc9113def32343ac5286816d3f.png" src="../../_images/066961cbdc28dbb57b76d44a4a357ecacbe682cc9113def32343ac5286816d3f.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 492 </span><span class="caption-text">WKB as an asymptotically exact method. Left: the Bohr–Sommerfeld levels of the quartic well <span class="math notranslate nohighlight">\(V=x^4\)</span> (amber) against exact diagonalization (grey); they are already close and converge upward. Right: the relative error falls monotonically from about 18% for the ground state to well under 1% by <span class="math notranslate nohighlight">\(n=5\)</span> — WKB is a <em>semiclassical</em> approximation, best where the quantum number is large and the wavelength short. The ground state, with barely one wavelength across the well, is exactly where WKB should struggle, and does.</span><a class="headerlink" href="#fig-wkb-quartic" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<p>WKB must approach the exact quartic spectrum from the semiclassical direction:
+the relative error is largest at <span class="math notranslate nohighlight">\(n=0\)</span> and decreases with <span class="math notranslate nohighlight">\(n\)</span>, dropping below 1%.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Bohr–Sommerfeld quartic error is largest at n=0 and shrinks monotonically below 1% (the semiclassical limit)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-wkb-tunnelling-vs-exact-transmission">
+<h2>Exercise 6 — WKB tunnelling vs exact transmission<a class="headerlink" href="#exercise-6-wkb-tunnelling-vs-exact-transmission" title="Link to this heading">#</a></h2>
+<p>Compute the WKB tunnelling probability through a smooth barrier and compare to the <strong>exact</strong>
+transmission. Confirm that the WKB exponent captures the dominant exponential suppression,
+honestly noting that the prefactor differs.</p>
+<ol class="arabic simple">
+<li><p>Take the Eckart barrier <span class="math notranslate nohighlight">\(V(x)=V_0\,\mathrm{sech}^2(x/a)\)</span> (a smooth barrier with a
+known exact transmission), with <span class="math notranslate nohighlight">\(V_0=6\)</span>, <span class="math notranslate nohighlight">\(a=1\)</span>.</p></li>
+<li><p>For each <span class="math notranslate nohighlight">\(E&lt;V_0\)</span>, find the turning points where <span class="math notranslate nohighlight">\(V=E\)</span>
+(<code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code>) and compute the exponent <span class="math notranslate nohighlight">\((2/\hbar)\int|p|\,\mathrm dx\)</span>
+with <code class="docutils literal notranslate"><span class="pre">wkb_tunneling</span></code> (<code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code>).</p></li>
+<li><p>Evaluate <span class="math notranslate nohighlight">\(T_{\text{WKB}}=e^{-(2/\hbar)\int|p|\,\mathrm dx}\)</span> and the exact Eckart
+transmission <span class="math notranslate nohighlight">\(T(E)\)</span>.</p></li>
+<li><p>Compare on a log axis; confirm the exponents agree (the slopes) while the
+prefactor differs — the constant-barrier <span class="math notranslate nohighlight">\(e^{-2\kappa a}\)</span> of <a class="reference internal" href="scattering-tunneling.html"><span class="std std-doc">§6.13</span></a> is the special
+case.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-wkb-tunneling">Eq. 513</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WKB vs exact, deep-tunnelling regime E&lt;V0/2:
+  transmission spans 2.36e-07 … 1.24e-03
+  max relative gap in the exponent ln T = 0.034
+  WKB/exact prefactor ratio ≈ 0.80 (differs, as expected)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-wkb-tunneling">
+<img alt="../../_images/2fece17c1a654f893be364a5d27827e9e98dd17077fa98b3c02cef9128342614.png" src="../../_images/2fece17c1a654f893be364a5d27827e9e98dd17077fa98b3c02cef9128342614.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 493 </span><span class="caption-text">WKB tunnelling through a smooth barrier. Left: the Eckart barrier <span class="math notranslate nohighlight">\(V_0\,\mathrm{sech}^2(x/a)\)</span> with an energy <span class="math notranslate nohighlight">\(E\)</span> (grey line); the shaded forbidden region between the turning points is where <span class="math notranslate nohighlight">\(\int|p|\,\mathrm dx\)</span> accumulates. Right: the WKB transmission <span class="math notranslate nohighlight">\(e^{-(2/\hbar)\int|p|\,\mathrm dx}\)</span> (amber) against the exact transmission (grey) on a log axis, over five orders of magnitude. The two are <em>parallel</em> — WKB nails the dominant exponential slope — while a roughly constant vertical offset shows the prefactor WKB gets wrong at leading order. The rectangular-barrier <span class="math notranslate nohighlight">\(e^{-2\kappa a}\)</span> of <a class="reference internal" href="scattering-tunneling.html"><span class="std std-doc">§6.13</span></a> is the special case of this formula.</span><a class="headerlink" href="#fig-wkb-tunneling" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<p>In the deep-tunnelling regime the WKB and exact transmissions must agree in the
+<strong>exponent</strong> — the physically dominant quantity — to a few percent, even though
+their prefactors differ: <span class="math notranslate nohighlight">\(T\sim e^{-(2/\hbar)\int|p|\,\mathrm dx}\)</span> is the WKB
+tunnelling formula.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the WKB tunnelling exponent captures the exact transmission&#39;s exponential suppression (log agrees to &lt;5% deep under the barrier)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-alpha-decay-and-the-geigernuttall-law-student">
+<h2>Exercise 7 — Alpha decay and the Geiger–Nuttall law <em>(student)</em><a class="headerlink" href="#exercise-7-alpha-decay-and-the-geigernuttall-law-student" title="Link to this heading">#</a></h2>
+<p>Use the WKB tunnelling exponent to explain the enormous range of alpha-decay half-lives. Model the
+alpha particle escaping through the nuclear Coulomb barrier, compute the Gamow exponent, and show
+that <span class="math notranslate nohighlight">\(\log T\)</span> is linear in <span class="math notranslate nohighlight">\(1/\sqrt E\)</span> — the Geiger–Nuttall law — so a small change in energy
+changes the rate by orders of magnitude.</p>
+<ol class="arabic simple">
+<li><p>Model the barrier outside the nucleus as Coulomb, <span class="math notranslate nohighlight">\(V(r)=C/r\)</span> for <span class="math notranslate nohighlight">\(r&gt;R\)</span> (a
+nuclear radius <span class="math notranslate nohighlight">\(R\)</span>), in scaled units.</p></li>
+<li><p>For a decay energy <span class="math notranslate nohighlight">\(E\)</span>, the outer turning point is <span class="math notranslate nohighlight">\(b=C/E\)</span>; compute the Gamow
+exponent <span class="math notranslate nohighlight">\(\gamma(E)=\frac{2}{\hbar}\int_R^{b}\sqrt{2m[C/r-E]}\,\mathrm dr\)</span> with
+<code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code>.</p></li>
+<li><p>Show <span class="math notranslate nohighlight">\(\ln T=-\gamma\)</span> is linear in <span class="math notranslate nohighlight">\(1/\sqrt E\)</span> (fit it) and spans many orders of
+magnitude across a modest energy range.</p></li>
+<li><p>Connect to Geiger–Nuttall: <span class="math notranslate nohighlight">\(\log(\text{half-life})\propto1/\sqrt E\)</span>.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-wkb-tunneling">Eq. 513</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geiger–Nuttall fit ln T = -35.32·E^(-1/2) + 8.48,  R² = 1.00000
+transmission span across E=0.8…3.0:  1.96e+08×  (orders of magnitude from a factor 3.8 in energy)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-wkb-gamow">
+<img alt="../../_images/6a87181cb85c6bcfa6ee8abcac3232b84f9d895c0bdf2c3e2d26111c3d7c68e0.png" src="../../_images/6a87181cb85c6bcfa6ee8abcac3232b84f9d895c0bdf2c3e2d26111c3d7c68e0.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 494 </span><span class="caption-text">Gamow’s theory of alpha decay. Left: the alpha particle sits in a nuclear well and must tunnel through the Coulomb barrier <span class="math notranslate nohighlight">\(V=C/r\)</span> (grey), from the nuclear radius <span class="math notranslate nohighlight">\(R\)</span> out to the turning point <span class="math notranslate nohighlight">\(b=C/E\)</span> (shaded forbidden region). Right: the WKB log-transmission is almost perfectly linear in <span class="math notranslate nohighlight">\(1/\sqrt E\)</span> (fit dashed, <span class="math notranslate nohighlight">\(R^2&gt;0.999\)</span>) — the Geiger–Nuttall law. Because the Gamow exponent is huge and scales as <span class="math notranslate nohighlight">\(1/\sqrt E\)</span>, a modest change in decay energy swings the tunnelling rate — and the half-life — by many orders of magnitude, exactly the span (nanoseconds to billions of years) that Gamow’s one exponential explained.</span><a class="headerlink" href="#fig-wkb-gamow" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<p>The Gamow exponent must make <span class="math notranslate nohighlight">\(\ln T\)</span> linear in <span class="math notranslate nohighlight">\(1/\sqrt E\)</span> (the Geiger–Nuttall law)
+and span many orders of magnitude across a modest energy range — the origin of the
+vast spread of alpha-decay half-lives.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Coulomb-barrier Gamow exponent gives ln T ∝ 1/√E (Geiger–Nuttall) spanning &gt;4 orders of magnitude
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-synthesis-the-seam-between-two-mechanics">
+<h2>Exercise 8 — (Synthesis) The seam between two mechanics<a class="headerlink" href="#exercise-8-synthesis-the-seam-between-two-mechanics" title="Link to this heading">#</a></h2>
+<p>The WKB approximation is where the wave remembers it was a particle. We wrote the
+wavefunction as <span class="math notranslate nohighlight">\(\psi\sim e^{iS/\hbar}\)</span> and found its phase to be nothing but the
+classical action of Volume II; in the limit of a vanishing wavelength the
+Schrödinger equation became the Hamilton–Jacobi equation of <a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html"><span class="std std-doc">§2.10</span></a>, and classical
+mechanics reappeared as the <span class="math notranslate nohighlight">\(\hbar\to0\)</span> shadow of quantum mechanics. From that one
+idea came the semiclassical wavefunction, the density <span class="math notranslate nohighlight">\(1/p\)</span> that is the classical
+distribution of <a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a>, the old quantization rule of <a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html"><span class="std std-doc">§2.10</span></a> — now with its missing
+<span class="math notranslate nohighlight">\(\tfrac12\)</span> restored by the turning-point phases — and a tunnelling formula good for
+a barrier of any shape, the formula that turned the wild scatter of radioactive
+half-lives into a single exponential.</p>
+<p>With WKB we hold the third and last of the great approximation methods. Faced with
+a problem no one can solve exactly, one can expand around a solvable Hamiltonian
+(perturbation theory, <a class="reference internal" href="perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a>), guess a trial state and bound the energy
+(variational, <a class="reference internal" href="variational-method.html"><span class="std std-doc">§6.22</span></a>), or shrink the wavelength and let mechanics go classical
+(semiclassical, WKB). Perturbation theory needs a nearby solvable neighbour;
+the variational method needs a good guess; WKB needs a short wavelength. Between
+them they cover most of what the exactly-solvable models of Movements I–IV cannot
+reach.</p>
+<p>It is worth pausing on the strangeness of the bridge. Bohr counted wavelengths
+around an orbit and got the hydrogen spectrum nearly right; Hamilton, a century
+before anyone suspected the electron was a wave, wrote mechanics in the language of
+phases and actions. WKB shows why both were reaching the same truth from opposite
+sides: the action <em>is</em> a phase, and quantization is what happens when a wave has to
+close on itself. The next notebook (<a class="reference internal" href="time-dependent-perturbation.html"><span class="std std-doc">§6.24</span></a>) puts time back in and asks how a
+perturbation that switches on drives transitions between states — Fermi’s golden
+rule, and the theory of how atoms absorb and emit light.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The WKB ansatz</strong> <a class="reference internal" href="#equation-eq-wkb-ansatz">Eq. 509</a>: <span class="math notranslate nohighlight">\(\psi\sim e^{iS/\hbar}\)</span> expanded in
+<span class="math notranslate nohighlight">\(\hbar\)</span> gives the classical action at leading order (Hamilton–Jacobi, <a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html"><span class="std std-doc">§2.10</span></a>) and
+the amplitude <span class="math notranslate nohighlight">\(1/\sqrt p\)</span> at next order — verified against the exact <span class="math notranslate nohighlight">\(n=12\)</span>
+oscillator state to under 2% in the bulk.</p></li>
+<li><p><strong>The classical distribution</strong> <a class="reference internal" href="#equation-eq-wkb-amplitude">Eq. 510</a>: <span class="math notranslate nohighlight">\(|\psi|^2\sim1/p\sim1/v\)</span>,
+matching the classical <span class="math notranslate nohighlight">\(1/(\pi\sqrt{A^2-x^2})\)</span> of <a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a>.</p></li>
+<li><p><strong>Turning points</strong>: the <span class="math notranslate nohighlight">\(1/\sqrt p\)</span> amplitude diverges where <span class="math notranslate nohighlight">\(p\to0\)</span>; the exact
+Airy solution (<code class="docutils literal notranslate"><span class="pre">scipy.special.airy</span></code>) and its <span class="math notranslate nohighlight">\(\pi/4\)</span>-carrying connection formulas
+repair the match.</p></li>
+<li><p><strong>Bohr–Sommerfeld</strong> <a class="reference internal" href="#equation-eq-bohr-sommerfeld">Eq. 512</a>: <span class="math notranslate nohighlight">\(\oint p\,\mathrm dx=(n+\tfrac12)h\)</span>
+is exact for the oscillator and asymptotically exact for the quartic (error
+<span class="math notranslate nohighlight">\(18\%\to0.1\%\)</span> as <span class="math notranslate nohighlight">\(n\)</span> grows), by <code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code> vs
+<code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code>.</p></li>
+<li><p><strong>WKB tunnelling</strong> <a class="reference internal" href="#equation-eq-wkb-tunneling">Eq. 513</a>: <span class="math notranslate nohighlight">\(T\sim e^{-(2/\hbar)\int|p|\,\mathrm dx}\)</span>
+captures the exact Eckart-barrier exponent (prefactor aside), and its Coulomb-
+barrier form gives Gamow’s Geiger–Nuttall law (<span class="math notranslate nohighlight">\(\ln T\propto1/\sqrt E\)</span>).</p></li>
+</ul>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Time-dependent perturbation theory and Fermi’s golden rule</strong>: transitions,
+absorption, and emission (<a class="reference internal" href="time-dependent-perturbation.html"><span class="std std-doc">§6.24</span></a>).</p></li>
+<li><p><strong>The path integral and its semiclassical limit</strong>; instantons and tunnelling as
+least-action paths in imaginary time (horizons).</p></li>
+<li><p><strong>The Maslov index and higher-order WKB corrections</strong> — systematically improving
+the <span class="math notranslate nohighlight">\(\hbar\)</span>-expansion (horizons).</p></li>
+<li><p>Cross-reference Volume II <a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html"><span class="std std-doc">§2.10</span></a> (Hamilton–Jacobi, the action, action-angle and the
+old quantization), <a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a> (the classical distribution), <a class="reference internal" href="scattering-tunneling.html"><span class="std std-doc">§6.13</span></a> (tunnelling), <a class="reference internal" href="schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a>
+(exact spectra), <a class="reference internal" href="perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a>/<a class="reference internal" href="variational-method.html"><span class="std std-doc">§6.22</span></a> (the other approximation methods), forward to <a class="reference internal" href="time-dependent-perturbation.html"><span class="std std-doc">§6.24</span></a>.</p></li>
+</ul>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<div class="docutils container" id="id3">
+<div role="list" class="citation-list">
+<div class="citation" id="id20" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">GS18</a><span class="fn-bracket">]</span></span>
+<p>David J. Griffiths and Darrell F. Schroeter. <em>Introduction to Quantum Mechanics</em>. Cambridge University Press, 3 edition, 2018.</p>
+</div>
+<div class="citation" id="id15" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Nol17</a><span class="fn-bracket">]</span></span>
+<p>Wolfgang Nolting. <em>Theoretical Physics 7: Quantum Mechanics — Methods and Applications</em>. Springer, 2017.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/06-quantum-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="variational-method.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6.22 The Variational Method and Variational Monte Carlo</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="time-dependent-perturbation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-wkb-ansatz-and-the-expansion">The WKB ansatz and the ℏ-expansion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validity-and-the-turning-points">Validity and the turning points</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bohrsommerfeld-quantization">Bohr–Sommerfeld quantization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wkb-tunnelling-and-the-gamow-factor">WKB tunnelling and the Gamow factor</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-semiclassical-wavefunction">Exercise 1 — The semiclassical wavefunction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-amplitude-and-the-classical-distribution">Exercise 2 — The amplitude and the classical distribution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-turning-points-and-the-connection-formulas">Exercise 3 — Turning points and the connection formulas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-bohrsommerfeld-the-oscillator-exact">Exercise 4 — Bohr–Sommerfeld: the oscillator (exact)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-bohrsommerfeld-for-a-general-well">Exercise 5 — Bohr–Sommerfeld for a general well</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-wkb-tunnelling-vs-exact-transmission">Exercise 6 — WKB tunnelling vs exact transmission</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-alpha-decay-and-the-geigernuttall-law-student">Exercise 7 — Alpha decay and the Geiger–Nuttall law <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-synthesis-the-seam-between-two-mechanics">Exercise 8 — (Synthesis) The seam between two mechanics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

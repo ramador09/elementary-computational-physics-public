@@ -1,0 +1,1589 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="0.7 Solving Ordinary Differential Equations" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/00-foundations/ode-solvers.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Every simulation in this course has secretly been an exercise in solving ordinary differential equations: the projectile of §1.1, the chao..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Every simulation in this course has secretly been an exercise in solving ordinary differential equations: the projectile of §1.1, the chao..." />
+
+    <title>0.7 Solving Ordinary Differential Equations &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/00-foundations/ode-solvers';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/00-foundations/ode-solvers.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="0.8 Fitting and Least Squares" href="fitting-least-squares.html" />
+    <link rel="prev" title="0.6 The Fast Fourier Transform" href="fft.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/00-foundations/ode-solvers.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/00-foundations/ode-solvers.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/00-foundations/ode-solvers.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/00-foundations/ode-solvers.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>0.7 Solving Ordinary Differential Equations</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-initial-value-problem">The initial-value problem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-s-method-and-the-order-of-a-method">Euler’s method and the order of a method</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rungekutta-sampling-the-slope">Runge–Kutta: sampling the slope</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stability-is-not-accuracy-stiffness">Stability is not accuracy: stiffness</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-methods-and-adaptivity">Implicit methods and adaptivity</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-euler-s-method-and-reducing-a-higher-order-ode">Exercise 1 — Euler’s method, and reducing a higher-order ODE</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-order-of-a-method">Exercise 2 — The order of a method</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-rungekutta-on-a-nonlinear-problem">Exercise 3 — Runge–Kutta on a nonlinear problem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-stiffness-when-explicit-methods-explode">Exercise 4 — Stiffness: when explicit methods explode</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-implicit-methods-and-unconditional-stability">Exercise 5 — Implicit methods and unconditional stability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-adaptive-step-size-control">Exercise 6 — Adaptive step-size control</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-order-isn-t-everything-energy-drift-student-exercise">Exercise 7 — Order isn’t everything: energy drift (student exercise)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-choosing-a-solver-in-practice-synthesis">Exercise 8 — Choosing a solver in practice (synthesis)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="solving-ordinary-differential-equations">
+<h1>0.7 Solving Ordinary Differential Equations<a class="headerlink" href="#solving-ordinary-differential-equations" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume 0 — Mathematical &amp; Computational Foundations
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;0.7
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">The engine under every simulation in this course: Euler to Runge–Kutta, the order of a method, the stiffness that wrecks explicit schemes, and why an adaptive solver spends its effort where the solution actually moves.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;100–130 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Every simulation in this course has secretly been an exercise in solving
+ordinary differential equations: the projectile of
+<a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html"><span class="std std-doc">§1.1</span></a>, the chaotic pendulum
+of <a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html"><span class="std std-doc">§1.3</span></a>, the orbits of
+<a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html"><span class="std std-doc">§1.4</span></a>, the phase flow of
+<a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html"><span class="std std-doc">§2.3</span></a>: all of them
+handed their
+equations of motion to <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code> and trusted the trajectory
+that came back. This notebook is the general theory behind that trust. It builds
+the integrators from the ground up, asks what makes one <em>order</em> better than
+another, and then confronts the two failure modes that the order alone never
+predicts: <strong>stiffness</strong>, which can make a perfectly accurate explicit method
+explode, and the slow <strong>energy drift</strong> of a high-order method over long times,
+the phenomenon <a class="reference internal" href="../01-elementary-mechanics/integrators.html"><span class="std std-doc">§1.6</span></a> first
+showed in one case and which we now explain in general.</p>
+<p>We start from Euler’s one-line tangent step and work up to Runge–Kutta, measure
+convergence orders exactly as <a class="reference internal" href="quadrature-differentiation.html"><span class="std std-doc">§0.3</span></a> measured
+them for quadrature, then
+meet the new idea that separates a textbook solver from a production one: that
+<strong>stability</strong> is a constraint distinct from accuracy, and that taming a stiff
+problem means going <em>implicit</em>, which, satisfyingly, turns each step into a
+root-find of the kind built in <a class="reference internal" href="root-finding.html"><span class="std std-doc">§0.2</span></a>. We finish with the
+adaptive step-size control that <code class="docutils literal notranslate"><span class="pre">solve_ivp</span></code> actually uses, and a hard-won
+lesson from <a class="reference internal" href="../01-elementary-mechanics/integrators.html"><span class="std std-doc">§1.6</span></a>:
+for a Hamiltonian system over long times, the <em>geometry</em> of a method matters more
+than its order.</p>
+<p>There are no animations here: these are studies of error, step size, and energy,
+which a still plot reads more honestly than a moving one would.</p>
+<blockquote>
+<div><p><strong>How to read the checks.</strong> Each exercise ends with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against
+an independent fact: an exact solution <span class="math notranslate nohighlight">\(e^{-t}\)</span>, a predicted convergence order,
+a stability threshold. A ✓ is strong evidence; a ✗ is a prompt to <em>locate the
+discrepancy</em>, not a verdict.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Scope.</strong> A working review, not a course in numerical ODEs. The standard
+reference is Hairer, Nørsett &amp; Wanner, <em>Solving Ordinary Differential
+Equations</em> <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id29" title="Ernst Hairer, Syvert P. Nørsett, and Gerhard Wanner. Solving Ordinary Differential Equations I: Nonstiff Problems. Springer Series in Computational Mathematics. Springer, 2 edition, 1993.">HNorsettW93</a>]</span>; see also Press et al., <em>Numerical Recipes</em>, ch. 17
+<span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id25" title="William H. Press, Saul A. Teukolsky, William T. Vetterling, and Brian P. Flannery. Numerical Recipes: The Art of Scientific Computing. Cambridge University Press, 3 edition, 2007.">PTVF07</a>]</span>. The long-time geometry is the subject of
+<a class="reference internal" href="../01-elementary-mechanics/integrators.html"><span class="std std-doc">§1.6</span></a>.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-initial-value-problem">
+<h3>The initial-value problem<a class="headerlink" href="#the-initial-value-problem" title="Link to this heading">#</a></h3>
+<p>Everything here solves the <strong>initial-value problem</strong>: given a rate law and a
+starting state, find the trajectory. Written for a (possibly vector) state
+<span class="math notranslate nohighlight">\(\mathbf y\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-ivp">
+<span class="eqno">(34)<a class="headerlink" href="#equation-eq-ivp" title="Link to this equation">#</a></span>\[\mathbf y'(t) = \mathbf f(t, \mathbf y), \qquad \mathbf y(t_0) = \mathbf y_0 .\]</div>
+<p>A higher-order ODE is not a separate case: it reduces to this one by stacking
+derivatives into the state, the trick the course has used since
+<a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html"><span class="std std-doc">§1.1</span></a>. The
+oscillator <span class="math notranslate nohighlight">\(y''=-y\)</span>, for instance, becomes the first-order system for
+<span class="math notranslate nohighlight">\((x, v) = (y, y')\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{pmatrix} x \\ v \end{pmatrix}' =
+\begin{pmatrix} v \\ -x \end{pmatrix},
+\end{split}\]</div>
+<p>so a single solver for <a class="reference internal" href="#equation-eq-ivp">Eq. 34</a> handles everything.</p>
+</section>
+<section id="euler-s-method-and-the-order-of-a-method">
+<h3>Euler’s method and the order of a method<a class="headerlink" href="#euler-s-method-and-the-order-of-a-method" title="Link to this heading">#</a></h3>
+<p>The simplest integrator follows the tangent: knowing the slope <span class="math notranslate nohighlight">\(\mathbf f\)</span> at the
+current point, step along it by <span class="math notranslate nohighlight">\(h\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-euler-step">
+<span class="eqno">(35)<a class="headerlink" href="#equation-eq-euler-step" title="Link to this equation">#</a></span>\[\mathbf y_{n+1} = \mathbf y_n + h\,\mathbf f(t_n, \mathbf y_n).\]</div>
+<p>It is first order, and what “order” means here is exactly what it meant for
+quadrature in <a class="reference internal" href="quadrature-differentiation.html"><span class="std std-doc">§0.3</span></a>: a method has <strong>order
+<span class="math notranslate nohighlight">\(p\)</span></strong> if its global error over a
+fixed interval scales as <span class="math notranslate nohighlight">\(O(h^p)\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-odeorder">
+<span class="eqno">(36)<a class="headerlink" href="#equation-eq-odeorder" title="Link to this equation">#</a></span>\[\lVert \mathbf y_N - \mathbf y(t_{\text{end}})\rVert \approx C\,h^{\,p}
+  \approx C'\,n^{-p},\]</div>
+<p>so <span class="math notranslate nohighlight">\(p\)</span> is again minus the slope of a log–log error-vs-<span class="math notranslate nohighlight">\(n\)</span> plot. (The local error
+made in one step is one power higher, <span class="math notranslate nohighlight">\(O(h^{p+1})\)</span>; accumulating <span class="math notranslate nohighlight">\(\sim 1/h\)</span> steps
+costs that one power.)</p>
+</section>
+<section id="rungekutta-sampling-the-slope">
+<h3>Runge–Kutta: sampling the slope<a class="headerlink" href="#rungekutta-sampling-the-slope" title="Link to this heading">#</a></h3>
+<p>Euler is crude because it trusts the slope at the <em>start</em> of the step for the
+whole step. <strong>Runge–Kutta</strong> methods do better by sampling <span class="math notranslate nohighlight">\(\mathbf f\)</span> at
+intermediate points and combining the samples so the leading error terms cancel.
+The midpoint rule (RK2) takes a half-step to probe the slope at the middle; the
+classic <strong>RK4</strong> blends four such samples,</p>
+<div class="math notranslate nohighlight" id="equation-eq-rk-step">
+<span class="eqno">(37)<a class="headerlink" href="#equation-eq-rk-step" title="Link to this equation">#</a></span>\[\mathbf y_{n+1} = \mathbf y_n + \tfrac{h}{6}\,(\mathbf k_1 + 2\mathbf k_2 + 2\mathbf k_3 + \mathbf k_4),\]</div>
+<p>with <span class="math notranslate nohighlight">\(\mathbf k_1=\mathbf f(t_n,\mathbf y_n)\)</span>, <span class="math notranslate nohighlight">\(\mathbf k_2=\mathbf f(t_n+\tfrac
+h2,\mathbf y_n+\tfrac h2\mathbf k_1)\)</span>, <span class="math notranslate nohighlight">\(\mathbf k_3=\mathbf f(t_n+\tfrac h2,
+\mathbf y_n+\tfrac h2\mathbf k_2)\)</span>, <span class="math notranslate nohighlight">\(\mathbf k_4=\mathbf f(t_n+h,\mathbf y_n+h
+\mathbf k_3)\)</span>. RK4 is fourth order and the general-purpose default for non-stiff
+problems. (The coefficients are fixed by matching the Taylor expansion of the
+exact flow through <span class="math notranslate nohighlight">\(O(h^4)\)</span>; Hairer, Nørsett &amp; Wanner, <em>Solving Ordinary
+Differential Equations</em>, develop the order conditions in full.)</p>
+</section>
+<section id="stability-is-not-accuracy-stiffness">
+<h3>Stability is not accuracy: stiffness<a class="headerlink" href="#stability-is-not-accuracy-stiffness" title="Link to this heading">#</a></h3>
+<p>Order controls how fast the error falls as <span class="math notranslate nohighlight">\(h\to0\)</span>; it says nothing about whether
+a <em>given</em> <span class="math notranslate nohighlight">\(h\)</span> blows up. For the decaying test equation <span class="math notranslate nohighlight">\(y'=-k y\)</span> (true solution
+<span class="math notranslate nohighlight">\(e^{-kt}\to0\)</span>), one Euler step multiplies <span class="math notranslate nohighlight">\(y\)</span> by <span class="math notranslate nohighlight">\(1-kh\)</span>, so the numerical
+solution stays bounded only when</p>
+<div class="math notranslate nohighlight" id="equation-eq-stiffness">
+<span class="eqno">(38)<a class="headerlink" href="#equation-eq-stiffness" title="Link to this equation">#</a></span>\[|1 - kh| \le 1 \quad\Longleftrightarrow\quad h \le \frac{2}{k}.\]</div>
+<p>A <strong>stiff</strong> system (one with widely separated timescales, i.e. a large <span class="math notranslate nohighlight">\(k\)</span>)
+therefore forces an explicit method to take absurdly small steps for <em>stability</em>,
+long after accuracy stopped demanding it. This is the key new idea of the
+notebook, and order cannot fix it.</p>
+</section>
+<section id="implicit-methods-and-adaptivity">
+<h3>Implicit methods and adaptivity<a class="headerlink" href="#implicit-methods-and-adaptivity" title="Link to this heading">#</a></h3>
+<p>The cure is to evaluate the slope at the <em>end</em> of the step instead. <strong>Backward
+Euler</strong>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-beuler">
+<span class="eqno">(39)<a class="headerlink" href="#equation-eq-beuler" title="Link to this equation">#</a></span>\[\mathbf y_{n+1} = \mathbf y_n + h\,\mathbf f(t_{n+1}, \mathbf y_{n+1}),\]</div>
+<p>has <span class="math notranslate nohighlight">\(\mathbf y_{n+1}\)</span> on both sides, so each step is an equation to be <em>solved</em>
+(a root-find, <a class="reference internal" href="root-finding.html"><span class="std std-doc">§0.2</span></a>, or, for a nonlinear <span class="math notranslate nohighlight">\(\mathbf f\)</span>, a Newton iteration
+per step); the payoff is unconditional stability at any <span class="math notranslate nohighlight">\(h\)</span>. Production stiff
+solvers (BDF, Radau) are implicit for exactly this reason. Separately, real
+solvers do not use a fixed <span class="math notranslate nohighlight">\(h\)</span> at all: they <strong>estimate the local error</strong> with an
+embedded pair of methods (RK45 / Dormand–Prince) and shrink or grow <span class="math notranslate nohighlight">\(h\)</span> to hold
+it under a tolerance, spending effort where the solution actually moves. That is
+what <code class="docutils literal notranslate"><span class="pre">solve_ivp</span></code> does. And, as
+<a class="reference internal" href="../01-elementary-mechanics/integrators.html"><span class="std std-doc">§1.6</span></a> showed and we revisit at
+the end,
+none of this captures long-time <em>geometry</em>: a non-symplectic method, however
+high its order, slowly drifts a Hamiltonian system’s energy.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_ivp</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">euler</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Explicit (forward) Euler on a uniform grid (eq-euler-step of the theory section).</span>
+
+<span class="sd">    First-order: simple but its error and stability are the cautionary baseline.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : callable</span>
+<span class="sd">        Right-hand side ``f(t, y)``.</span>
+<span class="sd">    y0 : array_like</span>
+<span class="sd">        Initial state.</span>
+<span class="sd">    t : numpy.ndarray</span>
+<span class="sd">        Uniform time grid.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The solution at each grid time.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">),)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">y0</span><span class="p">))</span>
+    <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">y0</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">y</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rk2</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Explicit midpoint Runge–Kutta (second order).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : callable</span>
+<span class="sd">        Right-hand side.</span>
+<span class="sd">    y0 : array_like</span>
+<span class="sd">        Initial state.</span>
+<span class="sd">    t : numpy.ndarray</span>
+<span class="sd">        Uniform time grid.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The solution history.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">),)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">y0</span><span class="p">))</span>
+    <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">y0</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+        <span class="n">k1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">]))</span>
+        <span class="n">k2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k1</span><span class="p">))</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span> <span class="o">*</span> <span class="n">k2</span>
+    <span class="k">return</span> <span class="n">y</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rk4</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Classic four-stage Runge–Kutta (fourth order, eq-rk-step of the theory section).</span>
+
+<span class="sd">    The standard explicit workhorse: four slope evaluations per step for fourth-order accuracy.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : callable</span>
+<span class="sd">        Right-hand side.</span>
+<span class="sd">    y0 : array_like</span>
+<span class="sd">        Initial state.</span>
+<span class="sd">    t : numpy.ndarray</span>
+<span class="sd">        Uniform time grid.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The solution history.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">),)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">y0</span><span class="p">))</span>
+    <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">y0</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+        <span class="n">k1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">]))</span>
+        <span class="n">k2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k1</span><span class="p">))</span>
+        <span class="n">k3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k2</span><span class="p">))</span>
+        <span class="n">k4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span> <span class="o">*</span> <span class="n">k3</span><span class="p">))</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="n">k1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k3</span> <span class="o">+</span> <span class="n">k4</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fit_order</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="n">errs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Empirical convergence order p from an error-vs-step series.</span>
+
+<span class="sd">    Minus the slope of log(error) vs log(n), fitted above the round-off floor.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ns : array_like</span>
+<span class="sd">        Step counts (or inverse step sizes).</span>
+<span class="sd">    errs : array_like</span>
+<span class="sd">        Corresponding errors.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The estimated order $p$.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ns</span><span class="p">,</span> <span class="n">errs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">errs</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">errs</span> <span class="o">&gt;</span> <span class="mf">1e-13</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">ns</span><span class="p">[</span><span class="n">m</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">errs</span><span class="p">[</span><span class="n">m</span><span class="p">]),</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-euler-s-method-and-reducing-a-higher-order-ode">
+<h2>Exercise 1 — Euler’s method, and reducing a higher-order ODE<a class="headerlink" href="#exercise-1-euler-s-method-and-reducing-a-higher-order-ode" title="Link to this heading">#</a></h2>
+<p>We meet the integrator on the problem with the simplest possible exact answer.
+The scalar IVP <span class="math notranslate nohighlight">\(y' = -y\)</span>, <span class="math notranslate nohighlight">\(y(0) = 1\)</span> has the solution <span class="math notranslate nohighlight">\(y(t) = e^{-t}\)</span>, so any
+error is laid bare against a known curve. Euler’s tangent step <a class="reference internal" href="#equation-eq-euler-step">Eq. 35</a>
+turns the rate law into a recurrence; it should crawl toward <span class="math notranslate nohighlight">\(e^{-t}\)</span> as the step
+shrinks. The same machine also handles second-order ODEs once they are written as
+first-order systems, <a class="reference internal" href="#equation-eq-ivp">Eq. 34</a>: the oscillator <span class="math notranslate nohighlight">\(y''=-y\)</span> with <span class="math notranslate nohighlight">\(y(0)=1,\,
+y'(0)=0\)</span> becomes <span class="math notranslate nohighlight">\((x,v)'=(v,-x)\)</span>, whose exact solution is <span class="math notranslate nohighlight">\((\cos t, -\sin t)\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Integrate <span class="math notranslate nohighlight">\(y'=-y\)</span> on <span class="math notranslate nohighlight">\([0,5]\)</span> with the <code class="docutils literal notranslate"><span class="pre">euler</span></code> helper at a fine step and
+confirm it tracks <span class="math notranslate nohighlight">\(e^{-t}\)</span>.</p></li>
+<li><p>Integrate the reduced oscillator system on <span class="math notranslate nohighlight">\([0,2\pi]\)</span> and confirm it matches
+<span class="math notranslate nohighlight">\((\cos t, -\sin t)\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Euler vs e^(-t): max error = 4.60e-04
+Euler reduced system vs (cos t, -sin t): max error = 4.95e-03
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Euler converges to the exact e^{-t}   [max|Δ| = 0.000460329 (rtol=0.01, atol=1e-09)]
+✓  the reduced (x,v) system matches (cos t, -sin t)   [max|Δ| = 0.00494699 (rtol=1e-06, atol=0.01)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-order-of-a-method">
+<h2>Exercise 2 — The order of a method<a class="headerlink" href="#exercise-2-the-order-of-a-method" title="Link to this heading">#</a></h2>
+<p>A method’s worth is set by its order, and we measure it the same way
+<a class="reference internal" href="quadrature-differentiation.html"><span class="std std-doc">§0.3</span></a> measured quadrature orders: run the
+method at a range of step counts and read the slope of the error.</p>
+<ol class="arabic simple">
+<li><p>On the IVP <span class="math notranslate nohighlight">\(y'=-y\)</span>, <span class="math notranslate nohighlight">\(y(0)=1\)</span> over <span class="math notranslate nohighlight">\([0,1]\)</span> (exact value <span class="math notranslate nohighlight">\(y(1)=e^{-1}\)</span>), compute
+the global error at <span class="math notranslate nohighlight">\(t=1\)</span> for Euler, the midpoint RK2, and RK4 over a
+geometric sweep of step counts.</p></li>
+<li><p>Plot the errors log–log (<a class="reference internal" href="#fig-ode-order"><span class="std std-numref">Fig. 39</span></a>).</p></li>
+<li><p>Fit the slopes with the <code class="docutils literal notranslate"><span class="pre">fit_order</span></code> helper (<code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code> in log space):
+by <a class="reference internal" href="#equation-eq-odeorder">Eq. 36</a> they should be <span class="math notranslate nohighlight">\(-1\)</span>, <span class="math notranslate nohighlight">\(-2\)</span>, and <span class="math notranslate nohighlight">\(-4\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>measured orders:  Euler 1.01,  RK2 2.02,  RK4 4.03
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<figure class="align-default" id="fig-ode-order">
+<img alt="../../_images/99237192d511e148fdc259e15dadcedf5873fbd2a208b8cc1f6ba1ab787da9b0.png" src="../../_images/99237192d511e148fdc259e15dadcedf5873fbd2a208b8cc1f6ba1ab787da9b0.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 39 </span><span class="caption-text">Global error at <span class="math notranslate nohighlight">\(t=1\)</span> for the IVP <span class="math notranslate nohighlight">\(y'=-y,\ y(0)=1\)</span> (exact <span class="math notranslate nohighlight">\(e^{-1}\)</span>) versus the number of steps <span class="math notranslate nohighlight">\(n\)</span>, log–log: Euler falls with slope <span class="math notranslate nohighlight">\(-1\)</span> (first order), the midpoint RK2 with slope <span class="math notranslate nohighlight">\(-2\)</span>, and RK4 with slope <span class="math notranslate nohighlight">\(-4\)</span>. The order is minus the slope of error <span class="math notranslate nohighlight">\(\approx C\,n^{-p}\)</span> (<a class="reference internal" href="#equation-eq-odeorder">Eq. 36</a>) — the same diagnostic used for quadrature in <a class="reference internal" href="quadrature-differentiation.html"><span class="std std-doc">§0.3</span></a>.</span><a class="headerlink" href="#fig-ode-order" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Euler is first order   [got 1.00931 vs expected 1 (rtol=1e-06)]
+✓  midpoint RK2 is second order   [got 2.01646 vs expected 2 (rtol=1e-06)]
+✓  RK4 is fourth order   [got 4.02706 vs expected 4 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-rungekutta-on-a-nonlinear-problem">
+<h2>Exercise 3 — Runge–Kutta on a nonlinear problem<a class="headerlink" href="#exercise-3-rungekutta-on-a-nonlinear-problem" title="Link to this heading">#</a></h2>
+<p>The order test used a linear equation; the point of Runge–Kutta is that the same
+fourth-order accuracy carries over to nonlinear problems, where no closed form is
+at hand. Take the explicit nonlinear IVP <span class="math notranslate nohighlight">\(y' = t - y^2\)</span>, <span class="math notranslate nohighlight">\(y(0)=1\)</span> on <span class="math notranslate nohighlight">\([0,2]\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Lacking an elementary solution to check against, build a trustworthy
+<strong>reference</strong> by running the <code class="docutils literal notranslate"><span class="pre">rk4</span></code> helper at a very fine step.</p></li>
+<li><p>Confirm that RK4 at a coarse step (64 steps) already agrees with it: the
+slope-sampling of <a class="reference internal" href="#equation-eq-rk-step">Eq. 37</a> proving its worth.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RK4 coarse (64 steps) = 1.2513155556
+RK4 fine reference    = 1.2513155562
+difference            = 5.18e-10
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  RK4 matches the fine reference on the nonlinear IVP y&#39;=t-y²   [got 1.25132 vs expected 1.25132 (rtol=1e-05)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-stiffness-when-explicit-methods-explode">
+<h2>Exercise 4 — Stiffness: when explicit methods explode<a class="headerlink" href="#exercise-4-stiffness-when-explicit-methods-explode" title="Link to this heading">#</a></h2>
+<p>Here is the centrepiece, and the idea that order alone never warns us about. The
+IVP <span class="math notranslate nohighlight">\(y' = -50\,y\)</span>, <span class="math notranslate nohighlight">\(y(0)=1\)</span> on <span class="math notranslate nohighlight">\([0,1]\)</span> has the gently decaying exact solution
+<span class="math notranslate nohighlight">\(e^{-50t}\)</span>, yet explicit Euler blows up on it unless the step respects the
+<strong>stability</strong> bound <span class="math notranslate nohighlight">\(h \le 2/k = 2/50 = 0.04\)</span> of <a class="reference internal" href="#equation-eq-stiffness">Eq. 38</a>. With <span class="math notranslate nohighlight">\(n=10\)</span>
+steps (<span class="math notranslate nohighlight">\(h=0.1 &gt; 0.04\)</span>) the numerical solution oscillates and explodes to <span class="math notranslate nohighlight">\(\sim
+10^6\)</span>; with <span class="math notranslate nohighlight">\(n=30\)</span> (<span class="math notranslate nohighlight">\(h\approx0.033 &lt; 0.04\)</span>) it stays bounded, its amplitude decaying even as its sign flips each step
+(<a class="reference internal" href="#fig-ode-stiff"><span class="std std-numref">Fig. 40</span></a>). The instability has nothing to do with accuracy (the
+true solution could hardly be calmer) and everything to do with the step.</p>
+<ol class="arabic simple">
+<li><p>Integrate with the <code class="docutils literal notranslate"><span class="pre">euler</span></code> helper at <span class="math notranslate nohighlight">\(n=10\)</span> (<span class="math notranslate nohighlight">\(h=0.1\)</span>) and <span class="math notranslate nohighlight">\(n=30\)</span>
+(<span class="math notranslate nohighlight">\(h\approx0.033\)</span>), on either side of the stability bound.</p></li>
+<li><p>Confirm the unstable run diverges while the stable one stays bounded.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>h=2/k threshold = 0.040
+Euler |y(1)| at h=0.1   = 1.049e+06  (true e^-50 = 1.93e-22)
+Euler |y(1)| at h=0.033 = 5.215e-06
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<figure class="align-default" id="fig-ode-stiff">
+<img alt="../../_images/f22662422210f37f4877164302abf4e6bc85a82ebaa5cacfd085fe20b1478923.png" src="../../_images/f22662422210f37f4877164302abf4e6bc85a82ebaa5cacfd085fe20b1478923.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 40 </span><span class="caption-text">Explicit Euler on the stiff IVP <span class="math notranslate nohighlight">\(y'=-50y,\ y(0)=1\)</span> (true solution <span class="math notranslate nohighlight">\(e^{-50t}\)</span>, dashed): at step <span class="math notranslate nohighlight">\(h=0.1\)</span> (dark, <span class="math notranslate nohighlight">\(&gt;2/k=0.04\)</span>) the iteration violates the stability bound <a class="reference internal" href="#equation-eq-stiffness">Eq. 38</a>, oscillates in sign, and explodes; at <span class="math notranslate nohighlight">\(h\approx0.033\)</span> (amber, <span class="math notranslate nohighlight">\(&lt;0.04\)</span>) it stays bounded, its amplitude decaying though its sign flips too. The blow-up is a stability failure, not an accuracy one — the exact solution is smooth and tiny throughout.</span><a class="headerlink" href="#fig-ode-stiff" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  explicit Euler is unstable when h exceeds 2/k, despite the true solution decaying   [|y(1)|: h=0.1 → 1.0e+06, h=0.033 → 5.2e-06]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-implicit-methods-and-unconditional-stability">
+<h2>Exercise 5 — Implicit methods and unconditional stability<a class="headerlink" href="#exercise-5-implicit-methods-and-unconditional-stability" title="Link to this heading">#</a></h2>
+<p>If evaluating the slope at the <em>start</em> of the step is what makes Euler unstable,
+evaluating it at the <em>end</em> is the fix. Backward Euler <a class="reference internal" href="#equation-eq-beuler">Eq. 39</a> puts
+<span class="math notranslate nohighlight">\(y_{n+1}\)</span> on both sides; for the linear stiff IVP <span class="math notranslate nohighlight">\(y'=-50\,y\)</span> the per-step
+equation <span class="math notranslate nohighlight">\(y_{n+1} = y_n - 50\,h\,y_{n+1}\)</span> solves algebraically to <span class="math notranslate nohighlight">\(y_{n+1} =
+y_n/(1+50h)\)</span>, whose multiplier <span class="math notranslate nohighlight">\(1/(1+50h)\)</span> has magnitude below one for <em>every</em>
+<span class="math notranslate nohighlight">\(h&gt;0\)</span>: unconditional stability. (For a nonlinear <span class="math notranslate nohighlight">\(\mathbf f\)</span> the per-step
+equation would instead need a root-find, exactly the machinery of
+<a class="reference internal" href="root-finding.html"><span class="std std-doc">§0.2</span></a>.)</p>
+<ol class="arabic simple">
+<li><p>Implement the linear backward-Euler step (the <code class="docutils literal notranslate"><span class="pre">backward_euler_linear</span></code> helper).</p></li>
+<li><p>Run it at <span class="math notranslate nohighlight">\(h=0.1\)</span>, the very step where explicit Euler exploded, and watch it
+decay.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>backward Euler |y(1)| at h=0.1 = 1.654e-08  (explicit Euler gave 1.0e+06)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  backward Euler is stable at a step (h=0.1) where explicit Euler blew up   [backward Euler |y(1)| = 1.65e-08]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-adaptive-step-size-control">
+<h2>Exercise 6 — Adaptive step-size control<a class="headerlink" href="#exercise-6-adaptive-step-size-control" title="Link to this heading">#</a></h2>
+<p>A production solver does not commit to one step size; it watches its own local
+error and adjusts <span class="math notranslate nohighlight">\(h\)</span> on the fly, taking small steps through fast transitions and
+large ones across slow arcs. To see this, integrate the <strong>Van der Pol
+oscillator</strong> (a self-sustaining nonlinear system with sharp relaxation kicks)
+at <span class="math notranslate nohighlight">\(\mu=5\)</span>: as a first-order system, <span class="math notranslate nohighlight">\(x'=v\)</span> and <span class="math notranslate nohighlight">\(v'=\mu(1-x^2)v - x\)</span>, with
+<span class="math notranslate nohighlight">\(x(0)=2,\ v(0)=0\)</span> on <span class="math notranslate nohighlight">\([0,20]\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Solve it with <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code> (the adaptive RK45 /
+Dormand–Prince pair).</p></li>
+<li><p>Look at the steps it <em>chose</em> (<code class="docutils literal notranslate"><span class="pre">numpy.diff</span></code> of <code class="docutils literal notranslate"><span class="pre">sol.t</span></code>): clustered tightly
+where the trajectory snaps, spread out where it glides
+(<a class="reference internal" href="#fig-ode-adaptive"><span class="std std-numref">Fig. 41</span></a>). A static plot of the accepted step points shows
+this far more honestly than a real-time march would.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>adaptive RK45 took 313 steps; dt ranges 5.00e-04–1.39e-01 (ratio 277×)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ode-adaptive">
+<img alt="../../_images/640ebe858f7de14fd45917d0faa89cdc32b24b8a516015093cb318b77929f4ce.png" src="../../_images/640ebe858f7de14fd45917d0faa89cdc32b24b8a516015093cb318b77929f4ce.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 41 </span><span class="caption-text">Adaptive step-size control of <code class="docutils literal notranslate"><span class="pre">solve_ivp</span></code> (RK45) on the Van der Pol oscillator <span class="math notranslate nohighlight">\(x''-\mu(1-x^2)x'+x=0\)</span> with <span class="math notranslate nohighlight">\(\mu=5\)</span>, <span class="math notranslate nohighlight">\(x(0)=2\)</span>, <span class="math notranslate nohighlight">\(x'(0)=0\)</span>. Left: the limit-cycle phase portrait; dots mark the solver’s <em>accepted</em> steps, bunching where the trajectory snaps through its relaxation kicks and thinning on the slow arcs. Right: the step size <span class="math notranslate nohighlight">\(\Delta t\)</span> versus time, varying by more than an order of magnitude — the solver spends effort only where the solution moves.</span><a class="headerlink" href="#fig-ode-adaptive" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the adaptive solver varies its step size by more than 10× over the trajectory   [max/min step ratio = 277×]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-order-isn-t-everything-energy-drift-student-exercise">
+<h2>Exercise 7 — Order isn’t everything: energy drift (student exercise)<a class="headerlink" href="#exercise-7-order-isn-t-everything-energy-drift-student-exercise" title="Link to this heading">#</a></h2>
+<p>A closing caution, and the general statement of what
+<a class="reference internal" href="../01-elementary-mechanics/integrators.html"><span class="std std-doc">§1.6</span></a> showed in one
+case: a high order buys short-term accuracy, but it does not buy long-term
+<em>geometric</em> fidelity. Integrate the Hamiltonian IVP <span class="math notranslate nohighlight">\(x''=-x\)</span> (the unit harmonic
+oscillator), <span class="math notranslate nohighlight">\(x(0)=1,\ x'(0)=0\)</span> as the system <span class="math notranslate nohighlight">\((x,v)'=(v,-x)\)</span> on the long interval
+<span class="math notranslate nohighlight">\([0,200]\)</span>, and track the energy <span class="math notranslate nohighlight">\(E=\tfrac12(x^2+v^2)\)</span>, which is exactly conserved
+by the true motion.</p>
+<ol class="arabic simple">
+<li><p>Integrate with <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code> (RK45) and follow <span class="math notranslate nohighlight">\(E(t)\)</span>.</p></li>
+<li><p>Show its energy error <em>grows</em> with time — a secular drift — despite the high
+order.</p></li>
+<li><p>Contrast with the symplectic <strong>velocity-Verlet</strong> scheme of
+<a class="reference internal" href="../01-elementary-mechanics/integrators.html"><span class="std std-doc">§1.6</span></a>, whose energy
+error oscillates in a <em>bounded</em> band forever (<a class="reference internal" href="#fig-ode-drift"><span class="std std-numref">Fig. 42</span></a>).</p></li>
+</ol>
+<p>A ✗ points at the energy bookkeeping, not at any drawing.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RK45 energy drift over [0,200]    = -2.44e-05
+Verlet energy excursion (max-min) = 7.81e-05 (bounded, non-drifting)
+error growth (2nd half / 1st half):  RK45 3.02  vs  Verlet 1.00
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ode-drift">
+<img alt="../../_images/965e138f05148c2267e0d0fafbd8b940657a74829112aee1f45cdd2b83912355.png" src="../../_images/965e138f05148c2267e0d0fafbd8b940657a74829112aee1f45cdd2b83912355.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 42 </span><span class="caption-text">Energy <span class="math notranslate nohighlight">\(E=\tfrac12(x^2+v^2)\)</span> of the harmonic oscillator <span class="math notranslate nohighlight">\(x''=-x\)</span> over <span class="math notranslate nohighlight">\([0,200]\)</span>: the high-order but non-symplectic RK45 (dark) slowly <em>drifts</em> the energy away from its true constant value, while the second-order but symplectic velocity-Verlet of <a class="reference internal" href="../01-elementary-mechanics/integrators.html"><span class="std std-doc">§1.6</span></a> (amber) keeps the energy error bounded for all time. Order buys short-term accuracy; symplectic geometry buys long-term fidelity.</span><a class="headerlink" href="#fig-ode-drift" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the non-symplectic RK45&#39;s energy error GROWS with time (secular drift) while the symplectic Verlet&#39;s stays bounded   [error-growth ratio: RK45 3.02 (&gt;1.5), Verlet 1.00 (&lt;1.5)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-choosing-a-solver-in-practice-synthesis">
+<h2>Exercise 8 — Choosing a solver in practice (synthesis)<a class="headerlink" href="#exercise-8-choosing-a-solver-in-practice-synthesis" title="Link to this heading">#</a></h2>
+<p>The decisions reduce to three questions, each answered by something seen above. Is
+the problem <strong>non-stiff</strong>? An explicit Runge–Kutta (<code class="docutils literal notranslate"><span class="pre">solve_ivp</span></code>’s default RK45)
+is fast and accurate. Is it <strong>stiff</strong> (widely separated timescales, an explicit
+method forced to crawl for stability)? Reach for an <em>implicit</em> solver,
+<code class="docutils literal notranslate"><span class="pre">method=&quot;BDF&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;Radau&quot;</span></code>, which inherits backward Euler’s unconditional
+stability. Is it a <strong>Hamiltonian system integrated over very long times</strong>? Prefer
+a symplectic scheme (velocity-Verlet,
+<a class="reference internal" href="../01-elementary-mechanics/integrators.html"><span class="std std-doc">§1.6</span></a>) for bounded energy.</p>
+<ol class="arabic simple">
+<li><p>To close the loop, re-solve the stiff IVP <span class="math notranslate nohighlight">\(y'=-50\,y\)</span>, <span class="math notranslate nohighlight">\(y(0)=1\)</span> on <span class="math notranslate nohighlight">\([0,1]\)</span>
+(the one that wrecked explicit Euler) with the implicit
+<code class="docutils literal notranslate"><span class="pre">solve_ivp(...,</span> <span class="pre">method=&quot;Radau&quot;)</span></code>.</p></li>
+<li><p>Confirm it matches <span class="math notranslate nohighlight">\(e^{-50t}\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Radau max error vs e^(-50t) = 4.14e-10
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-8">
+<h3>Validation 8<a class="headerlink" href="#validation-8" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  an implicit (Radau) solver handles the stiff problem accurately   [max|Δ| = 4.13558e-10 (rtol=0.0001, atol=1e-08)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">With your assistant</p>
+<p>Ask your assistant for a solver call for any initial-value problem in this
+notebook — then read <em>which</em> solver it chose (<code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code>, or
+the legacy <code class="docutils literal notranslate"><span class="pre">odeint</span></code> that models trained on older code still reach for), at
+what tolerances, and gate the trajectory against a known solution before
+trusting it. The check is yours.</p>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Euler’s method (first order, converging to <span class="math notranslate nohighlight">\(e^{-t}\)</span>), the measured order of a scheme, and
+Runge–Kutta (RK4 fourth order) on a nonlinear problem.</p></li>
+<li><p><strong>Stiffness</strong> making explicit methods explode, implicit methods and their unconditional
+stability, adaptive step-size control, the energy-drift caveat, and how to choose a solver
+(<code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code>) in practice.</p></li>
+</ul>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Multistep methods</strong> (Adams–Bashforth/Moulton, BDF) reuse past samples instead
+of recomputing intermediate stages, trading memory and start-up cost for
+cheaper steps.</p></li>
+<li><p><strong>Boundary-value problems</strong> replace “given the start, march forward” with
+conditions at both ends; <em>shooting</em> turns them back into an IVP plus a root-find
+(<a class="reference internal" href="root-finding.html"><span class="std std-doc">§0.2</span></a>): the route to the hydrogen radial equation in
+<a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html"><span class="std std-doc">§6.17</span></a>.</p></li>
+<li><p><strong>Symplectic integrators in depth</strong>
+(<a class="reference internal" href="../01-elementary-mechanics/integrators.html"><span class="std std-doc">§1.6</span></a>, and molecular dynamics
+in Volume VI) are the tool whenever long-time energy behaviour matters.</p></li>
+<li><p><strong>Event detection</strong> stops or branches the integration at a condition (a turning
+point, an impact) as the scattering integrator of
+<a class="reference internal" href="../02-classical-mechanics/scattering.html"><span class="std std-doc">§2.5</span></a> already does.</p></li>
+</ul>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<div class="docutils container" id="id3">
+<div role="list" class="citation-list">
+<div class="citation" id="id29" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">HNorsettW93</a><span class="fn-bracket">]</span></span>
+<p>Ernst Hairer, Syvert P. Nørsett, and Gerhard Wanner. <em>Solving Ordinary Differential Equations I: Nonstiff Problems</em>. Springer Series in Computational Mathematics. Springer, 2 edition, 1993.</p>
+</div>
+<div class="citation" id="id25" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">PTVF07</a><span class="fn-bracket">]</span></span>
+<p>William H. Press, Saul A. Teukolsky, William T. Vetterling, and Brian P. Flannery. <em>Numerical Recipes: The Art of Scientific Computing</em>. Cambridge University Press, 3 edition, 2007.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/00-foundations"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="fft.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">0.6 The Fast Fourier Transform</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="fitting-least-squares.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">0.8 Fitting and Least Squares</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-initial-value-problem">The initial-value problem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-s-method-and-the-order-of-a-method">Euler’s method and the order of a method</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rungekutta-sampling-the-slope">Runge–Kutta: sampling the slope</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stability-is-not-accuracy-stiffness">Stability is not accuracy: stiffness</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-methods-and-adaptivity">Implicit methods and adaptivity</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-euler-s-method-and-reducing-a-higher-order-ode">Exercise 1 — Euler’s method, and reducing a higher-order ODE</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-order-of-a-method">Exercise 2 — The order of a method</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-rungekutta-on-a-nonlinear-problem">Exercise 3 — Runge–Kutta on a nonlinear problem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-stiffness-when-explicit-methods-explode">Exercise 4 — Stiffness: when explicit methods explode</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-implicit-methods-and-unconditional-stability">Exercise 5 — Implicit methods and unconditional stability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-adaptive-step-size-control">Exercise 6 — Adaptive step-size control</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-order-isn-t-everything-energy-drift-student-exercise">Exercise 7 — Order isn’t everything: energy drift (student exercise)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-choosing-a-solver-in-practice-synthesis">Exercise 8 — Choosing a solver in practice (synthesis)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

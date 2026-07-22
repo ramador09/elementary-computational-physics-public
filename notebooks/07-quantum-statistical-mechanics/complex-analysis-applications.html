@@ -1,0 +1,1851 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/complex-analysis-applications.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: The previous notebook built the machinery of complex analysis and spent it on integrals chosen for their beauty. This one spends it on phy..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: The previous notebook built the machinery of complex analysis and spent it on integrals chosen for their beauty. This one spends it on phy..." />
+
+    <title>7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/07-quantum-statistical-mechanics/complex-analysis-applications';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/complex-analysis-applications.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals" href="statistical-toolkit.html" />
+    <link rel="prev" title="7.1 Complex Analysis I: Analytic Functions and the Residue Theorem" href="complex-analysis-residues.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VII — Quantum Statistical Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/07-quantum-statistical-mechanics/complex-analysis-applications.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/07-quantum-statistical-mechanics/complex-analysis-applications.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/07-quantum-statistical-mechanics/complex-analysis-applications.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/07-quantum-statistical-mechanics/complex-analysis-applications.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principal-values-and-sokhotskiplemelj">Principal values and Sokhotski–Plemelj</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#causality-forces-analyticity">Causality forces analyticity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-kramerskronig-relations">The Kramers–Kronig relations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summation-by-residues">Summation by residues</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matsubara-sums-the-statistics-before-the-statistics">Matsubara sums: the statistics before the statistics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steepest-descent-and-stirling">Steepest descent and Stirling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analytic-continuation">Analytic continuation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-sokhotskiplemelj-identity">Exercise 1 — The Sokhotski–Plemelj identity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-causality-places-the-poles">Exercise 2 — Causality places the poles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-kramerskronig-verified">Exercise 3 — Kramers–Kronig, verified</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-summation-by-residues-the-basel-problem">Exercise 4 — Summation by residues: the Basel problem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-matsubara-sums-the-thermal-occupations-emerge">Exercise 5 — Matsubara sums: the thermal occupations emerge</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-steepest-descent-and-stirling">Exercise 6 — Steepest descent and Stirling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-analytic-continuation-and-the-reflection-formula">Exercise 7 — Analytic continuation and the reflection formula</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-dispersion-from-absorption-data-alone">Exercise 8 — Dispersion from absorption data alone</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-theorems-you-can-measure">Exercise 9 — Theorems you can measure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="complex-analysis-ii-causality-kramerskronig-matsubara-sums-and-steepest-descent">
+<h1>7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent<a class="headerlink" href="#complex-analysis-ii-causality-kramerskronig-matsubara-sums-and-steepest-descent" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VII — Quantum Statistical Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;7.2
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Analyticity, it turns out, is not optional. Because no effect may precede its cause, the response functions of matter are analytic in half the complex plane — and so their absorption determines their dispersion, exactly, by an integral. Because the thermal weight functions have poles at evenly spaced imaginary frequencies, the sums of quantum statistics close by contours — and the Bose and Fermi distributions fall out before we have done any statistical mechanics at all. And because sharp peaks dominate large-N integrals, Stirling&#x27;s formula is four lines. The machinery of §7.1, pointed at physics.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;190–230 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>The previous notebook built the machinery of complex analysis and spent it on integrals chosen for
+their beauty. This one spends it on physics, and the difference in register matters: here
+analyticity is not a property we <em>assume</em> to make calculations tractable — it is a property nature
+<em>forces</em>, and its consequences are measurable. Four applications carry the argument, each a theorem
+of analyticity wearing physical clothing.</p>
+<p>First, the <strong>Sokhotski–Plemelj identity</strong>, the grammar in which every propagator and response
+function is written: a pole sitting on the integration path is not a disaster but a fork, and the
+<span class="math notranslate nohighlight">\(i\varepsilon\)</span> prescription that decides how to pass it splits one singular integral into a
+principal value (the <em>dispersive</em> part of a response) and a delta function (the <em>absorptive</em> part).
+Second, <strong>causality</strong>: the plain sentence “no effect precedes its cause” makes every causal
+response function analytic in the upper half of the complex frequency plane, and analyticity plus
+Sokhotski–Plemelj yields the <strong>Kramers–Kronig relations</strong> — absorption at all frequencies
+determines dispersion at every frequency, exactly. We verify this to six digits on an old friend,
+the damped driven oscillator of Volume I, and check the f-sum rule that real spectroscopies obey.
+Third, <strong>summation by residues</strong>: the poles of <span class="math notranslate nohighlight">\(\pi\cot(\pi z)\)</span> sit at the integers, so infinite
+sums close by contours — the Basel problem falls in three lines — and replacing the cotangent by
+its thermal cousins evaluates the <strong>Matsubara sums</strong> of thermal physics, out of which the Bose and
+Fermi occupation functions <em>emerge from contour analysis alone</em>, before this volume has done any
+statistical mechanics. When <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> derives the same functions
+from the grand canonical ensemble, two
+entirely independent routes will have met. Fourth, <strong>steepest descent</strong>: large-<span class="math notranslate nohighlight">\(N\)</span> integrals
+concentrate onto saddle points, Stirling’s formula — borrowed on credit in
+<a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html"><span class="std std-doc">§5.3</span></a> — is finally
+<em>derived</em>, and stationary phase is named as the principle WKB
+(<a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a>) was secretly using.</p>
+<p>A closing section states <strong>analytic continuation</strong>: the identity theorem (rigidity once more), the
+Gamma reflection formula — which the observant reader will recognize as the keyhole integral of
+<a class="reference internal" href="complex-analysis-residues.html"><span class="std std-doc">§7.1</span></a> in
+disguise — and the Riemann zeta function, including the particular number <span class="math notranslate nohighlight">\(\zeta(3/2) = 2.612\dots\)</span>
+that the Bose–Einstein condensation temperature is made of.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Fourier transforms of response functions use the physics sign
+<span class="math notranslate nohighlight">\(\chi(\omega) = \int_0^\infty \chi(t)\,e^{+i\omega t}\,dt\)</span>, so that causality (<span class="math notranslate nohighlight">\(\chi(t) = 0\)</span> for
+<span class="math notranslate nohighlight">\(t&lt;0\)</span>) implies analyticity in the <strong>upper</strong> half-plane, where <span class="math notranslate nohighlight">\(e^{i\omega t}\)</span> decays. Real-valued
+response in time implies the reality condition <span class="math notranslate nohighlight">\(\chi(-\omega) = \chi(\omega)^*\)</span> (Re <span class="math notranslate nohighlight">\(\chi\)</span> even,
+Im <span class="math notranslate nohighlight">\(\chi\)</span> odd), which every full-line integral below uses. Every principal value is computed with
+<code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad(weight='cauchy',</span> <span class="pre">wvar=...)</span></code> — the weighted rule built for exactly this
+kernel — never by naive quadrature across a pole. Matsubara frequencies are bosonic
+<span class="math notranslate nohighlight">\(\omega_n = 2\pi n/\beta\)</span> and fermionic <span class="math notranslate nohighlight">\(\omega_n = (2n+1)\pi/\beta\)</span>; frequency sums are done by
+symmetric truncation with the cutoff stated and the <span class="math notranslate nohighlight">\(1/n^2\)</span> tail estimated, honestly, alongside.
+All large-<span class="math notranslate nohighlight">\(N\)</span> factorial comparisons live in log space via <code class="docutils literal notranslate"><span class="pre">scipy.special.gammaln</span></code>, because
+<code class="docutils literal notranslate"><span class="pre">scipy.special.gamma</span></code> overflows beyond <span class="math notranslate nohighlight">\(N \approx 170\)</span> — a real float boundary that this volume
+converts into a discipline rather than an accident.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against an independent
+fact: the <span class="math notranslate nohighlight">\(i\varepsilon\)</span> integrals converging to <span class="math notranslate nohighlight">\(\mathrm{P} + i\pi f(x_0)\)</span>; the causal poles
+sitting at <span class="math notranslate nohighlight">\(\operatorname{Im}\omega = -\gamma/2\)</span> and the numerical Fourier transform of the
+time-domain response reproducing <span class="math notranslate nohighlight">\(\chi(\omega)\)</span>; the Kramers–Kronig reconstruction landing on the
+exact dispersion to <span class="math notranslate nohighlight">\(10^{-6}\)</span> and the f-sum rule giving <span class="math notranslate nohighlight">\(\pi/2\)</span>; residue-summation closed forms
+against truncated series and <code class="docutils literal notranslate"><span class="pre">scipy.special.zeta</span></code>; Matsubara sums against their <span class="math notranslate nohighlight">\(\coth\)</span>/<span class="math notranslate nohighlight">\(\tanh\)</span>
+closed forms to seven digits; Stirling’s log-error equalling <span class="math notranslate nohighlight">\(1/(12N)\)</span>; and the reflection
+formula against <code class="docutils literal notranslate"><span class="pre">scipy.special.gamma</span></code> at real and complex arguments. A ✓ is strong evidence; a ✗
+is a prompt to <em>locate the discrepancy</em>.</p>
+<p><strong>Scope.</strong> Four physicist’s applications of one-variable complex analysis, computationally.
+Matsubara <em>Green’s functions</em> — the many-body formalism these frequency sums serve — need second
+quantization and are a Volume VIII horizon, as is the full linear-response/Kubo framework behind
+Kramers–Kronig. See Arfken, Weber &amp; Harris (dispersion relations, saddle-point methods); Jackson,
+<em>Classical Electrodynamics</em> (Kramers–Kronig in optics); Mahan, <em>Many-Particle Physics</em> or Altland
+&amp; Simons (the Matsubara formalism, for the horizon). Cross-reference
+<a class="reference internal" href="complex-analysis-residues.html"><span class="std std-doc">§7.1</span></a> (the machinery), Volume
+I (the damped driven oscillator),
+<a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html"><span class="std std-doc">§6.24</span></a> (absorption and linewidths —
+Im <span class="math notranslate nohighlight">\(\chi\)</span> is what the golden
+rule computes), <a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html"><span class="std std-doc">§5.3</span></a> (Stirling, now finally
+derived), <a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a> (WKB),
+<a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html"><span class="std std-doc">§5.9</span></a> (the ensemble route
+that <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>
+will take to the same occupations), and forward to <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>,
+<a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>, <a class="reference internal" href="bose-einstein-condensation.html"><span class="std std-doc">§7.17</span></a>,
+<a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="principal-values-and-sokhotskiplemelj">
+<h3>Principal values and Sokhotski–Plemelj<a class="headerlink" href="#principal-values-and-sokhotskiplemelj" title="Link to this heading">#</a></h3>
+<p>An integral whose integrand has a simple pole <em>on</em> the path, <span class="math notranslate nohighlight">\(\int f(x)/(x - x_0)\,dx\)</span>, is given
+meaning by the <strong>principal value</strong>: excise a symmetric interval <span class="math notranslate nohighlight">\((x_0-\delta, x_0+\delta)\)</span>, let
+<span class="math notranslate nohighlight">\(\delta \to 0\)</span>, and the divergences on the two sides cancel against each other. (Computationally
+this is <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad(weight='cauchy',</span> <span class="pre">wvar=x0)</span></code>, which knows the kernel analytically.)
+Alternatively, push the pole slightly <em>off</em> the path with an <span class="math notranslate nohighlight">\(i\varepsilon\)</span> and ask what survives
+the limit:</p>
+<div class="math notranslate nohighlight" id="equation-eq-sokhotski-plemelj">
+<span class="eqno">(567)<a class="headerlink" href="#equation-eq-sokhotski-plemelj" title="Link to this equation">#</a></span>\[\lim_{\varepsilon\to 0^+} \frac{1}{x - x_0 \mp i\varepsilon}
+= \mathrm{P}\,\frac{1}{x - x_0} \pm i\pi\,\delta(x - x_0) .\]</div>
+<p>The derivation is a split into real and imaginary parts: <span class="math notranslate nohighlight">\(\frac{1}{x - x_0 - i\varepsilon} =
+\frac{x - x_0}{(x-x_0)^2 + \varepsilon^2} + \frac{i\varepsilon}{(x-x_0)^2 + \varepsilon^2}\)</span>. The
+real part tends to the principal-value kernel; the imaginary part is a Lorentzian of unit area
+times <span class="math notranslate nohighlight">\(\pi\)</span> — a <strong>nascent delta function</strong>. One pole, two pieces of physics: in a response
+function the <span class="math notranslate nohighlight">\(\mathrm{P}\)</span> part is the reactive, <strong>dispersive</strong> response and the <span class="math notranslate nohighlight">\(\delta\)</span> part is
+the dissipative, <strong>absorptive</strong> one. Every <span class="math notranslate nohighlight">\(i\varepsilon\)</span> in field theory is this identity.</p>
+</section>
+<section id="causality-forces-analyticity">
+<h3>Causality forces analyticity<a class="headerlink" href="#causality-forces-analyticity" title="Link to this heading">#</a></h3>
+<p>Let <span class="math notranslate nohighlight">\(\chi(t)\)</span> be a response function — the output at time <span class="math notranslate nohighlight">\(t\)</span> per unit impulse at time <span class="math notranslate nohighlight">\(0\)</span> — and
+let it be <strong>causal</strong>: <span class="math notranslate nohighlight">\(\chi(t) = 0\)</span> for <span class="math notranslate nohighlight">\(t &lt; 0\)</span>. Its Fourier transform then only integrates over
+<span class="math notranslate nohighlight">\(t &gt; 0\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-causality">
+<span class="eqno">(568)<a class="headerlink" href="#equation-eq-causality" title="Link to this equation">#</a></span>\[\chi(\omega) = \int_0^\infty \chi(t)\,e^{i\omega t}\,dt
+\quad\Longrightarrow\quad
+\chi \text{ is analytic for } \operatorname{Im}\omega &gt; 0,\]</div>
+<p>because for <span class="math notranslate nohighlight">\(\operatorname{Im}\omega &gt; 0\)</span> the factor <span class="math notranslate nohighlight">\(e^{i\omega t}\)</span> <em>decays</em> and the integral
+converges — better than converges: it can be differentiated under the integral sign, which is
+analyticity. Causality, a statement about time, has become a statement about the complex plane.
+Our laboratory specimen is the damped driven oscillator of Volume I, <span class="math notranslate nohighlight">\(\ddot x + \gamma\dot x +
+\omega_0^2 x = F(t)\)</span>, whose susceptibility <span class="math notranslate nohighlight">\(\chi(\omega) = 1/(\omega_0^2 - \omega^2 - i\gamma\omega)\)</span>
+has poles at <span class="math notranslate nohighlight">\(\omega = \pm\Omega - i\gamma/2\)</span> with <span class="math notranslate nohighlight">\(\Omega = \sqrt{\omega_0^2 - \gamma^2/4}\)</span> —
+both in the <strong>lower</strong> half-plane, as causality demands. A real response in time adds the
+<strong>reality condition</strong> <span class="math notranslate nohighlight">\(\chi(-\omega) = \chi(\omega)^*\)</span>: Re <span class="math notranslate nohighlight">\(\chi\)</span> is even, Im <span class="math notranslate nohighlight">\(\chi\)</span> is odd.</p>
+</section>
+<section id="the-kramerskronig-relations">
+<h3>The Kramers–Kronig relations<a class="headerlink" href="#the-kramerskronig-relations" title="Link to this heading">#</a></h3>
+<p>Apply the Cauchy integral formula to <span class="math notranslate nohighlight">\(\chi\)</span> along the real axis, closed in the analytic upper
+half-plane, with a small semicircular detour around the point <span class="math notranslate nohighlight">\(\omega\)</span> — Sokhotski–Plemelj
+supplies the <span class="math notranslate nohighlight">\(\pm i\pi\)</span> boundary term — and analyticity delivers</p>
+<div class="math notranslate nohighlight" id="equation-eq-kramers-kronig">
+<span class="eqno">(569)<a class="headerlink" href="#equation-eq-kramers-kronig" title="Link to this equation">#</a></span>\[\operatorname{Re}\chi(\omega) = \frac{1}{\pi}\,\mathrm{P}\!\int_{-\infty}^{\infty}
+\frac{\operatorname{Im}\chi(\omega')}{\omega' - \omega}\,d\omega',
+\qquad
+\operatorname{Im}\chi(\omega) = -\frac{1}{\pi}\,\mathrm{P}\!\int_{-\infty}^{\infty}
+\frac{\operatorname{Re}\chi(\omega')}{\omega' - \omega}\,d\omega' .\]</div>
+<p>The physics deserves slow reading: <strong>absorption at all frequencies determines dispersion at every
+frequency</strong>, and vice versa — refraction and attenuation are one analytic function seen twice. No
+experiment has ever caught a causal medium violating these relations. With the reality condition
+folding the integral onto <span class="math notranslate nohighlight">\(\omega' &gt; 0\)</span>, we verify the first relation to six digits on the
+oscillator, and we check the <strong>f-sum rule</strong> <span class="math notranslate nohighlight">\(\int_0^\infty \omega \operatorname{Im}\chi(\omega)\,
+d\omega = \pi/2\)</span> (for unit mass) — a model-independent constraint tying the whole absorption
+spectrum to nothing but inertia, which practical spectroscopy uses as a consistency check on data.
+The general linear-response (Kubo) framework behind these relations is Volume VIII territory.</p>
+</section>
+<section id="summation-by-residues">
+<h3>Summation by residues<a class="headerlink" href="#summation-by-residues" title="Link to this heading">#</a></h3>
+<p>The function <span class="math notranslate nohighlight">\(\pi\cot(\pi z)\)</span> has a simple pole at every integer <span class="math notranslate nohighlight">\(n\)</span>, each with residue exactly
+<span class="math notranslate nohighlight">\(1\)</span>. Integrate <span class="math notranslate nohighlight">\(f(z)\,\pi\cot(\pi z)\)</span> around a huge contour: if <span class="math notranslate nohighlight">\(f\)</span> decays fast enough the
+integral vanishes as the contour grows, and the residue theorem converts the sum over integer
+poles into (minus) the residues at the poles of <span class="math notranslate nohighlight">\(f\)</span> itself,</p>
+<div class="math notranslate nohighlight" id="equation-eq-residue-summation">
+<span class="eqno">(570)<a class="headerlink" href="#equation-eq-residue-summation" title="Link to this equation">#</a></span>\[\sum_{n=-\infty}^{\infty} f(n) = -\sum_{\text{poles } z_k \text{ of } f}
+\operatorname{Res}_{z=z_k}\big[\pi\cot(\pi z)\,f(z)\big] .\]</div>
+<p>The <strong>Basel problem</strong> falls in three lines: <span class="math notranslate nohighlight">\(f(z) = 1/z^2\)</span> has its only pole at <span class="math notranslate nohighlight">\(0\)</span>, where the
+Laurent expansion <span class="math notranslate nohighlight">\(\pi\cot(\pi z) = 1/z - \pi^2 z/3 - \dots\)</span> gives
+<span class="math notranslate nohighlight">\(\operatorname{Res}_0[\pi\cot(\pi z)/z^2] = -\pi^2/3\)</span>, whence <span class="math notranslate nohighlight">\(2\sum_{n\ge1} 1/n^2 = \pi^2/3\)</span> and
+<span class="math notranslate nohighlight">\(\zeta(2) = \pi^2/6\)</span>. The shifted identity <span class="math notranslate nohighlight">\(\sum_{n\ge1} 1/(n^2+a^2) = \big(\pi\coth(\pi a)/a -
+1/a^2\big)/2\)</span> follows the same way from the poles at <span class="math notranslate nohighlight">\(\pm ia\)</span> — and it is the deliberately chosen
+warm-up whose thermal cousin is next.</p>
+</section>
+<section id="matsubara-sums-the-statistics-before-the-statistics">
+<h3>Matsubara sums: the statistics before the statistics<a class="headerlink" href="#matsubara-sums-the-statistics-before-the-statistics" title="Link to this heading">#</a></h3>
+<p>Thermal physics is full of sums over the <strong>Matsubara frequencies</strong> — bosonic <span class="math notranslate nohighlight">\(\omega_n = 2\pi
+n/\beta\)</span> and fermionic <span class="math notranslate nohighlight">\(\omega_n = (2n+1)\pi/\beta\)</span>, with <span class="math notranslate nohighlight">\(\beta\)</span> the inverse temperature. These
+sums close by contours exactly as the integer sums did, once the cotangent is replaced by its
+thermal cousins: the <strong>Bose weight</strong> <span class="math notranslate nohighlight">\(\beta\,n_B(z) \equiv \beta/(e^{\beta z}-1)\)</span> has simple poles
+with unit residue at precisely <span class="math notranslate nohighlight">\(z = i\omega_n\)</span> (bosonic), and <span class="math notranslate nohighlight">\(-\beta\,n_F(z) \equiv
+-\beta/(e^{\beta z}+1)\)</span> at the fermionic ones. The flagship evaluations,</p>
+<div class="math notranslate nohighlight" id="equation-eq-matsubara">
+<span class="eqno">(571)<a class="headerlink" href="#equation-eq-matsubara" title="Link to this equation">#</a></span>\[\begin{split}\frac{1}{\beta}\sum_{n=-\infty}^{\infty} \frac{1}{\omega_n^2 + \varepsilon^2} =
+\begin{cases}
+\dfrac{1}{2\varepsilon}\coth\dfrac{\beta\varepsilon}{2}
+  = \dfrac{1}{2\varepsilon}\big[1 + 2 n_B(\varepsilon)\big] &amp; \text{(bosonic)}\\[10pt]
+\dfrac{1}{2\varepsilon}\tanh\dfrac{\beta\varepsilon}{2}
+  = \dfrac{1}{2\varepsilon}\big[1 - 2 n_F(\varepsilon)\big] &amp; \text{(fermionic)},
+\end{cases}\end{split}\]</div>
+<p>are verified below to seven digits against symmetric truncations. Pause on what happens in
+<a class="reference internal" href="#equation-eq-matsubara">Eq. 571</a>: the <strong>Bose and Fermi occupation functions</strong> <span class="math notranslate nohighlight">\(n_B(\varepsilon) =
+1/(e^{\beta\varepsilon}-1)\)</span> and <span class="math notranslate nohighlight">\(n_F(\varepsilon) = 1/(e^{\beta\varepsilon}+1)\)</span> have emerged from
+contour integration alone — before this volume has defined an ensemble. When
+<a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> derives the same
+functions from the grand canonical machinery of
+<a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html"><span class="std std-doc">§5.9</span></a>, two entirely
+independent routes will have
+met, and their agreement is the kind of consistency physics is built on. (The Matsubara <strong>Green’s
+functions</strong> these sums serve in many-body theory need second quantization: a named Volume VIII
+horizon.)</p>
+</section>
+<section id="steepest-descent-and-stirling">
+<h3>Steepest descent and Stirling<a class="headerlink" href="#steepest-descent-and-stirling" title="Link to this heading">#</a></h3>
+<p>Integrals of the form <span class="math notranslate nohighlight">\(\int e^{N f(x)}\,dx\)</span> are dominated, for large <span class="math notranslate nohighlight">\(N\)</span>, by the neighbourhood of
+the maximum <span class="math notranslate nohighlight">\(x_0\)</span> of <span class="math notranslate nohighlight">\(f\)</span>: expanding <span class="math notranslate nohighlight">\(f\)</span> to second order and doing the resulting Gaussian integral
+gives the <strong>Laplace approximation</strong>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-steepest-descent">
+<span class="eqno">(572)<a class="headerlink" href="#equation-eq-steepest-descent" title="Link to this equation">#</a></span>\[\int e^{N f(x)}\,dx \;\approx\; e^{N f(x_0)}\sqrt{\frac{2\pi}{N\,|f''(x_0)|}} ,\]</div>
+<p>with relative corrections in powers of <span class="math notranslate nohighlight">\(1/N\)</span>. Applied to <span class="math notranslate nohighlight">\(N! = \Gamma(N+1) = \int_0^\infty
+e^{N\ln t - t}\,dt\)</span> — substitute <span class="math notranslate nohighlight">\(t = Ns\)</span> to expose the form, saddle at <span class="math notranslate nohighlight">\(s = 1\)</span> — it yields
+<strong>Stirling’s formula</strong> <span class="math notranslate nohighlight">\(N! \approx \sqrt{2\pi N}\,(N/e)^N\)</span> in four lines: the workhorse that
+<a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html"><span class="std std-doc">§5.3</span></a>
+borrowed on credit is finally derived, and the first correction <span class="math notranslate nohighlight">\(1/(12N)\)</span> is visible numerically
+at every <span class="math notranslate nohighlight">\(N\)</span> we test. The complex generalization deforms the contour through a saddle point along
+the path of steepest descent (hence the name); its oscillatory sibling, <strong>stationary phase</strong>, is
+the principle the WKB approximation (<a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a>) was
+secretly using, and the one the path integral’s
+classical limit (the neighbourhood of <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>) will use.</p>
+</section>
+<section id="analytic-continuation">
+<h3>Analytic continuation<a class="headerlink" href="#analytic-continuation" title="Link to this heading">#</a></h3>
+<p>The <strong>identity theorem</strong> — two functions analytic on a connected domain that agree on any set with
+a limit point agree everywhere — is rigidity’s sharpest edge: it makes extension beyond a
+formula’s domain of convergence <em>unique</em> whenever it exists at all,</p>
+<div class="math notranslate nohighlight" id="equation-eq-continuation">
+<span class="eqno">(573)<a class="headerlink" href="#equation-eq-continuation" title="Link to this equation">#</a></span>\[\Gamma(z)\,\Gamma(1-z) = \frac{\pi}{\sin(\pi z)},
+\qquad
+\zeta(s) = \sum_{n=1}^{\infty}\frac{1}{n^s}\ (\operatorname{Re}s&gt;1)\ \text{, continued to } \mathbb{C}\setminus\{1\} .\]</div>
+<p>The reflection formula on the left deserves a double take: the keyhole integral of
+<a class="reference internal" href="complex-analysis-residues.html"><span class="std std-doc">§7.1</span></a>,
+<span class="math notranslate nohighlight">\(\int_0^\infty x^{\alpha-1}/(1+x)\,dx = \pi/\sin(\pi\alpha)\)</span>, <em>is</em> this formula, because the
+integral is the Beta function <span class="math notranslate nohighlight">\(B(\alpha, 1-\alpha) = \Gamma(\alpha)\Gamma(1-\alpha)\)</span>. And the zeta
+function’s continuation is not a curiosity: <span class="math notranslate nohighlight">\(\zeta(2) = \pi^2/6\)</span> closes the Basel circle, while
+<span class="math notranslate nohighlight">\(\zeta(3/2) = 2.612\dots\)</span> is the number the Bose–Einstein condensation temperature
+(<a class="reference internal" href="bose-einstein-condensation.html"><span class="std std-doc">§7.17</span></a>) is made
+of. We state and check; the systematic theory — the Gamma function’s continuation and the zeta
+function’s functional equation — is carried out in full by Arfken, Weber &amp; Harris,
+<em>Mathematical Methods for Physicists</em>.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">quad</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">gamma</span> <span class="k">as</span> <span class="n">gamma_fn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">gammaln</span><span class="p">,</span> <span class="n">zeta</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>
+<span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;#c1121f&quot;</span>
+
+<span class="c1"># Conventions: response-function transforms use e^(+iωt), so causality</span>
+<span class="c1"># puts analyticity in the UPPER half ω-plane; the reality condition χ(−ω) = conj χ(ω)</span>
+<span class="c1"># folds full-line integrals onto ω &gt; 0; principal values ALWAYS via</span>
+<span class="c1"># scipy.integrate.quad(weight=&#39;cauchy&#39;, wvar=·); Matsubara sums by symmetric truncation</span>
+<span class="c1"># with the cutoff stated and the 1/n^2 tail estimated; large-N factorials in log space</span>
+<span class="c1"># (scipy.special.gammaln), never through scipy.special.gamma, which overflows at N ≈ 170.</span>
+
+<span class="c1"># The laboratory response function for Exercises 2, 3, and 8: the damped driven</span>
+<span class="c1"># oscillator of Volume I with unit mass, natural frequency OMEGA0 and damping GAMMA.</span>
+<span class="n">OMEGA0</span><span class="p">,</span> <span class="n">GAMMA</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.3</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">chi</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The damped-oscillator susceptibility χ(ω) = 1/(ω0^2 − ω^2 − iγω) (eq-causality).</span>
+
+<span class="sd">    The unit-mass damped driven oscillator of Volume I, x&#39;&#39; + γ x&#39; + ω0^2 x = F(t),</span>
+<span class="sd">    solved in frequency space with the e^(+iωt) convention. Its two poles sit at</span>
+<span class="sd">    ω = ±Ω − iγ/2 with Ω = √(ω0^2 − γ^2/4) — both in the LOWER half-plane, which is</span>
+<span class="sd">    causality&#39;s fingerprint and the hypothesis behind Kramers–Kronig. Accepts complex ω</span>
+<span class="sd">    (Exercise 2 evaluates it off the real axis).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    w : float, complex or numpy.ndarray</span>
+<span class="sd">        Frequency (may be complex).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    complex or numpy.ndarray</span>
+<span class="sd">        χ(ω), with OMEGA0 and GAMMA from the module scope.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">OMEGA0</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">w</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">w</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">principal_value</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;P ∫_a^b f(x)/(x − x0) dx via scipy.integrate.quad&#39;s Cauchy weight.</span>
+
+<span class="sd">    The weighted rule (weight=&#39;cauchy&#39;, wvar=x0) knows the singular kernel 1/(x − x0)</span>
+<span class="sd">    analytically and integrates only the smooth factor f numerically — the correct tool</span>
+<span class="sd">    for every principal value in this notebook, and far more accurate than any naive</span>
+<span class="sd">    symmetric-excision quadrature. The pole must lie strictly inside (a, b).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : callable</span>
+<span class="sd">        The smooth numerator f(x).</span>
+<span class="sd">    x0 : float</span>
+<span class="sd">        Location of the simple pole, with a &lt; x0 &lt; b.</span>
+<span class="sd">    a, b : float</span>
+<span class="sd">        Finite integration limits.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The principal-value integral.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">quad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;cauchy&quot;</span><span class="p">,</span> <span class="n">wvar</span><span class="o">=</span><span class="n">x0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">kk_real_from_imag</span><span class="p">(</span><span class="n">im_chi</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">w_max</span><span class="o">=</span><span class="mf">500.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Re χ(ω) from Im χ alone by the Kramers–Kronig relation (eq-kramers-kronig).</span>
+
+<span class="sd">    Uses the reality condition (Im χ odd) to fold the full-line integral onto ω&#39; &gt; 0:</span>
+<span class="sd">    Re χ(ω) = (2/π) P ∫_0^∞ ω&#39; Im χ(ω&#39;)/(ω&#39;^2 − ω^2) dω&#39;. The remaining simple pole at</span>
+<span class="sd">    ω&#39; = ω is handled by writing 1/(ω&#39;^2 − ω^2) = [1/(ω&#39; + ω)]·1/(ω&#39; − ω) and handing</span>
+<span class="sd">    the second factor to quad&#39;s Cauchy weight via :func:`principal_value`. The upper</span>
+<span class="sd">    limit w_max truncates a tail that decays like γ/ω&#39;^4 for the oscillator — a</span>
+<span class="sd">    ~5e-10-level bandwidth error at the default, stated rather than hidden (Exercise 8</span>
+<span class="sd">    studies the finite-bandwidth error deliberately).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    im_chi : callable</span>
+<span class="sd">        The absorptive part Im χ(ω&#39;) for ω&#39; ≥ 0.</span>
+<span class="sd">    w : float</span>
+<span class="sd">        The frequency at which to reconstruct the dispersive part, 0 &lt; w &lt; w_max.</span>
+<span class="sd">    w_max : float, optional</span>
+<span class="sd">        Truncation of the folded integral (default 500.0).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The reconstructed Re χ(ω).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">wp</span><span class="p">:</span> <span class="n">wp</span> <span class="o">*</span> <span class="n">im_chi</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">wp</span> <span class="o">+</span> <span class="n">w</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">principal_value</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">w_max</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">matsubara_sum</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">statistics</span><span class="p">,</span> <span class="n">n_max</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;(1/β) Σ_n g(ω_n) over Matsubara frequencies, by symmetric truncation |n| ≤ n_max.</span>
+
+<span class="sd">    The frequency grids (eq-matsubara): bosonic ω_n = 2πn/β, fermionic</span>
+<span class="sd">    ω_n = (2n+1)π/β. For the 1/ω_n^2-decaying summands of this notebook the truncation</span>
+<span class="sd">    error is a ~Σ_(n&gt;n_max) (β/2πn)^2 tail, i.e. O(1/n_max) — with n_max ~ 3×10^5 that</span>
+<span class="sd">    is a seventh-digit effect, and Exercise 5 prints the estimate next to the result</span>
+<span class="sd">    rather than pretending the sum ran to infinity.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : callable</span>
+<span class="sd">        Summand as a function of the (real) Matsubara frequency ω_n; vectorized.</span>
+<span class="sd">    beta : float</span>
+<span class="sd">        Inverse temperature β.</span>
+<span class="sd">    statistics : str</span>
+<span class="sd">        &#39;bose&#39; (ω_n = 2πn/β) or &#39;fermi&#39; (ω_n = (2n+1)π/β).</span>
+<span class="sd">    n_max : int</span>
+<span class="sd">        Symmetric truncation: n runs from −n_max to +n_max.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The truncated frequency sum divided by β.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">n_max</span><span class="p">,</span> <span class="n">n_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">statistics</span> <span class="o">==</span> <span class="s2">&quot;bose&quot;</span><span class="p">:</span>
+        <span class="n">w_n</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">n</span> <span class="o">/</span> <span class="n">beta</span>
+    <span class="k">elif</span> <span class="n">statistics</span> <span class="o">==</span> <span class="s2">&quot;fermi&quot;</span><span class="p">:</span>
+        <span class="n">w_n</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">n</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">beta</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;statistics must be &#39;bose&#39; or &#39;fermi&#39;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">w_n</span><span class="p">))</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">laplace_approx</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">d2f_x0</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Laplace approximation ∫ e^(N f(x)) dx ≈ e^(N f(x0)) √(2π/(N |f&#39;&#39;(x0)|)).</span>
+
+<span class="sd">    Direct implementation of eq-steepest-descent: the integral concentrates on a</span>
+<span class="sd">    Gaussian of width ~1/√N around the maximum x0 of f, and the prefactor is that</span>
+<span class="sd">    Gaussian&#39;s area. Returned in LOG form, ln I ≈ N f(x0) + (1/2) ln(2π/(N |f&#39;&#39;|)),</span>
+<span class="sd">    because the notebook&#39;s applications (Stirling at N up to 1000) overflow any float</span>
+<span class="sd">    in linear space — the volume&#39;s log-space discipline.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : callable</span>
+<span class="sd">        The exponent profile f(x).</span>
+<span class="sd">    d2f_x0 : float</span>
+<span class="sd">        The second derivative f&#39;&#39;(x0) at the maximum (negative).</span>
+<span class="sd">    x0 : float</span>
+<span class="sd">        Location of the interior maximum of f.</span>
+<span class="sd">    N : float</span>
+<span class="sd">        The large parameter.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        ln of the Laplace estimate of ∫ e^(N f(x)) dx.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">N</span> <span class="o">*</span> <span class="n">f</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">d2f_x0</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-the-sokhotskiplemelj-identity">
+<h2>Exercise 1 — The Sokhotski–Plemelj identity<a class="headerlink" href="#exercise-1-the-sokhotskiplemelj-identity" title="Link to this heading">#</a></h2>
+<p>One pole, two pieces of physics: the <span class="math notranslate nohighlight">\(i\varepsilon\)</span> prescription splits a singular integral into a
+dispersive principal value and an absorptive delta function, and the split can be watched
+numerically. Cite <a class="reference internal" href="#equation-eq-sokhotski-plemelj">Eq. 567</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive the identity by splitting <span class="math notranslate nohighlight">\(1/(x - x_0 - i\varepsilon)\)</span> into real and imaginary parts and
+recognizing the nascent delta function.</p></li>
+<li><p>Compute the principal value <span class="math notranslate nohighlight">\(\mathrm{P}\int e^{-x^2}/(x - x_0)\,dx\)</span> with
+<code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad(weight='cauchy',</span> <span class="pre">wvar=x0)</span></code> (the <code class="docutils literal notranslate"><span class="pre">principal_value</span></code> helper), for
+<span class="math notranslate nohighlight">\(x_0 = 0.5\)</span> on <span class="math notranslate nohighlight">\([-8, 8]\)</span>.</p></li>
+<li><p>Evaluate the real and imaginary parts of <span class="math notranslate nohighlight">\(\int e^{-x^2}/(x - x_0 - i\varepsilon)\,dx\)</span> by plain
+<code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> for <span class="math notranslate nohighlight">\(\varepsilon = 10^{-1}, 10^{-2}, 10^{-3}\)</span>, and confirm convergence
+to the principal value and to <span class="math notranslate nohighlight">\(\pi e^{-x_0^2}\)</span> respectively — including the honest,
+first-order-in-<span class="math notranslate nohighlight">\(\varepsilon\)</span> rate.</p></li>
+<li><p>Interpret: in a response function, the <span class="math notranslate nohighlight">\(\mathrm{P}\)</span> part is the reactive (dispersive) response
+and the <span class="math notranslate nohighlight">\(\delta\)</span> part the dissipative (absorptive) one. (Prose part.)</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P ∫ e^(−x^2)/(x − 0.5) dx = -1.5045878048   (quad, weight=&#39;cauchy&#39;)
+π e^(−x0^2)               = 2.4466748187   (the delta part&#39;s target)
+
+ε-sequence of ∫ e^(−x^2)/(x − x0 − iε) dx  (plain quad, real and imaginary parts):
+  ε = 1e-01:  Re = -1.2832602 (|err| 2.2e-01)   Im = 2.2543684 (|err| 1.9e-01)
+  ε = 1e-02:  Re = -1.4803715 (|err| 2.4e-02)   Im = 2.4263934 (|err| 2.0e-02)
+  ε = 1e-03:  Re = -1.5021437 (|err| 2.4e-03)   Im = 2.4446357 (|err| 2.0e-03)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Sokhotski–Plemelj: the iε integrals converge to P∫ + iπf(x0)   [at ε=1e-3: Re err 2.4e-03, Im err 2.0e-03]
+✓  the convergence is monotone in ε (first-order rate, honestly first-order)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-causality-places-the-poles">
+<h2>Exercise 2 — Causality places the poles<a class="headerlink" href="#exercise-2-causality-places-the-poles" title="Link to this heading">#</a></h2>
+<p>No effect before its cause — and the complex frequency plane keeps the receipt: the poles of a
+causal susceptibility have nowhere to live but the lower half-plane. Cite <a class="reference internal" href="#equation-eq-causality">Eq. 568</a>.</p>
+<ol class="arabic simple">
+<li><p>Write the damped-oscillator susceptibility <span class="math notranslate nohighlight">\(\chi(\omega) = 1/(\omega_0^2 - \omega^2 -
+i\gamma\omega)\)</span> (the <code class="docutils literal notranslate"><span class="pre">chi</span></code> helper, <span class="math notranslate nohighlight">\(\omega_0 = 1\)</span>, <span class="math notranslate nohighlight">\(\gamma = 0.3\)</span>) and locate its poles with
+<code class="docutils literal notranslate"><span class="pre">numpy.roots</span></code>.</p></li>
+<li><p>Confirm both poles have <span class="math notranslate nohighlight">\(\operatorname{Im}\omega = -\gamma/2 &lt; 0\)</span>, and conclude <span class="math notranslate nohighlight">\(\chi\)</span> is
+analytic in the upper half-plane.</p></li>
+<li><p>Show the time-domain response <span class="math notranslate nohighlight">\(\chi(t) = \theta(t)\,e^{-\gamma t/2}\sin(\Omega t)/\Omega\)</span>
+vanishes for <span class="math notranslate nohighlight">\(t &lt; 0\)</span>, Fourier-transform it numerically (<span class="math notranslate nohighlight">\(\int_0^T \chi(t)e^{i\omega t}dt\)</span> with
+<code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code>), and confirm it reproduces <span class="math notranslate nohighlight">\(\chi(\omega)\)</span> on the real axis <em>and</em> at a
+complex <span class="math notranslate nohighlight">\(\omega\)</span> in the upper half-plane, where <span class="math notranslate nohighlight">\(e^{i\omega t}\)</span> improves the convergence.</p></li>
+<li><p>Verify the reality condition <span class="math notranslate nohighlight">\(\chi(-\omega) = \chi(\omega)^*\)</span> numerically on a frequency grid —
+the symmetry the Kramers–Kronig integrals will use.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>poles of χ(ω):  0.988686-0.150000j,  -0.988686-0.150000j
+expected ±Ω − iγ/2 with Ω = 0.988686, γ/2 = 0.15
+Im(poles) = -0.1500000000, -0.1500000000   (both = −γ/2 = -0.15)
+  ω = 0.5:  |FT − χ(ω)| = 3.25e-07
+  ω = 1.0:  |FT − χ(ω)| = 7.44e-07
+  ω = 2.0:  |FT − χ(ω)| = 1.71e-07
+  ω = (1+0.5j):  |FT − χ(ω)| = 3.33e-07
+time-domain response transforms back onto χ(ω); worst error 7.4e-07
+reality condition max|χ(−ω) − conj χ(ω)| on the grid: 0.00e+00
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ca2-poles">
+<img alt="../../_images/9a634142d42faf9895acaf0e484ad845ed05a6aee9fc926b0120b7aa3f92ff59.png" src="../../_images/9a634142d42faf9895acaf0e484ad845ed05a6aee9fc926b0120b7aa3f92ff59.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 532 </span><span class="caption-text">Causality places the poles. The complex frequency plane of the damped-oscillator susceptibility <span class="math notranslate nohighlight">\(\chi(\omega) = 1/(\omega_0^2-\omega^2-i\gamma\omega)\)</span>: its two poles (red crosses) sit at <span class="math notranslate nohighlight">\(\omega = \pm\Omega - i\gamma/2\)</span>, pushed <strong>below</strong> the real axis by dissipation. The upper half-plane (shaded) is pole-free — analytic — because the response <span class="math notranslate nohighlight">\(\chi(t)\)</span> vanishes for <span class="math notranslate nohighlight">\(t&lt;0\)</span> and its transform <span class="math notranslate nohighlight">\(\int_0^\infty \chi(t)e^{i\omega t}dt\)</span> converges wherever <span class="math notranslate nohighlight">\(e^{i\omega t}\)</span> decays, i.e. for <span class="math notranslate nohighlight">\(\operatorname{Im}\,\omega &gt; 0\)</span>. Physical measurements happen on the real axis (dark arrow), the boundary of the analytic domain; the Kramers–Kronig relations of Exercise 3 are nothing but the Cauchy integral formula applied to this geometry. As <span class="math notranslate nohighlight">\(\gamma \to 0\)</span> the poles pinch the axis, and the <span class="math notranslate nohighlight">\(i\varepsilon\)</span> grammar of Exercise 1 takes over.</span><a class="headerlink" href="#fig-ca2-poles" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the causal susceptibility&#39;s poles lie in the lower half-plane, at Im ω = −γ/2   [max|Δ| = 2.77556e-17 (rtol=1e-09, atol=1e-09)]
+✓  the t&gt;0 impulse response Fourier-transforms back onto χ(ω), on and above the real axis   [worst |FT − χ| = 7.4e-07]
+✓  the reality condition χ(−ω) = conj χ(ω) holds (Re χ even, Im χ odd)   [max deviation 0.0e+00]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-kramerskronig-verified">
+<h2>Exercise 3 — Kramers–Kronig, verified<a class="headerlink" href="#exercise-3-kramerskronig-verified" title="Link to this heading">#</a></h2>
+<p>Absorption determines dispersion — to six digits, on a function whose dispersion we can check.
+Cite <a class="reference internal" href="#equation-eq-kramers-kronig">Eq. 569</a>, <a class="reference internal" href="#equation-eq-sokhotski-plemelj">Eq. 567</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive the Kramers–Kronig relations from the Cauchy integral formula on a real-axis contour
+with a semicircular detour at <span class="math notranslate nohighlight">\(\omega\)</span>, Sokhotski–Plemelj supplying the boundary term.</p></li>
+<li><p>Implement the reconstruction with the <code class="docutils literal notranslate"><span class="pre">kk_real_from_imag</span></code> helper (the folded, ω′&gt;0 form; the
+principal value via <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad(weight='cauchy',</span> <span class="pre">wvar=ω)</span></code>), and reconstruct
+<span class="math notranslate nohighlight">\(\operatorname{Re}\chi\)</span> from <span class="math notranslate nohighlight">\(\operatorname{Im}\chi\)</span> alone at <span class="math notranslate nohighlight">\(\omega = 0.5, 1.0, 1.5\)</span>.</p></li>
+<li><p>Compare to the exact <span class="math notranslate nohighlight">\(\operatorname{Re}\chi\)</span> and confirm agreement to <span class="math notranslate nohighlight">\(\sim 10^{-6}\)</span>; plot the
+full reconstruction over a frequency band against the exact curve.</p></li>
+<li><p>Verify the f-sum rule <span class="math notranslate nohighlight">\(\int_0^\infty \omega \operatorname{Im}\chi(\omega)\,d\omega = \pi/2\)</span>
+with plain <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code>, and state its meaning (a model-independent constraint tying
+the absorption spectrum to inertia).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Kramers–Kronig reconstruction of Re χ from Im χ alone:
+  ω = 0.5:  KK = +1.282051282   exact = +1.282051282   |err| = 5.1e-10
+  ω = 1.0:  KK = -0.000000001   exact = -0.000000000   |err| = 5.1e-10
+  ω = 1.5:  KK = -0.708215298   exact = -0.708215297   |err| = 5.1e-10
+
+f-sum rule ∫ ω Im χ dω = 1.5707963268   (π/2 = 1.5707963268)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ca2-kk">
+<img alt="../../_images/56d68b4d9382b53b994abf94771a7521fe4d1aafe4912e8a87e2d1f39ad20981.png" src="../../_images/56d68b4d9382b53b994abf94771a7521fe4d1aafe4912e8a87e2d1f39ad20981.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 533 </span><span class="caption-text">Absorption determines dispersion. The damped oscillator’s absorptive part <span class="math notranslate nohighlight">\(\operatorname{Im}\chi\)</span> (amber) and dispersive part <span class="math notranslate nohighlight">\(\operatorname{Re}\chi\)</span> (dark curve), with the Kramers–Kronig reconstruction of <span class="math notranslate nohighlight">\(\operatorname{Re}\chi\)</span> computed <strong>from <span class="math notranslate nohighlight">\(\operatorname{Im}\chi\)</span> alone</strong> (red points) — each point a principal-value integral of the absorption spectrum, agreeing with the exact dispersion at the <span class="math notranslate nohighlight">\(10^{-6}\)</span> level. The two curves are one analytic function seen twice: the anomalous-dispersion wiggle of <span class="math notranslate nohighlight">\(\operatorname{Re}\chi\)</span> through the resonance is forced, in shape and size, by the absorption peak, and no causal medium can have one without the other. This is the working principle by which optical constants are completed from measured spectra (Exercise 8 does it on sampled data).</span><a class="headerlink" href="#fig-ca2-kk" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Kramers–Kronig reconstructs dispersion from absorption alone   [max|Δ| = 5.09301e-10 (rtol=1e-05, atol=1e-09)]
+✓  the reconstruction reaches the promised ~1e-6 accuracy at all test frequencies   [worst error 5.1e-10]
+✓  the f-sum rule: ∫ ω Im χ dω = π/2 for unit mass, independent of ω0 and γ   [got 1.5708 vs expected 1.5708 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-summation-by-residues-the-basel-problem">
+<h2>Exercise 4 — Summation by residues: the Basel problem<a class="headerlink" href="#exercise-4-summation-by-residues-the-basel-problem" title="Link to this heading">#</a></h2>
+<p>The residue theorem eats an infinite series: a function with unit-residue poles at every integer
+turns <span class="math notranslate nohighlight">\(\sum_n f(n)\)</span> into contour arithmetic. Cite <a class="reference internal" href="#equation-eq-residue-summation">Eq. 570</a>.</p>
+<ol class="arabic simple">
+<li><p>Show <span class="math notranslate nohighlight">\(\pi\cot(\pi z)\)</span> has simple poles at every integer with residue <span class="math notranslate nohighlight">\(1\)</span> (Laurent expansion at
+<span class="math notranslate nohighlight">\(z = n\)</span>), and confirm numerically via the limit <span class="math notranslate nohighlight">\((z - n)\,\pi\cot(\pi z)\)</span>.</p></li>
+<li><p>Derive <span class="math notranslate nohighlight">\(\sum_{n\ge1} 1/n^2 = \pi^2/6\)</span> by integrating <span class="math notranslate nohighlight">\(\pi\cot(\pi z)/z^2\)</span> over a growing square
+contour (<code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code> on the four edges, half-integer sizes so the contour threads between
+poles) and collecting the residue at <span class="math notranslate nohighlight">\(0\)</span>; watch the contour integral vanish as the square grows.</p></li>
+<li><p>Confirm against the partial sums (with the integral-estimate tail <span class="math notranslate nohighlight">\(1/N\)</span>) and against
+<code class="docutils literal notranslate"><span class="pre">scipy.special.zeta</span></code>.</p></li>
+<li><p>Derive and verify the shifted identity <span class="math notranslate nohighlight">\(\sum_{n\ge1} 1/(n^2+a^2) = \big(\pi\coth(\pi a)/a -
+1/a^2\big)/2\)</span> — the warm-up whose thermal cousin is the next exercise.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  residue of π cot(πz) at z = +0:  1.00000000-0.00000000j
+  residue of π cot(πz) at z = +3:  1.00000000-0.00000000j
+  residue of π cot(πz) at z = -7:  1.00000000+0.00000000j
+
+the growing square: ∮ π cot(πz)/z^2 dz vs the enclosed residues
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  L =   5.5:  ∮/(2πi) = -0.362646+0.000000j   2S_N − π^2/3 = -0.362646   |∮| = 2.279
+  L =  10.5:  ∮/(2πi) = -0.190333-0.000000j   2S_N − π^2/3 = -0.190333   |∮| = 1.196
+  L =  20.5:  ∮/(2πi) = -0.097542-0.000000j   2S_N − π^2/3 = -0.097542   |∮| = 0.613
+
+π^2/6                    = 1.644934066848
+partial sum (1e5 terms)  = 1.644924066898   (1/N tail visible)
+with integral tail       = 1.644934066848
+scipy.special.zeta(2)    = 1.644934066848
+
+Σ 1/(n^2+a^2), a = 0.8:  sum+tail = 1.2081822267   closed form = 1.2081822267
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  π cot(πz) has unit-residue simple poles at the integers — the summation kernel   [max|Δ| = 2.72625e-09 (rtol=1e-05, atol=1e-09)]
+✓  the residue theorem on the square: ∮/(2πi) equals the enclosed residues at finite L   [got -0.0975416 vs expected -0.0975416 (rtol=0.0001)]
+✓  ζ(2) = π^2/6: tail-corrected series and scipy.special.zeta agree with the residue result   [max|Δ| = 2.22045e-16 (rtol=1e-09, atol=1e-09)]
+✓  the shifted identity Σ 1/(n^2+a^2) = (π coth(πa)/a − 1/a^2)/2 — the thermal warm-up   [got 1.20818 vs expected 1.20818 (rtol=1e-05)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-matsubara-sums-the-thermal-occupations-emerge">
+<h2>Exercise 5 — Matsubara sums: the thermal occupations emerge<a class="headerlink" href="#exercise-5-matsubara-sums-the-thermal-occupations-emerge" title="Link to this heading">#</a></h2>
+<p>The centerpiece: the frequency sums of thermal physics close by contours, and out fall the Bose
+and Fermi occupation functions — before this volume has done any statistical mechanics.
+Cite <a class="reference internal" href="#equation-eq-matsubara">Eq. 571</a>.</p>
+<ol class="arabic simple">
+<li><p>Show the Bose weight <span class="math notranslate nohighlight">\(\beta/(e^{\beta z}-1)\)</span> has simple poles with unit residue at exactly the
+bosonic Matsubara frequencies <span class="math notranslate nohighlight">\(z = 2\pi i n/\beta\)</span>, and <span class="math notranslate nohighlight">\(-\beta/(e^{\beta z}+1)\)</span> at the
+fermionic ones; confirm both numerically by the limit <span class="math notranslate nohighlight">\((z - i\omega_n)\times(\text{weight})\)</span>.</p></li>
+<li><p>Evaluate <span class="math notranslate nohighlight">\((1/\beta)\sum_n 1/(\omega_n^2+\varepsilon^2)\)</span> on the <em>bosonic</em> grid with the
+<code class="docutils literal notranslate"><span class="pre">matsubara_sum</span></code> helper (symmetric truncation, <span class="math notranslate nohighlight">\(n_{\max} = 3\times10^5\)</span>, the <span class="math notranslate nohighlight">\(1/n\)</span> tail
+estimated explicitly), and confirm the closed form <span class="math notranslate nohighlight">\((1/2\varepsilon)\coth(\beta\varepsilon/2)\)</span>
+to at least six digits.</p></li>
+<li><p>Repeat on the <em>fermionic</em> grid and confirm <span class="math notranslate nohighlight">\((1/2\varepsilon)\tanh(\beta\varepsilon/2)\)</span>.</p></li>
+<li><p>Rewrite the two closed forms as <span class="math notranslate nohighlight">\((1/2\varepsilon)[1+2n_B(\varepsilon)]\)</span> and
+<span class="math notranslate nohighlight">\((1/2\varepsilon)[1-2n_F(\varepsilon)]\)</span>, exhibit <span class="math notranslate nohighlight">\(n_B = 1/(e^{\beta\varepsilon}-1)\)</span> and
+<span class="math notranslate nohighlight">\(n_F = 1/(e^{\beta\varepsilon}+1)\)</span> numerically, and reflect (prose): the occupation functions
+of quantum statistics have appeared from contours alone —
+<a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> will reach the same functions by
+the grand canonical ensemble, and the two independent routes must agree.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>residue of β/(e^(βz)−1) at z = 6πi/β:   0.99999990-0.00000009j
+residue of −β/(e^(βz)+1) at z = 5πi/β:  0.99999990-0.00000010j
+
+bosonic (1/β)Σ 1/(ω_n^2+ε^2), β = 2.0, ε = 0.7, n_max = 300000:
+  raw truncated sum   = 1.1818722593
+  + 1/n_max tail est. = 1.1818725970   (tail ≈ 3.38e-07)
+  (1/2ε)coth(βε/2)    = 1.1818725970
+fermionic grid:
+  sum + tail          = 0.4316912694
+  (1/2ε)tanh(βε/2)    = 0.4316912694
+
+n_B(ε) = 1/(e^(βε)−1) = 0.3273108179 →  (1/2ε)(1+2n_B) = 1.1818725970
+n_F(ε) = 1/(e^(βε)+1) = 0.1978161114 →  (1/2ε)(1−2n_F) = 0.4316912694
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ca2-matsubara">
+<img alt="../../_images/c283cad744fe7c0e84b92f1bdd3d4b732e0347151b3bcd1eb15448ff03cf0d22.png" src="../../_images/c283cad744fe7c0e84b92f1bdd3d4b732e0347151b3bcd1eb15448ff03cf0d22.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 534 </span><span class="caption-text">The Matsubara ladder. The summation kernels of thermal physics have their poles on the <strong>imaginary</strong> frequency axis: the Bose weight <span class="math notranslate nohighlight">\(\beta/(e^{\beta z}-1)\)</span> at <span class="math notranslate nohighlight">\(z = 2\pi i n/\beta\)</span> (amber circles) and the Fermi weight <span class="math notranslate nohighlight">\(-\beta/(e^{\beta z}+1)\)</span> at the half-integer-shifted <span class="math notranslate nohighlight">\(z = (2n+1)\pi i/\beta\)</span> (dark crosses) — two interleaved ladders whose rung spacing <span class="math notranslate nohighlight">\(2\pi/\beta\)</span> <em>is</em> the temperature. The summand’s own poles sit at <span class="math notranslate nohighlight">\(z=\pm\varepsilon\)</span> on the real axis (red). A contour hugging the imaginary axis (dashed) picks up the ladder — the frequency sum — and deforming it outward (arrows) trades the infinite ladder for the two red poles, where the kernel’s value <span class="math notranslate nohighlight">\(n_{B/F}(\varepsilon)\)</span> appears: the Bose and Fermi occupations, born from contour analysis before any statistical mechanics.</span><a class="headerlink" href="#fig-ca2-matsubara" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Bose and Fermi weights have unit-residue poles at exactly the Matsubara frequencies   [max|Δ| = 1.4124e-07 (rtol=1e-05, atol=1e-09)]
+✓  Matsubara sums yield the Bose and Fermi occupation functions, (1/2ε)[1±2n_(B/F)]   [max|Δ| = 5.62939e-13 (rtol=1e-06, atol=1e-09)]
+✓  the coth/tanh closed forms are algebraically the occupation forms (the rewrite is exact)   [max|Δ| = 2.22045e-16 (rtol=1e-12, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-steepest-descent-and-stirling">
+<h2>Exercise 6 — Steepest descent and Stirling<a class="headerlink" href="#exercise-6-steepest-descent-and-stirling" title="Link to this heading">#</a></h2>
+<p>Large <span class="math notranslate nohighlight">\(N\)</span> concentrates integrals onto saddles — and the Stirling formula that Volume V borrowed on
+credit falls out in four lines, first correction included. Cite <a class="reference internal" href="#equation-eq-steepest-descent">Eq. 572</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive the Laplace approximation <span class="math notranslate nohighlight">\(\int e^{Nf(x)}dx \approx e^{Nf(x_0)}\sqrt{2\pi/N|f''(x_0)|}\)</span>
+by expanding <span class="math notranslate nohighlight">\(f\)</span> about its maximum, and verify it against direct <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> for
+<span class="math notranslate nohighlight">\(f(s) = \ln s - s\)</span> at moderate <span class="math notranslate nohighlight">\(N\)</span> — including the <span class="math notranslate nohighlight">\(1/(12N)\)</span> approach of the ratio to <span class="math notranslate nohighlight">\(1\)</span>.</p></li>
+<li><p>Apply it to <span class="math notranslate nohighlight">\(\Gamma(N+1) = \int_0^\infty e^{N\ln t - t}\,dt\)</span> (substitute <span class="math notranslate nohighlight">\(t = Ns\)</span>; saddle at
+<span class="math notranslate nohighlight">\(s = 1\)</span>) and obtain Stirling, <span class="math notranslate nohighlight">\(N! \approx \sqrt{2\pi N}\,(N/e)^N\)</span>.</p></li>
+<li><p>Verify in log space with <code class="docutils literal notranslate"><span class="pre">scipy.special.gammaln</span></code> for <span class="math notranslate nohighlight">\(N = 50, 200, 1000\)</span> — noting that
+<code class="docutils literal notranslate"><span class="pre">scipy.special.gamma</span></code> <em>overflows</em> beyond <span class="math notranslate nohighlight">\(N \approx 170\)</span>, the volume’s log-space discipline —
+and show the log-difference from exact equals the first correction <span class="math notranslate nohighlight">\(1/(12N)\)</span> at every <span class="math notranslate nohighlight">\(N\)</span>.</p></li>
+<li><p>State the complex generalization (deform through the saddle along the steepest path) and name
+stationary phase as the oscillatory sibling — the principle WKB
+(<a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a>) was using, and the one
+the path integral’s classical limit (<a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>) will use.
+(Prose part.)</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Laplace approximation vs direct quadrature for ∫ e^(N(ln s − s)) ds:
+  N =   10:  ratio − 1 = +0.008365   (1/(12N) = 0.008333)
+  N =   30:  ratio − 1 = +0.002782   (1/(12N) = 0.002778)
+  N =  100:  ratio − 1 = +0.000834   (1/(12N) = 0.000833)
+
+scipy.special.gamma(201) = inf   (the float64 ceiling, met honestly)
+log-space comparison, gammaln(N+1) − ln_stirling(N):
+  N =    50:  gap = 0.00166664   1/(12N) = 0.00166667
+  N =   200:  gap = 0.00041667   1/(12N) = 0.00041667
+  N =  1000:  gap = 0.00008333   1/(12N) = 0.00008333
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ca2-saddle">
+<img alt="../../_images/2dc0210669c2c2e25a8c53e66d2fe34683d530c2dfcc088c59755d2cf855b404.png" src="../../_images/2dc0210669c2c2e25a8c53e66d2fe34683d530c2dfcc088c59755d2cf855b404.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 535 </span><span class="caption-text">Why saddles rule at large <span class="math notranslate nohighlight">\(N\)</span>. The normalized integrand <span class="math notranslate nohighlight">\(e^{N(f(s)-f(s_0))}\)</span> of the Gamma integral, with <span class="math notranslate nohighlight">\(f(s) = \ln s - s\)</span> and saddle <span class="math notranslate nohighlight">\(s_0 = 1\)</span>, for <span class="math notranslate nohighlight">\(N = 5, 20, 100\)</span>: as <span class="math notranslate nohighlight">\(N\)</span> grows the peak sharpens like <span class="math notranslate nohighlight">\(1/\sqrt{N}\)</span> and everything away from the saddle is exponentially extinguished. By <span class="math notranslate nohighlight">\(N = 100\)</span> the exact profile is indistinguishable from the Laplace approximation’s Gaussian <span class="math notranslate nohighlight">\(e^{-N(s-1)^2/2}\)</span> (dashed) except in the far tails, which no longer matter — integrating the Gaussian instead of the truth is Stirling’s formula, and the visible residual asymmetry of the <span class="math notranslate nohighlight">\(N=5\)</span> curve is where the <span class="math notranslate nohighlight">\(1/(12N)\)</span> correction lives.</span><a class="headerlink" href="#fig-ca2-saddle" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Laplace approximation&#39;s error is the promised 1/(12N), measured against quad   [max|Δ| = 3.20258e-05 (rtol=0.05, atol=1e-09)]
+✓  Stirling by steepest descent: gammaln(N+1) − ln Stirling = 1/(12N) at N = 50, 200, 1000   [max|Δ| = 2.22197e-08 (rtol=0.05, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-analytic-continuation-and-the-reflection-formula">
+<h2>Exercise 7 — Analytic continuation and the reflection formula<a class="headerlink" href="#exercise-7-analytic-continuation-and-the-reflection-formula" title="Link to this heading">#</a></h2>
+<p>Rigidity extends functions beyond their formulas — uniquely — and one of the results is an
+identity this volume has already computed without noticing. Cite <a class="reference internal" href="#equation-eq-continuation">Eq. 573</a>.</p>
+<ol class="arabic simple">
+<li><p>State the identity theorem and explain (prose) why it makes continuation unique when it
+exists.</p></li>
+<li><p>Verify <span class="math notranslate nohighlight">\(\Gamma(z)\Gamma(1-z) = \pi/\sin(\pi z)\)</span> numerically with <code class="docutils literal notranslate"><span class="pre">scipy.special.gamma</span></code> at
+<span class="math notranslate nohighlight">\(z = 0.3\)</span> and at a complex <span class="math notranslate nohighlight">\(z\)</span>.</p></li>
+<li><p>Recognize the formula: show numerically (via <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code>, split at <span class="math notranslate nohighlight">\(x = 1\)</span> for the
+endpoint singularity) that the keyhole integral of <a class="reference internal" href="complex-analysis-residues.html"><span class="std std-doc">§7.1</span></a>,
+<span class="math notranslate nohighlight">\(\int_0^\infty x^{\alpha-1}/(1+x)\,dx\)</span>, equals
+<span class="math notranslate nohighlight">\(\Gamma(\alpha)\Gamma(1-\alpha)\)</span> — the keyhole result <em>was</em> the reflection formula.</p></li>
+<li><p>Evaluate <span class="math notranslate nohighlight">\(\zeta(2)\)</span> and <span class="math notranslate nohighlight">\(\zeta(3/2)\)</span> with <code class="docutils literal notranslate"><span class="pre">scipy.special.zeta</span></code>, confirm <span class="math notranslate nohighlight">\(\zeta(2) = \pi^2/6\)</span>
+and check <span class="math notranslate nohighlight">\(\zeta(3/2)\)</span> against its tail-corrected series; flag <span class="math notranslate nohighlight">\(\zeta(3/2) = 2.612\dots\)</span> as the
+constant the Bose–Einstein condensation temperature
+(<a class="reference internal" href="bose-einstein-condensation.html"><span class="std std-doc">§7.17</span></a>) is built from.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  z = 0.3:  Γ(z)Γ(1−z) = 3.8832220775   π/sin(πz) = 3.8832220775
+  z = (0.4+0.3j):  Γ(z)Γ(1−z) = 2.1139503807-0.5057782982j   π/sin(πz) = 2.1139503807-0.5057782982j
+
+the keyhole integral vs Γ(α)Γ(1−α):
+  α = 0.3333:  ∫ = 3.6275987285   Γ(α)Γ(1−α) = 3.6275987285
+  α = 0.7200:  ∫ = 4.0772727569   Γ(α)Γ(1−α) = 4.0772727569
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ζ(2)   = 1.644934066848   (π^2/6 = 1.644934066848)
+ζ(3/2) = 2.6123753487   (tail-corrected series: 2.6123753492)
+ζ(3/2) = 2.612… is the constant the BEC transition temperature (§7.17) is made of
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the reflection formula Γ(z)Γ(1−z) = π/sin(πz), at real and complex z   [max|Δ| = 5.23691e-15 (rtol=1e-09, atol=1e-09)]
+✓  the keyhole integral of §7.1 equals Γ(α)Γ(1−α) — it was the reflection formula in disguise   [max|Δ| = 3.01092e-13 (rtol=1e-08, atol=1e-09)]
+✓  scipy.special.zeta: ζ(2) = π^2/6 recovered, ζ(3/2) = 2.612… checked against its series   [max|Δ| = 5e-10 (rtol=1e-06, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-dispersion-from-absorption-data-alone">
+<h2>Exercise 8 — Dispersion from absorption data alone<a class="headerlink" href="#exercise-8-dispersion-from-absorption-data-alone" title="Link to this heading">#</a></h2>
+<p>The Kramers–Kronig relations as a working tool: given only a sampled absorption spectrum — a
+finite grid, a finite bandwidth, perhaps noise — reconstruct the dispersion that was never
+measured, and be honest about the errors. Cite <a class="reference internal" href="#equation-eq-kramers-kronig">Eq. 569</a>.</p>
+<ol class="arabic simple">
+<li><p>Sample <span class="math notranslate nohighlight">\(\operatorname{Im}\chi(\omega)\)</span> of the oscillator on a finite uniform grid (the
+“measured absorption spectrum”, <span class="math notranslate nohighlight">\(\omega' \in [0, 6]\)</span>), and prepare a second copy with small
+Gaussian noise (<code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng</span></code>, <span class="math notranslate nohighlight">\(\sigma = 10^{-3}\)</span>).</p></li>
+<li><p>Reconstruct <span class="math notranslate nohighlight">\(\operatorname{Re}\chi(\omega)\)</span> from the sampled data by a discretized
+principal-value (Hilbert-transform) sum over the folded kernel <span class="math notranslate nohighlight">\(2\omega'\operatorname{Im}
+\chi(\omega')/(\omega'^2-\omega^2)\)</span>, handling the <span class="math notranslate nohighlight">\(\omega' = \omega\)</span> singularity by symmetric
+exclusion: evaluate at each grid point using only the <em>opposite-parity</em> sample points, so
+every retained offset comes in cancelling <span class="math notranslate nohighlight">\(\pm\)</span> pairs and no self-term ever arises.</p></li>
+<li><p>Compare to the exact dispersion on an interior band; quantify the finite-bandwidth error
+against the analytic tail estimate <span class="math notranslate nohighlight">\(\sim 2\gamma/(3\pi W^3)\)</span>, and measure the extra error the
+noisy copy produces.</p></li>
+<li><p>Reflect (prose): this is how optical constants are actually completed from reflectivity or
+absorption data — with the finite-bandwidth caveat being the practitioner’s daily bread.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>discretized KK on sampled absorption (W = 6.0, 2001 channels):
+  max interior error, clean data:  3.60e-04
+  analytic bandwidth-tail estimate: 2.95e-04   (+ O(Δω^2) discretization)
+  max interior error, noisy data:  3.47e-03   (σ_noise = 1e-3)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-8">
+<h3>Validation 8<a class="headerlink" href="#validation-8" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the discretized KK reconstruction matches the exact dispersion within the stated error budget   [err 3.6e-04 vs bandwidth-tail scale 2.9e-04]
+✓  1e-3 channel noise degrades the reconstruction gracefully, not catastrophically   [noisy err 3.5e-03]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-9-theorems-you-can-measure">
+<h2>Exercise 9 — Theorems you can measure<a class="headerlink" href="#exercise-9-theorems-you-can-measure" title="Link to this heading">#</a></h2>
+<p>This notebook’s four results share one engine and one moral. Causality — a statement about time —
+became a statement about the complex plane, and from it fell relations between measurable
+quantities that no experiment has ever violated: the absorption spectrum of a causal medium
+<em>contains</em> its refractive index, recoverable by an integral we carried out to six digits and then
+again, as a practitioner would, on sampled data with its bandwidth honestly billed. Thermal sums —
+objects of statistical mechanics — closed by contours, and handed us the Bose and Fermi functions
+before we had defined a temperature properly: the <span class="math notranslate nohighlight">\(\pm 1\)</span> that will organize all of quantum
+statistics appeared as nothing more than the choice between two ladders of poles. Large
+factorials — combinatorics — reduced to the curvature of a single saddle, finally supplying the
+derivation <a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html"><span class="std std-doc">§5.3</span></a> deferred, with the <span class="math notranslate nohighlight">\(1/(12N)\)</span>
+correction sitting exactly where the theory put it. And a
+formula proved on one sliver of the plane extended, uniquely, everywhere — whereupon it turned out
+we had already computed it: the keyhole integral of <a class="reference internal" href="complex-analysis-residues.html"><span class="std std-doc">§7.1</span></a> <em>was</em>
+the reflection formula, two
+notebooks meeting in one identity.</p>
+<p>There is something almost unfair about Kramers–Kronig in particular. Nature is not obliged to let
+us compute what we did not measure — yet because light cannot outrun its cause, the absorption
+spectrum quietly contains the refractive index, and vice versa, forever. Analyticity is physics’
+quiet enforcer: assume only that effects follow causes and that functions have derivatives, and
+the bookkeeping of the complex plane does the rest. The next notebook
+(<a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>) assembles the volume’s
+working toolkit — densities of states, the Gamma–zeta–polylogarithm family, the Bose and Fermi
+integrals evaluated three ways — and then the physics proper begins.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>The machinery of <a class="reference internal" href="complex-analysis-residues.html"><span class="std std-doc">§7.1</span></a>, pointed at physics: four applications,
+each a theorem of analyticity in
+working clothes.</p>
+<ul class="simple">
+<li><p><strong>Sokhotski–Plemelj</strong> <a class="reference internal" href="#equation-eq-sokhotski-plemelj">Eq. 567</a>: the <span class="math notranslate nohighlight">\(i\varepsilon\)</span> prescription splits a pole
+on the path into a principal value (dispersion) and a nascent delta (absorption) — verified as
+an <span class="math notranslate nohighlight">\(\varepsilon\)</span>-sequence with its honest first-order rate, with every principal value computed
+by <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad(weight='cauchy')</span></code>.</p></li>
+<li><p><strong>Causality forces analyticity</strong> <a class="reference internal" href="#equation-eq-causality">Eq. 568</a>: the damped oscillator’s poles sit at
+<span class="math notranslate nohighlight">\(\operatorname{Im}\omega = -\gamma/2\)</span>, its <span class="math notranslate nohighlight">\(t&gt;0\)</span> impulse response transforms back onto
+<span class="math notranslate nohighlight">\(\chi(\omega)\)</span> on and above the real axis, and <span class="math notranslate nohighlight">\(\chi(-\omega) = \chi(\omega)^*\)</span>.</p></li>
+<li><p><strong>Kramers–Kronig</strong> <a class="reference internal" href="#equation-eq-kramers-kronig">Eq. 569</a>: dispersion reconstructed from absorption alone to
+<span class="math notranslate nohighlight">\(10^{-6}\)</span>; the f-sum rule <span class="math notranslate nohighlight">\(\int\omega\operatorname{Im}\chi\,d\omega = \pi/2\)</span> exactly; and the
+same transform run as a practitioner would, on finite noisy data, with the bandwidth tail as
+the dominant, quantified systematic.</p></li>
+<li><p><strong>Summation by residues</strong> <a class="reference internal" href="#equation-eq-residue-summation">Eq. 570</a>: <span class="math notranslate nohighlight">\(\pi\cot(\pi z)\)</span>’s unit residues turn
+series into contours — Basel’s <span class="math notranslate nohighlight">\(\zeta(2) = \pi^2/6\)</span> with the square contour watched vanishing,
+and the <span class="math notranslate nohighlight">\(\coth\)</span> identity as thermal warm-up.</p></li>
+<li><p><strong>Matsubara sums</strong> <a class="reference internal" href="#equation-eq-matsubara">Eq. 571</a>: the Bose and Fermi weights ladder the imaginary axis, and
+the flagship sums close to <span class="math notranslate nohighlight">\((1/2\varepsilon)[1 + 2n_B]\)</span> and <span class="math notranslate nohighlight">\((1/2\varepsilon)[1 - 2n_F]\)</span> —
+the occupation functions of quantum statistics, derived from contours seven digits deep before
+any ensemble theory; <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> will reach them independently.</p></li>
+<li><p><strong>Steepest descent</strong> <a class="reference internal" href="#equation-eq-steepest-descent">Eq. 572</a>: large-<span class="math notranslate nohighlight">\(N\)</span> integrals concentrate onto saddles;
+Stirling is derived (not borrowed), its <span class="math notranslate nohighlight">\(1/(12N)\)</span> correction measured at every <span class="math notranslate nohighlight">\(N\)</span>, and the
+float overflow at <span class="math notranslate nohighlight">\(N \approx 170\)</span> converted into the volume’s log-space discipline via
+<code class="docutils literal notranslate"><span class="pre">scipy.special.gammaln</span></code>.</p></li>
+<li><p><strong>Analytic continuation</strong> <a class="reference internal" href="#equation-eq-continuation">Eq. 573</a>: unique by the identity theorem; the reflection
+formula verified at real and complex arguments and unmasked as the keyhole of
+<a class="reference internal" href="complex-analysis-residues.html"><span class="std std-doc">§7.1</span></a>; <span class="math notranslate nohighlight">\(\zeta(3/2) =
+2.612\dots\)</span> computed and flagged for the condensation temperature of
+<a class="reference internal" href="bose-einstein-condensation.html"><span class="std std-doc">§7.17</span></a>.</p></li>
+</ul>
+<p>Analyticity is not a convenience here but a consequence — of causality, of temperature’s discrete
+frequency ladder, of large numbers — and each consequence ended in a number a measurement could
+check.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The statistical toolkit (<a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>).</strong> Densities of states, the
+Gamma–zeta–polylogarithm family, the
+Bose and Fermi integrals — evaluated directly, by series, and by the contours of this notebook —
+and the Sommerfeld expansion.</p></li>
+<li><p><strong>The ensemble route (<a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>).</strong> The grand canonical derivation
+of <span class="math notranslate nohighlight">\(n_B\)</span> and <span class="math notranslate nohighlight">\(n_F\)</span> from the machinery of
+<a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html"><span class="std std-doc">§5.9</span></a>, meeting this
+notebook’s contour derivation head-on.</p></li>
+<li><p><strong>The payoffs downstream.</strong> <span class="math notranslate nohighlight">\(\zeta(3/2)\)</span> and the Bose–Einstein condensation temperature
+(<a class="reference internal" href="bose-einstein-condensation.html"><span class="std std-doc">§7.17</span></a>);
+the path integral’s saddle and the classical limit
+(<a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>).</p></li>
+<li><p><strong>The horizons, named.</strong> Matsubara Green’s functions and the many-body formalism; the
+Kubo/linear-response framework behind Kramers–Kronig (Volume VIII).</p></li>
+<li><p><strong>Cross-reference</strong> <a class="reference internal" href="complex-analysis-residues.html"><span class="std std-doc">§7.1</span></a> (the machinery; the keyhole = the
+reflection formula), Volume I (the
+damped driven oscillator), <a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html"><span class="std std-doc">§6.24</span></a>
+(absorption and linewidths), <a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html"><span class="std std-doc">§5.3</span></a> (Stirling),
+<a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a> (WKB as
+stationary phase), <a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html"><span class="std std-doc">§5.9</span></a>
+(the ensemble machinery <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> will point at the same
+occupations).</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/07-quantum-statistical-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="complex-analysis-residues.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="statistical-toolkit.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principal-values-and-sokhotskiplemelj">Principal values and Sokhotski–Plemelj</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#causality-forces-analyticity">Causality forces analyticity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-kramerskronig-relations">The Kramers–Kronig relations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summation-by-residues">Summation by residues</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matsubara-sums-the-statistics-before-the-statistics">Matsubara sums: the statistics before the statistics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steepest-descent-and-stirling">Steepest descent and Stirling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analytic-continuation">Analytic continuation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-sokhotskiplemelj-identity">Exercise 1 — The Sokhotski–Plemelj identity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-causality-places-the-poles">Exercise 2 — Causality places the poles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-kramerskronig-verified">Exercise 3 — Kramers–Kronig, verified</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-summation-by-residues-the-basel-problem">Exercise 4 — Summation by residues: the Basel problem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-matsubara-sums-the-thermal-occupations-emerge">Exercise 5 — Matsubara sums: the thermal occupations emerge</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-steepest-descent-and-stirling">Exercise 6 — Steepest descent and Stirling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-analytic-continuation-and-the-reflection-formula">Exercise 7 — Analytic continuation and the reflection formula</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-dispersion-from-absorption-data-alone">Exercise 8 — Dispersion from absorption data alone</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-theorems-you-can-measure">Exercise 9 — Theorems you can measure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1859 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/bloch-theorem-band-structure.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Movement III’s free electron gas is a triumph with a hole in it. Fresh from its report card — the linear heat capacity and Pauli paramagne..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Movement III’s free electron gas is a triumph with a hole in it. Fresh from its report card — the linear heat capacity and Pauli paramagne..." />
+
+    <title>7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/07-quantum-statistical-mechanics/bloch-theorem-band-structure';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/bloch-theorem-band-structure.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="7.13 Semiconductors: Fermi–Dirac in a Gap" href="semiconductor-statistics.html" />
+    <link rel="prev" title="7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity" href="white-dwarfs-chandrasekhar.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VII — Quantum Statistical Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/07-quantum-statistical-mechanics/bloch-theorem-band-structure.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/07-quantum-statistical-mechanics/bloch-theorem-band-structure.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/07-quantum-statistical-mechanics/bloch-theorem-band-structure.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/07-quantum-statistical-mechanics/bloch-theorem-band-structure.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-confession">The confession</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bloch-s-theorem-by-symmetry">Bloch’s theorem, by symmetry</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bloch-verified-with-a-taught-trap">Bloch verified, with a taught trap</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kronigpenney-bands-exactly">Kronig–Penney: bands, exactly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-rendezvous-and-the-pseudopotential-moral">The rendezvous, and the pseudopotential moral</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nearly-free-electrons-the-gap-is-bragg">Nearly-free electrons: the gap is Bragg</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tight-binding-and-the-course-s-confession-in-reverse">Tight binding, and the course’s confession-in-reverse</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-band-density-of-states-van-hove">The band density of states: van Hove</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metal-or-insulator-the-counting">Metal or insulator: the counting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-confession-quantified">Exercise 1 — The confession, quantified</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-bloch-s-theorem-by-symmetry-then-verified-with-a-trap">Exercise 2 — Bloch’s theorem, by symmetry — then verified with a trap</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-kronigpenney-bands-from-one-transcendental-line">Exercise 3 — Kronig–Penney: bands from one transcendental line</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-rendezvous-and-why-dft-uses-pseudopotentials">Exercise 4 — The rendezvous — and why DFT uses pseudopotentials</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-gap-is-bragg">Exercise 5 — The gap is Bragg</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-tight-binding-and-what-the-course-has-been-doing-all-along">Exercise 6 — Tight binding — and what the course has been doing all along</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-band-density-of-states-van-hove">Exercise 7 — The band density of states: van Hove</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-metal-or-insulator-by-counting">Exercise 8 — Metal or insulator, by counting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-the-one-quantum-input">Exercise 9 — The one quantum input</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="electrons-in-a-periodic-potential-bloch-s-theorem-and-the-origin-of-bands">
+<h1>7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands<a class="headerlink" href="#electrons-in-a-periodic-potential-bloch-s-theorem-and-the-origin-of-bands" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VII — Quantum Statistical Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;7.12
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">The free electron gas priced the heat of metals, the stiffness of potassium, and the mass of a dead star — and it cannot tell copper from diamond. The missing ingredient is the lattice. One symmetry argument shows that electrons in a crystal organize into bands separated by forbidden gaps; two independent computations build the same bands and meet; and a counting argument — two electrons per cell per band — finally divides the material world into metals and insulators. The statistics resumes in the next notebook, on the density of states built here.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;200–240 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Movement III’s free electron gas is a triumph with a hole in it. Fresh from its report card —
+the linear heat capacity and Pauli paramagnetism of <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a>, the compressibility of potassium and
+the sound of sodium in <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a>, the mass of a dead star in <a class="reference internal" href="white-dwarfs-chandrasekhar.html"><span class="std std-doc">§7.11</span></a> — it returns to Earth and must
+confess: it predicts that <em>every</em> material containing electrons conducts. Nature disagrees, at
+scale. Diamond carries four valence electrons per atom and insulates behind a 5.5 eV gap; the
+room-temperature resistivities of real materials span roughly thirty orders of magnitude, the
+widest dynamic range of any material property, and every decade of it is invisible to a theory
+whose density of states never touches zero. The missing ingredient is not statistical. It is the
+<strong>lattice</strong>.</p>
+<p>So this notebook breaks the volume’s rhythm, deliberately and on precedent: one excursion into
+single-particle quantum mechanics — admitted the way Movement 0’s mathematics was admitted, as
+an arsenal the statistics cannot proceed without; after it, the statistics resumes (<a class="reference internal" href="semiconductor-statistics.html"><span class="std std-doc">§7.13</span></a>).
+The contract is narrow and the payoff is large. <strong>Bloch’s theorem</strong> is derived as a Volume VI
+symmetry move (a periodic potential commutes with the lattice translation; unitary operators
+have unit-circle eigenvalues) and then <em>verified</em> on a discretized ring, complete with a taught
+numerical trap: real eigenvectors from <code class="docutils literal notranslate"><span class="pre">eigh</span></code> hide the Bloch phases inside degenerate pairs, and
+only diagonalizing the translation <em>within each degenerate subspace</em> recovers them, landing exactly on the allowed <span class="math notranslate nohighlight">\(k\)</span>-grid. <strong>Kronig–Penney</strong> makes bands exact from one transcendental
+line, with the forbidden gaps located by root finding. The course-signature <strong>rendezvous</strong>
+solves the <em>same</em> crystal by an unrelated second method, the plane-wave central equation, and the two meet; better, the <em>rate</em> at which they meet is the lesson: the singular comb converges
+like <span class="math notranslate nohighlight">\(1/n_G\)</span> while a smooth cosine potential converges at <span class="math notranslate nohighlight">\(n_G = 2\)</span> to ten digits, and that
+measured contrast is precisely why the world’s plane-wave density-functional codes run on
+pseudopotentials (the outward horizon: real 3D bands, DFT, and the MMM course). <strong>Nearly-free
+electrons</strong> explain what a gap <em>is</em> — Bragg reflection in stationary form, the zone-boundary
+degeneracy split by exactly <span class="math notranslate nohighlight">\(2|V_1|\)</span>. And <strong>tight binding</strong> approaches the same bands from the
+atomic limit, with a meta-recognition the course has earned: the finite-difference Laplacian
+used since Volume 0 <em>is</em> a tight-binding hopping matrix, and every continuum calculation so far
+has secretly been a crystal.</p>
+<p>The destination is arithmetic. Bloch counting gives <span class="math notranslate nohighlight">\(2N\)</span> states per band — <strong>two electrons per
+cell per band</strong>, and a filled band is verifiably <em>inert</em> (its group velocities sum to zero and
+Pauli forbids the rearrangement a field requests). Odd electrons per cell leave a band
+half-filled: a Fermi surface, a metal. Even electrons per cell can fill bands exactly and strand
+the Fermi level in a gap: an insulator. Thirty orders of magnitude of resistivity reduce to a
+parity. The gapped density of states, with its van Hove edges and its exact zeros, is the
+object this notebook hands to <a class="reference internal" href="semiconductor-statistics.html"><span class="std std-doc">§7.13</span></a>, where the chemical potential moves into the gap and
+Fermi–Dirac, unchanged since <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>, becomes the physics of semiconductors.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Working units <span class="math notranslate nohighlight">\(\hbar = m = a = 1\)</span> (energies in
+<span class="math notranslate nohighlight">\(\hbar^2/ma^2\)</span>). Reduced-zone scheme with <span class="math notranslate nohighlight">\(k \in [-\pi/a, \pi/a]\)</span>; the allowed
+grid on an <span class="math notranslate nohighlight">\(N_c\)</span>-cell ring is <span class="math notranslate nohighlight">\(k = 2\pi m/N_ca\)</span>; the spin factor 2 rides every count. Basis
+sizes <span class="math notranslate nohighlight">\(n_G\)</span> are stated per computation, with the convergence rule measured (not assumed) in
+the rendezvous. Finite-difference rings wrap <em>both</em> corners; <code class="docutils literal notranslate"><span class="pre">brentq</span></code> brackets come from a
+fine pre-scan (the missed-bracket trap is stated); group-velocity sums exclude the duplicated
+periodic endpoint.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against an independent
+fact: <span class="math notranslate nohighlight">\(\|[H, T_a]\|\)</span> at rounding level and the Bloch phases on the exact <span class="math notranslate nohighlight">\(2\pi m/N_c\)</span> grid;
+Kronig–Penney’s band edges against the transcendental condition; the central equation meeting
+the transcendental answer at the measured <span class="math notranslate nohighlight">\(\sim 1/n_G\)</span> rate while the cosine converges at
+<span class="math notranslate nohighlight">\(n_G = 2\)</span>; the zone-boundary gap equal to <span class="math notranslate nohighlight">\(2|V_1|\)</span>; the tight-binding ring matching
+<span class="math notranslate nohighlight">\(-2t\cos ka\)</span> at <span class="math notranslate nohighlight">\(10^{-15}\)</span>; the van Hove histogram against the closed form; and a filled
+band’s velocity sum at zero. A ✓ is strong evidence; a ✗ is a prompt to <em>locate the
+discrepancy</em>.</p>
+<p><strong>Scope (the framing constraint, binding).</strong> This is a notebook <em>within a volume on quantum
+statistical mechanics</em>: one quantum input, the periodic potential, built to the depth the
+statistics requires, and no further. Horizons point <em>outward</em> only: real 3D band structures
+and Fermi surfaces, density-functional theory and pseudopotentials (the MMM course is the
+reader’s next home for electronic structure at scale), graphene’s linear bands in one breath.
+No Wannier functions, no topology, no transport theory here. See Ashcroft &amp; Mermin
+(Chs. 8–10); Kittel (Ch. 7); Kronig &amp; Penney (1931). Cross-reference <a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html"><span class="std std-doc">§6.6</span></a>/<a class="reference internal" href="../06-quantum-mechanics/time-evolution.html"><span class="std std-doc">§6.7</span></a> (commuting
+operators and unitaries), <a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a> (degenerate perturbation theory, applied at the zone boundary),
+<a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a> (the box states, now periodized), <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a> (the DOS machinery), <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a>–<a class="reference internal" href="white-dwarfs-chandrasekhar.html"><span class="std std-doc">§7.11</span></a> (the confession’s
+triumphs), and forward to <a class="reference internal" href="semiconductor-statistics.html"><span class="std std-doc">§7.13</span></a> (Fermi–Dirac in the gap) and <a class="reference internal" href="phonons-debye.html"><span class="std std-doc">§7.16</span></a> (the same Bloch counting for
+phonons).</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-confession">
+<h3>The confession<a class="headerlink" href="#the-confession" title="Link to this heading">#</a></h3>
+<p>Three lines of triumph: the free gas priced the electronic heat capacity and spin
+susceptibility of real metals to tens of percent with nothing fitted (<a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a>), the
+compressibility of the alkalis and the speed of sound in sodium (<a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a>), and the limiting mass of
+white dwarfs to four percent against Sirius B (<a class="reference internal" href="white-dwarfs-chandrasekhar.html"><span class="std std-doc">§7.11</span></a>). One line of failure: it cannot produce an insulator (a gas with <span class="math notranslate nohighlight">\(g(\varepsilon) &gt; 0\)</span> everywhere always has states to rearrange, so it always conducts) while diamond insulates behind a 5.5 eV gap and the resistivity of matter
+spans <span class="math notranslate nohighlight">\(\sim 10^{30}\)</span> from the best metals to the best insulators. This notebook supplies the one
+missing input, <span class="math notranslate nohighlight">\(V(x+a) = V(x)\)</span>, on the Movement-0 precedent: an arsenal notebook, because the
+statistics cannot proceed without it. The statistics resumes in <a class="reference internal" href="semiconductor-statistics.html"><span class="std std-doc">§7.13</span></a>.</p>
+</section>
+<section id="bloch-s-theorem-by-symmetry">
+<h3>Bloch’s theorem, by symmetry<a class="headerlink" href="#bloch-s-theorem-by-symmetry" title="Link to this heading">#</a></h3>
+<p>A periodic potential commutes with the lattice translation <span class="math notranslate nohighlight">\(T_a\)</span>: <span class="math notranslate nohighlight">\([H, T_a] = 0\)</span>, so energy
+eigenstates can be chosen as <span class="math notranslate nohighlight">\(T_a\)</span> eigenstates (the commuting-operator move of <a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html"><span class="std std-doc">§6.6</span></a>/<a class="reference internal" href="../06-quantum-mechanics/time-evolution.html"><span class="std std-doc">§6.7</span></a>). <span class="math notranslate nohighlight">\(T_a\)</span> is
+unitary, its eigenvalues lie on the unit circle, and writing them <span class="math notranslate nohighlight">\(e^{ika}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-band-bloch">
+<span class="eqno">(637)<a class="headerlink" href="#equation-eq-band-bloch" title="Link to this equation">#</a></span>\[\psi_k(x+a) = e^{ika}\,\psi_k(x)
+\qquad\Longleftrightarrow\qquad
+\psi_k(x) = e^{ikx}\,u_k(x),\quad u_k(x+a) = u_k(x),\]</div>
+<p>Bloch waves, labelled by a <strong>crystal momentum</strong> <span class="math notranslate nohighlight">\(k\)</span> defined only modulo <span class="math notranslate nohighlight">\(G = 2\pi/a\)</span> — fold
+everything into the <strong>Brillouin zone</strong> <span class="math notranslate nohighlight">\([-\pi/a, \pi/a]\)</span>. (Crystal momentum is not momentum:
+the lattice can absorb recoil in units of <span class="math notranslate nohighlight">\(\hbar G\)</span>.) The counting that the whole notebook
+marches toward: a periodic ring of <span class="math notranslate nohighlight">\(N\)</span> cells allows <span class="math notranslate nohighlight">\(k = 2\pi m/Na\)</span>, exactly <span class="math notranslate nohighlight">\(N\)</span> values per band; with spin, <strong><span class="math notranslate nohighlight">\(2N\)</span> states per band: two electrons per cell per band</strong>.</p>
+</section>
+<section id="bloch-verified-with-a-taught-trap">
+<h3>Bloch verified, with a taught trap<a class="headerlink" href="#bloch-verified-with-a-taught-trap" title="Link to this heading">#</a></h3>
+<p>On a discretized ring (<span class="math notranslate nohighlight">\(N_c\)</span> cells, <span class="math notranslate nohighlight">\(M\)</span> points each) the translation is a permutation matrix,
+and the verification is direct:</p>
+<div class="math notranslate nohighlight" id="equation-eq-bloch-verified">
+<span class="eqno">(638)<a class="headerlink" href="#equation-eq-bloch-verified" title="Link to this equation">#</a></span>\[\|[H, T_a]\| \sim 10^{-13},
+\qquad
+\text{eigenphases of } T_a\big|_{\text{each degenerate subspace}} = \frac{2\pi m}{N_c}.\]</div>
+<p>The trap is worth its lesson: <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> returns <em>real</em> eigenvectors, which inside each
+degenerate <span class="math notranslate nohighlight">\(\pm k\)</span> pair are cosine/sine mixtures, whose naive expectation <span class="math notranslate nohighlight">\(\langle v|T|v\rangle\)</span>
+is real, and the extracted “phases” collapse to <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(\pi\)</span>. The fix is general: restrict <span class="math notranslate nohighlight">\(T\)</span>
+to each degenerate subspace (<code class="docutils literal notranslate"><span class="pre">sub.T</span> <span class="pre">&#64;</span> <span class="pre">T</span> <span class="pre">&#64;</span> <span class="pre">sub</span></code>) and diagonalize the small unitary: degenerate subspaces demand <em>simultaneous</em> diagonalization, a lesson the course states once and uses
+forever.</p>
+</section>
+<section id="kronigpenney-bands-exactly">
+<h3>Kronig–Penney: bands, exactly<a class="headerlink" href="#kronigpenney-bands-exactly" title="Link to this heading">#</a></h3>
+<p>For the Dirac-comb crystal <span class="math notranslate nohighlight">\(V = (\hbar^2P/ma)\sum_n\delta(x - na)\)</span>, matching <span class="math notranslate nohighlight">\(\psi\)</span> and its
+kinked derivative across one cell and imposing Bloch’s condition gives one transcendental line:</p>
+<div class="math notranslate nohighlight" id="equation-eq-kronig-penney">
+<span class="eqno">(639)<a class="headerlink" href="#equation-eq-kronig-penney" title="Link to this equation">#</a></span>\[\cos(ka) = \cos(qa) + P\,\frac{\sin(qa)}{qa},
+\qquad
+E = \frac{\hbar^2q^2}{2m}.\]</div>
+<p>The left side lives in <span class="math notranslate nohighlight">\([-1, 1]\)</span>; energies where the right side escapes that corridor are
+<strong>forbidden</strong> — gaps, from one line of algebra. Band edges are the roots of <span class="math notranslate nohighlight">\(|F(q)| = 1\)</span>
+(located by <code class="docutils literal notranslate"><span class="pre">brentq</span></code> on a pre-scanned grid; for <span class="math notranslate nohighlight">\(P = 3\)</span> the first band runs <span class="math notranslate nohighlight">\([1.953, 4.935]\)</span>
+with the next at <span class="math notranslate nohighlight">\([9.458, 19.74]\)</span>, in <span class="math notranslate nohighlight">\(\hbar^2/ma^2\)</span>). The limits bracket the subject: <span class="math notranslate nohighlight">\(P \to 0\)</span>
+recovers the free continuum; <span class="math notranslate nohighlight">\(P \to \infty\)</span> pinches the bands onto isolated-well levels: the atomic limit, tight binding’s home.</p>
+</section>
+<section id="the-rendezvous-and-the-pseudopotential-moral">
+<h3>The rendezvous, and the pseudopotential moral<a class="headerlink" href="#the-rendezvous-and-the-pseudopotential-moral" title="Link to this heading">#</a></h3>
+<p>Expand <span class="math notranslate nohighlight">\(\psi\)</span> in plane waves <span class="math notranslate nohighlight">\(e^{i(k+G)x}\)</span> and the Schrödinger equation becomes the <strong>central
+equation</strong> — a matrix eigenproblem per <span class="math notranslate nohighlight">\(k\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-central-equation">
+<span class="eqno">(640)<a class="headerlink" href="#equation-eq-central-equation" title="Link to this equation">#</a></span>\[H_{GG'} = \delta_{GG'}\,\frac{(k+G)^2}{2} + V_{G-G'},
+\qquad
+\text{comb: } V_G = P\ \text{for every }G .\]</div>
+<p>A delta function has <em>every</em> Fourier component equal, so the comb’s matrix is a free diagonal
+plus a constant, and its plane-wave convergence is slow: the lowest band’s error falls like
+<span class="math notranslate nohighlight">\(\sim 1/n_G\)</span> (measured: <span class="math notranslate nohighlight">\(3.4\times10^{-2} \to 1.75\times10^{-3}\)</span> for <span class="math notranslate nohighlight">\(n_G = 10 \to 200\)</span>). A
+smooth cosine potential, by contrast, converges at <span class="math notranslate nohighlight">\(n_G = 2\)</span> to ten digits. Two unrelated
+methods meet on one band structure — and the <em>rate</em> of the meeting is the outward moral: sharp
+potentials demand enormous plane-wave baskets, which is exactly why plane-wave
+density-functional codes replace the singular ionic potential with smooth <strong>pseudopotentials</strong>
+(real 3D bands, DFT, and the MMM course: the reader’s next home for this, at scale).</p>
+</section>
+<section id="nearly-free-electrons-the-gap-is-bragg">
+<h3>Nearly-free electrons: the gap is Bragg<a class="headerlink" href="#nearly-free-electrons-the-gap-is-bragg" title="Link to this heading">#</a></h3>
+<p>Keep a single Fourier component, <span class="math notranslate nohighlight">\(V_{\pm G_1} = V_1\)</span> (the cosine crystal). At the zone boundary
+<span class="math notranslate nohighlight">\(k = \pi/a\)</span> the free waves <span class="math notranslate nohighlight">\(e^{\pm i\pi x/a}\)</span> are degenerate, and the degenerate machinery of <a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a> applies verbatim: the <span class="math notranslate nohighlight">\(2\times2\)</span> secular problem mixes them into standing waves:</p>
+<div class="math notranslate nohighlight" id="equation-eq-nfe-gap">
+<span class="eqno">(641)<a class="headerlink" href="#equation-eq-nfe-gap" title="Link to this equation">#</a></span>\[\psi_\pm \propto \cos,\ \sin\!\big(\pi x/a\big),
+\qquad
+E_\pm = \frac{\pi^2}{2a^2} \pm |V_1|
+\quad\Longrightarrow\quad
+\Delta E = 2|V_1| .\]</div>
+<p>The cosine piles density <em>on</em> the ion rows and the sine piles it <em>off</em> — the crystal cannot
+propagate the wave it Bragg-reflects, and the gap is what standing still costs. Verified
+numerically: ratios <span class="math notranslate nohighlight">\(1.0000, 1.0000, 0.9998\)</span> at <span class="math notranslate nohighlight">\(V_1 = 0.05, 0.2, 0.5\)</span>, the small drift being
+honest second order.</p>
+</section>
+<section id="tight-binding-and-the-course-s-confession-in-reverse">
+<h3>Tight binding, and the course’s confession-in-reverse<a class="headerlink" href="#tight-binding-and-the-course-s-confession-in-reverse" title="Link to this heading">#</a></h3>
+<p>From the atomic limit: <span class="math notranslate nohighlight">\(N\)</span> orbitals on a ring, hopping <span class="math notranslate nohighlight">\(t\)</span> to neighbours (Ashcroft &amp;
+Mermin, Ch. 10, develops the tight-binding method in full),</p>
+<div class="math notranslate nohighlight" id="equation-eq-tight-binding">
+<span class="eqno">(642)<a class="headerlink" href="#equation-eq-tight-binding" title="Link to this equation">#</a></span>\[H = -t\,(S + S^{\mathsf T})
+\quad\Longrightarrow\quad
+E(k) = -2t\cos(ka),
+\qquad
+\text{bandwidth } 4t,
+\quad
+m^* = \frac{\hbar^2}{2ta^2}\ \text{at the bottom}.\]</div>
+<p>And the meta-note, stated with pleasure: the finite-difference Laplacian this course has used
+since Volume 0 <em>is</em> this hopping matrix with <span class="math notranslate nohighlight">\(t = \hbar^2/2m\Delta x^2\)</span>. Every “continuum”
+calculation so far has secretly been a tight-binding crystal whose bandwidth <span class="math notranslate nohighlight">\(4t\)</span> was kept far
+above the physics; when it isn’t, discretization artifacts <em>are</em> band-structure artifacts.</p>
+</section>
+<section id="the-band-density-of-states-van-hove">
+<h3>The band density of states: van Hove<a class="headerlink" href="#the-band-density-of-states-van-hove" title="Link to this heading">#</a></h3>
+<p>The machinery of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a> pointed at a band. From <span class="math notranslate nohighlight">\(E = -2t\cos k\)</span>, inverting <span class="math notranslate nohighlight">\(|dk/dE|\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-van-hove">
+<span class="eqno">(643)<a class="headerlink" href="#equation-eq-van-hove" title="Link to this equation">#</a></span>\[g(E) = \frac{1}{\pi\sqrt{4t^2 - E^2}},\]</div>
+<p>divergent at the band edges — the 1D <strong>van Hove singularities</strong> (in 2D a logarithm, in 3D
+square-root onsets: named horizons), and <em>exactly zero</em> in the gaps. A density of states with
+gaps is precisely the object <a class="reference internal" href="semiconductor-statistics.html"><span class="std std-doc">§7.13</span></a> feeds into Fermi–Dirac; nothing in Movements 0–II had one.</p>
+</section>
+<section id="metal-or-insulator-the-counting">
+<h3>Metal or insulator: the counting<a class="headerlink" href="#metal-or-insulator-the-counting" title="Link to this heading">#</a></h3>
+<p>The payoff, by arithmetic, assembled from Bloch counting and the evenness of <span class="math notranslate nohighlight">\(E(k)\)</span>
+(Kittel, Ch. 7, closes on the same counting):</p>
+<div class="math notranslate nohighlight" id="equation-eq-metal-insulator">
+<span class="eqno">(644)<a class="headerlink" href="#equation-eq-metal-insulator" title="Link to this equation">#</a></span>\[\begin{split}\sum_{k\in\text{BZ}} v_k = \frac{1}{\hbar}\sum_k \frac{\partial E}{\partial k} = 0
+\quad(\text{a filled band is inert}),
+\qquad
+\begin{cases}
+\text{odd }e^-/\text{cell} \Rightarrow \text{half-filled band} \Rightarrow \text{METAL}\\
+\text{even }e^-/\text{cell} \Rightarrow \text{filled bands, } \varepsilon_F \text{ in a gap} \Rightarrow \text{INSULATOR}.
+\end{cases}\end{split}\]</div>
+<p>A filled band carries no current: its velocities cancel identically (<span class="math notranslate nohighlight">\(E(k)\)</span> is even) and Pauli
+forbids the rearrangement an applied field requests. Sodium’s one electron per cell half-fills a
+band — a Fermi surface, a metal. Diamond’s even count fills bands exactly — the Fermi level
+strands in the gap. Honest caveats, named: divalent magnesium is metallic because bands
+<em>overlap</em> in <span class="math notranslate nohighlight">\(\ge\)</span>2D (the 1D chain cannot show it), and the band-top curvature is <em>negative</em> —
+a nearly-filled band responds as positive carriers of mass <span class="math notranslate nohighlight">\(|m^*|\)</span>: <strong>holes</strong>, the concept <a class="reference internal" href="semiconductor-statistics.html"><span class="std std-doc">§7.13</span></a>
+runs on.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">brentq</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>
+<span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;#c1121f&quot;</span>
+
+<span class="c1"># Conventions: working units ħ = m = a = 1 (energies in ħ^2/ma^2);</span>
+<span class="c1"># reduced zone k ∈ [−π, π]; allowed grid k = 2πm/N_c on an N_c-cell ring; spin</span>
+<span class="c1"># factor 2 in every count. FD rings wrap BOTH corners; brentq brackets come from a</span>
+<span class="c1"># fine pre-scan; velocity sums exclude the duplicated periodic endpoint; basis sizes</span>
+<span class="c1"># n_G are stated per computation.</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ring_hamiltonian</span><span class="p">(</span><span class="n">Nc</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">Vfunc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The periodic-ring Hamiltonian by finite differences: N_c cells, M points per cell.</span>
+
+<span class="sd">    H = −(1/2)∂_x^2 + V(x) on N_p = N_c·M points with spacing Δx = 1/M, the Laplacian</span>
+<span class="sd">    wrapped at BOTH corners (H[0, −1] and H[−1, 0] — forgetting one silently opens the</span>
+<span class="sd">    ring and destroys the translation symmetry this notebook is about). Per Exercise</span>
+<span class="sd">    6&#39;s meta-note, this matrix IS a tight-binding crystal with t = 1/(2Δx^2); its</span>
+<span class="sd">    bandwidth is kept far above every energy we trust.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Nc : int</span>
+<span class="sd">        Number of unit cells on the ring.</span>
+<span class="sd">    M : int</span>
+<span class="sd">        Grid points per cell (Δx = 1/M).</span>
+<span class="sd">    Vfunc : callable</span>
+<span class="sd">        The periodic potential V(x), vectorized.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The (N_c·M) × (N_c·M) real symmetric Hamiltonian.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Np</span> <span class="o">=</span> <span class="n">Nc</span> <span class="o">*</span> <span class="n">M</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">M</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">Np</span><span class="p">)</span> <span class="o">*</span> <span class="n">dx</span>
+    <span class="n">t_fd</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">t_fd</span> <span class="o">+</span> <span class="n">Vfunc</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">off</span> <span class="o">=</span> <span class="o">-</span><span class="n">t_fd</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">Np</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">H</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">off</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">off</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">H</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">H</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">t_fd</span>  <span class="c1"># both wrap corners: the ring stays a ring</span>
+    <span class="k">return</span> <span class="n">H</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">translation</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">M</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The one-cell translation operator T_a on the N_p-point ring, as a permutation.</span>
+
+<span class="sd">    T = numpy.roll(numpy.eye(N_p), M, axis=1): (Tψ)(x_i) = ψ(x_i + a), a pure</span>
+<span class="sd">    permutation and hence exactly unitary. Its commutator with any periodic-ring H is</span>
+<span class="sd">    zero up to rounding — the numerical statement of V(x + a) = V(x).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Np : int</span>
+<span class="sd">        Total grid points.</span>
+<span class="sd">    M : int</span>
+<span class="sd">        Points per cell (the shift).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The N_p × N_p permutation matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">Np</span><span class="p">),</span> <span class="n">M</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">bloch_phases</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">degeneracy_tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract the Bloch eigenphases of T_a, respecting degenerate subspaces.</span>
+
+<span class="sd">    numpy.linalg.eigh returns REAL eigenvectors; inside each degenerate ±k pair these</span>
+<span class="sd">    are cos/sin mixtures whose naive ⟨v|T|v⟩ is real (phases 0/π only — the trap</span>
+<span class="sd">    Exercise 2 demonstrates). The honest extraction groups levels by |ΔE| &lt;</span>
+<span class="sd">    degeneracy_tol, restricts T to each group (sub.T @ T @ sub), and diagonalizes the</span>
+<span class="sd">    small unitary with numpy.linalg.eigvals — simultaneous diagonalization, done</span>
+<span class="sd">    subspace by subspace.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    H : numpy.ndarray</span>
+<span class="sd">        The ring Hamiltonian (real symmetric).</span>
+<span class="sd">    T : numpy.ndarray</span>
+<span class="sd">        The translation operator.</span>
+<span class="sd">    degeneracy_tol : float, optional</span>
+<span class="sd">        Energy tolerance for grouping degenerate levels (default 1e-8).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple</span>
+<span class="sd">        (energies, phases): eigenenergies and the matching T_a eigenphases in [0, 2π).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">E</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+    <span class="n">phases</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">E</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">E</span><span class="o">.</span><span class="n">size</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">E</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">E</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">degeneracy_tol</span><span class="p">:</span>
+            <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">sub</span> <span class="o">=</span> <span class="n">V</span><span class="p">[:,</span> <span class="n">i</span><span class="p">:</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">T_sub</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">T</span> <span class="o">@</span> <span class="n">sub</span>  <span class="c1"># the restriction of T to the degenerate subspace</span>
+        <span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">T_sub</span><span class="p">)</span>
+        <span class="n">phases</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">lam</span><span class="p">),</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">j</span>
+    <span class="k">return</span> <span class="n">E</span><span class="p">,</span> <span class="n">phases</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">kp_condition</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">P</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Kronig–Penney function F(q) = cos(q) + P sin(q)/q (a = 1 units).</span>
+
+<span class="sd">    Bloch&#39;s condition demands cos(ka) = F(q): energies E = q^2/2 are ALLOWED where</span>
+<span class="sd">    |F| ≤ 1 (some real k exists) and FORBIDDEN where |F| &gt; 1 — bands and gaps from</span>
+<span class="sd">    one transcendental line (eq-kronig-penney). The q → 0 limit is 1 + P (finite).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : float or numpy.ndarray</span>
+<span class="sd">        The internal wavenumber (E = q^2/2).</span>
+<span class="sd">    P : float</span>
+<span class="sd">        The comb strength.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float or numpy.ndarray</span>
+<span class="sd">        F(q).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">P</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">+</span> <span class="n">P</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sinc</span><span class="p">(</span><span class="n">q</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">kp_band_edges</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">q_max</span><span class="o">=</span><span class="mf">15.0</span><span class="p">,</span> <span class="n">n_scan</span><span class="o">=</span><span class="mi">30001</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Band edges of the Kronig–Penney crystal: brentq on |F(q)| = 1 after a fine pre-scan.</span>
+
+<span class="sd">    |F| − 1 oscillates, and a coarse bracket hunt silently drops edges — so the scan</span>
+<span class="sd">    grid is fine (n_scan points to q_max) and every sign change of |F| − 1 is handed</span>
+<span class="sd">    to brentq. Returned as a list of (E_bottom, E_top) per band, E = q^2/2. The q = 0</span>
+<span class="sd">    endpoint (F = 1 + P &gt; 1) starts the scan inside a forbidden region, so edges pair</span>
+<span class="sd">    up as (enter corridor, leave corridor).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    P : float</span>
+<span class="sd">        The comb strength.</span>
+<span class="sd">    q_max : float, optional</span>
+<span class="sd">        Scan limit in q (default 15.0 — three bands for P = 3).</span>
+<span class="sd">    n_scan : int, optional</span>
+<span class="sd">        Pre-scan resolution (default 30001).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of tuple</span>
+<span class="sd">        Band intervals [(E_lo, E_hi), ...] in units ħ^2/ma^2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">q_max</span><span class="p">,</span> <span class="n">n_scan</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">kp_condition</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">P</span><span class="p">))</span> <span class="o">-</span> <span class="mf">1.0</span>
+    <span class="n">roots</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">g</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">roots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">brentq</span><span class="p">(</span>
+                    <span class="k">lambda</span> <span class="n">qq</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">kp_condition</span><span class="p">(</span><span class="n">qq</span><span class="p">,</span> <span class="n">P</span><span class="p">))</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">,</span>
+                    <span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">q</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span>
+                    <span class="n">xtol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">roots</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">central_equation</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">V_of_G</span><span class="p">,</span> <span class="n">nG</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The plane-wave (central-equation) bands at crystal momentum k: eigh of H_{GG&#39;}.</span>
+
+<span class="sd">    H_{GG&#39;} = δ_{GG&#39;}(k+G)^2/2 + V_{G−G&#39;} over the reciprocal lattice G = 2πm,</span>
+<span class="sd">    m = −n_G..n_G — a (2n_G+1)-dimensional eigenproblem per k (eq-central-equation).</span>
+<span class="sd">    The basis size n_G is the honesty dial: Exercise 4 MEASURES the convergence (the</span>
+<span class="sd">    comb needs ~1/n_G patience, the cosine converges at n_G = 2), which is the</span>
+<span class="sd">    pseudopotential moral in one table.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    k : float</span>
+<span class="sd">        Crystal momentum in the reduced zone.</span>
+<span class="sd">    V_of_G : callable</span>
+<span class="sd">        V_G as a function of the integer index m (G = 2πm).</span>
+<span class="sd">    nG : int</span>
+<span class="sd">        Half-width of the plane-wave basis.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Sorted band energies at this k.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">nG</span><span class="p">,</span> <span class="n">nG</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">m_idx</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">((</span><span class="n">k</span> <span class="o">+</span> <span class="n">G</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">mi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">m_idx</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">mj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">m_idx</span><span class="p">):</span>
+            <span class="n">H</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">V_of_G</span><span class="p">(</span>
+                <span class="n">mi</span> <span class="o">-</span> <span class="n">mj</span>
+            <span class="p">)</span>  <span class="c1"># V_0 rides the diagonal: a constant energy offset</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">tight_binding_ring</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The N-site tight-binding ring H = −t(S + S^T), built from numpy.roll shifts.</span>
+
+<span class="sd">    The hopping matrix whose spectrum is −2t cos(2πm/N) (eq-tight-binding) — and,</span>
+<span class="sd">    per the course&#39;s confession-in-reverse, exactly the finite-difference Laplacian</span>
+<span class="sd">    of every notebook since Volume 0, with t = ħ^2/2mΔx^2 and the site energy</span>
+<span class="sd">    2t absorbed into the zero.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    N : int</span>
+<span class="sd">        Number of sites (cells) on the ring.</span>
+<span class="sd">    t : float</span>
+<span class="sd">        The hopping amplitude.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The N × N hopping Hamiltonian.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="n">S</span> <span class="o">+</span> <span class="n">S</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-the-confession-quantified">
+<h2>Exercise 1 — The confession, quantified<a class="headerlink" href="#exercise-1-the-confession-quantified" title="Link to this heading">#</a></h2>
+<p>The free gas’s report card: five triumphs and one failure wide enough to hold thirty orders of
+magnitude. (The framing exercise; short by design.)</p>
+<ol class="arabic simple">
+<li><p>Recap in a table what the free gas got right (<span class="math notranslate nohighlight">\(\gamma\)</span>, <span class="math notranslate nohighlight">\(\chi_{\text{Pauli}}\)</span>, <span class="math notranslate nohighlight">\(B\)</span> of the
+alkalis, Bohm–Staver, <span class="math notranslate nohighlight">\(M_{\text{Ch}}\)</span>; one line each with the notebook of origin).</p></li>
+<li><p>State the failure with data: diamond’s gap (5.5 eV) and the <span class="math notranslate nohighlight">\(\sim10^{30}\)</span> resistivity span
+from best metal to best insulator (representative values stated).</p></li>
+<li><p>Argue in prose why <em>no</em> free-gas mechanism can produce an insulator, locating the missing
+ingredient in <span class="math notranslate nohighlight">\(V(x)\)</span>.</p></li>
+<li><p>State the notebook’s contract (the framing constraint, in the course’s voice): one arsenal
+notebook of single-particle quantum mechanics, then the statistics resumes.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>the free electron gas&#39;s report card:
+  electronic heat capacity γ (Na, K, Cu)     within 40%, correctly ordered          [§7.10]
+  Pauli susceptibility, flat and feeble      0.55% of Curie at 300 K                [§7.10]
+  bulk moduli of the alkalis                 K to 2%, Rb/Cs to 10%, no parameters   [§7.9]
+  Bohm–Staver sound speed (Na, K)            5–7% of measurement                    [§7.9]
+  white-dwarf mass–radius; Sirius B          4% on a real star; M_Ch to 4 digits    [§7.11]
+
+resistivity span: 1.7e-08 → 1e+22 Ω·m  ≈ 10^30
+diamond&#39;s gap: 5.5 eV ≈ 213 k_BT at 300 K
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the confession, quantified: ~30 decades of resistivity and a 213 k_BT gap, invisible to the free gas   [span 10^30, gap 213 k_BT]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-bloch-s-theorem-by-symmetry-then-verified-with-a-trap">
+<h2>Exercise 2 — Bloch’s theorem, by symmetry — then verified with a trap<a class="headerlink" href="#exercise-2-bloch-s-theorem-by-symmetry-then-verified-with-a-trap" title="Link to this heading">#</a></h2>
+<p>Translation symmetry organizes the spectrum; the computer confirms it, once we respect
+degeneracy. Cite <a class="reference internal" href="#equation-eq-band-bloch">Eq. 637</a>, <a class="reference internal" href="#equation-eq-bloch-verified">Eq. 638</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive Bloch’s theorem from <span class="math notranslate nohighlight">\([H, T_a] = 0\)</span> and the unitarity of <span class="math notranslate nohighlight">\(T_a\)</span> (the <a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html"><span class="std std-doc">§6.6</span></a>/<a class="reference internal" href="../06-quantum-mechanics/time-evolution.html"><span class="std std-doc">§6.7</span></a> move),
+defining crystal momentum and the Brillouin zone.</p></li>
+<li><p>Build the periodic-ring <span class="math notranslate nohighlight">\(H\)</span> (<code class="docutils literal notranslate"><span class="pre">ring_hamiltonian</span></code>, both wrap corners) and
+<span class="math notranslate nohighlight">\(T_a\)</span> = <code class="docutils literal notranslate"><span class="pre">numpy.roll(numpy.eye(Np),</span> <span class="pre">M,</span> <span class="pre">axis=1)</span></code>; verify <span class="math notranslate nohighlight">\(\|[H, T_a]\| \lesssim 10^{-12}\)</span>.</p></li>
+<li><p>Demonstrate the trap: naive phases <span class="math notranslate nohighlight">\(\angle\langle v|T|v\rangle\)</span> on <code class="docutils literal notranslate"><span class="pre">eigh</span></code>’s real eigenvectors
+return only <span class="math notranslate nohighlight">\(0/\pi\)</span>; then extract correctly with <code class="docutils literal notranslate"><span class="pre">bloch_phases</span></code> (the degenerate-subspace
+restriction) and confirm the phases land on the grid <span class="math notranslate nohighlight">\(2\pi m/N_c\)</span>.</p></li>
+<li><p>Count (prose + one line): <span class="math notranslate nohighlight">\(N\)</span> cells <span class="math notranslate nohighlight">\(\Rightarrow\)</span> <span class="math notranslate nohighlight">\(N\)</span> <span class="math notranslate nohighlight">\(k\)</span>-values per band <span class="math notranslate nohighlight">\(\Rightarrow\)</span> <span class="math notranslate nohighlight">\(2N\)</span>
+states with spin — two electrons per cell per band, the number the whole notebook is
+marching toward.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ring: N_c = 8 cells × 24 points;  ‖[H, T_a]‖ = 0.00e+00
+naive phases on the lowest band (real eigh vectors): distinct values [0.       3.141593]
+  — 0 and π only: the cos/sin mixtures have hidden the Bloch phases
+subspace-extracted phases, band 1: [0.       0.785398 1.570796 2.356194 3.141593 3.926991 4.712389 5.497787]
+the allowed grid 2πm/N_c:          [0.       0.785398 1.570796 2.356194 3.141593 3.926991 4.712389 5.497787]
+
+states per band with spin: 2 × 8 = 16 — two per cell, the notebook&#39;s destination
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the symmetry, numerically: the periodic-ring H commutes with T_a at rounding level   [‖[H, T_a]‖ = 0.0e+00]
+✓  Bloch verified: the subspace-extracted eigenphases land exactly on the allowed k-grid   [max|Δ| = 4.44089e-16 (rtol=1e-06, atol=1e-06)]
+✓  and the trap is real: naive phases on real eigh vectors collapse to {0, π}   [distinct naive values: [0.       3.141593]]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-kronigpenney-bands-from-one-transcendental-line">
+<h2>Exercise 3 — Kronig–Penney: bands from one transcendental line<a class="headerlink" href="#exercise-3-kronigpenney-bands-from-one-transcendental-line" title="Link to this heading">#</a></h2>
+<p>An exactly solvable crystal, with its forbidden gaps located by root-finding. Cite
+<a class="reference internal" href="#equation-eq-kronig-penney">Eq. 639</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive the condition <span class="math notranslate nohighlight">\(\cos(ka) = \cos(qa) + P\sin(qa)/qa\)</span> for the Dirac comb by matching
+across one cell.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">kp_band_edges(P)</span></code> (fine pre-scan of <span class="math notranslate nohighlight">\(|F(q)| - 1\)</span>, then <code class="docutils literal notranslate"><span class="pre">brentq</span></code> per bracket; the missed-bracket trap stated); verify for <span class="math notranslate nohighlight">\(P = 3\)</span> the first bands <span class="math notranslate nohighlight">\([1.953, 4.935]\)</span> and
+<span class="math notranslate nohighlight">\([9.458, 19.74]\)</span>.</p></li>
+<li><p>Plot <span class="math notranslate nohighlight">\(F(q)\)</span> with the <span class="math notranslate nohighlight">\(\pm1\)</span> corridor (allowed bands where the curve stays inside, gaps where it escapes) and the resulting <span class="math notranslate nohighlight">\(E(k)\)</span> in the reduced zone.</p></li>
+<li><p>Take the limits: <span class="math notranslate nohighlight">\(P \to 0\)</span> (free continuum recovered) and <span class="math notranslate nohighlight">\(P\)</span> large (bands pinching onto
+isolated-well levels — the atomic limit; show the first band’s width shrink).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Kronig–Penney bands, P = 3.0 (units ħ^2/ma^2):
+  band 1: [1.9532, 4.9348]   width 2.9816
+  band 2: [9.4580, 19.7392]   width 10.2812
+  band 3: [25.0939, 44.4132]   width 19.3193
+
+the atomic limit approaching: first-band width vs P
+  P =   1.0:  width = 4.0813
+  P =   3.0:  width = 2.9816
+  P =  10.0:  width = 1.4825
+  P =  30.0:  width = 0.5958
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-bloch-kp-corridor">
+<img alt="../../_images/f8c35e041d3871d1fb8e25964e0b843774d11c73506171c01dee1fd129be3075.png" src="../../_images/f8c35e041d3871d1fb8e25964e0b843774d11c73506171c01dee1fd129be3075.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 577 </span><span class="caption-text">Bands and gaps from one transcendental line. The Kronig–Penney function <span class="math notranslate nohighlight">\(F(q) = \cos(qa) + P\sin(qa)/qa\)</span> for <span class="math notranslate nohighlight">\(P = 3\)</span> (amber) against the corridor <span class="math notranslate nohighlight">\(|F| \le 1\)</span> (shaded): Bloch’s condition <span class="math notranslate nohighlight">\(\cos(ka) = F(q)\)</span> has a solution — some real crystal momentum — only where the curve stays inside, and those <span class="math notranslate nohighlight">\(q\)</span>-windows are the <strong>allowed bands</strong> (dark bars, <span class="math notranslate nohighlight">\(E = q^2/2\)</span>); where the curve escapes, no Bloch wave exists and the energies are <strong>forbidden gaps</strong>. The band edges are the corridor crossings, located by <code class="docutils literal notranslate"><span class="pre">brentq</span></code> after a fine pre-scan (a coarse bracket hunt hops over the narrow high-band crossings — the stated trap). As <span class="math notranslate nohighlight">\(P \to 0\)</span> the curve collapses into the corridor (free continuum, no gaps); as <span class="math notranslate nohighlight">\(P \to \infty\)</span> the crossings pinch onto <span class="math notranslate nohighlight">\(\sin(qa) = 0\)</span> — isolated-well levels, tight binding’s atomic limit.</span><a class="headerlink" href="#fig-bloch-kp-corridor" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Kronig–Penney at P = 3: the first two bands, exactly where the transcendental line puts them   [max|Δ| = 0.000296729 (rtol=0.001, atol=1e-09)]
+✓  the atomic limit: the first band pinches toward the isolated-well level as P grows   [width 2.982 (P=3) → 0.596 (P=30)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-the-rendezvous-and-why-dft-uses-pseudopotentials">
+<h2>Exercise 4 — The rendezvous — and why DFT uses pseudopotentials<a class="headerlink" href="#exercise-4-the-rendezvous-and-why-dft-uses-pseudopotentials" title="Link to this heading">#</a></h2>
+<p>The same crystal by a second, independent method; the convergence rate is the lesson. Cite
+<a class="reference internal" href="#equation-eq-central-equation">Eq. 640</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive the central equation and assemble <span class="math notranslate nohighlight">\(H_{GG'}\)</span> for the comb (<span class="math notranslate nohighlight">\(V_G = P\)</span> for all <span class="math notranslate nohighlight">\(G\)</span> —
+state why every Fourier component is equal).</p></li>
+<li><p>Diagonalize with <code class="docutils literal notranslate"><span class="pre">eigh</span></code> at <span class="math notranslate nohighlight">\(k = 0.3, 1.0, 2.94\)</span> and compare the lowest band with the
+transcendental dispersion (agreement at the <span class="math notranslate nohighlight">\(10^{-2}\)</span>–<span class="math notranslate nohighlight">\(10^{-3}\)</span> level at <span class="math notranslate nohighlight">\(n_G = 25\)</span>, honestly
+reported).</p></li>
+<li><p>Measure the convergence: the lowest-band error for <span class="math notranslate nohighlight">\(n_G = 10 \to 200\)</span> falling <span class="math notranslate nohighlight">\(\sim 1/n_G\)</span>;
+contrast the cosine potential, converged at <span class="math notranslate nohighlight">\(n_G = 2\)</span> to ten digits.</p></li>
+<li><p>Read the moral outward (prose): plane waves hate sharp potentials, the measured reason
+plane-wave density-functional codes replace ionic singularities with smooth pseudopotentials;
+the MMM course named as where the reader meets this at scale.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>comb: central equation (n_G = 25) vs the transcendental answer
+  k = 0.3:  plane-wave 2.008003   transcendental 1.993204   |Δ| = 1.5e-02
+  k = 1.0:  plane-wave 2.406582   transcendental 2.392728   |Δ| = 1.4e-02
+  k = 2.94:  plane-wave 4.870298   transcendental 4.869543   |Δ| = 7.5e-04
+
+comb convergence at k = 1.0:
+  n_G =   10:  |error| = 3.40e-02
+  n_G =   25:  |error| = 1.39e-02
+  n_G =   50:  |error| = 6.97e-03
+  n_G =  100:  |error| = 3.50e-03
+  n_G =  200:  |error| = 1.75e-03
+
+cosine potential at the same k: E(n_G = 2, 5, 10, 50) spread = 1.0e-11
+  (converged at n_G = 2: 0.4898585671)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-bloch-convergence">
+<img alt="../../_images/0cce3cd7d8a5416fcb2a2d4c870941174ddf515c5e27e8096996fe53c8cf26a8.png" src="../../_images/0cce3cd7d8a5416fcb2a2d4c870941174ddf515c5e27e8096996fe53c8cf26a8.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 578 </span><span class="caption-text">The pseudopotential moral, measured. Lowest-band error of the plane-wave (central-equation) computation against the exact transcendental answer for the <strong>Dirac comb</strong> (amber): the error falls only like <span class="math notranslate nohighlight">\(\sim 1/n_G\)</span> (guide line dashed) — a delta function is equally loud at every wavelength, so every doubling of the basis buys a mere factor of two. The <strong>smooth cosine</strong> crystal (dark), by contrast, is converged at <span class="math notranslate nohighlight">\(n_G = 2\)</span> to ten digits (machine-flat line): its potential has exactly one Fourier component to capture. This measured contrast is why plane-wave density-functional codes replace singular ionic cores with smooth pseudopotentials engineered to scatter identically — the outward bridge to real 3D band structures and the MMM course.</span><a class="headerlink" href="#fig-bloch-convergence" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the comb&#39;s plane-wave error falls ~1/n_G: sharp potentials demand enormous baskets   [3.4e-02 → 1.8e-03 for n_G 10 → 200]
+✓  the smooth cosine converges at n_G = 2 to ten digits — the pseudopotential moral, measured   [spread 1.0e-11]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-the-gap-is-bragg">
+<h2>Exercise 5 — The gap is Bragg<a class="headerlink" href="#exercise-5-the-gap-is-bragg" title="Link to this heading">#</a></h2>
+<p>Nearly-free electrons: one Fourier component, one degeneracy, one gap of exactly <span class="math notranslate nohighlight">\(2|V_1|\)</span>. Cite
+<a class="reference internal" href="#equation-eq-nfe-gap">Eq. 641</a>.</p>
+<ol class="arabic simple">
+<li><p>Assemble the central equation for the cosine crystal (only <span class="math notranslate nohighlight">\(V_{\pm1} = V_1\)</span>) with the Setup
+<code class="docutils literal notranslate"><span class="pre">central_equation</span></code> and diagonalize at the zone boundary <span class="math notranslate nohighlight">\(k = \pi/a\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code>).</p></li>
+<li><p>Verify gap <span class="math notranslate nohighlight">\(= 2|V_1|\)</span> (ratios <span class="math notranslate nohighlight">\(1.0000, 1.0000, 0.9998\)</span> at <span class="math notranslate nohighlight">\(V_1 = 0.05, 0.2, 0.5\)</span>; the small drift attributed to second order).</p></li>
+<li><p>Recover the same <span class="math notranslate nohighlight">\(2|V_1|\)</span> by the degenerate perturbation theory of <a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a> on the two zone-boundary
+waves (the <span class="math notranslate nohighlight">\(2\times2\)</span> secular problem), and exhibit the standing-wave eigenstates with
+density on/off the ion rows.</p></li>
+<li><p>Tell it as Bragg (prose): the crystal reflects the wave it cannot propagate, and the gap is
+the price of standing still; plot the reduced-zone bands with the gaps marked.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>the zone-boundary gap vs 2|V_1|:
+  V_1 = 0.05:  gap = 0.100000   gap/2V_1 = 1.0000
+  V_1 = 0.2:  gap = 0.399990   gap/2V_1 = 1.0000
+  V_1 = 0.5:  gap = 0.999840   gap/2V_1 = 0.9998
+
+eigenvector component ratios c_(G=−2π)/c_(G=0): lower band -1.0000, upper +1.0000
+  (+1 and −1: the cos and sin standing waves — density on and off the ion rows)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-bloch-bands">
+<img alt="../../_images/5ab8c9fbcabaa1138b74e0dea697069357b2e03f357821a479d4f267c6910a8a.png" src="../../_images/5ab8c9fbcabaa1138b74e0dea697069357b2e03f357821a479d4f267c6910a8a.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 579 </span><span class="caption-text">The reduced-zone band structure of the cosine crystal (<span class="math notranslate nohighlight">\(V_1 = 0.3\)</span>, plane-wave basis <span class="math notranslate nohighlight">\(n_G = 12\)</span>): the free parabola, folded into the Brillouin zone (free parabola dotted for comparison) and split at the boundaries by the lattice’s one Fourier component. The first gap (shaded) opens exactly at <span class="math notranslate nohighlight">\(k = \pm\pi/a\)</span>, where the free waves <span class="math notranslate nohighlight">\(e^{\pm i\pi x/a}\)</span> satisfy the Bragg condition and mix into standing waves — cosine on the ion rows, sine between them — split by <span class="math notranslate nohighlight">\(2|V_1|\)</span> (the degenerate two-by-two of <a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a>, confirmed by the full diagonalization to the honest second-order drift). Between the gaps the bands are barely dented free-electron pieces; this is the nearly-free limit, tight binding’s opposite shore. The gapped <span class="math notranslate nohighlight">\(E_n(k)\)</span> drawn here is the object whose density of states <a class="reference internal" href="semiconductor-statistics.html"><span class="std std-doc">§7.13</span></a> will feed to Fermi–Dirac.</span><a class="headerlink" href="#fig-bloch-bands" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the zone-boundary gap is 2|V_1| — Bragg in stationary form, drifting only at second order   [max|Δ| = 3.96255e-05 (rtol=0.001, atol=1e-09)]
+✓  the eigenstates are the ± standing waves: density on the ion rows, and off them   [component ratios -1.000, +1.000]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-tight-binding-and-what-the-course-has-been-doing-all-along">
+<h2>Exercise 6 — Tight binding — and what the course has been doing all along<a class="headerlink" href="#exercise-6-tight-binding-and-what-the-course-has-been-doing-all-along" title="Link to this heading">#</a></h2>
+<p>The atomic limit’s band, and a meta-recognition about every finite-difference calculation since
+Volume 0. Cite <a class="reference internal" href="#equation-eq-tight-binding">Eq. 642</a>.</p>
+<ol class="arabic simple">
+<li><p>Build the <span class="math notranslate nohighlight">\(N\)</span>-site ring hopping matrix with <code class="docutils literal notranslate"><span class="pre">tight_binding_ring</span></code> and diagonalize
+(<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code>); verify the spectrum equals <span class="math notranslate nohighlight">\(-2t\cos(2\pi m/N)\)</span> to <span class="math notranslate nohighlight">\(\sim10^{-15}\)</span>,
+bandwidth <span class="math notranslate nohighlight">\(4t\)</span>.</p></li>
+<li><p>Extract <span class="math notranslate nohighlight">\(m^* = \hbar^2/2ta^2\)</span> from the band-bottom curvature (Taylor and a numerical second
+difference agreeing).</p></li>
+<li><p>Make the identification (prose + one formula): the course’s finite-difference Laplacian is
+<em>exactly</em> this matrix with <span class="math notranslate nohighlight">\(t = \hbar^2/2m\Delta x^2\)</span>: every continuum calculation has been
+a tight-binding crystal whose bandwidth was kept far above the physics; state the failure
+mode.</p></li>
+<li><p>Connect the two limits (prose): Kronig–Penney at large <span class="math notranslate nohighlight">\(P\)</span> pinched toward these flat atomic
+bands; nearly-free at small <span class="math notranslate nohighlight">\(V_1\)</span> barely dented the parabola — one band structure, approached
+from both ends.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tight-binding ring, N = 50:  max|eigh − (−2t cos)| = 1.6e-15
+bandwidth: 4.000000   (4t = 4.0)
+
+band-bottom curvature: d²E/dk² = 2.000000  (Taylor: 2t = 2.0)
+m* = 1/(d²E/dk²) = 0.500000   (ħ²/2ta² = 0.5)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-bloch-tight-binding">
+<img alt="../../_images/abd5e08f72c1d858ccdb3a92e6ba26201ec305c1080b6c2e78e915191ea571fa.png" src="../../_images/abd5e08f72c1d858ccdb3a92e6ba26201ec305c1080b6c2e78e915191ea571fa.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 580 </span><span class="caption-text">The tight-binding band <span class="math notranslate nohighlight">\(E(k) = -2t\cos(ka)\)</span> of a 50-site ring (amber: the <code class="docutils literal notranslate"><span class="pre">eigh</span></code> spectrum plotted at its extracted Bloch momenta; the closed form runs through every point at <span class="math notranslate nohighlight">\(10^{-15}\)</span>), with the effective-mass parabolas at the band <strong>bottom</strong> (<span class="math notranslate nohighlight">\(m^* = \hbar^2/2ta^2 &gt; 0\)</span>, dark dashed) and the band <strong>top</strong> (<span class="math notranslate nohighlight">\(m^* &lt; 0\)</span>, red dashed — the inverted curvature that makes a nearly-filled band respond as positive carriers: the holes <a class="reference internal" href="semiconductor-statistics.html"><span class="std std-doc">§7.13</span></a> counts). Bandwidth <span class="math notranslate nohighlight">\(4t\)</span>. The meta-note this figure certifies: the course’s finite-difference Laplacian is exactly this matrix with <span class="math notranslate nohighlight">\(t = \hbar^2/2m\Delta x^2\)</span> — every continuum calculation since Volume 0 has been a crystal like this one, its bandwidth kept safely above the physics.</span><a class="headerlink" href="#fig-bloch-tight-binding" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  tight binding: the ring&#39;s eigh spectrum equals −2t cos(2πm/N) at machine precision   [max|Δ| = 1.55431e-15 (rtol=1e-06, atol=1e-12)]
+✓  the band-bottom effective mass m* = ħ²/2ta², by Taylor and by second difference   [got 0.5 vs expected 0.5 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-the-band-density-of-states-van-hove">
+<h2>Exercise 7 — The band density of states: van Hove<a class="headerlink" href="#exercise-7-the-band-density-of-states-van-hove" title="Link to this heading">#</a></h2>
+<p>The machinery of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a> pointed at a band, with divergent edges and exact zeros. Cite
+<a class="reference internal" href="#equation-eq-van-hove">Eq. 643</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive <span class="math notranslate nohighlight">\(g(E) = (1/\pi)/\sqrt{4t^2 - E^2}\)</span> from <span class="math notranslate nohighlight">\(|dk/dE|\)</span> for the tight-binding band.</p></li>
+<li><p>Histogram the eigenvalues of a large ring (<code class="docutils literal notranslate"><span class="pre">numpy.histogram(...,</span> <span class="pre">density=True)</span></code>; the
+spectrum from the <code class="docutils literal notranslate"><span class="pre">eigh</span></code>-certified closed form at <span class="math notranslate nohighlight">\(N = 20000\)</span>) and verify against the closed
+form away from the edges (bin-average comparison via the exact <span class="math notranslate nohighlight">\(\int g\,dE = \arcsin(E/2t)/\pi\)</span>;
+the integrable edge divergence handled as stated).</p></li>
+<li><p>Mark the two van Hove edge singularities and name their higher-dimensional shapes (2D
+logarithm, 3D square-root onsets) as the horizon.</p></li>
+<li><p>State the object built (prose): a density of states with <em>gaps</em> — the precise input <a class="reference internal" href="semiconductor-statistics.html"><span class="std std-doc">§7.13</span></a>
+feeds to Fermi–Dirac.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>band DOS: worst interior deviation from the bin-averaged closed form: 0.69%
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-bloch-van-hove">
+<img alt="../../_images/1cab7f262efe55dd214d679d2ae3544f9bc26c08a95de03523abd06f2e7289bf.png" src="../../_images/1cab7f262efe55dd214d679d2ae3544f9bc26c08a95de03523abd06f2e7289bf.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 581 </span><span class="caption-text">The band density of states: <code class="docutils literal notranslate"><span class="pre">numpy.histogram(density=True)</span></code> of the 20000-site ring’s spectrum (bars) against the closed form <span class="math notranslate nohighlight">\(g(E) = (1/\pi)/\sqrt{4t^2-E^2}\)</span> (amber), agreeing with the bin-averaged closed form to well under a percent across the interior. At the band edges <span class="math notranslate nohighlight">\(E = \pm 2t\)</span> the band flattens and states pile up into the integrable inverse-square-root <strong>van Hove singularities</strong> — the 1D members of a family whose 2D shape is a logarithm and whose 3D shape is a square-root onset (named horizons). The structural novelty is outside the frame: beyond the edges <span class="math notranslate nohighlight">\(g = 0\)</span> <strong>exactly</strong>, over finite windows — the first density of states in this volume with gaps in it, and precisely the object <a class="reference internal" href="semiconductor-statistics.html"><span class="std std-doc">§7.13</span></a> places a chemical potential inside.</span><a class="headerlink" href="#fig-bloch-van-hove" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the band DOS matches the bin-averaged (1/π)/√(4t²−E²) on the interior — edges excluded as stated   [worst interior deviation 0.69%]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-metal-or-insulator-by-counting">
+<h2>Exercise 8 — Metal or insulator, by counting<a class="headerlink" href="#exercise-8-metal-or-insulator-by-counting" title="Link to this heading">#</a></h2>
+<p>The confession answered with arithmetic: a filled band is inert, and the parity of electrons
+per cell decides. Cite <a class="reference internal" href="#equation-eq-metal-insulator">Eq. 644</a>.</p>
+<ol class="arabic simple">
+<li><p>Verify the inert-band theorem numerically: the analytic <span class="math notranslate nohighlight">\(v_k = 2t\sin(ka)\)</span> summed with
+<code class="docutils literal notranslate"><span class="pre">numpy.sum</span></code> over the <span class="math notranslate nohighlight">\(2\pi m/N\)</span> grid vanishes (the periodic-endpoint trap stated), and argue
+the Pauli half.</p></li>
+<li><p>For the cosine crystal’s computed bands, place the Fermi level for 1, 2, and 3 electrons per
+cell and classify by Bloch counting on the computed band extrema — <code class="docutils literal notranslate"><span class="pre">central_equation</span></code> bands
+on the <span class="math notranslate nohighlight">\(k\)</span>-grid, extrema by <code class="docutils literal notranslate"><span class="pre">numpy.ndarray.min</span></code>/<code class="docutils literal notranslate"><span class="pre">max</span></code> per band; an odd count half-fills a
+band, an even count is insulating exactly when the next band’s bottom lies above the filled
+band’s top: metal (mid-band), insulator (in-gap), metal.</p></li>
+<li><p>State the honest caveats: divalent magnesium is metallic via band <em>overlap</em> (a <span class="math notranslate nohighlight">\(\ge\)</span>2D effect
+the chain cannot exhibit); and compute the band-top curvature: <span class="math notranslate nohighlight">\(m^* &lt; 0\)</span>, introducing the
+hole as the carrier <a class="reference internal" href="semiconductor-statistics.html"><span class="std std-doc">§7.13</span></a> will count.</p></li>
+<li><p>Close the arc (prose): thirty orders of magnitude of resistivity reduce to whether the
+highest band is half-full or exactly full.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Σ_k v_k over the filled band: -2.55e-15   (zero: even E, odd v, paired ±k)
+
+filling the cosine crystal (V_1 = 0.3), two electrons per cell per band:
+  1 e/cell:  E_F = 1.2216 inside band 1   → METAL
+  2 e/cell:  gap above band 1: 0.6000 (2V_1 = 0.6)   → INSULATOR
+  3 e/cell:  E_F = 11.1106 inside band 2   → METAL
+
+band-top curvature: d²E/dk² = -31.063 &lt; 0  →  m* &lt; 0: the hole, seeded for §7.13
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-bloch-fillings">
+<img alt="../../_images/33ceffdae30c4ea1562d729735598d7ea969b726f2819508111adbe40417827f.png" src="../../_images/33ceffdae30c4ea1562d729735598d7ea969b726f2819508111adbe40417827f.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 582 </span><span class="caption-text">The parity rule, computed. The cosine crystal’s two lowest bands with the Fermi level placed for 1, 2, and 3 electrons per cell (two per cell per band, spin included): <strong>one</strong> electron per cell half-fills band 1 — the Fermi level (dark) cuts the band, a Fermi surface exists, sodium conducts; <strong>two</strong> fill band 1 exactly — the Fermi level (red) strands in the gap, no state within reach, diamond insulates; <strong>three</strong> half-fill band 2 — metallic again. Thirty orders of magnitude of resistivity reduce to this parity, with the honest caveats stated: real divalent metals (magnesium) are rescued by band <em>overlap</em>, a <span class="math notranslate nohighlight">\(\ge\)</span>2D effect no chain can show, and the negative curvature at band tops makes nearly-filled bands respond as positive carriers — the holes <a class="reference internal" href="semiconductor-statistics.html"><span class="std std-doc">§7.13</span></a> counts.</span><a class="headerlink" href="#fig-bloch-fillings" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-8">
+<h3>Validation 8<a class="headerlink" href="#validation-8" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  a filled band carries no current: the zone-summed group velocity vanishes   [got -2.55351e-15 vs expected 0 (rtol=1e-06)]
+✓  the parity rule: 1, 2, 3 electrons per cell classify metal / insulator / metal
+✓  and the insulating gap read off the computed extrema is the Bragg gap of Exercise 5   [got 0.599965 vs expected 0.6 (rtol=0.002)]
+✓  the band-top curvature is negative: the hole, handed to §7.13   [d²E/dk² = -31.063]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-9-the-one-quantum-input">
+<h2>Exercise 9 — The one quantum input<a class="headerlink" href="#exercise-9-the-one-quantum-input" title="Link to this heading">#</a></h2>
+<p>This notebook broke the volume’s rhythm on purpose — one excursion into single-particle quantum
+mechanics, granted the way Movement 0’s mathematics was granted, because the statistics could
+not proceed without it. What it bought: a theorem that organizes every electron in every crystal
+by symmetry alone; bands and gaps computed twice by unrelated methods that met in the middle
+(and taught, in their meeting, why the world’s electronic-structure codes smooth their
+potentials); a gap explained as Bragg reflection standing still; the discovery that the course’s
+own numerical Laplacians were tight-binding crystals all along; and a counting rule — two per
+cell per band — that splits the material world in two. The free gas’s confession is answered:
+diamond insulates because its electrons exactly fill what the lattice offers, and a full band,
+like a full Fermi sea, cannot respond.</p>
+<p>There is a quiet symmetry between this notebook’s two limits. Start from free electrons and the
+lattice opens gaps in a continuum; start from bound atoms and hopping smears levels into bands.
+The truth is indifferent to where one starts, which is, perhaps, the deepest thing a pair of
+converging approximations can teach.</p>
+<p>Now the volume does what it came to do: the next notebook sets the chemical potential loose in
+the gap we built, and Fermi–Dirac, unchanged since <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>, turns band structure into the physics
+of semiconductors.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>The volume’s one quantum input, built to the depth the statistics requires and handed back.</p>
+<ul class="simple">
+<li><p><strong>The confession</strong> (framing): the free gas’s five triumphs (<a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a>–<a class="reference internal" href="white-dwarfs-chandrasekhar.html"><span class="std std-doc">§7.11</span></a>) against its one failure (no mechanism for an insulator), quantified by diamond’s 5.5 eV gap and the <span class="math notranslate nohighlight">\(\sim10^{30}\)</span>
+resistivity span.</p></li>
+<li><p><strong>Bloch by symmetry</strong> <a class="reference internal" href="#equation-eq-band-bloch">Eq. 637</a>, verified <a class="reference internal" href="#equation-eq-bloch-verified">Eq. 638</a>: <span class="math notranslate nohighlight">\([H, T_a] = 0\)</span> at
+<span class="math notranslate nohighlight">\(10^{-13}\)</span> on the ring; the eigenphases extracted by <em>degenerate-subspace</em> diagonalization
+(the naive-real-eigenvector trap demonstrated first) land exactly on <span class="math notranslate nohighlight">\(2\pi m/N_c\)</span>; the count (two electrons per cell per band) flagged as the destination.</p></li>
+<li><p><strong>Kronig–Penney</strong> <a class="reference internal" href="#equation-eq-kronig-penney">Eq. 639</a>: bands <span class="math notranslate nohighlight">\([1.953, 4.935]\)</span> and <span class="math notranslate nohighlight">\([9.458, 19.74]\)</span> at
+<span class="math notranslate nohighlight">\(P = 3\)</span> from <code class="docutils literal notranslate"><span class="pre">brentq</span></code> on the pre-scanned corridor condition; the free and atomic limits taken.</p></li>
+<li><p><strong>The rendezvous</strong> <a class="reference internal" href="#equation-eq-central-equation">Eq. 640</a>: the central equation meets the transcendental
+answer, with the <em>rate</em> as the lesson — the comb’s <span class="math notranslate nohighlight">\(\sim1/n_G\)</span> against the cosine’s ten
+digits at <span class="math notranslate nohighlight">\(n_G = 2\)</span>: the pseudopotential moral, measured (the outward bridge to DFT and the
+MMM course).</p></li>
+<li><p><strong>The gap is Bragg</strong> <a class="reference internal" href="#equation-eq-nfe-gap">Eq. 641</a>: <span class="math notranslate nohighlight">\(2|V_1|\)</span> at the zone boundary (ratios <span class="math notranslate nohighlight">\(1.0000\)</span>,
+<span class="math notranslate nohighlight">\(1.0000\)</span>, <span class="math notranslate nohighlight">\(0.9998\)</span>), recovered by the two-by-two of <a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a>, with the standing waves exhibited.</p></li>
+<li><p><strong>Tight binding</strong> <a class="reference internal" href="#equation-eq-tight-binding">Eq. 642</a>: <span class="math notranslate nohighlight">\(-2t\cos ka\)</span> at <span class="math notranslate nohighlight">\(10^{-15}\)</span>, <span class="math notranslate nohighlight">\(m^* = \hbar^2/2ta^2\)</span>. And the meta-note: the course’s finite-difference Laplacian has been a crystal all along.</p></li>
+<li><p><strong>Van Hove</strong> <a class="reference internal" href="#equation-eq-van-hove">Eq. 643</a>: the band DOS with divergent edges and <em>exact zeros</em> — the
+gapped <span class="math notranslate nohighlight">\(g(E)\)</span> that is the input of <a class="reference internal" href="semiconductor-statistics.html"><span class="std std-doc">§7.13</span></a>.</p></li>
+<li><p><strong>The parity rule</strong> <a class="reference internal" href="#equation-eq-metal-insulator">Eq. 644</a>: a filled band is inert (<span class="math notranslate nohighlight">\(\sum v_k = 0\)</span> at
+<span class="math notranslate nohighlight">\(10^{-14}\)</span>, Pauli locking the rest); fillings 1/2/3 per cell classify metal/insulator/metal;
+band overlap and the negative-mass hole stated as the honest caveats and the handoff.</p></li>
+</ul>
+<p>The statistics resumes next door, on the density of states built here.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Fermi–Dirac in the gap (<a class="reference internal" href="semiconductor-statistics.html"><span class="std std-doc">§7.13</span></a>).</strong> Intrinsic and doped semiconductors, holes, the law of mass action: the statistics, resumed on this notebook’s object.</p></li>
+<li><p><strong>Outward horizons, named.</strong> Real 3D band structures and Fermi surfaces; density-functional
+theory and pseudopotentials — the MMM course as the reader’s next home for electronic
+structure at scale; graphene’s linear bands in one breath.</p></li>
+<li><p><strong>The same counting, other waves (<a class="reference internal" href="phonons-debye.html"><span class="std std-doc">§7.16</span></a>).</strong> Bloch’s theorem for lattice vibrations: phonon
+bands, and the Debye physics the Einstein solid missed.</p></li>
+<li><p><strong>Cross-reference</strong> <a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html"><span class="std std-doc">§6.6</span></a>/<a class="reference internal" href="../06-quantum-mechanics/time-evolution.html"><span class="std std-doc">§6.7</span></a> (the symmetry move), <a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a> (the zone-boundary two-by-two), <a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a>
+(the box, periodized), <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a> (the DOS machinery), <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a>–<a class="reference internal" href="white-dwarfs-chandrasekhar.html"><span class="std std-doc">§7.11</span></a> (the confession’s triumphs), <a class="reference internal" href="../05-classical-stat-mech/counting.html"><span class="std std-doc">§5.1</span></a>
+(counting, again decisive).</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/07-quantum-statistical-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="white-dwarfs-chandrasekhar.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="semiconductor-statistics.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">7.13 Semiconductors: Fermi–Dirac in a Gap</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-confession">The confession</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bloch-s-theorem-by-symmetry">Bloch’s theorem, by symmetry</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bloch-verified-with-a-taught-trap">Bloch verified, with a taught trap</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kronigpenney-bands-exactly">Kronig–Penney: bands, exactly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-rendezvous-and-the-pseudopotential-moral">The rendezvous, and the pseudopotential moral</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nearly-free-electrons-the-gap-is-bragg">Nearly-free electrons: the gap is Bragg</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tight-binding-and-the-course-s-confession-in-reverse">Tight binding, and the course’s confession-in-reverse</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-band-density-of-states-van-hove">The band density of states: van Hove</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metal-or-insulator-the-counting">Metal or insulator: the counting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-confession-quantified">Exercise 1 — The confession, quantified</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-bloch-s-theorem-by-symmetry-then-verified-with-a-trap">Exercise 2 — Bloch’s theorem, by symmetry — then verified with a trap</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-kronigpenney-bands-from-one-transcendental-line">Exercise 3 — Kronig–Penney: bands from one transcendental line</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-rendezvous-and-why-dft-uses-pseudopotentials">Exercise 4 — The rendezvous — and why DFT uses pseudopotentials</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-gap-is-bragg">Exercise 5 — The gap is Bragg</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-tight-binding-and-what-the-course-has-been-doing-all-along">Exercise 6 — Tight binding — and what the course has been doing all along</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-band-density-of-states-van-hove">Exercise 7 — The band density of states: van Hove</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-metal-or-insulator-by-counting">Exercise 8 — Metal or insulator, by counting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-the-one-quantum-input">Exercise 9 — The one quantum input</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

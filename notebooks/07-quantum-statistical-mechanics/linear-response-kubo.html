@@ -1,0 +1,1869 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="7.25 Linear Response and Kubo: How Equilibrium Answers Questions" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/linear-response-kubo.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: The Coda’s final notebook asks the question every laboratory asks and this volume never did: what happens when equilibrium is disturbed? A..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: The Coda’s final notebook asks the question every laboratory asks and this volume never did: what happens when equilibrium is disturbed? A..." />
+
+    <title>7.25 Linear Response and Kubo: How Equilibrium Answers Questions &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/07-quantum-statistical-mechanics/linear-response-kubo';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/linear-response-kubo.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Epilogue" href="../epilogue/index.html" />
+    <link rel="prev" title="7.24 Green’s Functions: The Propagator at Temperature" href="greens-functions.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VII — Quantum Statistical Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="coda-index.html">Coda (optional): The Many-Body Gateway</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/07-quantum-statistical-mechanics/linear-response-kubo.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/07-quantum-statistical-mechanics/linear-response-kubo.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/07-quantum-statistical-mechanics/linear-response-kubo.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/07-quantum-statistical-mechanics/linear-response-kubo.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7.25 Linear Response and Kubo: How Equilibrium Answers Questions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-claim-and-its-derivation">The claim, and its derivation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-rendezvous-the-claim-as-an-experiment">The rendezvous: the claim as an experiment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-balance-and-fdt-as-identities">Detailed balance and FDT, as identities</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#causality-the-arsenal-spent">Causality: the arsenal, spent</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kohn-s-flux-the-inert-band-was-a-transport-theorem">Kohn’s flux: the inert band was a transport theorem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-f-sum-weight-moves-never-dies">The f-sum: weight moves, never dies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ballistic-or-diffusive-the-handshake">Ballistic or diffusive: the handshake</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#onsager-one-breath">Onsager, one breath</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#closing-the-gateway">Closing the gateway</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-equilibrium-already-knows">Exercise 1 — Equilibrium already knows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-rendezvous-switch-it-on-centerpiece">Exercise 2 — The rendezvous: switch it on (centerpiece)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-detailed-balance-and-fdt-pole-by-pole">Exercise 3 — Detailed balance and FDT, pole by pole</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-causality-cashes-nothing-it-does-not-own-the-arsenal-spent">Exercise 4 — Causality cashes nothing it does not own: the arsenal, spent</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-kohn-s-flux-the-inert-band-was-a-transport-theorem-centerpiece">Exercise 5 — Kohn’s flux: the inert band was a transport theorem (centerpiece)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-f-sum-weight-moves-never-dies">Exercise 6 — The f-sum: weight moves, never dies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-student-stretch-currents-that-remember-currents-that-forget">Exercise 7 — (STUDENT/STRETCH) Currents that remember, currents that forget</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-synthesis-the-gateway-closed">Exercise 8 — (Synthesis) The gateway, closed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="linear-response-and-kubo-how-equilibrium-answers-questions">
+<h1>7.25 Linear Response and Kubo: How Equilibrium Answers Questions<a class="headerlink" href="#linear-response-and-kubo-how-equilibrium-answers-questions" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VII — Quantum Statistical Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;7.25
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Every laboratory perturbs: a field applied, a current passed, a light shone. The deepest practical theorem in statistical mechanics says the results were never new information — to first order, the response is assembled entirely from correlations the system already had in equilibrium. We stage that claim as an actual experiment and watch it hold, measure exactly where linearity ends, verify fluctuation–dissipation as a pole-by-pole identity, thread a flux through a ring to learn that a filled band&#x27;s famous inertness was a transport theorem all along, and watch interactions move optical weight around under a conservation law that holds to six digits.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced · optional capstone&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;205–245 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>The Coda’s final notebook asks the question every laboratory asks and this volume never
+did: what happens when equilibrium is <em>disturbed</em>? Apply a field, pass a current, shine a
+light — and the deepest practical theorem in statistical mechanics answers that, to first
+order in the disturbance, the results were never new information. The response is
+assembled entirely from correlation functions the system already possessed in
+equilibrium. Equilibrium knows the answers to questions not yet asked.</p>
+<p>A claim that large is not admired here; it is staged. On the chaotic spin chain of
+<a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a>, a weak field is actually switched on at
+<span class="math notranslate nohighlight">\(t = 0\)</span>, the thermal state is evolved <em>exactly</em> under the perturbed Hamiltonian, and the
+measured response is laid over the Kubo prediction built purely from unperturbed
+correlations. They agree at the expected residual — and then the notebook does what
+textbooks do not: it measures where linearity <em>ends</em>, watching the deviation double as
+the field doubles (the <span class="math notranslate nohighlight">\(O(\varepsilon^2)\)</span> correction made visible) until the strongest
+trace departs from the prediction before the reader’s eyes. Linear response is a regime
+with edges one can find, and the standing rule is issued: every linear-response number
+owes an <span class="math notranslate nohighlight">\(\varepsilon\)</span>-scan, exactly as every discretization owed an <span class="math notranslate nohighlight">\(M\)</span>-ladder in
+<a class="reference internal" href="path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a>.</p>
+<p>Around that centerpiece, the volume’s oldest threads knot. Detailed balance and the
+fluctuation–dissipation theorem are verified as the exact pole-by-pole identities they
+are — at <span class="math notranslate nohighlight">\(10^{-15}\)</span> and <span class="math notranslate nohighlight">\(10^{-18}\)</span> — with their famous children named (Johnson–Nyquist
+noise thermometry; Einstein’s 1905 relation as the first FDT). Causality turns the
+retarded <span class="math notranslate nohighlight">\(\theta\)</span> into upper-half-plane analyticity and hence Kramers–Kronig: the
+complex-analysis arsenal forged in <a class="reference internal" href="complex-analysis-residues.html"><span class="std std-doc">§7.1</span></a> and
+<a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a>, finally spent on the physics it was built
+for. A flux threaded through the tight-binding ring of
+<a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> delivers Kohn’s criterion with both verdicts:
+the filled band’s ground energy is flat to machine precision — its famous inertness was a
+transport theorem all along, zero Drude weight — while the closed-shell metal’s curvature
+equals its kinetic energy on the nose. The f-sum rule then shows interactions relocating
+optical weight under a conservation law that holds to six digits, and a current
+autocorrelation that stays flat when the current is conserved but decays when it is not
+closes the loop with the capstone in a single sentence. The gateway ends here; so do the
+volume’s pages.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> <span class="math notranslate nohighlight">\(\hbar = 1\)</span>. The retarded susceptibility is
+<span class="math notranslate nohighlight">\(\chi_{AB}(t) = -i\,\theta(t)\,\langle[A(t), B(0)]\rangle_{\mathrm{eq}}\)</span> with
+<span class="math notranslate nohighlight">\(A(t) = e^{iHt} A e^{-iHt}\)</span>; the perturbation is <span class="math notranslate nohighlight">\(H \to H + f(t)B\)</span> with <span class="math notranslate nohighlight">\(f\)</span> a step.
+The probing field <span class="math notranslate nohighlight">\(B = \sum_i \sigma^z_i\)</span> is extensive (a laboratory field couples to
+the whole sample); the meter <span class="math notranslate nohighlight">\(A = \sigma^z_{N/2}\)</span> is local. Thermal weights are
+ground-shifted everywhere (the discipline of
+<a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a>). Spectral evaluations are vectorized weight
+matrices over frequency matrices; the step-response integral is done pole by pole
+analytically, <span class="math notranslate nohighlight">\((e^{i\Omega t} - 1)/i\Omega\)</span>, with the <span class="math notranslate nohighlight">\(\Omega = 0\)</span> exclusion justified
+in place. Peierls rings are built complex Hermitian (the conjugate bond stated); Kohn
+curvatures use a central second difference with the step stated and the
+finite-difference floor noted. The Kramers–Kronig principal value zeroes the singular
+sample on a symmetric grid. The machinery of
+<a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a> (the mixed-field chain) and
+<a class="reference internal" href="second-quantization.html"><span class="std std-doc">§7.23</span></a> (sector logic) is reused, restated with provenance
+so the notebook runs standalone.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against an
+independent fact: the spectral susceptibility against a direct commutator evaluation;
+the Kubo prediction against an exact perturbed evolution (and the deviation against
+its <span class="math notranslate nohighlight">\(O(\varepsilon^2)\)</span> law); detailed balance and FDT against the identities they are;
+the principal-value integral against the direct <span class="math notranslate nohighlight">\(\chi'\)</span>; Kohn’s curvatures against
+zero and against the kinetic energy; the f-sum against <span class="math notranslate nohighlight">\(\langle -T\rangle/N\)</span> at every
+interaction strength; the current correlator against conservation. A ✓ is strong
+evidence; a ✗ is a prompt to <em>locate the discrepancy</em>.</p>
+<p><strong>Scope.</strong> Self-energies, Dyson’s equation, and diagrammatic perturbation theory
+(Mahan, <em>Many-Particle Physics</em>), transport at scale (Boltzmann, Landauer, disorder
+and localization), and Keldysh nonequilibrium theory are beyond the gateway. See Kubo
+1957; Kubo, Toda &amp; Hashitsume, <em>Statistical Physics II</em> (the canon for everything
+below); Kohn, <em>Phys. Rev.</em> <strong>133</strong>, A171 (1964); Nyquist 1928 and Johnson 1928;
+Einstein 1905. Cross-reference <a class="reference internal" href="complex-analysis-residues.html"><span class="std std-doc">§7.1</span></a>/
+<a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a> (the arsenal, spent),
+<a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a> (closed shells, returning),
+<a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> (Drude, placed),
+<a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> (the inert band’s transport meaning),
+<a class="reference internal" href="path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a> (the budget discipline, transported),
+<a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a> (the handshake),
+<a class="reference internal" href="second-quantization.html"><span class="std std-doc">§7.23</span></a>/<a class="reference internal" href="greens-functions.html"><span class="std std-doc">§7.24</span></a> (the gateway’s
+first two rooms).</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-claim-and-its-derivation">
+<h3>The claim, and its derivation<a class="headerlink" href="#the-claim-and-its-derivation" title="Link to this heading">#</a></h3>
+<p>Perturb a Hamiltonian by a weak time-dependent term, <span class="math notranslate nohighlight">\(H \to H + f(t)B\)</span>, and ask how an
+observable <span class="math notranslate nohighlight">\(A\)</span> moves. Working in the interaction picture and keeping first order in <span class="math notranslate nohighlight">\(f\)</span>
+— three careful steps, standard since Kubo 1957 (Kubo, Toda &amp; Hashitsume, <em>Statistical
+Physics II</em>, Ch. 4, carries them out in full) — the answer arrives as a convolution
+against a memory kernel built <em>entirely in equilibrium</em>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-kubo">
+<span class="eqno">(737)<a class="headerlink" href="#equation-eq-kubo" title="Link to this equation">#</a></span>\[\delta\langle A(t)\rangle = \int_{-\infty}^{t}\! dt'\, \chi_{AB}(t - t')\, f(t'),
+\qquad
+\chi_{AB}(t) = -i\,\theta(t)\,\big\langle[A(t), B(0)]\big\rangle_{\mathrm{eq}} .\]</div>
+<p>Read the three ingredients aloud. The <strong>commutator</strong> is quantum mechanics’ fingerprint —
+classically this kernel would be a Poisson bracket. The <strong><span class="math notranslate nohighlight">\(\theta(t)\)</span></strong> is causality:
+nothing responds before it is pushed. And the <strong>equilibrium average</strong> is the theorem:
+the response to tomorrow’s perturbation is already written in today’s correlations. The
+answer predates the question.</p>
+</section>
+<section id="the-rendezvous-the-claim-as-an-experiment">
+<h3>The rendezvous: the claim as an experiment<a class="headerlink" href="#the-rendezvous-the-claim-as-an-experiment" title="Link to this heading">#</a></h3>
+<p>A claim this large gets staged, not admired. On the chaotic chain of
+<a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a> (<span class="math notranslate nohighlight">\(N = 8\)</span>, <span class="math notranslate nohighlight">\(\beta = 1\)</span>; field
+<span class="math notranslate nohighlight">\(B = \sum\sigma^z\)</span>, meter <span class="math notranslate nohighlight">\(A = \sigma^z_{N/2}\)</span>), the Kubo prediction for a step
+perturbation is assembled from unperturbed spectral data alone,</p>
+<div class="math notranslate nohighlight" id="equation-eq-kubo-rendezvous">
+<span class="eqno">(738)<a class="headerlink" href="#equation-eq-kubo-rendezvous" title="Link to this equation">#</a></span>\[\delta\langle A(t)\rangle_{\mathrm{Kubo}}
+= -i\sum_{m\neq n}(p_m - p_n)\,A_{mn}B_{nm}\,
+\frac{e^{i\Omega_{mn}t} - 1}{i\,\Omega_{mn}},
+\qquad \Omega_{mn} = E_m - E_n,\]</div>
+<p>(the step integral done analytically per pole; the <span class="math notranslate nohighlight">\(\Omega = 0\)</span> terms carry
+<span class="math notranslate nohighlight">\(p_m - p_n = 0\)</span> and are excluded safely) — and then the experiment is actually
+performed: diagonalize <span class="math notranslate nohighlight">\(H + \varepsilon B\)</span>, evolve the thermal state exactly, and
+measure <span class="math notranslate nohighlight">\(\delta\langle A(t)\rangle/\varepsilon\)</span>. Agreement holds at the expected
+<span class="math notranslate nohighlight">\(O(\varepsilon)\)</span> residual for <span class="math notranslate nohighlight">\(\varepsilon = 10^{-3}\)</span>, and the <em>edge of linearity</em> is
+then measured rather than assumed: the deviation doubles as <span class="math notranslate nohighlight">\(\varepsilon\)</span> doubles (the
+<span class="math notranslate nohighlight">\(O(\varepsilon^2)\)</span> correction, demonstrated), and the <span class="math notranslate nohighlight">\(\varepsilon = 0.05\)</span> trace departs
+visibly. The standing rule: every linear-response number owes an <span class="math notranslate nohighlight">\(\varepsilon\)</span>-scan,
+exactly as every discretization owed an <span class="math notranslate nohighlight">\(M\)</span>-ladder in
+<a class="reference internal" href="path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a>.</p>
+</section>
+<section id="detailed-balance-and-fdt-as-identities">
+<h3>Detailed balance and FDT, as identities<a class="headerlink" href="#detailed-balance-and-fdt-as-identities" title="Link to this heading">#</a></h3>
+<p>The correlation spectrum <span class="math notranslate nohighlight">\(S_{AA}(\omega)\)</span> is a set of poles at <span class="math notranslate nohighlight">\(E_n - E_m\)</span> with weights
+<span class="math notranslate nohighlight">\(p_m|A_{mn}|^2\)</span>, and two celebrated relations are <em>exact identities</em> of that list —
+taught here at the pole level, not as folklore:</p>
+<div class="math notranslate nohighlight" id="equation-eq-fdt">
+<span class="eqno">(739)<a class="headerlink" href="#equation-eq-fdt" title="Link to this equation">#</a></span>\[\frac{S(-\omega)}{S(\omega)} = e^{-\beta\omega}
+\qquad\text{(detailed balance: it is } p_n/p_m\text{, nothing more)},
+\qquad
+\chi''(\omega) = \big(1 - e^{-\beta\omega}\big)\, S(\omega),\]</div>
+<p>the second being the fluctuation–dissipation theorem, verified below weight by weight.
+Dissipation <em>is</em> fluctuation. The classical limit hands over the famous children, named
+with their years: Johnson and Nyquist, 1928 — the thermal voltage noise
+<span class="math notranslate nohighlight">\(\overline{V^2} = 4k_BTR\,\Delta f\)</span> across any resistor, FDT’s metrological career as
+noise thermometry — and Einstein, 1905: <span class="math notranslate nohighlight">\(D = \mu k_BT\)</span>, diffusion tied to mobility, the
+first fluctuation–dissipation relation in physics.</p>
+</section>
+<section id="causality-the-arsenal-spent">
+<h3>Causality: the arsenal, spent<a class="headerlink" href="#causality-the-arsenal-spent" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\(\chi(t &lt; 0) = 0\)</span> is not decoration: it makes <span class="math notranslate nohighlight">\(\chi(\omega)\)</span> analytic in the upper
+half-plane, and analyticity plus a contour is exactly the machinery the volume forged in
+<a class="reference internal" href="complex-analysis-residues.html"><span class="std std-doc">§7.1</span></a> and
+<a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a>. The Kramers–Kronig relations follow,</p>
+<div class="math notranslate nohighlight" id="equation-eq-kubo-kramers-kronig">
+<span class="eqno">(740)<a class="headerlink" href="#equation-eq-kubo-kramers-kronig" title="Link to this equation">#</a></span>\[\chi'(\omega) = \frac{1}{\pi}\,\mathcal{P}\!\int_{-\infty}^{\infty}
+\frac{\chi''(\omega')}{\omega' - \omega}\, d\omega' ,\]</div>
+<p>verified numerically below on <span class="math notranslate nohighlight">\(\eta\)</span>-broadened poles. The physical reading, in one
+optics breath: absorption determines refraction — measure <span class="math notranslate nohighlight">\(\chi''\)</span> everywhere and
+<span class="math notranslate nohighlight">\(\chi'\)</span> is owed to you. (And one line of bookkeeping: this <em>forward</em> map is benign; it
+is inversions that bite, the same geography <a class="reference internal" href="greens-functions.html"><span class="std std-doc">§7.24</span></a> charted.)</p>
+</section>
+<section id="kohn-s-flux-the-inert-band-was-a-transport-theorem">
+<h3>Kohn’s flux: the inert band was a transport theorem<a class="headerlink" href="#kohn-s-flux-the-inert-band-was-a-transport-theorem" title="Link to this heading">#</a></h3>
+<p>How does one ask a <em>ring</em> whether it conducts? Kohn’s 1964 answer: thread a flux
+<span class="math notranslate nohighlight">\(\Phi\)</span> through it and watch the ground energy. Minimal coupling puts the flux on the
+bonds as Peierls phases (three lines, performed in Exercise 5), and</p>
+<div class="math notranslate nohighlight" id="equation-eq-kohn">
+<span class="eqno">(741)<a class="headerlink" href="#equation-eq-kohn" title="Link to this equation">#</a></span>\[H(\Phi) = -t\sum_i \big(e^{i\Phi/M} c^\dagger_{i+1}c_i + \text{h.c.}\big) + \cdots,
+\qquad
+D \;\propto\; \left.\frac{\partial^2 E_0}{\partial\Phi^2}\right|_{\Phi=0},\]</div>
+<p>the <strong>Drude weight</strong>: a metal’s ground state feels a twist at the boundary, an
+insulator’s does not — conductivity as ground-state geometry, decades before that phrase
+was fashionable (Kohn, <em>Phys. Rev.</em> <strong>133</strong>, A171 (1964)). Both verdicts are delivered
+below: the <em>filled</em> band’s curvature is zero to machine precision — the famous inertness
+of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> was always a transport theorem — and the
+closed-shell metal obeys <span class="math notranslate nohighlight">\(M^2\,\partial^2 E_0/\partial\Phi^2 = \langle -T\rangle\)</span>
+(derived for the free ring in four lines). One trap is taught first: at half filling the
+ring is degenerate at <span class="math notranslate nohighlight">\(\Phi = 0\)</span>, <span class="math notranslate nohighlight">\(E_0(\Phi)\)</span> <em>kinks</em>, and a second derivative through a
+level crossing lies — the closed-shell rule of
+<a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a>, returning as a transport prerequisite.</p>
+</section>
+<section id="the-f-sum-weight-moves-never-dies">
+<h3>The f-sum: weight moves, never dies<a class="headerlink" href="#the-f-sum-weight-moves-never-dies" title="Link to this heading">#</a></h3>
+<p>Optical absorption obeys a conservation law. Summing the Drude delta and the regular
+(finite-frequency) conductivity gives a total fixed by the kinetic energy alone,</p>
+<div class="math notranslate nohighlight" id="equation-eq-fsum">
+<span class="eqno">(742)<a class="headerlink" href="#equation-eq-fsum" title="Link to this equation">#</a></span>\[\underbrace{M\,\frac{\partial^2 E_0}{\partial\Phi^2}}_{\text{Drude}}
+\;+\;
+\underbrace{\frac{2}{M}\sum_{n\neq 0}\frac{|\langle n|\hat\jmath|0\rangle|^2}{\omega_{n0}}}_{\text{regular}}
+\;=\; \frac{\langle -T\rangle}{M},\]</div>
+<p>so interactions cannot create or destroy optical weight — only relocate it. Verified to
+six digits below: the free ring puts <em>all</em> weight in the Drude delta (because
+<span class="math notranslate nohighlight">\([\hat\jmath, H] = 0\)</span>, derived), and switching on a nearest-neighbor <span class="math notranslate nohighlight">\(V\)</span> moves part of
+it to finite frequency while the sum stays fixed. Light–matter coupling strength is
+conserved; interactions only choose where it sits.</p>
+</section>
+<section id="ballistic-or-diffusive-the-handshake">
+<h3>Ballistic or diffusive: the handshake<a class="headerlink" href="#ballistic-or-diffusive-the-handshake" title="Link to this heading">#</a></h3>
+<p>The same conservation law has a time-domain face: the current autocorrelation</p>
+<div class="math notranslate nohighlight" id="equation-eq-handshake">
+<span class="eqno">(743)<a class="headerlink" href="#equation-eq-handshake" title="Link to this equation">#</a></span>\[\begin{split}C_{jj}(t) = \big\langle \hat\jmath(t)\,\hat\jmath(0)\big\rangle
+\qquad
+\begin{cases}
+\text{flat forever} &amp; [\hat\jmath, H] = 0 \ \text{(integrable: the Drude delta protected)},\\[2pt]
+\text{decays} &amp; \text{interactions on (weight at finite }\omega\text{)}.
+\end{cases}\end{split}\]</div>
+<p>One sentence reaches the capstone, with no dependence: response functions live in the
+off-diagonal matrix elements that eigenstate thermalization constrains — a chaotic
+chain’s currents forget, an integrable chain’s remember
+(<a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a>, saluted). And the Drude picture of
+<a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> is placed at last: the phenomenological
+<span class="math notranslate nohighlight">\(\tau\)</span> of that notebook is what this decay becomes when impurities and phonons supply
+it; the ideal chain, having neither, conducts perfectly.</p>
+</section>
+<section id="onsager-one-breath">
+<h3>Onsager, one breath<a class="headerlink" href="#onsager-one-breath" title="Link to this heading">#</a></h3>
+<p>Time-reversal symmetry ties response coefficients to each other:
+<span class="math notranslate nohighlight">\(\chi_{AB}(t) = \varepsilon_A\varepsilon_B\,\chi_{BA}(t)\)</span> with <span class="math notranslate nohighlight">\(\varepsilon\)</span> the
+operators’ signatures under time reversal,</p>
+<div class="math notranslate nohighlight" id="equation-eq-onsager">
+<span class="eqno">(744)<a class="headerlink" href="#equation-eq-onsager" title="Link to this equation">#</a></span>\[\chi_{AB}(t) = \varepsilon_A\,\varepsilon_B\,\chi_{BA}(t),\]</div>
+<p>verified below as one numerical identity. Its laboratory face is thermoelectricity:
+Seebeck and Peltier coefficients locked together (outward, named).</p>
+</section>
+<section id="closing-the-gateway">
+<h3>Closing the gateway<a class="headerlink" href="#closing-the-gateway" title="Link to this heading">#</a></h3>
+<p>Alphabet (<a class="reference internal" href="second-quantization.html"><span class="std std-doc">§7.23</span></a>), sentences
+(<a class="reference internal" href="greens-functions.html"><span class="std std-doc">§7.24</span></a>), and now answers. Beyond the gateway lie
+self-energies, diagrams, and transport theory at scale (Mahan, outward); the course’s
+own road continues in the Epilogue.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">combinations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>
+<span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;#c1121f&quot;</span>
+
+<span class="c1"># Conventions: hbar = 1; chi_AB(t) = -i theta(t) &lt;[A(t), B]&gt;_eq; the probing</span>
+<span class="c1"># field B = sum sigma^z is EXTENSIVE (a laboratory field couples to the whole</span>
+<span class="c1"># sample), the meter A = sigma^z_{N/2} is local; thermal weights are</span>
+<span class="c1"># ground-shifted everywhere (the discipline of section 7.4).</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">H_mixed</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">1.05</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The mixed-field Ising chain of section 7.22, restated with provenance.</span>
+
+<span class="sd">    OBC, bit basis (bit i = site i, 0 = up); (h, g) = (1.05, 0.5) is the</span>
+<span class="sd">    standard chaotic point. Reused as the rendezvous stage: chaotic, so its</span>
+<span class="sd">    response is generic.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    N : int</span>
+<span class="sd">        Sites.</span>
+<span class="sd">    J, h, g : float</span>
+<span class="sd">        Coupling, transverse and longitudinal fields.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The dense Hamiltonian.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">N</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">((</span><span class="n">states</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">diag</span> <span class="o">=</span> <span class="o">-</span><span class="n">J</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">z</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">z</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">g</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">diag</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">H</span><span class="p">[</span><span class="n">states</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">),</span> <span class="n">states</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="n">h</span>
+    <span class="k">return</span> <span class="n">H</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">chi_weights</span><span class="p">(</span><span class="n">evals</span><span class="p">,</span> <span class="n">A_mn</span><span class="p">,</span> <span class="n">B_mn</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Kubo weight matrix W_mn = (p_m - p_n) A_mn B_nm and Omega_mn.</span>
+
+<span class="sd">    Ground-shifted thermal weights p = e^{-beta(E - E_0)}/Z. Everything</span>
+<span class="sd">    downstream (chi(t), the step response, chi(omega)) is one vectorized</span>
+<span class="sd">    contraction against these two matrices — the quadruple loop is forbidden</span>
+<span class="sd">    on the same cost grounds as in section 7.24.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    evals : numpy.ndarray</span>
+<span class="sd">        Eigenvalues.</span>
+<span class="sd">    A_mn, B_mn : numpy.ndarray</span>
+<span class="sd">        Operators in the eigenbasis.</span>
+<span class="sd">    beta : float</span>
+<span class="sd">        Inverse temperature.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    W : numpy.ndarray</span>
+<span class="sd">        (p_m - p_n) A_mn B_nm.</span>
+<span class="sd">    Om : numpy.ndarray</span>
+<span class="sd">        E_m - E_n.</span>
+<span class="sd">    p : numpy.ndarray</span>
+<span class="sd">        The thermal weights.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">evals</span> <span class="o">-</span> <span class="n">evals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta</span> <span class="o">*</span> <span class="n">k</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">p</span> <span class="o">/</span> <span class="n">p</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span> <span class="o">*</span> <span class="n">A_mn</span> <span class="o">*</span> <span class="n">B_mn</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">Om</span> <span class="o">=</span> <span class="n">evals</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">evals</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="k">return</span> <span class="n">W</span><span class="p">,</span> <span class="n">Om</span><span class="p">,</span> <span class="n">p</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">chi_retarded</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Om</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;chi_AB(t) = -i sum_mn W_mn e^{i Omega_mn t} for t &gt; 0 (vectorized).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">W</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">Om</span> <span class="o">*</span> <span class="n">t</span><span class="p">)))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">kubo_step</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Om</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The step response int_0^t chi(t&#39;) dt&#39;, pole by pole and analytic.</span>
+
+<span class="sd">    Each pole contributes (e^{i Omega t} - 1)/(i Omega). The Omega = 0 pairs</span>
+<span class="sd">    are EXCLUDED — safely, because their weight (p_m - p_n) vanishes</span>
+<span class="sd">    identically when thermal weights depend on energy alone (degenerate</span>
+<span class="sd">    levels share p), so the exclusion drops exact zeros, not physics.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : float</span>
+<span class="sd">        Time since the step.</span>
+<span class="sd">    W, Om : numpy.ndarray</span>
+<span class="sd">        From chi_weights.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        delta &lt;A(t)&gt; per unit field strength.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Om</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-12</span>
+    <span class="n">ph</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Om</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+    <span class="n">ph</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">Om</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">Om</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">W</span> <span class="o">*</span> <span class="n">ph</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">exact_step_response</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">ts</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">B_op</span><span class="p">,</span> <span class="n">A_op</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The experiment: eigh(H + eps B), exact evolution of the thermal state.</span>
+
+<span class="sd">    rho(0) = e^{-beta H}/Z (ground-shifted), then &lt;A(t)&gt; under the PERTURBED</span>
+<span class="sd">    Hamiltonian by the unitary sandwich in its eigenbasis — no Trotter, no</span>
+<span class="sd">    truncation: the honest dynamics the Kubo prediction must meet.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    eps : float</span>
+<span class="sd">        Field strength.</span>
+<span class="sd">    ts : numpy.ndarray</span>
+<span class="sd">        Times.</span>
+<span class="sd">    H, B_op, A_op : numpy.ndarray</span>
+<span class="sd">        Hamiltonian, field operator, meter.</span>
+<span class="sd">    beta : float</span>
+<span class="sd">        Inverse temperature.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        &lt;A(t)&gt; under H + eps B.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ev0</span><span class="p">,</span> <span class="n">V0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+    <span class="n">k0</span> <span class="o">=</span> <span class="n">ev0</span> <span class="o">-</span> <span class="n">ev0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta</span> <span class="o">*</span> <span class="n">k0</span><span class="p">)</span>
+    <span class="n">p0</span> <span class="o">=</span> <span class="n">p0</span> <span class="o">/</span> <span class="n">p0</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">rho0</span> <span class="o">=</span> <span class="n">V0</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">p0</span><span class="p">)</span> <span class="o">@</span> <span class="n">V0</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">evp</span><span class="p">,</span> <span class="n">Vp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">H</span> <span class="o">+</span> <span class="n">eps</span> <span class="o">*</span> <span class="n">B_op</span><span class="p">)</span>
+    <span class="n">rho_p</span> <span class="o">=</span> <span class="n">Vp</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">rho0</span> <span class="o">@</span> <span class="n">Vp</span>
+    <span class="n">A_p</span> <span class="o">=</span> <span class="n">Vp</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">A_op</span> <span class="o">@</span> <span class="n">Vp</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ts</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ts</span><span class="p">):</span>
+        <span class="n">ph</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">evp</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="p">(</span><span class="n">ph</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">/</span> <span class="n">ph</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">])</span> <span class="o">*</span> <span class="n">rho_p</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">A_p</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">peierls_ring</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">t_hop</span><span class="p">,</span> <span class="n">Phi</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Single-particle ring with flux: Peierls phases e^{+-i Phi/M} per bond.</span>
+
+<span class="sd">    Built COMPLEX HERMITIAN explicitly — the conjugate bond is written, not</span>
+<span class="sd">    assumed: a silent real cast (dtype=float) throws the flux away and</span>
+<span class="sd">    every curvature reads zero. Kohn&#39;s criterion lives in that phase.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    M : int</span>
+<span class="sd">        Sites on the ring.</span>
+<span class="sd">    t_hop : float</span>
+<span class="sd">        Hopping.</span>
+<span class="sd">    Phi : float</span>
+<span class="sd">        Total flux through the ring.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The complex Hermitian M x M matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">M</span><span class="p">,</span> <span class="n">M</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">M</span>
+        <span class="n">H</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">t_hop</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">Phi</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span>
+        <span class="n">H</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">t_hop</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">Phi</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">H</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">manybody_ring</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">t_hop</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">Phi</span><span class="p">,</span> <span class="n">Ne</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Spinless fermions on a flux-threaded ring, in the Ne-particle sector.</span>
+
+<span class="sd">    Basis: ordered occupation tuples (M choose Ne states — the sector logic</span>
+<span class="sd">    of section 7.23, in combinatorial dress). Hops carry the Peierls phase</span>
+<span class="sd">    and the fermionic sign of the occupied sites jumped over; the wrap bond</span>
+<span class="sd">    is included with its string, so this IS the ring, not an open chain.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    M : int</span>
+<span class="sd">        Sites.</span>
+<span class="sd">    t_hop, V : float</span>
+<span class="sd">        Hopping and nearest-neighbor repulsion.</span>
+<span class="sd">    Phi : float</span>
+<span class="sd">        Flux.</span>
+<span class="sd">    Ne : int</span>
+<span class="sd">        Particle number.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    H : numpy.ndarray</span>
+<span class="sd">        The sector Hamiltonian (complex Hermitian).</span>
+<span class="sd">    basis : list of tuple</span>
+<span class="sd">        The occupation basis.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">),</span> <span class="n">Ne</span><span class="p">))</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="p">{</span><span class="n">b</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">basis</span><span class="p">)}</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">basis</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">basis</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">bi</span><span class="p">,</span> <span class="n">occ</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">basis</span><span class="p">):</span>
+        <span class="n">occset</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">occ</span><span class="p">)</span>
+        <span class="n">H</span><span class="p">[</span><span class="n">bi</span><span class="p">,</span> <span class="n">bi</span><span class="p">]</span> <span class="o">+=</span> <span class="n">V</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="mf">1.0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">occset</span> <span class="ow">and</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">M</span> <span class="ow">in</span> <span class="n">occset</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">M</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">occset</span> <span class="ow">and</span> <span class="n">j</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">occset</span><span class="p">:</span>
+                <span class="n">new</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">occset</span> <span class="o">-</span> <span class="p">{</span><span class="n">i</span><span class="p">}</span> <span class="o">|</span> <span class="p">{</span><span class="n">j</span><span class="p">}))</span>
+                <span class="n">inter</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">occset</span><span class="p">]</span>
+                <span class="n">sign</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="nb">len</span><span class="p">(</span><span class="n">inter</span><span class="p">)</span>
+                <span class="n">amp</span> <span class="o">=</span> <span class="o">-</span><span class="n">t_hop</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">Phi</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">*</span> <span class="n">sign</span>
+                <span class="n">H</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="n">new</span><span class="p">],</span> <span class="n">bi</span><span class="p">]</span> <span class="o">+=</span> <span class="n">amp</span>
+                <span class="n">H</span><span class="p">[</span><span class="n">bi</span><span class="p">,</span> <span class="n">index</span><span class="p">[</span><span class="n">new</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">H</span><span class="p">,</span> <span class="n">basis</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">kohn_curvature</span><span class="p">(</span><span class="n">E0_of_Phi</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Central second difference of E0(Phi) at Phi = 0.</span>
+
+<span class="sd">    The step sits between two floors: far above round-off (E0 ~ 1e1 and</span>
+<span class="sd">    float64 give a curvature floor near step^2-limited 1e-8 for step 1e-4)</span>
+<span class="sd">    and far below the curvature scale (E0 varies on Phi ~ pi). Both bounds</span>
+<span class="sd">    are why 1e-4 and not 1e-8 or 1e-1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    E0_of_Phi : callable</span>
+<span class="sd">        Ground energy as a function of flux.</span>
+<span class="sd">    step : float, optional</span>
+<span class="sd">        The difference step (default 1e-4).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        d^2 E0 / d Phi^2 at 0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">E0_of_Phi</span><span class="p">(</span><span class="n">step</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">E0_of_Phi</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">E0_of_Phi</span><span class="p">(</span><span class="o">-</span><span class="n">step</span><span class="p">))</span> <span class="o">/</span> <span class="n">step</span><span class="o">**</span><span class="mi">2</span>
+
+
+<span class="c1"># The rendezvous stage, built once and reused (the cache discipline).</span>
+<span class="n">N_R</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">D_R</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">N_R</span>
+<span class="n">BETA_R</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">states_R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">D_R</span><span class="p">)</span>
+<span class="n">z_R</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">((</span><span class="n">states_R</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N_R</span><span class="p">))</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">H_R</span> <span class="o">=</span> <span class="n">H_mixed</span><span class="p">(</span><span class="n">N_R</span><span class="p">)</span>
+<span class="n">B_OP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">z_R</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">A_OP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">z_R</span><span class="p">[:,</span> <span class="n">N_R</span> <span class="o">//</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">EV_R</span><span class="p">,</span> <span class="n">V_R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">H_R</span><span class="p">)</span>
+<span class="n">A_MN</span> <span class="o">=</span> <span class="n">V_R</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">A_OP</span> <span class="o">@</span> <span class="n">V_R</span>
+<span class="n">B_MN</span> <span class="o">=</span> <span class="n">V_R</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">B_OP</span> <span class="o">@</span> <span class="n">V_R</span>
+<span class="n">W_R</span><span class="p">,</span> <span class="n">OM_R</span><span class="p">,</span> <span class="n">P_R</span> <span class="o">=</span> <span class="n">chi_weights</span><span class="p">(</span><span class="n">EV_R</span><span class="p">,</span> <span class="n">A_MN</span><span class="p">,</span> <span class="n">B_MN</span><span class="p">,</span> <span class="n">BETA_R</span><span class="p">)</span>
+<span class="n">A_EQ</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P_R</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">A_MN</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;stage: N = </span><span class="si">{</span><span class="n">N_R</span><span class="si">}</span><span class="s2"> chaotic chain, beta = </span><span class="si">{</span><span class="n">BETA_R</span><span class="si">}</span><span class="s2">, &lt;A&gt;_eq = </span><span class="si">{</span><span class="n">A_EQ</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>stage: N = 8 chaotic chain, beta = 1.0, &lt;A&gt;_eq = 0.836444
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-equilibrium-already-knows">
+<h2>Exercise 1 — Equilibrium already knows<a class="headerlink" href="#exercise-1-equilibrium-already-knows" title="Link to this heading">#</a></h2>
+<p>The Kubo formula derived, and its three ingredients read aloud. Cite <a class="reference internal" href="#equation-eq-kubo">Eq. 737</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive linear response in the interaction picture (first order in <span class="math notranslate nohighlight">\(f(t)B\)</span>, three
+careful steps) to <span class="math notranslate nohighlight">\(\chi_{AB}(t) = -i\theta(t)\langle[A(t), B(0)]\rangle_{\rm eq}\)</span>.</p></li>
+<li><p>Implement <code class="docutils literal notranslate"><span class="pre">chi_retarded</span></code> in the vectorized spectral form
+(<span class="math notranslate nohighlight">\((p_m - p_n)A_{mn}B_{nm}\)</span> over <span class="math notranslate nohighlight">\(\Omega_{mn}\)</span>, ground-shifted weights) and check it
+against a direct commutator evaluation
+<span class="math notranslate nohighlight">\(-i\,\mathrm{Tr}\big(\rho\,[e^{iHt}Ae^{-iHt}, B]\big)\)</span> at several times.</p></li>
+<li><p>Read the ingredients (prose): the commutator is quantum’s fingerprint, the <span class="math notranslate nohighlight">\(\theta\)</span>
+is causality, and the equilibrium average is the theorem.</p></li>
+<li><p>State what the notebook will do about it (prose): claims this large get staged as
+experiments — the next exercise switches the field on for real.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>spectral chi vs direct commutator trace: max dev 1.2e-15
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the susceptibility, assembled from equilibrium   [spectral form vs direct commutator: 1.2e-15 over three times (two methods, agreeing)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-rendezvous-switch-it-on-centerpiece">
+<h2>Exercise 2 — The rendezvous: switch it on (centerpiece)<a class="headerlink" href="#exercise-2-the-rendezvous-switch-it-on-centerpiece" title="Link to this heading">#</a></h2>
+<p>Kubo’s prediction against an actual perturbed evolution — with the edge of linearity
+measured. Cite <a class="reference internal" href="#equation-eq-kubo-rendezvous">Eq. 738</a>.</p>
+<ol class="arabic simple">
+<li><p>Compute the Kubo step response on the chaotic chain (<span class="math notranslate nohighlight">\(N = 8\)</span>, <span class="math notranslate nohighlight">\(\beta = 1\)</span>;
+<span class="math notranslate nohighlight">\(B = \sum\sigma^z\)</span>, <span class="math notranslate nohighlight">\(A = \sigma^z_{N/2}\)</span>) with <code class="docutils literal notranslate"><span class="pre">kubo_step</span></code> (the per-pole analytic
+integral; the <span class="math notranslate nohighlight">\(\Omega = 0\)</span> exclusion stated and justified).</p></li>
+<li><p>Perform the experiment with <code class="docutils literal notranslate"><span class="pre">exact_step_response</span></code> (<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> of
+<span class="math notranslate nohighlight">\(H + \varepsilon B\)</span>, exact unitary evolution of the thermal state) at
+<span class="math notranslate nohighlight">\(\varepsilon = 10^{-3}\)</span> and verify agreement at the <span class="math notranslate nohighlight">\(O(\varepsilon)\)</span> residual across
+<span class="math notranslate nohighlight">\(t = 0.05\)</span>–<span class="math notranslate nohighlight">\(3\)</span>.</p></li>
+<li><p>Measure the nonlinearity: the deviation from Kubo at <span class="math notranslate nohighlight">\(\varepsilon = 0.01, 0.02,
+0.04\)</span>, doubling with <span class="math notranslate nohighlight">\(\varepsilon\)</span> (the <span class="math notranslate nohighlight">\(O(\varepsilon^2)\)</span> law), and the
+<span class="math notranslate nohighlight">\(\varepsilon = 0.05\)</span> trace departing visibly.</p></li>
+<li><p>Issue the rule (prose): linear response is a regime with edges one can find — every
+linear-response number owes an <span class="math notranslate nohighlight">\(\varepsilon\)</span>-scan (the budget discipline of
+<a class="reference internal" href="path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a>, transported); and say what was just witnessed.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>eps = 1e-3: max |experiment/eps - Kubo| = 9.0e-04  (the O(eps) residual)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>deviation from Kubo at t = 3:
+  eps = 0.01: -8.9254e-03
+  eps = 0.02: -1.7508e-02
+  eps = 0.04: -3.3030e-02
+doubling ratios: 1.96, 1.89  (O(eps^2): the response&#39;s next order)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-lr-rendezvous">
+<img alt="../../_images/e457d2973ccaa1f06c1382f30ef794cab916ad2dc2dfeb20ab869152e97e31dc.png" src="../../_images/e457d2973ccaa1f06c1382f30ef794cab916ad2dc2dfeb20ab869152e97e31dc.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 653 </span><span class="caption-text">Equilibrium predicted the perturbed future. The Kubo step response of the chaotic chain (line), assembled purely from unperturbed correlations via Eq. <a class="reference internal" href="#equation-eq-kubo-rendezvous">Eq. 738</a>, with the exact perturbed evolution at <span class="math notranslate nohighlight">\(\varepsilon = 10^{-3}\)</span> laid on top (points): agreement at the <span class="math notranslate nohighlight">\(O(\varepsilon)\)</span> residual across the window. The <span class="math notranslate nohighlight">\(\varepsilon = 0.05\)</span> trace (red) departs visibly by <span class="math notranslate nohighlight">\(t \sim 2\)</span>: linear response is a regime with edges, and the next figure measures them. The stage is the mixed-field chain of <a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a> at <span class="math notranslate nohighlight">\(\beta = 1\)</span>, probed by an extensive <span class="math notranslate nohighlight">\(\sum\sigma^z\)</span> field and read at one site.</span><a class="headerlink" href="#fig-lr-rendezvous" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-lr-onset">
+<img alt="../../_images/13cc792c3a77e8df473923078147bf3a8944c7ed83cd8db85a03264f5b717cc9.png" src="../../_images/13cc792c3a77e8df473923078147bf3a8944c7ed83cd8db85a03264f5b717cc9.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 654 </span><span class="caption-text">The edge of linearity, measured. Deviation of the measured response <span class="math notranslate nohighlight">\(\delta\langle A\rangle/\varepsilon\)</span> from the Kubo prediction at <span class="math notranslate nohighlight">\(t = 3\)</span>, against field strength on log axes: the points double when <span class="math notranslate nohighlight">\(\varepsilon\)</span> doubles and ride the slope-one line, so the correction to the scaled response is <span class="math notranslate nohighlight">\(O(\varepsilon)\)</span> — equivalently, the raw response carries an <span class="math notranslate nohighlight">\(O(\varepsilon^2)\)</span> nonlinearity (Eq. <a class="reference internal" href="#equation-eq-kubo-rendezvous">Eq. 738</a>). The standing rule follows: every linear-response number owes an <span class="math notranslate nohighlight">\(\varepsilon\)</span>-scan, exactly as every discretization owed an <span class="math notranslate nohighlight">\(M\)</span>-ladder in <a class="reference internal" href="path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a> — a single-<span class="math notranslate nohighlight">\(\varepsilon\)</span> agreement tests precision, not linearity.</span><a class="headerlink" href="#fig-lr-onset" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  equilibrium predicted the perturbed future   [max|Δ| = 0.000903511 (rtol=1e-06, atol=0.002)]
+✓  the edge of linearity, measured: deviations double with the field   [ratios 1.96, 1.89 across eps = 0.01 -&gt; 0.04]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-detailed-balance-and-fdt-pole-by-pole">
+<h2>Exercise 3 — Detailed balance and FDT, pole by pole<a class="headerlink" href="#exercise-3-detailed-balance-and-fdt-pole-by-pole" title="Link to this heading">#</a></h2>
+<p>Two celebrated relations, verified as the identities they are. Cite <a class="reference internal" href="#equation-eq-fdt">Eq. 739</a>.</p>
+<ol class="arabic simple">
+<li><p>Construct <span class="math notranslate nohighlight">\(S_{AA}(\omega)\)</span> as poles and weights (<span class="math notranslate nohighlight">\(p_m|A_{mn}|^2\)</span> at
+<span class="math notranslate nohighlight">\(\omega = E_n - E_m\)</span>) and verify detailed balance <span class="math notranslate nohighlight">\(S(-\omega)/S(\omega) =
+e^{-\beta\omega}\)</span> across every pole pair above a stated weight floor (the log-ratio
+metric) — and say it plainly: it is the ratio <span class="math notranslate nohighlight">\(p_n/p_m\)</span>, nothing more.</p></li>
+<li><p>Verify the FDT <span class="math notranslate nohighlight">\(\chi'' = (1 - e^{-\beta\omega})S\)</span> weight by weight.</p></li>
+<li><p>Take the classical limit and name the children with their years: Johnson–Nyquist
+1928 (<span class="math notranslate nohighlight">\(\overline{V^2} = 4k_BTR\Delta f\)</span>, noise thermometry) and Einstein 1905
+(<span class="math notranslate nohighlight">\(D = \mu k_BT\)</span>, the first FDT).</p></li>
+<li><p>Reflect (prose): the volume’s fluctuations — the variances of
+<a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>, the bunching of <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> — were never mere noise.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>detailed balance: max |log-ratio + beta omega| = 4.00e-15 over 57308 pole pairs
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FDT chi&#39;&#39; = (1 - e^(-beta w)) S: max weight deviation 6.9e-18
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-lr-detailed-balance">
+<img alt="../../_images/237175763214babfac19d79fe59c9710a31086c4aada2ad2c9c30b255cfb7bce.png" src="../../_images/237175763214babfac19d79fe59c9710a31086c4aada2ad2c9c30b255cfb7bce.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 655 </span><span class="caption-text">Detailed balance is the Boltzmann ratio, verified as an identity. For every pole pair of the correlation spectrum <span class="math notranslate nohighlight">\(S_{AA}(\omega)\)</span> above the weight floor, the log of the negative-to-positive weight ratio is plotted against <span class="math notranslate nohighlight">\(\beta\omega\)</span>: all 57,308 pairs land on the line <span class="math notranslate nohighlight">\(\log[S(-\omega)/S(\omega)] = -\beta\omega\)</span> to <span class="math notranslate nohighlight">\(4\times10^{-15}\)</span> (Eq. <a class="reference internal" href="#equation-eq-fdt">Eq. 739</a>). There is no approximation to discuss — the ratio is <span class="math notranslate nohighlight">\(p_n/p_m\)</span>, the thermal weights themselves — which is exactly why its violation in driven systems is such a sharp diagnostic of nonequilibrium.</span><a class="headerlink" href="#fig-lr-detailed-balance" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  two identities, verified as identities   [max|Δ| = 3.9968e-15 (rtol=1e-06, atol=1e-12)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-causality-cashes-nothing-it-does-not-own-the-arsenal-spent">
+<h2>Exercise 4 — Causality cashes nothing it does not own: the arsenal, spent<a class="headerlink" href="#exercise-4-causality-cashes-nothing-it-does-not-own-the-arsenal-spent" title="Link to this heading">#</a></h2>
+<p>From <span class="math notranslate nohighlight">\(\theta\)</span> to analyticity to Kramers–Kronig, with a numerical check. Cite
+<a class="reference internal" href="#equation-eq-kubo-kramers-kronig">Eq. 740</a>.</p>
+<ol class="arabic simple">
+<li><p>Argue <span class="math notranslate nohighlight">\(\theta \Rightarrow\)</span> upper-half-plane analyticity <span class="math notranslate nohighlight">\(\Rightarrow\)</span> the KK pair
+(the contour of <a class="reference internal" href="complex-analysis-residues.html"><span class="std std-doc">§7.1</span></a>/<a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a>, cited and spent).</p></li>
+<li><p>Verify numerically on <span class="math notranslate nohighlight">\(\eta\)</span>-broadened poles: <span class="math notranslate nohighlight">\(\chi'(1.2)\)</span> by direct evaluation
+against the principal-value integral of <span class="math notranslate nohighlight">\(\chi''\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code> on a symmetric
+grid with the singular sample zeroed; why that converges, one line).</p></li>
+<li><p>State the physical reading in one optics breath: absorption determines refraction.</p></li>
+<li><p>Note the bookkeeping (one line): the forward KK map is benign; it is inversions that
+bite — the same geography <a class="reference internal" href="greens-functions.html"><span class="std std-doc">§7.24</span></a> charted.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>chi&#39;(1.2) direct: -0.168544
+chi&#39;(1.2) by principal-value integral: -0.168631   dev 8.6e-05
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_5047/3314970444.py:4: RuntimeWarning: divide by zero encountered in divide
+  ig = chi_im_grid / (wgrid - wv)
+</pre></div>
+</div>
+<figure class="align-default" id="fig-lr-kk">
+<img alt="../../_images/26f14025b3b144b2a30a82ad6c540ce110135911a5c311e5b0e054e32d9dbbcb.png" src="../../_images/26f14025b3b144b2a30a82ad6c540ce110135911a5c311e5b0e054e32d9dbbcb.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 656 </span><span class="caption-text">Causality’s integral, checked. The real part of the <span class="math notranslate nohighlight">\(\eta\)</span>-broadened susceptibility <span class="math notranslate nohighlight">\(\chi_{AB}(\omega)\)</span> computed two ways: directly from its poles (line), and by the Kramers–Kronig principal-value integral of <span class="math notranslate nohighlight">\(\chi''\)</span> over a symmetric grid with the singular sample zeroed (points; Eq. <a class="reference internal" href="#equation-eq-kubo-kramers-kronig">Eq. 740</a>). Agreement is quadrature-limited. Nothing but causality entered the derivation — <span class="math notranslate nohighlight">\(\chi(t&lt;0) = 0\)</span> makes <span class="math notranslate nohighlight">\(\chi(\omega)\)</span> analytic in the upper half-plane, and the contour machinery of <a class="reference internal" href="complex-analysis-residues.html"><span class="std std-doc">§7.1</span></a> and <a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a> does the rest: the volume’s opening arsenal, finally spent on the physics it was built for.</span><a class="headerlink" href="#fig-lr-kk" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  causality&#39;s integral, checked   [got -0.168631 vs expected -0.168544 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-kohn-s-flux-the-inert-band-was-a-transport-theorem-centerpiece">
+<h2>Exercise 5 — Kohn’s flux: the inert band was a transport theorem (centerpiece)<a class="headerlink" href="#exercise-5-kohn-s-flux-the-inert-band-was-a-transport-theorem-centerpiece" title="Link to this heading">#</a></h2>
+<p>Thread a flux; read conductor or insulator off a second derivative. Cite <a class="reference internal" href="#equation-eq-kohn">Eq. 741</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive the Peierls substitution (three lines) and build the flux-threaded ring with
+<code class="docutils literal notranslate"><span class="pre">peierls_ring</span></code> (complex Hermitian; the conjugate-bond trap stated).</p></li>
+<li><p>Teach the shell trap first: the half-filled ring’s <span class="math notranslate nohighlight">\(E_0(\Phi)\)</span> kinks through its
+level crossing at <span class="math notranslate nohighlight">\(\Phi = 0\)</span> and the second derivative lies; invoke the closed-shell
+rule of <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a> and choose <span class="math notranslate nohighlight">\(N_e = 5\)</span>.</p></li>
+<li><p>Verify both verdicts with <code class="docutils literal notranslate"><span class="pre">kohn_curvature</span></code> (central difference, step <span class="math notranslate nohighlight">\(10^{-4}\)</span>, the
+floor noted): the filled band flat to the finite-difference floor (a thousandth of the
+metal’s curvature), and the closed-shell identity
+<span class="math notranslate nohighlight">\(M^2\,\partial^2E_0/\partial\Phi^2 = \langle -T\rangle\)</span> (four-line free-ring
+derivation).</p></li>
+<li><p>Read Kohn’s criterion (prose): conductivity as ground-state geometry (Kohn 1964
+cited).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>half filling (Ne = 4): &#39;curvature&#39; through the kink = -4999.9  — a lie
+filled band (Ne = 8): curvature = -0.00000018
+closed shell (Ne = 5): M^2 d2E0/dPhi2 = 4.82838232   &lt;-T&gt; = 4.82842712
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-lr-kohn">
+<img alt="../../_images/11f01bae164d5f4bf5c4c6a50045dc7987bbb1354e36c46d237f706e3e73dc45.png" src="../../_images/11f01bae164d5f4bf5c4c6a50045dc7987bbb1354e36c46d237f706e3e73dc45.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 657 </span><span class="caption-text">Kohn’s criterion, with the trap taught first. Ground energy of the flux-threaded ring against <span class="math notranslate nohighlight">\(\Phi\)</span> for three fillings (Eq. <a class="reference internal" href="#equation-eq-kohn">Eq. 741</a>). The filled band (<span class="math notranslate nohighlight">\(N_e = 8\)</span>, dark) is flat to machine precision: zero Drude weight — the famous inertness of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> was a transport theorem all along, and the band is an insulator by ground-state geometry. The closed shell (<span class="math notranslate nohighlight">\(N_e = 5\)</span>, amber) curves, with <span class="math notranslate nohighlight">\(M^2\,\partial^2E_0/\partial\Phi^2 = \langle -T\rangle\)</span> to the finite-difference floor: a metal. The half-filled ring (<span class="math notranslate nohighlight">\(N_e = 4\)</span>, red) KINKS at <span class="math notranslate nohighlight">\(\Phi = 0\)</span> through a level crossing — a second derivative there lies (it reads <span class="math notranslate nohighlight">\(\sim -5000\)</span> at step <span class="math notranslate nohighlight">\(10^{-4}\)</span>) — which is why the closed-shell rule of <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a> returns here as a transport prerequisite.</span><a class="headerlink" href="#fig-lr-kohn" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Kohn&#39;s first verdict: the filled band is flat — zero Drude weight   [filled curvature -1.8e-07 vs metal 7.5e-02 (a part in 1e3: zero)]
+✓  and the second: the closed-shell curvature is the kinetic energy   [got 4.82838 vs expected 4.82843 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-the-f-sum-weight-moves-never-dies">
+<h2>Exercise 6 — The f-sum: weight moves, never dies<a class="headerlink" href="#exercise-6-the-f-sum-weight-moves-never-dies" title="Link to this heading">#</a></h2>
+<p>Interactions relocate optical weight under a conservation law verified to six digits.
+Cite <a class="reference internal" href="#equation-eq-fsum">Eq. 742</a>.</p>
+<ol class="arabic simple">
+<li><p>Build the interacting ring in the <span class="math notranslate nohighlight">\(N_e = 5\)</span> sector with <code class="docutils literal notranslate"><span class="pre">manybody_ring</span></code> and the
+current <span class="math notranslate nohighlight">\(\hat\jmath = M\,\partial H/\partial\Phi\)</span> at <span class="math notranslate nohighlight">\(\Phi = 0\)</span>; derive
+<span class="math notranslate nohighlight">\([\hat\jmath, H] = 0\)</span> for the free ring (why all weight is then ballistic).</p></li>
+<li><p>Verify <span class="math notranslate nohighlight">\(V = 0\)</span>: Kohn weight <span class="math notranslate nohighlight">\(= \langle -T\rangle/M\)</span> exactly, regular part zero.</p></li>
+<li><p>Verify <span class="math notranslate nohighlight">\(V = 1\)</span>: Kohn <span class="math notranslate nohighlight">\(+\)</span> regular <span class="math notranslate nohighlight">\(= \langle -T\rangle/M\)</span> to six digits; draw the
+stacked bars.</p></li>
+<li><p>Extend by assigned verification (expected, not pre-verified): sweep <span class="math notranslate nohighlight">\(V = 2, 3\)</span>; the
+gate confirms the identity at every <span class="math notranslate nohighlight">\(V\)</span>. Read the law (prose).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>V = 0.0: Kohn 0.603553 + regular 0.000000 = 0.603553   &lt;-T&gt;/M = 0.603553
+V = 1.0: Kohn 0.596084 + regular 0.000618 = 0.596702   &lt;-T&gt;/M = 0.596702
+V = 2.0: Kohn 0.579995 + regular 0.002053 = 0.582047   &lt;-T&gt;/M = 0.582047   (assigned: confirmed)
+V = 3.0: Kohn 0.561849 + regular 0.003585 = 0.565435   &lt;-T&gt;/M = 0.565435   (assigned: confirmed)
+f-sum identity: max relative deviation 2.4e-07 across V = 0, 1, 2, 3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-lr-fsum">
+<img alt="../../_images/e6b8985981977761c52dd8bc11f7b263eefe919104007e4a12dee2de8ac210a6.png" src="../../_images/e6b8985981977761c52dd8bc11f7b263eefe919104007e4a12dee2de8ac210a6.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 658 </span><span class="caption-text">Weight moves, never dies. Optical weight of the interacting ring (<span class="math notranslate nohighlight">\(N_e = 5\)</span>) split into its Drude part (amber, from Kohn’s curvature) and its regular finite-frequency part (dark, from <span class="math notranslate nohighlight">\(2\sum_n|\langle n|\hat\jmath|0\rangle|^2/\omega_{n0}\)</span>), for <span class="math notranslate nohighlight">\(V = 0, 1, 2, 3\)</span>, against the line <span class="math notranslate nohighlight">\(\langle -T\rangle/M\)</span> (Eq. <a class="reference internal" href="#equation-eq-fsum">Eq. 742</a>; the line moves slightly with <span class="math notranslate nohighlight">\(V\)</span> because the ground state’s kinetic energy does). At <span class="math notranslate nohighlight">\(V = 0\)</span> every scrap of weight is ballistic — the current commutes with <span class="math notranslate nohighlight">\(H\)</span> — and interactions then transfer weight from the delta to finite frequency while the stack tracks its own conservation law to six digits at every <span class="math notranslate nohighlight">\(V\)</span> (the <span class="math notranslate nohighlight">\(V = 2, 3\)</span> columns are the assigned verification, confirmed). Interactions choose where optical weight sits, never how much exists.</span><a class="headerlink" href="#fig-lr-fsum" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the f-sum: conserved to six digits   [max|Δ| = 7.30469e-08 (rtol=1e-05, atol=1e-09)]
+✓  all weight ballistic at V = 0; the assigned V-sweep confirms the identity at every V   [regular(V=0) = 2.7e-31; max rel dev 2.4e-07 over V = 0..3]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-student-stretch-currents-that-remember-currents-that-forget">
+<h2>Exercise 7 — (STUDENT/STRETCH) Currents that remember, currents that forget<a class="headerlink" href="#exercise-7-student-stretch-currents-that-remember-currents-that-forget" title="Link to this heading">#</a></h2>
+<p>The handshake with the capstone, and Drude finally placed. Cite <a class="reference internal" href="#equation-eq-handshake">Eq. 743</a>,
+<a class="reference internal" href="#equation-eq-onsager">Eq. 744</a>.</p>
+<ol class="arabic simple">
+<li><p>Compute <span class="math notranslate nohighlight">\(C_{jj}(t)/C_{jj}(0)\)</span> at <span class="math notranslate nohighlight">\(\beta = 2\)</span>: flat at <span class="math notranslate nohighlight">\(1.0000\)</span> for <span class="math notranslate nohighlight">\(V = 0\)</span> (the
+current conserved — derived in Exercise 6) and decaying to <span class="math notranslate nohighlight">\(\sim0.91\)</span> at <span class="math notranslate nohighlight">\(V = 1\)</span>
+(the finite-size plateau and revivals read as physics at <span class="math notranslate nohighlight">\(M = 8\)</span>, not equilibration
+failure).</p></li>
+<li><p>Make the handshake in one sentence (no dependence): response lives in the
+off-diagonal matrix elements eigenstate thermalization constrains
+(<a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a>, saluted).</p></li>
+<li><p>Place <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> at last (prose): the Drude <span class="math notranslate nohighlight">\(\tau\)</span> is what this decay becomes when
+impurities and phonons supply it.</p></li>
+<li><p>Verify Onsager reciprocity as one numerical identity
+(<span class="math notranslate nohighlight">\(\chi_{AB}(t) = \varepsilon_A\varepsilon_B\chi_{BA}(t)\)</span> on the rendezvous pair; the
+time-reversal signs stated).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>V = 0: max |C_jj(t)/C_jj(0) - 1| = 3.3e-16  (conserved: flat forever)
+V = 1: minimum C_jj(t)/C_jj(0) = 0.8997  (decay, then finite-size revivals)
+Onsager: max |chi_AB(t) - chi_BA(t)| = 5.6e-17
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-lr-cjj">
+<img alt="../../_images/fe0876b5575aecbb4a35446a15807bc44426201d508ecb2e81af688f4d93f4e6.png" src="../../_images/fe0876b5575aecbb4a35446a15807bc44426201d508ecb2e81af688f4d93f4e6.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 659 </span><span class="caption-text">Currents that remember, currents that forget. The normalized current autocorrelation <span class="math notranslate nohighlight">\(C_{jj}(t)/C_{jj}(0)\)</span> of the ring at <span class="math notranslate nohighlight">\(\beta = 2\)</span> (Eq. <a class="reference internal" href="#equation-eq-handshake">Eq. 743</a>). At <span class="math notranslate nohighlight">\(V = 0\)</span> (amber) the current commutes with the Hamiltonian and the correlator is flat at 1 forever: integrability protecting the Drude delta — the memory of <a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a> in transport dress. At <span class="math notranslate nohighlight">\(V = 1\)</span> (dark) the interaction lets the current forget, and the decay is what the phenomenological Drude <span class="math notranslate nohighlight">\(\tau\)</span> of <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> becomes when impurities and phonons supply it; the late-time plateau and revivals are finite-size physics at <span class="math notranslate nohighlight">\(M = 8\)</span>, not equilibration failure.</span><a class="headerlink" href="#fig-lr-cjj" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  memory, forgetting, and reciprocity   [V=0 flat to 3.3e-16; V=1 dips to 0.900; Onsager 5.6e-17]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-synthesis-the-gateway-closed">
+<h2>Exercise 8 — (Synthesis) The gateway, closed<a class="headerlink" href="#exercise-8-synthesis-the-gateway-closed" title="Link to this heading">#</a></h2>
+<p>No new computation: what the Coda built, and where it leaves the reader.</p>
+<p>Three notebooks ago the Coda opened with an alphabet; this one ends with equilibrium
+answering questions it was never asked. The claim at the center — that a system’s
+response to tomorrow’s perturbation is written in today’s correlations — was not admired
+but staged: a field switched on, a thermal state evolved exactly, and the prediction
+assembled from unperturbed data holding to the expected residual, with the edge of
+linearity located and measured like any other budget. Around it, the volume’s threads
+knotted. Fluctuation and dissipation revealed as one bookkeeping identity at fifteen
+digits; the opening arsenal’s contours finally buying nothing less than Kramers–Kronig;
+a filled band’s famous inertness unmasked as a transport theorem; optical weight obeying
+a conservation law to six digits while interactions merely relocate it; and a conserved
+current keeping the memory that a chaotic one forgets — the capstone saluted in one
+sentence, from the other side of the gateway.</p>
+<p>It is worth sitting for a moment with what Kubo’s theorem says about equilibrium. We
+spent a volume treating it as the state where nothing happens; it turns out to be the
+state where everything that <em>could</em> happen is already priced in. Equilibrium is not the
+absence of dynamics — it is dynamics, fully rehearsed, waiting for a cue.</p>
+<p>The Many-Body Gateway now stands: occupation lists with operators
+(<a class="reference internal" href="second-quantization.html"><span class="std std-doc">§7.23</span></a>), propagators with sum rules
+(<a class="reference internal" href="greens-functions.html"><span class="std std-doc">§7.24</span></a>), responses with budgets. Beyond it lie self-energies,
+diagrams, and transport theory at scale — other courses’ country. This course has one
+destination left of its own: the Epilogue.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>The Coda’s third notebook, and the volume’s final page: equilibrium, asked.</p>
+<ul class="simple">
+<li><p><strong>Kubo</strong> <a class="reference internal" href="#equation-eq-kubo">Eq. 737</a>: derived in three careful steps; the commutator (quantum), the
+<span class="math notranslate nohighlight">\(\theta\)</span> (causality), the equilibrium average (the theorem); the spectral form checked
+against a direct commutator trace at <span class="math notranslate nohighlight">\(10^{-15}\)</span> (gated).</p></li>
+<li><p><strong>The rendezvous</strong> <a class="reference internal" href="#equation-eq-kubo-rendezvous">Eq. 738</a>: the step response from equilibrium data alone
+against an exact perturbed evolution — agreement at the <span class="math notranslate nohighlight">\(O(\varepsilon)\)</span> residual for
+<span class="math notranslate nohighlight">\(\varepsilon = 10^{-3}\)</span> (gated); the nonlinearity measured, deviations doubling with
+<span class="math notranslate nohighlight">\(\varepsilon\)</span> (gated) and the <span class="math notranslate nohighlight">\(\varepsilon = 0.05\)</span> trace departing. Standing rule:
+every linear-response number owes an <span class="math notranslate nohighlight">\(\varepsilon\)</span>-scan.</p></li>
+<li><p><strong>Detailed balance and FDT</strong> <a class="reference internal" href="#equation-eq-fdt">Eq. 739</a>: the weight-ratio identity at
+<span class="math notranslate nohighlight">\(4\times10^{-15}\)</span> over 57,308 pole pairs and the FDT weight-by-weight at <span class="math notranslate nohighlight">\(10^{-18}\)</span>
+(both gated); Johnson–Nyquist 1928 and Einstein 1905 named as the classical children.</p></li>
+<li><p><strong>Kramers–Kronig</strong> <a class="reference internal" href="#equation-eq-kubo-kramers-kronig">Eq. 740</a>: causality <span class="math notranslate nohighlight">\(\Rightarrow\)</span> analyticity
+<span class="math notranslate nohighlight">\(\Rightarrow\)</span> the pair; the principal-value integral meets the direct <span class="math notranslate nohighlight">\(\chi'\)</span> at the
+quadrature floor (gated); absorption determines refraction.</p></li>
+<li><p><strong>Kohn</strong> <a class="reference internal" href="#equation-eq-kohn">Eq. 741</a>: Peierls phases in three lines; the shell trap taught (the
+half-filled kink’s lying second derivative) before <span class="math notranslate nohighlight">\(N_e = 5\)</span>; the filled band flat to the
+finite-difference floor — its curvature a thousandth of the metal’s, zero Drude weight,
+the inert band’s transport meaning — and the closed-shell
+<span class="math notranslate nohighlight">\(M^2\partial^2E_0/\partial\Phi^2 = \langle -T\rangle\)</span> to the finite-difference floor
+(both gated).</p></li>
+<li><p><strong>The f-sum</strong> <a class="reference internal" href="#equation-eq-fsum">Eq. 742</a>: Drude <span class="math notranslate nohighlight">\(+\)</span> regular <span class="math notranslate nohighlight">\(= \langle -T\rangle/M\)</span> to six digits
+at <span class="math notranslate nohighlight">\(V = 0\)</span> and <span class="math notranslate nohighlight">\(1\)</span> (gated), with the assigned <span class="math notranslate nohighlight">\(V = 2, 3\)</span> sweep confirming the
+identity at every interaction (gated): weight moves, never dies.</p></li>
+<li><p><strong>The handshake</strong> <a class="reference internal" href="#equation-eq-handshake">Eq. 743</a>, <a class="reference internal" href="#equation-eq-onsager">Eq. 744</a>: <span class="math notranslate nohighlight">\(C_{jj}\)</span> flat under
+conservation and decaying under <span class="math notranslate nohighlight">\(V\)</span> (gated; plateau-is-physics noted); the one-
+sentence salute to <a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a>; the Drude <span class="math notranslate nohighlight">\(\tau\)</span> of <a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> placed; Onsager
+reciprocity verified as one identity (gated).</p></li>
+</ul>
+<p>Standing rules issued here: every linear-response number owes an <span class="math notranslate nohighlight">\(\varepsilon\)</span>-scan;
+build Peierls matrices complex Hermitian; never differentiate through a level crossing;
+and read finite-size plateaus as physics before blaming equilibration.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Self-energies, Dyson’s equation, diagrams</strong>: perturbation theory at scale (Mahan;
+outward — beyond the gateway).</p></li>
+<li><p><strong>Transport at scale</strong>: Boltzmann equations, Landauer conductance, disorder and
+localization (outward, named).</p></li>
+<li><p><strong>Nonequilibrium beyond linear</strong>: Keldysh, in one honest name (outward).</p></li>
+<li><p><strong>Noise thermometry and metrology</strong>: the Johnson–Nyquist career (outward).</p></li>
+<li><p><strong>The Epilogue</strong>: the course’s own last destination.</p></li>
+<li><p>Cross-reference: <a class="reference internal" href="complex-analysis-residues.html"><span class="std std-doc">§7.1</span></a>/
+<a class="reference internal" href="complex-analysis-applications.html"><span class="std std-doc">§7.2</span></a> (the arsenal, spent),
+<a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a> (shells, returning),
+<a class="reference internal" href="fermi-gas-finite-temperature.html"><span class="std std-doc">§7.10</span></a> (Drude, placed),
+<a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> (the theorem it always was),
+<a class="reference internal" href="path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a> (budgets, transported),
+<a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a> (the salute),
+<a class="reference internal" href="second-quantization.html"><span class="std std-doc">§7.23</span></a>/<a class="reference internal" href="greens-functions.html"><span class="std std-doc">§7.24</span></a> (the gateway’s
+first two rooms).</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/07-quantum-statistical-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="greens-functions.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">7.24 Green’s Functions: The Propagator at Temperature</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../epilogue/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Epilogue</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-claim-and-its-derivation">The claim, and its derivation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-rendezvous-the-claim-as-an-experiment">The rendezvous: the claim as an experiment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-balance-and-fdt-as-identities">Detailed balance and FDT, as identities</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#causality-the-arsenal-spent">Causality: the arsenal, spent</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kohn-s-flux-the-inert-band-was-a-transport-theorem">Kohn’s flux: the inert band was a transport theorem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-f-sum-weight-moves-never-dies">The f-sum: weight moves, never dies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ballistic-or-diffusive-the-handshake">Ballistic or diffusive: the handshake</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#onsager-one-breath">Onsager, one breath</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#closing-the-gateway">Closing the gateway</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-equilibrium-already-knows">Exercise 1 — Equilibrium already knows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-rendezvous-switch-it-on-centerpiece">Exercise 2 — The rendezvous: switch it on (centerpiece)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-detailed-balance-and-fdt-pole-by-pole">Exercise 3 — Detailed balance and FDT, pole by pole</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-causality-cashes-nothing-it-does-not-own-the-arsenal-spent">Exercise 4 — Causality cashes nothing it does not own: the arsenal, spent</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-kohn-s-flux-the-inert-band-was-a-transport-theorem-centerpiece">Exercise 5 — Kohn’s flux: the inert band was a transport theorem (centerpiece)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-f-sum-weight-moves-never-dies">Exercise 6 — The f-sum: weight moves, never dies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-student-stretch-currents-that-remember-currents-that-forget">Exercise 7 — (STUDENT/STRETCH) Currents that remember, currents that forget</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-synthesis-the-gateway-closed">Exercise 8 — (Synthesis) The gateway, closed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

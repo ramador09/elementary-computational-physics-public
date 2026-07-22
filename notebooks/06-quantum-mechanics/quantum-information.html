@@ -1,0 +1,1808 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/quantum-information.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: This is the capstone of Volume VI, and its argument is a single realization: a quantum computer is nothing more than the linear algebra th..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: This is the capstone of Volume VI, and its argument is a single realization: a quantum computer is nothing more than the linear algebra th..." />
+
+    <title>6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=b080348c" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/06-quantum-mechanics/quantum-information';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/quantum-information.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect" href="aharonov-bohm.html" />
+    <link rel="prev" title="6.26 The Density Matrix, Mixed States, and Decoherence" href="density-matrix.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VI — Quantum Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Seven Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/06-quantum-mechanics/quantum-information.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/06-quantum-mechanics/quantum-information.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/06-quantum-mechanics/quantum-information.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/06-quantum-mechanics/quantum-information.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-qubit-and-the-state-of-many-qubits">The qubit and the state of many qubits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-gates-as-unitaries">Quantum gates as unitaries</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-circuits-and-measurement">Quantum circuits and measurement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-no-cloning-theorem">The no-cloning theorem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-teleportation">Quantum teleportation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-parallelism-and-two-algorithms">Quantum parallelism, and two algorithms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shor-error-correction-and-why-this-matters">Shor, error correction, and why this matters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-single-qubit-gates-as-unitaries">Exercise 1 — Single-qubit gates as unitaries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-multi-qubit-gates-and-the-cnot">Exercise 2 — Multi-qubit gates and the CNOT</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-circuits-and-the-bell-state">Exercise 3 — Circuits and the Bell state</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-measurement-and-born-sampling">Exercise 4 — Measurement and Born sampling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-no-cloning-theorem">Exercise 5 — The no-cloning theorem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-quantum-teleportation">Exercise 6 — Quantum teleportation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-deutschjozsa">Exercise 7 — Deutsch–Jozsa</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-grover-s-search">Exercise 8 — Grover’s search</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-the-qiskit-fence-same-circuit-professional-notation-student">Exercise 9 — The Qiskit fence: same circuit, professional notation <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-9">Validation 9</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-entanglement-as-a-resource-entropy-across-a-protocol-student-challenge">Exercise 10 — Entanglement as a resource: entropy across a protocol <em>(student / challenge)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-10">Validation 10</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-11-a-small-algorithm-end-to-end-challenge-stretch">Exercise 11 — A small algorithm, end to end <em>(challenge / stretch)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-11">Validation 11</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-synthesis-the-volume-closed">Exercise 12 — (Synthesis) The volume, closed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="quantum-information-gates-circuits-teleportation-and-algorithms">
+<h1>6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms<a class="headerlink" href="#quantum-information-gates-circuits-teleportation-and-algorithms" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VI — Quantum Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;6.27
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">The volume&#x27;s last idea is its first one, grown up: a quantum computer is the linear algebra we have done all along, used on purpose. Qubits are the two-state system of the opening movement, gates are unitary matrices, circuits are their products, and measurement is the Born rule. From these and from entanglement come teleportation, the no-cloning theorem, and algorithms that outrun any classical machine. We build every one from scratch — and show that the software the field uses is only a shorthand for the matrices in our hands.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;240–300 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.2.0 &nbsp;·&nbsp; 2026-07-22 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>This is the capstone of Volume VI, and its argument is a single realization:
+<strong>a quantum computer is nothing more than the linear algebra this volume has been
+doing all along.</strong> A qubit is the two-state system of Movement I (<a class="reference internal" href="stern-gerlach-qubit.html"><span class="std std-doc">§6.4</span></a>, <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>); a
+quantum <strong>gate</strong> is a unitary matrix (the evolution of <a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>); a quantum <strong>circuit</strong>
+is a product of gates acting on a tensor-product state (<a class="reference internal" href="angular-momentum-algebra.html"><span class="std std-doc">§6.14</span></a>, <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>); a
+<strong>measurement</strong> is the Born rule (<a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>). Nothing new is required — only these
+pieces, arranged deliberately.</p>
+<p>From them, and from <strong>entanglement as a resource</strong> (<a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a>, <a class="reference internal" href="density-matrix.html"><span class="std std-doc">§6.26</span></a>), come feats with
+no classical analogue. <strong>Quantum teleportation</strong> transfers an unknown qubit across
+space using only a shared Bell pair and two classical bits — reproducing the input
+exactly, for every measurement outcome, without ever cloning it (the <strong>no-cloning
+theorem</strong>, itself a one-line consequence of linearity). <strong>Quantum algorithms</strong> turn
+superposition and interference into speed: <strong>Deutsch–Jozsa</strong> decides a global
+property of a function in a <em>single</em> query where classical computation may need
+exponentially many; <strong>Grover’s</strong> search finds a marked item among <span class="math notranslate nohighlight">\(N\)</span> in about
+<span class="math notranslate nohighlight">\(\tfrac\pi4\sqrt N\)</span> steps by amplitude amplification — a rotation in a 2-D
+subspace, the same geometry we have used throughout. <strong>Shor’s</strong> algorithm (named,
+not built) would factor large integers efficiently, breaking the cryptography that
+secures the internet — the reason quantum computing commands the attention it
+does. And the density matrix and entropy of <a class="reference internal" href="density-matrix.html"><span class="std std-doc">§6.26</span></a> are exactly the tools that
+quantify the entanglement these protocols spend and the decoherence that quantum
+error correction must fight.</p>
+<p>We build every runnable, validated result <strong>from scratch in NumPy</strong> — gates as
+unitary matrices, circuits as <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> products of <code class="docutils literal notranslate"><span class="pre">numpy.kron</span></code> tensor factors,
+measurement by Born-rule sampling. The professional software (Qiskit) appears only
+as an illustration, explicitly fenced so it never enters the numerical spine.</p>
+<blockquote>
+<div><p><strong>The Qiskit fence.</strong> The runnable, validated core is entirely from-scratch
+NumPy. Qiskit appears once, in a <em>display-only</em> cell (an import guarded so it
+cannot fail the build), purely to show that the industry notation is a shorthand
+for the matrices we build by hand: <code class="docutils literal notranslate"><span class="pre">H</span></code> is the Hadamard gate, <code class="docutils literal notranslate"><span class="pre">cx</span></code> is our CNOT,
+<code class="docutils literal notranslate"><span class="pre">numpy.kron</span></code> is the tensor product. The physics is the linear algebra, not the
+library.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Method specificity.</strong> Gates are unitary matrices; multi-qubit gates and states
+use <code class="docutils literal notranslate"><span class="pre">numpy.kron</span></code>; controlled gates are built from projectors <span class="math notranslate nohighlight">\(P_0\otimes I+P_1
+\otimes U\)</span>; circuits are <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> products; measurement is Born-rule sampling with
+<code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng</span></code>.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-qubit-and-the-state-of-many-qubits">
+<h3>The qubit and the state of many qubits<a class="headerlink" href="#the-qubit-and-the-state-of-many-qubits" title="Link to this heading">#</a></h3>
+<p>A <strong>qubit</strong> is a normalized vector in <span class="math notranslate nohighlight">\(\mathbb C^2\)</span> (<a class="reference internal" href="stern-gerlach-qubit.html"><span class="std std-doc">§6.4</span></a>, <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>). <span class="math notranslate nohighlight">\(n\)</span> qubits live in
+the tensor product <span class="math notranslate nohighlight">\((\mathbb C^2)^{\otimes n}\)</span> of dimension <span class="math notranslate nohighlight">\(2^n\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.kron</span></code>);
+that exponential growth is the root of quantum computing’s power — and of the cost
+of simulating it classically.</p>
+<div class="math notranslate nohighlight" id="equation-eq-qi-qubit">
+<span class="eqno">(535)<a class="headerlink" href="#equation-eq-qi-qubit" title="Link to this equation">#</a></span>\[|\psi\rangle \in \mathbb C^2 , \qquad
+|\Psi\rangle \in (\mathbb C^2)^{\otimes n}\cong\mathbb C^{2^n} .\]</div>
+</section>
+<section id="quantum-gates-as-unitaries">
+<h3>Quantum gates as unitaries<a class="headerlink" href="#quantum-gates-as-unitaries" title="Link to this heading">#</a></h3>
+<p>A gate is a <strong>unitary</strong> matrix (norm-preserving, so probability is conserved — the
+evolution of <a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>). Single-qubit: the Paulis <span class="math notranslate nohighlight">\(X,Y,Z\)</span> (<a class="reference internal" href="pauli-uncertainty.html"><span class="std std-doc">§6.6</span></a>), the <strong>Hadamard</strong> <span class="math notranslate nohighlight">\(H\)</span>
+(which makes superposition, <span class="math notranslate nohighlight">\(H|0\rangle=(|0\rangle+|1\rangle)/\sqrt2\)</span>), the phase
+gates <span class="math notranslate nohighlight">\(S,T\)</span>. Multi-qubit: the <strong>CNOT</strong>, built from projectors,</p>
+<div class="math notranslate nohighlight" id="equation-eq-gates">
+<span class="eqno">(536)<a class="headerlink" href="#equation-eq-gates" title="Link to this equation">#</a></span>\[\mathrm{CNOT} = P_0\otimes I + P_1\otimes X , \qquad P_0=|0\rangle\langle0|,\ P_1=|1\rangle\langle1| ,\]</div>
+<p>which flips the target iff the control is <span class="math notranslate nohighlight">\(|1\rangle\)</span>; controlled-<span class="math notranslate nohighlight">\(U\)</span> and the
+Toffoli generalize it. A small set (e.g. <span class="math notranslate nohighlight">\(H,T,\mathrm{CNOT}\)</span>) is <strong>universal</strong> —
+it approximates any unitary (named, not proved).</p>
+</section>
+<section id="quantum-circuits-and-measurement">
+<h3>Quantum circuits and measurement<a class="headerlink" href="#quantum-circuits-and-measurement" title="Link to this heading">#</a></h3>
+<p>A circuit is a <strong>product</strong> of unitary matrices (read right to left), gates on
+disjoint qubits combined by tensor product (<span class="math notranslate nohighlight">\(I\)</span> on untouched wires):</p>
+<div class="math notranslate nohighlight" id="equation-eq-circuits">
+<span class="eqno">(537)<a class="headerlink" href="#equation-eq-circuits" title="Link to this equation">#</a></span>\[|\Psi_{\text{out}}\rangle = U_k\cdots U_2 U_1\,|\Psi_{\text{in}}\rangle .\]</div>
+<p>The <strong>Bell state</strong> is three symbols: from <span class="math notranslate nohighlight">\(|00\rangle\)</span>, apply <span class="math notranslate nohighlight">\(H\)</span> to qubit 0, then
+<span class="math notranslate nohighlight">\(\mathrm{CNOT}(0,1)\)</span>, giving <span class="math notranslate nohighlight">\((|00\rangle+|11\rangle)/\sqrt2\)</span> (the <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a> Bell state).
+Measurement is the Born rule (<a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>): outcome probabilities are squared amplitudes,
+and repeated runs are Born-rule sampling (<a class="reference internal" href="stern-gerlach-qubit.html"><span class="std std-doc">§6.4</span></a>).</p>
+</section>
+<section id="the-no-cloning-theorem">
+<h3>The no-cloning theorem<a class="headerlink" href="#the-no-cloning-theorem" title="Link to this heading">#</a></h3>
+<p>No unitary copies an arbitrary unknown qubit:</p>
+<div class="math notranslate nohighlight" id="equation-eq-no-cloning">
+<span class="eqno">(538)<a class="headerlink" href="#equation-eq-no-cloning" title="Link to this equation">#</a></span>\[\nexists\,U:\ U|\psi\rangle|0\rangle=|\psi\rangle|\psi\rangle\ \ \forall|\psi\rangle ,\]</div>
+<p>a one-line consequence of <strong>linearity</strong> — a cloner that works on <span class="math notranslate nohighlight">\(|0\rangle\)</span> and
+<span class="math notranslate nohighlight">\(|1\rangle\)</span> fails on their superposition. This is why quantum information cannot be
+copied, why teleportation must <em>move</em> rather than copy, and why eavesdropping is
+detectable.</p>
+</section>
+<section id="quantum-teleportation">
+<h3>Quantum teleportation<a class="headerlink" href="#quantum-teleportation" title="Link to this heading">#</a></h3>
+<p>Alice holds an unknown <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> and shares a Bell pair with Bob. She applies
+<span class="math notranslate nohighlight">\(\mathrm{CNOT}\)</span> then <span class="math notranslate nohighlight">\(H\)</span> to her two qubits, <strong>measures</strong> them (two classical bits),
+and sends the bits to Bob, who applies a Pauli correction to recover <span class="math notranslate nohighlight">\(|\psi\rangle\)</span>
+exactly:</p>
+<div class="math notranslate nohighlight" id="equation-eq-teleportation">
+<span class="eqno">(539)<a class="headerlink" href="#equation-eq-teleportation" title="Link to this equation">#</a></span>\[\text{bits }(m_0,m_1)\ \longrightarrow\ \text{Bob applies } Z^{m_0}X^{m_1}:\quad
+I,\ X,\ Z,\ ZX .\]</div>
+<p>No clone is made (Alice’s copy is destroyed by measurement), nothing travels
+faster than light (Bob needs the bits), yet the unknown state is transferred —
+entanglement plus classical communication as a channel. Its dual, <strong>superdense
+coding</strong> (<a class="reference internal" href="#equation-eq-superdense">Eq. 540</a>), sends two classical bits by transmitting one qubit
+of a shared pair.</p>
+<div class="math notranslate nohighlight" id="equation-eq-superdense">
+<span class="eqno">(540)<a class="headerlink" href="#equation-eq-superdense" title="Link to this equation">#</a></span>\[\text{teleportation: 1 ebit}+2\ \text{cbits}\to1\ \text{qubit};\quad
+\text{superdense: 1 ebit}+1\ \text{qubit}\to2\ \text{cbits.}\]</div>
+</section>
+<section id="quantum-parallelism-and-two-algorithms">
+<h3>Quantum parallelism, and two algorithms<a class="headerlink" href="#quantum-parallelism-and-two-algorithms" title="Link to this heading">#</a></h3>
+<p>A unitary applied to a superposition acts on all basis states “at once”
+(parallelism), but a measurement returns only one — so the art of a quantum
+algorithm is to arrange <strong>interference</strong> that concentrates amplitude on the answer.</p>
+<div class="math notranslate nohighlight" id="equation-eq-parallelism">
+<span class="eqno">(541)<a class="headerlink" href="#equation-eq-parallelism" title="Link to this equation">#</a></span>\[U\Big(\tfrac1{\sqrt{2^n}}\textstyle\sum_x|x\rangle\Big)
+= \tfrac1{\sqrt{2^n}}\textstyle\sum_x U|x\rangle .\]</div>
+<p><strong>Deutsch–Jozsa</strong> (<a class="reference internal" href="#equation-eq-deutsch-jozsa">Eq. 542</a>): given <span class="math notranslate nohighlight">\(f\)</span> promised constant or
+balanced, a superposition of all inputs, the oracle (a phase kickback), and a
+second layer of Hadamards make the all-zeros outcome certain <strong>iff</strong> <span class="math notranslate nohighlight">\(f\)</span> is
+constant — one query where classical needs up to <span class="math notranslate nohighlight">\(2^{n-1}+1\)</span>.</p>
+<div class="math notranslate nohighlight" id="equation-eq-deutsch-jozsa">
+<span class="eqno">(542)<a class="headerlink" href="#equation-eq-deutsch-jozsa" title="Link to this equation">#</a></span>\[H^{\otimes n}\,U_f\,H^{\otimes n}|0\rangle^{\otimes n}:\quad
+P(0\cdots0)=1\ \text{iff } f \text{ constant.}\]</div>
+<p><strong>Grover</strong> (<a class="reference internal" href="#equation-eq-grover">Eq. 543</a>): to find a marked item among <span class="math notranslate nohighlight">\(N=2^n\)</span>, each iteration
+applies the <strong>oracle</strong> (sign-flip the marked amplitude) then the <strong>diffuser</strong>
+(reflection about the mean), which together <strong>rotate</strong> the state toward the marked
+item in the 2-D marked/unmarked plane. After <span class="math notranslate nohighlight">\(\sim\tfrac\pi4\sqrt N\)</span> iterations the
+amplitude concentrates on the answer.</p>
+<div class="math notranslate nohighlight" id="equation-eq-grover">
+<span class="eqno">(543)<a class="headerlink" href="#equation-eq-grover" title="Link to this equation">#</a></span>\[(\text{diffuser})(\text{oracle})\ \text{iterated}\ \sim\tfrac\pi4\sqrt N\ \text{times};
+\quad \text{classical needs } \sim N/2 .\]</div>
+</section>
+<section id="shor-error-correction-and-why-this-matters">
+<h3>Shor, error correction, and why this matters<a class="headerlink" href="#shor-error-correction-and-why-this-matters" title="Link to this heading">#</a></h3>
+<p><strong>Shor’s</strong> algorithm (<a class="reference internal" href="#equation-eq-shor">Eq. 544</a>) factors an <span class="math notranslate nohighlight">\(n\)</span>-bit integer in polynomial time
+by using the quantum Fourier transform to find a period — breaking RSA. Its number
+theory is a horizon; its significance is the punchline. And <strong>decoherence</strong> (<a class="reference internal" href="density-matrix.html"><span class="std std-doc">§6.26</span></a>)
+is the central obstacle, so real machines need <strong>quantum error correction</strong> —
+encoding one logical qubit in many physical ones — the entanglement and entropy of
+<a class="reference internal" href="density-matrix.html"><span class="std std-doc">§6.26</span></a> being exactly its tools.</p>
+<div class="math notranslate nohighlight" id="equation-eq-shor">
+<span class="eqno">(544)<a class="headerlink" href="#equation-eq-shor" title="Link to this equation">#</a></span>\[\text{Shor: factor } n\text{-bit } N \text{ in } \mathrm{poly}(n);\qquad
+\text{QEC fights decoherence (6.26).}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-qec-connection">
+<span class="eqno">(545)<a class="headerlink" href="#equation-eq-qec-connection" title="Link to this equation">#</a></span>\[S(\rho_A)\ \text{(6.26) measures the entanglement resource; decoherence spends it.}\]</div>
+<ul class="simple">
+<li><p>Reference: Nielsen &amp; Chuang <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id38" title="Michael A. Nielsen and Isaac L. Chuang. Quantum Computation and Quantum Information. Cambridge University Press, 10th anniversary edition, 2010.">NC10</a>]</span> (the standard text — gates,
+circuits, teleportation, Deutsch–Jozsa, Grover, Shor); Griffiths
+<span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id20" title="David J. Griffiths and Darrell F. Schroeter. Introduction to Quantum Mechanics. Cambridge University Press, 3 edition, 2018.">GS18</a>]</span>; Preskill’s lecture notes. Cross-reference <a class="reference internal" href="stern-gerlach-qubit.html"><span class="std std-doc">§6.4</span></a>/<a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a> (the
+qubit, the Bloch sphere, the Bell state, Born-rule sampling), <a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a> (measurement),
+<a class="reference internal" href="pauli-uncertainty.html"><span class="std std-doc">§6.6</span></a> (Pauli operators), <a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a> (unitary evolution), <a class="reference internal" href="angular-momentum-algebra.html"><span class="std std-doc">§6.14</span></a> (tensor products), <a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a>
+(Bell nonlocality — the resource certified), <a class="reference internal" href="density-matrix.html"><span class="std std-doc">§6.26</span></a> (density matrix, entropy,
+decoherence), and — as the volume’s closer — <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a>–<a class="reference internal" href="dirac-notation-spectral-decomposition.html"><span class="std std-doc">§6.3</span></a> (the linear-algebra arsenal
+now revealed as the machinery of quantum computation), forward to Volume VII.
+Named as horizons: Shor’s algorithm, quantum error correction, physical qubit
+implementations, the universality proofs.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Everything runnable is from-scratch NumPy. Conventions: qubit 0 is the leftmost
+(most-significant) tensor factor, so an <span class="math notranslate nohighlight">\(n\)</span>-qubit state is a length-<span class="math notranslate nohighlight">\(2^n\)</span> vector
+indexed by the integer <span class="math notranslate nohighlight">\(b_0b_1\cdots b_{n-1}\)</span>; a single-qubit gate on qubit <span class="math notranslate nohighlight">\(q\)</span> is
+embedded as <span class="math notranslate nohighlight">\(I\otimes\cdots\otimes U\otimes\cdots\otimes I\)</span>; circuits are <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>
+products read right to left; measurement samples the Born distribution with
+<code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng</span></code>. The gate library and helpers:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="c1"># --- single-qubit gate library (unitary matrices) ---</span>
+<span class="n">I2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="n">j</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="n">P0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>  <span class="c1"># |0⟩⟨0|</span>
+<span class="n">P1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>  <span class="c1"># |1⟩⟨1|</span>
+<span class="n">KET0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="n">KET1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">kron_list</span><span class="p">(</span><span class="n">ops</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Tensor product of a list of matrices/vectors (`numpy.kron` folded).&quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">ops</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">ops</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">op</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">single</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">nq</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Embed a single-qubit gate ``U`` on qubit ``q`` of an ``nq``-qubit register.</span>
+
+<span class="sd">    Builds $I\otimes\cdots\otimes U\otimes\cdots\otimes I$ with `numpy.kron`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">kron_list</span><span class="p">([</span><span class="n">U</span> <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">q</span> <span class="k">else</span> <span class="n">I2</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nq</span><span class="p">)])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">controlled</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">nq</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Controlled-``U`` from projectors: $P_0\otimes I + P_1\otimes U$ {eq}`eq-gates`.</span>
+
+<span class="sd">    Applies ``U`` to ``tgt`` iff ``ctrl`` is $|1\rangle$; identities on all other</span>
+<span class="sd">    wires make it valid for any control/target pair.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">term0</span> <span class="o">=</span> <span class="n">kron_list</span><span class="p">([</span><span class="n">P0</span> <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">ctrl</span> <span class="k">else</span> <span class="n">I2</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nq</span><span class="p">)])</span>
+    <span class="n">term1</span> <span class="o">=</span> <span class="n">kron_list</span><span class="p">([</span><span class="n">P1</span> <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">ctrl</span> <span class="k">else</span> <span class="p">(</span><span class="n">U</span> <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">tgt</span> <span class="k">else</span> <span class="n">I2</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nq</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">term0</span> <span class="o">+</span> <span class="n">term1</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">toffoli</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">nq</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Toffoli (CCX): flip ``tgt`` iff both controls are $|1\rangle$ (projector sum).&quot;&quot;&quot;</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="o">**</span><span class="n">nq</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="n">nq</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">ops</span> <span class="o">=</span> <span class="p">[</span><span class="n">I2</span><span class="p">]</span> <span class="o">*</span> <span class="n">nq</span>
+            <span class="n">ops</span><span class="p">[</span><span class="n">c1</span><span class="p">]</span> <span class="o">=</span> <span class="n">P0</span> <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">P1</span>
+            <span class="n">ops</span><span class="p">[</span><span class="n">c2</span><span class="p">]</span> <span class="o">=</span> <span class="n">P0</span> <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">P1</span>
+            <span class="n">ops</span><span class="p">[</span><span class="n">tgt</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span> <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="n">I2</span>
+            <span class="n">M</span> <span class="o">=</span> <span class="n">M</span> <span class="o">+</span> <span class="n">kron_list</span><span class="p">(</span><span class="n">ops</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">M</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">born_probabilities</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Outcome probabilities $|\langle x|\Psi\rangle|^2$ (the Born rule, §6.5).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_measurements</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">shots</span><span class="p">,</span> <span class="n">rng</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Born-rule sampling of computational-basis outcomes with `numpy.random.default_rng` (§6.4).&quot;&quot;&quot;</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">born_probabilities</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">probs</span> <span class="o">/</span> <span class="n">probs</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">is_unitary</span><span class="p">(</span><span class="n">U</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Check $U^\dagger U = I$.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">U</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">U</span><span class="p">)))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">basis_state</span><span class="p">(</span><span class="n">bits</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Computational basis ket $|b_0 b_1\cdots\rangle$ from a bit string/list.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">kron_list</span><span class="p">([</span><span class="n">KET0</span> <span class="k">if</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">KET1</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bits</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-single-qubit-gates-as-unitaries">
+<h2>Exercise 1 — Single-qubit gates as unitaries<a class="headerlink" href="#exercise-1-single-qubit-gates-as-unitaries" title="Link to this heading">#</a></h2>
+<p>Build the fundamental single-qubit gates and verify their defining properties: each is unitary,
+the Hadamard makes an equal superposition, and the Paulis are the operators of <a class="reference internal" href="pauli-uncertainty.html"><span class="std std-doc">§6.6</span></a>.</p>
+<ol class="arabic simple">
+<li><p>Construct <span class="math notranslate nohighlight">\(X,Y,Z,H,S,T\)</span> as <span class="math notranslate nohighlight">\(2\times2\)</span> matrices.</p></li>
+<li><p>Verify each is unitary (<span class="math notranslate nohighlight">\(U^\dagger U=I\)</span>).</p></li>
+<li><p>Show <span class="math notranslate nohighlight">\(H|0\rangle=(|0\rangle+|1\rangle)/\sqrt2\)</span> and <span class="math notranslate nohighlight">\(H^2=I\)</span>.</p></li>
+<li><p>Note the Paulis are the <a class="reference internal" href="pauli-uncertainty.html"><span class="std std-doc">§6.6</span></a> observables and that gates are the unitary
+evolution of <a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>, packaged.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-qi-qubit">Eq. 535</a>, <a class="reference internal" href="#equation-eq-gates">Eq. 536</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  X: unitary = True
+  Y: unitary = True
+  Z: unitary = True
+  H: unitary = True
+  S: unitary = True
+  T: unitary = True
+H|0⟩ = [0.7071+0.j 0.7071+0.j]   = (|0⟩+|1⟩)/√2: True
+H² = I: True
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<p>Every gate must be unitary, and the Hadamard must create an equal superposition
+from <span class="math notranslate nohighlight">\(|0\rangle\)</span> (with <span class="math notranslate nohighlight">\(H^2=I\)</span>): quantum gates are unitary matrices.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  quantum gates are unitary matrices; H creates an equal superposition
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-multi-qubit-gates-and-the-cnot">
+<h2>Exercise 2 — Multi-qubit gates and the CNOT<a class="headerlink" href="#exercise-2-multi-qubit-gates-and-the-cnot" title="Link to this heading">#</a></h2>
+<p>Build the CNOT and general controlled gates from projectors, and verify the CNOT flips its target
+exactly when the control is <span class="math notranslate nohighlight">\(|1\rangle\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Construct <span class="math notranslate nohighlight">\(\mathrm{CNOT}=P_0\otimes I+P_1\otimes X\)</span> with <code class="docutils literal notranslate"><span class="pre">controlled</span></code>.</p></li>
+<li><p>Verify it is unitary.</p></li>
+<li><p>Confirm the truth table: <span class="math notranslate nohighlight">\(\mathrm{CNOT}|00\rangle=|00\rangle\)</span>, <span class="math notranslate nohighlight">\(\mathrm{CNOT}
+|10\rangle=|11\rangle\)</span>, and so on.</p></li>
+<li><p>Generalize to controlled-<span class="math notranslate nohighlight">\(U\)</span> and the Toffoli (a doubly-controlled <span class="math notranslate nohighlight">\(X\)</span>).</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-gates">Eq. 536</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CNOT unitary: True
+  CNOT|00⟩ = |00⟩
+  CNOT|01⟩ = |01⟩
+  CNOT|10⟩ = |11⟩
+  CNOT|11⟩ = |10⟩
+Toffoli|110⟩ = |111⟩ (flips target iff both controls are 1); unitary: True
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<p>The CNOT must be unitary and flip the target iff the control is <span class="math notranslate nohighlight">\(|1\rangle\)</span>
+(<span class="math notranslate nohighlight">\(|00\rangle\to|00\rangle\)</span>, <span class="math notranslate nohighlight">\(|10\rangle\to|11\rangle\)</span>): controlled gates entangle
+qubits.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  CNOT is unitary and flips the target iff the control is |1⟩ (controlled gates entangle)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-circuits-and-the-bell-state">
+<h2>Exercise 3 — Circuits and the Bell state<a class="headerlink" href="#exercise-3-circuits-and-the-bell-state" title="Link to this heading">#</a></h2>
+<p>Build a circuit that prepares the Bell state, connecting the movement’s entanglement to a
+three-gate recipe.</p>
+<ol class="arabic simple">
+<li><p>Start from <span class="math notranslate nohighlight">\(|00\rangle\)</span>.</p></li>
+<li><p>Apply <span class="math notranslate nohighlight">\(H\)</span> to qubit 0 (tensored with <span class="math notranslate nohighlight">\(I\)</span> on qubit 1).</p></li>
+<li><p>Apply <span class="math notranslate nohighlight">\(\mathrm{CNOT}(0,1)\)</span>.</p></li>
+<li><p>Confirm the output is <span class="math notranslate nohighlight">\((|00\rangle+|11\rangle)/\sqrt2\)</span> — the Bell state of <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-circuits">Eq. 537</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Bell circuit output: [0.7071 0.     0.     0.7071]
+matches §6.8 Bell state: True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight 600, now using 700.
+</pre></div>
+</div>
+<figure class="align-default" id="fig-qi-bell-circuit">
+<img alt="../../_images/c559452b998c1dae97ac6cae7846fbce88d78effc5995dad7cbe3cd31acc8a9b.png" src="../../_images/c559452b998c1dae97ac6cae7846fbce88d78effc5995dad7cbe3cd31acc8a9b.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 513 </span><span class="caption-text"><strong>The entanglement of the whole movement, in three gates.</strong> The circuit reads left to right: qubit 0 (top) gets a Hadamard, making <span class="math notranslate nohighlight">\((|0\rangle+|1\rangle)/\sqrt2\)</span>; then a CNOT (control ● on qubit 0, target ⊕ on qubit 1) flips qubit 1 exactly when qubit 0 is <span class="math notranslate nohighlight">\(|1\rangle\)</span>. The output is <span class="math notranslate nohighlight">\((|00\rangle+|11\rangle)/\sqrt2\)</span> — the Bell state of <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>, whose random marginals (<a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a>) and maximally mixed reduced state (<a class="reference internal" href="density-matrix.html"><span class="std std-doc">§6.26</span></a>) this course has now fully explained. A quantum circuit is a product of unitary matrices; this one is <span class="math notranslate nohighlight">\(\mathrm{CNOT}\,(H\otimes I)\)</span>.</span><a class="headerlink" href="#fig-qi-bell-circuit" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<p>The <span class="math notranslate nohighlight">\(H+\mathrm{CNOT}\)</span> circuit must prepare exactly the Bell state <span class="math notranslate nohighlight">\((|00\rangle+
+|11\rangle)/\sqrt2\)</span> of <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the H + CNOT circuit prepares the §6.8 Bell state   [max|Δ| = 0 (rtol=1e-09, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-measurement-and-born-sampling">
+<h2>Exercise 4 — Measurement and Born sampling<a class="headerlink" href="#exercise-4-measurement-and-born-sampling" title="Link to this heading">#</a></h2>
+<p>Measure the Bell circuit’s output and reproduce the Born statistics by sampling — the perfectly
+correlated 00/11 outcomes of <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>/<a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a>.</p>
+<ol class="arabic simple">
+<li><p>Compute the outcome probabilities as squared amplitudes (<a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>).</p></li>
+<li><p>Sample many shots with <code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng</span></code> (<a class="reference internal" href="stern-gerlach-qubit.html"><span class="std std-doc">§6.4</span></a>).</p></li>
+<li><p>Histogram the outcomes.</p></li>
+<li><p>Confirm only <span class="math notranslate nohighlight">\(00\)</span> and <span class="math notranslate nohighlight">\(11\)</span> appear, each about half the time (perfect
+correlation).</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-circuits">Eq. 537</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Born probabilities: [0.5 0.  0.  0.5]
+  00:  2508  (50.2%)
+  01:     0  (0.0%)
+  10:     0  (0.0%)
+  11:  2492  (49.8%)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-qi-histogram">
+<img alt="../../_images/d540af9b269d3eda2791411c760f46636214066ebbc43947a67335ebf4b32764.png" src="../../_images/d540af9b269d3eda2791411c760f46636214066ebbc43947a67335ebf4b32764.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 514 </span><span class="caption-text"><strong>Measurement is the Born rule, sampled.</strong> Five thousand measurements of the Bell state <span class="math notranslate nohighlight">\((|00\rangle+|11\rangle)/\sqrt2\)</span> give only the outcomes <span class="math notranslate nohighlight">\(00\)</span> and <span class="math notranslate nohighlight">\(11\)</span>, each about half the time (amber); <span class="math notranslate nohighlight">\(01\)</span> and <span class="math notranslate nohighlight">\(10\)</span> never occur. The two qubits are perfectly correlated — measuring one fixes the other — which is precisely the correlation the Bell test (<a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a>) turned into a violated inequality. Repeated runs of a circuit reveal its output distribution, one shot at a time, exactly as a real quantum computer reports its results.</span><a class="headerlink" href="#fig-qi-histogram" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<p>Sampled Bell-state measurements must give only <span class="math notranslate nohighlight">\(00\)</span> and <span class="math notranslate nohighlight">\(11\)</span>, each near 50% — the
+Born rule in action.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  sampled Bell measurements give only 00 and 11 with equal frequency (Born rule)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-the-no-cloning-theorem">
+<h2>Exercise 5 — The no-cloning theorem<a class="headerlink" href="#exercise-5-the-no-cloning-theorem" title="Link to this heading">#</a></h2>
+<p>Show that no unitary can copy an arbitrary unknown qubit — a one-line consequence of linearity.</p>
+<ol class="arabic simple">
+<li><p>Suppose a unitary <span class="math notranslate nohighlight">\(U\)</span> clones: <span class="math notranslate nohighlight">\(U|\psi\rangle|0\rangle=|\psi\rangle|\psi\rangle\)</span>
+for all <span class="math notranslate nohighlight">\(|\psi\rangle\)</span>.</p></li>
+<li><p>Fix it on the basis: <span class="math notranslate nohighlight">\(U|00\rangle=|00\rangle\)</span>, <span class="math notranslate nohighlight">\(U|10\rangle=|11\rangle\)</span> (it
+copies <span class="math notranslate nohighlight">\(|0\rangle\)</span> and <span class="math notranslate nohighlight">\(|1\rangle\)</span>).</p></li>
+<li><p>Apply it to <span class="math notranslate nohighlight">\(|+\rangle|0\rangle\)</span> with <span class="math notranslate nohighlight">\(|+\rangle=(|0\rangle+|1\rangle)/\sqrt2\)</span>;
+linearity forces <span class="math notranslate nohighlight">\((|00\rangle+|11\rangle)/\sqrt2\)</span>, not <span class="math notranslate nohighlight">\(|+\rangle|+\rangle\)</span>.</p></li>
+<li><p>Conclude cloning is impossible — the reason teleportation must move, not copy.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-no-cloning">Eq. 538</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cloner on |+⟩|0⟩ = [0.707 0.    0.    0.707]
+a true clone |+⟩|+⟩ = [0.5 0.5 0.5 0.5]
+equal? False  → cloning the superposition FAILS
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<p>A hypothetical cloner fixed to copy <span class="math notranslate nohighlight">\(|0\rangle\)</span> and <span class="math notranslate nohighlight">\(|1\rangle\)</span> must fail on their
+superposition (<span class="math notranslate nohighlight">\((|00\rangle+|11\rangle)/\sqrt2\ne|+\rangle|+\rangle\)</span>): unknown
+quantum states cannot be cloned.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  a cloner consistent on |0⟩,|1⟩ fails on their superposition — unknown states cannot be cloned
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-quantum-teleportation">
+<h2>Exercise 6 — Quantum teleportation<a class="headerlink" href="#exercise-6-quantum-teleportation" title="Link to this heading">#</a></h2>
+<p>Teleport an unknown qubit using a shared Bell pair and two classical bits, and verify exact
+recovery for every measurement outcome — the centerpiece.</p>
+<ol class="arabic simple">
+<li><p>Prepare an unknown <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> (qubit 0) and a shared Bell pair (qubits 1, 2).</p></li>
+<li><p>Alice applies <span class="math notranslate nohighlight">\(\mathrm{CNOT}(0,1)\)</span> then <span class="math notranslate nohighlight">\(H\)</span> on qubit 0.</p></li>
+<li><p>She measures qubits 0 and 1, getting bits <span class="math notranslate nohighlight">\((m_0,m_1)\)</span>; project onto each.</p></li>
+<li><p>Bob applies <span class="math notranslate nohighlight">\(Z^{m_0}X^{m_1}\)</span> to qubit 2 and recovers <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> — verify the
+fidelity is 1 for all four outcomes, with corrections <span class="math notranslate nohighlight">\(I,X,Z,ZX\)</span>.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-teleportation">Eq. 539</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  outcome (0,0): prob=0.250  correction=II  fidelity=1.000000
+  outcome (0,1): prob=0.250  correction=IX  fidelity=1.000000
+  outcome (1,0): prob=0.250  correction=ZI  fidelity=1.000000
+  outcome (1,1): prob=0.250  correction=ZX  fidelity=1.000000
+teleportation recovers the unknown state exactly for all four outcomes
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-qi-teleport">
+<img alt="../../_images/7109227156038314f60c5e278af9c4bb2022dcf5f802fc4862a5ad85c0097cc5.png" src="../../_images/7109227156038314f60c5e278af9c4bb2022dcf5f802fc4862a5ad85c0097cc5.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 515 </span><span class="caption-text"><strong>Moving the uncopyable.</strong> Alice’s unknown qubit <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> (top) and a shared Bell pair (middle/bottom, the wavy link) are the input. Alice applies CNOT then H to her two qubits and measures them (the meters), producing two classical bits (double lines) that she sends to Bob. Bob applies the Pauli correction <span class="math notranslate nohighlight">\(Z^{m_0}X^{m_1}\)</span> — one of <span class="math notranslate nohighlight">\(I,X,Z,ZX\)</span> — and his qubit becomes <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> exactly. No copy was made (measurement destroyed Alice’s), and nothing outran light (Bob needed the classical bits); yet the unknown state crossed the gap, carried by one ebit of entanglement (<a class="reference internal" href="density-matrix.html"><span class="std std-doc">§6.26</span></a>) and two classical bits.</span><a class="headerlink" href="#fig-qi-teleport" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<p>The teleported state must match the input with fidelity 1 for all four measurement
+outcomes, using the corrections <span class="math notranslate nohighlight">\(I,X,Z,ZX\)</span>: teleportation transfers an unknown
+qubit via one Bell pair and two classical bits.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  teleportation transfers an unknown qubit exactly for all outcomes (corrections I/X/Z/ZX)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-deutschjozsa">
+<h2>Exercise 7 — Deutsch–Jozsa<a class="headerlink" href="#exercise-7-deutschjozsa" title="Link to this heading">#</a></h2>
+<p>Decide whether a function is constant or balanced in a single query, where classical computation
+may need exponentially many.</p>
+<ol class="arabic simple">
+<li><p>Build the oracle <span class="math notranslate nohighlight">\(U_f:|x\rangle|y\rangle\to|x\rangle|y\oplus f(x)\rangle\)</span> for a
+chosen <span class="math notranslate nohighlight">\(f\)</span>.</p></li>
+<li><p>Prepare <span class="math notranslate nohighlight">\(|0\rangle^{\otimes n}|1\rangle\)</span>, apply Hadamards to all, apply <span class="math notranslate nohighlight">\(U_f\)</span>
+(phase kickback), apply Hadamards to the input register.</p></li>
+<li><p>Measure the input register.</p></li>
+<li><p>Confirm the outcome is all-zeros <strong>iff</strong> <span class="math notranslate nohighlight">\(f\)</span> is constant, for both constant and
+balanced oracles.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-parallelism">Eq. 541</a>, <a class="reference internal" href="#equation-eq-deutsch-jozsa">Eq. 542</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  f ≡ 0 (constant)         → constant  (expected constant)
+  f ≡ 1 (constant)         → constant  (expected constant)
+  parity (balanced)        → balanced  (expected balanced)
+  first bit (balanced)     → balanced  (expected balanced)
+one query decided each; classical worst case needs up to 2^(n-1)+1 = 5
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<p>Deutsch–Jozsa must return ‘constant’ for the constant oracles and ‘balanced’ for
+the balanced ones, each in a single query.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Deutsch–Jozsa decides the global property (constant vs balanced) with a single evaluation
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-grover-s-search">
+<h2>Exercise 8 — Grover’s search<a class="headerlink" href="#exercise-8-grover-s-search" title="Link to this heading">#</a></h2>
+<p>Find a marked item among <span class="math notranslate nohighlight">\(N=2^n\)</span> unsorted items in about <span class="math notranslate nohighlight">\(\tfrac\pi4\sqrt N\)</span> queries, where
+classical search needs <span class="math notranslate nohighlight">\(\sim N/2\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Build the oracle (sign-flip the marked amplitude) and the diffuser (reflection
+about the mean, <span class="math notranslate nohighlight">\(2|s\rangle\langle s|-I\)</span>).</p></li>
+<li><p>Start from the uniform superposition <span class="math notranslate nohighlight">\(|s\rangle=H^{\otimes n}|0\rangle\)</span>.</p></li>
+<li><p>Iterate (oracle then diffuser) about <span class="math notranslate nohighlight">\(\tfrac\pi4\sqrt N\)</span> times.</p></li>
+<li><p>Confirm the marked item’s probability is near 1, and read each iteration as a
+rotation toward the marked state in the 2-D marked/unmarked plane.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-grover">Eq. 543</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Grover success probability at the optimal iteration count:
+  N =   4:  P(marked) = 1.0000  (~(π/4)√N iterations)
+  N =   8:  P(marked) = 0.9453  (~(π/4)√N iterations)
+  N =  16:  P(marked) = 0.9613  (~(π/4)√N iterations)
+  N =  32:  P(marked) = 0.9992  (~(π/4)√N iterations)
+  N =  64:  P(marked) = 0.9966  (~(π/4)√N iterations)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  N = 128:  P(marked) = 0.9956  (~(π/4)√N iterations)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  N = 256:  P(marked) = 0.9999  (~(π/4)√N iterations)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-qi-grover">
+<img alt="../../_images/8f2fdd584ccd16abb82b5a7d7fc7c4f0d6d8841333fa2d6b0850ae60387dc88a.png" src="../../_images/8f2fdd584ccd16abb82b5a7d7fc7c4f0d6d8841333fa2d6b0850ae60387dc88a.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 516 </span><span class="caption-text"><strong>Amplitude amplification is a rotation.</strong> For <span class="math notranslate nohighlight">\(N=64\)</span> items, the marked item’s probability (amber) starts at <span class="math notranslate nohighlight">\(1/N\approx1.6\%\)</span> and climbs with each Grover iteration, reaching <span class="math notranslate nohighlight">\(\approx99.7\%\)</span> at the optimal step (dashed, <span class="math notranslate nohighlight">\(\lfloor\tfrac\pi4\sqrt N\rfloor=6\)</span>). Each iteration rotates the state by a fixed angle in the 2-D plane spanned by the marked and unmarked states — the same rotation geometry this volume has used from spin to the Bloch sphere — so running <em>too long</em> overshoots and the probability falls again. The quadratic speedup (<span class="math notranslate nohighlight">\(\sqrt N\)</span> vs <span class="math notranslate nohighlight">\(N/2\)</span>) is provably optimal for unstructured search.</span><a class="headerlink" href="#fig-qi-grover" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-8">
+<h3>Validation 8<a class="headerlink" href="#validation-8" title="Link to this heading">#</a></h3>
+<p>Grover must find the marked item with high probability in about <span class="math notranslate nohighlight">\(\tfrac\pi4\sqrt N\)</span>
+iterations, for <span class="math notranslate nohighlight">\(N\)</span> up to 256: amplitude amplification gives a quadratic speedup.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Grover finds the marked item with probability &gt;0.9 in ~(π/4)√N iterations (N up to 256)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-9-the-qiskit-fence-same-circuit-professional-notation-student">
+<h2>Exercise 9 — The Qiskit fence: same circuit, professional notation <em>(student)</em><a class="headerlink" href="#exercise-9-the-qiskit-fence-same-circuit-professional-notation-student" title="Link to this heading">#</a></h2>
+<p>Express one of the circuits above in Qiskit as an <em>illustration</em>, and confirm it is the same
+linear algebra our from-scratch matrices already computed.</p>
+<ol class="arabic simple">
+<li><p>Below is the Qiskit code for the Bell circuit, shown for reference (it is <em>not</em>
+part of the validated computation).</p></li>
+<li><p>The from-scratch matrices of Exercise 3 computed the actual, validated Bell
+state; the check here re-confirms that NumPy result.</p></li>
+<li><p>Note the correspondence: <code class="docutils literal notranslate"><span class="pre">h(0)</span></code> is our <span class="math notranslate nohighlight">\(H\otimes I\)</span>, <code class="docutils literal notranslate"><span class="pre">cx(0,1)</span></code> is our CNOT
+(<span class="math notranslate nohighlight">\(P_0\otimes I+P_1\otimes X\)</span>), and Qiskit’s tensor product is <code class="docutils literal notranslate"><span class="pre">numpy.kron</span></code>.</p></li>
+<li><p>Conclude that the library is a convenient notation; the physics is the linear
+algebra we already command.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-circuits">Eq. 537</a>.</p>
+<p>The Qiskit rendering (pin <code class="docutils literal notranslate"><span class="pre">qiskit~=2.0</span></code>), shown for reference only:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumCircuit</span>          <span class="c1"># display-only; not run in this build</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>                                    <span class="c1"># our  single(H, 0, 2)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                                <span class="c1"># our  controlled(X, 0, 1, 2)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">())</span>                           <span class="c1"># the same H + CNOT circuit as Fig. 1</span>
+</pre></div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Qiskit not installed — and it does not matter: the from-scratch NumPy
+matrices above computed and validated the Bell state. Qiskit&#39;s h(0)/cx(0,1)
+are exactly our single(H,0,2) and controlled(X,0,1,2). (pip install &#39;qiskit~=2.0&#39;)
+
+from-scratch Bell state still correct: True
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-9">
+<h3>Validation 9<a class="headerlink" href="#validation-9" title="Link to this heading">#</a></h3>
+<p>The check depends only on the from-scratch NumPy: our matrices reproduce the Bell
+circuit, confirming the professional tools are shorthand for the operations we
+built here.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the from-scratch matrix circuit reproduces the Bell state (the tools are shorthand for these operations)   [max|Δ| = 0 (rtol=1e-09, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-10-entanglement-as-a-resource-entropy-across-a-protocol-student-challenge">
+<h2>Exercise 10 — Entanglement as a resource: entropy across a protocol <em>(student / challenge)</em><a class="headerlink" href="#exercise-10-entanglement-as-a-resource-entropy-across-a-protocol-student-challenge" title="Link to this heading">#</a></h2>
+<p>Quantify the entanglement teleportation consumes, using the density matrix and von Neumann entropy
+of <a class="reference internal" href="density-matrix.html"><span class="std std-doc">§6.26</span></a>.</p>
+<ol class="arabic simple">
+<li><p>Compute the entanglement entropy of the shared Bell pair (its reduced state is
+maximally mixed, <span class="math notranslate nohighlight">\(S=1\)</span> bit — one <strong>ebit</strong>).</p></li>
+<li><p>Recall that the protocol uses up this pair: after teleportation Alice’s qubits
+are measured out and the entanglement is gone.</p></li>
+<li><p>Conclude teleportation costs exactly <strong>one ebit</strong> plus two classical bits per
+qubit sent.</p></li>
+<li><p>Connect to decoherence (<a class="reference internal" href="density-matrix.html"><span class="std std-doc">§6.26</span></a>): real devices leak this resource to the
+environment, which is why they need quantum error correction.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-qec-connection">Eq. 545</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>entanglement entropy of the shared Bell pair: S(ρ_A) = 1.000000 bit = 1 ebit
+teleportation consumes exactly this one ebit (+ 2 classical bits) to send one qubit
+decoherence (§6.26) leaks such entanglement to the environment — why QEC is needed
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-10">
+<h3>Validation 10<a class="headerlink" href="#validation-10" title="Link to this heading">#</a></h3>
+<p>The shared Bell pair must carry exactly one bit of entanglement entropy (one ebit)
+— the resource teleportation spends, measured with the tools of <a class="reference internal" href="density-matrix.html"><span class="std std-doc">§6.26</span></a>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  teleportation consumes one bit of entanglement (one ebit)   [got 1 vs expected 1 (rtol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-11-a-small-algorithm-end-to-end-challenge-stretch">
+<h2>Exercise 11 — A small algorithm, end to end <em>(challenge / stretch)</em><a class="headerlink" href="#exercise-11-a-small-algorithm-end-to-end-challenge-stretch" title="Link to this heading">#</a></h2>
+<p>Assemble a complete computation from the gate library — a 3-qubit Grover search for a chosen
+marked item — run it by matrix multiplication, sample the output, and confirm it finds the answer.</p>
+<ol class="arabic simple">
+<li><p>Choose <span class="math notranslate nohighlight">\(n=3\)</span> (<span class="math notranslate nohighlight">\(N=8\)</span>) and a marked item (say <span class="math notranslate nohighlight">\(|101\rangle\)</span>, index 5).</p></li>
+<li><p>Build the circuit from the gate helpers: uniform superposition, then the
+optimal number of oracle+diffuser iterations.</p></li>
+<li><p>Apply it and sample the output with <code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng</span></code>.</p></li>
+<li><p>Confirm the marked item dominates the measured counts — a working quantum
+algorithm assembled entirely from the toolkit.</p></li>
+</ol>
+<p>(No new machinery — the student now commands a quantum computer in NumPy.)</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3-qubit Grover for |101⟩ (index 5): 2 iterations, P(marked) = 0.9453
+most-sampled outcome: |101⟩ (95.1% of shots) — the marked item
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-11">
+<h3>Validation 11<a class="headerlink" href="#validation-11" title="Link to this heading">#</a></h3>
+<p>The assembled 3-qubit Grover circuit must return the marked item <span class="math notranslate nohighlight">\(|101\rangle\)</span> as
+its dominant measured outcome: the from-scratch toolkit composes into working
+quantum algorithms.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the assembled from-scratch algorithm solves its stated problem (Grover finds |101⟩)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-12-synthesis-the-volume-closed">
+<h2>Exercise 12 — (Synthesis) The volume, closed<a class="headerlink" href="#exercise-12-synthesis-the-volume-closed" title="Link to this heading">#</a></h2>
+<p>The course began with a two-state system — an electron’s spin, a single qubit —
+and the modest claim that quantum mechanics is linear algebra. It ends here with
+that same qubit, that same linear algebra, assembled into a machine that teleports
+states it cannot copy and searches faster than any classical computer can. Nothing
+new was needed. Gates are the unitary evolution we studied in Movement I (<a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>);
+circuits are their products on the tensor-product spaces of <a class="reference internal" href="angular-momentum-algebra.html"><span class="std std-doc">§6.14</span></a>; measurement is
+the Born rule of <a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>; entanglement is the correlation we measured in the Bell
+tests of <a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a> and quantified with the entropy of <a class="reference internal" href="density-matrix.html"><span class="std std-doc">§6.26</span></a>; and the professional
+software is a shorthand for the matrices we built by hand. The arsenal of <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a>–<a class="reference internal" href="dirac-notation-spectral-decomposition.html"><span class="std std-doc">§6.3</span></a>
+— vectors, inner products, Hermitian and unitary matrices, eigenvalues — turns out
+to have been the machinery of quantum computation all along.</p>
+<p>It is a strange and beautiful thing that the rules we inferred from spectral lines
+and Stern–Gerlach beams describe a computer. We did not add anything to quantum
+mechanics to get here; we only asked what it could do if we arranged the
+interference on purpose. The answer — a machine that breaks codes and moves the
+uncopyable — was hiding in the linear algebra from the first page. And the same
+decoherence that made a superposition look classical (<a class="reference internal" href="density-matrix.html"><span class="std std-doc">§6.26</span></a>) is the dragon that
+quantum engineering must slay: every protocol here assumes coherence the real
+world is always trying to take away, which is why quantum error correction, built
+from the very entanglement and entropy we have used, is the central challenge of
+the field.</p>
+<p><strong>Volume VI is complete</strong> — from the postulates to the atom, from the three faces
+of approximation to the foundations, and now to the information the theory can
+carry. Volume VII takes the density matrix we just used and gives it a
+temperature, <span class="math notranslate nohighlight">\(\rho=e^{-\beta H}/Z\)</span>: quantum statistical mechanics, where the
+quantum world meets the thermodynamic one, and the linear algebra of the very
+small becomes the physics of the very many.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Gates and circuits</strong> <a class="reference internal" href="#equation-eq-gates">Eq. 536</a>, <a class="reference internal" href="#equation-eq-circuits">Eq. 537</a>: single-qubit gates and
+the CNOT (<span class="math notranslate nohighlight">\(P_0\otimes I+P_1\otimes X\)</span>) are unitary matrices; circuits are their
+<code class="docutils literal notranslate"><span class="pre">&#64;</span></code> products; the <span class="math notranslate nohighlight">\(H+\mathrm{CNOT}\)</span> circuit prepares the <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a> Bell state.</p></li>
+<li><p><strong>Measurement</strong> is Born-rule sampling (<code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng</span></code>): the Bell
+state gives only 00 and 11.</p></li>
+<li><p><strong>No-cloning</strong> <a class="reference internal" href="#equation-eq-no-cloning">Eq. 538</a>: a one-line consequence of linearity — a basis
+cloner fails on superpositions.</p></li>
+<li><p><strong>Teleportation</strong> <a class="reference internal" href="#equation-eq-teleportation">Eq. 539</a>: an unknown qubit crosses space on one
+ebit + two classical bits, recovered exactly for all four outcomes (corrections
+<span class="math notranslate nohighlight">\(I/X/Z/ZX\)</span>).</p></li>
+<li><p><strong>Deutsch–Jozsa</strong> <a class="reference internal" href="#equation-eq-deutsch-jozsa">Eq. 542</a>: a global property in one query;
+<strong>Grover</strong> <a class="reference internal" href="#equation-eq-grover">Eq. 543</a>: a marked item in <span class="math notranslate nohighlight">\(\sim\tfrac\pi4\sqrt N\)</span> steps
+(verified to <span class="math notranslate nohighlight">\(N=256\)</span>), amplitude amplification as rotation.</p></li>
+<li><p><strong>The resource</strong> <a class="reference internal" href="#equation-eq-qec-connection">Eq. 545</a>: the Bell pair is one ebit (entropy 1
+bit, <a class="reference internal" href="density-matrix.html"><span class="std std-doc">§6.26</span></a>); decoherence spends it, so real machines need error correction.</p></li>
+<li><p><strong>The Qiskit fence</strong>: the industry tool is a notation for the from-scratch
+matrices; the physics is the linear algebra of <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a>–<a class="reference internal" href="dirac-notation-spectral-decomposition.html"><span class="std std-doc">§6.3</span></a>.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>What was built vs named.</strong> <em>Built and validated from scratch:</em> gates, circuits,
+measurement, no-cloning, teleportation, Deutsch–Jozsa, Grover, the entanglement
+resource. <em>Named as horizons:</em> Shor’s algorithm, quantum error-correcting codes,
+physical qubit implementations, the universality proofs.</p>
+</div></blockquote>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Shor’s algorithm</strong> and the quantum Fourier transform; the threat to RSA and
+post-quantum cryptography (horizons).</p></li>
+<li><p><strong>Quantum error correction</strong> and fault tolerance: encoding logical qubits to
+fight decoherence (<a class="reference internal" href="density-matrix.html"><span class="std std-doc">§6.26</span></a>) — the central engineering challenge (a horizon).</p></li>
+<li><p><strong>Physical qubits</strong>: superconducting circuits, trapped ions, spin qubits (<a class="reference internal" href="spin-magnetic.html"><span class="std std-doc">§6.18</span></a>),
+photonics (horizons).</p></li>
+<li><p><strong>Quantum statistical mechanics</strong>: the density matrix with a temperature,
+<span class="math notranslate nohighlight">\(\rho=e^{-\beta H}/Z\)</span> (Volume VII).</p></li>
+<li><p>Cross-reference <a class="reference internal" href="stern-gerlach-qubit.html"><span class="std std-doc">§6.4</span></a>/<a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a> (qubit/Bell), <a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a> (measurement), <a class="reference internal" href="pauli-uncertainty.html"><span class="std std-doc">§6.6</span></a> (Pauli), <a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>
+(unitary evolution), <a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a> (Bell nonlocality), <a class="reference internal" href="density-matrix.html"><span class="std std-doc">§6.26</span></a> (density matrix / entropy /
+decoherence), <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a>–<a class="reference internal" href="dirac-notation-spectral-decomposition.html"><span class="std std-doc">§6.3</span></a> (the linear-algebra arsenal), forward to Volume VII.</p></li>
+</ul>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<div class="docutils container" id="id3">
+<div role="list" class="citation-list">
+<div class="citation" id="id20" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">GS18</a><span class="fn-bracket">]</span></span>
+<p>David J. Griffiths and Darrell F. Schroeter. <em>Introduction to Quantum Mechanics</em>. Cambridge University Press, 3 edition, 2018.</p>
+</div>
+<div class="citation" id="id38" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">NC10</a><span class="fn-bracket">]</span></span>
+<p>Michael A. Nielsen and Isaac L. Chuang. <em>Quantum Computation and Quantum Information</em>. Cambridge University Press, 10th anniversary edition, 2010.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/06-quantum-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="density-matrix.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6.26 The Density Matrix, Mixed States, and Decoherence</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="aharonov-bohm.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-qubit-and-the-state-of-many-qubits">The qubit and the state of many qubits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-gates-as-unitaries">Quantum gates as unitaries</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-circuits-and-measurement">Quantum circuits and measurement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-no-cloning-theorem">The no-cloning theorem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-teleportation">Quantum teleportation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-parallelism-and-two-algorithms">Quantum parallelism, and two algorithms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shor-error-correction-and-why-this-matters">Shor, error correction, and why this matters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-single-qubit-gates-as-unitaries">Exercise 1 — Single-qubit gates as unitaries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-multi-qubit-gates-and-the-cnot">Exercise 2 — Multi-qubit gates and the CNOT</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-circuits-and-the-bell-state">Exercise 3 — Circuits and the Bell state</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-measurement-and-born-sampling">Exercise 4 — Measurement and Born sampling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-no-cloning-theorem">Exercise 5 — The no-cloning theorem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-quantum-teleportation">Exercise 6 — Quantum teleportation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-deutschjozsa">Exercise 7 — Deutsch–Jozsa</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-grover-s-search">Exercise 8 — Grover’s search</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-the-qiskit-fence-same-circuit-professional-notation-student">Exercise 9 — The Qiskit fence: same circuit, professional notation <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-9">Validation 9</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-entanglement-as-a-resource-entropy-across-a-protocol-student-challenge">Exercise 10 — Entanglement as a resource: entropy across a protocol <em>(student / challenge)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-10">Validation 10</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-11-a-small-algorithm-end-to-end-challenge-stretch">Exercise 11 — A small algorithm, end to end <em>(challenge / stretch)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-11">Validation 11</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-synthesis-the-volume-closed">Exercise 12 — (Synthesis) The volume, closed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
