@@ -93,4 +93,8 @@ power plants; and [§5.15](van-der-waals.ipynb) takes the promised step beyond
 the ideal gas, where two small corrections conjure a liquid: Maxwell's
 equal-area coexistence, a latent heat honoring Clausius–Clapeyron, mean-field
 critical exponents measured from our own dome, and the corresponding-states
-vote of five real fluids.
+vote of five real fluids. And [§5.16](chemical-equilibrium-saha.ipynb) spends
+the free energies on reactions themselves — the law of mass action discovered
+twice, van 't Hoff's slope with its enthalpy correction, and Saha's equation
+explaining the neutral Sun, the Balmer-crowned A stars, and the universe
+turning transparent at redshift 1379.
