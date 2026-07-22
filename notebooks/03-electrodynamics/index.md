@@ -52,9 +52,15 @@ you may prefer to read Volume IV's special-relativity notebooks ([§4.1](../04-s
 return to [§3.12](relativistic-maxwell.ipynb) afterwards; we develop just enough relativity inline for it to stand on
 its own, but the fuller story is in Volume IV.
 
-A coda closes the volume where most fields actually live: inside matter.
+Two codas close the volume. The first lives where most fields actually do:
+inside matter.
 [§3.13](fields-in-matter.ipynb) works both halves of the story — bound charges
 summed into the polarized sphere's exact interior field, a permittivity-jump
 relaxation solver benchmarked against the dielectric sphere, Clausius–Mossotti
 pricing argon's permittivity from one atom, the magnetized cylinder unmasked as
 a solenoid, and the mean-field hysteresis that turns response into memory.
+The second takes the waves of [§3.8](maxwell-waves.ipynb) to the optics bench:
+[§3.14](wave-optics.ipynb) computes diffraction as the Fourier transform it is —
+Young's fringes and the Airy resolution limit matched to their closed forms, the
+Fresnel number's arc from shadow to far field, the Arago spot that decided the
+wave theory in 1818, and a lens revealed as an analog Fourier transformer.
