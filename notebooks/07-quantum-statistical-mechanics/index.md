@@ -70,8 +70,9 @@ of matter in bulk as it actually is: quantum, thermal, and calculable.
 
 ## Coda (optional): The Many-Body Gateway
 
-After the arc closes with 7.22, three optional notebooks (7.23–7.25) sit outside it as
-an appendix for readers who want the many-body formalism the volume kept gesturing
-toward: second quantization, Green's functions, and linear response. Nothing in the
-volume depends on them; everything in them depends on what the volume built. They are
-a gateway, not a continuation — skippable without loss to the arc.
+After the arc closes with 7.22, three notebooks (7.23–7.25) sit outside it: second
+quantization, Green's functions, and linear response. Nothing in this volume depends
+on them; everything in them depends on what the volume built. They were once the
+course's optional gateway — they are now its doorway: Volume VIII, which follows,
+speaks their language throughout, and its many-body movement (8.13–8.17) assumes
+them outright.

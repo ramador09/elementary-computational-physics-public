@@ -8,7 +8,7 @@ We began with a small embarrassment: a computer cannot represent $(1+\varepsilon
 never a warning to be careful. It was the first instance of the only lesson the course had to
 teach — that every number we compute is approximate, and that the whole of the craft is knowing,
 and being able to say, exactly how approximate. Everything after was elaboration. The oscillator
-we followed through seven volumes; the action that turned out to generate all of it; the exponent
+we followed through eight volumes; the action that turned out to generate all of it; the exponent
 that two lattices and a quantum chain agreed on without conferring — these were never results to
 be collected. They were occasions, each one, to practice a single discipline: compute the thing
 more than one way and demand the answers meet; separate an error into its sources and name the

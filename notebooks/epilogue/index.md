@@ -1,6 +1,6 @@
 # Epilogue
 
-Seven volumes built the machinery; this Epilogue turns it on the course itself. It opens
+Eight volumes built the machinery; this Epilogue turns it on the course itself. It opens
 no new subject and introduces no new field — every tool it uses was forged earlier — but it
 computes the threads that run through Volumes I–VII and belong to none of them alone. The
 Epilogue is a destination, not a victory lap: each notebook is capstone difficulty, and

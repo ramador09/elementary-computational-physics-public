@@ -24,10 +24,13 @@ the way it is — followed by a **Prologue**: one gentle notebook that works a s
 does a pendulum take to swing?) at three levels of honesty, so you meet the course's whole method
 before any formalism. A short **Volume 0 —
 Foundations** then precedes the physics: the mathematical and computational tools every later notebook
-relies on, beginning with floating-point arithmetic and numerical error. Seven physics volumes follow,
-from projectile motion to quantum statistical mechanics; Volume VII carries an optional **Coda** — a
-three-notebook gateway to many-body formalism (second quantization, Green's functions, linear response)
-for those who want it, skippable without loss. And the course closes with an **Epilogue**: four
+relies on, beginning with floating-point arithmetic and numerical error. Eight physics volumes follow,
+from projectile motion to the quantum mechanics of many interacting electrons; Volume VII carries a
+**Coda** — a three-notebook bridge to many-body formalism (second quantization, Green's functions,
+linear response) that the volumes before it never require, and that Volume VIII, the course's
+many-body summit — from Hartree–Fock and density-functional theory through real band structures to
+the Hubbard model, GW, and superconductivity — then speaks as its native language. And the course
+closes with an **Epilogue**: four
 notebooks that gather what no single volume owns — one system seen seven ways, one principle behind
 every dynamical law, the universality that makes microscopic details wash out at criticality, and,
 last, an honest account of how a course with no laboratory and no oracle knew its answers were right —
@@ -80,7 +83,7 @@ repository's `CITATION.cff`). The whole course is also available as a single typ
 
 This course was written in collaboration with a generative AI assistant (Anthropic's Claude), and I
 say so plainly, because the course's whole subject is honesty about method. The conception and the
-curriculum are mine: the arc from a swinging pendulum to quantum statistical mechanics, the pedagogy
+curriculum are mine: the arc from a swinging pendulum to superconductivity, the pedagogy
 that carries it — the rendezvous method, the error budgets, the validation gates, the staged failures —
 and the detailed per-notebook briefs, worked out number by number, from which every page was built. The
 assistant drafted prose and code to those specifications, tirelessly and well; I reviewed, corrected,

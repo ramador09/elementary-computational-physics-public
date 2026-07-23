@@ -1,8 +1,9 @@
 # Volume VIII — Electronic Structure and Many-Body Matter
 
-The course closed with the Afterword; this volume is what happens when it cannot stay
-closed. Everything before it treated the quantum mechanics of one particle, or the
-statistics of many that ignore each other. But the matter on every desk — the silicon
+Volume VII ended with quantum statistics and, in its Coda, the language of many
+bodies; this volume is where that language earns its keep. Everything before it
+treated the quantum mechanics of one particle, or the statistics of many that
+ignore each other. But the matter on every desk — the silicon
 in the machine running this page, the metal in its frame — is neither: it is
 $10^{23}$ electrons interacting through the Coulomb force, and the single problem
 "solve the many-electron Schrödinger equation" has consumed more computer cycles than
