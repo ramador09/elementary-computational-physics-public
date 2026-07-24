@@ -32,7 +32,7 @@ SERIES_SUBTITLE = "A Python Notebook Companion"
 AUTHOR = "Raymond Amador"
 
 # Bumped by tools/bump_version.py / edited by hand; shown in every header.
-SERIES_VERSION = "1.3.1"
+SERIES_VERSION = "1.3.2"
 
 # Refined editorial / scientific-manuscript palette.
 # Deep ink + warm amber accent on a faint parchment panel. Deliberately not
