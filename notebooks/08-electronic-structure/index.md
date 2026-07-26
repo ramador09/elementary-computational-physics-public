@@ -50,6 +50,18 @@ propagated in real time against the exact laboratory, and — closing the volume
 the course's physics — the BCS theory of superconductivity, electrons doing
 something no single electron can.
 
+A coda follows the four movements, and it is deliberately retrospective. Every
+notebook above represents a wavefunction one of two ways: on a real-space grid, or
+in plane waves. Neither is what quantum chemistry actually uses.
+[§8.18](gaussian-basis-sets.ipynb) arrives at the third representation — Gaussians
+centred on the atoms — only after both, which is the honest order, because the
+contrast is the lesson. It is also the only representation in which a particular
+pathology can exist at all: a basis attached to atoms rather than to space lends
+its functions to its neighbours, and the energy it returns is lower than it has any
+right to be. The whole coda runs on a single electron, where every integral is a
+closed form, and it ends by measuring an error the plane waves of
+[§8.10](plane-waves-pseudopotentials.ipynb) are structurally incapable of making.
+
 ## Provenance
 
 This volume follows the shape of the electronic-structure education I received at

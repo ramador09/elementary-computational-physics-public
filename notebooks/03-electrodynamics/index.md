@@ -52,8 +52,11 @@ you may prefer to read Volume IV's special-relativity notebooks ([§4.1](../04-s
 return to [§3.12](relativistic-maxwell.ipynb) afterwards; we develop just enough relativity inline for it to stand on
 its own, but the fuller story is in Volume IV.
 
-Two codas close the volume. The first lives where most fields actually do:
-inside matter.
+The volume does not stop at the capstone. What follows is longer than a coda and
+is best read as a second half, in which the fields we have built are put inside
+matter and the methods we have been quoting are finally derived.
+
+The first pair lives where most fields actually do: inside matter.
 [§3.13](fields-in-matter.ipynb) works both halves of the story — bound charges
 summed into the polarized sphere's exact interior field, a permittivity-jump
 relaxation solver benchmarked against the dielectric sphere, Clausius–Mossotti
@@ -64,3 +67,36 @@ The second takes the waves of [§3.8](maxwell-waves.ipynb) to the optics bench:
 Young's fringes and the Airy resolution limit matched to their closed forms, the
 Fresnel number's arc from shadow to far field, the Arago spot that decided the
 wave theory in 1818, and a lens revealed as an analog Fourier transformer.
+
+Then the medium itself becomes the subject, in the order the physics discloses
+it. [§3.15](waves-in-media.ipynb) asks what a wave does once it is *inside*
+something and what happens where two somethings meet: the driven oscillator of
+[§1.2](../01-elementary-mechanics/damped-driven-pendulum.ipynb) relocated inside
+an atom and summed into a permittivity, absorption and the skin depth, the plasma
+frequency that decides why metals shine and why the ionosphere returns AM but not
+FM, and then Snell, Fresnel, Brewster and total internal reflection derived rather
+than quoted. [§3.16](anisotropic-dielectrics.ipynb) then removes the assumption
+almost every earlier notebook made without saying so — that a medium responds the
+same way in every direction. The permittivity becomes a tensor in its own right, a
+thing defined by how it transforms; the electric displacement stops being parallel
+to the field, exactly as angular momentum stopped being parallel to angular
+velocity in [§2.6](../02-classical-mechanics/rigid-body.ipynb); and Neumann's
+principle turns crystal symmetry into a component count, which makes the optical
+isotropy of cubic crystals a theorem rather than a coincidence.
+[§3.17](crystal-optics.ipynb) then sends light through the crystal and watches
+what that costs: two waves for every direction, an ordinary index that ignores
+direction and an extraordinary one that does not, a ray that walks away from its
+own wave normal — which is the non-parallel **D** and **E** of the previous
+notebook, seen on an optical bench — and the wave plates that all of this makes
+possible.
+
+The volume ends by going back for something it left behind. Three notebooks —
+[§3.4](laplace-poisson.ipynb), [§3.5](multipole-expansion.ipynb) and
+[§3.9](waveguides-cavities.ipynb) — graded their solvers against series they
+quoted rather than derived, and each said so at the time.
+[§3.18](separation-of-variables.ipynb) derives them, and the separation
+constant turns out to be an eigenvalue of a Sturm–Liouville operator: one piece of
+mathematics that, run three times without modification, produces the box series in
+Cartesian coordinates, the multipole moments in spherical ones, and the cavity
+frequencies from three per-axis problems whose constants simply add. It closes
+where the method fails, on the Gibbs overshoot that will not go away.

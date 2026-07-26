@@ -5,8 +5,10 @@ trust a single simulated orbit or a single quantum energy level, we need the
 instruments that produce them, and an honest measure of what those instruments
 can and cannot do. In this spirit, the present volume works through floating-point reality,
 root-finding, numerical integration and differentiation, linear systems and the
-singular value decomposition, the fast Fourier transform, and the ODE solvers
-that drive everything afterward. It is familiar mathematics seen from an
+singular value decomposition, the fast Fourier transform, the ODE solvers
+that drive everything afterward, and finally the partial differential equations
+that carry the field theories — where the new question is not how accurate a
+scheme is but whether it survives at all. It is familiar mathematics seen from an
 unfamiliar angle: not the theorems, which we have met probably *ad nauseam* already, but rather *what it costs to
 actually compute with them*, which is to say what each idea breaks into, rounds
 off to, or quietly reveals once it runs on a real machine.
@@ -47,7 +49,8 @@ to the real physics. A more honest title would be something like "Elements of
 Numerical Analysis and Linear Algebra," because that is, in fact, what this
 volume is: floating-point error analysis, the conditioning of linear systems,
 the singular value decomposition, the convergence orders of quadrature and
-Runge–Kutta schemes, the stability of stiff solvers. None of that is what one
+Runge–Kutta schemes, the stability of stiff solvers, von Neumann analysis and the
+Courant condition. None of that is what one
 usually files under "foundations" in the soothing sense of the word, and indeed there are bound to be
 some topics in the present Volume, from which most anyone could hopefully learn something.
 

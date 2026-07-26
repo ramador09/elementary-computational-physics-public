@@ -98,3 +98,37 @@ the free energies on reactions themselves — the law of mass action discovered
 twice, van 't Hoff's slope with its enthalpy correction, and Saha's equation
 explaining the neutral Sun, the Balmer-crowned A stars, and the universe
 turning transparent at redshift 1379.
+
+[§5.17](molecular-dynamics.ipynb) then does something the volume has been
+promising since Volume I, and it is worth being clear about what is new in it.
+You have already written velocity Verlet, in
+[§1.6](../01-elementary-mechanics/integrators.ipynb), and an all-pairs force
+loop, in [§1.8](../01-elementary-mechanics/solar-system.ipynb); molecular
+dynamics does not ask you to write them again. What it asks for is everything
+that surrounds them, and that turns out to be where the subject actually lives:
+a box with no walls and the minimum-image convention that makes it work, a
+cutoff and the energy bookkeeping it quietly breaks if you forget to shift the
+potential, temperature read off from equipartition, and pressure extracted from
+the virial — the first time in this volume that an equation of state is
+*measured* rather than derived. Two of its exercises exist to break things on
+purpose: one shows that rescaling velocities is not a thermostat, by measuring
+a fluctuation that collapses to nothing; the other starts every particle at the
+same speed and lets Newton's equations alone produce the Maxwell–Boltzmann
+distribution. And because every number in it comes from a correlated series, it
+is also where the course finally teaches how to put an honest error bar on one —
+the integrated autocorrelation time and blocking analysis that
+[§5.8](partition-function.ipynb) prepared the ground for when it taught you to
+throw the transient away.
+
+[§5.18](nucleation.ipynb) closes the volume by collecting a promise
+[§5.15](van-der-waals.ipynb) made and could not keep. That notebook mapped the
+metastable strip between binodal and spinodal and said it decays by rare
+fluctuations; a mean-field equation of state cannot show you the decay. A lattice
+can. The Ising model acquires the external field it has lacked all volume, and
+with it a genuinely metastable state: quench it, flip the field, and watch the
+magnet sit in the wrong minimum until a droplet of the right phase happens to
+exceed a critical size. The droplets are found and counted, the critical size is
+located two independent ways, and the lifetime is measured against how hard the
+system is pushed. There is a sharp line here and the notebook draws it explicitly:
+the *barrier* is equilibrium thermodynamics and belongs to this volume, while the
+*rate prefactor* needs the kinetics of a course this one does not attempt.
