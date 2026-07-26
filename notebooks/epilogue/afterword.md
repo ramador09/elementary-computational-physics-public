@@ -1,6 +1,6 @@
 # Afterword
 
-*The course is over. That is a strange thing to write, after a hundred notebooks, because a
+*The course is over. That is a strange thing to write, after a hundred and fifty notebooks, because a
 course does not really end — it stops, and what it built goes on working inside whoever built it
 alongside us.*
 

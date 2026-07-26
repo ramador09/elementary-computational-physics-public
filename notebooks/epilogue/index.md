@@ -2,7 +2,7 @@
 
 Eight volumes built the machinery; this Epilogue turns it on the course itself. It opens
 no new subject and introduces no new field — every tool it uses was forged earlier — but it
-computes the threads that run through Volumes I–VII and belong to none of them alone. The
+computes the threads that run the length of the course and belong to no volume alone. The
 Epilogue is a destination, not a victory lap: each notebook is capstone difficulty, and
 each answers *what did the course teach?* one level of abstraction higher than the last.
 
@@ -29,5 +29,5 @@ A short prose **[Afterword](afterword.md)** follows [E.4](how-we-knew.ipynb): th
 
 The Epilogue may cite the optional Coda (7.23–7.25) lightly but never depends on it; it
 reads complete for anyone who skipped the gateway. This is the one place the course allows
-itself course-level finality — the arc closed in Volume VII, the volume's pages closed with
-the Coda, and everything closed here.
+itself course-level finality — the physics closed in Volume VIII, the formal gateway closed
+with the Coda, and everything closes here.
