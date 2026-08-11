@@ -1,0 +1,1373 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="5.16 Chemical Equilibrium and the Saha Equation" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/05-classical-stat-mech/chemical-equilibrium-saha.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: §5.7 built the free energies and promised they were the machinery of equilibrium; this notebook spends them on the equilibria chemistry an..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: §5.7 built the free energies and promised they were the machinery of equilibrium; this notebook spends them on the equilibria chemistry an..." />
+
+    <title>5.16 Chemical Equilibrium and the Saha Equation &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/05-classical-stat-mech/chemical-equilibrium-saha';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/05-classical-stat-mech/chemical-equilibrium-saha.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure" href="molecular-dynamics.html" />
+    <link rel="prev" title="5.15 The van der Waals Gas: Phase Coexistence and the Critical Point" href="van-der-waals.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume V — Classical Statistical Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-electronic-structure/index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/05-classical-stat-mech/chemical-equilibrium-saha.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/05-classical-stat-mech/chemical-equilibrium-saha.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/05-classical-stat-mech/chemical-equilibrium-saha.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/05-classical-stat-mech/chemical-equilibrium-saha.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>5.16 Chemical Equilibrium and the Saha Equation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-law-of-mass-action-discovered-twice">Exercise 1 — The law of mass action, discovered twice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-saha-and-the-neutral-sun">Exercise 2 — Saha and the neutral Sun</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-why-the-balmer-lines-crown-the-a-stars">Exercise 3 — Why the Balmer lines crown the A stars</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-recombination-the-universe-turns-transparent">Exercise 4 — Recombination: the universe turns transparent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chemical-equilibrium-and-the-saha-equation">
+<h1>5.16 Chemical Equilibrium and the Saha Equation<a class="headerlink" href="#chemical-equilibrium-and-the-saha-equation" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume V — Classical Statistical Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;5.16
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">What the free energies were for: reactions. The law of mass action discovered twice — once by a numerical minimizer walking down G, once by chemical potentials balancing exactly — the van &#x27;t Hoff slope measured with its enthalpy correction, and then Saha&#x27;s equation applied to hydrogen itself: why the Sun&#x27;s surface is neutral, why the Balmer lines crown the A stars, and why the universe turned transparent at three thousand kelvin instead of a hundred and fifty thousand.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;intermediate&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;110–140 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="potentials-legendre-maxwell.html"><span class="std std-doc">§5.7</span></a> built the free energies and
+promised they were the machinery of <em>equilibrium</em>; this notebook
+spends them on the equilibria chemistry and astrophysics actually
+care about — reactions, where particles change identity. The
+governing principle is one line: at fixed <span class="math notranslate nohighlight">\(T\)</span> and <span class="math notranslate nohighlight">\(V\)</span>, matter
+rearranges until the free energy is minimal, which happens exactly
+when the <strong>chemical potentials balance</strong> across the reaction. From
+that single condition follows the law of mass action, the van ‘t
+Hoff temperature dependence, and — the crown jewel — <strong>Saha’s
+equation</strong> <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id73" title="Meghnad N. Saha. Ionization in the solar chromosphere. Philosophical Magazine, Series 6, 40(238):472–488, 1920. doi:10.1080/14786441008636148.">Sah20</a>]</span> for the “reaction” that made modern
+astrophysics possible:
+<span class="math notranslate nohighlight">\(\mathrm{H} \rightleftharpoons \mathrm{p} + \mathrm{e}^-\)</span>.</p>
+<p>We do it with the course’s standing double-entry bookkeeping: every
+equilibrium is computed <em>twice</em>, once by brute numerical minimization
+of the free energy (the machinery of
+<a class="reference internal" href="../00-foundations/optimization.html"><span class="std std-doc">§0.13</span></a>, pointed at
+thermodynamics) and once by the analytic mass-action condition, and
+the two must agree to many digits. Then three applications, each a
+famous number: the solar photosphere’s one-in-ten-thousand
+ionization, the Balmer lines peaking in the A stars, and the cosmic
+recombination at <span class="math notranslate nohighlight">\(z \approx 1400\)</span> that released the CMB of
+<a class="reference internal" href="../04-special-relativity/relativistic-optics.html"><span class="std std-doc">§4.9</span></a>. Nolting
+<span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id16" title="Wolfgang Nolting. Theoretical Physics 8: Statistical Physics. Springer, 2018.">Nol18</a>]</span> is the companion text.</p>
+<p>A note on reading the checks in this notebook: a validation compares a
+result to an expected physical fact. A ✗ does not by itself mean the
+answer is wrong; it means the output did not match what the check
+expected, which may be a genuine error, a different-but-valid
+convention, or too tight a tolerance. Treat a ✗ as a prompt to locate
+the discrepancy. Passing is strong evidence, not proof.</p>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<p><strong>Equilibrium is a chemical-potential balance.</strong> For a reaction like
+<span class="math notranslate nohighlight">\(\mathrm{A_2} \rightleftharpoons 2\mathrm{A}\)</span> at fixed <span class="math notranslate nohighlight">\(T, V\)</span>, the
+Helmholtz free energy <span class="math notranslate nohighlight">\(F(N_{\rm A})\)</span> changes by
+<span class="math notranslate nohighlight">\((2\mu_{\rm A} - \mu_{\rm A_2})\,dN\)</span> when one molecule dissociates;
+the minimum therefore sits exactly where</p>
+<div class="math notranslate nohighlight" id="equation-eq-ce-mu">
+<span class="eqno">(464)<a class="headerlink" href="#equation-eq-ce-mu" title="Link to this equation">#</a></span>\[2\,\mu_{\rm A} \;=\; \mu_{\rm A_2},\]</div>
+<p>and with the ideal-gas chemical potential
+<span class="math notranslate nohighlight">\(\mu = k_B T \ln(n \lambda^3) - \varepsilon_{\rm int}\)</span> (the
+<a class="reference internal" href="partition-function.html"><span class="std std-doc">§5.8</span></a> partition function differentiated,
+with <span class="math notranslate nohighlight">\(\lambda\)</span> the thermal wavelength and <span class="math notranslate nohighlight">\(\varepsilon_{\rm int}\)</span>
+the internal binding), <a class="reference internal" href="#equation-eq-ce-mu">Eq. 464</a> exponentiates into the <strong>law of
+mass action</strong>: the density combination <span class="math notranslate nohighlight">\(n_{\rm A}^2/n_{\rm A_2}\)</span>
+equals a function of temperature alone,
+<span class="math notranslate nohighlight">\(K(T) = (\lambda_{\rm A_2}^3/\lambda_{\rm A}^6)\,
+e^{-\varepsilon_0/k_B T}\)</span>, whose logarithm’s slope against <span class="math notranslate nohighlight">\(1/T\)</span> —
+van ‘t Hoff’s relation — measures the reaction’s <em>enthalpy</em>:
+<span class="math notranslate nohighlight">\(\varepsilon_0\)</span> <strong>plus</strong> the <span class="math notranslate nohighlight">\(\tfrac32 k_B T\)</span> of translational
+bookkeeping hiding in the <span class="math notranslate nohighlight">\(\lambda^3\)</span> prefactors. Exercise 1 fits
+that slope and finds the correction, because bond energy and
+enthalpy are not the same number.</p>
+<p><strong>Saha: ionization is a chemical reaction.</strong> Apply the same balance
+to <span class="math notranslate nohighlight">\(\mathrm{H} \rightleftharpoons \mathrm{p} + \mathrm{e}^-\)</span> with
+ionization energy <span class="math notranslate nohighlight">\(\chi = 13.6\ \mathrm{eV}\)</span>, and (spin weights
+<span class="math notranslate nohighlight">\(2 \times 1 / 2 = 1\)</span>) the electron’s tiny mass puts <em>its</em> thermal
+wavelength in charge:</p>
+<div class="math notranslate nohighlight" id="equation-eq-ce-saha">
+<span class="eqno">(465)<a class="headerlink" href="#equation-eq-ce-saha" title="Link to this equation">#</a></span>\[\frac{n_{\rm e}\, n_{\rm p}}{n_{\rm H}}
+\;=\;
+\left(\frac{2\pi m_e k_B T}{h^2}\right)^{3/2}
+e^{-\chi/k_B T}
+\;\equiv\; S(T).\]</div>
+<p>For a pure-hydrogen gas of total density <span class="math notranslate nohighlight">\(n\)</span> and ionized fraction
+<span class="math notranslate nohighlight">\(x\)</span> (so <span class="math notranslate nohighlight">\(n_e = n_p = xn\)</span>, <span class="math notranslate nohighlight">\(n_{\rm H} = (1-x)n\)</span>), this closes into
+<span class="math notranslate nohighlight">\(x^2/(1-x) = S(T)/n\)</span> — a quadratic, solved in one line.</p>
+<p><strong>The famous surprise.</strong> Setting <span class="math notranslate nohighlight">\(k_B T = \chi\)</span> gives
+<span class="math notranslate nohighlight">\(T = 158{,}000\ \mathrm{K}\)</span>, yet hydrogen ionizes at temperatures
+ten to forty times lower. The reason is <em>entropy</em>: the prefactor
+<span class="math notranslate nohighlight">\(S(T)/n = (n\lambda_e^3)^{-1}\,e^{-\chi/k_B T}\)</span> carries the number
+of free-electron states per atom, and at ordinary densities
+<span class="math notranslate nohighlight">\(1/(n \lambda_e^3)\)</span> is enormous — the Boltzmann penalty
+<span class="math notranslate nohighlight">\(e^{-\chi/k_B T}\)</span> only needs to climb to <em>one part in that huge
+phase-space factor</em> for ionization to win. Ionization happens at
+<span class="math notranslate nohighlight">\(k_B T \approx \chi/11\)</span> in the photosphere and <span class="math notranslate nohighlight">\(\chi/42\)</span> in the
+early universe, and the difference between those two numbers is
+nothing but density. Every application below is this one sentence,
+quantified.</p>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>SI throughout, constants from <code class="docutils literal notranslate"><span class="pre">scipy.constants</span></code>. The data are the two
+hydrogen energies this notebook prices — the ionization energy <span class="math notranslate nohighlight">\(\chi\)</span>
+and the <span class="math notranslate nohighlight">\(n = 2\)</span> excitation energy <span class="math notranslate nohighlight">\(E_2\)</span> that Exercise 3 needs — and the
+one instrument is the cubed thermal wavelength <span class="math notranslate nohighlight">\(\lambda^3(m, T)\)</span>, the
+quantum volume that every ideal-gas chemical potential
+<span class="math notranslate nohighlight">\(\mu = k_B T \ln(n\lambda^3)\)</span> carries. The Saha machinery itself is
+<em>not</em> here: the function <span class="math notranslate nohighlight">\(S(T)\)</span> of <a class="reference internal" href="#equation-eq-ce-saha">Eq. 465</a> and the ionization
+fraction it closes into are built in Exercise 2, and Exercises 3 and 4
+then run on what you built there. The dissociation free energy and its
+equilibrium constant are built in Exercise 1.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">c</span><span class="p">,</span> <span class="n">eV</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">hbar</span><span class="p">,</span> <span class="n">k</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">m_e</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">u</span> <span class="k">as</span> <span class="n">amu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">brentq</span><span class="p">,</span> <span class="n">minimize_scalar</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+<span class="n">CHI_H</span> <span class="o">=</span> <span class="mf">13.6057</span> <span class="o">*</span> <span class="n">eV</span>  <span class="c1"># data: hydrogen ionization energy</span>
+<span class="n">E_2</span> <span class="o">=</span> <span class="mf">10.2041</span> <span class="o">*</span> <span class="n">eV</span>  <span class="c1"># data: the n = 2 excitation energy (Balmer&#39;s lower level)</span>
+
+
+<span class="c1"># instrument: a conversion, (mass, temperature) → quantum volume. Every ideal-gas</span>
+<span class="c1"># chemical potential in this notebook is written in terms of λ³, so it is plumbing</span>
+<span class="c1"># under all four exercises rather than the lesson of any of them; what a thermal</span>
+<span class="c1"># wavelength *means* gets a notebook of its own later,</span>
+<span class="c1"># [§7.8](../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.ipynb).</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lambda3</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cubed thermal de Broglie wavelength λ³ = (h²/2πmk_BT)^(3/2).</span>
+
+<span class="sd">    The quantum volume per particle that every ideal-gas chemical</span>
+<span class="sd">    potential μ = k_BT ln(nλ³) carries; masses in kg, T in kelvin.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    m : float</span>
+<span class="sd">        Particle mass.</span>
+<span class="sd">    T : float</span>
+<span class="sd">        Temperature.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        λ³ in m³.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">h</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">m</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">T</span><span class="p">))</span> <span class="o">**</span> <span class="mf">1.5</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-law-of-mass-action-discovered-twice">
+<h2>Exercise 1 — The law of mass action, discovered twice<a class="headerlink" href="#exercise-1-the-law-of-mass-action-discovered-twice" title="Link to this heading">#</a></h2>
+<p>A model dissociation <span class="math notranslate nohighlight">\(\mathrm{A_2} \rightleftharpoons 2\mathrm{A}\)</span>:
+atoms of mass <span class="math notranslate nohighlight">\(1\,\mathrm{u}\)</span>, binding energy
+<span class="math notranslate nohighlight">\(\varepsilon_0 = 4.5\ \mathrm{eV}\)</span> (hydrogen-molecule-like), total
+atom density <span class="math notranslate nohighlight">\(n_{\rm tot} = 10^{24}\ \mathrm{m^{-3}}\)</span>, internal
+structure ignored. Let <span class="math notranslate nohighlight">\(f\)</span> be the fraction of atoms running free, so
+the densities are <span class="math notranslate nohighlight">\(n_{\rm A} = f\,n_{\rm tot}\)</span> and
+<span class="math notranslate nohighlight">\(n_{\rm A_2} = (1 - f)\,n_{\rm tot}/2\)</span>. Each species contributes the
+ideal-gas free energy density <span class="math notranslate nohighlight">\(n k_B T\,[\ln(n\lambda^3) - 1]\)</span> with
+the Setup’s <code class="docutils literal notranslate"><span class="pre">lambda3</span></code> at that species’ mass, and the molecule is
+credited its binding energy, <span class="math notranslate nohighlight">\(-\varepsilon_0\)</span> per molecule — the whole
+of <span class="math notranslate nohighlight">\(F(f)\)</span> is those two terms, and the temperature dependence of the
+equilibrium is hiding inside the <span class="math notranslate nohighlight">\(\lambda^3\)</span> factors.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">free_energy(f,</span> <span class="pre">T)</span></code>, the total Helmholtz free energy
+per unit volume of the mixture at dissociated fraction <span class="math notranslate nohighlight">\(f\)</span>: convert
+<span class="math notranslate nohighlight">\(f\)</span> into the two densities, sum each species’ ideal-gas term, and
+credit the molecule its <span class="math notranslate nohighlight">\(-\varepsilon_0\)</span>. <strong>Write this one yourself</strong> —
+the implementation is the lesson.</p>
+<p><strong>Part b)</strong> At <span class="math notranslate nohighlight">\(T = 3000\ \mathrm{K}\)</span>, find the dissociated fraction
+<span class="math notranslate nohighlight">\(f\)</span> two independent ways: minimize your <span class="math notranslate nohighlight">\(F(f)\)</span> over <span class="math notranslate nohighlight">\(f\)</span> with
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize_scalar</span></code> (the
+<a class="reference internal" href="../00-foundations/optimization.html"><span class="std std-doc">§0.13</span></a> machinery pointed at
+thermodynamics), and solve the analytic mass-action condition —
+<span class="math notranslate nohighlight">\(K(T) = (\lambda_{\rm A_2}^3/\lambda_{\rm A}^6)\,
+e^{-\varepsilon_0/k_B T}\)</span> closed by
+<span class="math notranslate nohighlight">\(n_{\rm A}^2/n_{\rm A_2} = K(T)\)</span> — with <code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code>.
+Verify the two agree to <code class="docutils literal notranslate"><span class="pre">rtol=1e-4</span></code>, and verify <a class="reference internal" href="#equation-eq-ce-mu">Eq. 464</a> <em>at</em>
+the minimizer: <span class="math notranslate nohighlight">\(2\mu_{\rm A} = \mu_{\rm A_2}\)</span> to a part in <span class="math notranslate nohighlight">\(10^{6}\)</span> —
+the minimum of <span class="math notranslate nohighlight">\(F\)</span> <em>is</em> the chemical-potential balance.</p>
+<p><strong>Part c)</strong> Van ‘t Hoff, with its fine print. Fit (with
+<code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code>) the slope of <span class="math notranslate nohighlight">\(\ln K\)</span> against <span class="math notranslate nohighlight">\(1/T\)</span> over
+<span class="math notranslate nohighlight">\(T = 2500\)</span>–<span class="math notranslate nohighlight">\(4000\ \mathrm{K}\)</span>. The textbook reading says the slope
+is <span class="math notranslate nohighlight">\(-\varepsilon_0/k_B\)</span>; verify the measured slope is <span class="math notranslate nohighlight">\(9\%\)</span> steeper,
+and that it matches <span class="math notranslate nohighlight">\(-(\varepsilon_0 + \tfrac32 k_B \bar T)/k_B\)</span> to
+<code class="docutils literal notranslate"><span class="pre">rtol=5e-3</span></code>: the <span class="math notranslate nohighlight">\(T^{3/2}\)</span> prefactor of <span class="math notranslate nohighlight">\(K(T)\)</span> contributes the
+translational enthalpy, and a plot of <span class="math notranslate nohighlight">\(\ln K\)</span> measures the
+<em>enthalpy</em> of reaction, not the bare bond energy. Chemistry’s
+tables know this; now our fit does too.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>f (minimize F)   = 0.319896
+f (mass action)  = 0.319895
+|2μ_A − μ_A₂|/|μ_A₂| at the minimum = 9.21e-08
+van &#39;t Hoff slope: -5.6941e+04 K
+  −ε₀/k_B         = -5.2220e+04 K (9% short)
+  −(ε₀ + 3/2 k_B T̄)/k_B = -5.7095e+04 K
+</pre></div>
+</div>
+<figure class="align-default" id="fig-ce-massaction">
+<img alt="../../_images/125a95dca8bcc10df882368bbc131e03ec67d4dbd7a8f98399eae1f32db80dc2.png" src="../../_images/125a95dca8bcc10df882368bbc131e03ec67d4dbd7a8f98399eae1f32db80dc2.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 488 </span><span class="caption-text">The law of mass action, discovered by walking downhill: the total Helmholtz free energy per unit volume of the dissociating mixture <span class="math notranslate nohighlight">\(\mathrm{A_2} \rightleftharpoons 2\mathrm{A}\)</span> against the dissociated fraction <span class="math notranslate nohighlight">\(f\)</span>, at three temperatures. The numerical minimizer’s result (amber dots) lands on the analytic mass-action fraction (vertical dashes) to <span class="math notranslate nohighlight">\(10^{-4}\)</span> at every temperature, and at each minimum the chemical potentials balance, <span class="math notranslate nohighlight">\(2\mu_{\rm A} = \mu_{\rm A_2}\)</span>, to a part in <span class="math notranslate nohighlight">\(10^6\)</span>: minimizing <span class="math notranslate nohighlight">\(F\)</span> and balancing <span class="math notranslate nohighlight">\(\mu\)</span> are the same physics.</span><a class="headerlink" href="#fig-ce-massaction" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the free-energy minimizer and the analytic law of mass action find the same dissociated fraction: the law, discovered twice   [got [0.31989573] vs expected [0.31989529] (rtol=0.0001, atol=1e-09)]
+✓  and at the minimum the chemical potentials balance exactly, 2μ_A = μ_A₂: minimizing F IS eq-ce-mu   [relative imbalance 9.2e-08]
+✓  van &#39;t Hoff&#39;s slope measures the ENTHALPY, ε₀ + (3/2)k_B T̄ — 9% steeper than the bare bond energy, the T^(3/2) prefactor&#39;s translational contribution   [got [-56940.74425517] vs expected [-57095.33154698] (rtol=0.005, atol=1e-09)]
+✓  (and indeed visibly steeper than −ε₀/k_B alone: bond energy and reaction enthalpy are different numbers)   [slope/( −ε₀/k_B) = 1.0904]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-2-saha-and-the-neutral-sun">
+<h2>Exercise 2 — Saha and the neutral Sun<a class="headerlink" href="#exercise-2-saha-and-the-neutral-sun" title="Link to this heading">#</a></h2>
+<p>Now the reaction that matters most:
+<span class="math notranslate nohighlight">\(\mathrm{H} \rightleftharpoons \mathrm{p} + \mathrm{e}^-\)</span>, in the
+model of a pure-hydrogen gas at the solar photosphere’s density
+<span class="math notranslate nohighlight">\(n = 1.2\times10^{23}\ \mathrm{m^{-3}}\)</span>. This is the notebook’s
+namesake, so we write it rather than receive it: from the Setup come
+only the ionization energy <code class="docutils literal notranslate"><span class="pre">CHI_H</span></code> and the <code class="docutils literal notranslate"><span class="pre">lambda3</span></code> conversion, and
+the two functions that turn them into an ionized fraction are yours.</p>
+<p>The right-hand side of <a class="reference internal" href="#equation-eq-ce-saha">Eq. 465</a> is one expression in <span class="math notranslate nohighlight">\(T\)</span>,
+<span class="math notranslate nohighlight">\((2\pi m_e k_B T/h^2)^{3/2}\,e^{-\chi/k_B T}\)</span>, the electron mass
+<code class="docutils literal notranslate"><span class="pre">scipy.constants.m_e</span></code> carrying the wavelength. Closing it for a
+pure-hydrogen gas of total density <span class="math notranslate nohighlight">\(n\)</span> with <span class="math notranslate nohighlight">\(n_e = n_p = xn\)</span> and
+<span class="math notranslate nohighlight">\(n_{\rm H} = (1 - x)n\)</span> turns it into <span class="math notranslate nohighlight">\(x^2/(1 - x) = S(T)/n \equiv r\)</span>,
+a quadratic <span class="math notranslate nohighlight">\(x^2 + rx - r = 0\)</span> whose two roots differ in sign; the
+physical one is <span class="math notranslate nohighlight">\(x = \bigl(-r + \sqrt{r^2 + 4r}\bigr)/2\)</span>, the root in
+<span class="math notranslate nohighlight">\((0, 1)\)</span>. Written with <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, both expressions take arrays of
+temperatures as happily as single numbers, which is what lets the
+figure below sweep three densities at once.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">saha_S(T)</span></code>, the Saha function <span class="math notranslate nohighlight">\(S(T)\)</span> — the
+right-hand side of <a class="reference internal" href="#equation-eq-ce-saha">Eq. 465</a>, the density of available
+free-electron states discounted by the ionization Boltzmann factor.</p>
+<p><strong>Part b)</strong> Write <code class="docutils literal notranslate"><span class="pre">ion_fraction(T,</span> <span class="pre">n)</span></code>, returning the physical root of
+the Saha closure: the ionized fraction <span class="math notranslate nohighlight">\(x\)</span> of pure hydrogen at
+temperature <span class="math notranslate nohighlight">\(T\)</span> and total density <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<p><strong>Part c)</strong> Verify the photosphere is <em>neutral</em>: at
+<span class="math notranslate nohighlight">\(T = 5800\ \mathrm{K}\)</span> the ionized fraction is
+<span class="math notranslate nohighlight">\(x = 1.16\times10^{-4}\)</span> (<code class="docutils literal notranslate"><span class="pre">rtol=2e-2</span></code>) — one atom in ten thousand —
+even though the Sun is a ball of “ionized plasma” in every
+textbook’s opening sentence. (It is, deeper down.)</p>
+<p><strong>Part d)</strong> Find where ionization actually happens: verify (with
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code>) <span class="math notranslate nohighlight">\(x = \tfrac12\)</span> at
+<span class="math notranslate nohighlight">\(T = 14{,}190\ \mathrm{K}\)</span> (<code class="docutils literal notranslate"><span class="pre">rtol=1e-2</span></code>) — which is
+<span class="math notranslate nohighlight">\(k_B T = \chi/11\)</span>, <em>eleven times</em> cooler than the naive
+<span class="math notranslate nohighlight">\(k_B T = \chi\)</span> estimate of <span class="math notranslate nohighlight">\(158{,}000\ \mathrm{K}\)</span>. Verify the
+entropic bookkeeping behind it: at that temperature the phase-space
+factor <span class="math notranslate nohighlight">\(1/(n\lambda_e^3)\)</span> exceeds <span class="math notranslate nohighlight">\(10^{4}\)</span> — the Boltzmann penalty
+only has to reach one part in <em>that</em> for ionization to win. Verify
+also the transition’s width: <span class="math notranslate nohighlight">\(x\)</span> runs from <span class="math notranslate nohighlight">\(0.1\)</span> to <span class="math notranslate nohighlight">\(0.9\)</span> across
+<span class="math notranslate nohighlight">\(10{,}860 \to 18{,}130\ \mathrm{K}\)</span> (<code class="docutils literal notranslate"><span class="pre">rtol=1e-2</span></code> each), a sharp
+switch on the scale of <span class="math notranslate nohighlight">\(\chi/k_B\)</span> but a gentle one on the scale of
+the temperature itself.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x(5800 K) = 1.157e-04  (one atom in 8,646)
+x = 0.5 at T = 14189 K = χ/11.1 k_B
+x: 0.1 → 0.9 across 10864 → 18127 K
+phase-space factor 1/(nλ_e³) at T_half = 3.40e+04
+</pre></div>
+</div>
+<figure class="align-default" id="fig-ce-saha">
+<img alt="../../_images/ee99a3150ed968ea60e068a7c6bbc4f0a3d68cfc7cbd2134001063e84d4eb2a8.png" src="../../_images/ee99a3150ed968ea60e068a7c6bbc4f0a3d68cfc7cbd2134001063e84d4eb2a8.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 489 </span><span class="caption-text">The Saha ionization curve of pure hydrogen at three densities. At the solar-photosphere density (ink) the gas is one-in-ten-thousand ionized at <span class="math notranslate nohighlight">\(5800\)</span> K (dot) and half-ionized only at <span class="math notranslate nohighlight">\(14{,}190\)</span> K <span class="math notranslate nohighlight">\(= \chi/11 k_B\)</span>; thinner gases (amber, grey) ionize at ever lower temperatures because the phase-space factor <span class="math notranslate nohighlight">\(1/(n\lambda_e^3)\)</span> grows — the same <span class="math notranslate nohighlight">\(e^{-\chi/k_BT}\)</span> buys more free-electron entropy. The naive estimate <span class="math notranslate nohighlight">\(k_BT = \chi\)</span> sits at <span class="math notranslate nohighlight">\(158{,}000\)</span> K, off the right edge of the plot by an order of magnitude: ionization is an entropy story, not an energy story.</span><a class="headerlink" href="#fig-ce-saha" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the solar photosphere is NEUTRAL: one hydrogen atom in ten thousand is ionized at 5800 K   [got [0.00011567] vs expected [0.000116] (rtol=0.02, atol=1e-09)]
+✓  half-ionization arrives at 14,190 K — kT = χ/11, eleven times cooler than the naive energy estimate — with the 10–90% switch spanning 10,860 to 18,130 K   [max|Δ| = 3.59257 (rtol=0.01, atol=1e-09)]
+✓  because the phase-space factor 1/(nλ_e³) exceeds 10⁴: the Boltzmann penalty need only reach one part in THAT — ionization is an entropy story   [1/(nλ_e³) = 3.4e+04]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-3-why-the-balmer-lines-crown-the-a-stars">
+<h2>Exercise 3 — Why the Balmer lines crown the A stars<a class="headerlink" href="#exercise-3-why-the-balmer-lines-crown-the-a-stars" title="Link to this heading">#</a></h2>
+<p>The Balmer absorption lines — the visible-light fingerprint of
+hydrogen — need atoms that are <em>neutral</em> (Saha) yet <em>excited to</em>
+<span class="math notranslate nohighlight">\(n = 2\)</span> (Boltzmann, <span class="math notranslate nohighlight">\(E_2 = 10.2\ \mathrm{eV}\)</span>). Those two demands
+pull in opposite directions, and their product explains a
+century-old observational fact: hydrogen lines are weak in cool M
+stars, strongest in A stars, and weak again in hot O stars — even
+though every one of those stars is mostly hydrogen.</p>
+<p>The model of the line strength is the product of those two demands,
+<span class="math notranslate nohighlight">\((1 - x(T))\, e^{-E_2/k_B T}\)</span> — neutral fraction times the <span class="math notranslate nohighlight">\(n = 2\)</span>
+Boltzmann factor — evaluated at the line-forming density
+<span class="math notranslate nohighlight">\(n = 10^{20}\ \mathrm{m^{-3}}\)</span>, the tenuous upper photosphere where
+absorption lines are actually made. The density matters, so we state
+it; the <span class="math notranslate nohighlight">\(E_2\)</span> is the Setup’s, and the neutral fraction is Saha’s.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">balmer_strength(T)</span></code>, that product, using the
+<code class="docutils literal notranslate"><span class="pre">ion_fraction</span></code> you wrote in Exercise 2 at the line-forming density.
+Only its shape in <span class="math notranslate nohighlight">\(T\)</span> matters, so leave it unnormalized.</p>
+<p><strong>Part b)</strong> Maximize it with <code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize_scalar</span></code> and
+verify the peak sits at <span class="math notranslate nohighlight">\(T = 10{,}030\ \mathrm{K}\)</span> (<code class="docutils literal notranslate"><span class="pre">rtol=1e-2</span></code>) —
+squarely in the A-star range, where hydrogen lines are indeed
+observed strongest.</p>
+<p><strong>Part c)</strong> Verify the tug-of-war is genuine: at <span class="math notranslate nohighlight">\(7000\ \mathrm{K}\)</span>
+(a K/G star) the strength is below <span class="math notranslate nohighlight">\(25\%\)</span> of the peak because too
+few atoms reach <span class="math notranslate nohighlight">\(n = 2\)</span>, and at <span class="math notranslate nohighlight">\(16{,}000\ \mathrm{K}\)</span> (a B star)
+it is below <span class="math notranslate nohighlight">\(25\%\)</span> again because Saha has taken the atoms
+themselves. One curve, and the Harvard spectral sequence’s central
+puzzle — solved by Payne with exactly this calculation in 1925 —
+falls out.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Balmer strength peaks at T = 10029 K
+relative strength: 7000 K → 0.031, 16,000 K → 0.173
+</pre></div>
+</div>
+<figure class="align-default" id="fig-ce-balmer">
+<img alt="../../_images/c12d7903ec90bf71b7b7b087c4af747122bb224d3d1362843b157ef10f317503.png" src="../../_images/c12d7903ec90bf71b7b7b087c4af747122bb224d3d1362843b157ef10f317503.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 490 </span><span class="caption-text">Why hydrogen lines crown the A stars: the Balmer strength proxy — neutral fraction (Saha) times <span class="math notranslate nohighlight">\(n=2\)</span> occupation (Boltzmann) — at the line-forming density <span class="math notranslate nohighlight">\(10^{20}\ \mathrm{m^{-3}}\)</span>, peaking at <span class="math notranslate nohighlight">\(10{,}030\)</span> K. Cool stars (right shading, K/M) have hydrogen but too little excitation; hot stars (left shading, B/O) have excitation but Saha has ionized the atoms away. The A stars sit at the compromise, which is why their spectra — not the hotter, more hydrogen-rich-looking O stars’ — show the strongest hydrogen lines: Payne’s 1925 argument, recomputed.</span><a class="headerlink" href="#fig-ce-balmer" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Balmer strength peaks at 10,030 K — the A stars, exactly where a century of stellar spectra puts the strongest hydrogen lines   [got [10029.41764569] vs expected [10030.] (rtol=0.01, atol=1e-09)]
+✓  and the peak is a genuine tug-of-war: a quarter strength or less on BOTH flanks — too cold for excitation, too hot for atoms   [relative strengths 0.031 (7000 K), 0.173 (16,000 K)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-4-recombination-the-universe-turns-transparent">
+<h2>Exercise 4 — Recombination: the universe turns transparent<a class="headerlink" href="#exercise-4-recombination-the-universe-turns-transparent" title="Link to this heading">#</a></h2>
+<p>The grandest Saha application of all. The early universe is a
+hydrogen plasma tied to the CMB photon bath of
+<a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>;
+as it expands and cools, <a class="reference internal" href="#equation-eq-ce-saha">Eq. 465</a> decides when the electrons
+finally bind and the photons fly free — the moment whose light <em>is</em>
+the CMB that <a class="reference internal" href="../04-special-relativity/relativistic-optics.html"><span class="std std-doc">§4.9</span></a>
+measured us moving through.</p>
+<p>The only inputs are two measured numbers: the baryon-to-photon ratio
+<span class="math notranslate nohighlight">\(\eta = 6.1\times10^{-10}\)</span> and today’s CMB temperature
+<span class="math notranslate nohighlight">\(T_0 = 2.7255\ \mathrm{K}\)</span>. The expansion dilutes baryons and photons
+alike, so their ratio is constant and the baryon density at photon
+temperature <span class="math notranslate nohighlight">\(T\)</span> is <span class="math notranslate nohighlight">\(n_b = \eta\,n_\gamma(T)\)</span>, with the Planck gas’s
+<span class="math notranslate nohighlight">\(n_\gamma = (2\zeta(3)/\pi^2)(k_B T/\hbar c)^3\)</span> photons per unit
+volume (<span class="math notranslate nohighlight">\(\zeta(3) = 1.2020569\)</span>). The redshift is
+<span class="math notranslate nohighlight">\(z = T/T_0 - 1\)</span>.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">n_baryon(T)</span></code>, that baryon density.</p>
+<p><strong>Part b)</strong> Write <code class="docutils literal notranslate"><span class="pre">x_recomb(T)</span></code>, the primordial ionized fraction: your
+Exercise 2 <code class="docutils literal notranslate"><span class="pre">ion_fraction</span></code> evaluated at the temperature-dependent
+density <code class="docutils literal notranslate"><span class="pre">n_baryon(T)</span></code> — the same Saha closure, now with the density
+falling as the temperature does.</p>
+<p><strong>Part c)</strong> Verify half-recombination at <span class="math notranslate nohighlight">\(T = 3762\ \mathrm{K}\)</span>
+(<code class="docutils literal notranslate"><span class="pre">rtol=1e-2</span></code>), i.e. redshift <span class="math notranslate nohighlight">\(z = 1379\)</span> (within
+<span class="math notranslate nohighlight">\([1300, 1450]\)</span>) — from two measured numbers and one equation, the
+epoch of the CMB’s release.</p>
+<p><strong>Part d)</strong> The entropy story, at its extreme: verify
+<span class="math notranslate nohighlight">\(k_B T_{\rm rec} = \chi/42\)</span> — recombination waits until the
+temperature is <em>forty-two times</em> below the ionization scale, because
+there are <span class="math notranslate nohighlight">\(1/\eta \sim 10^9\)</span> photons per baryon and the Wien tail
+keeps ionizing until the Boltzmann penalty beats <em>that</em>. Verify also
+the transition’s redshift width: <span class="math notranslate nohighlight">\(x\)</span> falls from <span class="math notranslate nohighlight">\(0.9\)</span> to <span class="math notranslate nohighlight">\(0.1\)</span>
+between <span class="math notranslate nohighlight">\(z = 1481\)</span> and <span class="math notranslate nohighlight">\(z = 1261\)</span> (<code class="docutils literal notranslate"><span class="pre">rtol=1e-2</span></code> each) — about two
+hundred in redshift, the finite thickness of the last-scattering
+“surface” whose imprint every CMB map carries.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x = 0.5 at T = 3762 K, z = 1379
+k_B T_rec = χ/42.0
+x: 0.9 → 0.1 between z = 1481 and z = 1261 (Δz = 221)
+</pre></div>
+</div>
+<figure class="align-default" id="fig-ce-recomb">
+<img alt="../../_images/2868b8a824f4aaa93ec59a45d721982cbbe3e98e5d323eafa68362093b2b1a41.png" src="../../_images/2868b8a824f4aaa93ec59a45d721982cbbe3e98e5d323eafa68362093b2b1a41.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 491 </span><span class="caption-text">Saha’s grandest application: the ionized fraction of the primordial hydrogen against redshift, computed from two measured numbers (the baryon-to-photon ratio <span class="math notranslate nohighlight">\(\eta = 6.1\times10^{-10}\)</span> and <span class="math notranslate nohighlight">\(T_0 = 2.7255\)</span> K) and one equation. Half-recombination lands at <span class="math notranslate nohighlight">\(z = 1379\)</span> (<span class="math notranslate nohighlight">\(T = 3762\)</span> K <span class="math notranslate nohighlight">\(= \chi/42 k_B\)</span> — a billion photons per baryon delay the epoch until deep below the ionization scale), and the fall from <span class="math notranslate nohighlight">\(x = 0.9\)</span> to <span class="math notranslate nohighlight">\(0.1\)</span> spans <span class="math notranslate nohighlight">\(\Delta z \approx 220\)</span>: the finite thickness of the last-scattering surface. Past the drop, the universe is transparent, and the released light is the CMB.</span><a class="headerlink" href="#fig-ce-recomb" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  half-recombination at 3762 K — redshift 1379 — from two measured numbers and one equation: the epoch of the CMB&#39;s release, computed   [got [3761.72438335] vs expected [3762.] (rtol=0.01, atol=1e-09)]
+✓  at k_B T = χ/42: a billion photons per baryon hold the plasma ionized until forty-two times below the ionization scale — the entropy argument at its cosmic extreme   [z = 1379, χ/k_BT = 42.0]
+✓  with the 0.9 → 0.1 fall spanning Δz ≈ 220: the last-scattering surface has thickness, and every CMB map carries it   [max|Δ| = 0.336953 (rtol=0.01, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The law of mass action was discovered twice and agreed with
+itself: the free-energy minimizer’s dissociated fraction matched
+the analytic mass-action root to <span class="math notranslate nohighlight">\(10^{-4}\)</span>, with
+<span class="math notranslate nohighlight">\(2\mu_{\rm A} = \mu_{\rm A_2}\)</span> holding to <span class="math notranslate nohighlight">\(10^{-6}\)</span> at the
+minimum.</p></li>
+<li><p>Van ‘t Hoff’s slope came out <span class="math notranslate nohighlight">\(9\%\)</span> steeper than <span class="math notranslate nohighlight">\(-\varepsilon_0 /
+k_B\)</span> and matched <span class="math notranslate nohighlight">\(-(\varepsilon_0 + \tfrac32 k_B\bar T)/k_B\)</span> to
+<span class="math notranslate nohighlight">\(0.3\%\)</span>: <span class="math notranslate nohighlight">\(\ln K\)</span> measures enthalpy, not bare bond energy.</p></li>
+<li><p>Saha made the Sun’s surface neutral (<span class="math notranslate nohighlight">\(x = 1.16\times10^{-4}\)</span> at
+<span class="math notranslate nohighlight">\(5800\ \mathrm{K}\)</span>) and put half-ionization at <span class="math notranslate nohighlight">\(\chi/11 k_B\)</span> —
+an entropy result, priced by the <span class="math notranslate nohighlight">\(10^4\)</span> phase-space factor
+<span class="math notranslate nohighlight">\(1/(n\lambda_e^3)\)</span>.</p></li>
+<li><p>The Balmer strength — Saha fighting Boltzmann — peaked at
+<span class="math notranslate nohighlight">\(10{,}030\ \mathrm{K}\)</span> at the stated line-forming density: the A
+stars, as the Harvard sequence and Payne’s 1925 thesis have it.</p></li>
+<li><p>And two measured numbers (<span class="math notranslate nohighlight">\(\eta\)</span>, <span class="math notranslate nohighlight">\(T_0\)</span>) plus one equation put
+the universe’s transparency at <span class="math notranslate nohighlight">\(z = 1379\)</span>, <span class="math notranslate nohighlight">\(k_B T = \chi/42\)</span>,
+with a last-scattering thickness of <span class="math notranslate nohighlight">\(\Delta z \approx 220\)</span>.</p></li>
+</ul>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The same equation, in silicon.</strong> Replace <span class="math notranslate nohighlight">\(\chi\)</span> by a band gap
+and <span class="math notranslate nohighlight">\(m_e\)</span> by effective masses and <a class="reference internal" href="#equation-eq-ce-saha">Eq. 465</a> becomes
+<a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html"><span class="std std-doc">§7.13</span></a>’s
+law of mass action <span class="math notranslate nohighlight">\(np = n_i^2\)</span>: ionizing a hydrogen atom and
+exciting an electron-hole pair are the one calculation wearing
+two costumes.</p></li>
+<li><p><strong>Beyond equilibrium.</strong> Real cosmic recombination lags Saha
+slightly (the Peebles three-level treatment) because the
+ground-state photons re-ionize their neighbors; equilibrium gets
+the epoch right to a few percent, and the residual is a
+non-equilibrium story in the spirit of
+<a class="reference internal" href="taste-of-nonequilibrium.html"><span class="std std-doc">§5.11</span></a>.</p></li>
+<li><p><strong>Stellar interiors.</strong> Saha zones of partial ionization drive the
+opacity bumps that make Cepheids pulse — the <span class="math notranslate nohighlight">\(\kappa\)</span>-mechanism:
+this notebook’s curve, oscillating a star.</p></li>
+<li><p><strong>Payne’s thesis.</strong> The 1925 dissertation that applied Saha to
+the Harvard spectra proved the stars are mostly hydrogen — against
+the era’s consensus — and remains a model of an equation changing
+what everyone believed the universe is made of.</p></li>
+</ul>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<div class="docutils container" id="id3">
+<div role="list" class="citation-list">
+<div class="citation" id="id16" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Nol18</a><span class="fn-bracket">]</span></span>
+<p>Wolfgang Nolting. <em>Theoretical Physics 8: Statistical Physics</em>. Springer, 2018.</p>
+</div>
+<div class="citation" id="id73" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Sah20</a><span class="fn-bracket">]</span></span>
+<p>Meghnad N. Saha. Ionization in the solar chromosphere. <em>Philosophical Magazine, Series 6</em>, 40(238):472–488, 1920. <a class="reference external" href="https://doi.org/10.1080/14786441008636148">doi:10.1080/14786441008636148</a>.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/05-classical-stat-mech"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="van-der-waals.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="molecular-dynamics.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-law-of-mass-action-discovered-twice">Exercise 1 — The law of mass action, discovered twice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-saha-and-the-neutral-sun">Exercise 2 — Saha and the neutral Sun</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-why-the-balmer-lines-crown-the-a-stars">Exercise 3 — Why the Balmer lines crown the A stars</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-recombination-the-universe-turns-transparent">Exercise 4 — Recombination: the universe turns transparent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

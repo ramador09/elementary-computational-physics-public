@@ -1,0 +1,1462 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="6.10 The Schrödinger Equation as a PDE, Solved on a Computer" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/schrodinger-on-a-computer.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Volume VI has made one claim more than any other: quantum mechanics is linear algebra. In this notebook that claim stops being a slogan an..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Volume VI has made one claim more than any other: quantum mechanics is linear algebra. In this notebook that claim stops being a slogan an..." />
+
+    <title>6.10 The Schrödinger Equation as a PDE, Solved on a Computer &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/06-quantum-mechanics/schrodinger-on-a-computer';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/schrodinger-on-a-computer.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="6.11 Bound States in One Dimension" href="bound-states-1d.html" />
+    <link rel="prev" title="6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra" href="position-representation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VI — Quantum Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-electronic-structure/index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/06-quantum-mechanics/schrodinger-on-a-computer.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/06-quantum-mechanics/schrodinger-on-a-computer.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/06-quantum-mechanics/schrodinger-on-a-computer.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/06-quantum-mechanics/schrodinger-on-a-computer.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>6.10 The Schrödinger Equation as a PDE, Solved on a Computer</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-time-independent-schrodinger-equation-as-an-eigenproblem">The time-independent Schrödinger equation as an eigenproblem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discretizing-the-hamiltonian-into-a-matrix">Discretizing the Hamiltonian into a matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-infinite-square-well-the-validation">The infinite square well: the validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-and-its-limits">Convergence and its limits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-general-method">The general method</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-building-the-hamiltonian-matrix">Exercise 1 — Building the Hamiltonian matrix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-infinite-square-well-spectrum">Exercise 2 — The infinite square well spectrum</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-eigenfunctions">Exercise 3 — The eigenfunctions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-convergence-with-grid-resolution">Exercise 4 — Convergence with grid resolution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-a-potential-with-no-closed-form">Exercise 5 — A potential with no closed form</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-resolution-box-size-and-trusting-the-answer-student">Exercise 6 — Resolution, box size, and trusting the answer <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-wave-mechanics-is-a-matrix-eigenvalue-problem-synthesis">Exercise 7 — Wave mechanics is a matrix eigenvalue problem <em>(synthesis)</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-schrodinger-equation-as-a-pde-solved-on-a-computer">
+<h1>6.10 The Schrödinger Equation as a PDE, Solved on a Computer<a class="headerlink" href="#the-schrodinger-equation-as-a-pde-solved-on-a-computer" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VI — Quantum Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;6.10
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Diagonalize, and you are done. The time-independent Schrödinger equation is an eigenvalue problem for a Hermitian operator, and on a grid that operator is a matrix — the kinetic energy a finite-difference stencil, the potential a diagonal. We hand it to the same routine that diagonalized every operator in Movement 0, check it against the square well&#x27;s exact spectrum, and then solve potentials no formula can reach.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;160–195 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Volume VI has made one claim more than any other: quantum mechanics <em>is</em> linear algebra. In this
+notebook that claim stops being a slogan and becomes a literal <strong>method</strong> for solving real, continuous
+systems. The time-independent Schrödinger equation <span class="math notranslate nohighlight">\(\hat H\psi=E\psi\)</span> is, word for word, the
+eigenvalue problem of a Hermitian operator — the same problem we solved for a <span class="math notranslate nohighlight">\(2\times2\)</span> spin operator
+in <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>. The only new step is to write that operator as a matrix, and the position representation of
+<a class="reference internal" href="position-representation.html"><span class="std std-doc">§6.9</span></a> tells us exactly how: put <span class="math notranslate nohighlight">\(x\)</span> on a grid, approximate the second derivative by a finite-difference
+stencil, and the Schrödinger operator becomes a finite <strong>matrix</strong> we hand to <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code>. Its
+eigenvalues are the allowed energies; its eigenvectors are the stationary states.</p>
+<p>The discipline of computational physics is to never trust a number you have not checked, so we begin
+with the one problem that has a clean exact answer — the <strong>infinite square well</strong>, <span class="math notranslate nohighlight">\(E_n=n^2\pi^2\hbar^2
+/2mL^2\)</span> — and validate the method against it from three angles: the energies match to several digits,
+the eigenfunctions match the analytic sines <span class="math notranslate nohighlight">\(\sqrt{2/L}\sin(n\pi x/L)\)</span> to machine precision, and the
+computed states are orthonormal (the <code class="docutils literal notranslate"><span class="pre">eigh</span></code> guarantee of <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>, now producing <em>wave functions</em>). We
+then watch the energy error fall as <span class="math notranslate nohighlight">\(1/N^2\)</span> with the grid resolution — the second-order accuracy of
+the finite-difference stencil, the floating-point-and-discretization sensibility of Volume 0 in the
+quantum setting — and are honest about where the method strains (the highest computed levels are
+always the least trustworthy).</p>
+<p>Then comes the payoff. Nothing in the recipe used the square well’s analytic solution: it needs only
+<span class="math notranslate nohighlight">\(V(x)\)</span> on a grid. So the <em>same three lines</em> — build the kinetic stencil, add the diagonal potential,
+diagonalize — solve <strong>any</strong> one-dimensional potential, including those with no closed form. We turn
+them loose on an anharmonic well and read its spectrum straight off the screen. This is the engine
+for the rest of Movement II: bound states (<a class="reference internal" href="bound-states-1d.html"><span class="std std-doc">§6.11</span></a>), the harmonic oscillator (<a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a>), and — once we
+restore the time dependence — wave packets in motion (<a class="reference internal" href="scattering-tunneling.html"><span class="std std-doc">§6.13</span></a>).</p>
+<p>As in every Volume VI notebook, each exercise opens with a <strong>crystal-clear statement</strong> and enumerated parts, each naming the exact operation — the <span class="math notranslate nohighlight">\((1,-2,1)/dx^2\)</span> second-difference stencil, <code class="docutils literal notranslate"><span class="pre">numpy.diag</span></code>
+to assemble the tridiagonal kinetic matrix, and <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> (the symmetric/Hermitian solver,
+returning <em>sorted</em> real eigenvalues and orthonormal eigenvectors).</p>
+<blockquote>
+<div><p><strong>Conventions.</strong> We set <span class="math notranslate nohighlight">\(\hbar=1\)</span> and <span class="math notranslate nohighlight">\(m=1\)</span>. The grid is the <strong>interior</strong> of <span class="math notranslate nohighlight">\([0,L]\)</span>
+(or <span class="math notranslate nohighlight">\([-L/2,L/2]\)</span> for confining potentials): <span class="math notranslate nohighlight">\(N\)</span> points with spacing <span class="math notranslate nohighlight">\(dx\)</span>, and the Dirichlet boundary
+condition <span class="math notranslate nohighlight">\(\psi=0\)</span> at the walls is built in by leaving the boundary points off the grid (a confining
+<span class="math notranslate nohighlight">\(V\)</span> instead needs a box large enough that <span class="math notranslate nohighlight">\(\psi\)</span> has decayed). Eigenfunctions from <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code>
+are normalized in the discrete sense; we divide by <span class="math notranslate nohighlight">\(\sqrt{dx}\)</span> so that <span class="math notranslate nohighlight">\(\int|\psi|^2dx=1\)</span>. For large
+grids <code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code> is the efficient specialized solver. See Griffiths and Sakurai
+&amp; Napolitano (the square well); Giordano &amp; Nakanishi (the matrix method); and Notebooks <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a> (<code class="docutils literal notranslate"><span class="pre">eigh</span></code>,
+the eigenvalue problem), <a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a> (stationary states), <a class="reference internal" href="position-representation.html"><span class="std std-doc">§6.9</span></a> (the position representation), and Volume 0
+(finite differences, discretization error).</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-time-independent-schrodinger-equation-as-an-eigenproblem">
+<h3>The time-independent Schrödinger equation as an eigenproblem<a class="headerlink" href="#the-time-independent-schrodinger-equation-as-an-eigenproblem" title="Link to this heading">#</a></h3>
+<p>Separating the time dependence (the stationary states <span class="math notranslate nohighlight">\(e^{-iEt/\hbar}\)</span> of <a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>) leaves the
+<strong>time-independent Schrödinger equation</strong>, an eigenvalue problem for a Hermitian operator,</p>
+<div class="math notranslate nohighlight" id="equation-eq-tise">
+<span class="eqno">(544)<a class="headerlink" href="#equation-eq-tise" title="Link to this equation">#</a></span>\[\hat H\psi=E\psi,\qquad \hat H=-\frac{\hbar^2}{2m}\frac{d^2}{dx^2}+V(x) .\]</div>
+<p>Its eigenvalues are the allowed <strong>energies</strong> and its eigenfunctions the <strong>stationary states</strong>.
+“Solving quantum mechanics” for a potential means diagonalizing this operator (<a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>).</p>
+</section>
+<section id="discretizing-the-hamiltonian-into-a-matrix">
+<h3>Discretizing the Hamiltonian into a matrix<a class="headerlink" href="#discretizing-the-hamiltonian-into-a-matrix" title="Link to this heading">#</a></h3>
+<p>Put <span class="math notranslate nohighlight">\(x\)</span> on a grid of <span class="math notranslate nohighlight">\(N\)</span> points with spacing <span class="math notranslate nohighlight">\(dx\)</span>. The second derivative becomes the
+<strong>finite-difference stencil</strong>, a tridiagonal matrix,</p>
+<div class="math notranslate nohighlight" id="equation-eq-discretize">
+<span class="eqno">(545)<a class="headerlink" href="#equation-eq-discretize" title="Link to this equation">#</a></span>\[\psi''(x_i)\approx\frac{\psi_{i+1}-2\psi_i+\psi_{i-1}}{dx^2},\qquad \hat H\to H=-\frac{\hbar^2}{2m}\,\frac{1}{dx^2}\,\mathrm{tridiag}(1,-2,1)+\mathrm{diag}\,V(x_i) .\]</div>
+<p>So <span class="math notranslate nohighlight">\(\hat H\)</span> becomes a real <strong>symmetric</strong> matrix (Hermitian), and <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> returns its
+sorted eigenvalues (the energies) and orthonormal eigenvectors (the stationary states, normalized by
+dividing by <span class="math notranslate nohighlight">\(\sqrt{dx}\)</span>). The Dirichlet condition <span class="math notranslate nohighlight">\(\psi=0\)</span> at hard walls is built in by restricting to
+the interior grid.</p>
+</section>
+<section id="the-infinite-square-well-the-validation">
+<h3>The infinite square well: the validation<a class="headerlink" href="#the-infinite-square-well-the-validation" title="Link to this heading">#</a></h3>
+<p>For <span class="math notranslate nohighlight">\(V=0\)</span> in <span class="math notranslate nohighlight">\([0,L]\)</span> with infinite walls, the exact spectrum and eigenfunctions are</p>
+<div class="math notranslate nohighlight" id="equation-eq-square-well">
+<span class="eqno">(546)<a class="headerlink" href="#equation-eq-square-well" title="Link to this equation">#</a></span>\[E_n=\frac{n^2\pi^2\hbar^2}{2mL^2},\qquad \psi_n(x)=\sqrt{\frac{2}{L}}\sin\frac{n\pi x}{L},\qquad n=1,2,\dots\]</div>
+<p>The ground-state energy is <strong>nonzero</strong> — the zero-point energy: confinement forces motion, the
+uncertainty principle of <a class="reference internal" href="position-representation.html"><span class="std std-doc">§6.9</span></a> in action. We validate the numerics against all of this.</p>
+</section>
+<section id="convergence-and-its-limits">
+<h3>Convergence and its limits<a class="headerlink" href="#convergence-and-its-limits" title="Link to this heading">#</a></h3>
+<p>The finite-difference second derivative is <strong>second-order</strong> accurate, so the energy error falls as</p>
+<div class="math notranslate nohighlight" id="equation-eq-convergence">
+<span class="eqno">(547)<a class="headerlink" href="#equation-eq-convergence" title="Link to this equation">#</a></span>\[|E_n^{\text{num}}-E_n|\sim\frac{1}{N^2} .\]</div>
+<p>Higher levels (more wiggly eigenfunctions) need more points per wavelength and converge later — the
+highest computed eigenvalues are always the least trustworthy, a resolution diagnostic to state
+honestly.</p>
+</section>
+<section id="the-general-method">
+<h3>The general method<a class="headerlink" href="#the-general-method" title="Link to this heading">#</a></h3>
+<p>Nothing in the recipe used the analytic solution — it needs only <span class="math notranslate nohighlight">\(V(x)\)</span> on a grid,</p>
+<div class="math notranslate nohighlight" id="equation-eq-general">
+<span class="eqno">(548)<a class="headerlink" href="#equation-eq-general" title="Link to this equation">#</a></span>\[\text{any } V(x)\ \xrightarrow{\ \text{stencil}+\mathrm{diag}\,V+\texttt{eigh}\ }\ \{E_n,\psi_n\} ,\]</div>
+<p>so the same three steps solve <strong>any</strong> one-dimensional potential, including those with no closed form.
+This is the payoff: the computer solves problems pencil-and-paper cannot.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data and instruments only: the series palette, the unit conventions <span class="math notranslate nohighlight">\(\hbar=m=1\)</span>, and
+<code class="docutils literal notranslate"><span class="pre">plot_levels</span></code>, the plotting scaffold that draws the standard textbook spectrum picture — each
+eigenfunction ribboned at its own energy above the potential. The two objects this notebook is
+named for are deliberately absent: you assemble the discretized Hamiltonian yourself in
+Exercise 1 and write the diagonalization that turns it into energies and stationary states in
+Exercise 2, and every later exercise calls the ones you wrote.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>  <span class="c1"># data: the series palette</span>
+
+<span class="c1"># data: the unit conventions of this notebook</span>
+<span class="n">HBAR</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># ℏ = 1</span>
+<span class="n">MASS</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># m = 1</span>
+
+<span class="c1"># Conventions: the grid is always the INTERIOR of the box, so the Dirichlet condition ψ=0 at the hard</span>
+<span class="c1"># walls is built in by leaving the boundary points off the grid. numpy.linalg.eigh returns SORTED real</span>
+<span class="c1"># eigenvalues (energies) and orthonormal eigenvectors (stationary states); dividing the eigenvectors by</span>
+<span class="c1"># √dx makes ∫|ψ|²dx = 1. (scipy.linalg.eigh_tridiagonal is the efficient option for large grids.)</span>
+
+
+<span class="c1"># instrument: a plotting scaffold, not the lesson — it arranges energies and states that Exercises 1</span>
+<span class="c1"># and 2 produce into the familiar level diagram; the physics is in the numbers it is handed.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_levels</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">energies</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="n">n_levels</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the potential with energy levels and eigenfunctions drawn at their energies — a plotting helper.</span>
+
+<span class="sd">    Draws $V(x)$, a horizontal line at each $E_n$, and the eigenfunction $\\psi_n(x)$ scaled and offset</span>
+<span class="sd">    to sit at height $E_n$ — the standard textbook picture of a spectrum.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">INK</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">gaps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">energies</span><span class="p">[:</span> <span class="n">n_levels</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">gaps</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">states</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]))</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_levels</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">SOFT</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">psi</span> <span class="o">=</span> <span class="n">states</span><span class="p">[:,</span> <span class="n">n</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">psi</span> <span class="o">=</span> <span class="o">-</span><span class="n">psi</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">energies</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">psi</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.6</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-building-the-hamiltonian-matrix">
+<h2>Exercise 1 — Building the Hamiltonian matrix<a class="headerlink" href="#exercise-1-building-the-hamiltonian-matrix" title="Link to this heading">#</a></h2>
+<p>Everything in this notebook rests on a single translation: once <span class="math notranslate nohighlight">\(x\)</span> lives on a grid, the
+Schrödinger operator <span class="math notranslate nohighlight">\(\hat H=-\tfrac{\hbar^2}{2m}\tfrac{d^2}{dx^2}+V(x)\)</span> <em>is</em> a matrix
+<a class="reference internal" href="#equation-eq-tise">Eq. 544</a>, <a class="reference internal" href="#equation-eq-discretize">Eq. 545</a>. The second derivative becomes the <span class="math notranslate nohighlight">\((1,-2,1)/dx^2\)</span>
+second-difference stencil — a tridiagonal matrix — and the potential becomes the diagonal
+<span class="math notranslate nohighlight">\(\mathrm{diag}\,V(x_i)\)</span>, so
+<span class="math notranslate nohighlight">\(H=-\tfrac{\hbar^2}{2m}\tfrac{1}{dx^2}\,\mathrm{tridiag}(1,-2,1)+\mathrm{diag}\,V\)</span>. Both pieces are
+real and symmetric, which is exactly what makes <span class="math notranslate nohighlight">\(H\)</span> Hermitian and licenses handing it to the
+Hermitian eigensolver of <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">hamiltonian(x,</span> <span class="pre">V)</span></code>, returning <span class="math notranslate nohighlight">\(H\)</span> for a grid <code class="docutils literal notranslate"><span class="pre">x</span></code> and a potential <code class="docutils literal notranslate"><span class="pre">V</span></code> sampled on it: the
+kinetic term is <span class="math notranslate nohighlight">\(-\hbar^2/2m\)</span> times the <span class="math notranslate nohighlight">\((1,-2,1)/dx^2\)</span> stencil assembled with <code class="docutils literal notranslate"><span class="pre">numpy.diag</span></code>
+(<span class="math notranslate nohighlight">\(-2\)</span> on the main diagonal, <span class="math notranslate nohighlight">\(1\)</span> on the two off-diagonals), and the potential enters as
+<code class="docutils literal notranslate"><span class="pre">numpy.diag(V)</span></code>. <strong>Write this one yourself</strong> — the implementation is the lesson.</p></li>
+<li><p>Set up the interior grid for the square well (<span class="math notranslate nohighlight">\(N\)</span> points on <span class="math notranslate nohighlight">\([0,L]\)</span> with the two boundary points
+left off, which imposes <span class="math notranslate nohighlight">\(\psi=0\)</span> at the walls) with <span class="math notranslate nohighlight">\(V=0\)</span> inside, and assemble <span class="math notranslate nohighlight">\(H\)</span> on it.</p></li>
+<li><p>Confirm <span class="math notranslate nohighlight">\(H\)</span> is real (<code class="docutils literal notranslate"><span class="pre">numpy.isreal</span></code>) and symmetric (<span class="math notranslate nohighlight">\(H=H^{\mathsf T}\)</span>, <code class="docutils literal notranslate"><span class="pre">numpy.allclose(H,</span> <span class="pre">H.T)</span></code>) — a Hermitian operator. The Schrödinger operator is a matrix.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>H shape (400, 400), real True, symmetric H = Hᵀ True
+diagonal entries = −ℏ²/2m · (−2/dx²) + V = 160801.00;  off-diagonal = −ℏ²/2m · (1/dx²) = -80400.50
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the discretized Hamiltonian is a real symmetric (Hermitian) matrix: −(ℏ²/2m)·(1,−2,1)/dx² stencil plus diag(V)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-infinite-square-well-spectrum">
+<h2>Exercise 2 — The infinite square well spectrum<a class="headerlink" href="#exercise-2-the-infinite-square-well-spectrum" title="Link to this heading">#</a></h2>
+<p>Never trust a number you have not checked, so the method’s first outing is on the one problem with
+a classroom-exact answer: for <span class="math notranslate nohighlight">\(V=0\)</span> between infinite walls the spectrum is
+<span class="math notranslate nohighlight">\(E_n=n^2\pi^2\hbar^2/2mL^2\)</span> <a class="reference internal" href="#equation-eq-square-well">Eq. 546</a>. Everything the rest of the notebook does rests on
+this validation against an exact answer. Two features are worth watching. The ground state has
+<span class="math notranslate nohighlight">\(E_1&gt;0\)</span> — the <strong>zero-point energy</strong>: a confined particle cannot be at rest, the uncertainty
+principle of <a class="reference internal" href="position-representation.html"><span class="std std-doc">§6.9</span></a> in action. And the relative errors grow with <span class="math notranslate nohighlight">\(n\)</span>,
+because a wigglier eigenfunction gets fewer grid points per wavelength; Exercise 4 makes that
+quantitative.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">solve(x,</span> <span class="pre">V)</span></code>: assemble <span class="math notranslate nohighlight">\(H\)</span> with the <code class="docutils literal notranslate"><span class="pre">hamiltonian</span></code> you wrote in Exercise 1, diagonalize it
+with <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> — the Hermitian solver of <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>,
+which returns <em>sorted</em> real eigenvalues and orthonormal eigenvectors — and divide the
+eigenvector columns by <span class="math notranslate nohighlight">\(\sqrt{dx}\)</span> so each stationary state has <span class="math notranslate nohighlight">\(\int|\psi_n|^2dx=1\)</span>. Return the
+energies and the states.</p></li>
+<li><p>Run it on the square well of Exercise 1 (<span class="math notranslate nohighlight">\(V=0\)</span> on the interior grid) and take the lowest five
+eigenvalues.</p></li>
+<li><p>Compare to <span class="math notranslate nohighlight">\(E_n=n^2\pi^2\hbar^2/2mL^2\)</span> for <span class="math notranslate nohighlight">\(n=1,\dots,5\)</span> and report the relative errors.</p></li>
+<li><p>Report the ground-state energy and confirm <span class="math notranslate nohighlight">\(E_1&gt;0\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n   E_numeric    E_exact      rel. error
+1     4.93478     4.93480    5.11e-06
+2    19.73880    19.73921    2.05e-05
+3    44.41118    44.41322    4.60e-05
+4    78.95037    78.95684    8.18e-05
+5   123.35428   123.37006    1.28e-04
+
+ground-state energy E_1 = 4.93478 &gt; 0  (zero-point energy: confinement forces motion)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the infinite square well spectrum is Eₙ = n²π²ℏ²/2mL² (validated against the exact answer)   [max|Δ| = 0.0157746 (rtol=0.001, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-square-well">
+<img alt="../../_images/bde2f3c8ab7a3847aef5a89321ede1decc45537694c250709c26024d442d5f14.png" src="../../_images/bde2f3c8ab7a3847aef5a89321ede1decc45537694c250709c26024d442d5f14.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 531 </span><span class="caption-text"><strong>The infinite square well, solved.</strong> The flat potential (<span class="math notranslate nohighlight">\(V=0\)</span> between hard walls, ink) with the lowest four computed energy levels drawn as dotted lines and their stationary states <span class="math notranslate nohighlight">\(\psi_n(x)\)</span> (amber) riding at their energies. The levels climb as <span class="math notranslate nohighlight">\(E_n\propto n^2\)</span> — the spacing widens with <span class="math notranslate nohighlight">\(n\)</span> — and the lowest, <span class="math notranslate nohighlight">\(E_1=\pi^2\hbar^2/2mL^2\)</span>, sits <em>above</em> the floor of the well: a confined particle has irreducible zero-point motion. Every number here came from handing a tridiagonal matrix to <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code>, the same routine that diagonalized a spin operator in Movement 0; the wave functions are just its eigenvectors.</span><a class="headerlink" href="#fig-square-well" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-the-eigenfunctions">
+<h2>Exercise 3 — The eigenfunctions<a class="headerlink" href="#exercise-3-the-eigenfunctions" title="Link to this heading">#</a></h2>
+<p>The columns <code class="docutils literal notranslate"><span class="pre">eigh</span></code> returned are not merely numbers that pass a test: they are the <strong>stationary
+states</strong> themselves, and for the square well their closed form is known,
+<span class="math notranslate nohighlight">\(\psi_n(x)=\sqrt{2/L}\sin(n\pi x/L)\)</span> <a class="reference internal" href="#equation-eq-square-well">Eq. 546</a>. An eigenvector is defined only up to a
+global sign, and a solver may return either, so a comparison against the analytic form has to fix
+that convention before it means anything. Beyond matching the sines, the states inherit the <code class="docutils literal notranslate"><span class="pre">eigh</span></code>
+orthonormality of <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>, <span class="math notranslate nohighlight">\(\langle\psi_i|\psi_j\rangle=
+\delta_{ij}\)</span> — the same guarantee that held for spin vectors there, now producing wave functions.</p>
+<ol class="arabic simple">
+<li><p>Extract <span class="math notranslate nohighlight">\(\psi_n(x)\)</span> from the output of the <code class="docutils literal notranslate"><span class="pre">solve</span></code> you wrote in Exercise 2 (already normalized
+by <span class="math notranslate nohighlight">\(\sqrt{dx}\)</span>).</p></li>
+<li><p>Fix the sign convention: flip so the overlap with the analytic form is positive.</p></li>
+<li><p>Compare to <span class="math notranslate nohighlight">\(\sqrt{2/L}\sin(n\pi x/L)\)</span> with <code class="docutils literal notranslate"><span class="pre">numpy.max(numpy.abs(...))</span></code>.</p></li>
+<li><p>Verify orthonormality — the discrete inner product <code class="docutils literal notranslate"><span class="pre">(states.T</span> <span class="pre">&#64;</span> <span class="pre">states)·dx</span></code> is the identity to
+machine precision.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>max|ψ_numeric − ψ_analytic| for n=1,2,3:  6.57e-13  (machine precision)
+orthonormality max|⟨ψ_i|ψ_j⟩ − δ_ij|:  1.78e-15  (the eigh guarantee, now wave functions)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the eigenfunctions are √(2/L)sin(nπx/L) and orthonormal (⟨ψ_i|ψ_j⟩=δ_ij to machine precision)   [max|Δ| = 6.5728e-13 (rtol=1e-06, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-eigenfunctions">
+<img alt="../../_images/58f74ed160d66dac6cd4a2c6695b261b685c685fd54d49c28bba041cfe652dda.png" src="../../_images/58f74ed160d66dac6cd4a2c6695b261b685c685fd54d49c28bba041cfe652dda.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 532 </span><span class="caption-text"><strong>The stationary states and their densities.</strong> Left: the first three eigenfunctions <span class="math notranslate nohighlight">\(\psi_n(x)\)</span> of the square well — the computed states (amber) lie exactly on the analytic sines <span class="math notranslate nohighlight">\(\sqrt{2/L}\sin(n\pi x/L)\)</span> (dotted), with <span class="math notranslate nohighlight">\(n-1\)</span> interior nodes apiece. Right: the probability densities <span class="math notranslate nohighlight">\(|\psi_n(x)|^2\)</span>, the likelihood of finding the particle at each point. These are nothing but the eigenvectors <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> returned — orthonormal to machine precision, exactly as they were for the spin operators of Movement 0 — read now as functions of position. Diagonalization did not change; only the size of the matrix did.</span><a class="headerlink" href="#fig-eigenfunctions" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-convergence-with-grid-resolution">
+<h2>Exercise 4 — Convergence with grid resolution<a class="headerlink" href="#exercise-4-convergence-with-grid-resolution" title="Link to this heading">#</a></h2>
+<p>The finite-difference second derivative is <strong>second-order</strong> accurate, so the energy error should
+fall as <span class="math notranslate nohighlight">\(1/N^2\)</span> with the number of grid points <a class="reference internal" href="#equation-eq-convergence">Eq. 547</a>: a slope of <span class="math notranslate nohighlight">\(-2\)</span> on log–log
+axes, a fourfold gain for every doubling of the resolution. That is what makes the error
+respectable rather than mysterious — it is discretization error, controllable and predictable,
+exactly the sensibility of Volume 0 in quantum dress. Higher levels ride above the line and
+converge later, since the wigglier the eigenfunction the more grid points per wavelength it needs;
+the highest computed eigenvalue is always the least trustworthy.</p>
+<ol class="arabic simple">
+<li><p>Solve the square well for <span class="math notranslate nohighlight">\(N=25,50,100,\dots,800\)</span> with the <code class="docutils literal notranslate"><span class="pre">solve</span></code> you wrote in Exercise 2.</p></li>
+<li><p>Compute the relative error of the ground-state energy <span class="math notranslate nohighlight">\(E_1\)</span> against the exact
+<span class="math notranslate nohighlight">\(\pi^2\hbar^2/2mL^2\)</span>.</p></li>
+<li><p>Plot the error versus <span class="math notranslate nohighlight">\(N\)</span> on log–log axes and confirm the slope is <span class="math notranslate nohighlight">\(-2\)</span> (a <span class="math notranslate nohighlight">\(1/N^2\)</span> reference
+line).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N      relative error of E_1
+  25   1.22e-03
+  50   3.16e-04
+ 100   8.06e-05
+ 200   2.04e-05
+ 400   5.11e-06
+ 800   1.28e-06
+
+log–log slope = -1.980  (≈ −2: second-order convergence, error ~ 1/N²)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the finite-difference method converges at second order: the ground-state energy error scales as ~1/N²   [got -1.97953 vs expected -2 (rtol=1e-06, atol=0.1)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-convergence">
+<img alt="../../_images/4260af75fc88672c377a7238fa6f271e13b53e311e6c6803c5f069aa66725fa1.png" src="../../_images/4260af75fc88672c377a7238fa6f271e13b53e311e6c6803c5f069aa66725fa1.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 533 </span><span class="caption-text"><strong>Second-order convergence.</strong> The relative error in the computed ground-state energy of the square well against the number of grid points <span class="math notranslate nohighlight">\(N\)</span>, on log–log axes (amber dots), with a <span class="math notranslate nohighlight">\(1/N^2\)</span> reference slope (dashed). The points fall on a line of slope <span class="math notranslate nohighlight">\(-2\)</span>: doubling the resolution cuts the error fourfold, the hallmark of the second-order <span class="math notranslate nohighlight">\((1,-2,1)\)</span> finite-difference stencil. The error is not mysterious — it is discretization error, predictable and controllable, exactly the floating-point sensibility of Volume 0 in the quantum setting. Higher levels, whose wave functions wiggle more, ride above this line and converge later; the highest computed eigenvalue is always the least trustworthy.</span><a class="headerlink" href="#fig-convergence" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-a-potential-with-no-closed-form">
+<h2>Exercise 5 — A potential with no closed form<a class="headerlink" href="#exercise-5-a-potential-with-no-closed-form" title="Link to this heading">#</a></h2>
+<p>Nothing in the recipe used the square well’s analytic solution — it needs only <span class="math notranslate nohighlight">\(V(x)\)</span> sampled on a
+grid <a class="reference internal" href="#equation-eq-general">Eq. 548</a>, so the same three steps solve potentials with no closed form at all, which
+is to say the overwhelming majority of them. The anharmonic well <span class="math notranslate nohighlight">\(V(x)=\tfrac12x^2+\lambda x^4\)</span> is
+one such potential, and it wears its anharmonicity where the spectrum can be read: the quartic
+term steepens the walls, squeezing the higher states upward, so the level spacings
+<span class="math notranslate nohighlight">\(E_{n+1}-E_n\)</span> <em>increase</em> with <span class="math notranslate nohighlight">\(n\)</span> instead of staying equal as a harmonic oscillator’s would. The
+one precaution a confining potential demands is a box wide enough that the states of interest have
+decayed before the hard walls.</p>
+<ol class="arabic simple">
+<li><p>Choose <span class="math notranslate nohighlight">\(V(x)=\tfrac12x^2+\lambda x^4\)</span> on a box <span class="math notranslate nohighlight">\([-L/2,L/2]\)</span> large enough that the low-lying
+wave functions decay to zero at the edges.</p></li>
+<li><p>Build <span class="math notranslate nohighlight">\(H\)</span> and diagonalize with the same <code class="docutils literal notranslate"><span class="pre">solve</span></code> you wrote in Exercise 2 — <em>nothing</em> about the
+recipe changes.</p></li>
+<li><p>Report the lowest five energies.</p></li>
+<li><p>Confirm the level spacings <span class="math notranslate nohighlight">\(E_{n+1}-E_n\)</span> increase with <span class="math notranslate nohighlight">\(n\)</span>, an anharmonicity no two-term formula
+captures. The method needs only <span class="math notranslate nohighlight">\(V(x)\)</span>; the computer solves the unsolvable.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>anharmonic well V = ½x² + 0.3x⁴, lowest five energies:
+  [0.638  2.0945 3.8443 5.7954 7.9095]
+  level spacings E_{n+1}−E_n = [1.4565 1.7498 1.9511 2.1142]
+  (a harmonic oscillator would give equal spacings of 1; here they grow — anharmonicity)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the finite-difference eigenmethod solves an arbitrary potential: the anharmonic well has growing level spacings and orthonormal eigenfunctions
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-anharmonic">
+<img alt="../../_images/2808b41fa089694fafda5d25d7e55cf8ccb9c33d90c97871e7e120076c7e6e9b.png" src="../../_images/2808b41fa089694fafda5d25d7e55cf8ccb9c33d90c97871e7e120076c7e6e9b.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 534 </span><span class="caption-text"><strong>A potential no formula can reach.</strong> The anharmonic well <span class="math notranslate nohighlight">\(V(x)=\tfrac12x^2+\lambda x^4\)</span> (ink) with its lowest four computed energy levels (dotted) and stationary states (amber) — obtained from the <em>same</em> three lines that solved the square well, because the method needs only <span class="math notranslate nohighlight">\(V(x)\)</span> on a grid. The quartic term steepens the walls, so the levels are not equally spaced as a harmonic oscillator’s would be: each gap is <em>wider</em> than the last. This is the engine of computational quantum mechanics — hand it any potential and it returns the spectrum and the states, including for the overwhelming majority of potentials that have no closed-form solution at all.</span><a class="headerlink" href="#fig-anharmonic" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-resolution-box-size-and-trusting-the-answer-student">
+<h2>Exercise 6 — Resolution, box size, and trusting the answer <em>(student)</em><a class="headerlink" href="#exercise-6-resolution-box-size-and-trusting-the-answer-student" title="Link to this heading">#</a></h2>
+<p>A computed eigenvalue is only as good as its grid and its box <a class="reference internal" href="#equation-eq-convergence">Eq. 547</a>,
+<a class="reference internal" href="#equation-eq-general">Eq. 548</a>, and for a confining potential the two err in different directions. Too small a
+box adds artificial confinement — the hard walls squeeze the state and push its energy <em>up</em> — while
+too coarse a grid fails to resolve the wave function’s wiggles. The harmonic oscillator
+<span class="math notranslate nohighlight">\(V=\tfrac12x^2\)</span> is the honest test bed for both, since its exact spectrum <span class="math notranslate nohighlight">\(E_n=n+\tfrac12\)</span> is known
+and each error can be watched shrinking against it.</p>
+<ol class="arabic simple">
+<li><p>Solve <span class="math notranslate nohighlight">\(V=\tfrac12x^2\)</span> at several box sizes <span class="math notranslate nohighlight">\(L\)</span> (with the grid fine enough) with the <code class="docutils literal notranslate"><span class="pre">solve</span></code> you
+wrote in Exercise 2, and read the ground-state energy.</p></li>
+<li><p>Show that <em>too small</em> a box raises the energy and that it converges to <span class="math notranslate nohighlight">\(\tfrac12\)</span> as <span class="math notranslate nohighlight">\(L\)</span> grows.</p></li>
+<li><p>Separately, show that <em>too coarse</em> a grid (small <span class="math notranslate nohighlight">\(N\)</span>) also errs, converging as <span class="math notranslate nohighlight">\(N\)</span> grows.</p></li>
+<li><p>State the rule of thumb: the box must contain the wave function’s decay, and the grid must
+resolve its wiggles (points per wavelength). The computational-physics discipline is to trust an
+eigenvalue only inside its converged window.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>box size L (fixed dx≈0.02):  E_1 → ½
+  L =    3:  E_1 = 0.67794   (error 1.8e-01)
+  L =    5:  E_1 = 0.50451   (error 4.5e-03)
+  L =    8:  E_1 = 0.49999   (error 1.2e-05)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  L =   14:  E_1 = 0.49999   (error 1.3e-05)
+grid points N (fixed box L=14):  E_1 → ½
+  N =   50:  E_1 = 0.49744   (error 2.6e-03)
+  N =  100:  E_1 = 0.49937   (error 6.3e-04)
+  N =  300:  E_1 = 0.49993   (error 6.9e-05)
+  N =  700:  E_1 = 0.49999   (error 1.3e-05)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>converged (L=16, N=800): E_1..E_4 = [0.5    1.4999 2.4998 3.4997]  vs exact n+½ = [0.5, 1.5, 2.5, 3.5]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  a trustworthy eigenvalue requires an adequate box and grid: with both converged, the harmonic oscillator gives Eₙ = n + ½   [max|Δ| = 0.000313311 (rtol=1e-06, atol=0.01)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-wave-mechanics-is-a-matrix-eigenvalue-problem-synthesis">
+<h2>Exercise 7 — Wave mechanics is a matrix eigenvalue problem <em>(synthesis)</em><a class="headerlink" href="#exercise-7-wave-mechanics-is-a-matrix-eigenvalue-problem-synthesis" title="Link to this heading">#</a></h2>
+<p>The time-independent Schrödinger equation is the eigenvalue problem of a Hermitian operator, and on a
+grid that operator is a <strong>matrix</strong> we already knew how to diagonalize. We checked the recipe against
+the square well’s exact spectrum — energies to several digits, eigenfunctions to machine precision,
+orthonormality from <code class="docutils literal notranslate"><span class="pre">eigh</span></code> — watched the error fall as <span class="math notranslate nohighlight">\(1/N^2\)</span>, and then solved a potential no formula
+can reach, all with the <em>same three lines</em> that diagonalized a <span class="math notranslate nohighlight">\(2\times2\)</span> spin operator in Movement 0:
+build the kinetic stencil, add the diagonal potential, call <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code>. This is the engine of
+computational quantum mechanics: give it a potential, get its spectrum and its stationary states.</p>
+<p>There is no new computation to do here; the method <em>is</em> the result. And there is a quiet triumph
+in it. The equation that took Schrödinger a winter to solve for hydrogen, we solve for an
+arbitrary potential in a few lines — not because we are cleverer, but because diagonalizing a matrix
+is something a computer does without thinking. The next notebooks apply this engine to real
+bound-state problems and parity (<a class="reference internal" href="bound-states-1d.html"><span class="std std-doc">§6.11</span></a>) and to the harmonic oscillator’s analytic and algebraic
+solutions checked against the grid (<a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a>); and once we restore the time dependence, to wave packets in
+motion (<a class="reference internal" href="scattering-tunneling.html"><span class="std std-doc">§6.13</span></a>). The arena is the continuum now, but the method has not changed since <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a> — <em>diagonalize</em>.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>The Schrödinger equation solved by the diagonalization method of Movement 0 — the engine of
+computational quantum mechanics.</p>
+<ul class="simple">
+<li><p><strong>The eigenproblem</strong> <a class="reference internal" href="#equation-eq-tise">Eq. 544</a>: <span class="math notranslate nohighlight">\(\hat H\psi=E\psi\)</span> with <span class="math notranslate nohighlight">\(\hat H=-\tfrac{\hbar^2}{2m}\tfrac{d^2}
+{dx^2}+V\)</span> — the Hermitian eigenvalue problem of <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>, now for a continuous system.</p></li>
+<li><p><strong>Discretization</strong> <a class="reference internal" href="#equation-eq-discretize">Eq. 545</a>: the <span class="math notranslate nohighlight">\((1,-2,1)/dx^2\)</span> stencil (<code class="docutils literal notranslate"><span class="pre">numpy.diag</span></code>) makes the kinetic
+term tridiagonal and <span class="math notranslate nohighlight">\(V\)</span> diagonal, so <span class="math notranslate nohighlight">\(\hat H\to\)</span> a real symmetric matrix for <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code>
+(<code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code> for speed).</p></li>
+<li><p><strong>The square-well validation</strong> <a class="reference internal" href="#equation-eq-square-well">Eq. 546</a>: energies <span class="math notranslate nohighlight">\(E_n=n^2\pi^2\hbar^2/2mL^2\)</span> to several
+digits, eigenfunctions <span class="math notranslate nohighlight">\(\sqrt{2/L}\sin(n\pi x/L)\)</span> to machine precision, orthonormal; a nonzero
+zero-point energy.</p></li>
+<li><p><strong>Convergence</strong> <a class="reference internal" href="#equation-eq-convergence">Eq. 547</a>: second-order, error <span class="math notranslate nohighlight">\(\sim1/N^2\)</span> (slope <span class="math notranslate nohighlight">\(-2\)</span> on log–log);
+higher levels converge later — the highest are least trustworthy.</p></li>
+<li><p><strong>The general method</strong> <a class="reference internal" href="#equation-eq-general">Eq. 548</a>: the recipe needs only <span class="math notranslate nohighlight">\(V(x)\)</span>, so it solves any 1-D potential
+— demonstrated on an anharmonic well with growing level spacings.</p></li>
+</ul>
+<p>Solving the Schrödinger equation is diagonalization. The arena changed from two amplitudes to a
+continuum; the method did not change at all.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Bound states in one dimension (<a class="reference internal" href="bound-states-1d.html"><span class="std std-doc">§6.11</span></a>)</strong>: finite wells, parity, bound-state counting, the double
+well.</p></li>
+<li><p><strong>The harmonic oscillator (<a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a>)</strong>: the analytic and algebraic (ladder-operator) solutions, checked
+against the grid; coherent states.</p></li>
+<li><p><strong>Time evolution on the grid (<a class="reference internal" href="scattering-tunneling.html"><span class="std std-doc">§6.13</span></a>)</strong>: split-step Fourier and Crank–Nicolson for wave-packet
+dynamics.</p></li>
+<li><p><strong>Three dimensions and central potentials (<a class="reference internal" href="central-potentials-3d.html"><span class="std std-doc">§6.16</span></a>–<a class="reference internal" href="hydrogen-atom.html"><span class="std std-doc">§6.17</span></a>)</strong>: separate variables and solve the radial
+equation the same way.</p></li>
+<li><p><strong>Cross-reference</strong> <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a> (<code class="docutils literal notranslate"><span class="pre">eigh</span></code>, the eigenvalue problem), <a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a> (stationary states), <a class="reference internal" href="position-representation.html"><span class="std std-doc">§6.9</span></a> (the position
+representation), Volume 0 (finite differences, discretization error), and forward to <a class="reference internal" href="bound-states-1d.html"><span class="std std-doc">§6.11</span></a>, <a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a>,
+<a class="reference internal" href="scattering-tunneling.html"><span class="std std-doc">§6.13</span></a>.</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/06-quantum-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="position-representation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="bound-states-1d.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">6.11 Bound States in One Dimension</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-time-independent-schrodinger-equation-as-an-eigenproblem">The time-independent Schrödinger equation as an eigenproblem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discretizing-the-hamiltonian-into-a-matrix">Discretizing the Hamiltonian into a matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-infinite-square-well-the-validation">The infinite square well: the validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-and-its-limits">Convergence and its limits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-general-method">The general method</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-building-the-hamiltonian-matrix">Exercise 1 — Building the Hamiltonian matrix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-infinite-square-well-spectrum">Exercise 2 — The infinite square well spectrum</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-eigenfunctions">Exercise 3 — The eigenfunctions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-convergence-with-grid-resolution">Exercise 4 — Convergence with grid resolution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-a-potential-with-no-closed-form">Exercise 5 — A potential with no closed form</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-resolution-box-size-and-trusting-the-answer-student">Exercise 6 — Resolution, box size, and trusting the answer <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-wave-mechanics-is-a-matrix-eigenvalue-problem-synthesis">Exercise 7 — Wave mechanics is a matrix eigenvalue problem <em>(synthesis)</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

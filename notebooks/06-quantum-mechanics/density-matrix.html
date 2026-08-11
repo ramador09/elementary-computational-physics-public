@@ -1,0 +1,1749 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="6.26 The Density Matrix, Mixed States, and Decoherence" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/density-matrix.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: A puzzle has run through this movement: what is the state of one half of an entangled pair? The Bell state ( §6.8) and the Bell inequality..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: A puzzle has run through this movement: what is the state of one half of an entangled pair? The Bell state ( §6.8) and the Bell inequality..." />
+
+    <title>6.26 The Density Matrix, Mixed States, and Decoherence &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/06-quantum-mechanics/density-matrix';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/density-matrix.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms" href="quantum-information.html" />
+    <link rel="prev" title="6.25 Bell’s Inequality and the Failure of Local Realism" href="bell-inequality.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VI — Quantum Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-electronic-structure/index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/06-quantum-mechanics/density-matrix.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/06-quantum-mechanics/density-matrix.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/06-quantum-mechanics/density-matrix.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/06-quantum-mechanics/density-matrix.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>6.26 The Density Matrix, Mixed States, and Decoherence</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-a-state-vector-is-not-enough">Why a state vector is not enough</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-density-operator">The density operator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#superposition-versus-mixture">Superposition versus mixture</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#purity">Purity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-reduced-density-matrix-and-the-partial-trace">The reduced density matrix and the partial trace</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entanglement-makes-parts-mixed">Entanglement makes parts mixed</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decoherence">Decoherence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evolution-of-the-density-matrix">Evolution of the density matrix</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-density-operator-and-its-properties">Exercise 1 — The density operator and its properties</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-superposition-versus-mixture">Exercise 2 — Superposition versus mixture</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-purity-and-the-bloch-ball">Exercise 3 — Purity and the Bloch ball</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-reduced-density-matrix">Exercise 4 — The reduced density matrix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-a-pure-whole-with-mixed-parts-entanglement-entropy">Exercise 5 — A pure whole with mixed parts: entanglement entropy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-entanglement-across-a-family">Exercise 6 — Entanglement across a family</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-decoherence">Exercise 7 — Decoherence</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-the-von-neumann-equation-and-conservation-of-purity-student">Exercise 8 — The von Neumann equation and conservation of purity <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-synthesis-the-state-honestly-described">Exercise 9 — (Synthesis) The state, honestly described</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-density-matrix-mixed-states-and-decoherence">
+<h1>6.26 The Density Matrix, Mixed States, and Decoherence<a class="headerlink" href="#the-density-matrix-mixed-states-and-decoherence" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VI — Quantum Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;6.26
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">What is the state of half an entangled pair? No single wavefunction will do. The density matrix is the object that describes it — and with it, the difference between a genuine superposition and a mere statistical mixture, the entanglement of a subsystem measured as an entropy, and the way a quantum system loses its coherence to the environment and starts to look classical. It is also the state on which quantum statistical mechanics will later be built.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;170–210 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>A puzzle has run through this movement: what <em>is</em> the state of one half of an
+entangled pair? The Bell state (<a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>) and the Bell inequality (<a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a>) kept showing
+single-particle marginals that looked completely random, yet no state vector for
+a single particle reproduces that. A state vector <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> describes a
+system we know as well as quantum mechanics allows — a <strong>pure</strong> state — but two
+situations escape it: a <strong>statistical mixture</strong> (we are classically uncertain
+which pure state we have, like an unpolarized beam) and a <strong>subsystem</strong> of an
+entangled whole (where no state vector for the part exists at all). The <strong>density
+operator</strong> <span class="math notranslate nohighlight">\(\rho\)</span> handles both.</p>
+<p>For a pure state <span class="math notranslate nohighlight">\(\rho=|\psi\rangle\langle\psi|\)</span>; for a mixture <span class="math notranslate nohighlight">\(\rho=\sum_i p_i
+|\psi_i\rangle\langle\psi_i|\)</span>. It is Hermitian, positive, and unit-trace, and
+every prediction follows from it, <span class="math notranslate nohighlight">\(\langle A\rangle=\mathrm{Tr}(\rho A)\)</span>.
+Crucially <span class="math notranslate nohighlight">\(\rho\)</span> distinguishes a coherent <strong>superposition</strong> from a <strong>mixture</strong> —
+the superposition carries nonzero off-diagonal <em>coherences</em> and a definite value
+in a rotated basis, the mixture does not — a distinction a bare list of
+probabilities erases. The <strong>purity</strong> <span class="math notranslate nohighlight">\(\mathrm{Tr}(\rho^2)\)</span> diagnoses which. For a
+composite system the state of one part is the <strong>reduced density matrix</strong>
+<span class="math notranslate nohighlight">\(\rho_A=\mathrm{Tr}_B\rho\)</span>, and here the deep fact surfaces: a <em>pure</em> entangled
+whole has <em>mixed</em> parts. The reduced state of a Bell pair is maximally mixed
+(purity <span class="math notranslate nohighlight">\(\tfrac12\)</span>, von Neumann entropy <span class="math notranslate nohighlight">\(1\)</span> bit) — which is exactly <em>why</em> the
+marginals of <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a> and <a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a> were random. That entropy measures the entanglement.
+Finally <strong>decoherence</strong>: when a superposition entangles with an environment we
+then ignore, its coherences decay and it becomes a classical mixture — the
+mechanism of the quantum-to-classical transition, and the practical adversary of
+every qubit.</p>
+<blockquote>
+<div><p><strong>Scope boundary.</strong> We develop <span class="math notranslate nohighlight">\(\rho\)</span> for <strong>entanglement, mixed states, and
+decoherence</strong>. The same object also carries a <em>thermal</em> weight, <span class="math notranslate nohighlight">\(\rho=e^{-\beta
+H}/Z\)</span>, and is the starting point of quantum statistical mechanics — but the
+thermal state, partition functions, and the Fermi–Dirac / Bose–Einstein
+distributions are <strong>deferred to Volume VII</strong>. Here <span class="math notranslate nohighlight">\(\rho\)</span> is the language of
+entanglement. Lindblad / open-system dynamics and quantum channels are named as
+horizons, not developed.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Method specificity.</strong> <span class="math notranslate nohighlight">\(\rho=|\psi\rangle\langle\psi|\)</span> via <code class="docutils literal notranslate"><span class="pre">numpy.outer</span></code>;
+<span class="math notranslate nohighlight">\(\langle A\rangle=\mathrm{Tr}(\rho A)\)</span> via <code class="docutils literal notranslate"><span class="pre">numpy.trace</span></code>; the partial trace via
+<code class="docutils literal notranslate"><span class="pre">numpy.reshape</span></code> + <code class="docutils literal notranslate"><span class="pre">numpy.trace</span></code> over the traced indices; the von Neumann entropy
+from <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code>; and <code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code> for the von Neumann
+evolution. Entropy is in <strong>bits</strong> (<span class="math notranslate nohighlight">\(\log_2\)</span>).</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="why-a-state-vector-is-not-enough">
+<h3>Why a state vector is not enough<a class="headerlink" href="#why-a-state-vector-is-not-enough" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\(|\psi\rangle\)</span> describes a pure state — maximal knowledge. But an unpolarized beam
+(a classical 50/50 mixture of up and down) and one half of an entangled pair
+cannot be written as any single <span class="math notranslate nohighlight">\(|\psi\rangle\)</span>. We need an object for mixtures and
+subsystems.</p>
+<div class="math notranslate nohighlight" id="equation-eq-why-rho">
+<span class="eqno">(636)<a class="headerlink" href="#equation-eq-why-rho" title="Link to this equation">#</a></span>\[\text{pure: } |\psi\rangle \qquad\text{vs}\qquad
+\text{mixture / subsystem: no single } |\psi\rangle \text{ exists.}\]</div>
+</section>
+<section id="the-density-operator">
+<h3>The density operator<a class="headerlink" href="#the-density-operator" title="Link to this heading">#</a></h3>
+<p>For a pure state <span class="math notranslate nohighlight">\(\rho=|\psi\rangle\langle\psi|\)</span>; for a mixture of pure states
+<span class="math notranslate nohighlight">\(|\psi_i\rangle\)</span> with classical probabilities <span class="math notranslate nohighlight">\(p_i\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-density-operator">
+<span class="eqno">(637)<a class="headerlink" href="#equation-eq-density-operator" title="Link to this equation">#</a></span>\[\rho = \sum_i p_i\,|\psi_i\rangle\langle\psi_i| , \qquad
+\rho=\rho^\dagger,\quad \rho\succeq0,\quad \mathrm{Tr}\,\rho=1 ,\]</div>
+<p>and every prediction is <span class="math notranslate nohighlight">\(\langle A\rangle=\mathrm{Tr}(\rho A)\)</span> (equal to
+<span class="math notranslate nohighlight">\(\langle\psi|A|\psi\rangle\)</span> for a pure state); the diagonal entries are outcome
+probabilities.</p>
+</section>
+<section id="superposition-versus-mixture">
+<h3>Superposition versus mixture<a class="headerlink" href="#superposition-versus-mixture" title="Link to this heading">#</a></h3>
+<p>The essential lesson. The pure superposition <span class="math notranslate nohighlight">\((|0\rangle+|1\rangle)/\sqrt2\)</span> and
+the mixture <span class="math notranslate nohighlight">\(\tfrac12|0\rangle\langle0|+\tfrac12|1\rangle\langle1|\)</span> have the <em>same</em>
+diagonal (50/50 in the computational basis) but <em>different</em> off-diagonals:</p>
+<div class="math notranslate nohighlight" id="equation-eq-superposition-mixture">
+<span class="eqno">(638)<a class="headerlink" href="#equation-eq-superposition-mixture" title="Link to this equation">#</a></span>\[\begin{split}\rho_{\text{sup}}=\tfrac12\begin{pmatrix}1&amp;1\\1&amp;1\end{pmatrix},\qquad
+\rho_{\text{mix}}=\tfrac12\begin{pmatrix}1&amp;0\\0&amp;1\end{pmatrix}.\end{split}\]</div>
+<p>The superposition’s off-diagonal <strong>coherences</strong> make it give a definite result in
+a rotated basis (<span class="math notranslate nohighlight">\(\langle\sigma_x\rangle=1\)</span>); the mixture stays random
+(<span class="math notranslate nohighlight">\(\langle\sigma_x\rangle=0\)</span>). They are physically distinct states.</p>
+</section>
+<section id="purity">
+<h3>Purity<a class="headerlink" href="#purity" title="Link to this heading">#</a></h3>
+<p>The <strong>purity</strong> <span class="math notranslate nohighlight">\(\mathrm{Tr}(\rho^2)\)</span> is <span class="math notranslate nohighlight">\(1\)</span> iff <span class="math notranslate nohighlight">\(\rho\)</span> is pure, and smaller for
+mixed states, down to <span class="math notranslate nohighlight">\(1/d\)</span> for the maximally mixed state.</p>
+<div class="math notranslate nohighlight" id="equation-eq-purity">
+<span class="eqno">(639)<a class="headerlink" href="#equation-eq-purity" title="Link to this equation">#</a></span>\[\mathrm{Tr}(\rho^2) = \frac{1+r^2}{2}\quad(\text{qubit, Bloch length }r):
+\ 1 \text{ on the Bloch surface},\ \tfrac12 \text{ at the center.}\]</div>
+<p>The Bloch sphere of <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>, now filled in: pure states on the surface, mixed states
+in the interior.</p>
+</section>
+<section id="the-reduced-density-matrix-and-the-partial-trace">
+<h3>The reduced density matrix and the partial trace<a class="headerlink" href="#the-reduced-density-matrix-and-the-partial-trace" title="Link to this heading">#</a></h3>
+<p>For a composite system <span class="math notranslate nohighlight">\(AB\)</span>, the state of <span class="math notranslate nohighlight">\(A\)</span> alone is the <strong>reduced density
+matrix</strong> obtained by the <strong>partial trace</strong> over <span class="math notranslate nohighlight">\(B\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-partial-trace">
+<span class="eqno">(640)<a class="headerlink" href="#equation-eq-partial-trace" title="Link to this equation">#</a></span>\[\rho_A = \mathrm{Tr}_B\,\rho_{AB} = \sum_k \langle k|_B\,\rho_{AB}\,|k\rangle_B ,\]</div>
+<p>computed by reshaping to <span class="math notranslate nohighlight">\((d_A,d_B,d_A,d_B)\)</span> and tracing the <span class="math notranslate nohighlight">\(B\)</span> indices. It gives
+the correct statistics for any measurement on <span class="math notranslate nohighlight">\(A\)</span> alone.</p>
+</section>
+<section id="entanglement-makes-parts-mixed">
+<h3>Entanglement makes parts mixed<a class="headerlink" href="#entanglement-makes-parts-mixed" title="Link to this heading">#</a></h3>
+<p>The deep result. For a Bell state the <em>whole</em> is pure but each <em>part</em> is maximally
+mixed:</p>
+<div class="math notranslate nohighlight" id="equation-eq-entanglement-mixed">
+<span class="eqno">(641)<a class="headerlink" href="#equation-eq-entanglement-mixed" title="Link to this equation">#</a></span>\[|\Phi\rangle=\tfrac1{\sqrt2}(|00\rangle+|11\rangle)\ \text{pure},\qquad
+\rho_A=\tfrac12 I,\quad S(\rho_A)=-\!\sum_k\lambda_k\log_2\lambda_k = 1\ \text{bit.}\]</div>
+<p>A pure entangled state has mixed subsystems — exactly <em>why</em> the single-particle
+marginals of <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a> and <a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a> are random. The <strong>von Neumann entropy</strong> <span class="math notranslate nohighlight">\(S(\rho)\)</span> is
+<span class="math notranslate nohighlight">\(0\)</span> for a pure state and <span class="math notranslate nohighlight">\(1\)</span> bit for a maximally mixed qubit; for a pure bipartite
+state <span class="math notranslate nohighlight">\(S(\rho_A)\)</span> is the <strong>entanglement entropy</strong>.</p>
+</section>
+<section id="decoherence">
+<h3>Decoherence<a class="headerlink" href="#decoherence" title="Link to this heading">#</a></h3>
+<p>How the classical world emerges. Let a superposition entangle with an environment
+that records which state it is in, <span class="math notranslate nohighlight">\((|0\rangle|E_0\rangle+|1\rangle|E_1\rangle)/
+\sqrt2\)</span>; tracing out the environment leaves a system coherence proportional to the
+overlap <span class="math notranslate nohighlight">\(\langle E_0|E_1\rangle\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-decoherence">
+<span class="eqno">(642)<a class="headerlink" href="#equation-eq-decoherence" title="Link to this equation">#</a></span>\[\begin{split}\rho_S = \tfrac12\begin{pmatrix}1&amp;\langle E_1|E_0\rangle\\ \langle E_0|E_1\rangle&amp;1
+\end{pmatrix} \xrightarrow{\ \langle E_0|E_1\rangle\to0\ } \tfrac12 I .\end{split}\]</div>
+<p>As the environment distinguishes the states, the coherences decay and the pure
+superposition becomes a classical mixture (purity <span class="math notranslate nohighlight">\(1\to\tfrac12\)</span>) — why
+macroscopic superpositions are never seen, and why qubits must be isolated.</p>
+</section>
+<section id="evolution-of-the-density-matrix">
+<h3>Evolution of the density matrix<a class="headerlink" href="#evolution-of-the-density-matrix" title="Link to this heading">#</a></h3>
+<p>For a closed system, <span class="math notranslate nohighlight">\(\rho(t)=U(t)\rho(0)U^\dagger(t)\)</span>, equivalently the <strong>von
+Neumann equation</strong></p>
+<div class="math notranslate nohighlight" id="equation-eq-von-neumann">
+<span class="eqno">(643)<a class="headerlink" href="#equation-eq-von-neumann" title="Link to this equation">#</a></span>\[i\hbar\,\frac{\mathrm d\rho}{\mathrm dt} = [H,\rho] ,\]</div>
+<p>the density-matrix form of the Schrödinger equation. Under unitary evolution
+<strong>purity is conserved</strong> — mixing never arises from closed dynamics, only from
+tracing out an environment (decoherence) or classical ignorance.</p>
+<ul class="simple">
+<li><p>Reference: Sakurai &amp; Napolitano (§3.4); Nielsen &amp; Chuang <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id38" title="Michael A. Nielsen and Isaac L. Chuang. Quantum Computation and Quantum Information. Cambridge University Press, 10th anniversary edition, 2010.">NC10</a>]</span>
+(density matrices, partial trace, von Neumann entropy); Griffiths
+<span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id20" title="David J. Griffiths and Darrell F. Schroeter. Introduction to Quantum Mechanics. Cambridge University Press, 3 edition, 2018.">GS18</a>]</span> (mixed states). Cross-reference <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a> (the Bloch sphere, now
+filled in; the Bell reduced state), <a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a> (the random Bell marginals, now
+explained), <a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a> (the Born rule), <a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a> (unitary evolution, now for <span class="math notranslate nohighlight">\(\rho\)</span>), and
+forward to <a class="reference internal" href="quantum-information.html"><span class="std std-doc">§6.27</span></a> (quantum information) and Volume VII (the thermal density matrix
+— the deferred home). Named as horizons: Lindblad / open-system dynamics,
+quantum channels, the thermal state.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>The data are the conventions — qubits throughout (subsystem dimension 2), <span class="math notranslate nohighlight">\(\hbar=1\)</span>,
+entropy in <strong>bits</strong> (<span class="math notranslate nohighlight">\(\log_2\)</span>), and <code class="docutils literal notranslate"><span class="pre">numpy.kron</span></code> ordering that puts factor <span class="math notranslate nohighlight">\(A\)</span> first —
+together with the computational-basis kets <span class="math notranslate nohighlight">\(|0\rangle,|1\rangle\)</span> and the Pauli matrices
+of <a class="reference internal" href="pauli-uncertainty.html"><span class="std std-doc">§6.6</span></a>, the fixed objects every state and observable below is
+written in terms of. The instruments are the three meters that read a number off a density
+matrix once it exists: <code class="docutils literal notranslate"><span class="pre">expectation(rho,</span> <span class="pre">A)</span></code> for <span class="math notranslate nohighlight">\(\langle A\rangle=\mathrm{Tr}(\rho A)\)</span>
+(<code class="docutils literal notranslate"><span class="pre">numpy.trace</span></code>), <code class="docutils literal notranslate"><span class="pre">purity(rho)</span></code> for <span class="math notranslate nohighlight">\(\mathrm{Tr}(\rho^2)\)</span>, and
+<code class="docutils literal notranslate"><span class="pre">von_neumann_entropy(rho)</span></code> for <span class="math notranslate nohighlight">\(-\sum_k\lambda_k\log_2\lambda_k\)</span> from
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code>. This notebook’s own machinery is <em>not</em> here: you write the
+density operator <code class="docutils literal notranslate"><span class="pre">density_matrix</span></code> in Exercise 1, the partial trace <code class="docutils literal notranslate"><span class="pre">partial_trace</span></code> in
+Exercise 4, and the von Neumann evolution <code class="docutils literal notranslate"><span class="pre">evolve_density</span></code> in Exercise 8. No randomness
+appears anywhere in this notebook.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">expm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="c1"># data: conventions. ℏ=1; qubits throughout (subsystem dimension 2); entropy in bits (log₂);</span>
+<span class="c1"># numpy.kron(a, b) puts factor A first, so |q_A q_B⟩ is index 2·q_A + q_B.</span>
+<span class="n">HBAR</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="c1"># data: the computational basis and the Pauli matrices of §6.6 — the fixed specimens</span>
+<span class="n">KET0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="n">KET1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="n">SIGMA_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="n">SIGMA_Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="n">SIGMA_Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+
+<span class="c1"># instrument: the reading device, one numpy.trace. Every exercise measures *with* it; the</span>
+<span class="c1"># Born-rule content behind ⟨A⟩ is the lesson of §6.5, not of this notebook.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">expectation</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">A</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Expectation value $\langle A\rangle=\mathrm{Tr}(\rho A)$ (`numpy.trace`).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">rho</span> <span class="o">@</span> <span class="n">A</span><span class="p">)))</span>
+
+
+<span class="c1"># instrument: a mixedness meter. What the exercises put under test is which states come out</span>
+<span class="c1"># pure and which mixed, not how Tr(ρ²) is evaluated.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">purity</span><span class="p">(</span><span class="n">rho</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Purity $\mathrm{Tr}(\rho^2)$ {eq}`eq-purity`: 1 for pure, $1/d$ for maximally mixed.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">rho</span> <span class="o">@</span> <span class="n">rho</span><span class="p">)))</span>
+
+
+<span class="c1"># instrument: the second mixedness meter — the 5.x Shannon/von-Neumann entropy formula</span>
+<span class="c1"># applied to a density matrix&#39;s eigenvalues. The lesson is the value it returns for a Bell</span>
+<span class="c1"># half, not its arithmetic.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">von_neumann_entropy</span><span class="p">(</span><span class="n">rho</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Von Neumann entropy $S=-\sum_k\lambda_k\log_2\lambda_k$ in bits.</span>
+
+<span class="sd">    The eigenvalues come from `numpy.linalg.eigvalsh`; zero (and tiny negative,</span>
+<span class="sd">    round-off) eigenvalues are dropped, since $0\log0=0$.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rho : numpy.ndarray</span>
+<span class="sd">        A density matrix.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The entropy in bits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">lam</span><span class="p">[</span><span class="n">lam</span> <span class="o">&gt;</span> <span class="mf">1e-12</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">lam</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">lam</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-density-operator-and-its-properties">
+<h2>Exercise 1 — The density operator and its properties<a class="headerlink" href="#exercise-1-the-density-operator-and-its-properties" title="Link to this heading">#</a></h2>
+<p>The object this notebook is named for is built from a state in one line: a pure state
+<span class="math notranslate nohighlight">\(|\psi\rangle\)</span> gives the outer product <span class="math notranslate nohighlight">\(\rho=|\psi\rangle\langle\psi|\)</span>, and a classical
+mixture of pure states <span class="math notranslate nohighlight">\(|\psi_i\rangle\)</span> held with probabilities <span class="math notranslate nohighlight">\(p_i\)</span> gives the weighted
+sum <span class="math notranslate nohighlight">\(\rho=\sum_i p_i|\psi_i\rangle\langle\psi_i|\)</span> <a class="reference internal" href="#equation-eq-density-operator">Eq. 637</a>. The two cases
+share one constructor because a pure state is just the mixture with a single term. Whatever
+it is built from, the result must be Hermitian, positive semi-definite, and of unit trace —
+the three axioms that make its diagonal a legitimate list of outcome probabilities — and it
+must reproduce the state-vector expectation, <span class="math notranslate nohighlight">\(\mathrm{Tr}(\rho A)=\langle\psi|A|\psi\rangle\)</span>,
+for the pure case. The specimens are the pure state <span class="math notranslate nohighlight">\(|\psi\rangle=\cos(0.6)|0\rangle+
+\sin(0.6)|1\rangle\)</span>, the mixture <span class="math notranslate nohighlight">\(0.7\,|0\rangle\langle0|+0.3\,|1\rangle\langle1|\)</span>, and the
+observable <span class="math notranslate nohighlight">\(A=\sigma_z\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">density_matrix(spec)</span></code>, returning <span class="math notranslate nohighlight">\(\rho=|\psi\rangle\langle\psi|\)</span> from a ket via
+<code class="docutils literal notranslate"><span class="pre">numpy.outer</span></code> (conjugating the second factor), or <span class="math notranslate nohighlight">\(\sum_i p_i|\psi_i\rangle\langle\psi_i|\)</span>
+when <code class="docutils literal notranslate"><span class="pre">spec</span></code> is a list of <code class="docutils literal notranslate"><span class="pre">(p,</span> <span class="pre">ket)</span></code> pairs.</p></li>
+<li><p>Check Hermiticity, positivity (eigenvalues <span class="math notranslate nohighlight">\(\ge0\)</span>), and <span class="math notranslate nohighlight">\(\mathrm{Tr}\,\rho=1\)</span>.</p></li>
+<li><p>Confirm <span class="math notranslate nohighlight">\(\langle A\rangle=\mathrm{Tr}(\rho A)\)</span> equals <span class="math notranslate nohighlight">\(\langle\psi|A|\psi\rangle\)</span>
+for the pure case (<code class="docutils literal notranslate"><span class="pre">numpy.trace</span></code>, the Setup’s <code class="docutils literal notranslate"><span class="pre">expectation</span></code>).</p></li>
+<li><p>Note the diagonal entries are outcome probabilities.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-density-operator">Eq. 637</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pure: Hermitian=True, positive=True, Tr=1.000000
+mixed: Hermitian=True, positive=True, Tr=1.000000
+⟨σz⟩:  Tr(ρA) = 0.362358   ⟨ψ|A|ψ⟩ = 0.362358
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<p>The density operator must be Hermitian, positive, and unit-trace, and the trace
+formula must reproduce the state-vector expectation: <span class="math notranslate nohighlight">\(\mathrm{Tr}(\rho A)=\langle
+\psi|A|\psi\rangle\)</span>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the density operator is Hermitian, positive, and unit-trace
+✓  expectation values are ⟨A⟩ = Tr(ρA)   [got 0.362358 vs expected 0.362358 (rtol=1e-09, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-superposition-versus-mixture">
+<h2>Exercise 2 — Superposition versus mixture<a class="headerlink" href="#exercise-2-superposition-versus-mixture" title="Link to this heading">#</a></h2>
+<p>A coherent superposition and a statistical mixture can carry the <em>same</em> measurement
+probabilities in one basis and still be different states, and the difference lives in the
+off-diagonal entries — the <strong>coherences</strong>. The superposition <span class="math notranslate nohighlight">\((|0\rangle+|1\rangle)/\sqrt2\)</span>
+and the 50/50 mixture <span class="math notranslate nohighlight">\(\tfrac12|0\rangle\langle0|+\tfrac12|1\rangle\langle1|\)</span> share the
+diagonal <span class="math notranslate nohighlight">\((\tfrac12,\tfrac12)\)</span>, so a computational-basis measurement cannot tell them apart;
+their off-diagonals differ <a class="reference internal" href="#equation-eq-superposition-mixture">Eq. 638</a>, and that difference is physical.
+It shows up as the purity <span class="math notranslate nohighlight">\(\mathrm{Tr}(\rho^2)\)</span>, <span class="math notranslate nohighlight">\(1\)</span> against <span class="math notranslate nohighlight">\(\tfrac12\)</span> <a class="reference internal" href="#equation-eq-purity">Eq. 639</a>, and
+as a measurement along <span class="math notranslate nohighlight">\(x\)</span>: the superposition is an eigenstate of <span class="math notranslate nohighlight">\(\sigma_x\)</span> and answers with
+a definite <span class="math notranslate nohighlight">\(\langle\sigma_x\rangle=1\)</span>, while the mixture stays random at <span class="math notranslate nohighlight">\(0\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Build <span class="math notranslate nohighlight">\(\rho\)</span> for both states with the <code class="docutils literal notranslate"><span class="pre">density_matrix</span></code> you wrote in Exercise 1: the
+superposition <span class="math notranslate nohighlight">\((|0\rangle+|1\rangle)/\sqrt2\)</span> from its ket, and the 50/50 mixture
+<span class="math notranslate nohighlight">\(\tfrac12|0\rangle\langle0|+\tfrac12|1\rangle\langle1|\)</span> from its <code class="docutils literal notranslate"><span class="pre">(p,</span> <span class="pre">ket)</span></code> list.</p></li>
+<li><p>Compare their matrices: same diagonal, different off-diagonal.</p></li>
+<li><p>Compute the purity of each (<span class="math notranslate nohighlight">\(1\)</span> vs <span class="math notranslate nohighlight">\(\tfrac12\)</span>).</p></li>
+<li><p>Measure <span class="math notranslate nohighlight">\(\langle\sigma_x\rangle\)</span>: definite (<span class="math notranslate nohighlight">\(1\)</span>) for the superposition, random
+(<span class="math notranslate nohighlight">\(0\)</span>) for the mixture — a measurable difference.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-superposition-mixture">Eq. 638</a>, <a class="reference internal" href="#equation-eq-purity">Eq. 639</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>superposition ρ:
+ [[0.5 0.5]
+ [0.5 0.5]]
+mixture ρ:
+ [[0.5 0. ]
+ [0.  0.5]]
+purity:  superposition = 1.000   mixture = 0.500
+⟨σx⟩:    superposition = 1.000   mixture = 0.000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-dm-sup-vs-mix">
+<img alt="../../_images/fb61a5283be0d96f3617f4c18350161f07b27a82af899420c0a1122003a8b3fc.png" src="../../_images/fb61a5283be0d96f3617f4c18350161f07b27a82af899420c0a1122003a8b3fc.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 598 </span><span class="caption-text"><strong>Coherence is the difference.</strong> The coherent superposition <span class="math notranslate nohighlight">\((|0\rangle+|1\rangle)/\sqrt2\)</span> (left) and the 50/50 statistical mixture (right) have identical diagonals — both give 50/50 outcomes in the computational basis — but the superposition carries nonzero <strong>off-diagonal coherences</strong> (the bright corners) that the mixture lacks. Those coherences are physical: measured along <span class="math notranslate nohighlight">\(x\)</span> the superposition gives a definite <span class="math notranslate nohighlight">\(\langle\sigma_x\rangle=1\)</span> while the mixture stays random at <span class="math notranslate nohighlight">\(0\)</span>. A bare list of probabilities would erase the distinction; the density matrix keeps it.</span><a class="headerlink" href="#fig-dm-sup-vs-mix" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<p>The superposition is pure (purity <span class="math notranslate nohighlight">\(1\)</span>, coherences present) and the mixture is
+mixed (purity <span class="math notranslate nohighlight">\(\tfrac12\)</span>); they differ measurably in <span class="math notranslate nohighlight">\(\langle\sigma_x\rangle\)</span>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  a superposition is pure (coherences present) and a 50/50 mixture is mixed   [max|Δ| = 4.44089e-16 (rtol=1e-09, atol=1e-09)]
+✓  the superposition gives ⟨σx⟩=1 (definite) while the mixture gives 0 (random)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-purity-and-the-bloch-ball">
+<h2>Exercise 3 — Purity and the Bloch ball<a class="headerlink" href="#exercise-3-purity-and-the-bloch-ball" title="Link to this heading">#</a></h2>
+<p>The Bloch sphere of <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a> carried pure states only, on its
+surface. The density matrix fills it in. Any qubit state whatsoever is
+<span class="math notranslate nohighlight">\(\rho=\tfrac12(I+\mathbf r\cdot\boldsymbol\sigma)\)</span> for a real Bloch vector <span class="math notranslate nohighlight">\(\mathbf r\)</span> with
+<span class="math notranslate nohighlight">\(|\mathbf r|\le1\)</span>: the sphere becomes a <em>ball</em>, whose interior is exactly the mixed states.
+The purity is a function of the radius alone, <span class="math notranslate nohighlight">\(\mathrm{Tr}(\rho^2)=(1+r^2)/2\)</span>
+<a class="reference internal" href="#equation-eq-purity">Eq. 639</a>, so it reads <span class="math notranslate nohighlight">\(1\)</span> on the surface (<span class="math notranslate nohighlight">\(r=1\)</span>, pure), falls through the interior,
+and bottoms out at <span class="math notranslate nohighlight">\(\tfrac12\)</span> at the centre (<span class="math notranslate nohighlight">\(r=0\)</span>), which is the maximally mixed state
+<span class="math notranslate nohighlight">\(\tfrac12 I\)</span>. The specimens are the eleven states along the <span class="math notranslate nohighlight">\(z\)</span> axis, <span class="math notranslate nohighlight">\(\mathbf r=(0,0,r)\)</span>
+for <span class="math notranslate nohighlight">\(r\)</span> on <code class="docutils literal notranslate"><span class="pre">numpy.linspace(0,</span> <span class="pre">1,</span> <span class="pre">11)</span></code>.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">bloch_density(r_vec)</span></code>, returning <span class="math notranslate nohighlight">\(\rho=\tfrac12(I+\mathbf r\cdot
+\boldsymbol\sigma)\)</span> for a Bloch vector <span class="math notranslate nohighlight">\(\mathbf r=(x,y,z)\)</span>.</p></li>
+<li><p>Compute the purity (the Setup’s <code class="docutils literal notranslate"><span class="pre">purity</span></code>) as a function of the Bloch length
+<span class="math notranslate nohighlight">\(r=|\mathbf r|\)</span>.</p></li>
+<li><p>Show purity <span class="math notranslate nohighlight">\(=1\)</span> on the surface (<span class="math notranslate nohighlight">\(r=1\)</span>, pure) and <span class="math notranslate nohighlight">\(=\tfrac12\)</span> at the center
+(<span class="math notranslate nohighlight">\(r=0\)</span>, maximally mixed).</p></li>
+<li><p>Confirm the closed form <span class="math notranslate nohighlight">\(\mathrm{Tr}(\rho^2)=(1+r^2)/2\)</span>.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-purity">Eq. 639</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>purity vs Bloch length r:
+  r=0.0: purity=0.5000  (1+r²)/2=0.5000
+  r=0.2: purity=0.5200  (1+r²)/2=0.5200
+  r=0.4: purity=0.5800  (1+r²)/2=0.5800
+  r=0.6: purity=0.6800  (1+r²)/2=0.6800
+  r=0.8: purity=0.8200  (1+r²)/2=0.8200
+  r=1.0: purity=1.0000  (1+r²)/2=1.0000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-dm-bloch-ball">
+<img alt="../../_images/8ae86998a28fdb7690b5c4d4fa0b14f87840288bae5d8a780637f67edd00da65.png" src="../../_images/8ae86998a28fdb7690b5c4d4fa0b14f87840288bae5d8a780637f67edd00da65.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 599 </span><span class="caption-text"><strong>The Bloch sphere, filled in.</strong> Left: a cross-section of the Bloch ball colored by purity — pure states live on the surface (<span class="math notranslate nohighlight">\(r=1\)</span>, purity <span class="math notranslate nohighlight">\(1\)</span>), mixed states fill the interior, and the center (<span class="math notranslate nohighlight">\(r=0\)</span>) is the maximally mixed state (purity <span class="math notranslate nohighlight">\(\tfrac12\)</span>). This is the Bloch sphere of <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a> with mixedness as depth. Right: the purity <span class="math notranslate nohighlight">\(\mathrm{Tr}(\rho^2)=(1+r^2)/2\)</span> rises smoothly from <span class="math notranslate nohighlight">\(\tfrac12\)</span> at the center to <span class="math notranslate nohighlight">\(1\)</span> at the surface. A density matrix is a point <em>in the ball</em>, not just on it.</span><a class="headerlink" href="#fig-dm-bloch-ball" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<p>The qubit purity must follow <span class="math notranslate nohighlight">\((1+r^2)/2\)</span>: <span class="math notranslate nohighlight">\(\tfrac12\)</span> at the center (maximally
+mixed) and <span class="math notranslate nohighlight">\(1\)</span> on the Bloch surface (pure).</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  qubit purity is (1+r²)/2 — pure on the Bloch surface, maximally mixed at the center   [max|Δ| = 1.11022e-16 (rtol=1e-09, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-the-reduced-density-matrix">
+<h2>Exercise 4 — The reduced density matrix<a class="headerlink" href="#exercise-4-the-reduced-density-matrix" title="Link to this heading">#</a></h2>
+<p>Asking what state subsystem <span class="math notranslate nohighlight">\(A\)</span> is in, when only the joint <span class="math notranslate nohighlight">\(\rho_{AB}\)</span> is known, is answered
+by the <strong>partial trace</strong> over <span class="math notranslate nohighlight">\(B\)</span>, <span class="math notranslate nohighlight">\(\rho_A=\mathrm{Tr}_B\,\rho_{AB}=\sum_k\langle k|_B\,
+\rho_{AB}\,|k\rangle_B\)</span> <a class="reference internal" href="#equation-eq-partial-trace">Eq. 640</a>. Numerically it is an index contraction: a
+<span class="math notranslate nohighlight">\(4\times4\)</span> joint matrix carries a hidden four-index structure <span class="math notranslate nohighlight">\(\rho_{(a b),(a'b')}\)</span>, so
+reshaping it to <span class="math notranslate nohighlight">\((d_A,d_B,d_A,d_B)\)</span> exposes the four slots and summing over the <em>matching
+pair</em> of <span class="math notranslate nohighlight">\(B\)</span> slots — axes <span class="math notranslate nohighlight">\(1\)</span> and <span class="math notranslate nohighlight">\(3\)</span> of the reshaped array — discards <span class="math notranslate nohighlight">\(B\)</span>. Getting that pair
+right is the whole of it: contract axes <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(2\)</span> instead and one gets <span class="math notranslate nohighlight">\(\rho_B\)</span>, the other
+subsystem. What certifies the result is that <span class="math notranslate nohighlight">\(\rho_A\)</span> is itself a legitimate density matrix
+and that it gives the correct statistics for any measurement on <span class="math notranslate nohighlight">\(A\)</span> alone, so that
+<span class="math notranslate nohighlight">\(\mathrm{Tr}(\rho_A\,\sigma_z)\)</span> agrees with the joint answer
+<span class="math notranslate nohighlight">\(\mathrm{Tr}(\rho_{AB}\,\sigma_z\otimes I)\)</span>. The specimen is the product state
+<span class="math notranslate nohighlight">\(|\psi\rangle_A\otimes|\phi\rangle_B\)</span> with <span class="math notranslate nohighlight">\(|\psi\rangle=\cos(0.5)|0\rangle+\sin(0.5)|1\rangle\)</span>
+and <span class="math notranslate nohighlight">\(|\phi\rangle=\cos(1.1)|0\rangle+\sin(1.1)|1\rangle\)</span>, whose <span class="math notranslate nohighlight">\(\rho_A\)</span> is known in advance:
+a product state has an unentangled, and therefore pure, part.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">partial_trace(rho,</span> <span class="pre">keep,</span> <span class="pre">dims)</span></code>, returning the reduced density matrix of the kept
+subsystem by <code class="docutils literal notranslate"><span class="pre">numpy.reshape</span></code> to <span class="math notranslate nohighlight">\((d_A,d_B,d_A,d_B)\)</span> followed by <code class="docutils literal notranslate"><span class="pre">numpy.trace</span></code> over the
+traced pair of axes (<code class="docutils literal notranslate"><span class="pre">axis1=1,</span> <span class="pre">axis2=3</span></code> to keep <span class="math notranslate nohighlight">\(A\)</span>, <code class="docutils literal notranslate"><span class="pre">axis1=0,</span> <span class="pre">axis2=2</span></code> to keep <span class="math notranslate nohighlight">\(B\)</span>).
+<strong>Write this one yourself</strong> — the implementation is the lesson.</p></li>
+<li><p>Build the joint <span class="math notranslate nohighlight">\(\rho_{AB}\)</span> for the product state <span class="math notranslate nohighlight">\(|\psi\rangle_A\otimes|\phi\rangle_B\)</span>
+(<code class="docutils literal notranslate"><span class="pre">numpy.kron</span></code>, then the <code class="docutils literal notranslate"><span class="pre">density_matrix</span></code> of Exercise 1) and reduce it with <code class="docutils literal notranslate"><span class="pre">keep=0</span></code>.</p></li>
+<li><p>Verify <span class="math notranslate nohighlight">\(\rho_A\)</span> is a valid density matrix (Hermitian, positive, unit-trace).</p></li>
+<li><p>Confirm <span class="math notranslate nohighlight">\(\mathrm{Tr}(\rho_A\,\sigma_z)=\mathrm{Tr}(\rho_{AB}\,\sigma_z\otimes I)\)</span> — the
+reduced state gives the right local statistics.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-partial-trace">Eq. 640</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>reduced ρ_A:
+ [[0.77  0.421]
+ [0.421 0.23 ]]
+valid: Tr=1.0000, positive=True
+⟨σz⟩ on A:  from ρ_A = 0.540302   from ρ_AB (σz⊗I) = 0.540302
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<p>The partial trace must yield a valid density matrix for <span class="math notranslate nohighlight">\(A\)</span> that reproduces local
+expectation values: <span class="math notranslate nohighlight">\(\mathrm{Tr}(\rho_A\,\sigma_z)=\mathrm{Tr}(\rho_{AB}\,\sigma_z
+\otimes I)\)</span>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the reduced density matrix ρ_A = Tr_B ρ reproduces local expectation values   [got 0.540302 vs expected 0.540302 (rtol=1e-09, atol=1e-09)]
+✓  the partial trace yields a valid density matrix (positive, unit-trace)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-a-pure-whole-with-mixed-parts-entanglement-entropy">
+<h2>Exercise 5 — A pure whole with mixed parts: entanglement entropy<a class="headerlink" href="#exercise-5-a-pure-whole-with-mixed-parts-entanglement-entropy" title="Link to this heading">#</a></h2>
+<p>Here the formalism pays for itself. The Bell state <span class="math notranslate nohighlight">\((|00\rangle+|11\rangle)/\sqrt2\)</span> is a
+<em>pure</em> state of the pair: we know it as completely as quantum mechanics permits, and its
+purity is <span class="math notranslate nohighlight">\(1\)</span>. Yet reducing it to either half leaves the maximally mixed <span class="math notranslate nohighlight">\(\rho_A=\tfrac12 I\)</span>
+<a class="reference internal" href="#equation-eq-entanglement-mixed">Eq. 641</a>. Perfect knowledge of the whole, none whatever of the part —
+an inversion with no classical counterpart, and it is what entanglement <em>is</em> in
+density-matrix language. The <strong>von Neumann entropy</strong>
+<span class="math notranslate nohighlight">\(S(\rho)=-\sum_k\lambda_k\log_2\lambda_k\)</span> over the eigenvalues puts a number on it: <span class="math notranslate nohighlight">\(0\)</span> for
+a pure state, and for a maximally mixed qubit a full bit, the same one bit of ignorance as
+a fair coin. For a pure bipartite whole that number is the <strong>entanglement entropy</strong>. It also
+closes an old account: the single-particle marginals of
+<a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a> and <a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a> looked random
+because the reduced state of a Bell half genuinely is.</p>
+<ol class="arabic simple">
+<li><p>Confirm the Bell state <span class="math notranslate nohighlight">\((|00\rangle+|11\rangle)/\sqrt2\)</span> has purity <span class="math notranslate nohighlight">\(1\)</span> (a pure
+whole).</p></li>
+<li><p>Reduce it with your Exercise 4 <code class="docutils literal notranslate"><span class="pre">partial_trace</span></code> and show <span class="math notranslate nohighlight">\(\rho_A\)</span> is maximally mixed
+(<span class="math notranslate nohighlight">\(\rho_A=\tfrac12 I\)</span>, purity <span class="math notranslate nohighlight">\(\tfrac12\)</span>).</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(S(\rho_A)=-\mathrm{Tr}(\rho_A\log_2\rho_A)=1\)</span> bit.</p></li>
+<li><p>Connect to <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a> / <a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a>: tracing out the partner leaves no coherence, so each
+particle alone looks random.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-entanglement-mixed">Eq. 641</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Bell whole:  purity = 1.0000  (pure)
+reduced ρ_A:
+ [[0.5 0. ]
+ [0.  0.5]]
+ρ_A:  purity = 0.5000   S(ρ_A) = 1.0000 bit
+→ maximally mixed: this is WHY the single-particle marginals of §6.8/§6.25 are random
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<p>A pure Bell state must have a maximally mixed reduced state: purity <span class="math notranslate nohighlight">\(\tfrac12\)</span> and
+von Neumann entropy <span class="math notranslate nohighlight">\(1\)</span> bit.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  a pure Bell state has a maximally mixed reduced state, S = 1 bit   [max|Δ| = 2.22045e-16 (rtol=1e-06, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-entanglement-across-a-family">
+<h2>Exercise 6 — Entanglement across a family<a class="headerlink" href="#exercise-6-entanglement-across-a-family" title="Link to this heading">#</a></h2>
+<p>Entanglement is not a yes-or-no property, and the one-parameter family
+<span class="math notranslate nohighlight">\(|\psi(t)\rangle=\cos t\,|00\rangle+\sin t\,|11\rangle\)</span> shows why: it passes continuously
+from the product state <span class="math notranslate nohighlight">\(|00\rangle\)</span> at <span class="math notranslate nohighlight">\(t=0\)</span>, through the Bell state at <span class="math notranslate nohighlight">\(t=\pi/4\)</span>, to the
+product state <span class="math notranslate nohighlight">\(|11\rangle\)</span> at <span class="math notranslate nohighlight">\(t=\pi/2\)</span>. Every member is pure as a <em>whole</em>, so any entropy
+found in a half cannot be classical ignorance about the pair. The reduced state’s entropy
+<span class="math notranslate nohighlight">\(S(\rho_A)\)</span> therefore measures the entanglement and nothing else, rising from <span class="math notranslate nohighlight">\(0\)</span> at the
+product ends to a full bit at the Bell point <a class="reference internal" href="#equation-eq-entanglement-mixed">Eq. 641</a>, while the reduced
+purity mirrors it downward from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(\tfrac12\)</span>. Maximal entanglement is exactly maximal
+mixedness of the part.</p>
+<ol class="arabic simple">
+<li><p>Build the family <span class="math notranslate nohighlight">\(\cos t\,|00\rangle+\sin t\,|11\rangle\)</span> on
+<code class="docutils literal notranslate"><span class="pre">numpy.linspace(0,</span> <span class="pre">numpy.pi/2,</span> <span class="pre">200)</span></code> with the <code class="docutils literal notranslate"><span class="pre">density_matrix</span></code> of Exercise 1.</p></li>
+<li><p>For each <span class="math notranslate nohighlight">\(t\)</span> compute <span class="math notranslate nohighlight">\(\rho_A\)</span> with your Exercise 4 <code class="docutils literal notranslate"><span class="pre">partial_trace</span></code> and its entropy
+<span class="math notranslate nohighlight">\(S(\rho_A)\)</span> (the Setup’s <code class="docutils literal notranslate"><span class="pre">von_neumann_entropy</span></code>).</p></li>
+<li><p>Show <span class="math notranslate nohighlight">\(S\)</span> runs from <span class="math notranslate nohighlight">\(0\)</span> at <span class="math notranslate nohighlight">\(t=0\)</span> (product state) to <span class="math notranslate nohighlight">\(1\)</span> bit at <span class="math notranslate nohighlight">\(t=\pi/4\)</span> (Bell).</p></li>
+<li><p>Note <span class="math notranslate nohighlight">\(S(\rho_A)\)</span> is the entanglement measure — maximal exactly when the state
+is maximally entangled.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-entanglement-mixed">Eq. 641</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>S(ρ_A):  t=0 → -0.0000   t=π/4 → 1.0000
+maximally entangled at t=π/4; product at t=0, π/2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-dm-entanglement">
+<img alt="../../_images/9a1b1bc98da2fb45347974f6c443d44082501f76a38b2e9b3e549ee81806001a.png" src="../../_images/9a1b1bc98da2fb45347974f6c443d44082501f76a38b2e9b3e549ee81806001a.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 600 </span><span class="caption-text"><strong>Entanglement, continuously tuned.</strong> For the family <span class="math notranslate nohighlight">\(\cos t\,|00\rangle+\sin t\,|11\rangle\)</span>, the entanglement entropy <span class="math notranslate nohighlight">\(S(\rho_A)\)</span> (amber) climbs from <span class="math notranslate nohighlight">\(0\)</span> at the product states (<span class="math notranslate nohighlight">\(t=0,\pi/2\)</span>) to a full bit at the Bell state (<span class="math notranslate nohighlight">\(t=\pi/4\)</span>); the reduced purity (grey) mirrors it, dropping from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(\tfrac12\)</span>. The more entangled the whole, the more mixed — and higher-entropy — each part. The entropy of a subsystem <em>is</em> the amount of entanglement.</span><a class="headerlink" href="#fig-dm-entanglement" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<p>The entanglement entropy must run from <span class="math notranslate nohighlight">\(0\)</span> (product state, <span class="math notranslate nohighlight">\(t=0\)</span>) to <span class="math notranslate nohighlight">\(1\)</span> bit (Bell
+state, <span class="math notranslate nohighlight">\(t=\pi/4\)</span>).</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the entanglement entropy runs from 0 (product) to 1 bit (Bell)   [max|Δ| = 0 (rtol=1e-06, atol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-decoherence">
+<h2>Exercise 7 — Decoherence<a class="headerlink" href="#exercise-7-decoherence" title="Link to this heading">#</a></h2>
+<p>Nothing isolates a real system perfectly, and the previous exercises supply the consequence.
+Let a superposition interact with an environment that keeps a record of which branch it is
+in, so that system and environment end in the entangled state
+<span class="math notranslate nohighlight">\((|0\rangle|E_0\rangle+|1\rangle|E_1\rangle)/\sqrt2\)</span>. We do not track the environment, so
+the state we can speak about is the reduced one, and tracing out the environment leaves a
+system coherence proportional to the overlap <span class="math notranslate nohighlight">\(\langle E_0|E_1\rangle\)</span> <a class="reference internal" href="#equation-eq-decoherence">Eq. 642</a>.
+A perfect record (<span class="math notranslate nohighlight">\(\langle E_0|E_1\rangle=0\)</span>, orthogonal environment states) erases the
+coherence entirely and leaves <span class="math notranslate nohighlight">\(\tfrac12 I\)</span>: the pure superposition has become the classical
+mixture of Exercise 2, with the same diagonal and no interference left. Nothing acted on the
+system’s outcome statistics in the computational basis; what was lost was the phase relation,
+to a partner we stopped following. The overlap is swept with the environment states
+<span class="math notranslate nohighlight">\(|E_0\rangle=(1,0)\)</span> and <span class="math notranslate nohighlight">\(|E_1\rangle=(c,\sqrt{1-c^2})\)</span>, so that <span class="math notranslate nohighlight">\(\langle E_0|E_1\rangle=c\)</span>,
+for <span class="math notranslate nohighlight">\(c\)</span> running from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(0\)</span> over <code class="docutils literal notranslate"><span class="pre">numpy.linspace(1,</span> <span class="pre">0,</span> <span class="pre">200)</span></code>.</p>
+<ol class="arabic simple">
+<li><p>Build the joint system–environment state
+<span class="math notranslate nohighlight">\((|0\rangle|E_0\rangle+|1\rangle|E_1\rangle)/\sqrt2\)</span> at each <span class="math notranslate nohighlight">\(c\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.kron</span></code>, then the
+<code class="docutils literal notranslate"><span class="pre">density_matrix</span></code> of Exercise 1).</p></li>
+<li><p>Trace out the environment with your Exercise 4 <code class="docutils literal notranslate"><span class="pre">partial_trace</span></code> (<code class="docutils literal notranslate"><span class="pre">keep=0</span></code>).</p></li>
+<li><p>Show the system’s off-diagonal coherence <span class="math notranslate nohighlight">\(|\rho_{01}|\)</span> is proportional to the overlap
+<span class="math notranslate nohighlight">\(\langle E_0|E_1\rangle=c\)</span>.</p></li>
+<li><p>As <span class="math notranslate nohighlight">\(\langle E_0|E_1\rangle\to0\)</span> (the environment distinguishes the states),
+watch the coherence vanish and the purity drop to <span class="math notranslate nohighlight">\(\tfrac12\)</span> — superposition
+into mixture.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-decoherence">Eq. 642</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⟨E0|E1⟩ = 1 → 0:  coherence 0.500 → 0.000,  purity 1.000 → 0.500
+the pure superposition (purity 1) decoheres into the classical mixture (purity ½)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-dm-decoherence">
+<img alt="../../_images/49c09a44d812b1c325057340d8475cfe4352fd12956aa828f429a5e8fec6969a.png" src="../../_images/49c09a44d812b1c325057340d8475cfe4352fd12956aa828f429a5e8fec6969a.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 601 </span><span class="caption-text"><strong>Decoherence is bookkeeping about a partner you stopped following.</strong> As an environment increasingly distinguishes the two branches of a superposition — the overlap <span class="math notranslate nohighlight">\(\langle E_0|E_1\rangle\)</span> falling from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(0\)</span> — the system’s off-diagonal coherence (amber) decays to zero and its purity (grey) drops from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(\tfrac12\)</span>. The pure superposition has become a classical mixture, with the <em>same</em> diagonal probabilities but no interference. Nothing changed the outcome statistics in the computational basis; what was lost is the coherence, and with it every quantum signature. This is why macroscopic superpositions are never seen and why qubits must be isolated.</span><a class="headerlink" href="#fig-dm-decoherence" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<p>As the environment overlap goes to zero, the system off-diagonal coherence must
+decay to <span class="math notranslate nohighlight">\(0\)</span> and the purity drop to <span class="math notranslate nohighlight">\(\tfrac12\)</span>: tracing out an entangled
+environment decoheres a superposition into a mixture.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  tracing out an entangled environment decoheres a superposition (off-diagonal 0.5→0, purity 1→½) into a classical mixture
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-the-von-neumann-equation-and-conservation-of-purity-student">
+<h2>Exercise 8 — The von Neumann equation and conservation of purity <em>(student)</em><a class="headerlink" href="#exercise-8-the-von-neumann-equation-and-conservation-of-purity-student" title="Link to this heading">#</a></h2>
+<p>A state vector evolves by <span class="math notranslate nohighlight">\(|\psi(t)\rangle=U(t)|\psi(0)\rangle\)</span> with
+<span class="math notranslate nohighlight">\(U(t)=e^{-iHt/\hbar}\)</span> (<a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>); a density matrix, being built from a
+ket and a bra, picks up the propagator on both sides, <span class="math notranslate nohighlight">\(\rho(t)=U(t)\rho(0)U^\dagger(t)\)</span>.
+Differentiating that sandwich gives the <strong>von Neumann equation</strong>
+<span class="math notranslate nohighlight">\(i\hbar\,\mathrm d\rho/\mathrm dt=[H,\rho]\)</span> <a class="reference internal" href="#equation-eq-von-neumann">Eq. 643</a>, the density-matrix form of
+the Schrödinger equation. It has a consequence worth isolating: since <span class="math notranslate nohighlight">\(U\)</span> is unitary,
+<span class="math notranslate nohighlight">\(\mathrm{Tr}(\rho^2)\)</span> is invariant, so a pure state evolving under a closed Hamiltonian
+stays pure forever. Mixing is never manufactured by the dynamics. It arrives only from
+outside, by tracing out an environment as in Exercise 7 — which is the precise sense in
+which decoherence is not a force but a loss of bookkeeping. The specimen is the Hamiltonian
+<span class="math notranslate nohighlight">\(H=0.5\,\sigma_x+0.3\,\sigma_z\)</span> acting on the pure initial state
+<span class="math notranslate nohighlight">\(\rho(0)=|\chi\rangle\langle\chi|\)</span> with <span class="math notranslate nohighlight">\(|\chi\rangle=(|0\rangle+i|1\rangle)/\sqrt2\)</span>, sampled
+on <code class="docutils literal notranslate"><span class="pre">numpy.linspace(0,</span> <span class="pre">6,</span> <span class="pre">120)</span></code>; the derivative is taken at <span class="math notranslate nohighlight">\(t_0=0.7\)</span> with a centred step
+<span class="math notranslate nohighlight">\(\mathrm dt=10^{-6}\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">evolve_density(rho,</span> <span class="pre">H,</span> <span class="pre">t)</span></code>, returning <span class="math notranslate nohighlight">\(U\rho U^\dagger\)</span> with
+<span class="math notranslate nohighlight">\(U=e^{-iHt/\hbar}\)</span> from <code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code> (not <code class="docutils literal notranslate"><span class="pre">numpy.exp</span></code>), and evolve <span class="math notranslate nohighlight">\(\rho(0)\)</span>
+across the time grid.</p></li>
+<li><p>Confirm the von Neumann equation <span class="math notranslate nohighlight">\(i\hbar\,\mathrm d\rho/\mathrm dt=[H,\rho]\)</span>
+numerically (finite-difference the evolved <span class="math notranslate nohighlight">\(\rho\)</span> against the commutator).</p></li>
+<li><p>Show the purity stays constant — a pure state stays pure.</p></li>
+<li><p>Contrast with decoherence (Ex. 7), where tracing out an environment <em>does</em>
+reduce purity. Closed dynamics never mixes; only the environment does.</p></li>
+</ol>
+<p>Cite <a class="reference internal" href="#equation-eq-von-neumann">Eq. 643</a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>purity under unitary evolution: min=1.000000, max=1.000000 (constant)
+von Neumann residual max|iℏ dρ/dt − [H,ρ]| = 5.18e-11
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-dm-vonneumann">
+<img alt="../../_images/d7d4008f45d166d98ce54682c49fb54fdfba78a24397664deb502e994e11bd4c.png" src="../../_images/d7d4008f45d166d98ce54682c49fb54fdfba78a24397664deb502e994e11bd4c.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 602 </span><span class="caption-text"><strong>Closed dynamics never mixes.</strong> Under unitary (von Neumann) evolution the purity of a pure state stays pinned at <span class="math notranslate nohighlight">\(1\)</span> (amber) — the state rotates around the Bloch sphere but never leaves the surface, and the von Neumann equation <span class="math notranslate nohighlight">\(i\hbar\,\dot\rho=[H,\rho]\)</span> holds to a part in <span class="math notranslate nohighlight">\(10^{10}\)</span>. Mixing can only come from <em>outside</em> the closed system: tracing out an environment (grey, the decoherence of Exercise 7) drives the purity down toward <span class="math notranslate nohighlight">\(\tfrac12\)</span>. A qubit left alone stays coherent forever; a qubit watched by its surroundings does not.</span><a class="headerlink" href="#fig-dm-vonneumann" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-8">
+<h3>Validation 8<a class="headerlink" href="#validation-8" title="Link to this heading">#</a></h3>
+<p>Unitary evolution must conserve purity (a pure state stays pure) and satisfy the
+von Neumann equation; mixing requires an environment, not closed dynamics.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  unitary (von Neumann) evolution conserves purity; mixing requires an environment   [max|Δ| = 1.44329e-15 (rtol=1e-06, atol=1e-09)]
+✓  the evolved ρ satisfies the von Neumann equation iℏ dρ/dt = [H,ρ]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-9-synthesis-the-state-honestly-described">
+<h2>Exercise 9 — (Synthesis) The state, honestly described<a class="headerlink" href="#exercise-9-synthesis-the-state-honestly-described" title="Link to this heading">#</a></h2>
+<p>The wavefunction was always a best-case description — the state of a system we
+know as well as nature permits. The density matrix is the honest generalization:
+it describes what we actually have, whether that is a mixture we are classically
+uncertain about or a fragment of an entangled whole whose partner we cannot see.
+It draws the sharp line between a superposition and a mixture that a list of
+probabilities would erase; it measures entanglement as the entropy of a part; and
+it shows how a quantum system, by leaking its coherence into an environment it no
+longer tracks, comes to look classical.</p>
+<p>That last point deserves the emphasis this movement has been building toward. The
+off-diagonal elements of the density matrix are where quantum mechanics lives:
+keep them and you have interference, coherence, a working qubit; lose them to the
+environment and you have an ordinary classical alternative. Decoherence is not
+mysterious — it is bookkeeping about a partner you stopped following. And it
+closed the loop on the whole movement: the random single-particle marginals of the
+Bell state (<a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>) and the Bell test (<a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a>) are now explained exactly, as the
+maximally mixed reduced state of a pure entangled whole.</p>
+<p>The same object, carrying a thermal weight <span class="math notranslate nohighlight">\(e^{-\beta H}\)</span>, will later be the
+starting point of quantum statistical mechanics — but that is Volume VII. Here it
+has told us what the entangled states of this movement are truly made of. The
+final notebook, an optional capstone (<a class="reference internal" href="quantum-information.html"><span class="std std-doc">§6.27</span></a>), takes these ideas — mixed states,
+entropy, entanglement — into the language of quantum information.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The density operator</strong> <a class="reference internal" href="#equation-eq-density-operator">Eq. 637</a>: <span class="math notranslate nohighlight">\(\rho=|\psi\rangle\langle
+\psi|\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.outer</span></code>) or <span class="math notranslate nohighlight">\(\sum_i p_i|\psi_i\rangle\langle\psi_i|\)</span>; Hermitian,
+positive, unit-trace, with <span class="math notranslate nohighlight">\(\langle A\rangle=\mathrm{Tr}(\rho A)\)</span>.</p></li>
+<li><p><strong>Superposition vs mixture</strong> <a class="reference internal" href="#equation-eq-superposition-mixture">Eq. 638</a>: same diagonal,
+different coherences; purity <span class="math notranslate nohighlight">\(1\)</span> vs <span class="math notranslate nohighlight">\(\tfrac12\)</span>; <span class="math notranslate nohighlight">\(\langle\sigma_x\rangle\)</span> <span class="math notranslate nohighlight">\(1\)</span> vs <span class="math notranslate nohighlight">\(0\)</span>.</p></li>
+<li><p><strong>Purity</strong> <a class="reference internal" href="#equation-eq-purity">Eq. 639</a>: <span class="math notranslate nohighlight">\(\mathrm{Tr}(\rho^2)=(1+r^2)/2\)</span> — the Bloch sphere
+filled in, pure on the surface and maximally mixed at the center.</p></li>
+<li><p><strong>The partial trace</strong> <a class="reference internal" href="#equation-eq-partial-trace">Eq. 640</a>: <span class="math notranslate nohighlight">\(\rho_A=\mathrm{Tr}_B\rho\)</span>
+(<code class="docutils literal notranslate"><span class="pre">numpy.reshape</span></code> + <code class="docutils literal notranslate"><span class="pre">numpy.trace</span></code>) gives correct local statistics.</p></li>
+<li><p><strong>Entanglement = mixed parts</strong> <a class="reference internal" href="#equation-eq-entanglement-mixed">Eq. 641</a>: a pure Bell state has
+<span class="math notranslate nohighlight">\(\rho_A=\tfrac12 I\)</span>, <span class="math notranslate nohighlight">\(S=1\)</span> bit — <em>why</em> <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>/<a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a> marginals are random; <span class="math notranslate nohighlight">\(S(\rho_A)\)</span>
+runs <span class="math notranslate nohighlight">\(0\to1\)</span> bit across the entanglement family.</p></li>
+<li><p><strong>Decoherence</strong> <a class="reference internal" href="#equation-eq-decoherence">Eq. 642</a>: tracing out an environment sends the
+coherence <span class="math notranslate nohighlight">\(\to0\)</span> and purity <span class="math notranslate nohighlight">\(\to\tfrac12\)</span> — superposition into mixture.</p></li>
+<li><p><strong>Von Neumann evolution</strong> <a class="reference internal" href="#equation-eq-von-neumann">Eq. 643</a>: <span class="math notranslate nohighlight">\(i\hbar\dot\rho=[H,\rho]\)</span>; closed
+dynamics conserves purity (<code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code>), so mixing needs an environment.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Scope reminder.</strong> The thermal density matrix <span class="math notranslate nohighlight">\(\rho=e^{-\beta H}/Z\)</span> and quantum
+statistical mechanics are built on exactly this object — but that is Volume VII.
+Here <span class="math notranslate nohighlight">\(\rho\)</span> served entanglement, mixed states, and decoherence.</p>
+</div></blockquote>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Quantum information</strong> (<a class="reference internal" href="quantum-information.html"><span class="std std-doc">§6.27</span></a>, optional capstone): density matrices, entropy, and
+quantum channels.</p></li>
+<li><p><strong>The thermal density matrix</strong> <span class="math notranslate nohighlight">\(\rho=e^{-\beta H}/Z\)</span> and quantum statistical
+mechanics — the deferred home (Volume VII).</p></li>
+<li><p><strong>Open quantum systems and Lindblad dynamics</strong>; the full theory of decoherence
+(horizons).</p></li>
+<li><p><strong>Quantum error correction</strong> and why decoherence is the central obstacle to
+quantum computing (a horizon).</p></li>
+<li><p>Cross-reference <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a> (Bloch sphere, Bell reduced state), <a class="reference internal" href="bell-inequality.html"><span class="std std-doc">§6.25</span></a> (Bell marginals),
+<a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a> (Born rule), <a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a> (unitary evolution), forward to <a class="reference internal" href="quantum-information.html"><span class="std std-doc">§6.27</span></a>, Volume VII.</p></li>
+</ul>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<div class="docutils container" id="id3">
+<div role="list" class="citation-list">
+<div class="citation" id="id20" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">GS18</a><span class="fn-bracket">]</span></span>
+<p>David J. Griffiths and Darrell F. Schroeter. <em>Introduction to Quantum Mechanics</em>. Cambridge University Press, 3 edition, 2018.</p>
+</div>
+<div class="citation" id="id38" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">NC10</a><span class="fn-bracket">]</span></span>
+<p>Michael A. Nielsen and Isaac L. Chuang. <em>Quantum Computation and Quantum Information</em>. Cambridge University Press, 10th anniversary edition, 2010.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/06-quantum-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="bell-inequality.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6.25 Bell’s Inequality and the Failure of Local Realism</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="quantum-information.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-a-state-vector-is-not-enough">Why a state vector is not enough</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-density-operator">The density operator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#superposition-versus-mixture">Superposition versus mixture</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#purity">Purity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-reduced-density-matrix-and-the-partial-trace">The reduced density matrix and the partial trace</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entanglement-makes-parts-mixed">Entanglement makes parts mixed</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decoherence">Decoherence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evolution-of-the-density-matrix">Evolution of the density matrix</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-density-operator-and-its-properties">Exercise 1 — The density operator and its properties</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-superposition-versus-mixture">Exercise 2 — Superposition versus mixture</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-purity-and-the-bloch-ball">Exercise 3 — Purity and the Bloch ball</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-reduced-density-matrix">Exercise 4 — The reduced density matrix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-a-pure-whole-with-mixed-parts-entanglement-entropy">Exercise 5 — A pure whole with mixed parts: entanglement entropy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-entanglement-across-a-family">Exercise 6 — Entanglement across a family</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-decoherence">Exercise 7 — Decoherence</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-the-von-neumann-equation-and-conservation-of-purity-student">Exercise 8 — The von Neumann equation and conservation of purity <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-synthesis-the-state-honestly-described">Exercise 9 — (Synthesis) The state, honestly described</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

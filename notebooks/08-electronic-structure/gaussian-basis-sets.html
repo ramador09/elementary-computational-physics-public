@@ -1,0 +1,1928 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="8.18 Basis Sets, and the Error They Invent" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/gaussian-basis-sets.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: This volume has represented a wavefunction in exactly two ways. On a real-space grid, from the radial machinery of §8.1 through the exact ..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: This volume has represented a wavefunction in exactly two ways. On a real-space grid, from the radial machinery of §8.1 through the exact ..." />
+
+    <title>8.18 Basis Sets, and the Error They Invent &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/08-electronic-structure/gaussian-basis-sets';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/gaussian-basis-sets.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Epilogue" href="../epilogue/index.html" />
+    <link rel="prev" title="8.17 BCS Superconductivity" href="bcs-superconductivity.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/08-electronic-structure/gaussian-basis-sets.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/08-electronic-structure/gaussian-basis-sets.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/08-electronic-structure/gaussian-basis-sets.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/08-electronic-structure/gaussian-basis-sets.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>8.18 Basis Sets, and the Error They Invent</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-basis-turns-a-differential-equation-into-a-matrix-problem">A basis turns a differential equation into a matrix problem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-gaussians-when-slater-functions-are-the-physical-ones">Why Gaussians, when Slater functions are the physical ones</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-three-integrals-in-closed-form">The three integrals, in closed form</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contraction-and-the-scaling-factor-nobody-mentions">Contraction, and the scaling factor nobody mentions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kato-s-cusp-and-why-a-gaussian-can-never-satisfy-it">Kato’s cusp, and why a Gaussian can never satisfy it</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-error-the-basis-invents">The error the basis invents</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-three-integrals-written-out-and-certified">Exercise 1 — The three integrals, written out and certified</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-machinery-earns-its-trust">Validation 1 — the machinery earns its trust</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-one-gaussian-is-a-bad-hydrogen-atom">Exercise 2 — One Gaussian is a bad hydrogen atom</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-the-optimum-the-bound-and-the-cusp">Validation 2 — the optimum, the bound, and the cusp</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-contraction-and-what-freezing-the-coefficients-costs">Exercise 3 — Contraction, and what freezing the coefficients costs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-the-contraction-sits-inside-the-uncontracted-space">Validation 3 — the contraction sits inside the uncontracted space</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-a-basis-optimised-for-one-environment-is-wrong-in-another">Exercise 4 — A basis optimised for one environment is wrong in another</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-the-penalty-and-where-it-does-not-live">Validation 4 — the penalty, and where it does not live</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-error-the-basis-invents-on-one-electron">Exercise 5 — The error the basis invents, on one electron</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-the-lowering-its-sign-its-shape-and-its-size">Validation 5 — the lowering, its sign, its shape, and its size</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-superposition-error-is-a-symptom-of-incompleteness">Exercise 6 — Superposition error is a symptom of incompleteness</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-both-errors-fall-and-one-always-leads">Validation 6 — both errors fall, and one always leads</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-what-makes-a-basis-good-measured-against-the-plane-wave-contract">Exercise 7 — What makes a basis good, measured against the plane-wave contract</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7-a-smaller-basis-winning">Validation 7 — a smaller basis winning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="basis-sets-and-the-error-they-invent">
+<h1>8.18 Basis Sets, and the Error They Invent<a class="headerlink" href="#basis-sets-and-the-error-they-invent" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VIII — Electronic Structure and Many-Body Matter
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;8.18
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Seventeen notebooks have represented electrons on grids and in plane waves. Quantum chemistry uses neither: it uses Gaussians glued to the nuclei, because a product of two Gaussians is a third Gaussian and every integral then closes in elementary functions. We build those integrals for one electron, watch a single Gaussian fail at the nuclear cusp, pay for a contraction, discover that a basis optimised for a molecule is wrong for a free atom, and then meet the pathology that belongs to atom-centred bases alone: a hydrogen atom whose energy falls when we hand it basis functions with no nucleus behind them.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;130–160 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>This volume has represented a wavefunction in exactly two ways. On a real-space
+grid, from the radial machinery of <a class="reference internal" href="many-electron-problem.html"><span class="std std-doc">§8.1</span></a> through the
+exact laboratory of <a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a>, Hartree–Fock in
+<a class="reference internal" href="hartree-fock-atoms.html"><span class="std std-doc">§8.3</span></a>, the density-functional movement, and the
+real-time propagation of <a class="reference internal" href="tddft.html"><span class="std std-doc">§8.16</span></a>. And in plane waves, from
+<a class="reference internal" href="plane-waves-pseudopotentials.html"><span class="std std-doc">§8.10</span></a> through the real silicon bands of
+<a class="reference internal" href="epm-band-structures.html"><span class="std std-doc">§8.11</span></a> and the optics of
+<a class="reference internal" href="optics-excitons.html"><span class="std std-doc">§8.15</span></a>. Both are physicists’ bases. Neither is what
+quantum chemistry actually runs on. The overwhelming majority of molecular
+calculations ever performed used a third representation: fixed Gaussian functions
+glued to the nuclei, invented for one reason, that a product of two Gaussians
+centred anywhere is a single Gaussian centred somewhere else, which turns every
+multi-centre integral into elementary functions.</p>
+<p>Arriving here <em>after</em> the grid and after plane waves is the honest order, because
+the third representation is the only one of the three that invents an error the
+other two cannot have. Its functions are attached to the nuclei, so moving a
+nucleus moves the basis, and a system’s description improves for reasons that have
+nothing to do with its physics. That is basis set superposition error, and the
+centrepiece of this notebook is a demonstration of it on a <em>single electron</em>: a
+hydrogen atom whose computed energy drops when we place extra basis functions at a
+distance with no nucleus behind them and no second electron anywhere.</p>
+<p>Everything here stays at one electron with <span class="math notranslate nohighlight">\(s\)</span>-type primitives, and that
+containment is deliberate. General Gaussian integral machinery, meaning two-electron
+repulsion and arbitrary angular momentum, is a graduate one-semester project, and
+every serious teaching resource hides it: the standard programming projects ship the
+integrals in text files, and the well-known teaching packages compute them in
+compiled code precisely so the student never has to. At one electron with <span class="math notranslate nohighlight">\(s\)</span>
+functions there is nothing to hide. Every integral we need is a printable closed
+form, so this notebook builds its own machinery from the first line and validates it
+against numerical quadrature.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Hartree atomic units, as everywhere in this
+volume: the exact hydrogen ground state is <span class="math notranslate nohighlight">\(-1/2\)</span> Ha. Basis functions are
+<em>unnormalised</em> primitive <span class="math notranslate nohighlight">\(s\)</span>-Gaussians <span class="math notranslate nohighlight">\(\chi_p(\mathbf r) = \exp(-\alpha_p
+|\mathbf r - \mathbf A_p|^2)\)</span>, with normalisation carried by the generalised
+eigenvalue problem rather than by the functions. There is exactly one nucleus,
+charge <span class="math notranslate nohighlight">\(Z = 1\)</span>, at the origin, and exactly one electron. Matrices are assembled
+with <code class="docutils literal notranslate"><span class="pre">numpy</span></code> broadcasting, the generalised eigenproblem is solved by
+<code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh(H,</span> <span class="pre">S)</span></code>, and the independent integral checks use
+<code class="docutils literal notranslate"><span class="pre">scipy.integrate.dblquad</span></code> in spherical coordinates about the nucleus.</p>
+<p><strong>How to read the checks.</strong> Every exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against
+something the computation did not assume: a closed-form integral, a two-dimensional
+quadrature, an exact eigenvalue, the variational bound, Kato’s cusp condition. A ✓
+is strong evidence, not proof; a ✗ is a prompt to locate the discrepancy, which may
+be a genuine error, a convention mismatch, or a tolerance set too tightly, and not
+an automatic verdict.</p>
+<p><strong>Scope, stated plainly.</strong> No two-electron integrals, no self-consistent field, no
+correlation: one electron from beginning to end. Polarisation and diffuse functions
+are <em>narrated and never computed</em>, because computing them needs <span class="math notranslate nohighlight">\(d\)</span>-functions and
+general angular momentum, and there is no canonical teaching demonstration of their
+importance that we could honestly reproduce. Counterpoise correction on a real
+bound dimer needs a quantum-chemistry package and is named as the horizon, not
+performed. The single-electron superposition-error demonstration in Exercise 5 has
+no published teaching precedent that we could find; the course is doing something
+the teaching literature does not, and says so rather than implying otherwise.
+For the general machinery, Szabo &amp; Ostlund <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id79" title="Attila Szabo and Neil S. Ostlund. Modern Quantum Chemistry: Introduction to Advanced Electronic Structure Theory. Dover, Mineola, NY, 1996.">SO96</a>]</span>, Ch. 3 and Appendix A,
+is the canonical reference; Martin <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id75" title="Richard M. Martin. Electronic Structure: Basic Theory and Practical Methods. Cambridge University Press, Cambridge, 2004.">Mar04</a>]</span>, Ch. 12, places Gaussians
+beside the plane waves of <a class="reference internal" href="plane-waves-pseudopotentials.html"><span class="std std-doc">§8.10</span></a>.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="a-basis-turns-a-differential-equation-into-a-matrix-problem">
+<h3>A basis turns a differential equation into a matrix problem<a class="headerlink" href="#a-basis-turns-a-differential-equation-into-a-matrix-problem" title="Link to this heading">#</a></h3>
+<p>Expanding an unknown orbital in a fixed set of functions,
+<span class="math notranslate nohighlight">\(\psi(\mathbf r) = \sum_q c_q \chi_q(\mathbf r)\)</span>, and demanding that the Rayleigh
+quotient be stationary in the coefficients is the variational principle of
+<a class="reference internal" href="../06-quantum-mechanics/variational-method.html"><span class="std std-doc">§6.22</span></a> applied to a linear trial
+function. Because the <span class="math notranslate nohighlight">\(\chi_q\)</span> are in general <em>not orthogonal</em>, stationarity does
+not produce an ordinary eigenvalue problem but the generalised one built from
+scratch in <a class="reference internal" href="../00-foundations/eigenvalues-svd.html"><span class="std std-doc">§0.5</span></a>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-gto-secular">
+<span class="eqno">(921)<a class="headerlink" href="#equation-eq-gto-secular" title="Link to this equation">#</a></span>\[\mathbf H\,\mathbf c = \varepsilon\,\mathbf S\,\mathbf c,
+\qquad
+H_{pq} = \langle \chi_p | \hat h | \chi_q \rangle,
+\qquad
+S_{pq} = \langle \chi_p | \chi_q \rangle .\]</div>
+<p>The overlap matrix <span class="math notranslate nohighlight">\(\mathbf S\)</span> is the entire difference from a textbook eigenvalue
+problem, and it is where the trouble in this notebook eventually lives: as basis
+functions crowd together, <span class="math notranslate nohighlight">\(\mathbf S\)</span> approaches singularity and the expansion
+stops being able to say anything new. In quantum chemistry
+<a class="reference internal" href="#equation-eq-gto-secular">Eq. 921</a> is the Roothaan equation; here, with one electron, <span class="math notranslate nohighlight">\(\hat h\)</span> is
+the whole Hamiltonian and the lowest <span class="math notranslate nohighlight">\(\varepsilon\)</span> is the whole energy, so the
+result is a strict variational upper bound on the exact ground state.</p>
+</section>
+<section id="why-gaussians-when-slater-functions-are-the-physical-ones">
+<h3>Why Gaussians, when Slater functions are the physical ones<a class="headerlink" href="#why-gaussians-when-slater-functions-are-the-physical-ones" title="Link to this heading">#</a></h3>
+<p>The hydrogenic orbitals of
+<a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html"><span class="std std-doc">§6.17</span></a> decay as <span class="math notranslate nohighlight">\(e^{-\zeta r}\)</span> and
+have a cusp at the nucleus, so the physically honest basis function is the Slater
+orbital <span class="math notranslate nohighlight">\(e^{-\zeta r}\)</span>. Its integrals over several centres, however, have no
+elementary closed form. Boys observed in 1950 (S. F. Boys, <em>Proc. R. Soc. A</em> <strong>200</strong>,
+542) that the physically <em>dishonest</em> choice repairs the arithmetic completely,
+because the product of two Gaussians on different centres is one Gaussian on a third
+centre. Writing the primitive as</p>
+<div class="math notranslate nohighlight" id="equation-eq-gto-primitive">
+<span class="eqno">(922)<a class="headerlink" href="#equation-eq-gto-primitive" title="Link to this equation">#</a></span>\[\chi_p(\mathbf r) = \exp\!\big(-\alpha_p\,|\mathbf r - \mathbf A_p|^2\big),\]</div>
+<p>a short completion of the square gives the Gaussian product theorem, the identity on
+which the whole of quantum chemistry rests,</p>
+<div class="math notranslate nohighlight" id="equation-eq-gto-product">
+<span class="eqno">(923)<a class="headerlink" href="#equation-eq-gto-product" title="Link to this equation">#</a></span>\[e^{-\alpha|\mathbf r - \mathbf A|^2}\,e^{-\beta|\mathbf r - \mathbf B|^2}
+= K\,e^{-p\,|\mathbf r - \mathbf P|^2},
+\qquad
+p = \alpha + \beta,
+\quad
+\mu = \frac{\alpha\beta}{p},
+\quad
+\mathbf P = \frac{\alpha\mathbf A + \beta\mathbf B}{p},
+\quad
+K = e^{-\mu\,|\mathbf A - \mathbf B|^2}.\]</div>
+<p>A two-centre integral has become a one-centre integral. Szabo &amp; Ostlund
+<span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id79" title="Attila Szabo and Neil S. Ostlund. Modern Quantum Chemistry: Introduction to Advanced Electronic Structure Theory. Dover, Mineola, NY, 1996.">SO96</a>]</span>, Appendix A, carries the same completion of the square through to
+the general two-electron case; here we need only the three one-electron integrals.</p>
+</section>
+<section id="the-three-integrals-in-closed-form">
+<h3>The three integrals, in closed form<a class="headerlink" href="#the-three-integrals-in-closed-form" title="Link to this heading">#</a></h3>
+<p>With <a class="reference internal" href="#equation-eq-gto-product">Eq. 923</a> in hand the overlap is a plain Gaussian integral, the
+kinetic integral follows from differentiating it twice, and the nuclear attraction
+needs one extra ingredient because <span class="math notranslate nohighlight">\(1/|\mathbf r - \mathbf C|\)</span> is not a polynomial.
+For a nucleus of charge <span class="math notranslate nohighlight">\(Z\)</span> at <span class="math notranslate nohighlight">\(\mathbf C\)</span> the three matrices are</p>
+<div class="math notranslate nohighlight" id="equation-eq-gto-integrals">
+<span class="eqno">(924)<a class="headerlink" href="#equation-eq-gto-integrals" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
+S_{pq} &amp;= \Big(\frac{\pi}{p}\Big)^{3/2} K, \\[2pt]
+T_{pq} &amp;= \mu\,\big(3 - 2\mu\,|\mathbf A_p - \mathbf A_q|^2\big)\,S_{pq}, \\[2pt]
+V_{pq} &amp;= -\frac{2\pi Z}{p}\,K\,F_0\!\big(p\,|\mathbf P - \mathbf C|^2\big),
+\end{aligned}\end{split}\]</div>
+<p>with <span class="math notranslate nohighlight">\(p\)</span>, <span class="math notranslate nohighlight">\(\mu\)</span>, <span class="math notranslate nohighlight">\(\mathbf P\)</span> and <span class="math notranslate nohighlight">\(K\)</span> read off <a class="reference internal" href="#equation-eq-gto-product">Eq. 923</a>. The extra
+ingredient is the lowest Boys function, which is what the Coulomb singularity leaves
+behind after the angular integration,</p>
+<div class="math notranslate nohighlight" id="equation-eq-gto-boys">
+<span class="eqno">(925)<a class="headerlink" href="#equation-eq-gto-boys" title="Link to this equation">#</a></span>\[F_0(x) = \int_0^1 e^{-x t^2}\,dt
+       = \frac{1}{2}\sqrt{\frac{\pi}{x}}\;\operatorname{erf}\big(\sqrt{x}\big),
+\qquad F_0(0) = 1 .\]</div>
+<p>That is the entire machinery of this notebook: three formulas and an error function.
+The same three appear as a worked problem in ETH Zürich’s <em>Computational Quantum
+Physics</em> course (Exercise Sheet 8, Problem 8.1, “re-solving the hydrogen atom in the
+GTO basis via variational method”), which prints <span class="math notranslate nohighlight">\(S\)</span>, <span class="math notranslate nohighlight">\(T\)</span> and <span class="math notranslate nohighlight">\(V\)</span> exactly as above;
+it is Thijssen, <em>Computational Physics</em>, Ch. 3.2.2, in problem-sheet dress, and
+Filot, <em>Elements of Electronic Structure Theory</em>, poses the same calculation as
+Exercise 3.10.</p>
+</section>
+<section id="contraction-and-the-scaling-factor-nobody-mentions">
+<h3>Contraction, and the scaling factor nobody mentions<a class="headerlink" href="#contraction-and-the-scaling-factor-nobody-mentions" title="Link to this heading">#</a></h3>
+<p>A single Gaussian is a poor <span class="math notranslate nohighlight">\(1s\)</span> orbital, and Exercise 2 measures exactly how poor.
+The standard repair is to fit a Slater orbital with a <em>fixed</em> linear combination of
+Gaussians and then treat that combination as one basis function. STO-3G, the
+minimal basis of Hehre, Stewart and Pople (<em>J. Chem. Phys.</em> <strong>51</strong>, 2657, 1969), is
+the three-term least-squares fit,</p>
+<div class="math notranslate nohighlight" id="equation-eq-gto-contraction">
+<span class="eqno">(926)<a class="headerlink" href="#equation-eq-gto-contraction" title="Link to this equation">#</a></span>\[\phi(\mathbf r) = \sum_{i=1}^{3} d_i\,N_i\,e^{-\alpha_i r^2},
+\qquad
+N_i = \Big(\frac{2\alpha_i}{\pi}\Big)^{3/4},\]</div>
+<p>where the <span class="math notranslate nohighlight">\(N_i\)</span> normalise the primitives (the tabulated <span class="math notranslate nohighlight">\(d_i\)</span> assume normalised
+primitives) and the <span class="math notranslate nohighlight">\(d_i\)</span> are frozen: the variational problem sees one function, not
+three. What is rarely said aloud is that the exponents tabulated for hydrogen are
+<em>not</em> the ones that fit a hydrogen atom. The published fit is made once for
+<span class="math notranslate nohighlight">\(\zeta = 1\)</span> and then rescaled,</p>
+<div class="math notranslate nohighlight" id="equation-eq-gto-scaling">
+<span class="eqno">(927)<a class="headerlink" href="#equation-eq-gto-scaling" title="Link to this equation">#</a></span>\[\alpha_i(\zeta) = \zeta^2\,\alpha_i(1),\]</div>
+<p>with <span class="math notranslate nohighlight">\(\zeta = 1.24\)</span> for hydrogen, a value chosen because hydrogen in a <em>molecule</em>
+has a contracted orbital. The Basis Set Exchange (Pritchard et al., <em>J. Chem. Inf.
+Model.</em> <strong>59</strong>, 4814, 2019) distributes the scaled numbers, since molecules are what
+people compute. Exercise 4 puts both sets on the free atom and finds out what the
+choice costs.</p>
+</section>
+<section id="kato-s-cusp-and-why-a-gaussian-can-never-satisfy-it">
+<h3>Kato’s cusp, and why a Gaussian can never satisfy it<a class="headerlink" href="#kato-s-cusp-and-why-a-gaussian-can-never-satisfy-it" title="Link to this heading">#</a></h3>
+<p>The exact eigenfunction of a Coulomb potential is not smooth at the nucleus. The
+<span class="math notranslate nohighlight">\(-Z/r\)</span> singularity must be cancelled by the kinetic term, which forces the spherical
+average <span class="math notranslate nohighlight">\(\bar\psi\)</span> of the wavefunction to obey Kato’s cusp condition,</p>
+<div class="math notranslate nohighlight" id="equation-eq-gto-cusp">
+<span class="eqno">(928)<a class="headerlink" href="#equation-eq-gto-cusp" title="Link to this equation">#</a></span>\[\left.\frac{\partial \bar\psi}{\partial r}\right|_{r \to 0} = -Z\,\bar\psi(0).\]</div>
+<p>The hydrogen ground state <span class="math notranslate nohighlight">\(e^{-r}/\sqrt\pi\)</span> satisfies it with slope <span class="math notranslate nohighlight">\(-1\)</span>; every
+Gaussian <span class="math notranslate nohighlight">\(e^{-\alpha r^2}\)</span> has slope <span class="math notranslate nohighlight">\(-2\alpha r \to 0\)</span> and is <em>flat</em> at the origin.
+A Gaussian basis therefore fails the cusp condition identically, no matter how many
+functions are added, and the diagnostic that exposes it most sharply is the local
+energy of <a class="reference internal" href="../06-quantum-mechanics/variational-method.html"><span class="std std-doc">§6.22</span></a>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-gto-local-energy">
+<span class="eqno">(929)<a class="headerlink" href="#equation-eq-gto-local-energy" title="Link to this equation">#</a></span>\[E_L(\mathbf r) = \frac{\hat H \psi(\mathbf r)}{\psi(\mathbf r)},\]</div>
+<p>which is <em>constant</em> for a true eigenfunction and diverges like <span class="math notranslate nohighlight">\(-Z/r\)</span> for anything
+flat at the nucleus.</p>
+</section>
+<section id="the-error-the-basis-invents">
+<h3>The error the basis invents<a class="headerlink" href="#the-error-the-basis-invents" title="Link to this heading">#</a></h3>
+<p>Because Gaussians are attached to nuclei, the quality of a basis at one atom depends
+on what other atoms are nearby: their functions are available too, and the
+variational principle will use them. Two atoms brought together are therefore each
+described <em>better</em> than they were apart, and the resulting spurious attraction is
+basis set superposition error. The standard diagnosis is the counterpoise
+construction of Boys and Bernardi (<em>Mol. Phys.</em> <strong>19</strong>, 553, 1970): recompute each
+fragment in the <em>full</em> basis of the pair, with the partner’s nucleus and electrons
+removed and only its basis functions left behind as “ghosts”. For one electron and
+one nucleus that construction reads</p>
+<div class="math notranslate nohighlight" id="equation-eq-gto-counterpoise">
+<span class="eqno">(930)<a class="headerlink" href="#equation-eq-gto-counterpoise" title="Link to this equation">#</a></span>\[\delta_{\mathrm{BSSE}}(R)
+= E\big[\text{atom in } \{\chi\}_A \cup \{\chi\}_{\mathrm{ghost}}(R)\big]
+- E\big[\text{atom in } \{\chi\}_A\big] \;\le\; 0 .\]</div>
+<p>The inequality is pure linear algebra: enlarging the space in
+<a class="reference internal" href="#equation-eq-gto-secular">Eq. 921</a> cannot raise its lowest eigenvalue. Nothing in the argument
+mentions a second electron or correlation, which is exactly why the demonstration
+survives all the way down to a single electron, where every other complication is
+gone and the effect stands alone.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data and instruments only: the series palette, the exact hydrogen numbers this
+notebook is judged against, the tabulated STO-3G hydrogen parameters, the lowest
+Boys function, and the closed-form hydrogen <span class="math notranslate nohighlight">\(1s\)</span> orbital of
+<a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html"><span class="std std-doc">§6.17</span></a>. This notebook’s own machinery
+is not here: the three integral matrices of <a class="reference internal" href="#equation-eq-gto-integrals">Eq. 924</a> are written in
+Exercise 1, the contraction of <a class="reference internal" href="#equation-eq-gto-contraction">Eq. 926</a> in Exercise 3, and the
+ghost-basis assembly of <a class="reference internal" href="#equation-eq-gto-counterpoise">Eq. 930</a> in Exercise 5.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">dblquad</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eigh</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize_scalar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">erf</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">INK</span><span class="p">,</span> <span class="n">AMBER</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="s2">&quot;#16213e&quot;</span><span class="p">,</span> <span class="s2">&quot;#c0851a&quot;</span><span class="p">,</span> <span class="s2">&quot;#46506b&quot;</span>  <span class="c1"># data: the series palette</span>
+
+<span class="c1"># data: the one-electron system this notebook never leaves, and its exact answer</span>
+<span class="n">Z_H</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># nuclear charge, at the origin</span>
+<span class="n">C_NUC</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># nuclear position, in Bohr</span>
+<span class="n">E_EXACT_H</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>  <span class="c1"># exact hydrogen ground-state energy, in Hartree</span>
+
+<span class="c1"># data: STO-3G for hydrogen as distributed by the Basis Set Exchange (Pritchard</span>
+<span class="c1"># et al., J. Chem. Inf. Model. 59, 4814, 2019), i.e. the Hehre-Stewart-Pople 1969</span>
+<span class="c1"># fit already scaled by zeta = 1.24 for hydrogen bound in a molecule. The</span>
+<span class="c1"># unscaled set (the fit to a zeta = 1 Slater orbital, which is the free hydrogen</span>
+<span class="c1"># atom) follows from it by the exponent scaling law alpha(zeta) = zeta^2 alpha(1).</span>
+<span class="n">STO3G_ALPHA_MOLECULE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.42525091</span><span class="p">,</span> <span class="mf">0.62391373</span><span class="p">,</span> <span class="mf">0.16885540</span><span class="p">])</span>
+<span class="n">STO3G_COEFF</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.15432897</span><span class="p">,</span> <span class="mf">0.53532814</span><span class="p">,</span> <span class="mf">0.44463454</span><span class="p">])</span>
+<span class="n">STO3G_ZETA_H</span> <span class="o">=</span> <span class="mf">1.24</span>
+<span class="n">STO3G_ALPHA_ATOM</span> <span class="o">=</span> <span class="n">STO3G_ALPHA_MOLECULE</span> <span class="o">/</span> <span class="n">STO3G_ZETA_H</span><span class="o">**</span><span class="mi">2</span>
+
+
+<span class="c1"># instrument: the lowest Boys function of Eq. eq-gto-boys. It is a special</span>
+<span class="c1"># function evaluation, not a method: its only content is the removable</span>
+<span class="c1"># singularity at x = 0, where the closed form is 0/0 and the limit is 1. The</span>
+<span class="c1"># lesson of Exercise 1 is the assembly of the matrices, not this branch.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">boys_f0</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The lowest Boys function F_0(x) = (1/2)sqrt(pi/x) erf(sqrt(x)), with F_0(0) = 1.</span>
+
+<span class="sd">    What the Coulomb singularity leaves behind once the nuclear-attraction</span>
+<span class="sd">    integral of a pair of s-Gaussians has been done over angles. It decays as</span>
+<span class="sd">    x^(-1/2) at large argument, which is why a nucleus far from a pair of</span>
+<span class="sd">    Gaussians contributes almost nothing to their attraction integral.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array_like</span>
+<span class="sd">        Non-negative argument p |P - C|^2, dimensionless in atomic units.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        F_0(x), with the x -&gt; 0 limit taken exactly.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">big</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mf">1e-12</span>
+    <span class="n">out</span><span class="p">[</span><span class="n">big</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">x</span><span class="p">[</span><span class="n">big</span><span class="p">])</span> <span class="o">*</span> <span class="n">erf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">big</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="c1"># data: the exact hydrogen 1s orbital, handed to us in closed form by section 6.17.</span>
+<span class="c1"># The only code here is the transcription of e^(-Zr)/sqrt(pi) onto a grid.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hydrogen_1s</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The exact normalised hydrogen 1s orbital psi(r) = sqrt(Z^3/pi) e^(-Zr).</span>
+
+<span class="sd">    The reference every basis in this notebook is measured against. Its</span>
+<span class="sd">    logarithmic derivative at the origin is exactly -Z, which is Kato&#39;s cusp</span>
+<span class="sd">    condition, Eq. eq-gto-cusp.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    r : array_like</span>
+<span class="sd">        Radial coordinate in Bohr.</span>
+<span class="sd">    Z : float, optional</span>
+<span class="sd">        Nuclear charge (default 1.0).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        psi(r), normalised so that the integral of |psi|^2 over space is 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Z</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">Z</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-three-integrals-written-out-and-certified">
+<h2>Exercise 1 — The three integrals, written out and certified<a class="headerlink" href="#exercise-1-the-three-integrals-written-out-and-certified" title="Link to this heading">#</a></h2>
+<p>Everything in this notebook is one function call away once the matrices of
+<a class="reference internal" href="#equation-eq-gto-integrals">Eq. 924</a> exist, so they are built first and trusted only after they
+have survived two independent tests. A basis here is a list of exponents
+<span class="math notranslate nohighlight">\(\{\alpha_p\}\)</span> together with a list of centres <span class="math notranslate nohighlight">\(\{\mathbf A_p\}\)</span> in Bohr; the single
+nucleus sits at <span class="math notranslate nohighlight">\(\mathbf C = (0,0,0)\)</span> with charge <span class="math notranslate nohighlight">\(Z = 1\)</span>. Every matrix element
+follows from the four quantities <span class="math notranslate nohighlight">\(p = \alpha_p + \alpha_q\)</span>,
+<span class="math notranslate nohighlight">\(\mu = \alpha_p\alpha_q/p\)</span>, <span class="math notranslate nohighlight">\(\mathbf P = (\alpha_p\mathbf A_p + \alpha_q\mathbf
+A_q)/p\)</span> and <span class="math notranslate nohighlight">\(K = e^{-\mu|\mathbf A_p - \mathbf A_q|^2}\)</span> of
+<a class="reference internal" href="#equation-eq-gto-product">Eq. 923</a>, all of which are full <span class="math notranslate nohighlight">\(n \times n\)</span> arrays obtained by
+<code class="docutils literal notranslate"><span class="pre">numpy</span></code> broadcasting rather than by a Python double loop.</p>
+<p>The first test is the single-centre limit, where all three integrals collapse to
+elementary expressions. For one Gaussian of exponent <span class="math notranslate nohighlight">\(\alpha\)</span> sitting on the
+nucleus, <span class="math notranslate nohighlight">\(|\mathbf A_p - \mathbf A_q| = 0\)</span> and <span class="math notranslate nohighlight">\(|\mathbf P - \mathbf C| = 0\)</span>, so
+<a class="reference internal" href="#equation-eq-gto-integrals">Eq. 924</a> gives <span class="math notranslate nohighlight">\(S = (\pi/2\alpha)^{3/2}\)</span>, <span class="math notranslate nohighlight">\(T = \tfrac32\alpha\,S\)</span>
+and <span class="math notranslate nohighlight">\(V = -\pi Z/\alpha\)</span>. The second test is a genuine two-centre pair evaluated by
+two-dimensional quadrature: for spherically symmetric integrands about the nucleus
+the volume element is <span class="math notranslate nohighlight">\(2\pi r^2 \sin\theta\,dr\,d\theta\)</span>, and the Laplacian needed
+for the kinetic integral is available in closed form,
+<span class="math notranslate nohighlight">\(\nabla^2 \chi_q = (4\alpha_q^2|\mathbf r - \mathbf A_q|^2 - 6\alpha_q)\chi_q\)</span>.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">overlap_matrix(alphas,</span> <span class="pre">centres)</span></code>, <code class="docutils literal notranslate"><span class="pre">kinetic_matrix(alphas,</span> <span class="pre">centres)</span></code> and <code class="docutils literal notranslate"><span class="pre">nuclear_matrix(alphas,</span> <span class="pre">centres,</span> <span class="pre">Z,</span> <span class="pre">C)</span></code> returning the three <span class="math notranslate nohighlight">\(n \times
+n\)</span> arrays of <a class="reference internal" href="#equation-eq-gto-integrals">Eq. 924</a>, using <code class="docutils literal notranslate"><span class="pre">numpy</span></code> broadcasting for <span class="math notranslate nohighlight">\(p\)</span>, <span class="math notranslate nohighlight">\(\mu\)</span>,
+<span class="math notranslate nohighlight">\(K\)</span> and <span class="math notranslate nohighlight">\(\mathbf P\)</span> (the outer sum <code class="docutils literal notranslate"><span class="pre">alphas[:,</span> <span class="pre">None]</span> <span class="pre">+</span> <span class="pre">alphas[None,</span> <span class="pre">:]</span></code>, the squared
+centre separations from <code class="docutils literal notranslate"><span class="pre">numpy.sum</span></code> over a broadcast difference of the centre array,
+and the Setup helper <code class="docutils literal notranslate"><span class="pre">boys_f0</span></code> for <span class="math notranslate nohighlight">\(F_0\)</span>). <strong>Write this one yourself</strong> — the
+implementation is the lesson.</p>
+<p><strong>Part b)</strong> Write <code class="docutils literal notranslate"><span class="pre">basis_energy(alphas,</span> <span class="pre">centres,</span> <span class="pre">Z=1.0,</span> <span class="pre">C=(0,0,0))</span></code>, which assembles
+<span class="math notranslate nohighlight">\(\mathbf H = \mathbf T + \mathbf V\)</span>, solves the generalised eigenproblem <span class="math notranslate nohighlight">\(\mathbf
+H\mathbf c = \varepsilon\mathbf S\mathbf c\)</span> of <a class="reference internal" href="#equation-eq-gto-secular">Eq. 921</a> with
+<code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh(H,</span> <span class="pre">S)</span></code> as in
+<a class="reference internal" href="../00-foundations/eigenvalues-svd.html"><span class="std std-doc">§0.5</span></a>, and returns the lowest eigenvalue
+together with its coefficient vector.</p>
+<p><strong>Part c)</strong> Certify the single-centre limit for <span class="math notranslate nohighlight">\(\alpha = 0.5\)</span> at the origin against
+<span class="math notranslate nohighlight">\(S = (\pi)^{3/2} = 5.568328\)</span>, <span class="math notranslate nohighlight">\(T = 4.176246\)</span> and <span class="math notranslate nohighlight">\(V = -2\pi = -6.283185\)</span>.</p>
+<p><strong>Part d)</strong> Certify a two-centre pair against <code class="docutils literal notranslate"><span class="pre">scipy.integrate.dblquad</span></code>: exponents
+<span class="math notranslate nohighlight">\(\alpha_p = 3.42525091\)</span> at <span class="math notranslate nohighlight">\((0,0,0)\)</span> and <span class="math notranslate nohighlight">\(\alpha_q = 0.16885540\)</span> at <span class="math notranslate nohighlight">\((0,0,3)\)</span> Bohr,
+with the nucleus at the origin, integrating <span class="math notranslate nohighlight">\(r\)</span> over <span class="math notranslate nohighlight">\([0, 20]\)</span> Bohr and <span class="math notranslate nohighlight">\(\theta\)</span>
+over <span class="math notranslate nohighlight">\([0, \pi]\)</span>. All three off-diagonal elements must agree to twelve digits.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>single centre, alpha = 0.5:
+  S = 5.568327997   closed form (pi/2a)^(3/2) = 5.568327997
+  T = 4.176245998   closed form (3/2) a S     = 4.176245998
+  V = -6.283185307   closed form -pi Z / a     = -6.283185307
+
+two centres, alpha_p = 3.42525091, alpha_q = 0.1688554, separation 3.0 Bohr:
+  S_pq = 0.192021185748   quadrature 0.192021185748
+  T_pq = 0.003195028894   quadrature 0.003195028894
+  V_pq = -0.401200808038   quadrature -0.401200808038
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1-the-machinery-earns-its-trust">
+<h3>Validation 1 — the machinery earns its trust<a class="headerlink" href="#validation-1-the-machinery-earns-its-trust" title="Link to this heading">#</a></h3>
+<p>The single-centre elements must equal <span class="math notranslate nohighlight">\((\pi/2\alpha)^{3/2} = 5.568328\)</span>,
+<span class="math notranslate nohighlight">\(\tfrac32\alpha S = 4.176246\)</span> and <span class="math notranslate nohighlight">\(-\pi Z/\alpha = -6.283185\)</span>, and the three
+two-centre elements must reproduce the two-dimensional quadrature to twelve digits.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  single-centre overlap   [got 5.56833 vs expected 5.56833 (rtol=1e-12, atol=1e-09)]
+✓  single-centre kinetic   [got 4.17625 vs expected 4.17625 (rtol=1e-12, atol=1e-09)]
+✓  single-centre attraction   [got -6.28319 vs expected -6.28319 (rtol=1e-12, atol=1e-09)]
+✓  two-centre overlap vs quadrature   [got 0.192021 vs expected 0.192021 (rtol=1e-11, atol=1e-09)]
+✓  two-centre kinetic vs quadrature   [got 0.00319503 vs expected 0.00319503 (rtol=1e-11, atol=1e-09)]
+✓  two-centre attraction vs quadrature   [got -0.401201 vs expected -0.401201 (rtol=1e-11, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-one-gaussian-is-a-bad-hydrogen-atom">
+<h2>Exercise 2 — One Gaussian is a bad hydrogen atom<a class="headerlink" href="#exercise-2-one-gaussian-is-a-bad-hydrogen-atom" title="Link to this heading">#</a></h2>
+<p>The smallest possible basis is one <span class="math notranslate nohighlight">\(s\)</span>-Gaussian sitting on the nucleus, and
+<a class="reference internal" href="#equation-eq-gto-secular">Eq. 921</a> then has a single row. Its energy is the ratio of the
+one-by-one matrices, and the closed forms quoted in Exercise 1 turn it into a
+function of the exponent alone,</p>
+<div class="math notranslate nohighlight" id="equation-eq-gto-one-gaussian">
+<span class="eqno">(931)<a class="headerlink" href="#equation-eq-gto-one-gaussian" title="Link to this equation">#</a></span>\[E(\alpha) = \frac{T + V}{S} = \frac{3}{2}\alpha - 2\sqrt{\frac{2\alpha}{\pi}} ,\]</div>
+<p>whose minimum can be found by hand: <span class="math notranslate nohighlight">\(dE/d\alpha = 0\)</span> at <span class="math notranslate nohighlight">\(\alpha = 8/(9\pi) =
+0.2829421\)</span>, giving <span class="math notranslate nohighlight">\(E = -4/(3\pi) = -0.4244132\)</span> Ha. Against the exact <span class="math notranslate nohighlight">\(-0.5\)</span> that is
+a 15 % error from a function which is, in every other respect, perfectly reasonable.
+The reason is entirely local. A Gaussian is flat at the origin while the exact
+orbital has a kink there, and <a class="reference internal" href="#equation-eq-gto-cusp">Eq. 928</a> says the kink is not decoration
+but a requirement: it is what cancels the <span class="math notranslate nohighlight">\(-Z/r\)</span> singularity. The sharpest way to
+see the failure is the local energy of <a class="reference internal" href="#equation-eq-gto-local-energy">Eq. 929</a>, which is
+exactly <span class="math notranslate nohighlight">\(-1/2\)</span> everywhere for <span class="math notranslate nohighlight">\(e^{-r}/\sqrt\pi\)</span> and unbounded below for any Gaussian.</p>
+<p><strong>Part a)</strong> Minimise <span class="math notranslate nohighlight">\(E(\alpha)\)</span> over <span class="math notranslate nohighlight">\(\alpha \in [0.05, 2.0]\)</span> with
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize_scalar(method=&quot;bounded&quot;)</span></code>, evaluating the objective through
+the <code class="docutils literal notranslate"><span class="pre">basis_energy</span></code> you wrote in Exercise 1 (a one-function basis at the origin), and
+compare the result against <span class="math notranslate nohighlight">\(\alpha^\star = 8/(9\pi)\)</span> and <span class="math notranslate nohighlight">\(E^\star = -4/(3\pi)\)</span> from
+<a class="reference internal" href="#equation-eq-gto-one-gaussian">Eq. 931</a>.</p>
+<p><strong>Part b)</strong> On the radial grid <span class="math notranslate nohighlight">\(r \in [10^{-3}, 6]\)</span> Bohr with spacing <span class="math notranslate nohighlight">\(10^{-3}\)</span> Bohr,
+compute the local energy <span class="math notranslate nohighlight">\(E_L(r) = -\tfrac12 \nabla^2\psi/\psi - Z/r\)</span> for both
+<span class="math notranslate nohighlight">\(\psi = e^{-\alpha^\star r^2}\)</span> and <span class="math notranslate nohighlight">\(\psi = e^{-r}/\sqrt\pi\)</span>, taking the radial
+Laplacian <span class="math notranslate nohighlight">\(\psi'' + (2/r)\psi'\)</span> by two applications of <code class="docutils literal notranslate"><span class="pre">numpy.gradient</span></code> rather than
+from the analytic derivative. The exact orbital must return <span class="math notranslate nohighlight">\(-1/2\)</span>; the Gaussian must
+diverge as <span class="math notranslate nohighlight">\(r \to 0\)</span>. Judge the constancy on <span class="math notranslate nohighlight">\(r \ge 0.05\)</span> Bohr only, because the
+<span class="math notranslate nohighlight">\(2/r\)</span> prefactor multiplies the finite-difference error of <span class="math notranslate nohighlight">\(\psi'\)</span> and the innermost
+few points are dominated by discretisation rather than by physics.</p>
+<p><strong>Part c)</strong> Evaluate the logarithmic derivative <span class="math notranslate nohighlight">\(\psi'/\psi\)</span> at the innermost grid
+point for both functions and compare against Kato’s condition <a class="reference internal" href="#equation-eq-gto-cusp">Eq. 928</a>,
+which demands <span class="math notranslate nohighlight">\(-Z = -1\)</span>; plot both orbitals and both local energies.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>optimal exponent  alpha* = 0.2829421   closed form 8/(9 pi) = 0.2829421
+optimal energy    E*     = -0.4244132 Ha   closed form -4/(3 pi) = -0.4244132
+error against the exact -0.5 Ha: +0.07559 Ha (15.1 %)
+
+local energy of the exact 1s : mean -0.50000003 Ha, spread 2.75e-07 Ha
+local energy of the Gaussian : at r = 0.002 Bohr, -499.22 Ha; spread 1.87 Ha
+cusp  d(ln psi)/dr at r -&gt; 0 : exact -1.000000 (Kato demands -Z = -1.0), Gaussian -0.001132
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-gto-cusp">
+<img alt="../../_images/6cf0cd58ef264be725c42379b713f9e8bf00b85d0358b96bc222568e03fe1da0.png" src="../../_images/6cf0cd58ef264be725c42379b713f9e8bf00b85d0358b96bc222568e03fe1da0.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 829 </span><span class="caption-text">Why one Gaussian cannot be a hydrogen atom. Left: the variationally optimal <span class="math notranslate nohighlight">\(s\)</span>-Gaussian <span class="math notranslate nohighlight">\(e^{-\alpha^\star r^2}\)</span> with <span class="math notranslate nohighlight">\(\alpha^\star = 8/(9\pi)\)</span> (amber) against the exact orbital <span class="math notranslate nohighlight">\(e^{-r}/\sqrt{\pi}\)</span> (ink), both normalised to unit value at the origin; the exact curve enters the nucleus with slope <span class="math notranslate nohighlight">\(-Z = -1\)</span> while the Gaussian arrives flat. Right: the local energy <span class="math notranslate nohighlight">\(E_L = \hat H\psi/\psi\)</span> of both, computed by finite differences; it is the constant <span class="math notranslate nohighlight">\(-1/2\)</span> Ha for the exact orbital, as an eigenfunction must give, and diverges like <span class="math notranslate nohighlight">\(-1/r\)</span> for the Gaussian, which is the cusp condition failing in energy units.</span><a class="headerlink" href="#fig-gto-cusp" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2-the-optimum-the-bound-and-the-cusp">
+<h3>Validation 2 — the optimum, the bound, and the cusp<a class="headerlink" href="#validation-2-the-optimum-the-bound-and-the-cusp" title="Link to this heading">#</a></h3>
+<p>The optimal exponent and energy must reproduce <span class="math notranslate nohighlight">\(8/(9\pi)\)</span> and <span class="math notranslate nohighlight">\(-4/(3\pi)\)</span>; the
+energy must respect the variational bound <span class="math notranslate nohighlight">\(E &gt; -1/2\)</span>; the finite-difference local
+energy of the exact orbital must be the constant <span class="math notranslate nohighlight">\(-1/2\)</span> Ha beyond <span class="math notranslate nohighlight">\(r = 0.05\)</span> Bohr,
+where the <span class="math notranslate nohighlight">\(2/r\)</span> amplification of the difference error has died away; and the logarithmic
+derivative at the origin must be <span class="math notranslate nohighlight">\(-1\)</span> for the exact orbital and numerically zero
+for the Gaussian, which is Kato’s condition holding and failing.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the optimal single-Gaussian exponent   [got 0.282942 vs expected 0.282942 (rtol=1e-06, atol=1e-09)]
+✓  the optimal single-Gaussian energy   [got -0.424413 vs expected -0.424413 (rtol=1e-09, atol=1e-09)]
+✓  the variational bound holds for the single Gaussian   [E = -0.4244132 Ha &gt; exact -0.5]
+✓  local energy of the exact 1s is constant   [max|Δ| = 3.16668e-06 (rtol=1e-06, atol=1e-05)]
+✓  Kato&#39;s cusp condition for the exact 1s   [got -1 vs expected -1 (rtol=0.001, atol=1e-09)]
+✓  the Gaussian is flat at the nucleus   [got -0.00113177 vs expected 0 (rtol=1e-06, atol=0.002)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-contraction-and-what-freezing-the-coefficients-costs">
+<h2>Exercise 3 — Contraction, and what freezing the coefficients costs<a class="headerlink" href="#exercise-3-contraction-and-what-freezing-the-coefficients-costs" title="Link to this heading">#</a></h2>
+<p>Three Gaussians do far better than one, and there are two entirely different ways to
+use them. Left uncontracted, the three primitives are three basis functions and
+<a class="reference internal" href="#equation-eq-gto-secular">Eq. 921</a> is a <span class="math notranslate nohighlight">\(3\times3\)</span> problem whose coefficients the variational
+principle chooses. Contracted, they are welded into the single function of
+<a class="reference internal" href="#equation-eq-gto-contraction">Eq. 926</a> with the tabulated <span class="math notranslate nohighlight">\(d_i\)</span> frozen, and the problem is
+<span class="math notranslate nohighlight">\(1\times1\)</span>. The uncontracted energy must be the lower of the two, and for a reason
+worth stating precisely: the contracted function is one particular vector in the
+three-dimensional space the uncontracted calculation searches, namely
+<span class="math notranslate nohighlight">\(c_i = d_i N_i\)</span>, so freezing the coefficients can only discard variational freedom.
+That observation is also the cleanest possible test of the contraction code, because
+the Rayleigh quotient of the <span class="math notranslate nohighlight">\(3\times3\)</span> matrices evaluated at <span class="math notranslate nohighlight">\(c_i = d_i N_i\)</span> must
+equal the contracted energy to machine precision.</p>
+<p>Chemistry contracts anyway, and not out of carelessness: an integral over contracted
+functions costs the same as one over primitives once the sum has been done, so
+contraction buys a smaller matrix at fixed integral count, and the frozen shape is
+very nearly right in the environment the fit was made for. The environment is the
+subject of Exercise 4; here we simply measure the price on the free atom, using the
+exponents that the Basis Set Exchange actually distributes for hydrogen,
+<span class="math notranslate nohighlight">\(\alpha = (3.42525091,\ 0.62391373,\ 0.16885540)\)</span>, with coefficients
+<span class="math notranslate nohighlight">\(d = (0.15432897,\ 0.53532814,\ 0.44463454)\)</span>.</p>
+<p><strong>Part a)</strong> Solve the uncontracted <span class="math notranslate nohighlight">\(3\times3\)</span> problem with the <code class="docutils literal notranslate"><span class="pre">basis_energy</span></code> you
+wrote in Exercise 1, all three primitives on the nucleus, and report the energy
+against the exact <span class="math notranslate nohighlight">\(-0.5\)</span> Ha.</p>
+<p><strong>Part b)</strong> Write <code class="docutils literal notranslate"><span class="pre">contract(alphas,</span> <span class="pre">coeffs)</span></code>, returning the coefficient vector
+<span class="math notranslate nohighlight">\(c_i = d_i N_i\)</span> of <a class="reference internal" href="#equation-eq-gto-contraction">Eq. 926</a> with <span class="math notranslate nohighlight">\(N_i = (2\alpha_i/\pi)^{3/4}\)</span>,
+and obtain the contracted energy as the Rayleigh quotient
+<span class="math notranslate nohighlight">\((\mathbf c^{\mathsf T}(\mathbf T + \mathbf V)\mathbf c)/(\mathbf c^{\mathsf T}
+\mathbf S\mathbf c)\)</span> formed from the same three matrices with the <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> product.
+Confirm that <span class="math notranslate nohighlight">\(\mathbf c^{\mathsf T}\mathbf S\mathbf c = 1\)</span>, which is the statement
+that the tabulated <span class="math notranslate nohighlight">\(d_i\)</span> are normalised.</p>
+<p><strong>Part c)</strong> Report the difference between the two energies, and plot the three
+weighted primitives <span class="math notranslate nohighlight">\(d_i N_i e^{-\alpha_i r^2}\)</span>, their contracted sum, and the exact
+<span class="math notranslate nohighlight">\(e^{-r}/\sqrt\pi\)</span> on <span class="math notranslate nohighlight">\(r \in [0, 4]\)</span> Bohr.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uncontracted, 3 free coefficients : E = -0.49574080 Ha
+contracted, coefficients frozen   : E = -0.46658185 Ha
+  norm of the contracted function : 0.999999991  (the tabulated d_i are normalised)
+
+price of freezing the coefficients: +0.02915896 Ha
+distance of each from the exact -0.5 Ha: uncontracted +0.004259, contracted +0.033418
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-gto-contraction">
+<img alt="../../_images/1eb36a7c89f503dd72852f8b685ca3a47b733e6c9879c69b95d999594a5f62ef.png" src="../../_images/1eb36a7c89f503dd72852f8b685ca3a47b733e6c9879c69b95d999594a5f62ef.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 830 </span><span class="caption-text">Three Gaussians welded into one basis function. The three weighted primitives <span class="math notranslate nohighlight">\(d_i N_i e^{-\alpha_i r^2}\)</span> of the STO-3G hydrogen contraction (thin amber) sum to the contracted orbital <span class="math notranslate nohighlight">\(\phi(r)\)</span> (thick amber), which is compared with the exact hydrogen <span class="math notranslate nohighlight">\(1s\)</span> orbital <span class="math notranslate nohighlight">\(e^{-r}/\sqrt{\pi}\)</span> (ink). The contracted curve is visibly too compact, because the tabulated exponents are the <span class="math notranslate nohighlight">\(\zeta = 1.24\)</span> molecular set of Eq. eq-gto-scaling rather than the free-atom set, which is the discrepancy Exercise 4 measures in energy.</span><a class="headerlink" href="#fig-gto-contraction" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3-the-contraction-sits-inside-the-uncontracted-space">
+<h3>Validation 3 — the contraction sits inside the uncontracted space<a class="headerlink" href="#validation-3-the-contraction-sits-inside-the-uncontracted-space" title="Link to this heading">#</a></h3>
+<p>The contracted function must be normalised, its energy must equal the Rayleigh
+quotient of the <span class="math notranslate nohighlight">\(3\times3\)</span> problem at <span class="math notranslate nohighlight">\(c_i = d_i N_i\)</span> to machine precision, and it
+must lie strictly above the uncontracted energy, which in turn lies strictly above
+the exact <span class="math notranslate nohighlight">\(-1/2\)</span> Ha. The ordering is the variational principle, and it is what makes
+the two numbers comparable at all.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the tabulated STO-3G contraction is normalised   [got 1 vs expected 1 (rtol=1e-07, atol=1e-09)]
+✓  uncontracted STO-3G hydrogen energy   [got -0.495741 vs expected -0.495741 (rtol=1e-07, atol=1e-09)]
+✓  contracted STO-3G hydrogen energy   [got -0.466582 vs expected -0.466582 (rtol=1e-07, atol=1e-09)]
+✓  freezing the coefficients raises the energy, and both stay above the exact value   [-0.49574080 &lt; -0.46658185, both &gt; -0.5]
+✓  the variational bound holds for both three-Gaussian calculations   [uncontracted -0.49574080, contracted -0.46658185, exact -0.5]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-a-basis-optimised-for-one-environment-is-wrong-in-another">
+<h2>Exercise 4 — A basis optimised for one environment is wrong in another<a class="headerlink" href="#exercise-4-a-basis-optimised-for-one-environment-is-wrong-in-another" title="Link to this heading">#</a></h2>
+<p>The contraction of Exercise 3 cost <span class="math notranslate nohighlight">\(0.029\)</span> Ha, which is enormous: it is seven tenths
+of an electronvolt, and it is larger than the correlation energy of helium computed
+in <a class="reference internal" href="many-electron-problem.html"><span class="std std-doc">§8.1</span></a>. Before blaming contraction as such, it is
+worth asking <em>which</em> Slater orbital those three Gaussians were fitted to.
+<a class="reference internal" href="#equation-eq-gto-scaling">Eq. 927</a> is the answer: the published fit is made once for <span class="math notranslate nohighlight">\(\zeta = 1\)</span>
+and then rescaled, and the numbers distributed for hydrogen carry <span class="math notranslate nohighlight">\(\zeta = 1.24\)</span>,
+because hydrogen in a molecule has a contracted orbital. The free atom is a
+<span class="math notranslate nohighlight">\(\zeta = 1\)</span> system, so the shipped basis is fitted to the wrong atom.</p>
+<p>Undoing the scaling is one division: <span class="math notranslate nohighlight">\(\alpha_i(1) = \alpha_i(1.24)/1.24^2\)</span>, giving
+<span class="math notranslate nohighlight">\(\alpha = (2.22766058,\ 0.40577116,\ 0.10981751)\)</span>. Running the free hydrogen atom in
+both sets, contracted and uncontracted, separates two effects that Exercise 3 could
+not tell apart. The result is worth predicting before computing: the contracted
+comparison behaves exactly as advertised, and the uncontracted one does not.</p>
+<p><strong>Part a)</strong> Compute the contracted energy in both exponent sets, using the
+<code class="docutils literal notranslate"><span class="pre">contract</span></code> helper of Exercise 3 and the same Rayleigh quotient, and report the
+difference.</p>
+<p><strong>Part b)</strong> Compute the uncontracted energy in both exponent sets with
+<code class="docutils literal notranslate"><span class="pre">basis_energy</span></code>, and report that difference too. State which of the two comparisons
+carries the penalty, and therefore where in the construction the environment
+dependence actually lives.</p>
+<p><strong>Part c)</strong> Quantify the shapes rather than only the energies: compute the overlap
+<span class="math notranslate nohighlight">\(\langle \phi | 1s\rangle\)</span> of each <em>normalised</em> contracted function with the exact
+<span class="math notranslate nohighlight">\(e^{-r}/\sqrt\pi\)</span>, as <span class="math notranslate nohighlight">\(\sum_i c_i \int e^{-\alpha_i r^2} e^{-r}/\sqrt\pi\,d^3r\)</span> with
+each radial integral evaluated by <code class="docutils literal notranslate"><span class="pre">scipy.integrate.dblquad</span></code> over <span class="math notranslate nohighlight">\(r \in [0, 40]\)</span>
+Bohr and <span class="math notranslate nohighlight">\(\theta \in [0, \pi]\)</span>, then plot both contracted functions against the exact
+orbital.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>contracted (coefficients frozen):
+  molecular exponents, zeta = 1.24 : E = -0.46658185 Ha
+  free-atom exponents, zeta = 1.00 : E = -0.49490709 Ha
+  penalty for the wrong environment: +0.02832524 Ha
+
+uncontracted (three free coefficients):
+  molecular exponents, zeta = 1.24 : E = -0.49574080 Ha
+  free-atom exponents, zeta = 1.00 : E = -0.49501040 Ha
+  difference                       : -0.00073040 Ha
+
+The whole penalty lives in the frozen coefficients: with the coefficients
+free, the molecular exponent set is in fact marginally the better of the two.
+
+overlap with the exact 1s: molecular set 0.982562, free-atom set 0.999835
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-gto-scaling">
+<img alt="../../_images/0ed2fd9cce17606373689bd5d15981b12956fa0a470b653e39cd70f1f360813b.png" src="../../_images/0ed2fd9cce17606373689bd5d15981b12956fa0a470b653e39cd70f1f360813b.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 831 </span><span class="caption-text">The same three contraction coefficients, two exponent sets. The contracted STO-3G orbital built from the distributed molecular exponents (<span class="math notranslate nohighlight">\(\zeta = 1.24\)</span>, amber) is too compact for a free hydrogen atom, while the same contraction with the exponents divided by <span class="math notranslate nohighlight">\(\zeta^2\)</span> (dashed amber) tracks the exact <span class="math notranslate nohighlight">\(e^{-r}/\sqrt{\pi}\)</span> (ink) almost everywhere; their overlaps with the exact orbital are <span class="math notranslate nohighlight">\(0.9826\)</span> and <span class="math notranslate nohighlight">\(0.9998\)</span> and their energies <span class="math notranslate nohighlight">\(-0.46658\)</span> and <span class="math notranslate nohighlight">\(-0.49491\)</span> Ha.</span><a class="headerlink" href="#fig-gto-scaling" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4-the-penalty-and-where-it-does-not-live">
+<h3>Validation 4 — the penalty, and where it does not live<a class="headerlink" href="#validation-4-the-penalty-and-where-it-does-not-live" title="Link to this heading">#</a></h3>
+<p>In the contracted comparison the free-atom exponents must win, and by a margin of
+about <span class="math notranslate nohighlight">\(0.028\)</span> Ha; in the uncontracted comparison the ordering must <em>reverse</em>, which
+is the honest surprise of this exercise and the evidence that the environment
+dependence of a minimal basis is carried by the frozen coefficients rather than by
+the exponents alone. The free-atom contracted function must also overlap the exact
+orbital better than the molecular one, above <span class="math notranslate nohighlight">\(0.999\)</span>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  free-atom-scaled contracted energy   [got -0.494907 vs expected -0.494907 (rtol=1e-07, atol=1e-09)]
+✓  free-atom-scaled uncontracted energy   [got -0.49501 vs expected -0.49501 (rtol=1e-07, atol=1e-09)]
+✓  contracted: the free-atom exponents beat the molecular ones   [-0.49490709 Ha &lt; -0.46658185 Ha, margin 0.02833 Ha]
+✓  uncontracted: the ordering reverses, so the penalty is the frozen coefficients   [-0.49574080 Ha &lt; -0.49501040 Ha, margin 7.30e-04 Ha]
+✓  the free-atom contraction is the better shape as well as the better energy   [overlaps: free-atom 0.999835, molecular 0.982562]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-the-error-the-basis-invents-on-one-electron">
+<h2>Exercise 5 — The error the basis invents, on one electron<a class="headerlink" href="#exercise-5-the-error-the-basis-invents-on-one-electron" title="Link to this heading">#</a></h2>
+<p>Here is the experiment. A hydrogen atom sits at the origin: one proton, one electron,
+nothing else in the universe. Its exact energy is <span class="math notranslate nohighlight">\(-1/2\)</span> Ha and its computed energy
+in the three uncontracted primitives of Exercise 3 is <span class="math notranslate nohighlight">\(-0.49574080\)</span> Ha. Now place
+three more Gaussians, with the same three exponents, at <span class="math notranslate nohighlight">\((0,0,R)\)</span> Bohr. No nucleus
+goes with them and no second electron: they are pure basis functions, and the
+Hamiltonian is unchanged. These are the <em>ghost</em> functions of the counterpoise
+construction, <a class="reference internal" href="#equation-eq-gto-counterpoise">Eq. 930</a>. The energy of the hydrogen atom will
+drop, and it will drop by an amount that depends on <span class="math notranslate nohighlight">\(R\)</span>, which is the whole
+pathology of an atom-centred basis in its simplest possible form.</p>
+<p>It is worth being explicit about what is not going on. Nothing here is binding: there
+is no second nucleus for the electron to be attracted to, no second electron to
+correlate with, and no dispersion, because dispersion is a two-electron effect and
+there is only one electron. The lowering is purely the statement that a bigger
+expansion space in <a class="reference internal" href="#equation-eq-gto-secular">Eq. 921</a> cannot give a higher lowest eigenvalue.
+In a real dimer calculation exactly this lowering is mistaken for chemistry, and the
+counterpoise recipe of Boys and Bernardi subtracts it by computing each monomer in
+the dimer basis, which is precisely the calculation below.</p>
+<p>Basis set superposition error is normally taught on a bound dimer with a
+quantum-chemistry package, and we found no published teaching treatment of it on a
+single electron. This exercise is therefore doing something the teaching literature
+does not; the physics is nonetheless standard, because the counterpoise argument is
+purely variational and never invokes correlation.</p>
+<p>The shape of the curve is the lesson, and it is not monotonic. Very close in, the
+ghosts are nearly linearly dependent on the real functions, so they add little
+genuine freedom and the overlap matrix pays for what little they add. Very far out
+they are irrelevant. In between they are both maximally helpful and maximally
+dishonest.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">ghost_energy(R,</span> <span class="pre">alphas)</span></code>, which assembles a basis of <span class="math notranslate nohighlight">\(2n\)</span>
+functions with exponents <code class="docutils literal notranslate"><span class="pre">numpy.concatenate([alphas,</span> <span class="pre">alphas])</span></code>, the first <span class="math notranslate nohighlight">\(n\)</span> centred
+at the origin and the last <span class="math notranslate nohighlight">\(n\)</span> at <span class="math notranslate nohighlight">\((0,0,R)\)</span>, keeps the single nucleus <span class="math notranslate nohighlight">\(Z = 1\)</span> at the
+origin, and returns the lowest energy from <code class="docutils literal notranslate"><span class="pre">basis_energy</span></code> together with the smallest
+eigenvalue of the <em>normalised</em> overlap matrix <span class="math notranslate nohighlight">\(\tilde S_{pq} = S_{pq}/\sqrt{S_{pp}
+S_{qq}}\)</span> obtained from <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code>. <strong>Write this one yourself</strong> — the
+implementation is the lesson.</p>
+<p><strong>Part b)</strong> Tabulate the lowering <span class="math notranslate nohighlight">\(\delta_{\mathrm{BSSE}}(R)\)</span> of
+<a class="reference internal" href="#equation-eq-gto-counterpoise">Eq. 930</a> at <span class="math notranslate nohighlight">\(R = 2, 3, 4, 8, 12\)</span> Bohr against the monomer-basis
+energy <span class="math notranslate nohighlight">\(-0.49574080\)</span> Ha, using the molecular STO-3G exponents uncontracted.</p>
+<p><strong>Part c)</strong> Sweep <span class="math notranslate nohighlight">\(R\)</span> over <span class="math notranslate nohighlight">\([0.5, 12]\)</span> Bohr in steps of <span class="math notranslate nohighlight">\(0.05\)</span> Bohr, locate the
+maximum lowering with <code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize_scalar(method=&quot;bounded&quot;)</span></code> on
+<span class="math notranslate nohighlight">\([2.5, 5.0]\)</span>, and plot both the lowering and the smallest normalised-overlap
+eigenvalue against <span class="math notranslate nohighlight">\(R\)</span>. Compare the size of the largest lowering with the basis
+incompleteness error <span class="math notranslate nohighlight">\(-0.5 - (-0.49574080)\)</span>, and say which of the two errors is
+which.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-gto-ghost-setup">
+<img alt="../../_images/56a9cd334405fc71c307a56119a66ff1942e8b123935a393e3043ad8916f4ca6.png" src="../../_images/56a9cd334405fc71c307a56119a66ff1942e8b123935a393e3043ad8916f4ca6.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 832 </span><span class="caption-text">The counterpoise geometry of Eq. eq-gto-counterpoise for one electron: a hydrogen nucleus of charge <span class="math notranslate nohighlight">\(Z = 1\)</span> at the origin carrying three primitive <span class="math notranslate nohighlight">\(s\)</span>-Gaussians (ink circles, drawn at the radii <span class="math notranslate nohighlight">\(1/\sqrt{2\alpha_i}\)</span> of the three STO-3G hydrogen exponents), and a ghost centre at distance <span class="math notranslate nohighlight">\(R\)</span> along <span class="math notranslate nohighlight">\(z\)</span> carrying three identical Gaussians (grey) with no nucleus and no electron behind them; the Hamiltonian is that of an isolated hydrogen atom throughout.</span><a class="headerlink" href="#fig-gto-ghost-setup" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>monomer basis:  E = -0.49574080 Ha   (exact hydrogen: -0.5)
+  R =  2.0 Bohr   E = -0.49586599   lowering -1.252e-04 Ha
+  R =  3.0 Bohr   E = -0.49591044   lowering -1.696e-04 Ha
+  R =  4.0 Bohr   E = -0.49591246   lowering -1.717e-04 Ha
+  R =  8.0 Bohr   E = -0.49574515   lowering -4.350e-06 Ha
+  R = 12.0 Bohr   E = -0.49574080   lowering -6.604e-11 Ha
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>largest lowering -1.775e-04 Ha at R = 3.542 Bohr
+basis incompleteness error       -4.259e-03 Ha
+superposition error is 4.2 % of it: two different errors, and the smaller one is the one that moves when a partner approaches.
+smallest normalised overlap eigenvalue: monomer 0.1617, at R = 0.5 Bohr 0.0105
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-gto-bsse">
+<img alt="../../_images/7c8eaeb306e6014ed0cbcdc04e0015c1fed66c77cd781472a013b683668178e8.png" src="../../_images/7c8eaeb306e6014ed0cbcdc04e0015c1fed66c77cd781472a013b683668178e8.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 833 </span><span class="caption-text">Basis set superposition error on a single electron. Left: the lowering <span class="math notranslate nohighlight">\(\delta_{\mathrm{BSSE}}(R)\)</span> of the hydrogen-atom energy caused by three ghost <span class="math notranslate nohighlight">\(s\)</span>-Gaussians placed at distance <span class="math notranslate nohighlight">\(R\)</span> with no nucleus and no electron behind them, against the monomer-basis value <span class="math notranslate nohighlight">\(-0.49574080\)</span> Ha; the effect is non-monotonic, peaking at <span class="math notranslate nohighlight">\(1.78\times10^{-4}\)</span> Ha near <span class="math notranslate nohighlight">\(R = 3.54\)</span> Bohr (amber point) and vanishing at both ends, and the grey dashed line marks the basis incompleteness error <span class="math notranslate nohighlight">\(4.26\times10^{-3}\)</span> Ha for scale. Right: the smallest eigenvalue of the normalised overlap matrix, which collapses as the ghosts approach the real functions and explains why the lowering dies at small <span class="math notranslate nohighlight">\(R\)</span> rather than growing.</span><a class="headerlink" href="#fig-gto-bsse" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5-the-lowering-its-sign-its-shape-and-its-size">
+<h3>Validation 5 — the lowering, its sign, its shape, and its size<a class="headerlink" href="#validation-5-the-lowering-its-sign-its-shape-and-its-size" title="Link to this heading">#</a></h3>
+<p>Four independent facts. The energy with ghosts can never exceed the monomer energy,
+at any <span class="math notranslate nohighlight">\(R\)</span>, because the expansion space only grew. At <span class="math notranslate nohighlight">\(R = 12\)</span> Bohr the two must
+agree to better than <span class="math notranslate nohighlight">\(10^{-9}\)</span> Ha, since the ghosts have nothing left to contribute.
+The maximum lowering must sit strictly inside the scan rather than at either end,
+and must exceed the lowering both at <span class="math notranslate nohighlight">\(R = 1\)</span> and at <span class="math notranslate nohighlight">\(R = 8\)</span> Bohr, which is the
+non-monotonicity stated as a testable claim. And the whole effect must remain a small
+fraction of the incompleteness error, so that the two errors cannot be confused.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  adding ghost functions never raises the energy, at any R   [largest observed rise = -6.60e-11 Ha over 231 distances]
+✓  the ghosts stop mattering at R = 12 Bohr   [got -0.495741 vs expected -0.495741 (rtol=1e-06, atol=1e-09)]
+✓  the largest superposition lowering   [got -0.000177532 vs expected -0.00017753 (rtol=0.001, atol=1e-09)]
+✓  the distance at which the ghosts help most   [got 3.5417 vs expected 3.542 (rtol=0.01, atol=1e-09)]
+✓  the lowering is non-monotonic: an interior maximum, not a decaying tail   [delta(1.0) = -6.23e-05, delta(3.54) = -1.78e-04, delta(8.0) = -4.35e-06 Ha]
+✓  superposition error stays far below basis incompleteness error   [1.775e-04 Ha vs 4.259e-03 Ha]
+✓  the overlap matrix becomes near-singular as the ghosts close in   [smallest normalised eigenvalue 0.0105 at R = 0.5 Bohr vs 0.1617 for the monomer basis]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-superposition-error-is-a-symptom-of-incompleteness">
+<h2>Exercise 6 — Superposition error is a symptom of incompleteness<a class="headerlink" href="#exercise-6-superposition-error-is-a-symptom-of-incompleteness" title="Link to this heading">#</a></h2>
+<p>If the ghosts help only because the atom’s own basis is not good enough, then a
+better basis must leave them less to do, and in the limit of a complete basis the
+lowering must vanish entirely. That is a prediction, and it is testable with a family
+of bases that can be systematically enlarged. Even-tempered sets are the standard
+device: exponents in geometric progression,</p>
+<div class="math notranslate nohighlight" id="equation-eq-gto-even-tempered">
+<span class="eqno">(932)<a class="headerlink" href="#equation-eq-gto-even-tempered" title="Link to this equation">#</a></span>\[\alpha_k = \alpha_c\,\beta^{\,k - (N-1)/2},
+\qquad k = 0, 1, \dots, N-1,\]</div>
+<p>which for fixed <span class="math notranslate nohighlight">\(\alpha_c\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> grows outward in both directions as <span class="math notranslate nohighlight">\(N\)</span>
+increases, adding tighter functions to resolve the nucleus and more diffuse ones to
+resolve the tail. Reeves introduced them in 1963 and they remain the usual way to
+approach a Gaussian basis-set limit; the ratio <span class="math notranslate nohighlight">\(\beta\)</span> is chosen by hand, and here we
+fix <span class="math notranslate nohighlight">\(\alpha_c = 1\)</span> and <span class="math notranslate nohighlight">\(\beta = 3\)</span> so that <span class="math notranslate nohighlight">\(N\)</span> is the only thing varying.</p>
+<p><strong>Part a)</strong> For <span class="math notranslate nohighlight">\(N = 1, \dots, 6\)</span>, build the exponents of
+<a class="reference internal" href="#equation-eq-gto-even-tempered">Eq. 932</a> with <code class="docutils literal notranslate"><span class="pre">numpy.arange</span></code>, put all <span class="math notranslate nohighlight">\(N\)</span> functions on the nucleus,
+and compute the energy with <code class="docutils literal notranslate"><span class="pre">basis_energy</span></code>. Report the incompleteness error
+<span class="math notranslate nohighlight">\(E(N) - (-1/2)\)</span>.</p>
+<p><strong>Part b)</strong> For each <span class="math notranslate nohighlight">\(N\)</span>, run the ghost sweep of Exercise 5 with these exponents over
+<span class="math notranslate nohighlight">\(R \in [1, 12]\)</span> Bohr in steps of <span class="math notranslate nohighlight">\(0.25\)</span> Bohr, using the <code class="docutils literal notranslate"><span class="pre">ghost_energy</span></code> you wrote
+there, and record the largest lowering.</p>
+<p><strong>Part c)</strong> Plot both errors against <span class="math notranslate nohighlight">\(N\)</span> on a logarithmic axis and state the
+relationship between them. Note in particular whether the superposition error is
+ever the larger of the two.</p>
+<div class="tip admonition">
+<p class="admonition-title">With your assistant</p>
+<p>The even-tempered exponent generator of <a class="reference internal" href="#equation-eq-gto-even-tempered">Eq. 932</a> is a two-line
+function with an off-by-one waiting in the exponent offset, and exactly the kind of
+thing an assistant writes quickly. Have it produce one, then run the check that is
+yours: the sequence <span class="math notranslate nohighlight">\(E(1) &gt; E(2) &gt; \dots &gt; E(6)\)</span> must be strictly decreasing, because
+with <span class="math notranslate nohighlight">\(\alpha_c\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> fixed the <span class="math notranslate nohighlight">\(N\)</span>-function set is a genuine subset of the
+<span class="math notranslate nohighlight">\((N+1)\)</span>-function set for odd-to-odd and even-to-even steps, and adding functions to a
+variational calculation can never raise its energy. The check is yours.</p>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 1:  E = -0.095769122 Ha   incompleteness 4.042e-01   worst superposition -4.429e-02 Ha
+N = 2:  E = -0.349824532 Ha   incompleteness 1.502e-01   worst superposition -1.751e-02 Ha
+N = 3:  E = -0.468743837 Ha   incompleteness 3.126e-02   worst superposition -3.350e-03 Ha
+N = 4:  E = -0.494721562 Ha   incompleteness 5.278e-03   worst superposition -4.593e-04 Ha
+N = 5:  E = -0.499194812 Ha   incompleteness 8.052e-04   worst superposition -5.886e-06 Ha
+N = 6:  E = -0.499644600 Ha   incompleteness 3.554e-04   worst superposition -1.666e-06 Ha
+
+over N = 1..6 the incompleteness error falls by 1137x and the superposition error by 26580x
+the ratio |BSSE| / incompleteness runs 0.110, 0.117, 0.107, 0.087, 0.007, 0.005
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-gto-completeness">
+<img alt="../../_images/9012b879914ef5bf520368b853d34bb0b86c1f6beb91d2898a2880bd4624c820.png" src="../../_images/9012b879914ef5bf520368b853d34bb0b86c1f6beb91d2898a2880bd4624c820.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 834 </span><span class="caption-text">Superposition error as a symptom of an incomplete basis. For the even-tempered family <span class="math notranslate nohighlight">\(\alpha_k = \beta^{k-(N-1)/2}\)</span> with <span class="math notranslate nohighlight">\(\beta = 3\)</span> on a hydrogen atom, the incompleteness error <span class="math notranslate nohighlight">\(E(N) + 1/2\)</span> (ink) and the largest ghost-induced lowering over <span class="math notranslate nohighlight">\(R \in [1, 12]\)</span> Bohr (amber) both fall by more than three orders of magnitude between <span class="math notranslate nohighlight">\(N = 1\)</span> and <span class="math notranslate nohighlight">\(N = 6\)</span>; the superposition error lies below the incompleteness error at every basis size, so it is a consequence of the shortfall rather than an independent defect.</span><a class="headerlink" href="#fig-gto-completeness" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6-both-errors-fall-and-one-always-leads">
+<h3>Validation 6 — both errors fall, and one always leads<a class="headerlink" href="#validation-6-both-errors-fall-and-one-always-leads" title="Link to this heading">#</a></h3>
+<p>The energies must decrease strictly with <span class="math notranslate nohighlight">\(N\)</span>, since the family is nested at fixed
+<span class="math notranslate nohighlight">\(\alpha_c\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>. Both error measures must fall monotonically, and the
+superposition error must lie below the incompleteness error at every <span class="math notranslate nohighlight">\(N\)</span>: a basis
+cannot invent more error than it is missing.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the even-tempered energies decrease strictly with basis size   [energies [-0.095769 -0.349825 -0.468744 -0.494722 -0.499195 -0.499645]]
+✓  the incompleteness error falls monotonically   [[4.04e-01 1.50e-01 3.13e-02 5.28e-03 8.05e-04 3.55e-04]]
+✓  the superposition error falls monotonically with basis quality   [[4.43e-02 1.75e-02 3.35e-03 4.59e-04 5.89e-06 1.67e-06]]
+✓  superposition error never exceeds the incompleteness it comes from   [largest ratio = 0.117]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-what-makes-a-basis-good-measured-against-the-plane-wave-contract">
+<h2>Exercise 7 — What makes a basis good, measured against the plane-wave contract<a class="headerlink" href="#exercise-7-what-makes-a-basis-good-measured-against-the-plane-wave-contract" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="plane-waves-pseudopotentials.html"><span class="std std-doc">§8.10</span></a> stated a standard for what a basis
+should offer, and it is worth quoting in substance: systematic completeness with one
+knob, the cutoff, and unbiased coverage of space. That standard has three parts, and
+the Gaussian basis satisfies none of them cleanly. There is no single knob, because
+a Gaussian basis is specified by exponents, contraction patterns, angular momenta and
+a choice of family. There is no ordering of the standard families by size, because
+they are separately optimised objects rather than truncations of one sequence. And
+there is no unbiased coverage, because every function is attached to a nucleus, which
+is exactly why Exercise 5 had anything to show.</p>
+<p>The middle claim is the one we can measure here. Exercise 6 built a family in which
+size and quality do move together, so the failure is not that Gaussian bases are
+incapable of systematic improvement; it is that improvement is guaranteed only
+<em>within</em> one family. Put the STO-3G primitives of Exercise 3 on the same axis and the
+guarantee disappears: three well-chosen exponents beat four evenly-tempered ones.
+Nothing comparable can happen with a plane-wave cutoff, where a larger basis is
+literally a superset of a smaller one.</p>
+<p>The other two claims are stated rather than computed, and the reason is worth being
+explicit about. Polarisation functions (<span class="math notranslate nohighlight">\(p\)</span> functions on hydrogen, <span class="math notranslate nohighlight">\(d\)</span> on carbon) let
+a spherical atom deform in a bond, and diffuse functions carry anions and Rydberg
+states, but both need general angular momentum, which is outside the one-electron
+<span class="math notranslate nohighlight">\(s\)</span>-only machinery this notebook built. We do not invent an exercise for them and do
+not imply that a canonical teaching demonstration exists.</p>
+<p><strong>Part a)</strong> Assemble the comparison: the even-tempered energies <span class="math notranslate nohighlight">\(E(N)\)</span> from Exercise
+6, the uncontracted three-primitive STO-3G energy from Exercise 3, and the contracted
+STO-3G energy from Exercise 3, plotted against the number of <em>variational</em> functions
+(three, three and one respectively) with the exact <span class="math notranslate nohighlight">\(-1/2\)</span> Ha marked.</p>
+<p><strong>Part b)</strong> Report which even-tempered basis size the three uncontracted STO-3G
+functions beat, and which one beats them, and state what that ordering does to the
+idea that basis size measures basis quality.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uncontracted STO-3G, 3 functions : E = -0.49574080 Ha
+  even-tempered N = 1: E = -0.09576912 Ha
+  even-tempered N = 2: E = -0.34982453 Ha
+  even-tempered N = 3: E = -0.46874384 Ha
+  even-tempered N = 4: E = -0.49472156 Ha
+  even-tempered N = 5: E = -0.49919481 Ha
+  even-tempered N = 6: E = -0.49964460 Ha
+
+three STO-3G primitives beat every even-tempered basis up to N = 4,
+and are beaten first at N = 5: basis size does not order basis quality.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-gto-size-vs-quality">
+<img alt="../../_images/ff25bdede35d136aea386ec2d2fcae0945aaa8fa01942b730e8a0bd9fd1752c6.png" src="../../_images/ff25bdede35d136aea386ec2d2fcae0945aaa8fa01942b730e8a0bd9fd1752c6.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 835 </span><span class="caption-text">Size does not order quality across Gaussian families. The even-tempered hydrogen energies <span class="math notranslate nohighlight">\(E(N)\)</span> of Eq. eq-gto-even-tempered with <span class="math notranslate nohighlight">\(\beta = 3\)</span> (ink) against the number of variational functions, compared with the three uncontracted STO-3G primitives (amber circle, <span class="math notranslate nohighlight">\(-0.49574\)</span> Ha) and the single contracted STO-3G function (amber square, <span class="math notranslate nohighlight">\(-0.46658\)</span> Ha); the exact <span class="math notranslate nohighlight">\(-1/2\)</span> Ha is the grey dashed line. Three well-chosen exponents beat four evenly-tempered ones, which is a comparison a plane-wave cutoff can never lose, since there a larger basis is a superset of a smaller one.</span><a class="headerlink" href="#fig-gto-size-vs-quality" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7-a-smaller-basis-winning">
+<h3>Validation 7 — a smaller basis winning<a class="headerlink" href="#validation-7-a-smaller-basis-winning" title="Link to this heading">#</a></h3>
+<p>The claim to check is the uncomfortable one: a three-function basis strictly below a
+four-function basis of a different family, with both still above the exact energy.
+If that ordering held for plane waves it would be a bug; here it is the point.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  three STO-3G primitives beat the four-function even-tempered basis   [-0.49574080 Ha &lt; -0.49472156 Ha]
+✓  and are beaten by the five-function even-tempered basis   [-0.49574080 Ha &gt; -0.49919481 Ha]
+✓  every energy on the comparison axis is a genuine variational upper bound   [lowest value on the axis = -0.49964460 Ha &gt; -0.5]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>Three closed forms and an error function were enough. The overlap, kinetic and
+nuclear-attraction integrals of <a class="reference internal" href="#equation-eq-gto-integrals">Eq. 924</a> were assembled by
+broadcasting and certified twice: against the single-centre limits
+<span class="math notranslate nohighlight">\((\pi/2\alpha)^{3/2}\)</span>, <span class="math notranslate nohighlight">\(\tfrac32\alpha S\)</span> and <span class="math notranslate nohighlight">\(-\pi Z/\alpha\)</span>, and against
+two-dimensional quadrature for a two-centre pair, agreeing to twelve digits. With
+them, the generalised eigenproblem <span class="math notranslate nohighlight">\(\mathbf H\mathbf c = \varepsilon\mathbf S\mathbf
+c\)</span> of <a class="reference internal" href="../00-foundations/eigenvalues-svd.html"><span class="std std-doc">§0.5</span></a> is the whole method.</p>
+<p>The best single <span class="math notranslate nohighlight">\(s\)</span>-Gaussian gives <span class="math notranslate nohighlight">\(\alpha^\star = 8/(9\pi) = 0.282942\)</span> and
+<span class="math notranslate nohighlight">\(E = -4/(3\pi) = -0.424413\)</span> Ha, missing the exact <span class="math notranslate nohighlight">\(-0.5\)</span> by 15 %, and the reason was
+made visible rather than asserted: the finite-difference local energy is the constant
+<span class="math notranslate nohighlight">\(-0.5\)</span> Ha for <span class="math notranslate nohighlight">\(e^{-r}/\sqrt\pi\)</span> and diverges like <span class="math notranslate nohighlight">\(-1/r\)</span> for the Gaussian, whose
+logarithmic derivative at the origin is <span class="math notranslate nohighlight">\(0\)</span> instead of Kato’s <span class="math notranslate nohighlight">\(-Z = -1\)</span>. Three
+primitives left uncontracted reach <span class="math notranslate nohighlight">\(-0.49574080\)</span> Ha; the same three frozen into the
+STO-3G contraction reach only <span class="math notranslate nohighlight">\(-0.46658185\)</span> Ha, and the contracted energy was shown
+to be exactly the Rayleigh quotient of the <span class="math notranslate nohighlight">\(3\times3\)</span> problem at <span class="math notranslate nohighlight">\(c_i = d_i N_i\)</span>,
+which is why the ordering is guaranteed. Undoing the <span class="math notranslate nohighlight">\(\zeta = 1.24\)</span> molecular scaling
+recovers <span class="math notranslate nohighlight">\(-0.49490709\)</span> Ha contracted, a gain of <span class="math notranslate nohighlight">\(0.028\)</span> Ha, while the uncontracted
+comparison <em>reverses</em>: the environment dependence of a minimal basis lives in the
+frozen coefficients, not in the exponents alone.</p>
+<p>The centrepiece was a hydrogen atom given three basis functions with no nucleus
+behind them. Its energy fell, by <span class="math notranslate nohighlight">\(1.78\times10^{-4}\)</span> Ha at most, with the maximum at
+<span class="math notranslate nohighlight">\(R = 3.54\)</span> Bohr rather than at contact: close in, the ghosts are nearly linearly
+dependent on the real functions and the smallest normalised overlap eigenvalue
+collapses from <span class="math notranslate nohighlight">\(0.162\)</span> to <span class="math notranslate nohighlight">\(0.011\)</span>; far out they are irrelevant, and by <span class="math notranslate nohighlight">\(R = 12\)</span> Bohr
+the lowering is <span class="math notranslate nohighlight">\(7\times10^{-11}\)</span> Ha. That number is 4 % of the basis incompleteness
+error <span class="math notranslate nohighlight">\(4.26\times10^{-3}\)</span> Ha, and telling the two apart is the practical skill.
+Enlarging an even-tempered basis from <span class="math notranslate nohighlight">\(N = 1\)</span> to <span class="math notranslate nohighlight">\(N = 6\)</span> drove both errors down by
+more than three orders of magnitude together, confirming that the invented error is a
+symptom of the missing one. And three STO-3G primitives beat a four-function
+even-tempered basis while losing to a five-function one, so basis size does not order
+basis quality across families, which is precisely the guarantee the plane-wave cutoff
+of <a class="reference internal" href="plane-waves-pseudopotentials.html"><span class="std std-doc">§8.10</span></a> does give.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The counterpoise correction as chemistry actually uses it subtracts
+<span class="math notranslate nohighlight">\(\delta_{\mathrm{BSSE}}\)</span> from a <em>binding</em> energy, monomer by monomer, on a real
+dimer. That calculation needs two-electron integrals and a self-consistent field,
+so it needs a quantum-chemistry package; the argument, though, is the one verified
+here on one electron, unchanged.</p></li>
+<li><p>Polarisation and diffuse functions are the two extensions a minimal basis most
+obviously lacks, and both require general angular momentum. The correlation-consistent
+families of Dunning arrange them into a sequence designed to be extrapolated toward
+the basis-set limit, which is the nearest thing a Gaussian basis has to the single
+knob of <a class="reference internal" href="plane-waves-pseudopotentials.html"><span class="std std-doc">§8.10</span></a>.</p></li>
+<li><p>The pathology met here is one reason plane-wave codes and Gaussian codes coexist
+rather than one displacing the other. An atom-centred basis is compact and follows
+the atoms, at the price of an error that follows them too; the plane-wave basis of
+<a class="reference internal" href="epm-band-structures.html"><span class="std std-doc">§8.11</span></a> is attached to the cell instead, cannot have this
+error at all, and pays for that with the core-region cost measured in
+<a class="reference internal" href="plane-waves-pseudopotentials.html"><span class="std std-doc">§8.10</span></a>.</p></li>
+<li><p>Everything here was one electron in a fixed external potential. Put two electrons
+in the same basis and the two-electron integrals appear, four indices at a time,
+and with them the whole machinery of <a class="reference internal" href="hartree-fock-atoms.html"><span class="std std-doc">§8.3</span></a> in its
+Roothaan form: the same <a class="reference internal" href="#equation-eq-gto-secular">Eq. 921</a>, with a Hamiltonian that now
+depends on its own solution.</p></li>
+</ul>
+<div class="docutils container" id="id4">
+<div role="list" class="citation-list">
+<div class="citation" id="id75" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Mar04</a><span class="fn-bracket">]</span></span>
+<p>Richard M. Martin. <em>Electronic Structure: Basic Theory and Practical Methods</em>. Cambridge University Press, Cambridge, 2004.</p>
+</div>
+<div class="citation" id="id79" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>SO96<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id3">2</a>)</span>
+<p>Attila Szabo and Neil S. Ostlund. <em>Modern Quantum Chemistry: Introduction to Advanced Electronic Structure Theory</em>. Dover, Mineola, NY, 1996.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/08-electronic-structure"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="bcs-superconductivity.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">8.17 BCS Superconductivity</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../epilogue/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Epilogue</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-basis-turns-a-differential-equation-into-a-matrix-problem">A basis turns a differential equation into a matrix problem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-gaussians-when-slater-functions-are-the-physical-ones">Why Gaussians, when Slater functions are the physical ones</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-three-integrals-in-closed-form">The three integrals, in closed form</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contraction-and-the-scaling-factor-nobody-mentions">Contraction, and the scaling factor nobody mentions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kato-s-cusp-and-why-a-gaussian-can-never-satisfy-it">Kato’s cusp, and why a Gaussian can never satisfy it</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-error-the-basis-invents">The error the basis invents</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-three-integrals-written-out-and-certified">Exercise 1 — The three integrals, written out and certified</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-machinery-earns-its-trust">Validation 1 — the machinery earns its trust</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-one-gaussian-is-a-bad-hydrogen-atom">Exercise 2 — One Gaussian is a bad hydrogen atom</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-the-optimum-the-bound-and-the-cusp">Validation 2 — the optimum, the bound, and the cusp</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-contraction-and-what-freezing-the-coefficients-costs">Exercise 3 — Contraction, and what freezing the coefficients costs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-the-contraction-sits-inside-the-uncontracted-space">Validation 3 — the contraction sits inside the uncontracted space</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-a-basis-optimised-for-one-environment-is-wrong-in-another">Exercise 4 — A basis optimised for one environment is wrong in another</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-the-penalty-and-where-it-does-not-live">Validation 4 — the penalty, and where it does not live</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-error-the-basis-invents-on-one-electron">Exercise 5 — The error the basis invents, on one electron</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-the-lowering-its-sign-its-shape-and-its-size">Validation 5 — the lowering, its sign, its shape, and its size</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-superposition-error-is-a-symptom-of-incompleteness">Exercise 6 — Superposition error is a symptom of incompleteness</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-both-errors-fall-and-one-always-leads">Validation 6 — both errors fall, and one always leads</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-what-makes-a-basis-good-measured-against-the-plane-wave-contract">Exercise 7 — What makes a basis good, measured against the plane-wave contract</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7-a-smaller-basis-winning">Validation 7 — a smaller basis winning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

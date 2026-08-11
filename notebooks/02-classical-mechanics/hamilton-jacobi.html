@@ -1,0 +1,1627 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="2.10 Hamilton–Jacobi Theory and Action-Angle Variables" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/02-classical-mechanics/hamilton-jacobi.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: §2.1 built mechanics from a single scalar, the Lagrangian\mathcal L(q,\dot q,t); §2.3 traded velocity for momentum and recast the dynamics..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: §2.1 built mechanics from a single scalar, the Lagrangian\mathcal L(q,\dot q,t); §2.3 traded velocity for momentum and recast the dynamics..." />
+
+    <title>2.10 Hamilton–Jacobi Theory and Action-Angle Variables &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/02-classical-mechanics/hamilton-jacobi';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/02-classical-mechanics/hamilton-jacobi.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="2.11 Nonlinear Dynamics and Chaos: When Integrability Fails" href="nonlinear-chaos.html" />
+    <link rel="prev" title="2.9 Lagrange Points and the Restricted Three-Body Problem" href="lagrange-points.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume II — Analytical Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-electronic-structure/index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/02-classical-mechanics/hamilton-jacobi.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/02-classical-mechanics/hamilton-jacobi.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/02-classical-mechanics/hamilton-jacobi.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/02-classical-mechanics/hamilton-jacobi.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>2.10 Hamilton–Jacobi Theory and Action-Angle Variables</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-hamiltonjacobi-idea">The Hamilton–Jacobi idea</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#separation-for-conserved-systems">Separation for conserved systems</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#separation-of-variables-and-integrability">Separation of variables and integrability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#action-angle-variables">Action-angle variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-action-as-a-phase-the-seam-to-quantum-mechanics">The action as a phase — the seam to quantum mechanics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-hamiltonjacobi-equation-for-the-free-particle-worked">Exercise 1 — The Hamilton–Jacobi equation for the free particle (worked)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-free-particle-hamiltonjacobi-solution">Validation 1 — the free-particle Hamilton–Jacobi solution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-hamilton-s-characteristic-function-and-the-momentum">Exercise 2 — Hamilton’s characteristic function and the momentum</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-the-momentum-is-the-slope-of-the-action">Validation 2 — the momentum is the slope of the action</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-harmonic-oscillator-by-hamiltonjacobi">Exercise 3 — The harmonic oscillator by Hamilton–Jacobi</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-hamiltonjacobi-reproduces-the-oscillation">Validation 3 — Hamilton–Jacobi reproduces the oscillation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-action-angle-variables-for-the-oscillator-the-centerpiece">Exercise 4 — Action-angle variables for the oscillator (the centerpiece)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-the-action-is-e-and-its-frequency-is">Validation 4 — the action is E/ω and its frequency is ω</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-adiabatic-invariance-student-implemented">Exercise 5 — Adiabatic invariance (student-implemented)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-the-action-survives-the-slow-change">Validation 5 — the action survives the slow change</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-toward-quantization-the-action-and-bohrsommerfeld-student-implemented">Exercise 6 — Toward quantization: the action and Bohr–Sommerfeld (student-implemented)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-the-old-quantization-gives-en-n">Validation 6 — the old quantization gives Eₙ = nℏω</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-synthesis-the-action-as-the-shadow-of-a-wave">Exercise 7 — (Synthesis) The action as the shadow of a wave</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="hamiltonjacobi-theory-and-action-angle-variables">
+<h1>2.10 Hamilton–Jacobi Theory and Action-Angle Variables<a class="headerlink" href="#hamiltonjacobi-theory-and-action-angle-variables" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume II — Analytical Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;2.10
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Mechanics at the edge of wave physics. The boldest formulation of classical mechanics looks for a change of variables so perfect that the motion becomes standing still — every new coordinate a constant — and the function that accomplishes it obeys a single equation for the classical action. That action turns out to be a phase, the invariant tori it defines are the ones chaos respects, and the equation it obeys is what the Schrödinger equation becomes when the wavelength shrinks to nothing.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;160–195 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="lagrangian-sympy.html"><span class="std std-doc">§2.1</span></a> built mechanics from a single scalar, the Lagrangian <span class="math notranslate nohighlight">\(\mathcal
+L(q,\dot q,t)\)</span>; <a class="reference internal" href="hamiltonian-phase-flow.html"><span class="std std-doc">§2.3</span></a> traded velocity for momentum and recast the
+dynamics as an incompressible <em>flow</em> on phase space, governed by Hamilton’s
+equations and the Poisson bracket. This notebook completes that arc with its
+third and most powerful formulation. The idea is audacious: instead of solving
+the equations of motion, find a <strong>canonical transformation</strong> (the bracket-
+preserving maps of <a class="reference internal" href="hamiltonian-phase-flow.html"><span class="std std-doc">§2.3</span></a>) so clever that in the new coordinates <em>nothing moves</em> —
+every new coordinate and momentum is a constant of the motion. The generating
+function that accomplishes this is <strong>Hamilton’s principal function</strong> <span class="math notranslate nohighlight">\(S\)</span>, and
+the single first-order partial differential equation it must satisfy is the
+<strong>Hamilton–Jacobi equation</strong>. Solving that one equation solves the mechanics.</p>
+<p>The reward is not merely another route to the same trajectories. <span class="math notranslate nohighlight">\(S\)</span> turns out
+to be the <strong>action</strong> <span class="math notranslate nohighlight">\(\int p\,\mathrm dq\)</span> we have met since <a class="reference internal" href="lagrangian-sympy.html"><span class="std std-doc">§2.1</span></a>, now
+promoted to the generator of the motion; its gradient is the momentum, and its
+level sets are wavefronts that the trajectories cross at right angles. For
+bounded motion the natural coordinates become <strong>action-angle variables</strong>: an
+action <span class="math notranslate nohighlight">\(J=\frac1{2\pi}\oint p\,\mathrm dq\)</span> that is constant, and an angle that
+winds at a steady frequency. The action variables label the invariant <strong>tori</strong>
+a trajectory wraps (the tori of <a class="reference internal" href="../05-classical-stat-mech/ergodicity.html"><span class="std std-doc">§5.5</span></a>), and they are <strong>adiabatic
+invariants</strong> — nearly conserved when the system is deformed slowly. Above all,
+<span class="math notranslate nohighlight">\(S\)</span> has the units and the role of a <strong>phase</strong>: if a particle is secretly a wave
+with phase <span class="math notranslate nohighlight">\(S/\hbar\)</span>, then the Hamilton–Jacobi equation is exactly what the
+Schrödinger equation collapses into as the wavelength vanishes. That is the door
+through which Volume VI enters, and the Outlook of <a class="reference internal" href="hamiltonian-phase-flow.html"><span class="std std-doc">§2.3</span></a> already pointed at it.</p>
+<p>You build the compact toolkit yourself — the momentum, Hamilton’s
+characteristic function by quadrature, the action variable as an enclosed
+phase-space area, the frequency read off as <span class="math notranslate nohighlight">\(\partial H/\partial J\)</span> — while
+Setup supplies only a turning-point finder. Then we put it to work on the free
+particle and the harmonic oscillator: recovering uniform motion and the
+oscillation from the Hamilton–Jacobi equation, computing the action and its
+frequency, watching the action survive a slow change that the energy does not,
+and finally quantizing
+the action the way the old quantum theory did, one step short of the correction
+that Volume VI’s WKB approximation (<a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a>) supplies.</p>
+<blockquote>
+<div><p><strong>How to read the checks.</strong> Each exercise ends with a validation that compares
+a computed result to an expected physical fact. A ✗ does <em>not</em> by itself mean
+the physics is wrong: it means the output didn’t match what the check
+expected, which may be a real error, a different-but-valid convention (a sign,
+a unit, an array order), or simply too tight a tolerance. Treat a ✗ as a
+prompt to locate the discrepancy; passing is strong evidence of correctness,
+not proof.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Scope.</strong> This is a working review, not a textbook chapter. For Hamilton–
+Jacobi theory and action-angle variables in full — the separation of
+variables, the connection to canonical perturbation theory, and integrability
+— see Goldstein, Poole &amp; Safko <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id18" title="Herbert Goldstein, Charles P. Poole, and John L. Safko. Classical Mechanics. Pearson, 3 edition, 2002.">GPS02</a>]</span> (ch. 10), Landau &amp; Lifshitz,
+<em>Mechanics</em> <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id20" title="L. D. Landau and E. M. Lifshitz. Mechanics. Volume 1 of Course of Theoretical Physics. Butterworth–Heinemann, 3 edition, 1976.">LL76</a>]</span> (§45–52), and Nolting, <em>Theoretical
+Physics 2</em> <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id8" title="Wolfgang Nolting. Theoretical Physics 2: Analytical Mechanics. Springer, 2016.">Nol16</a>]</span>.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-hamiltonjacobi-idea">
+<h3>The Hamilton–Jacobi idea<a class="headerlink" href="#the-hamiltonjacobi-idea" title="Link to this heading">#</a></h3>
+<p>Seek a canonical transformation <span class="math notranslate nohighlight">\((q,p)\mapsto(Q,P)\)</span> — one of the bracket-
+preserving maps of <a class="reference internal" href="hamiltonian-phase-flow.html"><span class="std std-doc">§2.3</span></a> — whose <em>new</em> Hamiltonian <span class="math notranslate nohighlight">\(K\)</span> is identically
+<strong>zero</strong>. Then Hamilton’s equations in the new variables read <span class="math notranslate nohighlight">\(\dot Q=\partial
+K/\partial P=0\)</span> and <span class="math notranslate nohighlight">\(\dot P=-\partial K/\partial Q=0\)</span>: every new coordinate and
+momentum is a constant. A type-2 generating function <span class="math notranslate nohighlight">\(S(q,P,t)\)</span> produces such a
+transformation with <span class="math notranslate nohighlight">\(p=\partial S/\partial q\)</span> and <span class="math notranslate nohighlight">\(K=H+\partial S/\partial t\)</span>,
+so demanding <span class="math notranslate nohighlight">\(K=0\)</span> gives the <strong>Hamilton–Jacobi equation</strong></p>
+<div class="math notranslate nohighlight" id="equation-eq-hj-idea">
+<span class="eqno">(177)<a class="headerlink" href="#equation-eq-hj-idea" title="Link to this equation">#</a></span>\[H\!\left(q,\ \frac{\partial S}{\partial q},\ t\right) + \frac{\partial
+S}{\partial t} = 0 ,\]</div>
+<p>one first-order PDE for <strong>Hamilton’s principal function</strong> <span class="math notranslate nohighlight">\(S(q,t)\)</span>. Solving it
+solves the dynamics: the constant new coordinates and momenta are the
+integration constants, and inverting the relations <span class="math notranslate nohighlight">\(\,\partial S/\partial
+P=Q=\text{const}\)</span> returns <span class="math notranslate nohighlight">\(q(t)\)</span>.</p>
+</section>
+<section id="separation-for-conserved-systems">
+<h3>Separation for conserved systems<a class="headerlink" href="#separation-for-conserved-systems" title="Link to this heading">#</a></h3>
+<p>When <span class="math notranslate nohighlight">\(H\)</span> has no explicit time dependence, <span class="math notranslate nohighlight">\(S\)</span> separates into a time piece and a
+space piece,</p>
+<div class="math notranslate nohighlight" id="equation-eq-hj-separation">
+<span class="eqno">(178)<a class="headerlink" href="#equation-eq-hj-separation" title="Link to this equation">#</a></span>\[S(q,t) = W(q) - E\,t , \qquad H\!\left(q, \frac{\partial W}{\partial q}\right) =
+E ,\]</div>
+<p>where <span class="math notranslate nohighlight">\(E\)</span> is the conserved energy and <span class="math notranslate nohighlight">\(W(q)\)</span> is <strong>Hamilton’s characteristic
+function</strong>. Because <span class="math notranslate nohighlight">\(\partial W/\partial q = p\)</span>, the characteristic function is
+the <strong>action</strong> accumulated along the path,</p>
+<div class="math notranslate nohighlight" id="equation-eq-char-action">
+<span class="eqno">(179)<a class="headerlink" href="#equation-eq-char-action" title="Link to this equation">#</a></span>\[W(q) = \int p\,\mathrm dq = \int \sqrt{2m\,[E-V(q)]}\;\mathrm dq ,\]</div>
+<p>the same <span class="math notranslate nohighlight">\(\int p\,\mathrm dq\)</span> that runs through all of mechanics, now serving as
+the generator of the motion. The momentum is literally the slope of the action.</p>
+</section>
+<section id="separation-of-variables-and-integrability">
+<h3>Separation of variables and integrability<a class="headerlink" href="#separation-of-variables-and-integrability" title="Link to this heading">#</a></h3>
+<p>For special systems the characteristic function splits into a sum of one-
+coordinate pieces, <span class="math notranslate nohighlight">\(W=\sum_i W_i(q_i)\)</span>, turning the PDE <a class="reference internal" href="#equation-eq-hj-idea">Eq. 177</a> into
+ordinary integrals — the classical route to central-force and other symmetric
+problems (<a class="reference internal" href="central-force.html"><span class="std std-doc">§2.4</span></a>). A system with as many independent conserved actions as
+degrees of freedom is <strong>integrable</strong>, and its bounded motion lies on nested
+<strong>tori</strong>; most systems have no such separation, and their trajectories fill the
+energy surface ergodically (<a class="reference internal" href="../05-classical-stat-mech/ergodicity.html"><span class="std std-doc">§5.5</span></a>). Hamilton–Jacobi theory is thus also
+the sharp dividing line between the solvable and the chaotic.</p>
+</section>
+<section id="action-angle-variables">
+<h3>Action-angle variables<a class="headerlink" href="#action-angle-variables" title="Link to this heading">#</a></h3>
+<p>For bounded, periodic motion the most natural variables are <strong>action-angle</strong>
+variables. The <strong>action</strong> is the phase-space area enclosed by one orbit, divided
+by <span class="math notranslate nohighlight">\(2\pi\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-action-angle">
+<span class="eqno">(180)<a class="headerlink" href="#equation-eq-action-angle" title="Link to this equation">#</a></span>\[J = \frac{1}{2\pi}\oint p\,\mathrm dq , \qquad \dot\theta =
+\frac{\partial H}{\partial J} \equiv \omega ,\]</div>
+<p>a constant of the motion, and its conjugate <strong>angle</strong> <span class="math notranslate nohighlight">\(\theta\)</span> advances linearly
+in time at the frequency <span class="math notranslate nohighlight">\(\omega=\partial H/\partial J\)</span>. In these coordinates the
+dynamics is trivial: <span class="math notranslate nohighlight">\(J\)</span> fixed, <span class="math notranslate nohighlight">\(\theta\)</span> winding at a steady rate. For the
+harmonic oscillator <span class="math notranslate nohighlight">\(J=E/\omega\)</span> and <span class="math notranslate nohighlight">\(H(J)=\omega J\)</span>, so <span class="math notranslate nohighlight">\(\partial H/\partial
+J=\omega\)</span> recovers the frequency. The action variables label the invariant tori
+(<a class="reference internal" href="../05-classical-stat-mech/ergodicity.html"><span class="std std-doc">§5.5</span></a>) and are <strong>adiabatic invariants</strong>: when a parameter is changed slowly, <span class="math notranslate nohighlight">\(J\)</span>
+is nearly conserved even though <span class="math notranslate nohighlight">\(E\)</span> is not — the pendulum whose length is slowly
+drawn up keeps its action, not its energy.</p>
+</section>
+<section id="the-action-as-a-phase-the-seam-to-quantum-mechanics">
+<h3>The action as a phase — the seam to quantum mechanics<a class="headerlink" href="#the-action-as-a-phase-the-seam-to-quantum-mechanics" title="Link to this heading">#</a></h3>
+<p>Hamilton–Jacobi theory casts mechanics around the action <span class="math notranslate nohighlight">\(S\)</span>, and <span class="math notranslate nohighlight">\(S/\hbar\)</span> is
+dimensionless: <span class="math notranslate nohighlight">\(S\)</span> has the units and the role of a <strong>phase</strong>. This is no
+accident. If a particle is secretly a wave, <span class="math notranslate nohighlight">\(\psi\sim e^{iS/\hbar}\)</span>, then
+substituting into the Schrödinger equation and letting <span class="math notranslate nohighlight">\(\hbar\to 0\)</span> returns
+<em>exactly</em> the Hamilton–Jacobi equation <a class="reference internal" href="#equation-eq-hj-idea">Eq. 177</a>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-action-phase">
+<span class="eqno">(181)<a class="headerlink" href="#equation-eq-action-phase" title="Link to this equation">#</a></span>\[\psi \sim \exp\!\left(\frac{i}{\hbar}\,S\right)
+\quad\xrightarrow{\ \hbar\to 0\ }\quad
+H\!\left(q,\frac{\partial S}{\partial q}\right)+\frac{\partial S}{\partial t}=0 .\]</div>
+<p>Classical mechanics is the short-wavelength limit of wave mechanics, and
+Hamilton–Jacobi theory is the classical shadow of the Schrödinger equation. The
+action variables are what the <strong>old quantum theory</strong> quantized: <span class="math notranslate nohighlight">\(\oint
+p\,\mathrm dq = n h\)</span>. Volume VI’s WKB approximation (<a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a>) keeps <span class="math notranslate nohighlight">\(\hbar\)</span> small
+but nonzero, sharpens this to <span class="math notranslate nohighlight">\(\oint p\,\mathrm dq=(n+\tfrac12)h\)</span>, and turns the
+action we compute here into the phase of a real wave.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>We work in one degree of freedom with units <span class="math notranslate nohighlight">\(m=1\)</span> throughout (and, where a
+frequency appears, <span class="math notranslate nohighlight">\(\omega=1\)</span> unless stated); for the quantization exercise we
+also set <span class="math notranslate nohighlight">\(\hbar=1\)</span>, so an energy is measured in units of <span class="math notranslate nohighlight">\(\hbar\omega\)</span>. Beyond
+those conventions Setup holds a single instrument,
+<code class="docutils literal notranslate"><span class="pre">classical_turning_points(E,</span> <span class="pre">V,</span> <span class="pre">search,</span> <span class="pre">m)</span></code>: the points <span class="math notranslate nohighlight">\(V(q)=E\)</span> where the
+momentum vanishes, found by scanning <span class="math notranslate nohighlight">\(V(q)-E\)</span> for sign changes and refining each
+bracket with <code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code>. Locating a root is plumbing here, not
+Hamilton–Jacobi theory.</p>
+<p>The notebook’s own toolkit is <em>not</em> here. You write the momentum <code class="docutils literal notranslate"><span class="pre">momentum</span></code> and
+Hamilton’s characteristic function <code class="docutils literal notranslate"><span class="pre">characteristic_function</span></code> in Exercise 2,
+Hamilton’s equations <code class="docutils literal notranslate"><span class="pre">hamilton_osc</span></code> in Exercise 3, and the action variable
+<code class="docutils literal notranslate"><span class="pre">action_variable</span></code> together with its frequency <code class="docutils literal notranslate"><span class="pre">frequency_from_action</span></code> in
+Exercise 4.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">quad</span><span class="p">,</span> <span class="n">solve_ivp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">brentq</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+
+<span class="c1"># instrument: a generic root-finder — a sign-change scan refined by Brent&#39;s</span>
+<span class="c1"># method. Bracketing the roots of V(q) − E is numerical plumbing, not the lesson</span>
+<span class="c1"># of any exercise here; it is handed whatever potential it is asked about.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">classical_turning_points</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">search</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2001</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Turning points where V(q) = E, via sign changes + ``scipy.optimize.brentq``.</span>
+
+<span class="sd">    Scans ``search=(qmin, qmax)`` for sign changes of V(q) − E and refines each</span>
+<span class="sd">    bracket with Brent&#39;s method. These are the points where the momentum</span>
+<span class="sd">    (eq-char-action) vanishes and WKB (6.23) will break down.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    E : float</span>
+<span class="sd">        Energy.</span>
+<span class="sd">    V : callable</span>
+<span class="sd">        Potential.</span>
+<span class="sd">    search : tuple of float</span>
+<span class="sd">        ``(qmin, qmax)`` window to scan.</span>
+<span class="sd">    m : float, optional</span>
+<span class="sd">        Mass (unused in the root, kept for a uniform signature).</span>
+<span class="sd">    n : int, optional</span>
+<span class="sd">        Number of scan points.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The sorted turning points found in the window.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">qs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">search</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">search</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">V</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span> <span class="o">-</span> <span class="n">E</span>
+    <span class="n">roots</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">roots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">roots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">brentq</span><span class="p">(</span><span class="k">lambda</span> <span class="n">q</span><span class="p">:</span> <span class="n">V</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">-</span> <span class="n">E</span><span class="p">,</span> <span class="n">qs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">qs</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">roots</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-hamiltonjacobi-equation-for-the-free-particle-worked">
+<h2>Exercise 1 — The Hamilton–Jacobi equation for the free particle (worked)<a class="headerlink" href="#exercise-1-the-hamiltonjacobi-equation-for-the-free-particle-worked" title="Link to this heading">#</a></h2>
+<p>The simplest possible case fixes the ideas. For a free particle <span class="math notranslate nohighlight">\(H=p^2/2m\)</span>, the
+Hamilton–Jacobi equation <a class="reference internal" href="#equation-eq-hj-idea">Eq. 177</a> reads <span class="math notranslate nohighlight">\(\tfrac1{2m}(\partial
+S/\partial x)^2+\partial S/\partial t=0\)</span>. With no potential the energy is
+conserved, so we separate <span class="math notranslate nohighlight">\(S=W(x)-Et\)</span> from <a class="reference internal" href="#equation-eq-hj-separation">Eq. 178</a>; the space
+equation <span class="math notranslate nohighlight">\(\tfrac1{2m}(W')^2=E\)</span> integrates to <span class="math notranslate nohighlight">\(W=\sqrt{2mE}\,x\)</span>, and the whole
+principal function is <span class="math notranslate nohighlight">\(S=\sqrt{2mE}\,x-Et\)</span>. The motion then falls out of the
+rule that the new coordinate <span class="math notranslate nohighlight">\(\partial S/\partial E\)</span> is a constant, and SymPy
+keeps the algebra exact throughout. The recovered straight-line trajectories are
+drawn in <a class="reference internal" href="#fig-hj-free-particle"><span class="std std-numref">Fig. 164</span></a>.</p>
+<ol class="arabic simple">
+<li><p>Form <span class="math notranslate nohighlight">\(S=\sqrt{2mE}\,x-Et\)</span> (<code class="docutils literal notranslate"><span class="pre">sympy</span></code>) and confirm it satisfies the
+Hamilton–Jacobi equation <a class="reference internal" href="#equation-eq-hj-idea">Eq. 177</a> identically.</p></li>
+<li><p>Impose <span class="math notranslate nohighlight">\(\partial S/\partial E=\text{const}\)</span> and solve for <span class="math notranslate nohighlight">\(x(t)\)</span>
+(<code class="docutils literal notranslate"><span class="pre">sympy.solve</span></code>); confirm it is uniform motion with velocity
+<span class="math notranslate nohighlight">\(\sqrt{2E/m}=p/m\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HJ residual  (S_x)^2/2m + S_t = 0
+x(t) = sqrt(2)*sqrt(E)*(beta + t)/sqrt(m)
+dx/dt = sqrt(2)*sqrt(E)/sqrt(m)    sqrt(2E/m) = sqrt(2)*sqrt(E)/sqrt(m)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-hj-free-particle">
+<img alt="../../_images/242e68dcb626ed6a22e98408da47531046fa2e50b17c2a40329698bc7fb06c61.png" src="../../_images/242e68dcb626ed6a22e98408da47531046fa2e50b17c2a40329698bc7fb06c61.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 164 </span><span class="caption-text">Free-particle trajectories recovered from the Hamilton–Jacobi equation. Separating <span class="math notranslate nohighlight">\(S=\sqrt{2mE}\,x-Et\)</span> and setting the new coordinate <span class="math notranslate nohighlight">\(\partial S/\partial E\)</span> to a constant gives <span class="math notranslate nohighlight">\(x(t)=\sqrt{2E/m}\,(t+\beta)\)</span> — uniform motion, one straight line per energy <span class="math notranslate nohighlight">\(E\)</span> (higher <span class="math notranslate nohighlight">\(E\)</span>, steeper slope). The Hamilton–Jacobi equation reproduces the most elementary motion of all, and the constant <span class="math notranslate nohighlight">\(\beta\)</span> labels which particle.</span><a class="headerlink" href="#fig-hj-free-particle" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-1-the-free-particle-hamiltonjacobi-solution">
+<h3>Validation 1 — the free-particle Hamilton–Jacobi solution<a class="headerlink" href="#validation-1-the-free-particle-hamiltonjacobi-solution" title="Link to this heading">#</a></h3>
+<p>The residual of <a class="reference internal" href="#equation-eq-hj-idea">Eq. 177</a> must vanish identically, and the recovered
+velocity must equal <span class="math notranslate nohighlight">\(\sqrt{2E/m}\)</span>, i.e. <span class="math notranslate nohighlight">\(p/m\)</span>: the Hamilton–Jacobi solution
+reproduces free uniform motion.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  S = √(2mE)x − Et satisfies the Hamilton–Jacobi equation (S_x)²/2m + S_t = 0
+✓  ∂S/∂E = const gives uniform motion with velocity √(2E/m) = p/m
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-hamilton-s-characteristic-function-and-the-momentum">
+<h2>Exercise 2 — Hamilton’s characteristic function and the momentum<a class="headerlink" href="#exercise-2-hamilton-s-characteristic-function-and-the-momentum" title="Link to this heading">#</a></h2>
+<p>The heart of <a class="reference internal" href="#equation-eq-hj-separation">Eq. 178</a> is that the momentum is the <em>slope of the
+action</em>: <span class="math notranslate nohighlight">\(\partial W/\partial q=p\)</span>. The test bed is the harmonic well
+<span class="math notranslate nohighlight">\(V(q)=\tfrac12 m\omega^2q^2\)</span> (with <span class="math notranslate nohighlight">\(m=\omega=1\)</span>) at a fixed energy <span class="math notranslate nohighlight">\(E\)</span>, whose
+turning points sit at <span class="math notranslate nohighlight">\(q=\pm A\)</span> with <span class="math notranslate nohighlight">\(A=\sqrt{2E/\omega^2}\)</span>. Because <span class="math notranslate nohighlight">\(W\)</span> is an
+integral, its slope has to be read with a central difference rather than by
+differentiating the quadrature symbolically, and near the turning points the
+square-root shape makes even that degrade — so the comparison is made at
+interior points. The action and its slope are shown in
+<a class="reference internal" href="#fig-hj-characteristic"><span class="std std-numref">Fig. 165</span></a>.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">momentum(q,</span> <span class="pre">E,</span> <span class="pre">V,</span> <span class="pre">m)</span></code>, the classical momentum
+<span class="math notranslate nohighlight">\(p(q)=\sqrt{2m[E-V(q)]}\)</span> — the separated Hamilton–Jacobi equation
+<a class="reference internal" href="#equation-eq-hj-separation">Eq. 178</a> solved for <span class="math notranslate nohighlight">\(\partial W/\partial q\)</span> — clipped to zero
+outside the turning points so it stays real everywhere, and
+<code class="docutils literal notranslate"><span class="pre">characteristic_function(q,</span> <span class="pre">E,</span> <span class="pre">V,</span> <span class="pre">m,</span> <span class="pre">q0)</span></code>, Hamilton’s characteristic
+function <span class="math notranslate nohighlight">\(W(q)=\int_{q_0}^{q}p\,\mathrm dq'\)</span> of <a class="reference internal" href="#equation-eq-char-action">Eq. 179</a> by
+<code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code>. <strong>Write these yourself</strong> — the implementations are
+the lesson: an integrand that <em>is</em> the momentum, and an integral that <em>is</em>
+the action.</p></li>
+<li><p>For the oscillator at energy <span class="math notranslate nohighlight">\(E\)</span>, compute <span class="math notranslate nohighlight">\(W(q)\)</span> on a grid inside the
+turning points.</p></li>
+<li><p>Confirm <span class="math notranslate nohighlight">\(\partial W/\partial q=p(q)\)</span> at several interior points by a
+central difference of <span class="math notranslate nohighlight">\(W\)</span>, comparing against <code class="docutils literal notranslate"><span class="pre">momentum</span></code>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>turning point A = 2.0
+dW/dq : [1.6      1.907878 1.907878 1.6     ]
+p(q)  : [1.6      1.907878 1.907878 1.6     ]
+max |dW/dq − p| = 1.7603563051693527e-10
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-hj-characteristic">
+<img alt="../../_images/0c5edf6532195267dc40b07388453820d2b3a993f56476b0de7326c09a93ecba.png" src="../../_images/0c5edf6532195267dc40b07388453820d2b3a993f56476b0de7326c09a93ecba.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 165 </span><span class="caption-text">Hamilton’s characteristic function <span class="math notranslate nohighlight">\(W(q)=\int_0^q p\,\mathrm dq'\)</span> for the harmonic well at fixed energy (left), and its slope against the momentum <span class="math notranslate nohighlight">\(p(q)=\sqrt{2m[E-V]}\)</span> (right). The momentum is exactly the slope of the action, <span class="math notranslate nohighlight">\(\partial W/\partial q=p\)</span> — the content of the separated Hamilton–Jacobi equation — and both vanish at the turning points <span class="math notranslate nohighlight">\(q=\pm A\)</span> (dashed) where the classical motion reverses.</span><a class="headerlink" href="#fig-hj-characteristic" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2-the-momentum-is-the-slope-of-the-action">
+<h3>Validation 2 — the momentum is the slope of the action<a class="headerlink" href="#validation-2-the-momentum-is-the-slope-of-the-action" title="Link to this heading">#</a></h3>
+<p>At interior points (away from the turning points, where the square-root slope
+diverges and a finite difference degrades) the central-difference slope of <span class="math notranslate nohighlight">\(W\)</span>
+must match <span class="math notranslate nohighlight">\(p(q)\)</span> to high accuracy: this is <span class="math notranslate nohighlight">\(\partial W/\partial q=p\)</span>, the
+defining property <a class="reference internal" href="#equation-eq-char-action">Eq. 179</a> of the characteristic function.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  ∂W/∂q = p(q): the momentum is the slope of Hamilton&#39;s characteristic function   [max|Δ| = 1.76036e-10 (rtol=1e-05, atol=1e-06)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-the-harmonic-oscillator-by-hamiltonjacobi">
+<h2>Exercise 3 — The harmonic oscillator by Hamilton–Jacobi<a class="headerlink" href="#exercise-3-the-harmonic-oscillator-by-hamiltonjacobi" title="Link to this heading">#</a></h2>
+<p>Now the full machine on the oscillator. With <span class="math notranslate nohighlight">\(W(q)=\int p\,\mathrm dq\)</span> in hand,
+the trajectory comes from the same rule as before: the new coordinate <span class="math notranslate nohighlight">\(\partial
+W/\partial E - t\)</span> is a constant. Working the integral analytically,
+<span class="math notranslate nohighlight">\(\partial W/\partial E=\int \frac{\partial p}{\partial E}\,\mathrm
+dq=\frac1\omega\arcsin(q/A)\)</span>, so setting <span class="math notranslate nohighlight">\(\partial W/\partial E-t=\text{const}\)</span>
+gives <span class="math notranslate nohighlight">\(\arcsin(q/A)=\omega t+\varphi\)</span>, i.e. <span class="math notranslate nohighlight">\(q(t)=A\sin(\omega t+\varphi)\)</span> —
+simple harmonic motion, straight from the Hamilton–Jacobi equation. The
+independent yardstick is Hamilton’s equations themselves, <span class="math notranslate nohighlight">\(\dot q=\partial
+H/\partial p=p/m\)</span> and <span class="math notranslate nohighlight">\(\dot p=-\partial H/\partial q=-m\omega^2q\)</span>, integrated
+numerically from the state <span class="math notranslate nohighlight">\((q_0,p_0)=(A\sin\varphi,\,m\omega A\cos\varphi)\)</span>
+that matches the analytic solution at <span class="math notranslate nohighlight">\(t=0\)</span> (<a class="reference internal" href="#fig-hj-oscillator"><span class="std std-numref">Fig. 166</span></a>).</p>
+<ol class="arabic simple">
+<li><p>Assemble the Hamilton–Jacobi solution <span class="math notranslate nohighlight">\(q(t)=A\sin(\omega t+\varphi)\)</span>
+with <span class="math notranslate nohighlight">\(A=\sqrt{2E/(m\omega^2)}\)</span>.</p></li>
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">hamilton_osc(t,</span> <span class="pre">y)</span></code>, Hamilton’s equations above as a first-order
+system in <span class="math notranslate nohighlight">\(y=[q,\,p]\)</span> (the time argument is unused — <code class="docutils literal notranslate"><span class="pre">solve_ivp</span></code> requires
+it). <strong>Write this one yourself</strong> — the implementation is the lesson: this
+two-line right-hand side <em>is</em> the dynamics that Hamilton–Jacobi theory
+claims to have solved in advance.</p></li>
+<li><p>Integrate it with <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code> (<code class="docutils literal notranslate"><span class="pre">DOP853</span></code>) from that matching
+initial state, and confirm the two <span class="math notranslate nohighlight">\(q(t)\)</span> agree.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>max |q_HJ − q_numeric| = 3.019806626980426e-11
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-hj-oscillator">
+<img alt="../../_images/566ca170d6eb5b2c77faaab2967992a0dee53c63e87a112e55a690f64e1be349.png" src="../../_images/566ca170d6eb5b2c77faaab2967992a0dee53c63e87a112e55a690f64e1be349.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 166 </span><span class="caption-text">The oscillator solved by Hamilton–Jacobi. Setting the new coordinate <span class="math notranslate nohighlight">\(\partial W/\partial E-t\)</span> to a constant yields <span class="math notranslate nohighlight">\(q(t)=A\sin(\omega t+\varphi)\)</span> analytically (solid); a direct <code class="docutils literal notranslate"><span class="pre">solve_ivp</span></code> integration of Hamilton’s equations from the same initial state (dashed) lies on top of it. The Hamilton–Jacobi equation delivers the oscillation without ever writing down <span class="math notranslate nohighlight">\(\ddot q=-\omega^2 q\)</span>.</span><a class="headerlink" href="#fig-hj-oscillator" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3-hamiltonjacobi-reproduces-the-oscillation">
+<h3>Validation 3 — Hamilton–Jacobi reproduces the oscillation<a class="headerlink" href="#validation-3-hamiltonjacobi-reproduces-the-oscillation" title="Link to this heading">#</a></h3>
+<p>The analytic Hamilton–Jacobi trajectory and the numerically integrated one are
+the same physics by two routes, so they must agree to integration tolerance.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  q(t) = A sin(ωt+φ) from Hamilton–Jacobi matches the integrated motion   [max|Δ| = 3.01981e-11 (rtol=1e-06, atol=1e-07)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-action-angle-variables-for-the-oscillator-the-centerpiece">
+<h2>Exercise 4 — Action-angle variables for the oscillator (the centerpiece)<a class="headerlink" href="#exercise-4-action-angle-variables-for-the-oscillator-the-centerpiece" title="Link to this heading">#</a></h2>
+<p>Here is the payoff. For bounded motion the action <span class="math notranslate nohighlight">\(J=\frac1{2\pi}\oint
+p\,\mathrm dq\)</span> from <a class="reference internal" href="#equation-eq-action-angle">Eq. 180</a> is the enclosed phase-space area over
+<span class="math notranslate nohighlight">\(2\pi\)</span>, and it is a constant of the motion; its conjugate angle advances
+linearly at the frequency <span class="math notranslate nohighlight">\(\omega=\partial H/\partial J\)</span>. For the oscillator the
+orbit <span class="math notranslate nohighlight">\(p^2/2m+\tfrac12 m\omega^2q^2=E\)</span> is an ellipse of area <span class="math notranslate nohighlight">\(2\pi E/\omega\)</span>, so
+<span class="math notranslate nohighlight">\(J=E/\omega\)</span> and <span class="math notranslate nohighlight">\(H(J)=\omega J\)</span> — whence <span class="math notranslate nohighlight">\(\partial H/\partial J=\omega\)</span>.</p>
+<p>Two facts make the action computable. For libration the loop runs out to a
+turning point and back, so <span class="math notranslate nohighlight">\(\oint p\,\mathrm dq\)</span> is twice the integral across
+the well and <span class="math notranslate nohighlight">\(J=\frac1\pi\int_{q_1}^{q_2}p\,\mathrm dq\)</span>. And because <span class="math notranslate nohighlight">\(H(J)\)</span> is
+the inverse of <span class="math notranslate nohighlight">\(J(E)\)</span>, the frequency is <span class="math notranslate nohighlight">\(\partial H/\partial J=(\partial
+J/\partial E)^{-1}\)</span> — a derivative in <span class="math notranslate nohighlight">\(E\)</span>, which a central difference supplies.
+The angle conjugate to <span class="math notranslate nohighlight">\(J\)</span> is <span class="math notranslate nohighlight">\(\theta=\operatorname{atan2}(-p/m\omega,\,q)\)</span>, the
+polar angle of the phase-space orbit, and it should advance at exactly that
+<span class="math notranslate nohighlight">\(\omega\)</span> (<a class="reference internal" href="#fig-hj-action-angle"><span class="std std-numref">Fig. 167</span></a>).</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">action_variable(E,</span> <span class="pre">V,</span> <span class="pre">search,</span> <span class="pre">m)</span></code>, the action of
+<a class="reference internal" href="#equation-eq-action-angle">Eq. 180</a> as <span class="math notranslate nohighlight">\(\frac1\pi\int_{q_1}^{q_2}p\,\mathrm dq\)</span>: turning
+points from the Setup’s <code class="docutils literal notranslate"><span class="pre">classical_turning_points</span></code>, integrand the <code class="docutils literal notranslate"><span class="pre">momentum</span></code>
+you wrote in Exercise 2, quadrature by <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code>. <strong>Write this
+one yourself</strong> — the implementation is the lesson.</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(J\)</span> for the oscillator at energy <span class="math notranslate nohighlight">\(E\)</span> and confirm <span class="math notranslate nohighlight">\(J=E/\omega\)</span>.</p></li>
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">frequency_from_action(E,</span> <span class="pre">V,</span> <span class="pre">search,</span> <span class="pre">m,</span> <span class="pre">dE)</span></code>, the frequency
+<span class="math notranslate nohighlight">\(\omega=\partial H/\partial J=(\partial J/\partial E)^{-1}\)</span>, the energy
+derivative taken as a central difference of your <code class="docutils literal notranslate"><span class="pre">action_variable</span></code>. <strong>Write
+this one yourself</strong> — the implementation is the lesson.</p></li>
+<li><p>Confirm the frequency it returns equals the oscillation frequency.</p></li>
+<li><p>From an orbit integrated with your Exercise 3 <code class="docutils literal notranslate"><span class="pre">hamilton_osc</span></code>, form the angle
+<span class="math notranslate nohighlight">\(\theta=\operatorname{atan2}(-p/m\omega,\,q)\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.arctan2</span></code> +
+<code class="docutils literal notranslate"><span class="pre">numpy.unwrap</span></code>) and confirm it advances linearly at rate <span class="math notranslate nohighlight">\(\omega\)</span>
+(<code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>J = (1/2π)∮p dq = 2.000000    E/ω = 2.000000
+∂H/∂J = 1.000000    ω = 1.000000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dθ/dt (linear fit) = 1.000000    ω = 1.000000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-hj-action-angle">
+<img alt="../../_images/78a1fb02525418a5371350422a0d694da3faa121fea92501bc79054807dd66f7.png" src="../../_images/78a1fb02525418a5371350422a0d694da3faa121fea92501bc79054807dd66f7.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 167 </span><span class="caption-text">Action-angle variables for the oscillator. Left: the phase-space orbit at energy <span class="math notranslate nohighlight">\(E\)</span> encloses an area <span class="math notranslate nohighlight">\(\oint p\,\mathrm dq=2\pi J\)</span> (shaded); with <span class="math notranslate nohighlight">\(m=\omega=1\)</span> the orbit is a circle of radius <span class="math notranslate nohighlight">\(\sqrt{2E}\)</span>, and <span class="math notranslate nohighlight">\(J=E/\omega\)</span>. Right: the angle variable <span class="math notranslate nohighlight">\(\theta=\operatorname{atan2}(-p/m\omega,\,q)\)</span> advances perfectly linearly in time at the rate <span class="math notranslate nohighlight">\(\omega=\partial H/\partial J\)</span>. In these coordinates the motion is trivial — a constant action and an angle winding at a steady frequency.</span><a class="headerlink" href="#fig-hj-action-angle" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4-the-action-is-e-and-its-frequency-is">
+<h3>Validation 4 — the action is E/ω and its frequency is ω<a class="headerlink" href="#validation-4-the-action-is-e-and-its-frequency-is" title="Link to this heading">#</a></h3>
+<p>Three facts must hold together: the quadrature action equals <span class="math notranslate nohighlight">\(E/\omega\)</span>; the
+derivative <span class="math notranslate nohighlight">\(\partial H/\partial J\)</span> equals the oscillation frequency <span class="math notranslate nohighlight">\(\omega\)</span>;
+and the angle variable advances linearly at that same <span class="math notranslate nohighlight">\(\omega\)</span>. Together they
+are the statement that action-angle variables trivialize the oscillator.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  J = (1/2π)∮p dq equals E/ω for the oscillator   [got 2 vs expected 2 (rtol=1e-05, atol=1e-06)]
+✓  ∂H/∂J recovers the oscillation frequency ω   [got 1 vs expected 1 (rtol=0.0001, atol=1e-05)]
+✓  the angle variable advances linearly at rate ω   [got 1 vs expected 1 (rtol=0.0001, atol=1e-05)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-adiabatic-invariance-student-implemented">
+<h2>Exercise 5 — Adiabatic invariance (student-implemented)<a class="headerlink" href="#exercise-5-adiabatic-invariance-student-implemented" title="Link to this heading">#</a></h2>
+<p>The action earns its importance from what it does under <em>change</em>. Take an
+oscillator whose frequency <span class="math notranslate nohighlight">\(\omega(t)\)</span> is drawn slowly upward — slowly meaning
+over many periods — and ask what survives. The energy does not: pump the spring
+stiffer and the oscillation gains energy. But the <strong>action</strong> <span class="math notranslate nohighlight">\(J=E/\omega\)</span> is an
+<strong>adiabatic invariant</strong>: it is nearly conserved, to a degree that improves the
+more slowly the change is made. This is the classical root of the adiabatic
+theorem, and of the old quantum theory’s faith that quantized actions stay
+quantized as atoms are perturbed. The ramp used here is linear, <span class="math notranslate nohighlight">\(\omega\)</span> climbing
+from <span class="math notranslate nohighlight">\(\omega_0=1\)</span> to <span class="math notranslate nohighlight">\(\omega_1=2.5\)</span> over a time <span class="math notranslate nohighlight">\(T=400\)</span> — many oscillations per
+unit of change, which is what <em>slow</em> has to mean. With the frequency now time-
+dependent the energy is the instantaneous <span class="math notranslate nohighlight">\(E(t)=\tfrac12 p^2/m+\tfrac12
+m\omega(t)^2q^2\)</span>, and the diagnostic is <span class="math notranslate nohighlight">\(J(t)=E(t)/\omega(t)\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">omega_ramp(t)</span></code>, the linear ramp <span class="math notranslate nohighlight">\(\omega_0\to\omega_1\)</span> over <span class="math notranslate nohighlight">\(T\)</span>, and
+<code class="docutils literal notranslate"><span class="pre">osc_ramped(t,</span> <span class="pre">y)</span></code>, the oscillator’s equations of motion with that
+time-dependent frequency, <span class="math notranslate nohighlight">\(\dot q=p\)</span> and <span class="math notranslate nohighlight">\(\dot p=-\omega(t)^2q\)</span>. <strong>Write
+these yourself</strong> — the implementations are the lesson.</p></li>
+<li><p>Integrate over the whole ramp with <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code> (<code class="docutils literal notranslate"><span class="pre">DOP853</span></code>).</p></li>
+<li><p>Form the instantaneous energy <span class="math notranslate nohighlight">\(E(t)\)</span> and the action <span class="math notranslate nohighlight">\(J(t)=E(t)/\omega(t)\)</span>.</p></li>
+<li><p>Show that <span class="math notranslate nohighlight">\(E\)</span> changes by the ratio <span class="math notranslate nohighlight">\(\omega_1/\omega_0\)</span> while <span class="math notranslate nohighlight">\(J\)</span> stays
+nearly constant.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>E: 0.5000 → 1.2497   (ratio 2.499, expect ω1/ω0 = 2.500)
+J: 0.5000 → 0.4999   (relative drift 3.71e-03)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-hj-adiabatic">
+<img alt="../../_images/eb734cb645617d63198ebe7c01c539b4190fa1843b8477529c1aae001ea310d1.png" src="../../_images/eb734cb645617d63198ebe7c01c539b4190fa1843b8477529c1aae001ea310d1.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 168 </span><span class="caption-text">Adiabatic invariance of the action. As the oscillator frequency is ramped slowly from <span class="math notranslate nohighlight">\(\omega_0\)</span> to <span class="math notranslate nohighlight">\(\omega_1\)</span>, the energy <span class="math notranslate nohighlight">\(E(t)\)</span> (grey) climbs by the full factor <span class="math notranslate nohighlight">\(\omega_1/\omega_0\)</span>, but the action <span class="math notranslate nohighlight">\(J=E/\omega\)</span> (amber) stays flat to a fraction of a percent. The action is the robust invariant under slow change — the classical seed of the adiabatic theorem, and the reason the old quantum theory could quantize <span class="math notranslate nohighlight">\(J\)</span> and trust it to persist.</span><a class="headerlink" href="#fig-hj-adiabatic" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5-the-action-survives-the-slow-change">
+<h3>Validation 5 — the action survives the slow change<a class="headerlink" href="#validation-5-the-action-survives-the-slow-change" title="Link to this heading">#</a></h3>
+<p>Adiabatic invariance is not exact — it holds in the limit of infinitely slow
+change — so the honest check is that <span class="math notranslate nohighlight">\(J\)</span> drifts by far less than <span class="math notranslate nohighlight">\(E\)</span> does. With
+this ramp <span class="math notranslate nohighlight">\(E\)</span> moves by a factor of <span class="math notranslate nohighlight">\(2.5\)</span> while <span class="math notranslate nohighlight">\(J\)</span> holds to about a percent.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the action J = E/ω is an adiabatic invariant under the slow frequency ramp   [max relative drift = 0.00187367 (limit 0.02)]
+✓  meanwhile the energy E changes by the ramp ratio ω1/ω0 ≈ 2.5 (not conserved)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-toward-quantization-the-action-and-bohrsommerfeld-student-implemented">
+<h2>Exercise 6 — Toward quantization: the action and Bohr–Sommerfeld (student-implemented)<a class="headerlink" href="#exercise-6-toward-quantization-the-action-and-bohrsommerfeld-student-implemented" title="Link to this heading">#</a></h2>
+<p>The old quantum theory of Bohr and Sommerfeld made one bold postulate: that the
+action variable is <strong>quantized</strong>, <span class="math notranslate nohighlight">\(\oint p\,\mathrm dq=n h\)</span> with <span class="math notranslate nohighlight">\(n=1,2,\dots\)</span>
+For the oscillator <span class="math notranslate nohighlight">\(\oint p\,\mathrm dq=2\pi E/\omega\)</span>, so the rule gives
+<span class="math notranslate nohighlight">\(E_n=n\hbar\omega\)</span> — the correct <em>ladder spacing</em> <span class="math notranslate nohighlight">\(\hbar\omega\)</span>, but resting on
+the floor instead of half a rung above it. The missing <span class="math notranslate nohighlight">\(\tfrac12\)</span> is the
+zero-point energy, and it is exactly what Volume VI’s WKB approximation (<a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a>)
+restores by tracking the phase the wave picks up at the turning points,
+sharpening the rule to <span class="math notranslate nohighlight">\(\oint p\,\mathrm dq=(n+\tfrac12)h\)</span>. The two ladders are
+drawn against each other in <a class="reference internal" href="#fig-hj-quantization"><span class="std std-numref">Fig. 169</span></a>.</p>
+<ol class="arabic simple">
+<li><p>For the oscillator, evaluate <span class="math notranslate nohighlight">\(\oint p\,\mathrm dq=2\pi J\)</span> with the
+<code class="docutils literal notranslate"><span class="pre">action_variable</span></code> you wrote in Exercise 4, at a trial energy, and confirm it
+equals <span class="math notranslate nohighlight">\(2\pi E/\omega\)</span>.</p></li>
+<li><p>Impose <span class="math notranslate nohighlight">\(\oint p\,\mathrm dq=n h\)</span> (with <span class="math notranslate nohighlight">\(\hbar=1\)</span>, <span class="math notranslate nohighlight">\(h=2\pi\)</span>) and solve
+for <span class="math notranslate nohighlight">\(E_n\)</span>; confirm <span class="math notranslate nohighlight">\(E_n=n\hbar\omega\)</span>.</p></li>
+<li><p>Note the old-quantum ladder <span class="math notranslate nohighlight">\(n\hbar\omega\)</span> against the true
+<span class="math notranslate nohighlight">\((n+\tfrac12)\hbar\omega\)</span> — the correction WKB will supply.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>∮p dq = 12.566371    2πE/ω = 12.566371
+Bohr–Sommerfeld  E_n = n ħω : [1. 2. 3. 4. 5.]
+true (n+½)ħω               : [1.5 2.5 3.5 4.5 5.5]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-hj-quantization">
+<img alt="../../_images/25aeed2c1c45bdc7ea396c2781f59c3b1c329f95574996d7522360ceb9f3c42c.png" src="../../_images/25aeed2c1c45bdc7ea396c2781f59c3b1c329f95574996d7522360ceb9f3c42c.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 169 </span><span class="caption-text">The old quantum theory in phase space. Imposing <span class="math notranslate nohighlight">\(\oint p\,\mathrm dq=nh\)</span> selects a discrete set of oscillator orbits (amber) whose enclosed areas are integer multiples of Planck’s constant; their energies are <span class="math notranslate nohighlight">\(E_n=n\hbar\omega\)</span> (left, amber ladder). This has the right spacing but sits half a rung too low: the true spectrum is <span class="math notranslate nohighlight">\((n+\tfrac12)\hbar\omega\)</span> (grey), and the missing zero-point <span class="math notranslate nohighlight">\(\tfrac12\hbar\omega\)</span> is the turning-point correction that WKB (<a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a>) supplies.</span><a class="headerlink" href="#fig-hj-quantization" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6-the-old-quantization-gives-en-n">
+<h3>Validation 6 — the old quantization gives Eₙ = nℏω<a class="headerlink" href="#validation-6-the-old-quantization-gives-en-n" title="Link to this heading">#</a></h3>
+<p>The action quantized as <span class="math notranslate nohighlight">\(\oint p\,\mathrm dq=n h\)</span> must return the oscillator
+ladder <span class="math notranslate nohighlight">\(E_n=n\hbar\omega\)</span>: the right spacing <span class="math notranslate nohighlight">\(\hbar\omega\)</span>, short by the
+zero-point <span class="math notranslate nohighlight">\(\tfrac12\hbar\omega\)</span> that WKB (<a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a>) will add.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  ∮p dq = 2πE/ω for the oscillator   [got 12.5664 vs expected 12.5664 (rtol=1e-05, atol=1e-06)]
+✓  Bohr–Sommerfeld ∮p dq = nh gives E_n = nℏω (old quantum theory)   [max|Δ| = 0 (rtol=1e-06, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-synthesis-the-action-as-the-shadow-of-a-wave">
+<h2>Exercise 7 — (Synthesis) The action as the shadow of a wave<a class="headerlink" href="#exercise-7-synthesis-the-action-as-the-shadow-of-a-wave" title="Link to this heading">#</a></h2>
+<p>Hamilton–Jacobi theory set out to find a change of variables that would freeze
+the motion into constants, and found it in the classical <strong>action</strong> — a single
+function <span class="math notranslate nohighlight">\(S\)</span> whose gradient is the momentum, whose level sets <span class="math notranslate nohighlight">\(S=\text{const}\)</span>
+are wavefronts, and whose invariant tori the action variables label. Along the
+way the action revealed itself as the robust survivor of slow change (the
+adiabatic invariant of Exercise 5) and as the quantity the old quantum theory
+quantized (Exercise 6). But its deepest property is the one in its units. The
+action carries the dimensions of <span class="math notranslate nohighlight">\(\hbar\)</span>, which is to say the dimensions of a
+<strong>phase</strong>, and the equation it obeys is precisely what the Schrödinger equation
+becomes when the wavelength shrinks to nothing, <a class="reference internal" href="#equation-eq-action-phase">Eq. 181</a>.</p>
+<p><a class="reference internal" href="#fig-hj-eikonal"><span class="std std-numref">Fig. 170</span></a> draws the picture that Volume VI makes literal. Surfaces
+of constant action are <strong>wavefronts</strong>; the momentum <span class="math notranslate nohighlight">\(p=\nabla S\)</span> points along the
+<strong>rays</strong> that cross them at right angles — the classical trajectories. A particle
+following Hamilton’s equations is a ray of a wave whose phase is <span class="math notranslate nohighlight">\(S/\hbar\)</span>, and
+geometrical optics is to wave optics exactly as classical mechanics is to quantum
+mechanics. Hamilton wrote his equation in the 1830s, decades before anyone
+suspected the electron was a wave, yet he built mechanics in the language of
+phases and wavefronts — as if the theory knew, before we did, what it would one
+day become. Volume VI picks up exactly here: it lets <span class="math notranslate nohighlight">\(\hbar\)</span> be small but
+nonzero, and the action we computed in this notebook becomes the phase of a real
+matter wave. That is the WKB approximation (<a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a>), and the Bohr–Sommerfeld rule
+of Exercise 6 returns with its missing <span class="math notranslate nohighlight">\(\tfrac12\)</span> restored.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-hj-eikonal">
+<img alt="../../_images/9f453ce5fa90be48798ce33216ff4a8d58158cabae995130b088ade1287bc9e9.png" src="../../_images/9f453ce5fa90be48798ce33216ff4a8d58158cabae995130b088ade1287bc9e9.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 170 </span><span class="caption-text">The action as a wave’s phase. Surfaces of constant action <span class="math notranslate nohighlight">\(S=\text{const}\)</span> (blue) are wavefronts; the momentum <span class="math notranslate nohighlight">\(p=\nabla S\)</span> points along the rays (amber) that cross them orthogonally — the classical trajectories. Hamilton–Jacobi theory is geometrical optics for matter: a particle is a ray of a wave with phase <span class="math notranslate nohighlight">\(S/\hbar\)</span>, and letting <span class="math notranslate nohighlight">\(\hbar\)</span> be small-but-nonzero (Volume VI, <a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a>) turns this classical shadow back into a real wave.</span><a class="headerlink" href="#fig-hj-eikonal" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The Hamilton–Jacobi equation</strong> <a class="reference internal" href="#equation-eq-hj-idea">Eq. 177</a> seeks a canonical
+transformation to constants; its generator is the action <span class="math notranslate nohighlight">\(S=W-Et\)</span>
+<a class="reference internal" href="#equation-eq-hj-separation">Eq. 178</a>, with the momentum as its slope, <span class="math notranslate nohighlight">\(\partial W/\partial
+q=p\)</span>. We recovered free uniform motion and the full oscillation from it.</p></li>
+<li><p><strong>Action-angle variables</strong> <a class="reference internal" href="#equation-eq-action-angle">Eq. 180</a>: the action
+<span class="math notranslate nohighlight">\(J=\frac1{2\pi}\oint p\,\mathrm dq=E/\omega\)</span> is constant and the angle winds at
+<span class="math notranslate nohighlight">\(\omega=\partial H/\partial J\)</span> (verified three ways for the oscillator).</p></li>
+<li><p><strong>Adiabatic invariance</strong>: under a slow frequency ramp the energy changed by
+<span class="math notranslate nohighlight">\(2.5\times\)</span> while the action held to about a percent — the robust invariant.</p></li>
+<li><p><strong>The old quantization</strong> <span class="math notranslate nohighlight">\(\oint p\,\mathrm dq=nh\)</span> gave <span class="math notranslate nohighlight">\(E_n=n\hbar\omega\)</span>, the
+right spacing missing its zero-point <span class="math notranslate nohighlight">\(\tfrac12\hbar\omega\)</span>.</p></li>
+<li><p><strong>The action is a phase</strong>: <span class="math notranslate nohighlight">\(S=\text{const}\)</span> are wavefronts, <span class="math notranslate nohighlight">\(p=\nabla S\)</span> the
+rays, and the Hamilton–Jacobi equation is the <span class="math notranslate nohighlight">\(\hbar\to0\)</span> limit of Schrödinger
+<a class="reference internal" href="#equation-eq-action-phase">Eq. 181</a> — the bridge to Volume VI.</p></li>
+</ul>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The WKB / semiclassical approximation</strong> (Volume VI, <a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a>): <span class="math notranslate nohighlight">\(\psi\sim
+e^{iS/\hbar}\)</span> with <span class="math notranslate nohighlight">\(S\)</span> the very action computed here, and Bohr–Sommerfeld
+sharpened to <span class="math notranslate nohighlight">\((n+\tfrac12)h\)</span> by the turning-point phases.</p></li>
+<li><p><strong>Wave mechanics</strong> (Volume VI): the Schrödinger equation whose short-wavelength
+limit is the Hamilton–Jacobi equation, and the position-space wavefunction
+(<a class="reference internal" href="../06-quantum-mechanics/position-representation.html"><span class="std std-doc">§6.9</span></a>) whose phase is the action.</p></li>
+<li><p><strong>Integrable systems and chaos</strong> (<a class="reference internal" href="../05-classical-stat-mech/ergodicity.html"><span class="std std-doc">§5.5</span></a>): action variables label the
+invariant tori; when no separation exists the tori break and the motion turns
+ergodic — KAM theory as a horizon.</p></li>
+<li><p><strong>Canonical perturbation theory</strong>: expanding the action of a nearly-integrable
+system in the small perturbation, with action variables as the unperturbed
+coordinates.</p></li>
+</ul>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<div class="docutils container" id="id4">
+<div role="list" class="citation-list">
+<div class="citation" id="id18" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">GPS02</a><span class="fn-bracket">]</span></span>
+<p>Herbert Goldstein, Charles P. Poole, and John L. Safko. <em>Classical Mechanics</em>. Pearson, 3 edition, 2002.</p>
+</div>
+<div class="citation" id="id20" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">LL76</a><span class="fn-bracket">]</span></span>
+<p>L. D. Landau and E. M. Lifshitz. <em>Mechanics</em>. Volume 1 of Course of Theoretical Physics. Butterworth–Heinemann, 3 edition, 1976.</p>
+</div>
+<div class="citation" id="id8" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">Nol16</a><span class="fn-bracket">]</span></span>
+<p>Wolfgang Nolting. <em>Theoretical Physics 2: Analytical Mechanics</em>. Springer, 2016.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/02-classical-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="lagrange-points.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">2.9 Lagrange Points and the Restricted Three-Body Problem</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nonlinear-chaos.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-hamiltonjacobi-idea">The Hamilton–Jacobi idea</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#separation-for-conserved-systems">Separation for conserved systems</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#separation-of-variables-and-integrability">Separation of variables and integrability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#action-angle-variables">Action-angle variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-action-as-a-phase-the-seam-to-quantum-mechanics">The action as a phase — the seam to quantum mechanics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-hamiltonjacobi-equation-for-the-free-particle-worked">Exercise 1 — The Hamilton–Jacobi equation for the free particle (worked)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-free-particle-hamiltonjacobi-solution">Validation 1 — the free-particle Hamilton–Jacobi solution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-hamilton-s-characteristic-function-and-the-momentum">Exercise 2 — Hamilton’s characteristic function and the momentum</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-the-momentum-is-the-slope-of-the-action">Validation 2 — the momentum is the slope of the action</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-harmonic-oscillator-by-hamiltonjacobi">Exercise 3 — The harmonic oscillator by Hamilton–Jacobi</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-hamiltonjacobi-reproduces-the-oscillation">Validation 3 — Hamilton–Jacobi reproduces the oscillation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-action-angle-variables-for-the-oscillator-the-centerpiece">Exercise 4 — Action-angle variables for the oscillator (the centerpiece)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-the-action-is-e-and-its-frequency-is">Validation 4 — the action is E/ω and its frequency is ω</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-adiabatic-invariance-student-implemented">Exercise 5 — Adiabatic invariance (student-implemented)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-the-action-survives-the-slow-change">Validation 5 — the action survives the slow change</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-toward-quantization-the-action-and-bohrsommerfeld-student-implemented">Exercise 6 — Toward quantization: the action and Bohr–Sommerfeld (student-implemented)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-the-old-quantization-gives-en-n">Validation 6 — the old quantization gives Eₙ = nℏω</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-synthesis-the-action-as-the-shadow-of-a-wave">Exercise 7 — (Synthesis) The action as the shadow of a wave</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

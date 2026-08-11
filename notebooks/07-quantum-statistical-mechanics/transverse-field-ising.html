@@ -1,0 +1,1763 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/transverse-field-ising.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Every transition in this course so far needed heat: order lost to thermal agitation as T rose, the bargain between energy and entropy that..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Every transition in this course so far needed heat: order lost to thermal agitation as T rose, the bargain between energy and entropy that..." />
+
+    <title>7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/07-quantum-statistical-mechanics/transverse-field-ising';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/transverse-field-ising.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length" href="imaginary-time-quantum-classical.html" />
+    <link rel="prev" title="7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator" href="quantum-paramagnets-brillouin.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VII — Quantum Statistical Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-electronic-structure/index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/07-quantum-statistical-mechanics/transverse-field-ising.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/07-quantum-statistical-mechanics/transverse-field-ising.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/07-quantum-statistical-mechanics/transverse-field-ising.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/07-quantum-statistical-mechanics/transverse-field-ising.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-and-why-it-must-have-a-transition">The model, and why it must have a transition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparse-construction">Sparse construction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-rendezvous-the-chain-is-free-fermions">The rendezvous: the chain is free fermions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gap-s-four-stories-parity-bookkeeping">The gap’s four stories: parity bookkeeping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#order-without-magnetization">Order without magnetization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entanglement-the-central-charge-measured">Entanglement: the central charge, measured</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-quantum-critical-fan">The quantum-critical fan</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-two-demands-that-cannot-both-be-met">Exercise 1 — Two demands that cannot both be met</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-rendezvous-four-thousand-amplitudes-vs-one-momentum-sum">Exercise 2 — The rendezvous: four thousand amplitudes vs one momentum sum</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-gap-s-four-stories">Exercise 3 — The gap’s four stories</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-order-without-magnetization">Exercise 4 — Order without magnetization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-central-charge-measured">Exercise 5 — The central charge, measured</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-susceptibility-sharpens">Exercise 6 — The susceptibility sharpens</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-quantum-critical-fan">Exercise 7 — The quantum-critical fan</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-a-transition-without-temperature">Exercise 8 — A transition without temperature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-transverse-field-ising-chain-a-phase-transition-at-absolute-zero">
+<h1>7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero<a class="headerlink" href="#the-transverse-field-ising-chain-a-phase-transition-at-absolute-zero" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VII — Quantum Statistical Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;7.19
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Every transition so far needed heat; this one happens where there is none. A chain of spins whose coupling and field refuse to commute must reorganize its ground state at a critical field — and the chain secretly solves itself: it is a gas of free fermions in disguise, its transition a gap closing. We check four thousand amplitudes against a one-line momentum sum at machine precision, watch symmetry breaking cast exponentially thin shadows in finite systems, and measure the central charge of a conformal field theory — one half, to half a percent — from fourteen spins.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;205–245 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Every transition in this course so far needed heat: order lost to thermal agitation as <span class="math notranslate nohighlight">\(T\)</span>
+rose, the bargain between energy and entropy that Volume V made its engine. This notebook’s transition happens at <strong>absolute zero</strong>, where there is no heat at all: the agitation is quantum. The Hamiltonian <span class="math notranslate nohighlight">\(H = -J\sum\sigma^z_i\sigma^z_{i+1} - h\sum\sigma^x_i\)</span> contains
+two demands that do not commute: the coupling wants definite <span class="math notranslate nohighlight">\(\sigma^z\)</span> (aligned
+neighbours), the field wants definite <span class="math notranslate nohighlight">\(\sigma^x\)</span>, and no state satisfies both. The ground state must broker a compromise, and at <span class="math notranslate nohighlight">\(h = J\)</span> the compromise changes character abruptly.
+The classical chain of <a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html"><span class="std std-doc">§5.10</span></a> famously has <em>no</em> transition at any finite temperature in one
+dimension; its quantum counterpart has one at <span class="math notranslate nohighlight">\(T = 0\)</span>, with <span class="math notranslate nohighlight">\(g = h/J\)</span> replacing temperature
+as the dial.</p>
+<p>The rendezvous reveals whose machinery this really is. The Jordan–Wigner transformation
+(sketched honestly, not belabored) maps the chain to <strong>free fermions</strong> with the Bogoliubov
+spectrum <span class="math notranslate nohighlight">\(\varepsilon(k) = 2\sqrt{J^2 + h^2 - 2Jh\cos k}\)</span> (Pfeuty 1970), so the ground state is a <em>filled Fermi sea</em> of quasiparticles (Movement III hiding inside a magnet), and the ground energy is a one-line momentum sum over the antiperiodic set <span class="math notranslate nohighlight">\(k = (2j{-}1)\pi/N\)</span>.
+Exact diagonalization agrees with that sum to <span class="math notranslate nohighlight">\(10^{-14}\)</span> at nine <span class="math notranslate nohighlight">\((N, h)\)</span> points: four
+thousand amplitudes against six terms. In fermion language the transition is transparent: the quasiparticle gap <span class="math notranslate nohighlight">\(\varepsilon(0) = 2|h - J|\)</span> closes linearly at <span class="math notranslate nohighlight">\(h = J\)</span>, and a closing
+gap <em>is</em> the transition (<span class="math notranslate nohighlight">\(z = 1\)</span>: energy scales as one over length). The gap then tells four
+stories through one parity rule (quasiparticles are made in pairs within a fermion-parity
+sector; a single quasiparticle changes sector): the ordered doublet splits <em>exponentially</em> (<span class="math notranslate nohighlight">\(\sim h^N\)</span>: the finite-size shadow of symmetry breaking, and the states are cats); the
+ordered side’s physical gap is a <em>two</em>-quasiparticle threshold (a flipped domain has two
+walls); the disordered gap is a single quasiparticle at <span class="math notranslate nohighlight">\(2(h-J)\)</span>; and the critical gap closes as <span class="math notranslate nohighlight">\(\Delta \cdot N \to \pi/2\)</span>, with an honest correction performed in public, since
+the naive same-sector guess predicts a different coefficient and the computer overruled it.</p>
+<p>Order turns out to be subtler than magnetization: any finite symmetric ground state has
+<span class="math notranslate nohighlight">\(\langle\sigma^z\rangle = 0\)</span> <em>identically</em> (measured: <span class="math notranslate nohighlight">\(10^{-11}\)</span>, which is solver noise, not
+physics), and the order lives in correlations: <span class="math notranslate nohighlight">\(C(N/2) = 0.93054\)</span> against Pfeuty’s exact <span class="math notranslate nohighlight">\((1-h^2)^{1/4} = 0.93060\)</span>. The exponent inside, <span class="math notranslate nohighlight">\(1/8\)</span>, is the 2D <em>classical</em> Ising
+magnetization exponent: a quantum chain at <span class="math notranslate nohighlight">\(T = 0\)</span> is secretly a two-dimensional classical
+model, with imaginary time as the second dimension: the deepest flag this volume plants, with the mechanism deferred wholesale to <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> and Onsager waiting there. The showpiece is
+entanglement: the half-chain entropy obeys an area law off criticality (saturating to four
+digits), carries a teachable gem in the ordered phase (<span class="math notranslate nohighlight">\(S \approx \ln 2\)</span>: <em>cat</em> entropy, not
+correlation entropy), and grows as <span class="math notranslate nohighlight">\((c/3)\ln N\)</span> at the critical point; the fit over <span class="math notranslate nohighlight">\(N = 8\)</span>–<span class="math notranslate nohighlight">\(14\)</span> returns <span class="math notranslate nohighlight">\(c = 0.497\)</span> against the Ising CFT’s <span class="math notranslate nohighlight">\(c = 1/2\)</span>: a conformal field
+theory’s central charge, measured to half a percent from fourteen spins on a laptop.
+Temperature returns at the close: the full <span class="math notranslate nohighlight">\(N = 10\)</span> spectrum paints <span class="math notranslate nohighlight">\(C(T, h)\)</span>, and the <strong>quantum-critical fan</strong> opens upward from <span class="math notranslate nohighlight">\((h = J, T = 0)\)</span>: each gapped phase suppressed by its own <span class="math notranslate nohighlight">\(e^{-\Delta/T}\)</span> while the critical column, feeling no gap, keeps <span class="math notranslate nohighlight">\(C \propto T\)</span>.
+A zero-temperature critical point, organizing finite-temperature physics above it.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> <span class="math notranslate nohighlight">\(J = 1\)</span> (all energies in units of the coupling);
+<span class="math notranslate nohighlight">\(g = h/J\)</span> is the dial; periodic boundary conditions; <span class="math notranslate nohighlight">\(N\)</span> even throughout. Sparse Pauli
+strings via <code class="docutils literal notranslate"><span class="pre">scipy.sparse.kron</span></code> chains; low states from <code class="docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh</span></code>
+(<code class="docutils literal notranslate"><span class="pre">which='SA'</span></code>, <code class="docutils literal notranslate"><span class="pre">k</span></code> stated per use, tolerance at machine default — the ordered doublet’s
+<span class="math notranslate nohighlight">\(10^{-5}\)</span> splitting needs <span class="math notranslate nohighlight">\(k \ge 4\)</span> to resolve both members reliably); the dense
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code> appears exactly once, for the <span class="math notranslate nohighlight">\(N = 10\)</span> full-spectrum
+thermodynamics. Memory honesty: a state costs <span class="math notranslate nohighlight">\(2^N\)</span> complex amplitudes (<span class="math notranslate nohighlight">\(N = 14\)</span>:
+16384 — fine), a dense matrix <span class="math notranslate nohighlight">\(4^N\)</span> (<span class="math notranslate nohighlight">\(N = 14\)</span>: 2.1 GB — never formed; the
+sparse-before-dense rule). The Jordan–Wigner sum runs over the antiperiodic momenta
+<span class="math notranslate nohighlight">\(k = (2j{-}1)\pi/N\)</span> (the even-fermion-parity sector, where the finite-<span class="math notranslate nohighlight">\(N\)</span> ground state
+lives). Schmidt spectra pass a <span class="math notranslate nohighlight">\(p &gt; 10^{-14}\)</span> floor <em>before</em> the logarithm; the central
+charge fit uses even <span class="math notranslate nohighlight">\(N\)</span> only; thermal sums subtract <span class="math notranslate nohighlight">\(E_0\)</span> before exponentiating (the
+discipline of <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a>).</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against an
+independent fact: the two limiting phases by direct computation; ED against the
+Jordan–Wigner sum at <span class="math notranslate nohighlight">\(10^{-12}\)</span>; the four gap behaviours against their quasiparticle
+predictions; Pfeuty’s correlation at four digits; the area-law saturation and the
+<span class="math notranslate nohighlight">\(c = 1/2\)</span> fit; the fan’s three columns against their own gaps. A ✓ is strong evidence; a
+✗ is a prompt to <em>locate the discrepancy</em>.</p>
+<p><strong>Scope.</strong> The quantum–classical mapping is flagged once and deferred wholesale to <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>;
+DMRG and tensor networks (whose existence the area law explains), Kibble–Zurek dynamics,
+and the experimental chains (CoNb₂O₆ neutron spectroscopy, Rydberg arrays, trapped ions)
+are named horizons. See Pfeuty, Ann. Phys. <strong>57</strong>, 79 (1970); Sachdev, <em>Quantum Phase
+Transitions</em>; Calabrese &amp; Cardy 2004; Kogut 1979 (for <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>). Cross-reference <a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html"><span class="std std-doc">§5.10</span></a> (the
+classical chain and the finite-size-scaling training), <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>/<a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a> (the Fermi sea inside the
+magnet), <a class="reference internal" href="quantum-paramagnets-brillouin.html"><span class="std std-doc">§7.18</span></a> (independence’s end), <a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html"><span class="std std-doc">§6.19</span></a>/<a class="reference internal" href="../06-quantum-mechanics/identical-particles.html"><span class="std std-doc">§6.20</span></a> (the algebra), <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a> (log-sum-exp, again),
+and forward to <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>/<a class="reference internal" href="path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a>.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-model-and-why-it-must-have-a-transition">
+<h3>The model, and why it must have a transition<a class="headerlink" href="#the-model-and-why-it-must-have-a-transition" title="Link to this heading">#</a></h3>
+<p>The chain is that of <a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html"><span class="std std-doc">§5.10</span></a>, translated into operators: the same nearest-neighbour coupling, now
+written in Pauli matrices, plus the one ingredient a classical chain cannot supply — a
+transverse field whose <span class="math notranslate nohighlight">\(\sigma^x\)</span> refuses to commute with the coupling’s <span class="math notranslate nohighlight">\(\sigma^z\)</span>’s. The
+model, and the non-commutation that powers everything below:</p>
+<div class="math notranslate nohighlight" id="equation-eq-tfim">
+<span class="eqno">(801)<a class="headerlink" href="#equation-eq-tfim" title="Link to this equation">#</a></span>\[H = -J\sum_{i=0}^{N-1}\sigma^z_i\sigma^z_{i+1} \;-\; h\sum_{i=0}^{N-1}\sigma^x_i,
+\qquad
+\big[\sigma^z_i\sigma^z_{i+1},\ \sigma^x_i\big] \neq 0 .\]</div>
+<p>The coupling is minimized by states of definite <span class="math notranslate nohighlight">\(\sigma^z\)</span> (the two ferromagnets), the field by the definite-<span class="math notranslate nohighlight">\(\sigma^x\)</span> product state. Because the two terms do not commute, no
+state satisfies both, and the ground state is a compromise whose character depends on
+<span class="math notranslate nohighlight">\(g = h/J\)</span>. The two certainties (verified by exact diagonalization below): at <span class="math notranslate nohighlight">\(h = 0\)</span>, a
+doubly degenerate ferromagnet with <span class="math notranslate nohighlight">\(\langle\sigma^z_0\sigma^z_r\rangle = 1\)</span> at every <span class="math notranslate nohighlight">\(r\)</span>;
+at <span class="math notranslate nohighlight">\(h \gg J\)</span>, a unique paramagnet polarized along <span class="math notranslate nohighlight">\(x\)</span>. Between them something must give.
+The engine deserves three careful sentences against Volume V’s: a thermal transition is a
+bargain between energy and entropy, struck at <span class="math notranslate nohighlight">\(T_c\)</span>, and entropy needs temperature to have
+a seat at the table. Here <span class="math notranslate nohighlight">\(T = 0\)</span> and entropy never arrives; the competition is <em>internal</em>: two non-commuting pieces of one Hamiltonian, with quantum fluctuations (the field’s
+<span class="math notranslate nohighlight">\(\sigma^z\)</span>-flipping) playing the role thermal fluctuations play classically. The parallel
+is real but not an identity: what closes at the critical point is an energy gap, not a
+free-energy barrier, and the dial is <span class="math notranslate nohighlight">\(g\)</span>, not <span class="math notranslate nohighlight">\(T\)</span>.</p>
+</section>
+<section id="sparse-construction">
+<h3>Sparse construction<a class="headerlink" href="#sparse-construction" title="Link to this heading">#</a></h3>
+<p>To diagonalize anything we first need <span class="math notranslate nohighlight">\(H\)</span> as a matrix: <span class="math notranslate nohighlight">\(N\)</span> spins live in the tensor product
+of <span class="math notranslate nohighlight">\(N\)</span> two-dimensional spaces (<a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html"><span class="std std-doc">§6.19</span></a>/<a class="reference internal" href="../06-quantum-mechanics/identical-particles.html"><span class="std std-doc">§6.20</span></a> built this algebra), so a single-site Pauli
+operator acts on the chain as a Kronecker chain with <span class="math notranslate nohighlight">\(\sigma^\alpha\)</span> in slot <span class="math notranslate nohighlight">\(i\)</span> and
+identities everywhere else:</p>
+<div class="math notranslate nohighlight" id="equation-eq-sparse-ed">
+<span class="eqno">(802)<a class="headerlink" href="#equation-eq-sparse-ed" title="Link to this equation">#</a></span>\[\sigma^\alpha_i = \mathbb{1}_2 \otimes \cdots \otimes \sigma^\alpha \otimes \cdots \otimes \mathbb{1}_2
+\quad(\text{site } i \text{ of } N),
+\qquad
+\dim H = 2^N .\]</div>
+<p>Pauli strings are <code class="docutils literal notranslate"><span class="pre">scipy.sparse.kron</span></code> chains (the <code class="docutils literal notranslate"><span class="pre">op_at</span></code> helper); <span class="math notranslate nohighlight">\(H\)</span> assembles term by
+term into CSR. Low eigenpairs come from <code class="docutils literal notranslate"><span class="pre">eigsh(k,</span> <span class="pre">which='SA')</span></code>; Lanczos never forms the dense matrix, which is what makes <span class="math notranslate nohighlight">\(N = 14\)</span> (dimension 16384) routine. The memory wall in
+numbers: dense <span class="math notranslate nohighlight">\(N = 14\)</span> would be <span class="math notranslate nohighlight">\(16384^2\)</span> doubles <span class="math notranslate nohighlight">\(= 2.1\)</span> GB and <span class="math notranslate nohighlight">\(N = 16\)</span> would be 34 GB;
+sparse <span class="math notranslate nohighlight">\(H\)</span> at <span class="math notranslate nohighlight">\(N = 14\)</span> holds <span class="math notranslate nohighlight">\(\sim N \cdot 2^N\)</span> entries — a few megabytes.</p>
+</section>
+<section id="the-rendezvous-the-chain-is-free-fermions">
+<h3>The rendezvous: the chain is free fermions<a class="headerlink" href="#the-rendezvous-the-chain-is-free-fermions" title="Link to this heading">#</a></h3>
+<p>The chain solves itself: the Jordan–Wigner transformation trades spins for fermions, the
+Hamiltonian comes out quadratic, and a Bogoliubov rotation diagonalizes it outright. We
+sketch the map below and refer the full derivation to Pfeuty 1970 (Sachdev’s <em>Quantum Phase
+Transitions</em> gives the modern account); what survives into the numerics is a spectrum and a
+one-line sum:</p>
+<div class="math notranslate nohighlight" id="equation-eq-jordan-wigner">
+<span class="eqno">(803)<a class="headerlink" href="#equation-eq-jordan-wigner" title="Link to this equation">#</a></span>\[\varepsilon(k) = 2\sqrt{J^2 + h^2 - 2Jh\cos k},
+\qquad
+E_0 = -\tfrac12\sum_{k}\varepsilon(k),
+\quad k = \frac{(2j-1)\pi}{N},\ j = 1,\dots,N .\]</div>
+<p>Jordan–Wigner in half a page: map spin-down/spin-up at site <span class="math notranslate nohighlight">\(i\)</span> to fermion
+occupation <span class="math notranslate nohighlight">\(0/1\)</span>, with a <em>string</em> of <span class="math notranslate nohighlight">\(\sigma^z\)</span>’s attached to each fermion operator to repair the commutation algebra (spins on different sites commute; fermions anticommute; the string supplies the minus signs). Under the map, the transverse field counts fermions
+and the Ising coupling hops and pairs them: a quadratic, <em>free</em>, fermion Hamiltonian, diagonalized by a Bogoliubov rotation into quasiparticles with the spectrum above (Pfeuty 1970). The physical reading: a quasiparticle is a dressed <strong>domain wall</strong> on the ordered
+side and a dressed <strong>spin flip</strong> on the disordered side. The finite-<span class="math notranslate nohighlight">\(N\)</span> ground state lives
+in the even fermion-parity sector, whose momenta are antiperiodic — the <span class="math notranslate nohighlight">\(k\)</span>-set in
+<a class="reference internal" href="#equation-eq-jordan-wigner">Eq. 803</a> — and its energy is the filled quasiparticle sea: Movement III’s oldest move, inside a magnet. The transition, in these coordinates, is transparent: <span class="math notranslate nohighlight">\(\varepsilon(k)\)</span> is minimized at <span class="math notranslate nohighlight">\(k = 0\)</span> with <span class="math notranslate nohighlight">\(\varepsilon(0) = 2|h - J|\)</span>; the gap closes linearly at <span class="math notranslate nohighlight">\(h = J\)</span>, and a closing gap is the transition (<span class="math notranslate nohighlight">\(z = 1\)</span>: the energy scale
+vanishes like one over the length scale).</p>
+</section>
+<section id="the-gap-s-four-stories-parity-bookkeeping">
+<h3>The gap’s four stories: parity bookkeeping<a class="headerlink" href="#the-gap-s-four-stories-parity-bookkeeping" title="Link to this heading">#</a></h3>
+<p>With the spectrum known, the low-lying gaps become a counting exercise: quasiparticles cost
+<span class="math notranslate nohighlight">\(\varepsilon(k)\)</span> apiece, and the conserved fermion parity dictates whether one or two can be
+made at a time. Four regimes, four scalings, stated first and unpacked after:</p>
+<div class="math notranslate nohighlight" id="equation-eq-gap-stories">
+<span class="eqno">(804)<a class="headerlink" href="#equation-eq-gap-stories" title="Link to this equation">#</a></span>\[\Delta_{\text{doublet}} \sim h^N,
+\qquad
+\Delta_{\text{ordered}} \to 2\,\varepsilon(0),
+\qquad
+\Delta_{\text{disordered}} = \varepsilon(0) = 2(h{-}J),
+\qquad
+\Delta_{\text{critical}} \cdot N \to \frac{\pi}{2}.\]</div>
+<p>One rule organizes everything: Jordan–Wigner fermion parity is conserved, quasiparticles
+are created in <em>pairs</em> within a sector, and the lowest state of the <em>other</em> sector differs
+by a <em>single</em> quasiparticle. (i) Ordered side, cross-sector: the two ferromagnetic ground states survive at finite <span class="math notranslate nohighlight">\(N\)</span> as a doublet split exponentially, <span class="math notranslate nohighlight">\(\sim h^N\)</span> (the amplitude to tunnel all <span class="math notranslate nohighlight">\(N\)</span> spins), and the two eigenstates are <strong>cats</strong>,
+<span class="math notranslate nohighlight">\((|\!\uparrow\cdots\uparrow\rangle \pm |\!\downarrow\cdots\downarrow\rangle)/\sqrt2\)</span>; in
+the thermodynamic limit the splitting vanishes and any perturbation selects a broken
+ferromagnet. (ii) Ordered side, same-sector: the physical excitation is <em>two</em> quasiparticles (a flipped domain has two walls), so the gap approaches
+<span class="math notranslate nohighlight">\(2\varepsilon(0) = 4(J-h)\)</span>. (iii) Disordered side: a single spin flip changes parity, one
+quasiparticle suffices, and the gap is <span class="math notranslate nohighlight">\(\varepsilon(0) = 2(h-J)\)</span> exactly. (iv) Critical: the cross-sector gap closes as <span class="math notranslate nohighlight">\((\pi/2)/N\)</span>, and the honest note is that the coefficient is a <em>cross-sector</em> fact: the naive same-sector estimate <span class="math notranslate nohighlight">\(2\varepsilon(\pi/N)\)</span> predicts a
+different number, and the computation corrects it in public below.</p>
+</section>
+<section id="order-without-magnetization">
+<h3>Order without magnetization<a class="headerlink" href="#order-without-magnetization" title="Link to this heading">#</a></h3>
+<p>A subtlety guards the ordered phase: its obvious order parameter can be forced to vanish by
+symmetry alone, so the honest question is what survives at long distance in the two-point
+function. Pfeuty 1970 answers in closed form:</p>
+<div class="math notranslate nohighlight" id="equation-eq-order-correlations">
+<span class="eqno">(805)<a class="headerlink" href="#equation-eq-order-correlations" title="Link to this equation">#</a></span>\[\langle\sigma^z\rangle_{\text{finite, symmetric}} = 0
+\qquad\text{but}\qquad
+C(r) = \langle\sigma^z_0\sigma^z_r\rangle \xrightarrow{r\to\infty} m^2
+= \left(1 - (h/J)^2\right)^{1/4}.\]</div>
+<p>Any finite symmetric eigenstate magnetizes <em>exactly nothing</em> (<span class="math notranslate nohighlight">\(\sigma^z \to -\sigma^z\)</span> is a symmetry of <span class="math notranslate nohighlight">\(H\)</span>, and the cat eigenstates respect it), so a measured
+<span class="math notranslate nohighlight">\(\langle\sigma^z\rangle \sim 10^{-11}\)</span> is Lanczos noise, taught as symmetry rather than
+smallness. The order hides in correlations: <span class="math notranslate nohighlight">\(C(r)\)</span> saturates to <span class="math notranslate nohighlight">\(m^2\)</span> with Pfeuty’s exact
+<span class="math notranslate nohighlight">\(m = (1 - g^2)^{1/8}\)</span>. Read the exponent aloud: <span class="math notranslate nohighlight">\(1/8\)</span> is the magnetization exponent
+<span class="math notranslate nohighlight">\(\beta\)</span> of the <em>two-dimensional classical</em> Ising model — because a 1D quantum chain at
+<span class="math notranslate nohighlight">\(T = 0\)</span> <em>is</em> a 2D classical model, with imaginary time as the second dimension. The flag is
+planted here and the mechanism deferred wholesale to <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>; Onsager is the appointment.</p>
+</section>
+<section id="entanglement-the-central-charge-measured">
+<h3>Entanglement: the central charge, measured<a class="headerlink" href="#entanglement-the-central-charge-measured" title="Link to this heading">#</a></h3>
+<p>An entanglement entropy attaches to any bipartition of the ground state, and its growth
+with <span class="math notranslate nohighlight">\(N\)</span> is the sharpest diagnostic the notebook owns. The three behaviours below are
+quoted rather than derived: the critical law, with its universal <span class="math notranslate nohighlight">\(c/3\)</span> prefactor, is a
+theorem of conformal field theory (Calabrese &amp; Cardy 2004):</p>
+<div class="math notranslate nohighlight" id="equation-eq-tfi-entanglement">
+<span class="eqno">(806)<a class="headerlink" href="#equation-eq-tfi-entanglement" title="Link to this equation">#</a></span>\[S = -\sum_i p_i\ln p_i,
+\qquad
+S_{\text{off-critical}} \to \text{const (area law)},
+\qquad
+S_{\text{critical}} = \frac{c}{3}\ln N + \text{const},\ \ c = \tfrac12 .\]</div>
+<p>Cut the chain in half, Schmidt-decompose the ground state (<code class="docutils literal notranslate"><span class="pre">reshape</span></code> to
+<span class="math notranslate nohighlight">\(2^{N/2} \times 2^{N/2}\)</span> plus <code class="docutils literal notranslate"><span class="pre">numpy.linalg.svd</span></code>), and sum <span class="math notranslate nohighlight">\(-p\ln p\)</span> over the squared
+singular values. Off criticality the entropy <em>saturates</em> with <span class="math notranslate nohighlight">\(N\)</span>: the area law, and the reason DMRG exists. The ordered phase hides a gem: its <span class="math notranslate nohighlight">\(S \approx \ln 2\)</span> is <strong>cat entropy</strong> (tracing half of <span class="math notranslate nohighlight">\((|\!\uparrow\cdots\rangle + |\!\downarrow\cdots\rangle)/\sqrt2\)</span> leaves a two-outcome classical mixture worth exactly <span class="math notranslate nohighlight">\(\ln 2\)</span>), not correlation entropy,
+which is why <span class="math notranslate nohighlight">\(S(h)\)</span> barely peaks over the ordered side at small <span class="math notranslate nohighlight">\(N\)</span> and why the honest
+critical signature is the <em>scaling</em>: at <span class="math notranslate nohighlight">\(h = J\)</span> conformal invariance makes the entropy grow
+logarithmically with the famous <span class="math notranslate nohighlight">\(c/3\)</span> coefficient (Holzhey–Wilczek; Calabrese–Cardy), and
+fitting <span class="math notranslate nohighlight">\(S\)</span> against <span class="math notranslate nohighlight">\(\ln N\)</span> over <span class="math notranslate nohighlight">\(N = 8\)</span>–<span class="math notranslate nohighlight">\(14\)</span> measures the Ising CFT’s central charge.</p>
+</section>
+<section id="the-quantum-critical-fan">
+<h3>The quantum-critical fan<a class="headerlink" href="#the-quantum-critical-fan" title="Link to this heading">#</a></h3>
+<p>One dial remains: with every eigenvalue of a small chain in hand, the canonical ensemble is
+exact, and the heat capacity follows as an energy variance (differentiate <span class="math notranslate nohighlight">\(\langle E\rangle\)</span>
+once in <span class="math notranslate nohighlight">\(T\)</span> and the fluctuation formula appears). Each phase’s gap then dictates its own
+low-<span class="math notranslate nohighlight">\(T\)</span> law:</p>
+<div class="math notranslate nohighlight" id="equation-eq-qc-fan">
+<span class="eqno">(807)<a class="headerlink" href="#equation-eq-qc-fan" title="Link to this equation">#</a></span>\[C(T, h) = \frac{\mathrm{Var}(E)}{NT^2}
+\qquad\text{with}\qquad
+C \sim e^{-\Delta/T} \ \text{(gapped columns)},
+\quad
+C \propto T \ \text{(the critical column)}.\]</div>
+<p>Temperature returns through the full <span class="math notranslate nohighlight">\(N = 10\)</span> spectrum (dense <code class="docutils literal notranslate"><span class="pre">eigvalsh</span></code>, 1024 states: the one dense diagonalization the notebook permits itself). At low <span class="math notranslate nohighlight">\(T\)</span> each gapped phase is
+suppressed by <em>its own</em> gap, while the critical column feels none and its heat capacity is linear in <span class="math notranslate nohighlight">\(T\)</span>: the <span class="math notranslate nohighlight">\(c = \tfrac12\)</span> CFT’s law, valid down to the finite-size floor
+<span class="math notranslate nohighlight">\(\Delta \sim \pi/2N\)</span>. The picture is Sachdev’s quantum-critical fan: a <span class="math notranslate nohighlight">\(T = 0\)</span> critical point governing finite-temperature physics in a wedge that <em>widens</em> upward: criticality you can feel at temperatures far above absolute zero.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Conventions, colours, and the raw algebra only: the two Pauli matrices and the identity,
+the <code class="docutils literal notranslate"><span class="pre">eigsh</span></code> dispatch wrapper that keeps every solve on one tolerance, Pfeuty’s <em>given</em>
+dispersion <span class="math notranslate nohighlight">\(\varepsilon(k)\)</span>, and the correlator that reads an expectation value out of a
+state vector. Everything this notebook is <em>about</em> you build in the exercise where it is
+earned: the Kronecker-chain operator <code class="docutils literal notranslate"><span class="pre">op_at</span></code> and the Hamiltonian <code class="docutils literal notranslate"><span class="pre">H_tfim</span></code> (Exercise 1),
+the Jordan–Wigner momentum sum <code class="docutils literal notranslate"><span class="pre">jw_energy</span></code> (Exercise 2), the Schmidt-cut entropy
+<code class="docutils literal notranslate"><span class="pre">half_chain_entropy</span></code> (Exercise 5), and the thermal heat capacity <code class="docutils literal notranslate"><span class="pre">thermal_C</span></code> (Exercise 7).</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.sparse</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.sparse.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eigsh</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>
+<span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;#c1121f&quot;</span>
+
+<span class="c1"># Conventions: J = 1 throughout (g = h); periodic boundaries; N even. Sparse</span>
+<span class="c1"># before dense, always: a dense H at N = 14 would be 2.1 GB, while the CSR H</span>
+<span class="c1"># holds a few MB. The one dense eigvalsh in the notebook is the N = 10 full</span>
+<span class="c1"># spectrum (1024 states) for the thermodynamic fan.</span>
+<span class="c1"># data: the two Pauli matrices this Hamiltonian is written in, and the single-site</span>
+<span class="c1"># identity that pads the Kronecker chains — the alphabet, sparse from the start.</span>
+<span class="n">SX</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]))</span>
+<span class="n">SZ</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">]]))</span>
+<span class="n">ID2</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;csr&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># instrument: solver dispatch — one scipy.sparse.linalg.eigsh call at a fixed</span>
+<span class="c1"># tolerance plus a sort, so that every solve in the notebook is the same solve.</span>
+<span class="c1"># Nobody&#39;s lesson: the Lanczos algorithm is the library&#39;s business. It builds its</span>
+<span class="c1"># matrix from the H_tfim you write in Exercise 1 — Python resolves that name when</span>
+<span class="c1"># the call happens, which is always after the build.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">low_spectrum</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The k lowest eigenpairs of the chain by scipy.sparse.linalg.eigsh (which=&#39;SA&#39;).</span>
+
+<span class="sd">    Lanczos on the CSR Hamiltonian; tolerance left at the machine default —</span>
+<span class="sd">    needed, because the ordered phase&#39;s ground doublet is split by only ~1e-5</span>
+<span class="sd">    at N = 12 and a loose solve can miss one member and silently mislabel every</span>
+<span class="sd">    gap above it (the near-degeneracy trap). k ≥ 4 wherever the doublet matters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    N : int</span>
+<span class="sd">        Chain length.</span>
+<span class="sd">    h : float</span>
+<span class="sd">        Transverse field.</span>
+<span class="sd">    k : int, optional</span>
+<span class="sd">        Number of eigenpairs (default 4).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple</span>
+<span class="sd">        (evals sorted ascending, evecs column-matched).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vals</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">=</span> <span class="n">eigsh</span><span class="p">(</span><span class="n">H_tfim</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;SA&quot;</span><span class="p">)</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vals</span><span class="p">[</span><span class="n">order</span><span class="p">],</span> <span class="n">vecs</span><span class="p">[:,</span> <span class="n">order</span><span class="p">]</span>
+
+
+<span class="c1"># data: Pfeuty&#39;s quasiparticle dispersion, transcribed from eq-jordan-wigner —</span>
+<span class="c1"># the free-fermion solution&#39;s *output*, quoted rather than derived (the derivation</span>
+<span class="c1"># is referred to Pfeuty 1970), and the given input that Exercise 2&#39;s momentum sum</span>
+<span class="c1"># and Exercise 3&#39;s gap predictions are both written in terms of.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">eps_k</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pfeuty&#39;s quasiparticle dispersion ε(k) = 2√(J^2 + h^2 − 2Jh cos k).</span>
+
+<span class="sd">    The Bogoliubov spectrum of the free-fermion chain: minimum ε(0) = 2|h − J|</span>
+<span class="sd">    (the gap that closes at the transition), maximum ε(π) = 2(h + J).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    k : float or numpy.ndarray</span>
+<span class="sd">        Momentum.</span>
+<span class="sd">    h : float</span>
+<span class="sd">        Transverse field.</span>
+<span class="sd">    J : float, optional</span>
+<span class="sd">        Coupling (default 1).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float or numpy.ndarray</span>
+<span class="sd">        ε(k).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">J</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">J</span> <span class="o">*</span> <span class="n">h</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)))</span>
+
+
+<span class="c1"># instrument: an expectation value read out of a state vector — measurement</span>
+<span class="c1"># plumbing, not the lesson. What Exercise 4 teaches is what C(r) turns out to *be*</span>
+<span class="c1"># against Pfeuty&#39;s closed form, not the sandwich that evaluates it. Built from the</span>
+<span class="c1"># op_at you write in Exercise 1.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">correlation</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The order correlator C(r) = ⟨ψ| sz_0 sz_r |ψ⟩ (eq-order-correlations).</span>
+
+<span class="sd">    Sparse matrix–vector products only; the operator is diagonal, so the cost is</span>
+<span class="sd">    one elementwise pass per call.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    psi : numpy.ndarray</span>
+<span class="sd">        State vector, length 2^N.</span>
+<span class="sd">    r : int</span>
+<span class="sd">        Separation.</span>
+<span class="sd">    N : int</span>
+<span class="sd">        Chain length.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        C(r).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">op</span> <span class="o">=</span> <span class="n">op_at</span><span class="p">(</span><span class="n">SZ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="o">@</span> <span class="n">op_at</span><span class="p">(</span><span class="n">SZ</span><span class="p">,</span> <span class="n">r</span> <span class="o">%</span> <span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">psi</span> <span class="o">@</span> <span class="p">(</span><span class="n">op</span> <span class="o">@</span> <span class="n">psi</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-two-demands-that-cannot-both-be-met">
+<h2>Exercise 1 — Two demands that cannot both be met<a class="headerlink" href="#exercise-1-two-demands-that-cannot-both-be-met" title="Link to this heading">#</a></h2>
+<p>Nothing can be diagonalized before the matrix exists. A chain of <span class="math notranslate nohighlight">\(N\)</span> spins lives in the
+tensor product of <span class="math notranslate nohighlight">\(N\)</span> two-dimensional spaces, so a single-site Pauli operator reaches the
+chain as the Kronecker chain of <a class="reference internal" href="#equation-eq-sparse-ed">Eq. 802</a>: <span class="math notranslate nohighlight">\(\sigma^\alpha\)</span> in slot <span class="math notranslate nohighlight">\(i\)</span>, identities
+in all the others. Two conventions ride on that chain. Site 0 sits leftmost, which is not
+cosmetic: it is what will make a half-chain cut a plain <code class="docutils literal notranslate"><span class="pre">reshape</span></code> in Exercise 5. And the
+chain stays in CSR from the first factor to the last, since the whole point is never to
+form the dense matrix. The Hamiltonian <a class="reference internal" href="#equation-eq-tfim">Eq. 801</a> assembles from those strings bond by
+bond, and the periodic bond is the one that joins site <span class="math notranslate nohighlight">\(N{-}1\)</span> back to site 0.
+Both ends of the field axis are known in advance and are the exercise’s acceptance test:
+at <span class="math notranslate nohighlight">\(h = 0\)</span> the model is classical — <span class="math notranslate nohighlight">\(H\)</span> is diagonal in the <span class="math notranslate nohighlight">\(\sigma^z\)</span> basis and the two
+fully aligned states tie, so the ground state is a degenerate doublet with
+<span class="math notranslate nohighlight">\(\langle\sigma^z_0\sigma^z_r\rangle = 1\)</span> at every separation; at <span class="math notranslate nohighlight">\(h \gg J\)</span> the field wins
+outright and the ground state is the unique <span class="math notranslate nohighlight">\(x\)</span>-polarized product state, with
+<span class="math notranslate nohighlight">\(\langle\sigma^x\rangle \to 1\)</span> and no <span class="math notranslate nohighlight">\(\sigma^z\)</span> order left. Cite <a class="reference internal" href="#equation-eq-tfim">Eq. 801</a>,
+<a class="reference internal" href="#equation-eq-sparse-ed">Eq. 802</a>.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">op_at(o,</span> <span class="pre">i,</span> <span class="pre">N)</span></code>, the single-site operator <span class="math notranslate nohighlight">\(o\)</span> at site <span class="math notranslate nohighlight">\(i\)</span> as a
+<code class="docutils literal notranslate"><span class="pre">scipy.sparse.kron</span></code> chain (CSR, site 0 leftmost, never densified), and
+<code class="docutils literal notranslate"><span class="pre">H_tfim(N,</span> <span class="pre">h,</span> <span class="pre">J=1.0)</span></code>, which assembles <a class="reference internal" href="#equation-eq-tfim">Eq. 801</a> term by term into CSR with the
+periodic bond included. <strong>Write these yourself</strong> — the implementation is the lesson.</p></li>
+<li><p>State the memory budget in numbers: a state costs <span class="math notranslate nohighlight">\(2^N\)</span> amplitudes, a dense matrix
+<span class="math notranslate nohighlight">\(4^N\)</span>; at <span class="math notranslate nohighlight">\(N = 14\)</span> that is 16384 against 2.1 GB. The sparse-before-dense rule follows.</p></li>
+<li><p>Verify the <span class="math notranslate nohighlight">\(h = 0\)</span> limit by <code class="docutils literal notranslate"><span class="pre">eigsh</span></code>: two degenerate ground states with
+<span class="math notranslate nohighlight">\(\langle\sigma^z_0\sigma^z_r\rangle = 1\)</span> at every <span class="math notranslate nohighlight">\(r\)</span>.</p></li>
+<li><p>Verify the <span class="math notranslate nohighlight">\(h \gg J\)</span> limit (<span class="math notranslate nohighlight">\(h = 8\)</span>): a unique ground state with
+<span class="math notranslate nohighlight">\(\langle\sigma^x\rangle \to 1\)</span> and <span class="math notranslate nohighlight">\(C(r) \to 0\)</span>.</p></li>
+<li><p>State the engine (prose): <span class="math notranslate nohighlight">\([\text{coupling}, \text{field}] \neq 0\)</span>, so no state satisfies both; <span class="math notranslate nohighlight">\(g = h/J\)</span> replaces temperature as the dial, and something must give at a critical
+<span class="math notranslate nohighlight">\(g\)</span> (Volume V’s engine contrasted in three careful sentences).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>memory honesty: dense H at N = 14 would be 2.1 GB — never formed;
+sparse H at N = 14: ~3 MB of CSR. States are fine: 2^14 = 16384 amplitudes.
+h = 0:  E_1 − E_0 = 7.11e-15 (degenerate doublet);  C(1), C(3), C(6) = 1.000000, 1.000000, 1.000000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>h = 8:  E_1 − E_0 = 14.000 (unique ground state);  ⟨σx⟩ = 0.99608;  C(6) = 1.73e-06
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tfim-limits">
+<img alt="../../_images/1d50aded831d18243f527c70e0d6264f896b0fd0016d180c6a61a8945f4010a1.png" src="../../_images/1d50aded831d18243f527c70e0d6264f896b0fd0016d180c6a61a8945f4010a1.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 708 </span><span class="caption-text">Two demands, two phases, computed. The order correlator <span class="math notranslate nohighlight">\(C(N/2) = \langle\sigma^z_0\sigma^z_{N/2}\rangle\)</span> (amber) and the transverse polarization <span class="math notranslate nohighlight">\(\langle\sigma^x\rangle\)</span> (dark) across the field for <span class="math notranslate nohighlight">\(N = 12\)</span> (<a class="reference internal" href="#equation-eq-tfim">Eq. 801</a>): at small <span class="math notranslate nohighlight">\(h\)</span> the coupling wins and the chain is a <span class="math notranslate nohighlight">\(\sigma^z\)</span> ferromagnet (<span class="math notranslate nohighlight">\(C \to 1\)</span>); at large <span class="math notranslate nohighlight">\(h\)</span> the field wins and the chain is an <span class="math notranslate nohighlight">\(x\)</span>-polarized paramagnet (<span class="math notranslate nohighlight">\(\langle\sigma^x\rangle \to 1\)</span>, <span class="math notranslate nohighlight">\(C \to 0\)</span>). Because the two operators do not commute, no state maximizes both — the curves cross near <span class="math notranslate nohighlight">\(h = J\)</span>, where the ground state stops trying to be two things at once. The dial is <span class="math notranslate nohighlight">\(g = h/J\)</span>; temperature never appears.</span><a class="headerlink" href="#fig-tfim-limits" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the h = 0 certainty: a degenerate ferromagnetic doublet with perfect σz correlation   [splitting 7.1e-15]
+✓  the h &gt;&gt; J certainty: a unique x-polarized paramagnet with no σz order   [⟨σx⟩ = 0.9961]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-rendezvous-four-thousand-amplitudes-vs-one-momentum-sum">
+<h2>Exercise 2 — The rendezvous: four thousand amplitudes vs one momentum sum<a class="headerlink" href="#exercise-2-the-rendezvous-four-thousand-amplitudes-vs-one-momentum-sum" title="Link to this heading">#</a></h2>
+<p>The chain is free fermions, and two unrelated computations agree to machine precision.
+Once the chain is quadratic in fermions, its ground energy is the filled quasiparticle
+sea: half the sum of the dispersion over the occupied momenta, <span class="math notranslate nohighlight">\(E_0 = -\tfrac12\sum_k
+\varepsilon(k)\)</span>, with <span class="math notranslate nohighlight">\(\varepsilon(k)\)</span> the Setup’s given <code class="docutils literal notranslate"><span class="pre">eps_k</span></code>. The <span class="math notranslate nohighlight">\(k\)</span>-set is the
+subtlety and the whole finite-<span class="math notranslate nohighlight">\(N\)</span> story: the ground state of an even chain sits in the
+even-fermion-parity sector, whose momenta are <em>antiperiodic</em>, <span class="math notranslate nohighlight">\(k = (2j-1)\pi/N\)</span> for
+<span class="math notranslate nohighlight">\(j = 1,\dots,N\)</span> (<a class="reference internal" href="#equation-eq-jordan-wigner">Eq. 803</a>) — periodic momenta would give a different and
+wrong number. Cite <a class="reference internal" href="#equation-eq-jordan-wigner">Eq. 803</a>.</p>
+<ol class="arabic simple">
+<li><p>Sketch Jordan–Wigner in half a page (spins ↔ fermions; the string; the domain-wall
+reading) and state Pfeuty’s <span class="math notranslate nohighlight">\(\varepsilon(k)\)</span> with the antiperiodic <span class="math notranslate nohighlight">\(k\)</span>-set.</p></li>
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">jw_energy(N,</span> <span class="pre">h,</span> <span class="pre">J=1.0)</span></code>: the momentum sum above, over the antiperiodic set.</p></li>
+<li><p>Verify it against <code class="docutils literal notranslate"><span class="pre">eigsh</span></code> ground energies — the <code class="docutils literal notranslate"><span class="pre">H_tfim</span></code> you wrote in Exercise 1,
+reached through the Setup’s <code class="docutils literal notranslate"><span class="pre">low_spectrum</span></code> — at
+<span class="math notranslate nohighlight">\(N = 8, 10, 12 \times h = 0.5, 1.0, 1.5\)</span>: nine agreements at <span class="math notranslate nohighlight">\(\le 10^{-12}\)</span>.</p></li>
+<li><p>Read the physics in fermion language (prose + one line): the ground state is a filled Bogoliubov sea (Movement III inside a magnet); the gap is <span class="math notranslate nohighlight">\(\varepsilon(0) = 2|h - J|\)</span>; the transition is a Fermi-sea gap closing.</p></li>
+<li><p>Reflect on the rendezvous (prose): a 16384-dimensional diagonalization and a six-term
+momentum sum had no obligation to agree; they agree because Jordan and Wigner found the right coordinates: the course’s recurring lesson about representations.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N     h     E_0 (ED)              E_0 (JW sum)          |Δ|
+ 8   0.5   -8.50908223514028   -8.50908223514028   0.0e+00
+ 8   1.0   -10.25166179096601   -10.25166179096603   1.1e-14
+ 8   1.5   -13.38500523315077   -13.38500523315076   1.1e-14
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10   0.5   -10.63560440934796   -10.63560440934797   3.6e-15
+10   1.0   -12.78490644299931   -12.78490644299932   8.9e-15
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10   1.5   -16.72302491394844   -16.72302491394844   7.1e-15
+12   0.5   -12.76256915102405   -12.76256915102405   8.9e-15
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12   1.0   -15.32259515108078   -15.32259515108078   1.8e-15
+12   1.5   -20.06462468504516   -20.06462468504515   1.1e-14
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the chain is free fermions: nine agreements at machine precision   [max|Δ| = 1.06581e-14 (rtol=1e-06, atol=1e-12)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-the-gap-s-four-stories">
+<h2>Exercise 3 — The gap’s four stories<a class="headerlink" href="#exercise-3-the-gap-s-four-stories" title="Link to this heading">#</a></h2>
+<p>One parity rule, four verified behaviours, including a correction performed in public.
+Cite <a class="reference internal" href="#equation-eq-gap-stories">Eq. 804</a>.</p>
+<ol class="arabic simple">
+<li><p>State the parity bookkeeping (pairs within a sector, singles across) and compute
+<span class="math notranslate nohighlight">\(E_0\dots E_3\)</span> via <code class="docutils literal notranslate"><span class="pre">eigsh(k=4,</span> <span class="pre">which='SA')</span></code> (machine tolerance; the near-degeneracy trap: a loose solve misses a doublet member and mislabels every gap).</p></li>
+<li><p>Verify the ordered side at <span class="math notranslate nohighlight">\(h = 0.5\)</span>: doublet splitting <span class="math notranslate nohighlight">\(\sim h^N\)</span> across <span class="math notranslate nohighlight">\(N = 8, 10,
+12\)</span> (cat states named), and the physical two-quasiparticle gap <span class="math notranslate nohighlight">\(E_2 - E_0\)</span> against the
+quasiparticle prediction <span class="math notranslate nohighlight">\(2\varepsilon(\pi/N) \to 2\varepsilon(0) = 2\)</span>.</p></li>
+<li><p>Verify the disordered side (<span class="math notranslate nohighlight">\(\Delta = 2(h-J)\)</span> at <span class="math notranslate nohighlight">\(h = 1.5\)</span>) and the critical closing
+<span class="math notranslate nohighlight">\(\Delta\cdot N \to \pi/2\)</span> across <span class="math notranslate nohighlight">\(N = 8\)</span>–<span class="math notranslate nohighlight">\(14\)</span>.</p></li>
+<li><p>Perform the correction in public (prose): the naive same-sector estimate <span class="math notranslate nohighlight">\(2\varepsilon(\pi/N)\)</span> predicts <span class="math notranslate nohighlight">\(\Delta\cdot N \to 4\pi \ne \pi/2\)</span>; the measured coefficient is a cross-sector fact; <span class="math notranslate nohighlight">\(z = 1\)</span> confirmed, sector bookkeeping the lesson,
+and the course’s rule restated: predictions are drafts until the computer countersigns.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 8: doublet splitting 1.46e-03   E_2 − E_0 = 2.2843   2ε(π/N) = 2.2843
+N = 10: doublet splitting 3.21e-04   E_2 − E_0 = 2.1870   2ε(π/N) = 2.1870
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 12: doublet splitting 7.25e-05   E_2 − E_0 = 2.1319   2ε(π/N) = 2.1319
+splitting ratios per ΔN = 2: 0.220, 0.226   (h^2 = 0.25)
+
+disordered (h = 1.5, N = 12): Δ = 1.0030   (single quasiparticle: 2(h−J) = 1)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>critical N = 8: Δ·N = 1.5759
+critical N = 10: Δ·N = 1.5740
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>critical N = 12: Δ·N = 1.5730
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>critical N = 14: Δ·N = 1.5724
+π/2 = 1.5708
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tfim-gap-atlas">
+<img alt="../../_images/33b627d3c708ccd1abcee67841ab053958c07528733ad6e1c6226adccbb9f03b.png" src="../../_images/33b627d3c708ccd1abcee67841ab053958c07528733ad6e1c6226adccbb9f03b.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 709 </span><span class="caption-text">The gap’s four stories on one atlas. <span class="math notranslate nohighlight">\(E_1 - E_0\)</span> (solid) and <span class="math notranslate nohighlight">\(E_2 - E_0\)</span> (dashed) against <span class="math notranslate nohighlight">\(h\)</span> for <span class="math notranslate nohighlight">\(N = 8\)</span> and <span class="math notranslate nohighlight">\(12\)</span>, from <code class="docutils literal notranslate"><span class="pre">eigsh(k=4)</span></code>. Ordered side (<span class="math notranslate nohighlight">\(h &lt; 1\)</span>): the lowest gap is the exponentially split <strong>cat doublet</strong> (<span class="math notranslate nohighlight">\(\sim h^N\)</span> — the finite-size shadow of symmetry breaking, collapsing with <span class="math notranslate nohighlight">\(N\)</span>), while the physical excitation is the <em>two</em>-quasiparticle threshold <span class="math notranslate nohighlight">\(E_2 - E_0 \to 4(J-h)\)</span> (two domain walls). Disordered side (<span class="math notranslate nohighlight">\(h &gt; 1\)</span>): a single quasiparticle changes parity and the gap is <span class="math notranslate nohighlight">\(2(h-J)\)</span> exactly (dotted guide). At the critical field the gap closes as <span class="math notranslate nohighlight">\(\Delta = (\pi/2)/N\)</span> — linearly in <span class="math notranslate nohighlight">\(1/N\)</span>, the <span class="math notranslate nohighlight">\(z = 1\)</span> signature (<a class="reference internal" href="#equation-eq-gap-stories">Eq. 804</a>). One parity rule — pairs within a sector, singles across — organizes all four behaviours.</span><a class="headerlink" href="#fig-tfim-gap-atlas" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the cat doublet: exponential splitting ~h^N, the finite-size shadow of symmetry breaking   [max|Δ| = 4.41525e-05 (rtol=0.3, atol=1e-09)]
+✓  the ordered physical gap is two quasiparticles: two domain walls, priced by Pfeuty   [max|Δ| = 3.55271e-14 (rtol=0.01, atol=1e-09)]
+✓  one quasiparticle on the disordered side; Δ·N → π/2 at criticality (z = 1)   [max|Δ| = 0.000446272 (rtol=0.005, atol=1e-09)]
+✓  and the critical product descends monotonically onto π/2 — the cross-sector coefficient   [Δ·N: 1.5759 → 1.5724]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-order-without-magnetization">
+<h2>Exercise 4 — Order without magnetization<a class="headerlink" href="#exercise-4-order-without-magnetization" title="Link to this heading">#</a></h2>
+<p>The symmetric ground state hides its order in correlations, and the exponent it carries belongs to another dimension. Cite <a class="reference internal" href="#equation-eq-order-correlations">Eq. 805</a>.</p>
+<ol class="arabic simple">
+<li><p>Measure <span class="math notranslate nohighlight">\(\langle\sigma^z\rangle\)</span> at <span class="math notranslate nohighlight">\(h = 0.5\)</span>, <span class="math notranslate nohighlight">\(N = 12\)</span> and teach it as <em>exact</em> symmetry (any residue is Lanczos noise; the <span class="math notranslate nohighlight">\(\le 10^{-8}\)</span> audit stated), with the
+thermodynamic-limit symmetry-breaking story in three sentences.</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(C(r) = \langle\sigma^z_0\sigma^z_r\rangle\)</span> across the chain via the Setup’s
+<code class="docutils literal notranslate"><span class="pre">correlation</span></code> instrument, which is built on the <code class="docutils literal notranslate"><span class="pre">op_at</span></code> you wrote in Exercise 1;
+verify <span class="math notranslate nohighlight">\(C(N/2)\)</span> against Pfeuty’s <span class="math notranslate nohighlight">\((1 - h^2)^{1/4}\)</span> to four digits, and the disordered
+decay at <span class="math notranslate nohighlight">\(h = 1.5\)</span>.</p></li>
+<li><p>Plot <span class="math notranslate nohighlight">\(C(N/2)\)</span> vs <span class="math notranslate nohighlight">\(h\)</span> across the transition for <span class="math notranslate nohighlight">\(N = 8, 10, 12\)</span>: the order parameter
+emerging with system size.</p></li>
+<li><p>Read the exponent aloud (prose): <span class="math notranslate nohighlight">\(m = (1 - g^2)^{1/8}\)</span>, and <span class="math notranslate nohighlight">\(1/8\)</span> is the 2D <em>classical</em> Ising <span class="math notranslate nohighlight">\(\beta\)</span>; the flag planted for <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> (one dimension of imaginary time;
+Onsager the appointment) with no further leakage.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⟨σz⟩ in the N = 12 symmetric ground state: -4.47e-11
+C(r) at h = 0.5: [&#39;0.93418&#39;, &#39;0.93096&#39;, &#39;0.93060&#39;, &#39;0.93055&#39;, &#39;0.93054&#39;, &#39;0.93054&#39;]
+C(6) = 0.93054   vs Pfeuty (1 − h^2)^(1/4) = 0.93060
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>disordered C(6) at h = 1.5: 0.0445 — decayed, no long-range order
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tfim-order">
+<img alt="../../_images/bdfad3ee2b74a21c49ce5bb7f4337f0d5a4c565204ea6fcdee7e958a8a546b57.png" src="../../_images/bdfad3ee2b74a21c49ce5bb7f4337f0d5a4c565204ea6fcdee7e958a8a546b57.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 710 </span><span class="caption-text">Order without magnetization. The half-chain correlator <span class="math notranslate nohighlight">\(C(N/2) = \langle\sigma^z_0\sigma^z_{N/2}\rangle\)</span> against <span class="math notranslate nohighlight">\(h\)</span> for <span class="math notranslate nohighlight">\(N = 8, 10, 12\)</span>, with Pfeuty’s exact <span class="math notranslate nohighlight">\(m^2 = (1-h^2)^{1/4}\)</span> (dashed): on the ordered side the finite-size curves sit on the exact square of the order parameter to four digits (<span class="math notranslate nohighlight">\(0.93054\)</span> vs <span class="math notranslate nohighlight">\(0.93060\)</span> at <span class="math notranslate nohighlight">\(h = 0.5\)</span>, <span class="math notranslate nohighlight">\(N = 12\)</span>) even though <span class="math notranslate nohighlight">\(\langle\sigma^z\rangle = 0\)</span> <em>identically</em> in every symmetric eigenstate — the order hides in correlations, growing sharper toward the transition as <span class="math notranslate nohighlight">\(N\)</span> increases. The exponent inside <span class="math notranslate nohighlight">\(m = (1-g^2)^{1/8}\)</span> is the 2D <strong>classical</strong> Ising <span class="math notranslate nohighlight">\(\beta\)</span> (<a class="reference internal" href="#equation-eq-order-correlations">Eq. 805</a>): the quantum–classical mapping’s fingerprint, deferred wholesale to <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>.</span><a class="headerlink" href="#fig-tfim-order" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  ⟨σz⟩ = 0 identically in the finite symmetric ground state — the residue is solver noise   [measured -4.5e-11]
+✓  order in correlations: Pfeuty to four digits   [got 0.930538 vs expected 0.930605 (rtol=0.001, atol=1e-09)]
+✓  and the disordered side decays: no long-range order past the transition   [C(6) = 0.045]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-the-central-charge-measured">
+<h2>Exercise 5 — The central charge, measured<a class="headerlink" href="#exercise-5-the-central-charge-measured" title="Link to this heading">#</a></h2>
+<p>Entanglement entropy: an area law, a cat’s <span class="math notranslate nohighlight">\(\ln 2\)</span>, and a conformal number from fourteen
+spins. Cutting the chain in half is a <code class="docutils literal notranslate"><span class="pre">reshape</span></code> and nothing more — the <code class="docutils literal notranslate"><span class="pre">op_at</span></code> you wrote in
+Exercise 1 put sites <span class="math notranslate nohighlight">\(0\dots N/2-1\)</span> in the row index, which is exactly what makes
+<span class="math notranslate nohighlight">\(\psi \to 2^{N/2} \times 2^{N/2}\)</span> a legitimate Schmidt cut — and the singular values of
+that matrix are the Schmidt coefficients, <span class="math notranslate nohighlight">\(p_i = s_i^2\)</span>. One numerical trap guards the
+entropy sum: most of those <span class="math notranslate nohighlight">\(p_i\)</span> are numerical dust, and <span class="math notranslate nohighlight">\(\ln p\)</span> on dust is NaN-bait, so a
+floor of <span class="math notranslate nohighlight">\(10^{-14}\)</span> is applied <em>before</em> the logarithm, never after.
+Cite <a class="reference internal" href="#equation-eq-tfi-entanglement">Eq. 806</a>.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">half_chain_entropy(psi,</span> <span class="pre">N)</span></code>: <code class="docutils literal notranslate"><span class="pre">reshape</span></code> to <span class="math notranslate nohighlight">\(2^{N/2}\times2^{N/2}\)</span>,
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.svd</span></code> for the Schmidt spectrum, and <span class="math notranslate nohighlight">\(S = -\sum_i p_i\ln p_i\)</span> over the
+surviving weights. <strong>Write this one yourself</strong> — the implementation is the lesson.</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(S(h)\)</span> at <span class="math notranslate nohighlight">\(N = 12\)</span> for <span class="math notranslate nohighlight">\(h = 0.5, 1.0, 1.5\)</span>.</p></li>
+<li><p>Verify the area law off criticality: <span class="math notranslate nohighlight">\(S\)</span> saturates to four digits between <span class="math notranslate nohighlight">\(N = 12\)</span> and
+<span class="math notranslate nohighlight">\(N = 14\)</span> at <span class="math notranslate nohighlight">\(h = 0.5\)</span>.</p></li>
+<li><p>Teach the cat’s share (prose + the numbers): ordered-phase <span class="math notranslate nohighlight">\(S \approx \ln 2 + \epsilon\)</span>, because tracing half of <span class="math notranslate nohighlight">\((|\!\uparrow\cdots\rangle \pm |\!\downarrow\cdots\rangle)/\sqrt2\)</span> leaves a two-outcome mixture; hence the subtle <span class="math notranslate nohighlight">\(S(h)\)</span> peak at small <span class="math notranslate nohighlight">\(N\)</span>, and the honest critical signature is scaling, not the peak.</p></li>
+<li><p>Measure <span class="math notranslate nohighlight">\(c\)</span>: fit <span class="math notranslate nohighlight">\(S(N/2)\)</span> vs <span class="math notranslate nohighlight">\(\ln N\)</span> at <span class="math notranslate nohighlight">\(h = 1\)</span> over <span class="math notranslate nohighlight">\(N = 8, 10, 12, 14\)</span>
+(<code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code>; even <span class="math notranslate nohighlight">\(N\)</span> only): slope <span class="math notranslate nohighlight">\(= c/3\)</span> against the Ising CFT’s <span class="math notranslate nohighlight">\(c = 1/2\)</span>
+(Calabrese–Cardy credited; the sentence earned: a field theory’s central charge, from a
+laptop).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>S(N = 12): 0.6990 (h = 0.5),  0.7023 (h = 1.0),  0.3086 (h = 1.5)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>area law at h = 0.5:  S(N = 12) = 0.6990,  S(N = 14) = 0.6990 — saturated
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>S at h = 1: [&#39;0.6351&#39;, &#39;0.6720&#39;, &#39;0.7023&#39;, &#39;0.7279&#39;] for N = [np.int64(8), np.int64(10), np.int64(12), np.int64(14)]
+fit slope = 0.1658 → c = 0.497   (Ising CFT: c = 1/2)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tfim-entanglement">
+<img alt="../../_images/739f1b911281afa4b95c20890765ef0be46a10abcca73f8bcc81a5f36e557579.png" src="../../_images/739f1b911281afa4b95c20890765ef0be46a10abcca73f8bcc81a5f36e557579.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 711 </span><span class="caption-text">The showpiece: a conformal field theory’s central charge from fourteen spins. <strong>Left:</strong> half-chain entanglement entropy against <span class="math notranslate nohighlight">\(h\)</span> at <span class="math notranslate nohighlight">\(N = 12\)</span>: off criticality the area law holds (<span class="math notranslate nohighlight">\(S\)</span> saturates with <span class="math notranslate nohighlight">\(N\)</span> — <span class="math notranslate nohighlight">\(0.6990\)</span> at both <span class="math notranslate nohighlight">\(N = 12\)</span> and <span class="math notranslate nohighlight">\(14\)</span> for <span class="math notranslate nohighlight">\(h = 0.5\)</span>), and the ordered plateau sits at <span class="math notranslate nohighlight">\(\ln 2\)</span> (dotted) — <strong>cat entropy</strong>, the two-outcome mixture left by tracing half of a superposed pair of ferromagnets, not correlation structure; hence the barely-there peak. <strong>Right:</strong> the honest critical signature — <span class="math notranslate nohighlight">\(S\)</span> at <span class="math notranslate nohighlight">\(h = J\)</span> against <span class="math notranslate nohighlight">\(\ln N\)</span>: the growth is linear with slope <span class="math notranslate nohighlight">\(c/3\)</span> (Calabrese–Cardy), and the fit over <span class="math notranslate nohighlight">\(N = 8\)</span>–<span class="math notranslate nohighlight">\(14\)</span> returns <span class="math notranslate nohighlight">\(c = 0.497\)</span> against the Ising CFT’s <span class="math notranslate nohighlight">\(c = \tfrac12\)</span> (<a class="reference internal" href="#equation-eq-tfi-entanglement">Eq. 806</a>).</span><a class="headerlink" href="#fig-tfim-entanglement" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the area law: off-critical entanglement saturates to four digits between N = 12 and 14   [0.6990 vs 0.6990]
+✓  the cat&#39;s share: the ordered plateau is ln 2 of superposition bookkeeping, plus a small ε   [S = 0.6990, ln 2 = 0.6931]
+✓  c = 1/2, measured from fourteen spins   [got 0.497273 vs expected 0.5 (rtol=0.02, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-the-susceptibility-sharpens">
+<h2>Exercise 6 — The susceptibility sharpens<a class="headerlink" href="#exercise-6-the-susceptibility-sharpens" title="Link to this heading">#</a></h2>
+<p><span class="math notranslate nohighlight">\(\partial^2E_0/\partial h^2\)</span> across sizes: the finite-size training of <a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html"><span class="std std-doc">§5.10</span></a>, run at <span class="math notranslate nohighlight">\(T = 0\)</span>.
+Cite <a class="reference internal" href="#equation-eq-gap-stories">Eq. 804</a>, <a class="reference internal" href="#equation-eq-order-correlations">Eq. 805</a>.</p>
+<ol class="arabic simple">
+<li><p>Compute <span class="math notranslate nohighlight">\(\chi = -\partial^2(E_0/N)/\partial h^2\)</span> by central differences (step
+<span class="math notranslate nohighlight">\(\delta h = 0.02\)</span>) across <span class="math notranslate nohighlight">\(h\)</span> for <span class="math notranslate nohighlight">\(N = 8, 10, 12\)</span>, ground energies from <code class="docutils literal notranslate"><span class="pre">eigsh(k=1)</span></code>.</p></li>
+<li><p>Verify the peak grows and sharpens toward <span class="math notranslate nohighlight">\(h = 1\)</span> with <span class="math notranslate nohighlight">\(N\)</span>, and locate the finite-size
+pseudo-critical <span class="math notranslate nohighlight">\(h^*(N)\)</span> drifting toward 1.</p></li>
+<li><p>Overlay the Jordan–Wigner closed form’s second derivative (the <code class="docutils literal notranslate"><span class="pre">jw_energy</span></code> you wrote in
+Exercise 2, differenced with the same stencil) as the exact check.</p></li>
+<li><p>Connect (prose): <a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html"><span class="std std-doc">§5.10</span></a> trained this reading at finite <span class="math notranslate nohighlight">\(T\)</span>; here <span class="math notranslate nohighlight">\(N\)</span> plays <span class="math notranslate nohighlight">\(T\)</span>’s role near a <span class="math notranslate nohighlight">\(T = 0\)</span> transition, with finite-size scaling as the one language both transitions speak.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N     h*(N)    χ_max
+ 8   0.900   0.8885
+10   0.925   0.9420
+12   0.950   0.9893
+ED vs JW χ overlay: max|Δ| = 2.3e-11
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tfim-chi">
+<img alt="../../_images/deefa9b5f20bba02353cb00f23f4be91dba6a227b792eff83849d0e4d07bcedc.png" src="../../_images/deefa9b5f20bba02353cb00f23f4be91dba6a227b792eff83849d0e4d07bcedc.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 712 </span><span class="caption-text">The transition announcing itself at finite size. The ground-state susceptibility <span class="math notranslate nohighlight">\(\chi = -\partial^2(E_0/N)/\partial h^2\)</span> (central differences, <span class="math notranslate nohighlight">\(\delta h = 0.02\)</span>) across the transition for <span class="math notranslate nohighlight">\(N = 8, 10, 12\)</span>, with the Jordan–Wigner closed form differenced by the same stencil overlaid at <span class="math notranslate nohighlight">\(N = 12\)</span> (dotted — indistinguishable, the Exercise 2 rendezvous re-run through two derivatives). The peak grows and sharpens with <span class="math notranslate nohighlight">\(N\)</span> and the pseudo-critical <span class="math notranslate nohighlight">\(h^*(N)\)</span> drifts toward <span class="math notranslate nohighlight">\(h = 1\)</span>: the finite-size-scaling grammar of <a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html"><span class="std std-doc">§5.10</span></a>, spoken at absolute zero with <span class="math notranslate nohighlight">\(N\)</span> in temperature’s chair. In the infinite chain <span class="math notranslate nohighlight">\(\chi\)</span> diverges logarithmically at <span class="math notranslate nohighlight">\(h = J\)</span> — the energy’s second derivative carrying the transition, exactly as a classical specific heat would.</span><a class="headerlink" href="#fig-tfim-chi" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the transition announcing itself: the χ peak sharpens and drifts toward h = 1, on the JW curve   [h*(N): 0.900 → 0.950; peaks 0.888 → 0.989]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-the-quantum-critical-fan">
+<h2>Exercise 7 — The quantum-critical fan<a class="headerlink" href="#exercise-7-the-quantum-critical-fan" title="Link to this heading">#</a></h2>
+<p>Temperature returns, and the <span class="math notranslate nohighlight">\(T = 0\)</span> point governs a finite-<span class="math notranslate nohighlight">\(T\)</span> wedge. With every
+eigenvalue of a small chain in hand the canonical ensemble is exact, and the heat capacity
+per site is an energy variance, <span class="math notranslate nohighlight">\(C = \mathrm{Var}(E)/(NT^2)\)</span> (<a class="reference internal" href="#equation-eq-qc-fan">Eq. 807</a>). One
+discipline is load-bearing and it is the one <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a>
+established: the subtraction of <span class="math notranslate nohighlight">\(E_0\)</span> before exponentiating. At <span class="math notranslate nohighlight">\(T = 0.2\)</span> with
+<span class="math notranslate nohighlight">\(E_0 \approx -12.8\)</span> the raw <span class="math notranslate nohighlight">\(e^{-E/T}\)</span> underflows for <em>every</em> state of an <span class="math notranslate nohighlight">\(N = 10\)</span> chain,
+while the shifted weights start at 1 — and the variance is unchanged, since a variance
+does not see a shift.
+Cite <a class="reference internal" href="#equation-eq-qc-fan">Eq. 807</a>.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">thermal_C(evals,</span> <span class="pre">T,</span> <span class="pre">N)</span></code>: the per-site heat capacity as an energy variance over
+the Boltzmann weights, with <span class="math notranslate nohighlight">\(E_0\)</span> subtracted before exponentiating.
+<strong>Write this one yourself</strong> — the implementation is the lesson.</p></li>
+<li><p>Compute the full spectrum at <span class="math notranslate nohighlight">\(N = 10\)</span> with dense <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code> on the
+1024-state matrix built by the <code class="docutils literal notranslate"><span class="pre">H_tfim</span></code> you wrote in Exercise 1 — the notebook’s one
+permitted densification.</p></li>
+<li><p>Verify the low-<span class="math notranslate nohighlight">\(T\)</span> columns at <span class="math notranslate nohighlight">\(T = 0.2\)</span>: <span class="math notranslate nohighlight">\(C/N\)</span> at <span class="math notranslate nohighlight">\(h = 0.5\)</span> (ordered, <span class="math notranslate nohighlight">\(\Delta \approx
+2\)</span>), <span class="math notranslate nohighlight">\(h = 1.0\)</span> (critical), <span class="math notranslate nohighlight">\(h = 1.5\)</span> (disordered, <span class="math notranslate nohighlight">\(\Delta = 1\)</span>): each gapped phase suppressed by its own <span class="math notranslate nohighlight">\(e^{-\Delta/T}\)</span>.</p></li>
+<li><p>Map <span class="math notranslate nohighlight">\(C(T, h)\)</span> and draw the fan: the V opening from <span class="math notranslate nohighlight">\((h = 1, T = 0)\)</span>, with the
+finite-size floor <span class="math notranslate nohighlight">\(\Delta = \pi/2N\)</span> bounding the critical column’s gapless window.</p></li>
+<li><p>Read the fan (prose): at criticality <span class="math notranslate nohighlight">\(C \propto T\)</span> (the <span class="math notranslate nohighlight">\(c = \tfrac12\)</span> CFT’s linear law, window stated honestly): a zero-temperature critical point organizing finite-temperature physics above it (Sachdev named; CoNb₂O₆, Rydberg arrays, trapped
+ions in one outward breath).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C/N at T = 0.2:  ordered 0.0003   critical 0.0241   disordered 0.0181
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>finite-size floor at N = 10: Δ = π/2N = 0.157 — the critical column is &#39;gapless&#39; only above this
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tfim-fan">
+<img alt="../../_images/2237026cf3a02e88e18ab5c7bf776fec2e34f6f0376121f3cb6c0a489cded977.png" src="../../_images/2237026cf3a02e88e18ab5c7bf776fec2e34f6f0376121f3cb6c0a489cded977.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 713 </span><span class="caption-text">The quantum-critical fan: a <span class="math notranslate nohighlight">\(T = 0\)</span> point governing finite-<span class="math notranslate nohighlight">\(T\)</span> physics. Heat capacity per site <span class="math notranslate nohighlight">\(C(T, h)\)</span> of the <span class="math notranslate nohighlight">\(N = 10\)</span> chain from its full 1024-state spectrum (dense <code class="docutils literal notranslate"><span class="pre">eigvalsh</span></code>; thermal sums <span class="math notranslate nohighlight">\(E_0\)</span>-shifted per the discipline of <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a>), with the crossover lines <span class="math notranslate nohighlight">\(T = \Delta = 2|h - J|\)</span> (dashed) tracing the V that opens from <span class="math notranslate nohighlight">\((h = J,\ T = 0)\)</span>. Outside the wedge each gapped phase is suppressed by <em>its own</em> <span class="math notranslate nohighlight">\(e^{-\Delta/T}\)</span> (at <span class="math notranslate nohighlight">\(T = 0.2\)</span>: <span class="math notranslate nohighlight">\(C/N = 0.0003\)</span> ordered vs <span class="math notranslate nohighlight">\(0.018\)</span> disordered vs <span class="math notranslate nohighlight">\(0.024\)</span> critical); inside it the critical column feels no gap down to the finite-size floor <span class="math notranslate nohighlight">\(\pi/2N\)</span> (dotted) and its <span class="math notranslate nohighlight">\(C \propto T\)</span> — the <span class="math notranslate nohighlight">\(c = \tfrac12\)</span> CFT’s linear law (<a class="reference internal" href="#equation-eq-qc-fan">Eq. 807</a>). Sachdev’s picture: quantum criticality you can feel at temperatures far above zero.</span><a class="headerlink" href="#fig-tfim-fan" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the fan: each phase suppressed by its own gap, the critical column by none   [max|Δ| = 0.000128522 (rtol=0.2, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-a-transition-without-temperature">
+<h2>Exercise 8 — A transition without temperature<a class="headerlink" href="#exercise-8-a-transition-without-temperature" title="Link to this heading">#</a></h2>
+<p>Volume V taught that phase transitions are bargains between energy and entropy, struck at
+a temperature; this notebook found a transition where entropy never came to the table. Two terms of one Hamiltonian, unable to commute, forced the ground state itself to choose sides at <span class="math notranslate nohighlight">\(h = J\)</span>, and the choosing left every fingerprint the classical theory taught us
+to look for: an order parameter (hidden in correlations, since finite symmetric systems
+magnetize exactly nothing), a closing gap in place of a diverging correlation time, a
+susceptibility peak sharpening with size, and critical exponents, one of which, the <span class="math notranslate nohighlight">\(1/8\)</span>, arrived wearing another model’s clothes: the 2D classical Ising’s, solved by
+Onsager two decades before Pfeuty, one dimension up. That is not coincidence; it is the
+deepest flag this volume has planted, and the next notebook takes it up: <span class="math notranslate nohighlight">\(\beta\)</span> is a
+length of imaginary time, and a quantum chain at <span class="math notranslate nohighlight">\(T = 0\)</span> is a classical film strip (<a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>).
+Meanwhile the chain solved itself twice, by brute force and by becoming free fermions, and turned the redundancy into a measurement few courses attempt: the central charge of
+a conformal field theory, one half to half a percent, extracted from fourteen spins.</p>
+<p>There is something clarifying about a transition with no heat in it. Nothing jiggles,
+nothing averages; the ground state simply cannot be two things at once, and at the
+critical field it stops trying. Quantum mechanics does not need temperature to be
+statistical — superposition was always an ensemble of a kind, and at <span class="math notranslate nohighlight">\(h = J\)</span> the ensemble
+reorganizes.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>Movement V’s summit: a phase transition at absolute zero, solved twice and measured.</p>
+<ul class="simple">
+<li><p><strong>The model</strong> <a class="reference internal" href="#equation-eq-tfim">Eq. 801</a>, <a class="reference internal" href="#equation-eq-sparse-ed">Eq. 802</a>: non-commuting coupling and field; both limits verified by sparse ED (degenerate ferromagnet with <span class="math notranslate nohighlight">\(C(r) = 1\)</span>; unique <span class="math notranslate nohighlight">\(x\)</span>-paramagnet; both gated); <span class="math notranslate nohighlight">\(g = h/J\)</span> as the dial that replaces temperature.</p></li>
+<li><p><strong>The rendezvous</strong> <a class="reference internal" href="#equation-eq-jordan-wigner">Eq. 803</a>: Jordan–Wigner makes the chain free fermions
+with Pfeuty’s <span class="math notranslate nohighlight">\(\varepsilon(k)\)</span>; ED and the antiperiodic momentum sum agree at nine <span class="math notranslate nohighlight">\((N, h)\)</span> points to <span class="math notranslate nohighlight">\(10^{-14}\)</span> (gated at <span class="math notranslate nohighlight">\(10^{-12}\)</span>): Movement III’s Fermi sea inside a magnet, and the transition a gap closing at <span class="math notranslate nohighlight">\(\varepsilon(0) = 2|h-J|\)</span>.</p></li>
+<li><p><strong>Four gap stories</strong> <a class="reference internal" href="#equation-eq-gap-stories">Eq. 804</a>: the cat doublet’s exponential splitting
+(gated), the two-quasiparticle ordered gap on Pfeuty’s threshold (gated against
+<span class="math notranslate nohighlight">\(2\varepsilon(\pi/N)\)</span>), the one-quasiparticle disordered gap at <span class="math notranslate nohighlight">\(2(h-J)\)</span> (gated), and the critical <span class="math notranslate nohighlight">\(\Delta\cdot N \to \pi/2\)</span> (gated, monotone), with the naive same-sector coefficient corrected in public; <span class="math notranslate nohighlight">\(z = 1\)</span>.</p></li>
+<li><p><strong>Order without magnetization</strong> <a class="reference internal" href="#equation-eq-order-correlations">Eq. 805</a>:
+<span class="math notranslate nohighlight">\(\langle\sigma^z\rangle = 0\)</span> exactly (gated as solver noise <span class="math notranslate nohighlight">\(\le 10^{-8}\)</span>); <span class="math notranslate nohighlight">\(C(N/2)\)</span> on
+Pfeuty’s <span class="math notranslate nohighlight">\((1-h^2)^{1/4}\)</span> to four digits (gated); the <span class="math notranslate nohighlight">\(1/8\)</span> read aloud as 2D classical Ising’s <span class="math notranslate nohighlight">\(\beta\)</span>: one flag for <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>, no leakage.</p></li>
+<li><p><strong>The central charge</strong> <a class="reference internal" href="#equation-eq-tfi-entanglement">Eq. 806</a>: area-law saturation to four digits
+(gated); the ordered plateau as <span class="math notranslate nohighlight">\(\ln 2\)</span> cat entropy (gated); and the critical <span class="math notranslate nohighlight">\((c/3)\ln N\)</span> fit returning <span class="math notranslate nohighlight">\(c = 0.497\)</span> against the Ising CFT’s <span class="math notranslate nohighlight">\(\tfrac12\)</span> (gated at 2%), measured from fourteen spins.</p></li>
+<li><p><strong>The susceptibility</strong>: the <span class="math notranslate nohighlight">\(T = 0\)</span> response peak sharpening and drifting to <span class="math notranslate nohighlight">\(h = 1\)</span> with <span class="math notranslate nohighlight">\(N\)</span>, on the Jordan–Wigner curve (gated); the finite-size grammar of <a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html"><span class="std std-doc">§5.10</span></a> at absolute zero.</p></li>
+<li><p><strong>The fan</strong> <a class="reference internal" href="#equation-eq-qc-fan">Eq. 807</a>: the <span class="math notranslate nohighlight">\(N = 10\)</span> full spectrum paints <span class="math notranslate nohighlight">\(C(T, h)\)</span>; at <span class="math notranslate nohighlight">\(T = 0.2\)</span>
+the three columns sit at <span class="math notranslate nohighlight">\(0.0003/0.024/0.018\)</span> (gated): each gapped phase throttled by its own <span class="math notranslate nohighlight">\(e^{-\Delta/T}\)</span>, the critical column linear in <span class="math notranslate nohighlight">\(T\)</span> above the <span class="math notranslate nohighlight">\(\pi/2N\)</span> floor:
+Sachdev’s wedge.</p></li>
+</ul>
+<p>Next door: why the <span class="math notranslate nohighlight">\(1/8\)</span> belonged to a 2D classical model: <span class="math notranslate nohighlight">\(\beta\)</span> as imaginary time.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The quantum–classical mapping (<a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>).</strong> <span class="math notranslate nohighlight">\(\beta\)</span> as imaginary time, Trotter slicing,
+and the 2D Ising appointment with Onsager; then PIMC sampling the same physics (<a class="reference internal" href="path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a>).</p></li>
+<li><p><strong>Experimental chains.</strong> CoNb₂O₆ neutron spectroscopy, Rydberg-atom arrays, trapped
+ions (outward, named).</p></li>
+<li><p><strong>Beyond ED.</strong> DMRG and tensor networks, whose existence the area law this notebook measured explains (outward; the course’s own <span class="math notranslate nohighlight">\(S\)</span>-saturation as the evidence).</p></li>
+<li><p><strong>Dynamics.</strong> Kibble–Zurek defect production across the transition (outward, named).</p></li>
+<li><p><strong>Cross-reference</strong> <a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html"><span class="std std-doc">§5.10</span></a> (the classical chain, answered; the FSS training), <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>/<a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a>
+(the sea inside the magnet), <a class="reference internal" href="quantum-paramagnets-brillouin.html"><span class="std std-doc">§7.18</span></a> (independence’s end), <a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html"><span class="std std-doc">§6.19</span></a>/<a class="reference internal" href="../06-quantum-mechanics/identical-particles.html"><span class="std std-doc">§6.20</span></a> (the algebra), <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a>
+(log-sum-exp, again).</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/07-quantum-statistical-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="quantum-paramagnets-brillouin.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="imaginary-time-quantum-classical.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-and-why-it-must-have-a-transition">The model, and why it must have a transition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparse-construction">Sparse construction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-rendezvous-the-chain-is-free-fermions">The rendezvous: the chain is free fermions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gap-s-four-stories-parity-bookkeeping">The gap’s four stories: parity bookkeeping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#order-without-magnetization">Order without magnetization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entanglement-the-central-charge-measured">Entanglement: the central charge, measured</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-quantum-critical-fan">The quantum-critical fan</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-two-demands-that-cannot-both-be-met">Exercise 1 — Two demands that cannot both be met</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-rendezvous-four-thousand-amplitudes-vs-one-momentum-sum">Exercise 2 — The rendezvous: four thousand amplitudes vs one momentum sum</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-gap-s-four-stories">Exercise 3 — The gap’s four stories</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-order-without-magnetization">Exercise 4 — Order without magnetization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-central-charge-measured">Exercise 5 — The central charge, measured</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-susceptibility-sharpens">Exercise 6 — The susceptibility sharpens</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-quantum-critical-fan">Exercise 7 — The quantum-critical fan</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-a-transition-without-temperature">Exercise 8 — A transition without temperature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

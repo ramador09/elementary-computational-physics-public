@@ -1,0 +1,2164 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/path-integral-monte-carlo.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Movement VI’s second notebook is the algorithmic consequence of its first. §7.20 ended with a license: the thermal quantum particle is a c..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Movement VI’s second notebook is the algorithmic consequence of its first. §7.20 ended with a license: the thermal quantum particle is a c..." />
+
+    <title>7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/07-quantum-statistical-mechanics/path-integral-monte-carlo';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/path-integral-monte-carlo.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="7.22 Eigenstate Thermalization: Why Isolated Systems Forget" href="eigenstate-thermalization.html" />
+    <link rel="prev" title="7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length" href="imaginary-time-quantum-classical.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VII — Quantum Statistical Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-electronic-structure/index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/07-quantum-statistical-mechanics/path-integral-monte-carlo.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/07-quantum-statistical-mechanics/path-integral-monte-carlo.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/07-quantum-statistical-mechanics/path-integral-monte-carlo.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/07-quantum-statistical-mechanics/path-integral-monte-carlo.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-license-put-to-work">The license, put to work</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-bead-moves-checkerboard-vectorized">Single-bead moves, checkerboard-vectorized</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnostics-earlier-disciplines-at-full-strength">Diagnostics: earlier disciplines at full strength</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-stiffening-problem-measured">The stiffening problem, measured</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#staging-exact-brownian-bridges">Staging: exact Brownian bridges</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-budgets">Two budgets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#primitive-versus-virial">Primitive versus virial</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#where-no-formula-exists">Where no formula exists</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#horizons">Horizons</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-license-put-to-work-the-protocol-declared">Exercise 1 — The license, put to work; the protocol declared</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-error-bars-or-it-didn-t-happen">Exercise 2 — Error bars or it didn’t happen</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-stiffening-problem-measured">Exercise 3 — The stiffening problem, measured</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-staging-exact-brownian-bridges-centerpiece">Exercise 4 — Staging: exact Brownian bridges (centerpiece)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-two-budgets-separated">Exercise 5 — Two budgets, separated</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-student-primitive-versus-virial">Exercise 6 — (STUDENT) Primitive versus virial</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-where-no-formula-exists-centerpiece">Exercise 7 — Where no formula exists (centerpiece)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-student-stretch-the-thermal-function-of-an-unsolvable-system">Exercise 8 — (STUDENT/STRETCH) The thermal function of an unsolvable system</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-synthesis-coin-flips-trusted">Exercise 9 — (Synthesis) Coin flips, trusted</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="path-integral-monte-carlo-coin-flips-compute-quantum-mechanics">
+<h1>7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics<a class="headerlink" href="#path-integral-monte-carlo-coin-flips-compute-quantum-mechanics" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VII — Quantum Statistical Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;7.21
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Last notebook proved a thermal quantum particle is a classical ring polymer with honest positive weights; this notebook puts the license to work. Metropolis, the volume&#x27;s oldest algorithm, walks the polymer, and quantum expectation values fall out of coin flips with error bars. We validate the sampler against exact finite-M targets before trusting it anywhere, watch local moves drown as the discretization refines and rescue them with exact Brownian bridges, separate statistical from Trotter error like adults, and then send the method where no formula can follow: an oscillator with no closed-form solution.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;210–250 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Movement VI’s second notebook is the algorithmic consequence of its first. <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> ended with
+a license: the thermal quantum particle <em>is</em> a classical ring polymer whose Boltzmann
+weight <span class="math notranslate nohighlight">\(e^{-S}\)</span> is <strong>positive</strong>, and positive weights are precisely what Metropolis (<a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a>,
+the volume’s oldest tool, invoked here with affection) knows how to sample. So quantum
+mechanics at temperature becomes something a random walk can explore, and every quantum
+expectation value falls out of coin flips. Nothing in this notebook’s <em>physics</em> is new; that
+is the point. What is new, and what the notebook actually spends its effort on, is
+<strong>epistemics: how does one come to trust a stochastic answer?</strong></p>
+<p>The trust protocol is stated up front and followed to the letter. Rule one: validate the
+sampler against an <em>exactly known</em> target before trusting it anywhere else, and <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> hands
+us a whole family of them, because at every finite <span class="math notranslate nohighlight">\(M\)</span> the harmonic polymer is pure Gaussian
+algebra: <span class="math notranslate nohighlight">\(\langle x^2\rangle = (A^{-1})_{00}\)</span> from <code class="docutils literal notranslate"><span class="pre">numpy.linalg.inv</span></code> and
+<span class="math notranslate nohighlight">\(E_M = -\partial_\beta \ln Z_M\)</span> from <code class="docutils literal notranslate"><span class="pre">numpy.linalg.slogdet</span></code>. Rule two: size every error bar
+by the <em>measured</em> autocorrelation time, with a window whose stability is itself checked.
+Rule three: keep the statistical budget and the Trotter budget separate, and report both.
+The protocol is then dramatized by a true story from this notebook’s own construction: a
+first staging run appeared biased at <span class="math notranslate nohighlight">\(2.5\sigma\)</span> against a target known to be exact; the
+bridge, tested in isolation, was flawless; the culprit was a truncated autocorrelation
+window that had quietly clipped a slow tail and shrunk the bars. The moral is the most
+valuable sentence here: <strong>when a validated-exact target disagrees with your sampler,
+suspect the error bars before the physics.</strong></p>
+<p>The arc: single-bead checkerboard Metropolis earns provisional trust at <span class="math notranslate nohighlight">\(M = 16\)</span> (one bar
+from the exact target, autocorrelation honestly quoted as the price of admission). Then the
+<strong>stiffening problem</strong> is measured, not asserted: the springs grow as <span class="math notranslate nohighlight">\(M/\beta\)</span>, single-bead
+steps shrink, and <span class="math notranslate nohighlight">\(\tau_{\mathrm{int}}\)</span> climbs by a factor of six as <span class="math notranslate nohighlight">\(M\)</span> goes <span class="math notranslate nohighlight">\(16 \to 64\)</span>,
+local updates drowning near the continuum limit (the critical slowing of <a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html"><span class="std std-doc">§5.10</span></a>, one dimension
+over). <strong>Staging</strong> is the cure and a small gem: the spring action is Gaussian, so a whole
+segment can be redrawn <em>exactly</em> from its conditional distribution, a Brownian bridge built
+bead by bead, with Metropolis accepting on the potential alone; acceptance then sits near
+one <em>independent of</em> <span class="math notranslate nohighlight">\(M\)</span>. The deeper lesson arrives with it: the slow mode is the polymer’s
+<strong>centroid</strong>, and a bridge too short to displace it leaves the slowness in place. Two error
+budgets are then separated on the <span class="math notranslate nohighlight">\(M\)</span>-ladder, each rung agreeing with <em>its own</em> exact
+finite-<span class="math notranslate nohighlight">\(M\)</span> value while the ladder converges onto the <span class="math notranslate nohighlight">\(\tfrac12\coth(\beta/2)\)</span> of <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>: the coth
+curve computed by ladder operators (<a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>), by Gaussian determinants (<a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>), and now by coin
+flips, the volume’s tightest three-way rendezvous. The estimator lesson is measured on the
+same runs (primitive and virial agree in expectation; their variances differ by a factor
+that <em>grows</em> with <span class="math notranslate nohighlight">\(M\)</span>), and the method then proves its worth on the quartic oscillator,
+where no closed form exists and grid ED supplies the experiment: agreement within one bar
+on both energy and width, both budgets quoted. The horizons close Movement VI’s technical
+arc: bosonic exchange as loop reconnection, the sign problem named honestly, and ring-polymer
+molecular dynamics as the bridge to production simulation.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> <span class="math notranslate nohighlight">\(\hbar = m = 1\)</span> throughout; the harmonic studies run at
+<span class="math notranslate nohighlight">\(\omega = 1\)</span>, <span class="math notranslate nohighlight">\(\beta = 2\)</span> unless stated. <span class="math notranslate nohighlight">\(\delta\tau = \beta/M\)</span>; ring closure
+<span class="math notranslate nohighlight">\(x_M \equiv x_0\)</span>. Every stochastic study seeds its own <code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng</span></code> (seed
+stated in place). A single-bead <strong>sweep</strong> is one full checkerboard pass (every bead
+proposed once, evens then odds); a staging <strong>sweep</strong> is <span class="math notranslate nohighlight">\(M/L\)</span> segment redraws. Metropolis
+exponents are clipped (<code class="docutils literal notranslate"><span class="pre">numpy.clip(dS,</span> <span class="pre">-50,</span> <span class="pre">50)</span></code> for the vectorized mover; an
+accept-if-negative branch for staging) so no exponential ever overflows. Autocorrelation
+times come from <code class="docutils literal notranslate"><span class="pre">tau_int</span></code> (<code class="docutils literal notranslate"><span class="pre">numpy.correlate</span></code>, self-consistent window <span class="math notranslate nohighlight">\(W \ge c\,\tau\)</span> with
+<span class="math notranslate nohighlight">\(c = 8\)</span>, stability checked against <span class="math notranslate nohighlight">\(c = 6, 10\)</span>); error bars from <code class="docutils literal notranslate"><span class="pre">blocked_error</span></code>
+(<code class="docutils literal notranslate"><span class="pre">numpy.array_split</span></code>, block length <span class="math notranslate nohighlight">\(16\,\tau\)</span>, the factor justified in Exercise 2).
+Exact finite-<span class="math notranslate nohighlight">\(M\)</span> targets reuse the machinery of <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>: <code class="docutils literal notranslate"><span class="pre">numpy.linalg.inv</span></code> of the circulant
+action matrix and <code class="docutils literal notranslate"><span class="pre">numpy.linalg.slogdet</span></code> for <span class="math notranslate nohighlight">\(\ln Z_M\)</span>. Equilibration cuts are visible
+in the traces and stated per study.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against an
+independent fact: the sampler against the exact <span class="math notranslate nohighlight">\((A^{-1})_{00}\)</span>; the window against its
+own stability; the stiffening against its measured growth; the bridge against the exact
+Brownian-bridge variances; every ladder rung against its own Gaussian value; two
+estimators against one exact energy; the quartic against grid ED. A ✓ is strong
+evidence; a ✗ is a prompt to <em>locate the discrepancy</em>.</p>
+<p><strong>Scope.</strong> Bosonic permutation sampling, the sign problem (named, not developed), and
+ring-polymer molecular dynamics are outward horizons. See Ceperley, <em>Rev. Mod. Phys.</em>
+<strong>67</strong>, 279 (1995); Chandler &amp; Wolynes 1981; Tuckerman, <em>Statistical Mechanics: Theory
+and Molecular Simulation</em> (staging and estimators); Sokal’s Cargèse lectures (Monte
+Carlo error analysis). Cross-reference <a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html"><span class="std std-doc">§5.7</span></a> (Monte Carlo’s
+dimension-blindness), <a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a> (Metropolis and all its disciplines), <a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html"><span class="std std-doc">§5.10</span></a> (critical slowing,
+cousin), <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> (the coth, third derivation), <a class="reference internal" href="bose-einstein-condensation.html"><span class="std std-doc">§7.17</span></a> (the condensate honesty met again),
+<a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> (the license and the exact targets), and forward to <a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a> (why isolated quantum
+systems thermalize at all, the volume’s closing question).</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-license-put-to-work">
+<h3>The license, put to work<a class="headerlink" href="#the-license-put-to-work" title="Link to this heading">#</a></h3>
+<p><a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> closed with the identity this notebook samples: inserting position states between
+Trotter slices turns the thermal trace into the configuration integral of a classical ring
+polymer, with nothing approximate anywhere in the construction (Chandler &amp; Wolynes 1981;
+Feynman’s <em>Statistical Mechanics</em>, Ch. 3, carries it out in full). In the discrete notation
+used throughout,</p>
+<div class="math notranslate nohighlight" id="equation-eq-pimc-license">
+<span class="eqno">(815)<a class="headerlink" href="#equation-eq-pimc-license" title="Link to this equation">#</a></span>\[Z_M \propto \int\!\prod_k dx_k\, e^{-S},
+\qquad
+S = \sum_{k=0}^{M-1}\left[\frac{M}{2\beta}(x_{k+1}-x_k)^2 + \frac{\beta}{M}V(x_k)\right],
+\qquad x_M \equiv x_0,\]</div>
+<p>and <span class="math notranslate nohighlight">\(e^{-S} &gt; 0\)</span> for every configuration. That single inequality is the notebook. For a
+distinguishable particle (or bosons, where permutations <em>add</em> positive terms) the
+ring-polymer weight is a genuine unnormalized probability, so the Metropolis algorithm of
+<a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a> applies verbatim, without one new idea: propose, compute <span class="math notranslate nohighlight">\(\Delta S\)</span>, accept with
+probability <span class="math notranslate nohighlight">\(\min(1, e^{-\Delta S})\)</span>, and every quantum expectation becomes a classical
+average over polymer shapes. (Fermions attach <span class="math notranslate nohighlight">\((-1)^P\)</span> to exchange permutations and the
+weights stop being probabilities; that exception is flagged now and honored in the closing
+paragraph.) The real subject is announced at the same time: a stochastic answer is only as
+good as the argument for trusting it, and the argument here has three rules. <strong>Validate on
+an exactly known target first.</strong> <strong>Size the bars by the measured autocorrelation, with a
+checked window.</strong> <strong>Separate the statistical budget from the Trotter budget.</strong></p>
+</section>
+<section id="single-bead-moves-checkerboard-vectorized">
+<h3>Single-bead moves, checkerboard-vectorized<a class="headerlink" href="#single-bead-moves-checkerboard-vectorized" title="Link to this heading">#</a></h3>
+<p>The simplest way to walk the polymer is the move <a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a> would reach for first: displace one
+bead, compute the change in action, accept or reject. Written out for bead <span class="math notranslate nohighlight">\(k\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-single-bead">
+<span class="eqno">(816)<a class="headerlink" href="#equation-eq-single-bead" title="Link to this equation">#</a></span>\[x_k \to x_k + \delta\,U(-1,1),
+\qquad
+\Delta S = \frac{M}{2\beta}\Big[(x_k'-x_{k-1})^2 + (x_k'-x_{k+1})^2 - \text{(old)}\Big]
++ \frac{\beta}{M}\big[V(x_k') - V(x_k)\big].\]</div>
+<p>The action couples nearest neighbors only, so <span class="math notranslate nohighlight">\(\Delta S\)</span> for bead <span class="math notranslate nohighlight">\(k\)</span> involves <span class="math notranslate nohighlight">\(x_{k\pm1}\)</span>
+and nothing else. On a ring with even <span class="math notranslate nohighlight">\(M\)</span> that buys full vectorization: the even beads’
+neighbors are all odd, so <em>conditioned on the odd beads the even ones are independent</em> and
+may be updated simultaneously (and vice versa); one checkerboard pass is exactly equivalent
+to a sequence of valid single-site updates. (The argument breaks the moment the springs
+couple beyond nearest neighbors.) The step <span class="math notranslate nohighlight">\(\delta\)</span> is tuned for reasonable acceptance and
+both are reported. Validated below against the exact finite-<span class="math notranslate nohighlight">\(M\)</span> target at <span class="math notranslate nohighlight">\(M = 16\)</span>,
+<span class="math notranslate nohighlight">\(\beta = 2\)</span>, with the autocorrelation time honestly quoted as the price.</p>
+</section>
+<section id="diagnostics-earlier-disciplines-at-full-strength">
+<h3>Diagnostics: earlier disciplines at full strength<a class="headerlink" href="#diagnostics-earlier-disciplines-at-full-strength" title="Link to this heading">#</a></h3>
+<p>A Metropolis chain hands back a <em>correlated</em> time series, so two earlier disciplines return
+here at full strength: the equilibration cut of <a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a>,
+and the autocorrelation time and blocking analysis built in
+<a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html"><span class="std std-doc">§5.17</span></a>, where a molecular-dynamics
+trajectory made the correlation impossible to ignore. The
+window analysis below follows the standard treatment in Sokal’s Cargèse lectures, which
+reward reading in the original. Two definitions carry everything:</p>
+<div class="math notranslate nohighlight" id="equation-eq-diagnostics">
+<span class="eqno">(817)<a class="headerlink" href="#equation-eq-diagnostics" title="Link to this equation">#</a></span>\[\tau_{\mathrm{int}} = \tfrac12 + \sum_{t=1}^{W}\rho(t),
+\quad W \ge c\,\tau_{\mathrm{int}}(W),\ c = 8;
+\qquad
+\mathrm{err} = \frac{\sigma_{\text{blocks}}}{\sqrt{n_{\text{blocks}}}},
+\quad \ell_{\text{block}} = 16\,\tau_{\mathrm{int}} .\]</div>
+<p>Every stochastic number in this notebook carries a bar, the bar carries a
+<span class="math notranslate nohighlight">\(\tau_{\mathrm{int}}\)</span>, and the <span class="math notranslate nohighlight">\(\tau_{\mathrm{int}}\)</span> carries a window check. The
+integrated autocorrelation time is computed from the normalized autocovariance
+(<code class="docutils literal notranslate"><span class="pre">numpy.correlate</span></code>) summed out to a <strong>self-consistent window</strong>: the smallest <span class="math notranslate nohighlight">\(W\)</span> with
+<span class="math notranslate nohighlight">\(W \ge c\,\tau(W)\)</span>. The constant <span class="math notranslate nohighlight">\(c\)</span> matters more than it looks, and this notebook knows it
+the hard way: during construction, a <span class="math notranslate nohighlight">\(6\tau\)</span> cutoff clipped a slow tail, the bars came out
+too small, and honest staging data appeared biased at <span class="math notranslate nohighlight">\(2.5\sigma\)</span> against a target known to
+be exact. The bridge, tested in isolation, was flawless; the <em>bars</em> were the defect. Hence
+the standing mandate: <span class="math notranslate nohighlight">\(c \ge 8\)</span>, <strong>and</strong> check that <span class="math notranslate nohighlight">\(\tau(c)\)</span> is stable against <span class="math notranslate nohighlight">\(c = 6, 10\)</span>
+before trusting it. Error bars come from blocking (<code class="docutils literal notranslate"><span class="pre">numpy.array_split</span></code>): block means are
+nearly independent once blocks are much longer than <span class="math notranslate nohighlight">\(\tau\)</span>, and Exercise 2 measures the
+residual creep to justify block length <span class="math notranslate nohighlight">\(16\tau\)</span>.</p>
+</section>
+<section id="the-stiffening-problem-measured">
+<h3>The stiffening problem, measured<a class="headerlink" href="#the-stiffening-problem-measured" title="Link to this heading">#</a></h3>
+<p>Why local moves must eventually fail is already visible in the action of
+<a class="reference internal" href="#equation-eq-pimc-license">Eq. 815</a>: the spring constant carries a factor <span class="math notranslate nohighlight">\(M/\beta\)</span>. The chain of
+consequences is short,</p>
+<div class="math notranslate nohighlight" id="equation-eq-stiffening">
+<span class="eqno">(818)<a class="headerlink" href="#equation-eq-stiffening" title="Link to this equation">#</a></span>\[k_{\text{spring}} = \frac{M}{\beta}
+\quad\Longrightarrow\quad
+\delta_{\text{acceptable}} \sim \sqrt{\beta/M}
+\quad\Longrightarrow\quad
+\tau_{\mathrm{int}} \ \text{climbs with } M .\]</div>
+<p>Refining the discretization stiffens the springs linearly in <span class="math notranslate nohighlight">\(M\)</span>: each bead is chained ever
+more tightly to its neighbors, acceptable single-bead steps shrink, and the polymer’s
+large-scale shape decorrelates ever more slowly. Measured below: at fixed <span class="math notranslate nohighlight">\(\delta\)</span> the
+autocorrelation time grows by a factor of six from <span class="math notranslate nohighlight">\(M = 16\)</span> to <span class="math notranslate nohighlight">\(M = 64\)</span> while acceptance
+falls. This is the generic fate of local updates near a continuum limit, and the critical
+slowing of <a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html"><span class="std std-doc">§5.10</span></a> is its cousin: there the correlation <em>length</em> diverged, here the spring stiffness
+does, and in both cases local moves stop carrying information across the system.</p>
+</section>
+<section id="staging-exact-brownian-bridges">
+<h3>Staging: exact Brownian bridges<a class="headerlink" href="#staging-exact-brownian-bridges" title="Link to this heading">#</a></h3>
+<p>The cure exploits the one special structure the action has: its spring part is Gaussian,
+and conditionals of a Gaussian are again Gaussian, with means and variances one can write
+down. That permits <em>exact</em> resampling of a whole segment, a construction known as staging
+(Tuckerman’s <em>Statistical Mechanics: Theory and Molecular Simulation</em> develops it in full).
+The working formula is the one-bead conditional,</p>
+<div class="math notranslate nohighlight" id="equation-eq-staging">
+<span class="eqno">(819)<a class="headerlink" href="#equation-eq-staging" title="Link to this equation">#</a></span>\[x_i \,\big|\, x_{i-1}, x_R
+\ \sim\ \mathcal{N}\!\left(\frac{r\,x_{i-1} + x_R}{r+1},\ \delta\tau\,\frac{r}{r+1}\right),
+\qquad r = \text{links remaining to } x_R .\]</div>
+<p>where the derivation is precision weighting, in two lines: bead <span class="math notranslate nohighlight">\(x_i\)</span> feels its already-placed left neighbor
+through one link (precision <span class="math notranslate nohighlight">\(1/\delta\tau\)</span>) and the far endpoint <span class="math notranslate nohighlight">\(x_R\)</span> through the <span class="math notranslate nohighlight">\(r\)</span>
+links that remain (an effective spring of precision <span class="math notranslate nohighlight">\(1/r\delta\tau\)</span>); multiplying the two
+Gaussians gives mean <span class="math notranslate nohighlight">\((r\,x_{i-1} + x_R)/(r+1)\)</span> and variance <span class="math notranslate nohighlight">\(\delta\tau\,r/(r+1)\)</span>. Built
+bead by bead this is the Brownian bridge, and because the springs are sampled exactly,
+Metropolis accepts on the <em>potential alone</em>: acceptance sits near one independent of <span class="math notranslate nohighlight">\(M\)</span>.
+The bridge is verified in isolation below (interior means on the straight line between
+endpoints; variances against the exact <span class="math notranslate nohighlight">\(\delta\tau\,k(L-k)/L\)</span>), which is precisely the test
+that separated correctness from statistics in the cautionary tale. And the diagnosis
+exposes which mode was slow all along: the polymer’s <strong>centroid</strong>, which a short bridge
+barely displaces. Segment length matters (<span class="math notranslate nohighlight">\(L = M/4\)</span> versus <span class="math notranslate nohighlight">\(M/2\)</span> is measured below, a
+factor of three in <span class="math notranslate nohighlight">\(\tau\)</span>), and production codes add an explicit whole-ring displacement
+move (<span class="math notranslate nohighlight">\(x_k \to x_k + \Delta\)</span> for all <span class="math notranslate nohighlight">\(k\)</span>, springs untouched) precisely to carry the
+centroid; here sizing <span class="math notranslate nohighlight">\(L\)</span> to <span class="math notranslate nohighlight">\(M/2\)</span> suffices. The design rule: smart moves are exact where
+the action is Gaussian and humble where it is not.</p>
+</section>
+<section id="two-budgets">
+<h3>Two budgets<a class="headerlink" href="#two-budgets" title="Link to this heading">#</a></h3>
+<p>A PIMC number carries two entirely different errors, and the protocol’s third rule is that
+they are never conflated. Schematically,</p>
+<div class="math notranslate nohighlight" id="equation-eq-two-budgets">
+<span class="eqno">(820)<a class="headerlink" href="#equation-eq-two-budgets" title="Link to this equation">#</a></span>\[\underbrace{\big|\langle x^2\rangle_{\text{PIMC}} - (A^{-1})_{00}\big| \lesssim \text{bars}}_{\text{statistical}},
+\qquad
+\underbrace{(A^{-1})_{00} \xrightarrow{\ 1/M^2\ } \tfrac12\coth(\beta/2)}_{\text{Trotter}} .\]</div>
+<p>The <strong>statistical</strong> error is the blocking bar, sized by <span class="math notranslate nohighlight">\(\tau_{\mathrm{int}}\)</span>; it shrinks as
+<span class="math notranslate nohighlight">\(1/\sqrt{N}\)</span> and belongs to the sampler. The <strong>Trotter</strong> error is the distance from the
+finite-<span class="math notranslate nohighlight">\(M\)</span> Gaussian value to the <span class="math notranslate nohighlight">\(M \to \infty\)</span> limit; it falls as <span class="math notranslate nohighlight">\(1/M^2\)</span> (the trace
+theorem of <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>: partition functions get second-order accuracy free) and belongs to the
+discretization, not the sampler. The <span class="math notranslate nohighlight">\(M\)</span>-ladder below exhibits both at once: each rung’s
+sampled mean agrees with <em>its own</em> exact <span class="math notranslate nohighlight">\((A^{-1})_{00}\)</span> within bars, while the rungs
+themselves converge onto the <span class="math notranslate nohighlight">\(\tfrac12\coth(\beta/2)\)</span> of <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>. The coth curve, by ladder
+operators in <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>, by Gaussian determinants in <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>, and now by coin flips: the volume’s
+tightest three-way rendezvous, this time wearing error bars.</p>
+</section>
+<section id="primitive-versus-virial">
+<h3>Primitive versus virial<a class="headerlink" href="#primitive-versus-virial" title="Link to this heading">#</a></h3>
+<p>Nothing singles out one formula for the energy: any function of the beads whose average
+reproduces the thermodynamic derivative is a legitimate estimator, and differentiating
+<span class="math notranslate nohighlight">\(\ln Z_M\)</span> along two different routes yields two standard, inequivalent ones (both
+derivations appear in Exercise 6; Tuckerman treats the general case):</p>
+<div class="math notranslate nohighlight" id="equation-eq-estimators">
+<span class="eqno">(821)<a class="headerlink" href="#equation-eq-estimators" title="Link to this equation">#</a></span>\[E_{\text{prim}} = \frac{M}{2\beta} - \frac{M}{2\beta^2}\sum_k\langle(\Delta x_k)^2\rangle
++ \Big\langle \overline{V} \Big\rangle,
+\qquad
+E_{\text{vir}} = \Big\langle \overline{\tfrac12 x V'(x) + V(x)} \Big\rangle,\]</div>
+<p>with the bar denoting a bead average. Both are exact at finite <span class="math notranslate nohighlight">\(M\)</span> and target the <em>same</em>
+number <span class="math notranslate nohighlight">\(-\partial_\beta \ln Z_M\)</span>: the primitive comes from differentiating <span class="math notranslate nohighlight">\(\ln Z_M\)</span>
+directly (the <span class="math notranslate nohighlight">\(\beta\)</span>-dependence of prefactor, springs, and potential), the virial from
+rescaling <span class="math notranslate nohighlight">\(x \to \sqrt{\beta}\,u\)</span> so that <span class="math notranslate nohighlight">\(\beta\)</span> survives only inside the potential, then
+differentiating. Equal in expectation, they are <em>not</em> equal in practice: the primitive is
+the difference of two terms that each grow linearly with <span class="math notranslate nohighlight">\(M\)</span> (the <span class="math notranslate nohighlight">\(M/2\beta\)</span> constant and
+the spring sum), and while the means cancel to <span class="math notranslate nohighlight">\(O(1)\)</span>, the <em>fluctuations do not</em>, so its
+per-sample standard deviation grows as <span class="math notranslate nohighlight">\(\sqrt{M}\)</span>. The virial never forms large canceling
+terms and its variance stays flat. Both behaviours are measured below, and the standing
+rule issued: virial for production, primitive for cross-checks.</p>
+</section>
+<section id="where-no-formula-exists">
+<h3>Where no formula exists<a class="headerlink" href="#where-no-formula-exists" title="Link to this heading">#</a></h3>
+<p>The certification study needs two ingredients chosen with care: a target with no
+closed-form solution, and an independent numerical experiment trusted enough to referee.
+Both fit in one line,</p>
+<div class="math notranslate nohighlight" id="equation-eq-quartic">
+<span class="eqno">(822)<a class="headerlink" href="#equation-eq-quartic" title="Link to this equation">#</a></span>\[V(x) = \tfrac12 x^2 + \tfrac12 x^4,
+\qquad \beta = 5 :
+\qquad
+\text{grid ED (Vol VI)} \ \leftrightarrow\ \text{PIMC with the full protocol}.\]</div>
+<p>The harmonic oscillator validated the machinery; it cannot certify the method, because for
+it we never needed Monte Carlo at all. The quartic oscillator has no closed form, so the
+“experiment” is supplied by grid exact diagonalization (the three-point Laplacian and
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code>, Volume VI’s machinery in one reverent line; box and spacing checked
+against the thermal width). PIMC at <span class="math notranslate nohighlight">\(M = 64\)</span> with the full protocol then delivers energy
+and width with honest bars, both budgets quoted. And then the sentence that justifies the
+whole enterprise: the grid dies exponentially with dimension (this resolution is 1500
+points in 1D, <span class="math notranslate nohighlight">\(3\times10^9\)</span> in 3D, hopeless for <span class="math notranslate nohighlight">\(N\)</span> particles), while the polymer’s cost
+grows polynomially. Monte Carlo’s dimension-blindness (<a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html"><span class="std std-doc">§5.7</span></a>), quantum edition; this is why
+liquid helium, not a toy oscillator, is the method’s natural prey.</p>
+</section>
+<section id="horizons">
+<h3>Horizons<a class="headerlink" href="#horizons" title="Link to this heading">#</a></h3>
+<p>Bosonic <strong>exchange</strong> enters as loop reconnection: permutations of identical particles
+connect <span class="math notranslate nohighlight">\(N\)</span> small loops into fewer, longer ones (the braiding flag of <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>), and sampling those
+reconnections alongside the bead moves is full bosonic PIMC. Ceperley’s simulations of
+liquid helium-4 (<em>Rev. Mod. Phys.</em> <strong>67</strong>, 279 (1995)) computed the superfluid fraction
+and a condensate fraction <span class="math notranslate nohighlight">\(\langle N_0\rangle \approx 7\)</span>–<span class="math notranslate nohighlight">\(10\%\)</span> this way, meeting the
+neutron-scattering honesty of <a class="reference internal" href="bose-einstein-condensation.html"><span class="std std-doc">§7.17</span></a> from the theory side. The <strong>sign problem</strong> is the boundary:
+fermionic permutations carry <span class="math notranslate nohighlight">\((-1)^P\)</span>, the weights stop being probabilities, signed
+averages cancel almost completely, and the variance of the ratio explodes exponentially in
+<span class="math notranslate nohighlight">\(\beta N\)</span>. No general cure is known; that is a statement of the field’s honest frontier,
+not a challenge dodged. And <strong>ring-polymer molecular dynamics</strong> runs this same polymer
+with forces instead of coin flips: nuclear quantum effects in production molecular
+simulation, the bridge to the MMM course, in one line.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data and instruments only: the series colours, the notebook’s conventions, the two model
+potentials with their derivatives (<span class="math notranslate nohighlight">\(V = x^2/2\)</span> and the quartic <span class="math notranslate nohighlight">\(V = x^2/2 + x^4/2\)</span> — the
+specimens the sampler is pointed at), the harmonic ring’s Gaussian algebra that supplies
+Rule One’s exact finite-<span class="math notranslate nohighlight">\(M\)</span> targets, the autocorrelation and blocking diagnostics every
+bar is sized by, and the grid exact-diagonalization referee that Exercise 7’s certification
+is run against. The movers this notebook is <em>about</em> are not here: checkerboard single-bead
+Metropolis is built in Exercise 1, and the staging bridge with its sweep driver in
+Exercise 4.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>
+<span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;#c1121f&quot;</span>
+
+<span class="c1"># Conventions: hbar = m = 1; harmonic studies at omega = 1, beta = 2 unless</span>
+<span class="c1"># stated; dtau = beta/M; ring closure x_M = x_0. Each study seeds its own</span>
+<span class="c1"># default_rng (seed stated in place) so every number below is reproducible</span>
+<span class="c1"># in isolation. Sweep definitions: single-bead sweep = one full checkerboard</span>
+<span class="c1"># pass (evens then odds, every bead proposed once); staging sweep = M/L</span>
+<span class="c1"># segment redraws at uniformly random anchors.</span>
+
+
+<span class="c1"># instrument: the harmonic ring&#39;s Gaussian action matrix — reference algebra that</span>
+<span class="c1"># exists here only to manufacture the exact targets below. Nothing in this notebook&#39;s</span>
+<span class="c1"># lesson is built from it; the sampler is what is under test, and this is the referee.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ring_matrix</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The ring polymer&#39;s Gaussian action matrix A (the helper of §7.20, restated).</span>
+
+<span class="sd">    Action (hbar = m = 1): S = (1/2) x^T A x with</span>
+<span class="sd">    A = (M/beta)(2I - S - S^T) + (beta omega^2/M) I, built from a numpy.roll</span>
+<span class="sd">    circulant. The springs stiffen as M/beta — Exercise 3&#39;s villain.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    M : int</span>
+<span class="sd">        Number of beads.</span>
+<span class="sd">    beta : float</span>
+<span class="sd">        Inverse temperature.</span>
+<span class="sd">    omega : float, optional</span>
+<span class="sd">        Oscillator frequency (default 1).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The M × M circulant action matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">M</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">M</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">M</span><span class="p">)</span> <span class="o">-</span> <span class="n">S</span> <span class="o">-</span> <span class="n">S</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">beta</span> <span class="o">*</span> <span class="n">omega</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+
+
+<span class="c1"># instrument: overflow-safe bookkeeping — the same determinant in logs, so that the</span>
+<span class="c1"># exact energy target can be differentiated without float64 giving out. Numerical</span>
+<span class="c1"># plumbing for the referee, not a lesson of any exercise here.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ring_lnZ</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ln Z_M for the harmonic ring polymer, via numpy.linalg.slogdet only.</span>
+
+<span class="sd">    ln Z_M = (M/2) ln(M/beta) - (1/2) ln det A. The raw determinant overflows</span>
+<span class="sd">    float64 near M ~ 300 (§7.20 demonstrated this once); in logs the geometric</span>
+<span class="sd">    factors cancel politely.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    M : int</span>
+<span class="sd">        Beads.</span>
+<span class="sd">    beta : float</span>
+<span class="sd">        Inverse temperature.</span>
+<span class="sd">    omega : float, optional</span>
+<span class="sd">        Frequency (default 1).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        ln Z_M.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sign</span><span class="p">,</span> <span class="n">logdet</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">slogdet</span><span class="p">(</span><span class="n">ring_matrix</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">omega</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">M</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">M</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">logdet</span><span class="p">)</span>
+
+
+<span class="c1"># instrument: Rule One&#39;s target — the number every sampler in this notebook is validated</span>
+<span class="c1"># AGAINST. Handing over the referee is not the same as handing over the method under</span>
+<span class="c1"># test; the whole protocol depends on this value arriving independently of the sampler.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">exact_x2_M</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The exact finite-M bead variance &lt;x^2&gt; = (A^{-1})_00 (numpy.linalg.inv).</span>
+
+<span class="sd">    This is Rule One&#39;s target: at every finite M the harmonic polymer is pure</span>
+<span class="sd">    Gaussian algebra, so the sampler can be validated against a number that is</span>
+<span class="sd">    exact BEFORE it is trusted anywhere else. Converges to coth(beta/2)/2 as</span>
+<span class="sd">    M grows (the curve of §7.5).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    M : int</span>
+<span class="sd">        Beads.</span>
+<span class="sd">    beta : float</span>
+<span class="sd">        Inverse temperature.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The exact finite-M thermal width (A^{-1})_00.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">ring_matrix</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">beta</span><span class="p">))[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+
+<span class="c1"># instrument: the second referee, a central difference on ring_lnZ. Exercise 6&#39;s lesson</span>
+<span class="c1"># is which ESTIMATOR to trust, and an estimator can only be judged against a target it</span>
+<span class="c1"># had no hand in producing — so the target is supplied, and the estimators are not.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">exact_E_M</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The exact finite-M energy E_M = -d(ln Z_M)/d(beta), central difference.</span>
+
+<span class="sd">    Differentiates ring_lnZ numerically with the step stated (1e-5: small</span>
+<span class="sd">    enough that the O(step^2) truncation sits far below the digits quoted,</span>
+<span class="sd">    large enough to stay clear of round-off). Both estimators of Exercise 6</span>
+<span class="sd">    target THIS number. For the harmonic oscillator E_M equals the finite-M</span>
+<span class="sd">    virial combination &lt;x^2&gt;_M exactly — a cross-check gated in Exercise 6.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    M : int</span>
+<span class="sd">        Beads.</span>
+<span class="sd">    beta : float</span>
+<span class="sd">        Inverse temperature.</span>
+<span class="sd">    step : float, optional</span>
+<span class="sd">        Central-difference step in beta (default 1e-5).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        E_M, converging to (1/2) coth(beta/2) as M grows.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">ring_lnZ</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">beta</span> <span class="o">+</span> <span class="n">step</span><span class="p">)</span> <span class="o">-</span> <span class="n">ring_lnZ</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">beta</span> <span class="o">-</span> <span class="n">step</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">step</span><span class="p">))</span>
+
+
+<span class="c1"># instrument: the error-analysis machinery the volume&#39;s Monte Carlo notebooks all borrow —</span>
+<span class="c1"># statistics plumbing on a time series, not this notebook&#39;s physics. Exercise 2&#39;s lesson is</span>
+<span class="c1"># to distrust it and probe it (the window&#39;s stability in c, the blocking creep re-measured</span>
+<span class="c1"># by hand), which is done by exercising the instrument, not by writing it.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">tau_int</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">8.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Integrated autocorrelation time with a self-consistent window.</span>
+
+<span class="sd">    Computes the normalized autocovariance rho(t) via numpy.correlate, then</span>
+<span class="sd">    tau(W) = 1/2 + sum_{t=1..W} rho(t), and returns tau at the SMALLEST window</span>
+<span class="sd">    W with W &gt;= c*tau(W) (Sokal&#39;s self-consistent criterion). The constant c</span>
+<span class="sd">    is this notebook&#39;s scar tissue: a c = 6 window once clipped a slow tail,</span>
+<span class="sd">    shrank the bars, and manufactured a phantom 2.5 sigma bias. Mandate: c &gt;= 8,</span>
+<span class="sd">    and check stability against c = 6 and 10 before trusting (Exercise 2).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    series : array_like</span>
+<span class="sd">        Time series of a scalar observable (one value per sweep).</span>
+<span class="sd">    c : float, optional</span>
+<span class="sd">        Window constant (default 8).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tau : float</span>
+<span class="sd">        Integrated autocorrelation time, in sweeps.</span>
+<span class="sd">    W : int</span>
+<span class="sd">        The window actually used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">acf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">correlate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">)[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">:]</span>
+    <span class="n">acf</span> <span class="o">=</span> <span class="n">acf</span> <span class="o">/</span> <span class="n">acf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">taus</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">acf</span><span class="p">[</span><span class="mi">1</span> <span class="p">:</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="n">W_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">taus</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ok</span> <span class="o">=</span> <span class="n">W_arr</span> <span class="o">&gt;=</span> <span class="n">c</span> <span class="o">*</span> <span class="n">taus</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">taus</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">W_arr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">W_arr</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">ok</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">taus</span><span class="p">[</span><span class="n">W</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">W</span>
+
+
+<span class="c1"># instrument: the same machinery, packaged at the standing block length. Exercise 2 earns</span>
+<span class="c1"># that length by re-doing the blocking itself across 4, 8, 16, 32 tau; this wrapper only</span>
+<span class="c1"># freezes the answer so the later exercises need not repeat the argument.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">blocked_error</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">tau</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Blocking error bar with block length 16*tau (numpy.array_split).</span>
+
+<span class="sd">    Block means become independent only when blocks are MUCH longer than tau;</span>
+<span class="sd">    Exercise 2 measures the residual creep of the bar with block length and</span>
+<span class="sd">    finds it stabilizes near 16*tau, which is therefore the standing choice.</span>
+<span class="sd">    The bar is std(block means)/sqrt(n_blocks).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    series : array_like</span>
+<span class="sd">        Time series (post-equilibration).</span>
+<span class="sd">    tau : float</span>
+<span class="sd">        Integrated autocorrelation time of the series, from tau_int.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    err : float</span>
+<span class="sd">        The one-sigma error bar on the series mean.</span>
+<span class="sd">    n_blocks : int</span>
+<span class="sd">        Number of blocks used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">ell</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="mf">16.0</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)))</span>
+    <span class="n">nblocks</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="n">ell</span><span class="p">)</span>
+    <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="n">nblocks</span><span class="p">)</span> <span class="o">*</span> <span class="n">nblocks</span><span class="p">],</span> <span class="n">nblocks</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nblocks</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">nblocks</span><span class="p">)</span>
+
+
+<span class="c1"># data: the two model potentials this notebook samples, transcribed from the text with</span>
+<span class="c1"># their derivatives (the virial estimator needs V&#39;). These are the specimens handed to</span>
+<span class="c1"># the sampler — the given inputs the results are written in terms of, not machinery.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">V_harm</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Harmonic potential V = x^2/2 (omega = 1).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+
+
+<span class="c1"># data: the harmonic force term.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dV_harm</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Harmonic force term V&#39;(x) = x.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+
+<span class="c1"># data: the quartic specimen of Eq. eq-quartic — chosen because no closed form exists.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">V_quart</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Quartic oscillator V = x^2/2 + x^4/2 — Exercise 7&#39;s closed-form-free target.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">4</span>
+
+
+<span class="c1"># data: its derivative.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dV_quart</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Quartic derivative V&#39;(x) = x + 2 x^3.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span>
+
+
+<span class="c1"># built from scratch in §6.10; restated here as an instrument.</span>
+<span class="c1"># (The three-point Laplacian is that notebook&#39;s Exercise 1 and the eigh solve its</span>
+<span class="c1"># Exercise 2; here the pair is the independent experiment PIMC is certified against.)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">grid_ed</span><span class="p">(</span><span class="n">Vfun</span><span class="p">,</span> <span class="n">half_box</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Grid exact diagonalization: three-point Laplacian + numpy.linalg.eigh.</span>
+
+<span class="sd">    Volume VI&#39;s machinery in one function: H = -(1/2) d^2/dx^2 + V on a</span>
+<span class="sd">    uniform grid of N points spanning [-half_box, half_box], the Laplacian</span>
+<span class="sd">    discretized to second order. Supplies the independent &#39;experiment&#39; for</span>
+<span class="sd">    Exercise 7; box and spacing adequacy are checked in place against the</span>
+<span class="sd">    thermal width (the nmax discipline of §7.9, once more).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Vfun : callable</span>
+<span class="sd">        Potential, vectorized.</span>
+<span class="sd">    half_box : float</span>
+<span class="sd">        Half-width of the box.</span>
+<span class="sd">    N : int</span>
+<span class="sd">        Number of grid points.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xg : numpy.ndarray</span>
+<span class="sd">        Grid.</span>
+<span class="sd">    E : numpy.ndarray</span>
+<span class="sd">        Eigenvalues, ascending.</span>
+<span class="sd">    U : numpy.ndarray</span>
+<span class="sd">        Eigenvectors as columns (grid-normalized: sum U^2 = 1).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">xg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">half_box</span><span class="p">,</span> <span class="n">half_box</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">xg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">off</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">lap</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">off</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">off</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="o">/</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">E</span><span class="p">,</span> <span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">lap</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">Vfun</span><span class="p">(</span><span class="n">xg</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">xg</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">U</span>
+
+
+<span class="c1"># instrument: Boltzmann bookkeeping on top of the grid-ED eigenpairs (ground-shifted</span>
+<span class="c1"># weights, truncation checked) — the last step of building the referee, and no more the</span>
+<span class="c1"># lesson than the diagonalization it reads.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ed_thermal</span><span class="p">(</span><span class="n">xg</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">nkeep</span><span class="o">=</span><span class="mi">80</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thermal E(beta) and &lt;x^2&gt;(beta) from grid-ED eigenpairs.</span>
+
+<span class="sd">    Boltzmann weights are ground-shifted (e^{-beta(E_n - E_0)}) so nothing</span>
+<span class="sd">    underflows, truncated at nkeep states with the truncation checked by the</span>
+<span class="sd">    weight of the last state kept.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xg, E, U : numpy.ndarray</span>
+<span class="sd">        Output of grid_ed.</span>
+<span class="sd">    beta : float</span>
+<span class="sd">        Inverse temperature.</span>
+<span class="sd">    nkeep : int, optional</span>
+<span class="sd">        Number of eigenstates kept (default 80).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Eth : float</span>
+<span class="sd">        Thermal energy.</span>
+<span class="sd">    x2th : float</span>
+<span class="sd">        Thermal width &lt;x^2&gt;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta</span> <span class="o">*</span> <span class="p">(</span><span class="n">E</span><span class="p">[:</span><span class="n">nkeep</span><span class="p">]</span> <span class="o">-</span> <span class="n">E</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/</span> <span class="n">w</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">Eth</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">E</span><span class="p">[:</span><span class="n">nkeep</span><span class="p">]))</span>
+    <span class="n">x2th</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">((</span><span class="n">U</span><span class="p">[:,</span> <span class="p">:</span><span class="n">nkeep</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">xg</span><span class="o">**</span><span class="mi">2</span><span class="p">))))</span>
+    <span class="k">return</span> <span class="n">Eth</span><span class="p">,</span> <span class="n">x2th</span>
+
+
+<span class="n">BETA</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exact finite-M targets at beta = 2 (Rule One&#39;s family):&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">M_t</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;  M = </span><span class="si">{</span><span class="n">M_t</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">:  &lt;x2&gt;_M = </span><span class="si">{</span><span class="n">exact_x2_M</span><span class="p">(</span><span class="n">M_t</span><span class="p">,</span><span class="w"> </span><span class="n">BETA</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">   &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;E_M = </span><span class="si">{</span><span class="n">exact_E_M</span><span class="p">(</span><span class="n">M_t</span><span class="p">,</span><span class="w"> </span><span class="n">BETA</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  continuum (the coth of §7.5): </span><span class="si">{</span><span class="mf">0.5</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">BETA</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>exact finite-M targets at beta = 2 (Rule One&#39;s family):
+  M =  8:  &lt;x2&gt;_M = 0.652380   E_M = 0.652380
+  M = 16:  &lt;x2&gt;_M = 0.655474   E_M = 0.655474
+  M = 32:  &lt;x2&gt;_M = 0.656256   E_M = 0.656256
+  M = 64:  &lt;x2&gt;_M = 0.656452   E_M = 0.656452
+  continuum (the coth of §7.5): 0.656518
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-the-license-put-to-work-the-protocol-declared">
+<h2>Exercise 1 — The license, put to work; the protocol declared<a class="headerlink" href="#exercise-1-the-license-put-to-work-the-protocol-declared" title="Link to this heading">#</a></h2>
+<p>Metropolis meets the polymer, and the rules of trust are stated before any number is
+believed. Cite <a class="reference internal" href="#equation-eq-pimc-license">Eq. 815</a>, <a class="reference internal" href="#equation-eq-single-bead">Eq. 816</a>.</p>
+<ol class="arabic simple">
+<li><p>Restate the polymer weight (<a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>) and argue its positivity (the boson/distinguishable
+license, with the fermionic exception flagged for the close); state the three-rule
+protocol in prose.</p></li>
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">pimc_single_bead(M,</span> <span class="pre">beta,</span> <span class="pre">V,</span> <span class="pre">dV,</span> <span class="pre">nsweep,</span> <span class="pre">delta,</span> <span class="pre">rng)</span></code>, the checkerboard-vectorized
+single-bead mover: one sweep displaces every bead by <span class="math notranslate nohighlight">\(\delta\,U(-1,1)\)</span>, evens then odds,
+accepting each with <span class="math notranslate nohighlight">\(\min(1, e^{-\Delta S})\)</span> from <a class="reference internal" href="#equation-eq-single-bead">Eq. 816</a> (clip the exponent
+to <span class="math notranslate nohighlight">\([-50, 50]\)</span> so no exponential overflows), and it records per sweep the bead-averaged
+width <span class="math notranslate nohighlight">\(\langle x^2\rangle\)</span>, both energy estimators of <a class="reference internal" href="#equation-eq-estimators">Eq. 821</a>, and the
+acceptance fraction. Give the even/odd validity argument in one line, tune <span class="math notranslate nohighlight">\(\delta\)</span> for
+reasonable acceptance and report it (<code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng(7211)</span></code>).
+<strong>Write this one yourself</strong> — the implementation is the lesson.</p></li>
+<li><p>Validate against the exact finite-<span class="math notranslate nohighlight">\(M\)</span> target: the sampled <span class="math notranslate nohighlight">\(\langle x^2\rangle\)</span> with its
+blocking bar against <span class="math notranslate nohighlight">\((A^{-1})_{00}\)</span> from <code class="docutils literal notranslate"><span class="pre">exact_x2_M(16,</span> <span class="pre">2.0)</span></code>, at <span class="math notranslate nohighlight">\(M = 16\)</span>,
+<span class="math notranslate nohighlight">\(\beta = 2\)</span>; the sampler earns provisional trust.</p></li>
+<li><p>Report the price honestly (the measured <span class="math notranslate nohighlight">\(\tau_{\mathrm{int}}\)</span> in sweeps, from
+<code class="docutils literal notranslate"><span class="pre">tau_int</span></code>) and pose the question Exercise 3 answers: what happens to this price as
+<span class="math notranslate nohighlight">\(M\)</span> grows?</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>single-bead M = 16, beta = 2.0: 100000 sweeps, cut 4000, delta = 0.5
+acceptance = 0.630
+&lt;x2&gt; = 0.6238 ± 0.0348   exact (A^-1)_00 = 0.6555   pull -0.91 sigma
+the price: tau_int = 141 sweeps (window W = 1125, 42 blocks)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  first trust: the sampler meets an exact target within three bars   [got 0.623791 vs expected 0.655474 (rtol=1e-06, atol=0.1045)]
+✓  the tuned mover proposes usefully (acceptance neither frozen nor diffusive)   [acceptance 0.630 at delta = 0.5]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">With your assistant</p>
+<p>The trust protocol of Exercise 1 extends verbatim to code you did not write:
+if your assistant generates a path sampler — a different move set, a different
+update order — it enters this notebook the same way ours did, by reproducing
+the exact finite-<span class="math notranslate nohighlight">\(M\)</span> answer on the harmonic oscillator before it is allowed
+near any system without one. Whoever wrote the sampler, the certification
+step is not optional, and the check is yours.</p>
+</div>
+</section>
+</section>
+<section id="exercise-2-error-bars-or-it-didn-t-happen">
+<h2>Exercise 2 — Error bars or it didn’t happen<a class="headerlink" href="#exercise-2-error-bars-or-it-didn-t-happen" title="Link to this heading">#</a></h2>
+<p>The disciplines of <a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a> at full strength, including the cautionary tale this notebook’s own
+construction supplied. Cite <a class="reference internal" href="#equation-eq-diagnostics">Eq. 817</a>.</p>
+<ol class="arabic simple">
+<li><p>Show the <span class="math notranslate nohighlight">\(\langle x^2\rangle\)</span> trace from the cold start; mark and apply the
+equilibration cut.</p></li>
+<li><p>Probe the Setup’s <code class="docutils literal notranslate"><span class="pre">tau_int</span></code> instrument: compare <span class="math notranslate nohighlight">\(\tau(c)\)</span> for <span class="math notranslate nohighlight">\(c = 6, 8, 10\)</span> before
+trusting any of them, and earn <code class="docutils literal notranslate"><span class="pre">blocked_error</span></code>’s standing block length by doing the
+blocking yourself at <span class="math notranslate nohighlight">\(4\tau, 8\tau, 16\tau, 32\tau\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.array_split</span></code>) and reading
+where the bar stops creeping.</p></li>
+<li><p>Tell the true story: a <span class="math notranslate nohighlight">\(6\tau\)</span> window clipped a slow tail, honest staging data looked
+<span class="math notranslate nohighlight">\(2.5\sigma\)</span> biased, the bridge tested exact in isolation, and the bars were the
+culprit; state the moral.</p></li>
+<li><p>Issue the reporting rule (prose): every stochastic number in this course carries a bar,
+the bar carries a <span class="math notranslate nohighlight">\(\tau\)</span>, and the <span class="math notranslate nohighlight">\(\tau\)</span> carries a window check, no exceptions.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>window stability: tau(c=6) = 155.1   tau(c=8) = 140.6   tau(c=10) = 132.9
+spread 1.17x — estimator noise, not factor-level clipping
+blocking creep: bar(4tau) = 0.0332   bar(8tau) = 0.0356   bar(16tau) = 0.0357   bar(32tau) = 0.0334
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-pimc-diagnostics">
+<img alt="../../_images/56605e0775c51a240a25d80fbc3dd17e84633b366ad9c05518258ae10ed966c8.png" src="../../_images/56605e0775c51a240a25d80fbc3dd17e84633b366ad9c05518258ae10ed966c8.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 720 </span><span class="caption-text">Bars that can be trusted. <strong>Left:</strong> the <span class="math notranslate nohighlight">\(\langle x^2\rangle\)</span> trace of Exercise 1’s run from its cold start (<span class="math notranslate nohighlight">\(x = 0\)</span>), with the equilibration cut (dashed) at 4000 sweeps; everything left of the cut is discarded. <strong>Middle:</strong> the normalized autocorrelation <span class="math notranslate nohighlight">\(\rho(t)\)</span> of the kept series, with the self-consistent window <span class="math notranslate nohighlight">\(W \ge 8\tau\)</span> marked (dotted): summing to a fixed small cutoff instead is how slow tails get clipped and bars get flattered. <strong>Right:</strong> the blocking bar against block length in units of <span class="math notranslate nohighlight">\(\tau\)</span>; the bar creeps upward while blocks remain correlated and stabilizes near <span class="math notranslate nohighlight">\(16\tau\)</span>, which is the standing block length (<a class="reference internal" href="#equation-eq-diagnostics">Eq. 817</a>). The <span class="math notranslate nohighlight">\(2.5\sigma\)</span> cautionary tale lived exactly here: a <span class="math notranslate nohighlight">\(6\tau\)</span> window, a clipped tail, and honest data that looked biased.</span><a class="headerlink" href="#fig-pimc-diagnostics" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  bars that can be trusted: window stable in c, blocking bar stable past 16 tau   [tau spread 1.17x, bar(32tau)/bar(16tau) = 0.93]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-the-stiffening-problem-measured">
+<h2>Exercise 3 — The stiffening problem, measured<a class="headerlink" href="#exercise-3-the-stiffening-problem-measured" title="Link to this heading">#</a></h2>
+<p>Local moves drown as the continuum approaches. Cite <a class="reference internal" href="#equation-eq-stiffening">Eq. 818</a>.</p>
+<ol class="arabic simple">
+<li><p>Run the <code class="docutils literal notranslate"><span class="pre">pimc_single_bead</span></code> you wrote in Exercise 1 at <span class="math notranslate nohighlight">\(M = 16\)</span> and <span class="math notranslate nohighlight">\(M = 64\)</span> at the
+<em>same</em> step <span class="math notranslate nohighlight">\(\delta = 0.5\)</span>
+(tuned once at <span class="math notranslate nohighlight">\(M = 16\)</span>; holding it fixed isolates the <span class="math notranslate nohighlight">\(M\)</span>-dependence, and the falling
+acceptance is itself part of the diagnosis) and measure <span class="math notranslate nohighlight">\(\tau_{\mathrm{int}}\)</span> for both
+with <code class="docutils literal notranslate"><span class="pre">tau_int</span></code>.</p></li>
+<li><p>Diagnose (prose plus one formula): springs stiffen as <span class="math notranslate nohighlight">\(M/\beta\)</span>, acceptable steps
+shrink as <span class="math notranslate nohighlight">\(\sqrt{\beta/M}\)</span>, and each bead’s random walk slows accordingly.</p></li>
+<li><p>Connect in one breath: critical slowing’s cousin (<a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html"><span class="std std-doc">§5.10</span></a>), local updates against a
+diverging stiffness; the generic fate stated.</p></li>
+<li><p>Pose the cure’s requirement: a move that respects the springs exactly; the next
+exercise builds it.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>M = 16: acceptance 0.630   tau_int = 179 sweeps   (100000 sweeps run)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>M = 64: acceptance 0.390   tau_int = 1061 sweeps   (240000 sweeps run)
+the stiffening problem: tau grows 5.9x from M = 16 to 64
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the stiffening problem, quantified: tau climbs strongly with M for local updates   [tau 179 -&gt; 1061 sweeps (5.9x), acceptance 0.63 -&gt; 0.39]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-staging-exact-brownian-bridges-centerpiece">
+<h2>Exercise 4 — Staging: exact Brownian bridges (centerpiece)<a class="headerlink" href="#exercise-4-staging-exact-brownian-bridges-centerpiece" title="Link to this heading">#</a></h2>
+<p>Sample the springs exactly, accept on the potential, and learn which mode was actually
+slow. A segment of the ring whose endpoints are held fixed carries a purely Gaussian
+spring action, and conditionals of a Gaussian are Gaussian: bead by bead, the interior
+can be drawn from its own exact distribution, so the springs never reach the acceptance
+test at all and Metropolis is left arbitrating the potential alone. Cite
+<a class="reference internal" href="#equation-eq-staging">Eq. 819</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive the bridge conditionals by precision weighting (two lines in the solution):
+mean <span class="math notranslate nohighlight">\((r\,x_{\text{prev}} + x_R)/(r+1)\)</span>, variance <span class="math notranslate nohighlight">\(\delta\tau\,r/(r+1)\)</span>.</p></li>
+<li><p>Write the mover this derivation licenses: <code class="docutils literal notranslate"><span class="pre">staging_move(x,</span> <span class="pre">j,</span> <span class="pre">L,</span> <span class="pre">dt,</span> <span class="pre">V,</span> <span class="pre">rng)</span></code>, which
+redraws the <span class="math notranslate nohighlight">\(L-1\)</span> interior beads of the segment anchored at <span class="math notranslate nohighlight">\(j\)</span> from those conditionals
+(ring indices mod <span class="math notranslate nohighlight">\(M\)</span>) and accepts on <span class="math notranslate nohighlight">\(\Delta S_{\text{pot}} = \delta\tau\sum[V_{\text{new}} - V_{\text{old}}]\)</span>
+alone — outright if it is negative, otherwise against <span class="math notranslate nohighlight">\(e^{-\Delta S}\)</span> with the exponent
+capped at 50; and its sweep driver <code class="docutils literal notranslate"><span class="pre">pimc_staging(M,</span> <span class="pre">beta,</span> <span class="pre">V,</span> <span class="pre">dV,</span> <span class="pre">nsweep,</span> <span class="pre">L,</span> <span class="pre">rng)</span></code>,
+one sweep being <span class="math notranslate nohighlight">\(M/L\)</span> redraws at uniformly random anchors, recording the same per-sweep
+series as the Exercise 1 mover. <strong>Write these yourself</strong> — the implementation is the
+lesson.</p></li>
+<li><p>Verify the bridge in isolation (the diagnosis’s decisive test): interior means against
+the straight line between endpoints and variances against the exact
+<span class="math notranslate nohighlight">\(\delta\tau\,k(L-k)/L\)</span>, from <span class="math notranslate nohighlight">\(4\times10^5\)</span> bridge draws
+(<code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng(7214)</span></code>).</p></li>
+<li><p>Measure the cure with <code class="docutils literal notranslate"><span class="pre">pimc_staging</span></code> at <span class="math notranslate nohighlight">\(M = 64\)</span>: acceptance near one, and the
+centroid lesson — <span class="math notranslate nohighlight">\(\tau_{\mathrm{int}}\)</span> at <span class="math notranslate nohighlight">\(L = M/4\)</span> versus <span class="math notranslate nohighlight">\(L = M/2\)</span>
+(<code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng(7215)</span></code> for each run; the whole-ring displacement move named
+as the standard alternative).</p></li>
+<li><p>Re-validate against the exact finite-<span class="math notranslate nohighlight">\(M\)</span> target with honest bars and state the design
+rule (prose): smart moves are exact where the action is Gaussian and humble where it
+is not.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bridge in isolation (400000 draws, L = 8, dtau = 0.125):
+  interior means on the straight line to 1.5e-03 (absolute)
+  variances on dtau*k(L-k)/L to 2.7e-03 (relative)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>staging M = 64, L = 16: acceptance 0.964   tau_int = 22.6 sweeps   &lt;x2&gt; = 0.6605 ± 0.0241
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>staging M = 64, L = 32: acceptance 0.903   tau_int = 7.5 sweeps   &lt;x2&gt; = 0.6437 ± 0.0137
+the centroid lesson: L = M/4 leaves tau 3.0x larger than L = M/2
+staging vs exact: 0.6437 ± 0.0137 against (A^-1)_00 = 0.6565   pull -0.93 sigma
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-pimc-staging-walk">
+<img alt="../../_images/0c88e26fd26914badaf0af69d0b5e14146291fbf7c69701045a1be2407d369fc.png" src="../../_images/0c88e26fd26914badaf0af69d0b5e14146291fbf7c69701045a1be2407d369fc.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 721 </span><span class="caption-text">The polymer, walking. Eight consecutive stored configurations of the <span class="math notranslate nohighlight">\(M = 64\)</span>, <span class="math notranslate nohighlight">\(\beta = 2\)</span> ring polymer under staging moves with <span class="math notranslate nohighlight">\(L = M/2\)</span> (light to dark: Monte Carlo time), plotted as bead position against imaginary-time index <span class="math notranslate nohighlight">\(k\,\delta\tau\)</span>. Each move redraws half the ring by an exact Brownian bridge (<a class="reference internal" href="#equation-eq-staging">Eq. 819</a>), so successive shapes differ globally, not bead by bead: the walk explores whole polymer conformations at once, which is exactly why its autocorrelation time is sweeps, not hundreds of sweeps. The vertical spread of any single loop is the thermal width <span class="math notranslate nohighlight">\(\sqrt{\langle x^2\rangle} \approx 0.8\)</span>; <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> identified this loop size with the thermal de Broglie wavelength.</span><a class="headerlink" href="#fig-pimc-staging-walk" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the bridge, exact in isolation: variances on dtau*k(L-k)/L   [max|Δ| = 0.000340056 (rtol=0.03, atol=1e-09)]
+✓  and its means on the straight line between endpoints   [max gap 1.5e-03]
+✓  staging trusted, centroid tamed: exact target met with honest bars   [got 0.643749 vs expected 0.656452 (rtol=1e-06, atol=0.040964)]
+✓  acceptance near one at both L; the centroid lesson measured   [acc 0.96/0.90, tau ratio 3.0x]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-two-budgets-separated">
+<h2>Exercise 5 — Two budgets, separated<a class="headerlink" href="#exercise-5-two-budgets-separated" title="Link to this heading">#</a></h2>
+<p>The <span class="math notranslate nohighlight">\(M\)</span>-ladder with bars: each rung checked against its own exact value, the ladder
+converging on <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>. Cite <a class="reference internal" href="#equation-eq-two-budgets">Eq. 820</a>.</p>
+<ol class="arabic simple">
+<li><p>Run the ladder <span class="math notranslate nohighlight">\(M = 8, 16, 32, 64\)</span> with the <code class="docutils literal notranslate"><span class="pre">pimc_staging</span></code> you wrote in Exercise 4, at
+<span class="math notranslate nohighlight">\(L = M/2\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng(7100</span> <span class="pre">+</span> <span class="pre">M)</span></code> per rung), and compare each rung’s
+<span class="math notranslate nohighlight">\(\langle x^2\rangle\)</span> with blocking bars against its exact <code class="docutils literal notranslate"><span class="pre">exact_x2_M(M,</span> <span class="pre">2.0)</span></code>.</p></li>
+<li><p>Exhibit the two budgets: statistical (the bars) versus Trotter (the rung-to-limit
+distances, falling as <span class="math notranslate nohighlight">\(1/M^2\)</span>, the trace theorem of <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> recalled in one line); estimate
+each share at <span class="math notranslate nohighlight">\(M = 64\)</span>.</p></li>
+<li><p>Say the rendezvous aloud (prose): <span class="math notranslate nohighlight">\(\tfrac12\coth(\beta/2)\)</span> computed by ladder
+operators (<a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>), by Gaussian determinants (<a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>), and now by coin flips.</p></li>
+<li><p>Issue the reporting rule (prose): stochastic-plus-discretized results quote both
+budgets, always separately; conflated budgets are how wrong numbers acquire
+confidence.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>M =  8: &lt;x2&gt; = 0.6464 ± 0.0098   exact 0.6524   pull -0.61 sigma   (acc 0.91, tau 9)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>M = 16: &lt;x2&gt; = 0.6722 ± 0.0116   exact 0.6555   pull +1.44 sigma   (acc 0.90, tau 11)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>M = 32: &lt;x2&gt; = 0.6527 ± 0.0103   exact 0.6563   pull -0.34 sigma   (acc 0.90, tau 9)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>M = 64: &lt;x2&gt; = 0.6777 ± 0.0108   exact 0.6565   pull +1.97 sigma   (acc 0.90, tau 9)
+
+statistical budget at M = 64: ± 0.0108 (the blocking bar)
+Trotter budget at M = 64: 6.5e-05 (exact rung to coth limit)
+Trotter distances fall per doubling by 4.0x, 4.0x, 4.0x  (1/M^2: the trace theorem of §7.20, at work)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-pimc-tau-vs-m">
+<img alt="../../_images/c4d1d1a5e1b77a5d4bd238ac03ad00905309d9acb1818d79f103b404fd154009.png" src="../../_images/c4d1d1a5e1b77a5d4bd238ac03ad00905309d9acb1818d79f103b404fd154009.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 722 </span><span class="caption-text">The stiffening, and the cure. Integrated autocorrelation time against bead number <span class="math notranslate nohighlight">\(M\)</span> for the two movers (log-log). Single-bead Metropolis at fixed <span class="math notranslate nohighlight">\(\delta\)</span> (dark) climbs by a factor of six from <span class="math notranslate nohighlight">\(M = 16\)</span> to <span class="math notranslate nohighlight">\(64\)</span> as the springs stiffen (<a class="reference internal" href="#equation-eq-stiffening">Eq. 818</a>): local updates drowning near the continuum limit, the critical slowing of <a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html"><span class="std std-doc">§5.10</span></a> one dimension over. Staging with <span class="math notranslate nohighlight">\(L = M/2\)</span> (amber) stays flat at a few sweeps across the whole ladder, because the bridge samples the stiffening springs exactly and Metropolis pays only for the potential; the hollow amber point is staging with the too-short bridge <span class="math notranslate nohighlight">\(L = M/4\)</span> at <span class="math notranslate nohighlight">\(M = 64\)</span>, three times slower despite 96% acceptance — the centroid lesson: acceptance is not efficiency, and the move must reach the slow mode.</span><a class="headerlink" href="#fig-pimc-tau-vs-m" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-pimc-ladder">
+<img alt="../../_images/28cdfd0c7b4176fc78932abf501711e897ce59821dee3c0e62719931db162708.png" src="../../_images/28cdfd0c7b4176fc78932abf501711e897ce59821dee3c0e62719931db162708.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 723 </span><span class="caption-text">Two budgets, separated. The <span class="math notranslate nohighlight">\(M\)</span>-ladder of sampled thermal widths <span class="math notranslate nohighlight">\(\langle x^2\rangle\)</span> at <span class="math notranslate nohighlight">\(\beta = 2\)</span> (amber points, blocking bars), each rung’s exact finite-<span class="math notranslate nohighlight">\(M\)</span> Gaussian value <span class="math notranslate nohighlight">\((A^{-1})_{00}\)</span> marked (dark dashes), and the continuum <span class="math notranslate nohighlight">\(\tfrac12\coth(\beta/2)\)</span> of <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> as the horizontal line. Every rung agrees with <strong>its own</strong> exact value within bars: that is the statistical budget doing its job (<a class="reference internal" href="#equation-eq-two-budgets">Eq. 820</a>). The dashes climb onto the coth line as <span class="math notranslate nohighlight">\(1/M^2\)</span>: that is the Trotter budget, the trace theorem of <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> at work, and it has nothing to do with the sampler. At <span class="math notranslate nohighlight">\(M = 64\)</span> the Trotter share (<span class="math notranslate nohighlight">\(\sim 7\times10^{-5}\)</span>) sits two orders below the statistical bar: this run is statistics-limited. The coth value itself arrives here for the third time — ladder operators (<a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>), Gaussian determinants (<a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>), coin flips (now, with bars).</span><a class="headerlink" href="#fig-pimc-ladder" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  rung M = 8 agrees with its own exact finite-M value   [got 0.646442 vs expected 0.65238 (rtol=1e-06, atol=0.0292579)]
+✓  rung M = 16 agrees with its own exact finite-M value   [got 0.6722 vs expected 0.655474 (rtol=1e-06, atol=0.0348452)]
+✓  rung M = 32 agrees with its own exact finite-M value   [got 0.652731 vs expected 0.656256 (rtol=1e-06, atol=0.0308093)]
+✓  rung M = 64 agrees with its own exact finite-M value   [got 0.677653 vs expected 0.656452 (rtol=1e-06, atol=0.0323457)]
+✓  and the Trotter distances fall as 1/M^2 (the trace theorem of §7.20)   [max|Δ| = 0.0348884 (rtol=0.08, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-student-primitive-versus-virial">
+<h2>Exercise 6 — (STUDENT) Primitive versus virial<a class="headerlink" href="#exercise-6-student-primitive-versus-virial" title="Link to this heading">#</a></h2>
+<p>Two unbiased estimators, one pathology, measured. Cite <a class="reference internal" href="#equation-eq-estimators">Eq. 821</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive both estimators (the primitive by <span class="math notranslate nohighlight">\(-\partial_\beta \ln Z_M\)</span>; the virial by the
+rescaling <span class="math notranslate nohighlight">\(x \to \sqrt{\beta}\,u\)</span> and then <span class="math notranslate nohighlight">\(-\partial_\beta\)</span>); both are recorded per
+sweep by your Exercise 4 <code class="docutils literal notranslate"><span class="pre">pimc_staging</span></code> as <code class="docutils literal notranslate"><span class="pre">eprim</span></code> and <code class="docutils literal notranslate"><span class="pre">evir</span></code>.</p></li>
+<li><p>Verify both against the exact finite-<span class="math notranslate nohighlight">\(M\)</span> energy from <code class="docutils literal notranslate"><span class="pre">exact_E_M(M,</span> <span class="pre">2.0)</span></code> (the central
+difference of the <code class="docutils literal notranslate"><span class="pre">slogdet</span></code> formula of <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>, step <span class="math notranslate nohighlight">\(10^{-5}\)</span>), on the Exercise 5 runs.</p></li>
+<li><p>Measure the pathology: the per-sample standard deviation of <span class="math notranslate nohighlight">\(E_{\text{prim}}\)</span> against
+<span class="math notranslate nohighlight">\(M = 8 \to 64\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.std</span></code>) versus the flat <span class="math notranslate nohighlight">\(E_{\text{vir}}\)</span>; explain (two <span class="math notranslate nohighlight">\(O(M)\)</span>
+terms canceling in the mean but not in the fluctuations).</p></li>
+<li><p>Issue the rule (prose): virial for production, primitive for cross-checks; estimators
+equal in expectation are not equal in practice, and choosing observables is part of
+the method.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>both estimators vs exact E_M = -d(lnZ_M)/d(beta) (per-rung, Exercise 5&#39;s runs):
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  M =  8: E_prim = 0.6408 ± 0.0060   E_vir = 0.6464 ± 0.0098   exact 0.6524   |   sd_prim 0.93   sd_vir 0.71
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  M = 16: E_prim = 0.6570 ± 0.0076   E_vir = 0.6722 ± 0.0116   exact 0.6555   |   sd_prim 1.37   sd_vir 0.75
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  M = 32: E_prim = 0.6557 ± 0.0098   E_vir = 0.6527 ± 0.0103   exact 0.6563   |   sd_prim 1.97   sd_vir 0.73
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  M = 64: E_prim = 0.6783 ± 0.0131   E_vir = 0.6777 ± 0.0108   exact 0.6565   |   sd_prim 2.78   sd_vir 0.74
+harmonic identity E_M = &lt;x2&gt;_M: gap 1.3e-09
+sd(E_prim): 0.93 -&gt; 2.78 (3.0x across M = 8 -&gt; 64)   sd(E_vir): 0.71 -&gt; 0.74 (1.1x)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-pimc-estimators">
+<img alt="../../_images/00a9de871b18f989f5959d345713ec2f8540017f9276a6c6aad425948e10aee3.png" src="../../_images/00a9de871b18f989f5959d345713ec2f8540017f9276a6c6aad425948e10aee3.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 724 </span><span class="caption-text">One target, two variances. Per-sweep histograms of the primitive (dark) and virial (amber) energy estimators on the same staging runs at <span class="math notranslate nohighlight">\(M = 8\)</span> (left) and <span class="math notranslate nohighlight">\(M = 64\)</span> (right), <span class="math notranslate nohighlight">\(\beta = 2\)</span>; the dashed line is the exact finite-<span class="math notranslate nohighlight">\(M\)</span> energy <span class="math notranslate nohighlight">\(-\partial_\beta \ln Z_M\)</span>, and both estimators average onto it at every <span class="math notranslate nohighlight">\(M\)</span> (<a class="reference internal" href="#equation-eq-estimators">Eq. 821</a>). But the primitive’s distribution is the difference of two terms whose size grows linearly with <span class="math notranslate nohighlight">\(M\)</span>: its per-sample spread grows as <span class="math notranslate nohighlight">\(\sqrt{M}\)</span> (<span class="math notranslate nohighlight">\(0.9 \to 2.8\)</span> here) while the virial’s stays flat (<span class="math notranslate nohighlight">\(\approx 0.7\)</span>). Equal in expectation is not equal in practice: at large <span class="math notranslate nohighlight">\(M\)</span> the primitive carries an order of magnitude larger per-sample variance — the standing rule is virial for production, primitive for cross-checks.</span><a class="headerlink" href="#fig-pimc-estimators" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the primitive estimator meets the exact target at M = 8   [got 0.640826 vs expected 0.65238 (rtol=1e-06, atol=0.0180733)]
+✓  and the virial estimator meets the same target at M = 8   [got 0.646442 vs expected 0.65238 (rtol=1e-06, atol=0.0292579)]
+✓  the primitive estimator meets the exact target at M = 64   [got 0.678286 vs expected 0.656452 (rtol=1e-06, atol=0.0394282)]
+✓  and the virial estimator meets the same target at M = 64   [got 0.677653 vs expected 0.656452 (rtol=1e-06, atol=0.0323457)]
+✓  the variance pathology, measured: primitive grows with M, virial stays flat   [sd_prim x3.0, sd_vir x1.1 across M = 8 -&gt; 64]
+✓  harmonic cross-check: exact finite-M energy equals finite-M width (virial identity)   [gap 1.3e-09]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-where-no-formula-exists-centerpiece">
+<h2>Exercise 7 — Where no formula exists (centerpiece)<a class="headerlink" href="#exercise-7-where-no-formula-exists-centerpiece" title="Link to this heading">#</a></h2>
+<p>An oscillator with no closed form: PIMC versus grid ED, with the full protocol. Cite
+<a class="reference internal" href="#equation-eq-quartic">Eq. 822</a>.</p>
+<ol class="arabic simple">
+<li><p>Build the grid-ED experiment for <span class="math notranslate nohighlight">\(V = x^2/2 + x^4/2\)</span> with <code class="docutils literal notranslate"><span class="pre">grid_ed</span></code> (three-point
+Laplacian, <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code>, 1500 points on <span class="math notranslate nohighlight">\([-4, 4]\)</span>; box and spacing adequacy
+checked against the thermal width) and compute <span class="math notranslate nohighlight">\(E_0\)</span>, <span class="math notranslate nohighlight">\(E(\beta{=}5)\)</span>, and
+<span class="math notranslate nohighlight">\(\langle x^2\rangle\)</span> from <code class="docutils literal notranslate"><span class="pre">ed_thermal</span></code>.</p></li>
+<li><p>Run PIMC at <span class="math notranslate nohighlight">\(M = 64\)</span> with the full protocol (your Exercise 4 <code class="docutils literal notranslate"><span class="pre">pimc_staging</span></code>,
+<code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng(7217)</span></code>, stated cut, window-checked <span class="math notranslate nohighlight">\(\tau\)</span> from <code class="docutils literal notranslate"><span class="pre">tau_int</span></code>,
+blocking from <code class="docutils literal notranslate"><span class="pre">blocked_error</span></code>, the virial estimator) and compare both observables;
+quote both budgets, the Trotter share
+estimated from an <span class="math notranslate nohighlight">\(M = 32\)</span> spot check (<code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng(7218)</span></code>).</p></li>
+<li><p>Celebrate soberly (prose): agreement on a problem with no closed form, certified by an
+independent numerical experiment, exactly as <a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a> certified itself on exact Ising
+results.</p></li>
+<li><p>Deliver the scaling verdict (prose): the grid dies exponentially with dimension; the
+polymer’s cost is polynomial; Monte Carlo’s dimension-blindness (<a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html"><span class="std std-doc">§5.7</span></a>), quantum
+edition.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>grid ED (1500 pts, box ±4): E0 = 0.69617   E(beta=5) = 0.69665   &lt;x2&gt; = 0.30596
+refinement shift (3000 pts, box ±5): 1.4e-06 — the grid is converged
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PIMC (M = 64, L = 32, 60k sweeps, cut 3000, acc 0.57):
+  E    = 0.6992 ± 0.0041   ED 0.69665   pull +0.62 sigma
+  &lt;x2&gt; = 0.30663 ± 0.00119   ED 0.30596   pull +0.57 sigma
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  M = 32 spot: E = 0.6849 ± 0.0056  -&gt;  Trotter share at M = 64 ~ 0.0048
+  both budgets: ± 0.0041 (stat)  +  ~0.0048 (Trotter, M = 64)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-pimc-quartic-showdown">
+<img alt="../../_images/3d992c4dc370bdf2401156fd25dc6acd9a29c0b2daebe0c1e3a36e50a45bafba.png" src="../../_images/3d992c4dc370bdf2401156fd25dc6acd9a29c0b2daebe0c1e3a36e50a45bafba.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 725 </span><span class="caption-text">Certification where no formula exists. The quartic oscillator <span class="math notranslate nohighlight">\(V = x^2/2 + x^4/2\)</span> at <span class="math notranslate nohighlight">\(\beta = 5\)</span>: PIMC with the full protocol (amber point, blocking bars) against the grid-ED ‘experiment’ (dark line) for the energy (left) and the thermal width (right); the <span class="math notranslate nohighlight">\(M = 32\)</span> spot check (hollow) exhibits the Trotter ladder, with the <span class="math notranslate nohighlight">\(M = 64\)</span> Trotter share estimated from the slope at <span class="math notranslate nohighlight">\(\sim 5\times10^{-3}\)</span>, comparable to the statistical bar — both budgets quoted, never conflated (<a class="reference internal" href="#equation-eq-quartic">Eq. 822</a>). The shaded band is <span class="math notranslate nohighlight">\(\pm 1\sigma\)</span> around the ED value. Agreement within one bar on a problem with no closed form is the method’s certificate — exactly as <a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a> certified Metropolis on exact Ising results before trusting it further afield.</span><a class="headerlink" href="#fig-pimc-quartic-showdown" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the experiment is trustworthy: grid ED converged under refinement   [E(beta=5) shift 1.4e-06 on doubling resolution and widening the box]
+✓  certification where no formula exists: PIMC meets grid ED on the energy   [got 0.699209 vs expected 0.696648 (rtol=1e-06, atol=0.0124099)]
+✓  and on the thermal width   [got 0.306633 vs expected 0.305957 (rtol=1e-06, atol=0.00356899)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-student-stretch-the-thermal-function-of-an-unsolvable-system">
+<h2>Exercise 8 — (STUDENT/STRETCH) The thermal function of an unsolvable system<a class="headerlink" href="#exercise-8-student-stretch-the-thermal-function-of-an-unsolvable-system" title="Link to this heading">#</a></h2>
+<p><span class="math notranslate nohighlight">\(E(T)\)</span> for the quartic oscillator across the quantum–classical bridge. Cite
+<a class="reference internal" href="#equation-eq-quartic">Eq. 822</a>.</p>
+<ol class="arabic simple">
+<li><p>Sweep <span class="math notranslate nohighlight">\(\beta = 0.5, 1, 2, 3, 5, 8\)</span> at fixed protocol (your Exercise 4 <code class="docutils literal notranslate"><span class="pre">pimc_staging</span></code>,
+<span class="math notranslate nohighlight">\(M = 64\)</span>, <span class="math notranslate nohighlight">\(L = 32\)</span>, <code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng(7300</span> <span class="pre">+</span> <span class="pre">10*beta)</span></code> per point, virial
+estimator) and
+plot <span class="math notranslate nohighlight">\(E(T)\)</span> with bars against the grid-ED curve.</p></li>
+<li><p>Verify the low-<span class="math notranslate nohighlight">\(T\)</span> floor against the grid-ED <span class="math notranslate nohighlight">\(E_0\)</span> (zero-point energy resolved by coin
+flips) and the high-<span class="math notranslate nohighlight">\(T\)</span> climb toward the classical limit, with the classical
+configurational average computed by quadrature (<code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code> over
+<span class="math notranslate nohighlight">\(e^{-\beta V}\)</span>; equipartition’s kinetic <span class="math notranslate nohighlight">\(1/2\beta\)</span> stated).</p></li>
+<li><p>Watch the polymer (plot): stored configurations at <span class="math notranslate nohighlight">\(\beta = 8\)</span> versus <span class="math notranslate nohighlight">\(\beta = 0.5\)</span>,
+the loop swelling to the thermal wavelength and shrinking toward a classical point
+(the gem of <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>, animated in stills).</p></li>
+<li><p>Reflect (prose): one algorithm, one dial, and the system walks from quantum zero-point
+to classical equipartition.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>beta = 0.5: E = 1.7682 ± 0.1998   ED 1.7785   pull -0.05 sigma
+beta = 1.0: E = 1.0492 ± 0.0497   ED 1.0505   pull -0.03 sigma
+beta = 2.0: E = 0.7329 ± 0.0156   ED 0.7590   pull -1.68 sigma
+beta = 3.0: E = 0.7174 ± 0.0101   ED 0.7085   pull +0.88 sigma
+beta = 5.0: E = 0.6936 ± 0.0076   ED 0.6966   pull -0.40 sigma
+beta = 8.0: E = 0.6998 ± 0.0080   ED 0.6962   pull +0.46 sigma
+low-T floor: E(beta=8) = 0.6998 ± 0.0080 vs E0 = 0.69617
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-pimc-thermal-sweep">
+<img alt="../../_images/e133608fd2bd275c7a736f35fbb4ca98ec47f2d86098965206e1574103c81bad.png" src="../../_images/e133608fd2bd275c7a736f35fbb4ca98ec47f2d86098965206e1574103c81bad.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 726 </span><span class="caption-text">An unsolvable system’s thermal function, delivered twice — and the loop that computes it. <strong>Left:</strong> <span class="math notranslate nohighlight">\(E(T)\)</span> for the quartic oscillator: PIMC with bars (amber points) on the grid-ED curve (dark), with the classical curve <span class="math notranslate nohighlight">\(1/2\beta + \langle V\rangle_{\mathrm{cl}}\)</span> (dashed) and the zero-point floor <span class="math notranslate nohighlight">\(E_0 = 0.696\)</span> (dotted). Coin flips resolve the floor equipartition cannot see, and merge with the classical curve at high <span class="math notranslate nohighlight">\(T\)</span> (<a class="reference internal" href="#equation-eq-quartic">Eq. 822</a>): the quantum-to-classical arc of <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>, recomputed by sampling on a potential with no closed form. <strong>Right:</strong> stored ring-polymer configurations at <span class="math notranslate nohighlight">\(\beta = 8\)</span> (amber, swollen to the thermal wavelength) and <span class="math notranslate nohighlight">\(\beta = 0.5\)</span> (dark, shrunk toward a classical point): the gem of <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> in stills — temperature is the loop’s size, and the loop’s size is why the energy floors.</span><a class="headerlink" href="#fig-pimc-thermal-sweep" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-8">
+<h3>Validation 8<a class="headerlink" href="#validation-8" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  zero-point energy by coin flips: the low-T floor meets the grid-ED E0   [got 0.699809 vs expected 0.696174 (rtol=1e-06, atol=0.0239352)]
+✓  the full thermal function within bars at every temperature   [pulls: -0.1, -0.0, -1.7, +0.9, -0.4, +0.5]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-9-synthesis-coin-flips-trusted">
+<h2>Exercise 9 — (Synthesis) Coin flips, trusted<a class="headerlink" href="#exercise-9-synthesis-coin-flips-trusted" title="Link to this heading">#</a></h2>
+<p>No new computation: state what was computed, and what it cost to believe it.</p>
+<p>This notebook computed quantum mechanics with dice, and spent most of its effort on the
+harder problem: knowing when to believe the dice. The license came from <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> — a thermal
+particle is a positive-weight classical loop — so the Metropolis of <a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a> applied without a
+single new idea. Everything else was discipline. Exact finite-<span class="math notranslate nohighlight">\(M\)</span> targets to validate
+against, because the Gaussian algebra of <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> made the harmonic polymer solvable at <em>every</em>
+discretization, not just in the limit. Autocorrelation windows checked for stability, with
+a true story about what happens when they are not: a clipped tail, flattered bars, and
+honest data wearing a phantom <span class="math notranslate nohighlight">\(2.5\sigma\)</span> bias, resolved only because the bridge had been
+verified <em>in isolation</em> and could not be blamed. Two error budgets never allowed to blur,
+one belonging to the sampler and one to the discretization. Estimators chosen for their
+variance, not just their expectation. And the slow mode identified by name — the centroid —
+because a mover that cannot reach the slow mode is fast only on paper.</p>
+<p>The reward was earned honestly. The coth curve arrived a third time, now with error bars:
+ladder operators, Gaussian determinants, coin flips, one number. Then a quartic oscillator,
+closed to every formula, was pinned within one bar by sampling, in agreement with an
+independent numerical experiment, both budgets quoted. There is a particular satisfaction
+in the phrase “within one sigma” when both the sigma and the target were fought for. Anyone
+can sample; the craft is in the bars. A Monte Carlo result without a validated error
+estimate is an anecdote, and this volume does not publish anecdotes.</p>
+<p>The movement’s machinery is now complete: temperature as geometry (<a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>), geometry as
+something a random walk can explore (here). One question remains, and it is the volume’s
+deepest. Every system in this course was thermal because we coupled it to a bath, explicitly
+or by assumption. An isolated quantum system has no bath: its evolution is unitary, its
+spectrum discrete, its information never lost. Why, then, does it thermalize at all? That
+is <a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a>.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>Movement VI’s algorithmic notebook: the mapping of <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>, sampled — and a course-length
+lesson in trusting stochastic answers.</p>
+<ul class="simple">
+<li><p><strong>The license</strong> <a class="reference internal" href="#equation-eq-pimc-license">Eq. 815</a>: the ring-polymer weight <span class="math notranslate nohighlight">\(e^{-S}\)</span> is positive for
+distinguishable particles and bosons, so the Metropolis of <a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a> samples quantum mechanics
+verbatim (fermions revoke it: the sign problem, named honestly). The trust protocol:
+validate on exact targets; window-checked bars; budgets separated.</p></li>
+<li><p><strong>Single-bead checkerboard</strong> <a class="reference internal" href="#equation-eq-single-bead">Eq. 816</a>: even/odd beads conditionally
+independent (nearest-neighbor action only), so sweeps vectorize; validated against the
+exact <span class="math notranslate nohighlight">\((A^{-1})_{00}\)</span> at <span class="math notranslate nohighlight">\(M = 16\)</span> within one bar, with <span class="math notranslate nohighlight">\(\tau_{\mathrm{int}} \approx 140\)</span>
+sweeps quoted as the price.</p></li>
+<li><p><strong>Diagnostics</strong> <a class="reference internal" href="#equation-eq-diagnostics">Eq. 817</a>: self-consistent window <span class="math notranslate nohighlight">\(W \ge 8\tau\)</span> with <span class="math notranslate nohighlight">\(\tau(c)\)</span>
+stability checked; blocking bars at <span class="math notranslate nohighlight">\(16\tau\)</span>, the block length justified by the measured
+creep. The cautionary tale: a <span class="math notranslate nohighlight">\(6\tau\)</span> window manufactured a phantom <span class="math notranslate nohighlight">\(2.5\sigma\)</span> bias;
+suspect the bars before the physics.</p></li>
+<li><p><strong>Stiffening</strong> <a class="reference internal" href="#equation-eq-stiffening">Eq. 818</a>: springs <span class="math notranslate nohighlight">\(\propto M/\beta\)</span>; at fixed <span class="math notranslate nohighlight">\(\delta\)</span>,
+<span class="math notranslate nohighlight">\(\tau_{\mathrm{int}}\)</span> climbed <span class="math notranslate nohighlight">\(\sim 180 \to \sim 1060\)</span> sweeps from <span class="math notranslate nohighlight">\(M = 16 \to 64\)</span>
+(gated): local updates drowning near the continuum, the cousin of <a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html"><span class="std std-doc">§5.10</span></a>.</p></li>
+<li><p><strong>Staging</strong> <a class="reference internal" href="#equation-eq-staging">Eq. 819</a>: bridge conditionals by precision weighting; verified in
+isolation against <span class="math notranslate nohighlight">\(\delta\tau\,k(L-k)/L\)</span> (gated); acceptance near one independent of
+<span class="math notranslate nohighlight">\(M\)</span>; the centroid lesson measured (<span class="math notranslate nohighlight">\(L = M/4\)</span> thrice slower than <span class="math notranslate nohighlight">\(M/2\)</span>, gated); the
+whole-ring move named.</p></li>
+<li><p><strong>Two budgets</strong> <a class="reference internal" href="#equation-eq-two-budgets">Eq. 820</a>: every ladder rung within bars of its own exact
+finite-<span class="math notranslate nohighlight">\(M\)</span> value (gated) while the rungs fall onto <span class="math notranslate nohighlight">\(\tfrac12\coth(\beta/2)\)</span> as <span class="math notranslate nohighlight">\(1/M^2\)</span>
+(gated): the three-way coth rendezvous, with bars.</p></li>
+<li><p><strong>Estimators</strong> <a class="reference internal" href="#equation-eq-estimators">Eq. 821</a>: primitive and virial both exact for
+<span class="math notranslate nohighlight">\(-\partial_\beta\ln Z_M\)</span> (gated at two <span class="math notranslate nohighlight">\(M\)</span>); sd(primitive) grows <span class="math notranslate nohighlight">\(\sim\!\sqrt{M}\)</span> while
+the virial stays flat (gated): virial for production.</p></li>
+<li><p><strong>Certification</strong> <a class="reference internal" href="#equation-eq-quartic">Eq. 822</a>: quartic oscillator, no closed form; grid ED
+(refinement-checked) versus PIMC with the full protocol: <span class="math notranslate nohighlight">\(E\)</span> and <span class="math notranslate nohighlight">\(\langle x^2\rangle\)</span>
+within one bar (gated), both budgets quoted; then the full <span class="math notranslate nohighlight">\(E(T)\)</span> with the zero-point
+floor resolved (gated) and the classical merge exhibited.</p></li>
+</ul>
+<p>The standing rules issued here: every stochastic number carries a window-checked bar;
+statistical and Trotter budgets are quoted separately; the virial estimator is the
+production choice; and movers must reach the slow mode, not merely accept often.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Eigenstate thermalization</strong> (<a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a>, the optional capstone): every bath in this volume
+was put in by hand; an isolated quantum system has none, yet its subsystems thermalize.
+Why unitary evolution hides equilibrium inside single eigenstates is the volume’s
+closing question.</p></li>
+<li><p><strong>Bosonic exchange as loop reconnection</strong>: permutations connect small loops into long
+ones; sampling reconnections alongside bead moves gives superfluid fractions and
+<span class="math notranslate nohighlight">\(\langle N_0\rangle \approx 7\)</span>–<span class="math notranslate nohighlight">\(10\%\)</span> for helium-4 (Ceperley, <em>Rev. Mod. Phys.</em> <strong>67</strong>,
+279 (1995)), meeting the neutron honesty of <a class="reference internal" href="bose-einstein-condensation.html"><span class="std std-doc">§7.17</span></a> from theory.</p></li>
+<li><p><strong>The sign problem</strong>: fermionic permutations carry <span class="math notranslate nohighlight">\((-1)^P\)</span>; the variance of signed
+averages grows exponentially in <span class="math notranslate nohighlight">\(\beta N\)</span>; no general cure is known. The frontier,
+stated without melodrama.</p></li>
+<li><p><strong>Ring-polymer molecular dynamics</strong>: the same polymer run with forces instead of coin
+flips computes nuclear quantum effects in production simulation — the bridge to the
+MMM course, in one line.</p></li>
+<li><p>Cross-reference: <a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html"><span class="std std-doc">§5.7</span></a> (dimension-blindness), <a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a> (Metropolis and all its disciplines),
+<a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html"><span class="std std-doc">§5.10</span></a> (critical slowing, cousin), <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> (the coth, thrice), <a class="reference internal" href="bose-einstein-condensation.html"><span class="std std-doc">§7.17</span></a> (the condensate honesty
+met), <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> (the license and the exact targets).</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/07-quantum-statistical-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="imaginary-time-quantum-classical.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="eigenstate-thermalization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-license-put-to-work">The license, put to work</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-bead-moves-checkerboard-vectorized">Single-bead moves, checkerboard-vectorized</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnostics-earlier-disciplines-at-full-strength">Diagnostics: earlier disciplines at full strength</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-stiffening-problem-measured">The stiffening problem, measured</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#staging-exact-brownian-bridges">Staging: exact Brownian bridges</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-budgets">Two budgets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#primitive-versus-virial">Primitive versus virial</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#where-no-formula-exists">Where no formula exists</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#horizons">Horizons</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-license-put-to-work-the-protocol-declared">Exercise 1 — The license, put to work; the protocol declared</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-error-bars-or-it-didn-t-happen">Exercise 2 — Error bars or it didn’t happen</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-stiffening-problem-measured">Exercise 3 — The stiffening problem, measured</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-staging-exact-brownian-bridges-centerpiece">Exercise 4 — Staging: exact Brownian bridges (centerpiece)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-two-budgets-separated">Exercise 5 — Two budgets, separated</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-student-primitive-versus-virial">Exercise 6 — (STUDENT) Primitive versus virial</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-where-no-formula-exists-centerpiece">Exercise 7 — Where no formula exists (centerpiece)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-student-stretch-the-thermal-function-of-an-unsolvable-system">Exercise 8 — (STUDENT/STRETCH) The thermal function of an unsolvable system</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-synthesis-coin-flips-trusted">Exercise 9 — (Synthesis) Coin flips, trusted</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

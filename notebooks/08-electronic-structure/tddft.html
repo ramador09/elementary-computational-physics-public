@@ -1,0 +1,1531 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="8.16 Time-Dependent Density-Functional Theory" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/tddft.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: §8.15 computed spectra from eigenstates — linear response assembled state by state. Real electron dynamics is richer: attosecond pulses, s..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: §8.15 computed spectra from eigenstates — linear response assembled state by state. Real electron dynamics is richer: attosecond pulses, s..." />
+
+    <title>8.16 Time-Dependent Density-Functional Theory &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/08-electronic-structure/tddft';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/tddft.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="8.17 BCS Superconductivity" href="bcs-superconductivity.html" />
+    <link rel="prev" title="8.15 Optical Absorption and Excitons" href="optics-excitons.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/08-electronic-structure/tddft.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/08-electronic-structure/tddft.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/08-electronic-structure/tddft.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/08-electronic-structure/tddft.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>8.16 Time-Dependent Density-Functional Theory</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rungegross-and-why-propagation-is-spectroscopy">Runge–Gross, and why propagation is spectroscopy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cranknicolson-unitary-by-construction">Crank–Nicolson, unitary by construction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-two-approximate-dynamics">The two approximate dynamics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-laboratory-reopened-and-classified">Exercise 1 — The laboratory, reopened and classified</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-papers-in-order">Validation 1 — papers in order</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-exact-dynamics-kicked-unitary-linear">Exercise 2 — Exact dynamics: kicked, unitary, linear</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-unitary-and-linear-certified">Validation 2 — unitary and linear, certified</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-spectroscopy-peaks-where-allowed-silence-where-not">Exercise 3 — Spectroscopy: peaks where allowed, silence where not</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-two-routes-one-spectrum">Validation 3 — two routes, one spectrum</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-tdhf-adiabatic-exact-exchange-priced">Exercise 4 — TDHF: adiabatic exact exchange, priced</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-correlation-s-price-tag">Validation 4 — correlation’s price tag</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-verdict-the-self-interaction-catastrophe-and-the-scoreboard">Exercise 5 — Verdict: the self-interaction catastrophe, and the scoreboard</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-wrecked-measurably">Validation 5 — wrecked, measurably</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="time-dependent-density-functional-theory">
+<h1>8.16 Time-Dependent Density-Functional Theory<a class="headerlink" href="#time-dependent-density-functional-theory" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VIII — Electronic Structure and Many-Body Matter
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;8.16
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">The exact two-electron laboratory of §8.2 is set in motion. A momentum kick plus Crank–Nicolson propagation turns one dipole signal into a complete optical spectrum whose peaks land on the exact excitation energies to 2×10⁻⁴ — with the triplet and parity-forbidden states correctly, measurably silent. The same kick is then run through the two workhorse approximations: time-dependent Hartree–Fock blue-shifts the first excitation by 3% (missing correlation, quantified), while orbital-free Hartree — self-interaction left in — wrecks the spectrum beyond recognition. Approximate quantum dynamics, judged against exact quantum dynamics, on the one system where both are affordable.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;150–180 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="optics-excitons.html"><span class="std std-doc">§8.15</span></a> computed spectra from <em>eigenstates</em> —
+linear response assembled state by state. Real electron dynamics is
+richer: attosecond pulses, strong fields, charge transfer — regimes
+where one wants to <em>propagate</em> electrons in time. The exact
+time-dependent Schrödinger equation for <span class="math notranslate nohighlight">\(N\)</span> electrons is as intractable
+as the static one, and the resolution is the same maneuver that built
+<a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a>: Runge and Gross <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id97" title="Erich Runge and E. K. U. Gross. Density-functional theory for time-dependent systems. Physical Review Letters, 52:997–1000, 1984. doi:10.1103/PhysRevLett.52.997.">RG84</a>]</span>
+proved that the time-dependent <em>density</em> <span class="math notranslate nohighlight">\(n(x, t)\)</span> determines the
+time-dependent potential, licensing a time-dependent Kohn–Sham scheme.
+But where static DFT has <a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a>’s
+well-mapped failure modes, time-dependent functionals are younger and
+rougher terrain <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id82" title="Carsten A. Ullrich. Time-Dependent Density-Functional Theory: Concepts and Applications. Oxford University Press, Oxford, 2012.">Ull12</a>]</span> — which makes an <em>exact testing
+ground</em> worth everything. This volume owns one.</p>
+<p>The build: <a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a>’s two-electron soft-Coulomb
+atom returns, its full <span class="math notranslate nohighlight">\((x_1, x_2)\)</span> wavefunction now <em>propagated</em> by
+Crank–Nicolson — unconditionally unitary by construction, written here
+for the sparse Hamiltonian of
+<a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a>’s grid
+with an LU factorization reused across four thousand steps, so the norm
+is conserved to <span class="math notranslate nohighlight">\(10^{-8}\)</span> over the whole run. The
+spectroscopy protocol is the standard one of real-time TDDFT codes: a
+weak momentum kick <span class="math notranslate nohighlight">\(e^{\mathrm i\kappa X}\)</span> at <span class="math notranslate nohighlight">\(t = 0\)</span>, the dipole
+<span class="math notranslate nohighlight">\(\langle X\rangle(t)\)</span> recorded, its Fourier transform read as the
+absorption spectrum. Certification first: the exact propagation’s peaks
+must land on the exact eigenstate differences — they do, at
+<span class="math notranslate nohighlight">\(2\times10^{-4}\)</span> — and the states that symmetry forbids must be
+<em>absent</em>: the triplet at <span class="math notranslate nohighlight">\(\Delta E = 0.422\)</span> (spin symmetry preserved by
+propagation) and the even-parity singlet at <span class="math notranslate nohighlight">\(0.615\)</span> (dipole parity),
+both measurably silent. Linearity is verified by halving the kick
+(response ratio <span class="math notranslate nohighlight">\(2.00\)</span>). Then the judgment: the same kick through
+time-dependent Hartree–Fock (for two electrons, exact exchange —
+adiabatic, correlation-free) blue-shifts the first peak to <span class="math notranslate nohighlight">\(0.550\)</span>
+against the exact <span class="math notranslate nohighlight">\(0.534\)</span>, a <span class="math notranslate nohighlight">\(3\%\)</span> error the notebook prices; and
+through time-dependent <em>Hartree</em> — self-interaction uncorrected — which
+scatters spurious structure across the spectrum, the dynamical face of
+the self-interaction disease <a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a>
+diagnosed statically. One system, three dynamics, every claim gated.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Atomic units. The laboratory is
+<a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a>’s: <span class="math notranslate nohighlight">\(v(x) = -2/\sqrt{x^2+1}\)</span>,
+interaction <span class="math notranslate nohighlight">\(w(u) = 1/\sqrt{u^2+1}\)</span>, grid <span class="math notranslate nohighlight">\(x \in [-10, 10]\)</span> with
+<span class="math notranslate nohighlight">\(N = 121\)</span> points (spacing <span class="math notranslate nohighlight">\(1/6\)</span>), two electrons in a spin singlet
+(symmetric spatial wavefunction). Sparse Hamiltonians as in
+<a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a>
+(Kronecker sums, <code class="docutils literal notranslate"><span class="pre">scipy.sparse</span></code>); statics by <code class="docutils literal notranslate"><span class="pre">eigsh</span></code>; dynamics by
+Crank–Nicolson with <code class="docutils literal notranslate"><span class="pre">scipy.sparse.linalg.splu</span></code> factorized once
+(<span class="math notranslate nohighlight">\(\Delta t = 0.05\)</span>, <span class="math notranslate nohighlight">\(4000\)</span> steps). Spectra: kick <span class="math notranslate nohighlight">\(\kappa = 10^{-3}\)</span>,
+Hann window, zero-padded <code class="docutils literal notranslate"><span class="pre">numpy.fft.rfft</span></code> of
+<span class="math notranslate nohighlight">\(\langle X\rangle(t) - \langle X\rangle(0)\)</span>.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code>
+call against an independent fact: a conservation law, an eigenstate
+difference, a selection rule, a linearity ratio. A ✓ is strong
+evidence; a ✗ is a prompt to locate the discrepancy, not an
+automatic verdict.</p>
+<p><strong>Scope.</strong> Real-time propagation and kick spectroscopy for one
+closed-shell pair, with time-dependent Hartree and Hartree–Fock as
+the approximate dynamics (for two singlet electrons TDHF <em>is</em>
+time-dependent exact exchange, so the comparison isolates adiabatic
+correlation). Production TDDFT — ALDA and beyond, memory effects,
+double excitations, Casida’s matrix formulation — is Ullrich’s
+monograph <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id82" title="Carsten A. Ullrich. Time-Dependent Density-Functional Theory: Concepts and Applications. Oxford University Press, Oxford, 2012.">Ull12</a>]</span>.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="rungegross-and-why-propagation-is-spectroscopy">
+<h3>Runge–Gross, and why propagation is spectroscopy<a class="headerlink" href="#rungegross-and-why-propagation-is-spectroscopy" title="Link to this heading">#</a></h3>
+<p>The Runge–Gross theorem <span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id97" title="Erich Runge and E. K. U. Gross. Density-functional theory for time-dependent systems. Physical Review Letters, 52:997–1000, 1984. doi:10.1103/PhysRevLett.52.997.">RG84</a>]</span> is the time-dependent
+twin of <a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a>: two potentials differing by more
+than <span class="math notranslate nohighlight">\(c(t)\)</span> cannot produce the same evolving density from the same
+initial state — so <span class="math notranslate nohighlight">\(n(x, t)\)</span> is, in principle, a complete record of the
+dynamics. The practical protocol reads the record spectroscopically.
+Kick the ground state with a uniform momentum boost,</p>
+<div class="math notranslate nohighlight" id="equation-eq-td-kick">
+<span class="eqno">(913)<a class="headerlink" href="#equation-eq-td-kick" title="Link to this equation">#</a></span>\[\Psi(t{=}0^+) = e^{\mathrm i\kappa X}\,\Psi_0,
+\qquad X = x_1 + x_2 ,\]</div>
+<p>which populates every dipole-connected eigenstate with amplitude
+<span class="math notranslate nohighlight">\(\propto \kappa\,\langle n|X|0\rangle\)</span>. The dipole then rings,</p>
+<div class="math notranslate nohighlight" id="equation-eq-td-dipole">
+<span class="eqno">(914)<a class="headerlink" href="#equation-eq-td-dipole" title="Link to this equation">#</a></span>\[\langle X\rangle(t) - \langle X\rangle(0) \;=\;
+2\kappa \sum_n \big|\langle n|X|0\rangle\big|^2
+\sin\!\big(\omega_{n0}t\big) + O(\kappa^2) ,\]</div>
+<p>so the Fourier transform of one real-time signal <em>is</em> the absorption
+spectrum: peak positions at exact excitation energies, weights at
+dipole strengths — precisely how real-time TDDFT codes compute optical
+spectra of molecules. The kick must be weak (<a class="reference internal" href="#equation-eq-td-dipole">Eq. 914</a> is
+first order in <span class="math notranslate nohighlight">\(\kappa\)</span>), and weakness is checkable: halve <span class="math notranslate nohighlight">\(\kappa\)</span>,
+the response must halve.</p>
+</section>
+<section id="cranknicolson-unitary-by-construction">
+<h3>Crank–Nicolson, unitary by construction<a class="headerlink" href="#cranknicolson-unitary-by-construction" title="Link to this heading">#</a></h3>
+<p>Propagation steps
+<a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a>’s grid
+Hamiltonian in time by the Crank–Nicolson scheme:</p>
+<div class="math notranslate nohighlight" id="equation-eq-td-cn">
+<span class="eqno">(915)<a class="headerlink" href="#equation-eq-td-cn" title="Link to this equation">#</a></span>\[\Big(\mathbb 1 + \tfrac{\mathrm i\Delta t}{2} H\Big)\,\Psi_{t+\Delta t}
+\;=\; \Big(\mathbb 1 - \tfrac{\mathrm i\Delta t}{2} H\Big)\,\Psi_t ,\]</div>
+<p>exactly unitary for Hermitian <span class="math notranslate nohighlight">\(H\)</span> (the two factors are conjugate), so
+the norm is conserved to solver precision no matter how long the run.
+For the exact problem <span class="math notranslate nohighlight">\(H\)</span> is time-independent and the sparse LU
+factorization of the left-hand matrix is computed <em>once</em>; for the
+self-consistent dynamics (TDH/TDHF) the potential depends on the
+evolving density and the linear system is rebuilt each step.</p>
+</section>
+<section id="the-two-approximate-dynamics">
+<h3>The two approximate dynamics<a class="headerlink" href="#the-two-approximate-dynamics" title="Link to this heading">#</a></h3>
+<p>Both electrons share one orbital <span class="math notranslate nohighlight">\(\varphi(x, t)\)</span>; the approximations
+differ in the mean field it feels:</p>
+<div class="math notranslate nohighlight" id="equation-eq-td-meanfield">
+<span class="eqno">(916)<a class="headerlink" href="#equation-eq-td-meanfield" title="Link to this equation">#</a></span>\[\mathrm i\,\partial_t\varphi = \Big[-\tfrac12\partial_x^2 + v(x)
++ c\,v_{\mathrm H}[n](x, t)\Big]\varphi,
+\qquad n = 2|\varphi|^2 ,\]</div>
+<p>with <span class="math notranslate nohighlight">\(c = \tfrac12\)</span> for <strong>TDHF</strong> (the exchange integral for a doubly
+occupied orbital cancels exactly half the Hartree term — each electron
+feels only the <em>other</em> one; self-interaction-free, correlation-free)
+and <span class="math notranslate nohighlight">\(c = 1\)</span> for <strong>TD-Hartree</strong> (each electron repels the full density,
+<em>itself included</em> — the self-interaction error of
+<a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a>, now propagating). Adiabatic
+TDDFT with an exact-exchange functional coincides with TDHF for this
+system, so the TDHF-versus-exact gap below <em>is</em> the adiabatic
+exchange-only TDDFT error.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data and instruments: the series palette, the laboratory’s box and working
+grid, the given external potential and interaction of the Conventions, and
+the one- and two-electron sparse Hamiltonians whose construction was the
+lesson of <a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a>
+and <a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a>. The notebook’s own machinery — the
+Crank–Nicolson propagator, the spectrum-maker that turns its dipole record
+into a spectrum, and the self-consistent mean-field dynamics — you build in
+Exercises 2, 3 and 4.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_peaks</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.sparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">diags</span><span class="p">,</span> <span class="n">identity</span><span class="p">,</span> <span class="n">kron</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.sparse.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eigsh</span><span class="p">,</span> <span class="n">splu</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+<span class="c1"># data: the series palette</span>
+<span class="n">INK</span><span class="p">,</span> <span class="n">AMBER</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="s2">&quot;#16213e&quot;</span><span class="p">,</span> <span class="s2">&quot;#c0851a&quot;</span><span class="p">,</span> <span class="s2">&quot;#46506b&quot;</span>
+
+<span class="c1"># data: the laboratory of §8.2 — the same box, on the coarser N = 121 working</span>
+<span class="c1"># grid the Conventions fix for a run that must be propagated 4000 times</span>
+<span class="n">L_BOX</span><span class="p">,</span> <span class="n">N_GRID</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mi">121</span>
+<span class="n">x_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">L_BOX</span><span class="p">,</span> <span class="n">L_BOX</span><span class="p">,</span> <span class="n">N_GRID</span><span class="p">)</span>
+<span class="n">DX</span> <span class="o">=</span> <span class="n">x_grid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x_grid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># built from scratch in §6.10 (Exercise 1&#39;s `hamiltonian(x, V)`: the (1, -2, 1)</span>
+<span class="c1"># stencil plus diag V, certified Hermitian there); restated here as an</span>
+<span class="c1"># instrument, sparse and in atomic units. V_EXT itself is data — the given</span>
+<span class="c1"># external potential v(x) = -2/√(x²+1) of the Conventions.</span>
+<span class="n">lap</span> <span class="o">=</span> <span class="n">diags</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">N_GRID</span><span class="p">,</span> <span class="n">N_GRID</span><span class="p">))</span> <span class="o">/</span> <span class="n">DX</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">KIN_1D</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">lap</span>
+<span class="n">V_EXT</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x_grid</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">H_1D</span> <span class="o">=</span> <span class="n">KIN_1D</span> <span class="o">+</span> <span class="n">diags</span><span class="p">(</span><span class="n">V_EXT</span><span class="p">)</span>
+
+<span class="c1"># built from scratch in §8.2 (Exercise 2&#39;s `two_body(x)`: the Kronecker sum of</span>
+<span class="c1"># two one-body Hamiltonians plus the flattened interaction on the diagonal);</span>
+<span class="c1"># restated here as an instrument — this notebook sets that Hamiltonian in</span>
+<span class="c1"># motion, it does not re-derive it. W_EE is the given interaction w(u) =</span>
+<span class="c1"># 1/√(u²+1) of the Conventions and X_TOTAL the kick operator X = x₁ + x₂,</span>
+<span class="c1"># both on the flattened (x₁, x₂) grid.</span>
+<span class="n">X1_MESH</span><span class="p">,</span> <span class="n">X2_MESH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">x_grid</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
+<span class="n">W_EE</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">X1_MESH</span> <span class="o">-</span> <span class="n">X2_MESH</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">EYE</span> <span class="o">=</span> <span class="n">identity</span><span class="p">(</span><span class="n">N_GRID</span><span class="p">)</span>
+<span class="n">H_2E</span> <span class="o">=</span> <span class="p">(</span><span class="n">kron</span><span class="p">(</span><span class="n">H_1D</span><span class="p">,</span> <span class="n">EYE</span><span class="p">)</span> <span class="o">+</span> <span class="n">kron</span><span class="p">(</span><span class="n">EYE</span><span class="p">,</span> <span class="n">H_1D</span><span class="p">)</span> <span class="o">+</span> <span class="n">diags</span><span class="p">(</span><span class="n">W_EE</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span><span class="o">.</span><span class="n">tocsc</span><span class="p">()</span>
+<span class="n">X_TOTAL</span> <span class="o">=</span> <span class="p">(</span><span class="n">X1_MESH</span> <span class="o">+</span> <span class="n">X2_MESH</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="c1"># data: the same given interaction, laid out as the full (N, N) kernel matrix</span>
+<span class="c1"># the mean-field dynamics of Exercise 4 integrates the density against</span>
+<span class="n">W_KERNEL</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">x_grid</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">x_grid</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-laboratory-reopened-and-classified">
+<h2>Exercise 1 — The laboratory, reopened and classified<a class="headerlink" href="#exercise-1-the-laboratory-reopened-and-classified" title="Link to this heading">#</a></h2>
+<p>Before dynamics, statics: the exact spectrum, with every state’s
+symmetry papers in order.</p>
+<p><strong>Part a)</strong> Diagonalize the two-electron Hamiltonian (<code class="docutils literal notranslate"><span class="pre">eigsh</span></code>, eight
+lowest states) and classify each by <em>exchange</em> symmetry
+(<span class="math notranslate nohighlight">\(\psi(x_1, x_2) = \pm\psi(x_2, x_1)\)</span>: singlet/triplet spatial parts,
+<a class="reference internal" href="../06-quantum-mechanics/identical-particles.html"><span class="std std-doc">§6.20</span></a>) and by
+<em>parity</em> (<span class="math notranslate nohighlight">\(\psi(-x_1, -x_2) = \pm\psi\)</span>). Ground state <span class="math notranslate nohighlight">\(E_0 = -2.2391\)</span>,
+symmetric and even, as <a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a> built it.</p>
+<p><strong>Part b)</strong> Mark the dipole-active states. The kick operator <span class="math notranslate nohighlight">\(X\)</span> is
+symmetric under exchange and odd under parity, so from the ground
+state only <em>singlet, odd-parity</em> states can light up: states <span class="math notranslate nohighlight">\(2\)</span>
+(<span class="math notranslate nohighlight">\(\Delta E = 0.5339\)</span>) and <span class="math notranslate nohighlight">\(6\)</span> (<span class="math notranslate nohighlight">\(\Delta E = 0.7147\)</span>) among the eight.
+The triplet at <span class="math notranslate nohighlight">\(0.4220\)</span> and the even singlet at <span class="math notranslate nohighlight">\(0.6145\)</span> are on the
+forbidden list — Exercise 3 checks that the dynamics respects it.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>E0 = -2.239071   singlet, even   dE = 0.0000
+E1 = -1.817061   triplet, odd    dE = 0.4220
+E2 = -1.705177   singlet, odd    dE = 0.5339  &lt;- dipole-active
+E3 = -1.641304   triplet, even   dE = 0.5978
+E4 = -1.624584   singlet, even   dE = 0.6145
+E5 = -1.558019   triplet, odd    dE = 0.6811
+E6 = -1.524355   singlet, odd    dE = 0.7147  &lt;- dipole-active
+E7 = -1.461868   triplet, even   dE = 0.7772
+
+dipole-active excitations: [&#39;0.5339&#39;, &#39;0.7147&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1-papers-in-order">
+<h3>Validation 1 — papers in order<a class="headerlink" href="#validation-1-papers-in-order" title="Link to this heading">#</a></h3>
+<p>The ground energy, the two allowed excitations, and a spectrum that is
+neither all-singlet nor all-triplet (the classifier actually
+classifies).</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  ground energy of the exact laboratory   [got -2.23907 vs expected -2.2391 (rtol=1e-06, atol=0.001)]
+✓  first dipole-active excitation   [got 0.533894 vs expected 0.5339 (rtol=1e-06, atol=0.001)]
+✓  second dipole-active excitation   [got 0.714716 vs expected 0.7147 (rtol=1e-06, atol=0.001)]
+✓  classifier separates singlets, triplets, parities   [4 singlets, 2 dipole-active]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-exact-dynamics-kicked-unitary-linear">
+<h2>Exercise 2 — Exact dynamics: kicked, unitary, linear<a class="headerlink" href="#exercise-2-exact-dynamics-kicked-unitary-linear" title="Link to this heading">#</a></h2>
+<p>The full <span class="math notranslate nohighlight">\((x_1, x_2)\)</span> wavefunction goes into real time. Three facts shape
+the propagator. The kick of <a class="reference internal" href="#equation-eq-td-kick">Eq. 913</a> is a pure phase
+<span class="math notranslate nohighlight">\(e^{\mathrm i\kappa X}\)</span> on Exercise 1’s ground state — a momentum boost
+that leaves the density at <span class="math notranslate nohighlight">\(t = 0^+\)</span> untouched, only the current changes.
+The Crank–Nicolson step of <a class="reference internal" href="#equation-eq-td-cn">Eq. 915</a> is one sparse linear solve,
+and because the exact <span class="math notranslate nohighlight">\(H\)</span> carries no time dependence the left-hand matrix
+<span class="math notranslate nohighlight">\(\mathbb 1 + \tfrac{\mathrm i\Delta t}{2}H\)</span> is the <em>same</em> matrix at every
+step: one <code class="docutils literal notranslate"><span class="pre">scipy.sparse.linalg.splu</span></code> factorization, then four thousand
+cheap back-substitutions, and a <span class="math notranslate nohighlight">\(200\)</span>-a.u. run of a <span class="math notranslate nohighlight">\(14641\)</span>-dimensional
+problem costs seconds. And the observable, the dipole
+<span class="math notranslate nohighlight">\(\langle X\rangle = \langle\Psi|X|\Psi\rangle/\langle\Psi|\Psi\rangle\)</span>,
+is worth dividing by the running norm so that the unitarity gate stays an
+independent check rather than a hidden ingredient of the signal. Two facts
+then stand ready to be tested against: exact unitarity is Crank–Nicolson’s
+defining structural virtue, and <a class="reference internal" href="#equation-eq-td-dipole">Eq. 914</a> holds only to first
+order in <span class="math notranslate nohighlight">\(\kappa\)</span>, so a response that is genuinely linear must halve when
+the kick does.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">propagate_exact(kick,</span> <span class="pre">n_steps,</span> <span class="pre">dt=0.05)</span></code>: phase the
+ground state by the kick, factorize the Crank–Nicolson left-hand matrix
+once, step <code class="docutils literal notranslate"><span class="pre">n_steps</span></code> times recording <span class="math notranslate nohighlight">\(\langle X\rangle(t)\)</span> at each step,
+and return the dipole record together with the final norm. <strong>Write this
+one yourself</strong> — the implementation is the lesson.</p>
+<p><strong>Part b)</strong> Run it at <span class="math notranslate nohighlight">\(\kappa = 10^{-3}\)</span> for <span class="math notranslate nohighlight">\(4000\)</span> steps of
+<span class="math notranslate nohighlight">\(\Delta t = 0.05\)</span> — the record the rest of the notebook reads.</p>
+<p><strong>Part c)</strong> Certify unitarity: the norm after <span class="math notranslate nohighlight">\(4000\)</span> steps must equal
+<span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(10^{-8}\)</span> — Crank–Nicolson’s defining virtue, not a numerical
+accident.</p>
+<p><strong>Part d)</strong> Certify linearity: rerun with <span class="math notranslate nohighlight">\(\kappa/2\)</span> and confirm the
+dipole response amplitude halves (ratio <span class="math notranslate nohighlight">\(2.00\)</span> within <span class="math notranslate nohighlight">\(1\%\)</span>) — the
+spectroscopy below is measuring the <em>linear</em> response, as
+<a class="reference internal" href="#equation-eq-td-dipole">Eq. 914</a> requires.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>norm after 4000 steps: 1.0000000000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>linearity: response ratio for kick ratio 2 = 2.0000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-td-dipole">
+<img alt="../../_images/20e6020509184bbd2062efea649c46b7ba1ab60311bb4617e0d444fccb1c633e.png" src="../../_images/20e6020509184bbd2062efea649c46b7ba1ab60311bb4617e0d444fccb1c633e.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 821 </span><span class="caption-text">One signal, whole spectrum. The exact dipole <span class="math notranslate nohighlight">\(\langle X\rangle(t)\)</span> of the kicked two-electron atom (<span class="math notranslate nohighlight">\(\kappa = 10^{-3}\)</span>, 4000 Crank–Nicolson steps, norm drift <span class="math notranslate nohighlight">\(&lt; 10^{-8}\)</span>): a microscopic beat pattern whose two dominant frequencies are the two dipole-allowed excitations. The inset verifies the linear-response regime — the <span class="math notranslate nohighlight">\(\kappa/2\)</span> run (amber) rescaled by 2 falls on the full-kick signal (ink) to line width. Everything the spectroscopy of Exercise 3 knows is in this curve.</span><a class="headerlink" href="#fig-td-dipole" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2-unitary-and-linear-certified">
+<h3>Validation 2 — unitary and linear, certified<a class="headerlink" href="#validation-2-unitary-and-linear-certified" title="Link to this heading">#</a></h3>
+<p>Norm conservation at <span class="math notranslate nohighlight">\(10^{-8}\)</span> over <span class="math notranslate nohighlight">\(4000\)</span> steps; response linear in
+the kick at <span class="math notranslate nohighlight">\(1\%\)</span>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Crank-Nicolson conserves the norm over the whole run   [drift 2.6e-13]
+✓  response linear in the kick   [got 2 vs expected 2 (rtol=0.01, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-spectroscopy-peaks-where-allowed-silence-where-not">
+<h2>Exercise 3 — Spectroscopy: peaks where allowed, silence where not<a class="headerlink" href="#exercise-3-spectroscopy-peaks-where-allowed-silence-where-not" title="Link to this heading">#</a></h2>
+<p>Equation <a class="reference internal" href="#equation-eq-td-dipole">Eq. 914</a> says the dipole record of Exercise 2 is a sum
+of sinusoids at the excitation energies, weighted by dipole strengths — so
+its Fourier transform <em>is</em> the absorption spectrum, and the whole of this
+notebook’s spectroscopy is one transform away. Three details separate a
+usable spectrum from a smeared one. The signal must be centered on
+<span class="math notranslate nohighlight">\(\langle X\rangle(0)\)</span>, or the zero-frequency offset dominates everything.
+A finite record has hard ends, and multiplying by a Hann window
+(<code class="docutils literal notranslate"><span class="pre">numpy.hanning</span></code>) trades a little peak width for sidelobes small enough
+that a weak line is not buried under a strong neighbor’s leakage. And
+zero-padding the transform (a factor <span class="math notranslate nohighlight">\(8\)</span> here) does not add information
+but interpolates the frequency grid finely enough to <em>read</em> a peak
+position. One conversion is easy to drop: <code class="docutils literal notranslate"><span class="pre">numpy.fft.rfftfreq</span></code> returns
+ordinary frequency <span class="math notranslate nohighlight">\(\nu\)</span>, while every energy in this notebook is an
+angular frequency <span class="math notranslate nohighlight">\(\omega = 2\pi\nu\)</span> in atomic units.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">dipole_spectrum(signal,</span> <span class="pre">dt,</span> <span class="pre">w_max=1.2)</span></code>: subtract
+<code class="docutils literal notranslate"><span class="pre">signal[0]</span></code>, apply the Hann window, take <code class="docutils literal notranslate"><span class="pre">numpy.abs</span></code> of
+<code class="docutils literal notranslate"><span class="pre">numpy.fft.rfft</span></code> with <span class="math notranslate nohighlight">\(8\times\)</span> zero padding, build the matching angular
+frequency grid, and return the grid and magnitude below <code class="docutils literal notranslate"><span class="pre">w_max</span></code>. <strong>Write
+this one yourself</strong> — the implementation is the lesson.</p>
+<p><strong>Part b)</strong> The two dominant peaks must land on the two dipole-active
+eigenstate differences at <span class="math notranslate nohighlight">\(2\times10^{-4}\)</span> — real-time propagation and
+static diagonalization are two routes to one spectrum, and here both
+are exact.</p>
+<p><strong>Part c)</strong> The <em>forbidden</em> lines must be silent: spectral weight
+within <span class="math notranslate nohighlight">\(\pm0.02\)</span> of the triplet (<span class="math notranslate nohighlight">\(0.4220\)</span>) and of the even-parity
+singlet (<span class="math notranslate nohighlight">\(0.6145\)</span>) at least fivefold below even the <em>weaker</em> allowed
+line (which carries <span class="math notranslate nohighlight">\(19\%\)</span> of the main peak) — spin symmetry and
+parity, conserved by the propagator, acting as selection rules in the
+dynamics itself. (The <span class="math notranslate nohighlight">\(2.5\%\)</span> residual at the even window is Hann
+leakage from the strong <span class="math notranslate nohighlight">\(0.534\)</span> line at this run length, not a
+transition: the signature is that it has no peak of its own.)</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>spectral peaks: [&#39;0.5341&#39;, &#39;0.7147&#39;, &#39;0.9346&#39;]
+worst |peak - static excitation| over the two allowed lines: 1.8e-04
+weaker allowed line height: 18.9% of main peak
+weight at the triplet line: 0.84% of main peak
+weight at the even-singlet line: 2.52% of main peak
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-td-exact-spectrum">
+<img alt="../../_images/819dcad4d36485e0dc0970ecb70e96b942fb5020dd7a14299c94cf6f239187de.png" src="../../_images/819dcad4d36485e0dc0970ecb70e96b942fb5020dd7a14299c94cf6f239187de.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 822 </span><span class="caption-text">Propagation is spectroscopy, certified. The Fourier magnitude of the exact dipole signal (amber) against the exact eigenstate differences (ink verticals: dipole-allowed; grey dashed: symmetry-forbidden). The two allowed singlet-odd excitations at <span class="math notranslate nohighlight">\(\omega = 0.534\)</span> and <span class="math notranslate nohighlight">\(0.715\)</span> carry the spectrum, matching the static energies to <span class="math notranslate nohighlight">\(2\times10^{-4}\)</span>; at the forbidden triplet (0.422) and even-parity singlet (0.615) positions the signal shows no line of its own — over fivefold below even the weaker allowed peak, the small residual at 0.615 being window leakage from the strong neighboring line — selection rules enforced not by assumption but by the unitary dynamics conserving spin and parity.</span><a class="headerlink" href="#fig-td-exact-spectrum" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3-two-routes-one-spectrum">
+<h3>Validation 3 — two routes, one spectrum<a class="headerlink" href="#validation-3-two-routes-one-spectrum" title="Link to this heading">#</a></h3>
+<p>Peaks on the eigenstate differences; forbidden windows far below the
+weaker allowed line.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  propagation peaks = static excitation energies   [worst deviation 1.8e-04]
+✓  forbidden lines fivefold below the weaker allowed line   [0.84%, 2.52% vs allowed 18.9%]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-tdhf-adiabatic-exact-exchange-priced">
+<h2>Exercise 4 — TDHF: adiabatic exact exchange, priced<a class="headerlink" href="#exercise-4-tdhf-adiabatic-exact-exchange-priced" title="Link to this heading">#</a></h2>
+<p>Now the approximate dynamics, starting with the best mean field on
+offer. Both electrons share one orbital <span class="math notranslate nohighlight">\(\varphi\)</span>, which feels the mean
+field of <a class="reference internal" href="#equation-eq-td-meanfield">Eq. 916</a> with <span class="math notranslate nohighlight">\(c = \tfrac12\)</span>: the exchange
+integral of a doubly occupied orbital cancels exactly half the Hartree
+term, so each electron sees only the <em>other</em> one. Finding that orbital is
+a fixed-point problem — the potential depends on the density the potential
+produces — and the vocabulary is <a class="reference internal" href="hartree-fock-atoms.html"><span class="std std-doc">§8.3</span></a>’s
+mixing-damped SCF: diagonalize, mix the new orbital in at weight
+<span class="math notranslate nohighlight">\(\alpha\)</span>, repeat. Two practical points decide whether the loop converges
+at all. <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> fixes its eigenvectors only up to sign, so a
+flipped iterate mixed against its predecessor would cancel rather than
+converge; and the undamped map overshoots for this mean field, which is
+what the damping is for. The closed-shell energies follow from the same
+<span class="math notranslate nohighlight">\(c\)</span>: <span class="math notranslate nohighlight">\(E^{\mathrm{HF}} = 2\langle h\rangle + J\)</span> against
+<span class="math notranslate nohighlight">\(E^{\mathrm{H}} = 2\langle h\rangle + 2J\)</span>, with
+<span class="math notranslate nohighlight">\(J = \iint |\varphi|^2 w |\varphi|^2\)</span>. Propagating this orbital differs
+from Exercise 2 in exactly one respect, and it is the essential one: the
+mean field is rebuilt from <span class="math notranslate nohighlight">\(|\varphi(t)|^2\)</span> at every step, so the
+Crank–Nicolson linear system changes each step and no factorization can be
+reused — at <span class="math notranslate nohighlight">\(N = 121\)</span> a dense solve is the right answer anyway. The
+reference to beat is Exercise 1’s exact <span class="math notranslate nohighlight">\(-2.2391\)</span> and its first excitation
+at <span class="math notranslate nohighlight">\(0.5339\)</span>.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">scf_orbital(hartree_factor,</span> <span class="pre">n_iter=200,</span> <span class="pre">mixing=0.3)</span></code>,
+the damped SCF returning the converged orbital and the total energy for
+either <span class="math notranslate nohighlight">\(c\)</span>. <strong>Write this one yourself</strong> — the implementation is the
+lesson.</p>
+<p><strong>Part b)</strong> Run it at <span class="math notranslate nohighlight">\(c = \tfrac12\)</span>: <span class="math notranslate nohighlight">\(E^{\mathrm{HF}} = -2.2250\)</span>,
+leaving <span class="math notranslate nohighlight">\(14.1\)</span> mHa of correlation against the exact <span class="math notranslate nohighlight">\(-2.2391\)</span> —
+<a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a>’s percent-level verdict on HF, reproduced
+in one dimension.</p>
+<p><strong>Part c)</strong> Write
+<code class="docutils literal notranslate"><span class="pre">propagate_orbital(hartree_factor,</span> <span class="pre">kick=KICK,</span> <span class="pre">n_steps=N_STEPS,</span> <span class="pre">dt=DT)</span></code>,
+the self-consistent Crank–Nicolson: kick the converged orbital with the
+same pure phase, then step it with the mean field rebuilt from the
+instantaneous density, recording the dipole <span class="math notranslate nohighlight">\(2\langle\varphi|x|\varphi\rangle\)</span>.
+<strong>Write this one yourself</strong> — the implementation is the lesson.</p>
+<p><strong>Part d)</strong> Run it at <span class="math notranslate nohighlight">\(c = \tfrac12\)</span> with Exercise 2’s kick, step and
+step count, and transform the record with the <code class="docutils literal notranslate"><span class="pre">dipole_spectrum</span></code> you wrote
+in Exercise 3. The first spectral peak lands at <span class="math notranslate nohighlight">\(0.550\)</span>: blue-shifted from
+the exact <span class="math notranslate nohighlight">\(0.534\)</span> by <span class="math notranslate nohighlight">\(3.0\%\)</span>. That shift <em>is</em> the adiabatic exchange-only
+TDDFT error for this system — correlation missing from both the ground
+state and the response — and now it has a number.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RHF energy -2.225017   exact -2.239071   correlation -14.1 mHa
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TDHF first peak: 0.5498   exact 0.5339   shift +3.0%
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-4-correlation-s-price-tag">
+<h3>Validation 4 — correlation’s price tag<a class="headerlink" href="#validation-4-correlation-s-price-tag" title="Link to this heading">#</a></h3>
+<p>The HF ground energy and its <span class="math notranslate nohighlight">\(14\)</span> mHa deficit; the TDHF peak
+blue-shifted by <span class="math notranslate nohighlight">\(3\%\)</span> — small, systematic, and now measured.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  RHF ground energy   [got -2.22502 vs expected -2.225 (rtol=1e-06, atol=0.001)]
+✓  correlation energy ~ -14 mHa (percent level, as in 8.2)   [-14.1 mHa]
+✓  TDHF blue-shifts the excitation by ~3%   [peak 0.5498, shift +3.0%]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-verdict-the-self-interaction-catastrophe-and-the-scoreboard">
+<h2>Exercise 5 — Verdict: the self-interaction catastrophe, and the scoreboard<a class="headerlink" href="#exercise-5-verdict-the-self-interaction-catastrophe-and-the-scoreboard" title="Link to this heading">#</a></h2>
+<p>The same dynamics with <span class="math notranslate nohighlight">\(c = 1\)</span>: each electron now repels the <em>full</em>
+density, itself included.</p>
+<p><strong>Part a)</strong> Converge and kick the TD-Hartree system with the
+<code class="docutils literal notranslate"><span class="pre">scf_orbital</span></code> and <code class="docutils literal notranslate"><span class="pre">propagate_orbital</span></code> you wrote in Exercise 4 — only the
+argument changes — and transform the record with your Exercise 3
+<code class="docutils literal notranslate"><span class="pre">dipole_spectrum</span></code>. Its spectrum is
+not shifted — it is <em>wrecked</em>: the strongest line lands near <span class="math notranslate nohighlight">\(0.20\)</span>
+— <span class="math notranslate nohighlight">\(62\%\)</span> below the exact excitation — with further spurious structure
+at <span class="math notranslate nohighlight">\(0.39\)</span> and <span class="math notranslate nohighlight">\(0.63\)</span>, none of it corresponding to any exact
+transition. The
+self-interaction error that <a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a>
+showed bending static curves here detunes the dynamics entirely: the
+electron drags a phantom copy of itself through every oscillation.</p>
+<p><strong>Part b)</strong> Assemble the verdict figure — exact, TDHF, TD-Hartree
+spectra against the exact excitation lines — and the scoreboard table:
+method, ground energy, first-peak position, error. Two lessons, both
+measured: <em>the mean field’s quality decides the dynamics’ quality</em>
+(TDHF within <span class="math notranslate nohighlight">\(3\%\)</span>, Hartree off by tens of percent), and <em>removing
+self-interaction is not optional</em> — the same two rules that govern
+every functional on <a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a>’s static
+battleground.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TD-Hartree ground energy -1.528782 (self-interaction included)
+TD-Hartree main peak: 0.2042   error -61.8%
+
+--- Verdict: approximate dynamics vs the exact atom ---
+      method   E_ground     peak    error
+       exact    -2.2391   0.5339        —
+        TDHF    -2.2250   0.5498    +3.0%
+  TD-Hartree    -1.5288   0.2042   -61.8%
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-td-verdict">
+<img alt="../../_images/b0c97c9fa3da466955d7f2e911de986af0878f966f80252e4a2dfa1ac8a45753.png" src="../../_images/b0c97c9fa3da466955d7f2e911de986af0878f966f80252e4a2dfa1ac8a45753.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 823 </span><span class="caption-text">Three dynamics, one exact answer. Dipole spectra of the same kicked two-electron atom under exact propagation (ink), time-dependent Hartree–Fock (amber), and time-dependent Hartree (grey), against the exact dipole-allowed excitations (dotted verticals). TDHF — which for two singlet electrons is adiabatic exact-exchange TDDFT — reproduces the spectrum’s shape with a systematic <span class="math notranslate nohighlight">\(+3\%\)</span> blue shift: the price of missing correlation. TD-Hartree, its self-interaction uncorrected, lands its strongest line 62% low with further spurious structure above it: the §8.8 self-interaction disease, propagating. The quality of the functional is the quality of the dynamics.</span><a class="headerlink" href="#fig-td-verdict" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5-wrecked-measurably">
+<h3>Validation 5 — wrecked, measurably<a class="headerlink" href="#validation-5-wrecked-measurably" title="Link to this heading">#</a></h3>
+<p>TD-Hartree far off where TDHF is close; the ordering of errors is the
+lesson, and it is gated.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  self-interaction detunes TD-Hartree by tens of percent   [error -61.8%]
+✓  mean-field quality decides dynamical quality (TDHF &lt;&lt; Hartree error)   [3.0% vs 61.8%]
+✓  self-interaction raises the mean-field ground energy   [-1.5288 &gt; -2.2250]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">With your assistant</p>
+<p>Everything here was <em>linear</em> response — but the propagator does not
+know that. Have your assistant rerun the exact propagation with a
+<em>strong</em> kick (<span class="math notranslate nohighlight">\(\kappa = 0.5\)</span>, same <span class="math notranslate nohighlight">\(\Delta t\)</span> and steps) and compute
+the spectrum out to <span class="math notranslate nohighlight">\(\omega \approx 2\)</span>. Then run the check that is
+yours alone: a third-harmonic line — spectral weight near
+<span class="math notranslate nohighlight">\(3\times\)</span> the fundamental that is absent in the <span class="math notranslate nohighlight">\(\kappa = 10^{-3}\)</span>
+spectrum (compare the two spectra’s weight in a window around
+<span class="math notranslate nohighlight">\(3\omega_1\)</span> with <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, demanding a ratio <span class="math notranslate nohighlight">\(&gt; 10\)</span>). Odd harmonics
+from a centrosymmetric system: nonlinear optics, three lines of
+<code class="docutils literal notranslate"><span class="pre">numpy</span></code> away from linear spectroscopy. The check is yours.</p>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>The volume’s exact laboratory learned to move. Its eight lowest states
+were classified by exchange and parity — ground state <span class="math notranslate nohighlight">\(-2.2391\)</span>,
+two dipole-active singlet-odd excitations at <span class="math notranslate nohighlight">\(0.5339\)</span> and <span class="math notranslate nohighlight">\(0.7147\)</span>,
+a triplet and an even singlet on the forbidden list — and the exact
+real-time dynamics honored all of it: Crank–Nicolson with a
+once-factorized sparse LU conserved the norm to <span class="math notranslate nohighlight">\(10^{-8}\)</span> across
+<span class="math notranslate nohighlight">\(4000\)</span> steps, the kick response ratio under kick halving was
+<span class="math notranslate nohighlight">\(2.0000\)</span>, linear to well within the <span class="math notranslate nohighlight">\(1\%\)</span> tolerance, the spectral
+peaks landed on the static excitation energies
+at <span class="math notranslate nohighlight">\(2\times10^{-4}\)</span>, and the forbidden windows stayed fivefold below even the weaker
+allowed line — spin and parity acting as selection rules <em>inside</em> the
+propagator.
+Against this certified answer, the two mean-field dynamics took their
+grades: time-dependent Hartree–Fock (adiabatic exact exchange for this
+system) reproduced the spectrum with a <span class="math notranslate nohighlight">\(+3.0\%\)</span> blue shift on a
+<span class="math notranslate nohighlight">\(-2.2250\)</span> ground state (<span class="math notranslate nohighlight">\(14\)</span> mHa of correlation missing — the same
+deficit <a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a> measured); time-dependent
+Hartree, self-interaction left in, landed <span class="math notranslate nohighlight">\(62\%\)</span> low with spurious
+structure — <a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a>’s static disease
+as a dynamical catastrophe. The scoreboard is the point: TDDFT’s
+accuracy is exactly the accuracy of its functional, and the exact
+testing ground is what makes that sentence quantitative.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Production TDDFT propagates Kohn–Sham orbitals with adiabatic
+LDA/GGA functionals — better than Hartree (self-interaction partly
+cancelled), worse than exact exchange for two electrons; Ullrich
+<span class="bibtex-citation" id="id5">[<a class="reference internal" href="#id82" title="Carsten A. Ullrich. Time-Dependent Density-Functional Theory: Concepts and Applications. Oxford University Press, Oxford, 2012.">Ull12</a>]</span> maps the functional landscape, Casida’s
+linear-response matrix reformulates the kick as an eigenproblem, and
+the known failures (double excitations, charge transfer, memory)
+all trace to the adiabatic approximation this notebook priced.</p></li>
+<li><p>The kick protocol scales: real codes compute molecular absorption
+exactly as Exercise 3 did, with the 2D grid swapped for Kohn–Sham
+orbitals in 3D.</p></li>
+<li><p>One movement remains: from excited electrons to <em>paired</em> ones. The
+volume’s finale, <a class="reference internal" href="bcs-superconductivity.html"><span class="std std-doc">§8.17</span></a>, takes the
+attractive corner of the interaction map and finds the ground state
+nobody predicted: superconductivity.</p></li>
+</ul>
+<div class="docutils container" id="id6">
+<div role="list" class="citation-list">
+<div class="citation" id="id97" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>RG84<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id4">2</a>)</span>
+<p>Erich Runge and E. K. U. Gross. Density-functional theory for time-dependent systems. <em>Physical Review Letters</em>, 52:997–1000, 1984. <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.52.997">doi:10.1103/PhysRevLett.52.997</a>.</p>
+</div>
+<div class="citation" id="id82" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Ull12<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id3">2</a>,<a role="doc-backlink" href="#id5">3</a>)</span>
+<p>Carsten A. Ullrich. <em>Time-Dependent Density-Functional Theory: Concepts and Applications</em>. Oxford University Press, Oxford, 2012.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/08-electronic-structure"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="optics-excitons.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">8.15 Optical Absorption and Excitons</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="bcs-superconductivity.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">8.17 BCS Superconductivity</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rungegross-and-why-propagation-is-spectroscopy">Runge–Gross, and why propagation is spectroscopy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cranknicolson-unitary-by-construction">Crank–Nicolson, unitary by construction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-two-approximate-dynamics">The two approximate dynamics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-laboratory-reopened-and-classified">Exercise 1 — The laboratory, reopened and classified</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-papers-in-order">Validation 1 — papers in order</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-exact-dynamics-kicked-unitary-linear">Exercise 2 — Exact dynamics: kicked, unitary, linear</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-unitary-and-linear-certified">Validation 2 — unitary and linear, certified</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-spectroscopy-peaks-where-allowed-silence-where-not">Exercise 3 — Spectroscopy: peaks where allowed, silence where not</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-two-routes-one-spectrum">Validation 3 — two routes, one spectrum</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-tdhf-adiabatic-exact-exchange-priced">Exercise 4 — TDHF: adiabatic exact exchange, priced</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-correlation-s-price-tag">Validation 4 — correlation’s price tag</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-verdict-the-self-interaction-catastrophe-and-the-scoreboard">Exercise 5 — Verdict: the self-interaction catastrophe, and the scoreboard</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-wrecked-measurably">Validation 5 — wrecked, measurably</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1435 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="8.9 Tight Binding: From Chain to Graphene" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/tight-binding.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Movements I and II built the machinery of interacting electrons in atoms; Movement III puts electrons in crystals, where §7.12 established..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Movements I and II built the machinery of interacting electrons in atoms; Movement III puts electrons in crystals, where §7.12 established..." />
+
+    <title>8.9 Tight Binding: From Chain to Graphene &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/08-electronic-structure/tight-binding';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/tight-binding.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="8.10 Plane Waves and Pseudopotentials" href="plane-waves-pseudopotentials.html" />
+    <link rel="prev" title="8.8 Exact Conditions and the Band-Gap Problem" href="exact-conditions-band-gap.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/08-electronic-structure/tight-binding.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/08-electronic-structure/tight-binding.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/08-electronic-structure/tight-binding.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/08-electronic-structure/tight-binding.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>8.9 Tight Binding: From Chain to Graphene</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-lcao-secular-problem-and-the-band-of-a-chain">The LCAO secular problem, and the band of a chain</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#densities-of-states-and-van-hove-s-theorem">Densities of states and van Hove’s theorem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graphene-two-sites-one-zero-massless-electrons">Graphene: two sites, one zero, massless electrons</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-chain-with-the-honest-overlap">Exercise 1 — The chain, with the honest overlap</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-edges-both-ways">Validation 1 — the edges, both ways</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-dimensional-gallery-of-densities-of-states">Exercise 2 — The dimensional gallery of densities of states</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-dimension-s-signatures-fitted">Validation 2 — dimension’s signatures, fitted</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-graphene-s-bands-and-the-exact-zero">Exercise 3 — Graphene’s bands, and the exact zero</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-geometry-not-tuning">Validation 3 — geometry, not tuning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-massless-the-fermi-velocity-and-the-linear-dos">Exercise 4 — Massless: the Fermi velocity and the linear DOS</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-the-massless-signatures">Validation 4 — the massless signatures</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-hellmannfeynman-bands-begin-to-push-atoms">Exercise 5 — Hellmann–Feynman: bands begin to push atoms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-forces-certified-instability-observed">Validation 5 — forces certified, instability observed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tight-binding-from-chain-to-graphene">
+<h1>8.9 Tight Binding: From Chain to Graphene<a class="headerlink" href="#tight-binding-from-chain-to-graphene" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VIII — Electronic Structure and Many-Body Matter
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;8.9
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Movement III moves the many-electron machinery into crystals, starting from the chemist&#x27;s limit: electrons hopping between atomic orbitals. One matrix element generates the band structures of a chain, a square lattice, and graphene&#x27;s honeycomb — whose two famous Dirac points emerge, exactly, from three complex numbers summing to zero. Densities of states acquire their dimensional fingerprints (inverse-square-root edges, a logarithmic saddle matching its analytic coefficient to a percent), the Hellmann–Feynman theorem starts computing forces, and a Peierls dimerization closes the loop from bands back to structure.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;120–150 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Movements I and II built the machinery of interacting electrons in atoms;
+Movement III puts electrons in <em>crystals</em>, where
+<a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a>
+established the grammar (Bloch’s theorem, bands, the inert filled band) and this
+volume now supplies the working vocabulary. Tight binding is the chemist’s
+entrance: start from atomic orbitals, let electrons hop to neighbors with
+amplitude <span class="math notranslate nohighlight">\(-t\)</span>, and diagonalize in the Bloch basis. The method is almost
+embarrassingly simple and almost embarrassingly powerful — it undergirds
+everything from back-of-envelope band estimates to the Wannier-function
+machinery of <a class="reference internal" href="berry-wannier-ssh.html"><span class="std std-doc">§8.12</span></a> and the Hubbard models of
+<a class="reference internal" href="hubbard-model.html"><span class="std std-doc">§8.13</span></a>, and in 2004 it turned out to describe, essentially
+exactly, the most celebrated material of the century.</p>
+<p>The build: the monatomic chain from the LCAO secular equation (with the
+usually-dropped overlap correction computed rather than waved off); the square
+lattice and the dimensional gallery of densities of states — inverse-square-root
+edges in one dimension, a logarithmic van Hove saddle in two whose coefficient
+matches its analytic value <span class="math notranslate nohighlight">\(1/2\pi^2 t\)</span> to better than a percent; then graphene,
+where the honeycomb’s two-site unit cell gives a <span class="math notranslate nohighlight">\(2\times2\)</span> Bloch Hamiltonian
+whose off-diagonal element vanishes <em>exactly</em> at the Brillouin-zone corners:
+Dirac cones, a measured Fermi velocity of precisely <span class="math notranslate nohighlight">\(3ta/2\)</span>, and a linear,
+vanishing density of states. The closing exercises put the bands to work:
+Hellmann–Feynman forces certified against finite differences at <span class="math notranslate nohighlight">\(10^{-6}\)</span>, and
+the Peierls instability — a half-filled chain <em>lowering its electronic energy by
+dimerizing</em> — computed as the volume’s first band-structure-drives-structure
+result.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Hopping <span class="math notranslate nohighlight">\(t = 1\)</span> sets the energy unit; bond
+lengths set length units (chain spacing <span class="math notranslate nohighlight">\(a = 1\)</span>; graphene carbon–carbon
+distance <span class="math notranslate nohighlight">\(a = 1\)</span>, so the lattice vectors are
+<span class="math notranslate nohighlight">\(\mathbf a_{1,2} = (3/2, \pm\sqrt3/2)\)</span>). On-site energies are zero unless
+stated. Bloch Hamiltonians are explicit <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays diagonalized by
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> (or read off analytically where <span class="math notranslate nohighlight">\(2\times2\)</span>); densities of
+states are normalized histograms (<code class="docutils literal notranslate"><span class="pre">numpy.histogram</span></code>, <code class="docutils literal notranslate"><span class="pre">density=True</span></code>) over
+uniformly sampled Brillouin zones.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call
+against an independent fact: an exact zero at a symmetry point, an analytic
+coefficient, a fitted exponent, a force identity. A ✓ is strong evidence; a ✗
+is a prompt to locate the discrepancy, not an automatic verdict.</p>
+<p><strong>Scope.</strong> Orthogonal single-orbital tight binding plus the first overlap
+correction; multi-orbital fits to ab-initio bands, spin–orbit terms, and
+Slater–Koster tables are surveyed in Ashcroft &amp; Mermin and in Martin
+<span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id73" title="Richard M. Martin. Electronic Structure: Basic Theory and Practical Methods. Cambridge University Press, Cambridge, 2004.">Mar04</a>]</span>, Ch. 14. Graphene’s electronic story is told in full in
+the standard reviews; the tight-binding treatment here is the one Wallace
+wrote down in 1947, sixty-three years before the Nobel prize it described.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-lcao-secular-problem-and-the-band-of-a-chain">
+<h3>The LCAO secular problem, and the band of a chain<a class="headerlink" href="#the-lcao-secular-problem-and-the-band-of-a-chain" title="Link to this heading">#</a></h3>
+<p>Place one orbital <span class="math notranslate nohighlight">\(|j\rangle\)</span> on each site of a lattice and expand the crystal
+state in them. Bloch’s theorem
+(<a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a>)
+fixes the coefficients to phases, <span class="math notranslate nohighlight">\(|k\rangle = \sum_j e^{ikja}|j\rangle\)</span>, and
+the variational principle in this basis gives the generalized eigenproblem
+<span class="math notranslate nohighlight">\(A(k) - \varepsilon(k)\,S(k) = 0\)</span>, with <span class="math notranslate nohighlight">\(A(k)\)</span> the Hamiltonian’s Bloch sum
+(on-site term included) and <span class="math notranslate nohighlight">\(S(k)\)</span> the overlap’s. For a chain with
+nearest-neighbor hopping <span class="math notranslate nohighlight">\(\langle j|\hat H|j\pm1\rangle = -t\)</span> and overlap
+<span class="math notranslate nohighlight">\(\langle j|j\pm1\rangle = s\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-tb-chain">
+<span class="eqno">(892)<a class="headerlink" href="#equation-eq-tb-chain" title="Link to this equation">#</a></span>\[\varepsilon(k) = \frac{\varepsilon_{\mathrm{AT}} - 2t\cos ka}{1 + 2s\cos ka}
+\;\xrightarrow{\;s\to0\;}\;
+\varepsilon_{\mathrm{AT}} - 2t\cos ka :\]</div>
+<p>the textbook cosine band of width <span class="math notranslate nohighlight">\(4t\)</span>, with the overlap correction skewing it
+asymmetrically (bonding states pushed less than antibonding, because
+<span class="math notranslate nohighlight">\(S &gt; 1\)</span> where the orbitals add). One orbital per site, one band; <span class="math notranslate nohighlight">\(N\)</span> sites, <span class="math notranslate nohighlight">\(N\)</span>
+states; the band <em>is</em> the atomic level, delocalized.</p>
+</section>
+<section id="densities-of-states-and-van-hove-s-theorem">
+<h3>Densities of states and van Hove’s theorem<a class="headerlink" href="#densities-of-states-and-van-hove-s-theorem" title="Link to this heading">#</a></h3>
+<p>The number of states per energy,
+<span class="math notranslate nohighlight">\(g(\varepsilon) = \sum_{\mathbf k}\delta(\varepsilon - \varepsilon_{\mathbf k})\)</span>,
+inherits singularities wherever the band flattens (<span class="math notranslate nohighlight">\(\nabla_{\mathbf k}
+\varepsilon = 0\)</span>), and their <em>shape</em> is fixed by dimension alone (van Hove
+1953; Ashcroft &amp; Mermin, Ch. 8, classify the cases): in one dimension band
+edges diverge as <span class="math notranslate nohighlight">\(|\varepsilon - \varepsilon_c|^{-1/2}\)</span>, in two dimensions a
+saddle point produces a symmetric logarithmic peak, and in three dimensions
+only square-root <em>kinks</em> survive. For the square lattice,
+<span class="math notranslate nohighlight">\(\varepsilon = -2t(\cos k_x a + \cos k_y a)\)</span>, the saddle at
+<span class="math notranslate nohighlight">\((\pi/a, 0)\)</span> gives the closed form</p>
+<div class="math notranslate nohighlight" id="equation-eq-tb-vanhove">
+<span class="eqno">(893)<a class="headerlink" href="#equation-eq-tb-vanhove" title="Link to this equation">#</a></span>\[g(\varepsilon) \;\approx\; \frac{1}{2\pi^2 t}\,
+\ln\frac{16t}{|\varepsilon|}
+\qquad (|\varepsilon| \ll t),\]</div>
+<p>whose coefficient <span class="math notranslate nohighlight">\(1/2\pi^2 t = 0.0507\)</span> the histogram below reproduces to
+better than a percent — a rare chance to fit a <em>logarithm’s prefactor</em> against
+theory.</p>
+</section>
+<section id="graphene-two-sites-one-zero-massless-electrons">
+<h3>Graphene: two sites, one zero, massless electrons<a class="headerlink" href="#graphene-two-sites-one-zero-massless-electrons" title="Link to this heading">#</a></h3>
+<p>The honeycomb lattice is triangular with a two-atom basis (A and B
+sublattices), so the Bloch Hamiltonian is a <span class="math notranslate nohighlight">\(2\times2\)</span> matrix,</p>
+<div class="math notranslate nohighlight" id="equation-eq-tb-graphene">
+<span class="eqno">(894)<a class="headerlink" href="#equation-eq-tb-graphene" title="Link to this equation">#</a></span>\[\begin{split}H(\mathbf k) = \begin{pmatrix} 0 &amp; -t\,f(\mathbf k) \\
+-t\,f^*(\mathbf k) &amp; 0 \end{pmatrix},
+\qquad
+f(\mathbf k) = 1 + e^{i\mathbf k\cdot\mathbf a_1} + e^{i\mathbf k\cdot\mathbf a_2},
+\qquad
+\varepsilon_\pm = \pm\, t\,|f(\mathbf k)| ,\end{split}\]</div>
+<p>with <span class="math notranslate nohighlight">\(f\)</span> the sum of phases to the three B neighbors of an A atom. The entire
+electronic identity of graphene hangs on one question: can three unit phasors
+sum to zero? At the Brillouin-zone corner <span class="math notranslate nohighlight">\(\mathbf K\)</span> the three phases are
+<span class="math notranslate nohighlight">\(1, e^{2\pi i/3}, e^{4\pi i/3}\)</span> — the cube roots of unity — and their sum
+vanishes <em>identically</em>. The two bands touch at isolated points, disperse
+linearly around them with slope <span class="math notranslate nohighlight">\(v_F = 3ta/2\)</span> (measured below by fit), and the
+density of states vanishes linearly at the touching: electrons that behave, in
+every kinematic respect, like massless Dirac particles with <span class="math notranslate nohighlight">\(c \to v_F\)</span>. The
+half-filled honeycomb sits its Fermi level exactly on the touching points:
+graphene is a semimetal by counting alone.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data only: the hopping integral that fixes the energy unit, the honeycomb’s
+lattice vectors and Brillouin-zone corner, and the series palette. The
+notebook’s own machinery — graphene’s Bloch factor <span class="math notranslate nohighlight">\(f(\mathbf k)\)</span> and the
+dimerized-chain Hamiltonian — you build in Exercises 3 and 5.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+<span class="n">INK</span><span class="p">,</span> <span class="n">AMBER</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="s2">&quot;#16213e&quot;</span><span class="p">,</span> <span class="s2">&quot;#c0851a&quot;</span><span class="p">,</span> <span class="s2">&quot;#46506b&quot;</span>
+
+<span class="n">T_HOP</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># data: the hopping integral, the energy unit throughout</span>
+
+<span class="c1"># data: graphene geometry (bond length 1) — lattice vectors and the K corner</span>
+<span class="n">A1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="n">A2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="n">K_POINT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">3.0</span><span class="p">))])</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-chain-with-the-honest-overlap">
+<h2>Exercise 1 — The chain, with the honest overlap<a class="headerlink" href="#exercise-1-the-chain-with-the-honest-overlap" title="Link to this heading">#</a></h2>
+<p>Equation <a class="reference internal" href="#equation-eq-tb-chain">Eq. 892</a> is usually quoted at <span class="math notranslate nohighlight">\(s = 0\)</span>; the full form is a
+two-line computation and teaches something real about bonding.</p>
+<p><strong>Part a)</strong> Plot <span class="math notranslate nohighlight">\(\varepsilon(k)\)</span> over the Brillouin zone <span class="math notranslate nohighlight">\(k \in [-\pi, \pi]\)</span>
+for <span class="math notranslate nohighlight">\(s = 0\)</span> and <span class="math notranslate nohighlight">\(s = 0.1\)</span> (with <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{AT}} = 0\)</span>, <code class="docutils literal notranslate"><span class="pre">numpy</span></code>
+arithmetic on <a class="reference internal" href="#equation-eq-tb-chain">Eq. 892</a>) and report the band edges. At <span class="math notranslate nohighlight">\(s = 0\)</span> the
+band is the symmetric <span class="math notranslate nohighlight">\([-2t, 2t]\)</span> cosine; at <span class="math notranslate nohighlight">\(s = 0.1\)</span> the <em>bonding</em> edge
+(<span class="math notranslate nohighlight">\(k = 0\)</span>) sits at <span class="math notranslate nohighlight">\(-2t/1.2 = -1.667t\)</span> while the <em>antibonding</em> edge (<span class="math notranslate nohighlight">\(k = \pi\)</span>)
+is pushed to <span class="math notranslate nohighlight">\(+2t/0.8 = +2.5t\)</span> — overlap widens antibonding more than it
+deepens bonding, the same asymmetry every quantum-chemistry course meets in
+H<span class="math notranslate nohighlight">\(_2^+\)</span>.</p>
+<p><strong>Part b)</strong> Verify the two closed-form edges by <code class="docutils literal notranslate"><span class="pre">numpy</span></code> evaluation at
+<span class="math notranslate nohighlight">\(k = 0, \pi\)</span> and confirm the <span class="math notranslate nohighlight">\(s = 0\)</span> bandwidth is exactly <span class="math notranslate nohighlight">\(4t\)</span>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>s = 0:   band [-2.0000, +2.0000], width 4.0000
+s = 0.1: edges -1.6667 (bonding) and +2.5000 (antibonding)
+closed forms: -1.6667 and +2.5000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tb-chain">
+<img alt="../../_images/14474d4a8875b695e39e4225b32a36419fd5f30bf0fe44019c7ac9d8b420826d.png" src="../../_images/14474d4a8875b695e39e4225b32a36419fd5f30bf0fe44019c7ac9d8b420826d.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 788 </span><span class="caption-text">The tight-binding band of the monatomic chain over the Brillouin zone: the textbook cosine at zero orbital overlap (ink, width exactly <span class="math notranslate nohighlight">\(4t\)</span>) and the honest band at overlap <span class="math notranslate nohighlight">\(s = 0.1\)</span> (amber), skewed because overlap pushes the antibonding edge (<span class="math notranslate nohighlight">\(+2.5t\)</span> at <span class="math notranslate nohighlight">\(k = \pi\)</span>) harder than it deepens the bonding edge (<span class="math notranslate nohighlight">\(-1.667t\)</span> at <span class="math notranslate nohighlight">\(k = 0\)</span>) — the H<span class="math notranslate nohighlight">\(_2^+\)</span> asymmetry, promoted to a solid.</span><a class="headerlink" href="#fig-tb-chain" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-1-the-edges-both-ways">
+<h3>Validation 1 — the edges, both ways<a class="headerlink" href="#validation-1-the-edges-both-ways" title="Link to this heading">#</a></h3>
+<p>The <span class="math notranslate nohighlight">\(s = 0\)</span> bandwidth must be exactly <span class="math notranslate nohighlight">\(4t\)</span>, and the <span class="math notranslate nohighlight">\(s = 0.1\)</span> edges must land
+on their closed forms <span class="math notranslate nohighlight">\(-1.6667t\)</span> and <span class="math notranslate nohighlight">\(+2.5t\)</span>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the orthogonal chain&#39;s bandwidth 4t   [got 4 vs expected 4 (rtol=1e-09, atol=1e-09)]
+✓  the bonding edge with overlap   [got -1.66667 vs expected -1.66667 (rtol=1e-09, atol=1e-09)]
+✓  the antibonding edge with overlap   [got 2.5 vs expected 2.5 (rtol=1e-09, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-dimensional-gallery-of-densities-of-states">
+<h2>Exercise 2 — The dimensional gallery of densities of states<a class="headerlink" href="#exercise-2-the-dimensional-gallery-of-densities-of-states" title="Link to this heading">#</a></h2>
+<p>Van Hove’s theorem says dimension writes its signature on <span class="math notranslate nohighlight">\(g(\varepsilon)\)</span>, and
+three histograms make the signatures legible. All three lattices are sampled
+uniformly over their Brillouin zones and binned with <code class="docutils literal notranslate"><span class="pre">numpy.histogram</span></code>
+(<code class="docutils literal notranslate"><span class="pre">density=True</span></code>).</p>
+<p><strong>Part a)</strong> The chain: sample <span class="math notranslate nohighlight">\(\varepsilon = -2t\cos ka\)</span> on <span class="math notranslate nohighlight">\(2\times10^5\)</span>
+<span class="math notranslate nohighlight">\(k\)</span>-points, and fit the upper band edge’s divergence — the slope of
+<span class="math notranslate nohighlight">\(\ln g\)</span> against <span class="math notranslate nohighlight">\(\ln(2t - \varepsilon)\)</span> over <span class="math notranslate nohighlight">\(\varepsilon \in [1.5t, 1.99t]\)</span>
+(<code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code>) must come out <span class="math notranslate nohighlight">\(-1/2\)</span>.</p>
+<p><strong>Part b)</strong> The square lattice: sample
+<span class="math notranslate nohighlight">\(\varepsilon = -2t(\cos k_x a + \cos k_y a)\)</span> on a <span class="math notranslate nohighlight">\(2001^2\)</span> mesh
+(<code class="docutils literal notranslate"><span class="pre">numpy.meshgrid</span></code>), and fit the saddle’s logarithm: regressing
+<span class="math notranslate nohighlight">\(g(\varepsilon)\)</span> on <span class="math notranslate nohighlight">\(\ln|\varepsilon|\)</span> over <span class="math notranslate nohighlight">\(0.05t &lt; |\varepsilon| &lt; t\)</span> must
+return the <em>analytic prefactor</em> <span class="math notranslate nohighlight">\(-1/2\pi^2 t = -0.0507\)</span> of
+<a class="reference internal" href="#equation-eq-tb-vanhove">Eq. 893</a> — theory pinned to two digits by a histogram.</p>
+<p><strong>Part c)</strong> Plot the two densities of states with their singularities marked;
+graphene’s (linear at zero) joins the gallery in Exercise 4.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1-D edge exponent: -0.480  (van Hove: -1/2)
+2-D saddle prefactor: -0.0504  (analytic -1/(2 pi^2 t) = -0.0507)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tb-dos">
+<img alt="../../_images/1850255fd7ddb4ae7ca00329fd08743239286cab46cf887b73a93c7d60f2824c.png" src="../../_images/1850255fd7ddb4ae7ca00329fd08743239286cab46cf887b73a93c7d60f2824c.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 789 </span><span class="caption-text">Van Hove’s dimensional signatures, measured: the chain’s density of states (left) diverging as <span class="math notranslate nohighlight">\(|\varepsilon_c - \varepsilon|^{-1/2}\)</span> at its band edges (fitted exponent <span class="math notranslate nohighlight">\(-0.48\)</span>), and the square lattice’s (right) logarithmic saddle peak at band center, whose fitted prefactor <span class="math notranslate nohighlight">\(-0.0504\)</span> against <span class="math notranslate nohighlight">\(\ln|\varepsilon|\)</span> reproduces the analytic <span class="math notranslate nohighlight">\(-1/2\pi^2 t = -0.0507\)</span> to under a percent: a logarithm’s coefficient, extracted from a histogram.</span><a class="headerlink" href="#fig-tb-dos" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2-dimension-s-signatures-fitted">
+<h3>Validation 2 — dimension’s signatures, fitted<a class="headerlink" href="#validation-2-dimension-s-signatures-fitted" title="Link to this heading">#</a></h3>
+<p>The chain’s edge exponent must be <span class="math notranslate nohighlight">\(-1/2\)</span> within the histogram’s resolution,
+and the square lattice’s logarithmic prefactor must match the analytic
+<span class="math notranslate nohighlight">\(-1/2\pi^2\)</span> within <span class="math notranslate nohighlight">\(2\%\)</span>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the 1-D inverse-square-root edge   [got -0.479863 vs expected -0.5 (rtol=0.08, atol=1e-09)]
+✓  the square saddle&#39;s analytic prefactor   [got -0.0503628 vs expected -0.0506606 (rtol=0.02, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-graphene-s-bands-and-the-exact-zero">
+<h2>Exercise 3 — Graphene’s bands, and the exact zero<a class="headerlink" href="#exercise-3-graphene-s-bands-and-the-exact-zero" title="Link to this heading">#</a></h2>
+<p>Equation <a class="reference internal" href="#equation-eq-tb-graphene">Eq. 894</a> reduces graphene to one complex function, and its
+claimed zero at the zone corner is exact arithmetic: at <span class="math notranslate nohighlight">\(\mathbf K\)</span> the three
+phases are the cube roots of unity. The geometry is in Setup: the lattice
+vectors <span class="math notranslate nohighlight">\(\mathbf a_{1,2} = (3/2, \pm\sqrt3/2)\)</span> as <code class="docutils literal notranslate"><span class="pre">A1</span></code>, <code class="docutils literal notranslate"><span class="pre">A2</span></code>, and the corner
+<span class="math notranslate nohighlight">\(\mathbf K = (2\pi/3,\, 2\pi/3\sqrt3)\)</span> as <code class="docutils literal notranslate"><span class="pre">K_POINT</span></code>.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">f_graphene(kx,</span> <span class="pre">ky)</span></code> returning the Bloch factor
+<span class="math notranslate nohighlight">\(f(\mathbf k) = 1 + e^{i\mathbf k\cdot\mathbf a_1} +
+e^{i\mathbf k\cdot\mathbf a_2}\)</span> of <a class="reference internal" href="#equation-eq-tb-graphene">Eq. 894</a>, vectorized over
+<code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays of <span class="math notranslate nohighlight">\(k_x\)</span> and <span class="math notranslate nohighlight">\(k_y\)</span> so that one function serves a band path, a
+surface patch, and a Brillouin-zone mesh alike. Everything graphene does in
+this notebook is a statement about this one complex number.</p>
+<p><strong>Part b)</strong> Evaluate it at <span class="math notranslate nohighlight">\(\mathbf K\)</span>: <span class="math notranslate nohighlight">\(|f(\mathbf K)|\)</span> must vanish at
+machine precision — a band gap of exactly zero, protected by geometry rather
+than tuning.</p>
+<p><strong>Part c)</strong> Plot the bands <span class="math notranslate nohighlight">\(\pm t|f|\)</span> along the standard path
+<span class="math notranslate nohighlight">\(\Gamma \to K \to M \to \Gamma\)</span> (<span class="math notranslate nohighlight">\(M = (2\pi/3, 0)\)</span>; <code class="docutils literal notranslate"><span class="pre">numpy.linspace</span></code> segments)
+and, as an inset, the lower band’s surface near <span class="math notranslate nohighlight">\(\mathbf K\)</span> (a <code class="docutils literal notranslate"><span class="pre">numpy.meshgrid</span></code>
+patch): the cone. Report the band extremes at <span class="math notranslate nohighlight">\(\Gamma\)</span> (<span class="math notranslate nohighlight">\(\pm3t\)</span>: all three
+phasors aligned) and <span class="math notranslate nohighlight">\(M\)</span> (<span class="math notranslate nohighlight">\(\pm t\)</span>).</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|f(K)| = 6.75e-16  (exactly zero: 1 + w + w^2 for w = e^(2 pi i/3))
+|f| at Gamma = 3.0000 (3: aligned phasors); at M = 1.0000 (1)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tb-graphene">
+<img alt="../../_images/6877a8efd37077a844c60008471be75cc95593862fd4843bd23a32091b00d92d.png" src="../../_images/6877a8efd37077a844c60008471be75cc95593862fd4843bd23a32091b00d92d.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 790 </span><span class="caption-text">The tight-binding band structure of graphene along <span class="math notranslate nohighlight">\(\Gamma \to K \to M \to \Gamma\)</span>, with <span class="math notranslate nohighlight">\(|f(K)| = 6\times10^{-16}\)</span>: the valence and conduction bands touch exactly at the zone corners because the three neighbor phases there are the cube roots of unity. The inset shows the conical dispersion around <span class="math notranslate nohighlight">\(K\)</span> — the Dirac cone of a material whose low-energy electrons forgot they have mass.</span><a class="headerlink" href="#fig-tb-graphene" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3-geometry-not-tuning">
+<h3>Validation 3 — geometry, not tuning<a class="headerlink" href="#validation-3-geometry-not-tuning" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\(|f(\mathbf K)|\)</span> must vanish at machine precision, and the path extremes must
+be exactly 3 (at <span class="math notranslate nohighlight">\(\Gamma\)</span>) and 1 (at <span class="math notranslate nohighlight">\(M\)</span>).</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Dirac point: three phasors cancel exactly   [got 6.75322e-16 vs expected 0 (rtol=0, atol=1e-12)]
+✓  the Gamma-point energy 3t   [got 3 vs expected 3 (rtol=1e-12, atol=1e-09)]
+✓  the M-point energy t   [got 1 vs expected 1 (rtol=1e-12, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-massless-the-fermi-velocity-and-the-linear-dos">
+<h2>Exercise 4 — Massless: the Fermi velocity and the linear DOS<a class="headerlink" href="#exercise-4-massless-the-fermi-velocity-and-the-linear-dos" title="Link to this heading">#</a></h2>
+<p>Around its zeros <span class="math notranslate nohighlight">\(f\)</span> is linear in the displacement, so the bands form cones
+<span class="math notranslate nohighlight">\(\varepsilon = \pm v_F|\mathbf q|\)</span>, and expanding <a class="reference internal" href="#equation-eq-tb-graphene">Eq. 894</a>
+gives <span class="math notranslate nohighlight">\(v_F = 3ta/2\)</span> — with <span class="math notranslate nohighlight">\(a\)</span> the carbon–carbon bond, the one length in the
+problem. Both the slope and its consequence for the density of states are
+measurable.</p>
+<p><strong>Part a)</strong> Fit the cone: with the <code class="docutils literal notranslate"><span class="pre">f_graphene</span></code> you wrote in Exercise 3,
+evaluate <span class="math notranslate nohighlight">\(t|f|\)</span> at displacements <span class="math notranslate nohighlight">\(q \in [10^{-4}, 10^{-2}]\)</span> from <span class="math notranslate nohighlight">\(\mathbf K\)</span>
+along <span class="math notranslate nohighlight">\(k_x\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.geomspace</span></code>), fit with degree-1 <code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code>, and
+compare the slope with <span class="math notranslate nohighlight">\(3ta/2 = 1.5\)</span>.</p>
+<p><strong>Part b)</strong> The graphene density of states: histogram <span class="math notranslate nohighlight">\(\pm t|f|\)</span> over a dense
+Brillouin-zone sampling (<span class="math notranslate nohighlight">\(1200^2\)</span> mesh). Verify the three signatures: <span class="math notranslate nohighlight">\(g\)</span>
+vanishes at zero energy (the Dirac point, gated small), rises linearly
+(<code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code> over <span class="math notranslate nohighlight">\(|\varepsilon| &lt; 0.5t\)</span>), and peaks at the van Hove
+energies <span class="math notranslate nohighlight">\(\pm t\)</span> (the saddle at <span class="math notranslate nohighlight">\(M\)</span>; <code class="docutils literal notranslate"><span class="pre">numpy.argmax</span></code> location gated). Plot the
+full <span class="math notranslate nohighlight">\(g(\varepsilon)\)</span> — the fingerprint by which tunneling spectroscopists
+recognize graphene.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fitted v_F = 1.49999   (analytic 3 t a / 2 = 1.5)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>g(0) = 0.0010 (vanishing); van Hove peak at 0.993 t; linear onset slope 0.200
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tb-graphene-dos">
+<img alt="../../_images/59f2f4a6e79214140ef657853a7358cfc53de1108bbf3ad785de9932d2848fa4.png" src="../../_images/59f2f4a6e79214140ef657853a7358cfc53de1108bbf3ad785de9932d2848fa4.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 791 </span><span class="caption-text">The density of states of tight-binding graphene: vanishing linearly at the Dirac point (fitted slope through zero), with logarithmic van Hove peaks at <span class="math notranslate nohighlight">\(\varepsilon = \pm t\)</span> from the saddle at <span class="math notranslate nohighlight">\(M\)</span>, and band edges at <span class="math notranslate nohighlight">\(\pm 3t\)</span>. The measured Fermi velocity of the cones is <span class="math notranslate nohighlight">\(1.49999\)</span>, against the analytic <span class="math notranslate nohighlight">\(3ta/2 = 1.5\)</span>: the one number behind graphene’s massless electronics.</span><a class="headerlink" href="#fig-tb-graphene-dos" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4-the-massless-signatures">
+<h3>Validation 4 — the massless signatures<a class="headerlink" href="#validation-4-the-massless-signatures" title="Link to this heading">#</a></h3>
+<p>The fitted cone slope must be <span class="math notranslate nohighlight">\(3ta/2\)</span> to <span class="math notranslate nohighlight">\(10^{-3}\)</span>; the density of states at
+the Dirac point must be under <span class="math notranslate nohighlight">\(2\%\)</span> of its van Hove peak; the peak must sit at
+<span class="math notranslate nohighlight">\(|\varepsilon| = t\)</span> within a bin; and the onset must be genuinely linear
+(positive fitted slope with small intercept).</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Fermi velocity 3ta/2   [got 1.49999 vs expected 1.5 (rtol=0.001, atol=1e-09)]
+✓  the DOS vanishes at the Dirac point   [g(0) = 0.0010 vs peak 0.509]
+✓  the van Hove peak at the M-saddle energy   [got 0.993023 vs expected 1 (rtol=0, atol=0.03)]
+✓  the onset is linear through zero   [slope 0.200, intercept -0.002]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-hellmannfeynman-bands-begin-to-push-atoms">
+<h2>Exercise 5 — Hellmann–Feynman: bands begin to push atoms<a class="headerlink" href="#exercise-5-hellmannfeynman-bands-begin-to-push-atoms" title="Link to this heading">#</a></h2>
+<p>Everything so far treated the lattice as given; real crystals choose their own
+geometry, and the bridge is the force. The Hellmann–Feynman theorem (met as an
+exercise tool since <a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html"><span class="std std-doc">§7.23</span></a>)
+states that for an exact eigenstate, <span class="math notranslate nohighlight">\(dE/d\lambda = \langle\partial\hat
+H/\partial\lambda\rangle\)</span> — no wavefunction-response term survives. In a
+tight-binding chain whose bonds alternate as <span class="math notranslate nohighlight">\(t(1 \pm \delta)\)</span>, the parameter
+<span class="math notranslate nohighlight">\(\delta\)</span> is a caricature of atomic displacement, and the theorem’s two sides
+are both cheaply computable.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">dimer_chain(n_sites,</span> <span class="pre">delta)</span></code>, the real symmetric
+<code class="docutils literal notranslate"><span class="pre">(n_sites,</span> <span class="pre">n_sites)</span></code> Hamiltonian of an <em>open</em> chain in which bond <span class="math notranslate nohighlight">\(i\)</span> carries
+hopping <span class="math notranslate nohighlight">\(-(1 + \delta(-1)^i)\)</span> — so <span class="math notranslate nohighlight">\(\delta = 0\)</span> is the uniform chain and
+<span class="math notranslate nohighlight">\(\delta &gt; 0\)</span> alternates strong and weak bonds. Only the two first
+off-diagonals are nonzero, and the alternating sign is load-bearing: it is
+what makes the pattern a <em>dimerization</em> rather than a uniform rescaling.
+<strong>Write this one yourself</strong> — the implementation is the lesson.</p>
+<p><strong>Part b)</strong> For the 80-site chain at half filling (40 electrons, spin-paired
+in the 40 lowest orbitals) and <span class="math notranslate nohighlight">\(\delta = 0.2\)</span>: compute <span class="math notranslate nohighlight">\(dE/d\delta\)</span> by the
+central difference of total energies at <span class="math notranslate nohighlight">\(\delta \pm 10^{-3}\)</span>
+(<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> sums), and independently as
+<span class="math notranslate nohighlight">\(2\sum_j^{\mathrm{occ}} \langle\varphi_j|\partial H/\partial\delta|\varphi_j\rangle\)</span>
+(the derivative matrix has entries <span class="math notranslate nohighlight">\(-(-1)^i\)</span> on the bonds; <code class="docutils literal notranslate"><span class="pre">numpy</span></code> quadratic
+forms). The two must agree at the finite-difference floor.</p>
+<p><strong>Part c)</strong> Now let the chain choose: compute the electronic energy at
+<span class="math notranslate nohighlight">\(\delta = 0, 0.05, 0.1, 0.2\)</span> and observe it <em>fall monotonically</em> — the Peierls
+instability. A half-filled one-dimensional metal always profits from
+dimerizing (the gap opens exactly at the Fermi points, lowering every occupied
+state near them); balanced against the elastic cost <span class="math notranslate nohighlight">\(\propto\delta^2\)</span> of real
+springs, a finite dimerization wins, and the chain insulates itself. This is
+why polyacetylene alternates its bonds — and the physics behind the SSH model
+whose topology <a class="reference internal" href="berry-wannier-ssh.html"><span class="std std-doc">§8.12</span></a> will unravel.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dE/d delta: finite difference -42.839846 vs Hellmann-Feynman -42.839911
+delta = 0.0: E_el = -101.13887
+delta = 0.05: E_el = -101.81236
+delta = 0.1: E_el = -103.05240
+delta = 0.2: E_el = -106.70887
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tb-peierls">
+<img alt="../../_images/1fe2b26ab071b4ee9c1d6eb7c0942bae527308acee150a592469c8f110e33745.png" src="../../_images/1fe2b26ab071b4ee9c1d6eb7c0942bae527308acee150a592469c8f110e33745.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 792 </span><span class="caption-text">The Peierls instability of the half-filled 80-site chain: electronic energy versus dimerization <span class="math notranslate nohighlight">\(\delta\)</span>, falling monotonically (<span class="math notranslate nohighlight">\(-101.14\,t\)</span> at <span class="math notranslate nohighlight">\(\delta = 0\)</span> to <span class="math notranslate nohighlight">\(-106.71\,t\)</span> at <span class="math notranslate nohighlight">\(\delta = 0.2\)</span>) because the gap opens precisely at the Fermi points. Against a quadratic elastic cost (grey parabola, illustrative), the minimum sits at finite <span class="math notranslate nohighlight">\(\delta\)</span>: the one-dimensional metal dimerizes itself into an insulator, the physics of polyacetylene and the stage for the SSH model of §8.12.</span><a class="headerlink" href="#fig-tb-peierls" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5-forces-certified-instability-observed">
+<h3>Validation 5 — forces certified, instability observed<a class="headerlink" href="#validation-5-forces-certified-instability-observed" title="Link to this heading">#</a></h3>
+<p>The two force routes must agree within the finite-difference floor
+(<span class="math notranslate nohighlight">\(10^{-4}\)</span> relative), and the electronic energy must fall strictly
+monotonically with <span class="math notranslate nohighlight">\(\delta\)</span>: the Peierls gain, gated.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Hellmann-Feynman vs central differences   [got -42.8398 vs expected -42.8399 (rtol=0.0001, atol=1e-09)]
+✓  the half-filled chain always profits from dimerizing   [E falls -101.14 -&gt; -106.71]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">With your assistant</p>
+<p>The honeycomb generalizes: breaking the A/B sublattice symmetry with on-site
+energies <span class="math notranslate nohighlight">\(\pm\Delta\)</span> (the boron-nitride pattern) turns
+<a class="reference internal" href="#equation-eq-tb-graphene">Eq. 894</a>’s diagonal into <span class="math notranslate nohighlight">\((\Delta, -\Delta)\)</span> and gaps the cones.
+Have your assistant build the <span class="math notranslate nohighlight">\(2\times2\)</span> Bloch Hamiltonian with
+<span class="math notranslate nohighlight">\(\Delta = 0.2t\)</span> and compute the bands, then run the check that is yours
+alone: the gap at <span class="math notranslate nohighlight">\(\mathbf K\)</span> must equal exactly <span class="math notranslate nohighlight">\(2\Delta\)</span>
+(<code class="docutils literal notranslate"><span class="pre">numpy.isclose</span></code>, <code class="docutils literal notranslate"><span class="pre">rtol=1e-12</span></code>), and the bands must be massive there —
+quadratic, not linear (a <code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code> of <span class="math notranslate nohighlight">\(\varepsilon(q)\)</span> near <span class="math notranslate nohighlight">\(K\)</span> with
+the linear coefficient vanishing). Mass from broken symmetry: the check is
+yours.</p>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>Movement III opened with one matrix element doing a semester of work. The
+chain’s cosine band came from the LCAO secular equation with its honest
+overlap correction (edges <span class="math notranslate nohighlight">\(-1.667t\)</span> and <span class="math notranslate nohighlight">\(+2.5t\)</span> at <span class="math notranslate nohighlight">\(s = 0.1\)</span>: antibonding
+pushed harder, the H<span class="math notranslate nohighlight">\(_2^+\)</span> asymmetry in a solid). Van Hove’s dimensional
+signatures were fitted, not recited: the chain’s edge exponent <span class="math notranslate nohighlight">\(-0.48\)</span>
+against <span class="math notranslate nohighlight">\(-1/2\)</span>, and the square lattice’s logarithmic saddle prefactor
+<span class="math notranslate nohighlight">\(-0.0504\)</span> against the analytic <span class="math notranslate nohighlight">\(-1/2\pi^2 = -0.0507\)</span>. Graphene reduced to
+one complex function whose zero at <span class="math notranslate nohighlight">\(\mathbf K\)</span> is the cube roots of unity
+summing to zero — <span class="math notranslate nohighlight">\(|f(K)| = 6\times10^{-16}\)</span> — with the measured cone slope
+<span class="math notranslate nohighlight">\(v_F = 1.49999\)</span> against <span class="math notranslate nohighlight">\(3ta/2\)</span> and a density of states vanishing linearly
+between van Hove peaks pinned at <span class="math notranslate nohighlight">\(\pm t\)</span>. The Hellmann–Feynman theorem
+certified its force against central differences at <span class="math notranslate nohighlight">\(10^{-6}\)</span> relative, and
+the Peierls computation closed the loop from bands to structure: the
+half-filled chain’s electronic energy falls monotonically with dimerization,
+so one-dimensional metals insulate themselves — polyacetylene’s story, and
+the stage on which the next notebooks build.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Tight binding truncates a plane-wave-exact problem to a few orbitals; the
+complementary expansion — plane waves, cutoffs, and the pseudopotential
+idea that makes them affordable — is
+<a class="reference internal" href="plane-waves-pseudopotentials.html"><span class="std std-doc">§8.10</span></a>, and their empirical marriage
+produces real silicon in <a class="reference internal" href="epm-band-structures.html"><span class="std std-doc">§8.11</span></a>.</p></li>
+<li><p>The dimerized chain built here <em>is</em> the SSH model;
+<a class="reference internal" href="berry-wannier-ssh.html"><span class="std std-doc">§8.12</span></a> asks what its two dimerization patterns
+differ by, and the answer (a quantized Berry phase and protected edge
+states) opens the volume’s window on topology.</p></li>
+<li><p>Hopping plus on-site repulsion is the Hubbard model of
+<a class="reference internal" href="hubbard-model.html"><span class="std std-doc">§8.13</span></a> — tight binding meeting Movement I’s
+correlation problem head-on.</p></li>
+</ul>
+<div class="docutils container" id="id2">
+<div role="list" class="citation-list">
+<div class="citation" id="id73" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Mar04</a><span class="fn-bracket">]</span></span>
+<p>Richard M. Martin. <em>Electronic Structure: Basic Theory and Practical Methods</em>. Cambridge University Press, Cambridge, 2004.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/08-electronic-structure"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="exact-conditions-band-gap.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">8.8 Exact Conditions and the Band-Gap Problem</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="plane-waves-pseudopotentials.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">8.10 Plane Waves and Pseudopotentials</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-lcao-secular-problem-and-the-band-of-a-chain">The LCAO secular problem, and the band of a chain</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#densities-of-states-and-van-hove-s-theorem">Densities of states and van Hove’s theorem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graphene-two-sites-one-zero-massless-electrons">Graphene: two sites, one zero, massless electrons</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-chain-with-the-honest-overlap">Exercise 1 — The chain, with the honest overlap</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-edges-both-ways">Validation 1 — the edges, both ways</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-dimensional-gallery-of-densities-of-states">Exercise 2 — The dimensional gallery of densities of states</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-dimension-s-signatures-fitted">Validation 2 — dimension’s signatures, fitted</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-graphene-s-bands-and-the-exact-zero">Exercise 3 — Graphene’s bands, and the exact zero</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-geometry-not-tuning">Validation 3 — geometry, not tuning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-massless-the-fermi-velocity-and-the-linear-dos">Exercise 4 — Massless: the Fermi velocity and the linear DOS</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-the-massless-signatures">Validation 4 — the massless signatures</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-hellmannfeynman-bands-begin-to-push-atoms">Exercise 5 — Hellmann–Feynman: bands begin to push atoms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-forces-certified-instability-observed">Validation 5 — forces certified, instability observed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

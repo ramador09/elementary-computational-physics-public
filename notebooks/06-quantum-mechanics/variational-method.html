@@ -1,0 +1,1621 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="6.22 The Variational Method and Variational Monte Carlo" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/variational-method.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: The last notebook gave us perturbation theory, which works when a problem is close to a solvable one. This notebook gives us its complemen..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: The last notebook gave us perturbation theory, which works when a problem is close to a solvable one. This notebook gives us its complemen..." />
+
+    <title>6.22 The Variational Method and Variational Monte Carlo &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/06-quantum-mechanics/variational-method';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/variational-method.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="6.23 The WKB Approximation and the Semiclassical Limit" href="wkb-semiclassical.html" />
+    <link rel="prev" title="6.21 Time-Independent Perturbation Theory and Fine Structure" href="perturbation-fine-structure.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VI — Quantum Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-electronic-structure/index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/06-quantum-mechanics/variational-method.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/06-quantum-mechanics/variational-method.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/06-quantum-mechanics/variational-method.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/06-quantum-mechanics/variational-method.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>6.22 The Variational Method and Variational Monte Carlo</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-variational-principle">The variational principle</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-method-and-the-warm-ups">The method, and the warm-ups</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#helium-and-screening">Helium and screening</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variational-monte-carlo-and-the-local-energy">Variational Monte Carlo and the local energy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-zero-variance-principle">The zero-variance principle</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-variational-principle">Exercise 1 — The variational principle</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-optimizing-a-trial-the-oscillator">Exercise 2 — Optimizing a trial: the oscillator</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-optimizing-a-trial-hydrogen">Exercise 3 — Optimizing a trial: hydrogen</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-helium-and-screening">Exercise 4 — Helium and screening</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-variational-monte-carlo-the-local-energy">Exercise 5 — Variational Monte Carlo: the local energy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-zero-variance-principle">Exercise 6 — The zero-variance principle</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-practical-vmc-tuning-and-error-bars-student">Exercise 7 — Practical VMC: tuning and error bars <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-a-jastrow-factor-beats-the-product-trial-student-stretch">Exercise 8 — A Jastrow factor beats the product trial <em>(student / stretch)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-a-guess-with-a-guarantee-synthesis">Exercise 9 — A guess with a guarantee <em>(synthesis)</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-variational-method-and-variational-monte-carlo">
+<h1>6.22 The Variational Method and Variational Monte Carlo<a class="headerlink" href="#the-variational-method-and-variational-monte-carlo" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VI — Quantum Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;6.22
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">A good guess, and a guarantee. When a system is too far from anything solvable for perturbation theory, we can still bound its ground-state energy from above with nothing but a trial wavefunction — and the better the guess, the tighter the bound. We optimize simple trials for the oscillator and hydrogen, screen the nucleus to solve helium, and then let Monte Carlo sample the wavefunction directly, arriving at the method that powers much of modern many-body physics.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;180–220 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>The last notebook gave us perturbation theory, which works when a problem is <em>close</em> to a solvable one.
+This notebook gives us its complement — the <strong>variational method</strong> — which needs no nearby solvable
+Hamiltonian at all, only a plausible <strong>guess</strong> at the shape of the ground-state wavefunction. In return
+it hands us something rare in the business of approximation: a <strong>rigorous bound</strong>. For <em>any</em> normalized
+trial state, the energy expectation <span class="math notranslate nohighlight">\(\langle\psi|H|\psi\rangle\)</span> is an <strong>upper bound</strong> on the true
+ground-state energy <span class="math notranslate nohighlight">\(E_0\)</span>, with equality only when <span class="math notranslate nohighlight">\(\psi\)</span> <em>is</em> the ground state. So we pick a family of
+trial wavefunctions with adjustable parameters, minimize the energy over them, and know that whatever we
+get can never dip below the truth — <em>lower is always better</em>.</p>
+<p>We build it in three stages. First the <strong>warm-ups</strong>: a Gaussian trial for the harmonic oscillator and an
+exponential for hydrogen, where the trial family happens to <em>contain</em> the exact ground state, so the
+bound is saturated and we recover <span class="math notranslate nohighlight">\(\tfrac12\)</span> and <span class="math notranslate nohighlight">\(-\tfrac12\,\)</span>Ha exactly — a check that the machinery is
+sound. Then the <strong>flagship</strong>: the <strong>helium atom</strong>, where two electrons repel through a <span class="math notranslate nohighlight">\(1/r_{12}\)</span> term
+that is neither small nor separable and that defeats low-order perturbation theory. A product of two
+hydrogenic orbitals with an <em>effective</em> nuclear charge <span class="math notranslate nohighlight">\(Z\)</span> as the single variational parameter captures
+the essential physics — each electron partially <strong>screens</strong> the nucleus from the other, so the charge
+each sees is <em>less</em> than <span class="math notranslate nohighlight">\(Z=2\)</span> — and minimizing gives <span class="math notranslate nohighlight">\(Z_{\text{eff}}=27/16\approx1.69\)</span> and an energy of
+<span class="math notranslate nohighlight">\(-2.85\,\)</span>Ha, remarkably close to the experimental <span class="math notranslate nohighlight">\(-2.90\)</span> and far better than the unscreened guess. One
+parameter buys the screening that perturbation theory missed.</p>
+<p>Finally, when the best trial functions grow too tangled to integrate by hand — a wavefunction with an
+explicit <span class="math notranslate nohighlight">\(r_{12}\)</span> correlation factor — we evaluate <span class="math notranslate nohighlight">\(\langle H\rangle\)</span> by <strong>variational Monte Carlo</strong>. We
+write it as an average of the <strong>local energy</strong> <span class="math notranslate nohighlight">\(E_L=H\psi/\psi\)</span> over the probability distribution
+<span class="math notranslate nohighlight">\(|\psi|^2\)</span>, sample configurations from <span class="math notranslate nohighlight">\(|\psi|^2\)</span> with the <strong>Metropolis algorithm</strong> of Volume V (<a class="reference internal" href="../05-classical-stat-mech/probability.html"><span class="std std-doc">§5.2</span></a>,
+<a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a>), and average. The mean is the variational energy; its <strong>variance</strong> measures how far <span class="math notranslate nohighlight">\(\psi\)</span> is from an
+eigenstate — and <em>vanishes exactly at the true ground state</em>. This <strong>zero-variance principle</strong> is the
+conceptual heart of the method and the foundation of modern quantum Monte Carlo, the same
+sample-a-distribution-and-average-an-estimator logic that runs through computational many-body physics
+(and, in a different guise, through the sampling behind machine-learned interatomic potentials).</p>
+<p>As in every Volume VI notebook, each exercise opens with a <strong>crystal-clear statement</strong> and enumerated parts, each naming the exact operation — the trial energies via <code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code> or analytic formulas,
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize_scalar</span></code> for the parameter optimization, the Metropolis sampler built on
+<code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng</span></code>, and the local energy <span class="math notranslate nohighlight">\(E_L=H\psi/\psi\)</span> coded explicitly.</p>
+<blockquote>
+<div><p><strong>Conventions and method notes.</strong> Atomic units (<span class="math notranslate nohighlight">\(\hbar=m_e=e=4\pi\varepsilon_0=1\)</span>), energies in Hartree
+(<span class="math notranslate nohighlight">\(1\,\text{Ha}=27.211\,\)</span>eV). Trial forms: Gaussian <span class="math notranslate nohighlight">\(e^{-\alpha x^2/2}\)</span> (oscillator), exponential
+<span class="math notranslate nohighlight">\(e^{-\alpha r}\)</span> (hydrogen), the product <span class="math notranslate nohighlight">\(e^{-Z(r_1+r_2)}\)</span> and its Jastrow-correlated cousin (helium).
+The VMC uses <strong>single-electron</strong> Metropolis moves, a <strong>burn-in</strong> before averaging, a step tuned for an
+acceptance near <span class="math notranslate nohighlight">\(0.5\)</span>, and a <strong>block-averaged</strong> error bar (honest about the autocorrelation of Metropolis
+samples — a naive <span class="math notranslate nohighlight">\(\sigma/\sqrt N\)</span> underestimates it). See Griffiths and Sakurai &amp; Napolitano (the
+variational principle, helium); Thijssen, <em>Computational Physics</em>, and Foulkes et al. (Rev. Mod. Phys.
+2001) for VMC; and Notebooks <a class="reference internal" href="perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a> (perturbation theory — the complementary method), <a class="reference internal" href="hydrogen-atom.html"><span class="std std-doc">§6.17</span></a> (hydrogenic
+orbitals), <a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a> (the oscillator), <a class="reference internal" href="../05-classical-stat-mech/probability.html"><span class="std std-doc">§5.2</span></a>/<a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a> (Monte Carlo, the Metropolis algorithm).</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-variational-principle">
+<h3>The variational principle<a class="headerlink" href="#the-variational-principle" title="Link to this heading">#</a></h3>
+<p>For any normalized trial state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-variational">
+<span class="eqno">(613)<a class="headerlink" href="#equation-eq-variational" title="Link to this equation">#</a></span>\[\langle\psi|H|\psi\rangle\ge E_0 ,\]</div>
+<p>with equality iff <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> is the ground state. <strong>Proof:</strong> expand <span class="math notranslate nohighlight">\(|\psi\rangle=\sum_n c_n|n\rangle\)</span>
+in the (unknown) energy eigenbasis; then <span class="math notranslate nohighlight">\(\langle H\rangle=\sum_n|c_n|^2 E_n\ge E_0\sum_n|c_n|^2=E_0\)</span>,
+since every <span class="math notranslate nohighlight">\(E_n\ge E_0\)</span>. The bound is <strong>one-sided</strong> — the estimate is always <em>above</em> the truth, so lower
+is better. (Unnormalized: use <span class="math notranslate nohighlight">\(\langle\psi|H|\psi\rangle/\langle\psi|\psi\rangle\)</span>.)</p>
+</section>
+<section id="the-method-and-the-warm-ups">
+<h3>The method, and the warm-ups<a class="headerlink" href="#the-method-and-the-warm-ups" title="Link to this heading">#</a></h3>
+<p>The bound <a class="reference internal" href="#equation-eq-variational">Eq. 613</a> holds for <em>every</em> trial state, so it holds in particular for the best
+member of any parametrized family <span class="math notranslate nohighlight">\(\psi_\alpha\)</span>, and that observation is already the whole algorithm:</p>
+<div class="math notranslate nohighlight" id="equation-eq-trial">
+<span class="eqno">(614)<a class="headerlink" href="#equation-eq-trial" title="Link to this equation">#</a></span>\[E(\alpha)=\langle\psi_\alpha|H|\psi_\alpha\rangle,\qquad \min_\alpha E(\alpha)\ge E_0 .\]</div>
+<p>Choose a family <span class="math notranslate nohighlight">\(\psi_\alpha\)</span>, compute <span class="math notranslate nohighlight">\(E(\alpha)\)</span>, minimize. A Gaussian <span class="math notranslate nohighlight">\(e^{-\alpha x^2/2}\)</span> for the
+oscillator gives <span class="math notranslate nohighlight">\(E(\alpha)=\alpha/4+1/4\alpha\)</span>, minimized at <span class="math notranslate nohighlight">\(\alpha=1\Rightarrow E=\tfrac12=E_0\)</span>; an
+exponential <span class="math notranslate nohighlight">\(e^{-\alpha r}\)</span> for hydrogen gives <span class="math notranslate nohighlight">\(E(\alpha)=\alpha^2/2-\alpha\)</span>, minimized at <span class="math notranslate nohighlight">\(\alpha=1
+\Rightarrow-\tfrac12\,\)</span>Ha. Both families <em>contain</em> the exact ground state, so the bound is <strong>saturated</strong>.</p>
+</section>
+<section id="helium-and-screening">
+<h3>Helium and screening<a class="headerlink" href="#helium-and-screening" title="Link to this heading">#</a></h3>
+<p>Helium is the method’s first real test: two electrons bound to a <span class="math notranslate nohighlight">\(Z=2\)</span> nucleus, each repelled by the
+other. Its Hamiltonian, and the trial energy that a page of hydrogenic integrals produces from it
+(Griffiths carries them out), are</p>
+<div class="math notranslate nohighlight" id="equation-eq-helium">
+<span class="eqno">(615)<a class="headerlink" href="#equation-eq-helium" title="Link to this equation">#</a></span>\[H=-\tfrac12\nabla_1^2-\tfrac12\nabla_2^2-\frac{2}{r_1}-\frac{2}{r_2}+\frac{1}{r_{12}},\qquad E(Z)=Z^2-\tfrac{27}{8}Z\ \Rightarrow\ Z_{\text{eff}}=\tfrac{27}{16} .\]</div>
+<p>The <span class="math notranslate nohighlight">\(1/r_{12}\)</span> repulsion is <span class="math notranslate nohighlight">\(\sim37\%\)</span> of the binding — not small, and non-separable. The trial
+<span class="math notranslate nohighlight">\(\psi=e^{-Z(r_1+r_2)}\)</span> with <span class="math notranslate nohighlight">\(Z\)</span> variational gives <span class="math notranslate nohighlight">\(E(Z)=Z^2-\tfrac{27}{8}Z\)</span> (kinetic <span class="math notranslate nohighlight">\(Z^2\)</span>, electron–
+nucleus <span class="math notranslate nohighlight">\(-4Z\)</span>, electron–electron <span class="math notranslate nohighlight">\(+\tfrac58 Z\)</span>), minimized at <span class="math notranslate nohighlight">\(Z_{\text{eff}}=27/16\approx1.69&lt;2\)</span>:
+<strong>screening</strong>. The energy <span class="math notranslate nohighlight">\(-2.85\,\)</span>Ha beats the unscreened <span class="math notranslate nohighlight">\(Z=2\)</span> value (<span class="math notranslate nohighlight">\(-2.75\)</span>) and nears experiment
+(<span class="math notranslate nohighlight">\(-2.90\)</span>); the residual gap is <strong>correlation</strong>, which the Monte Carlo below addresses.</p>
+</section>
+<section id="variational-monte-carlo-and-the-local-energy">
+<h3>Variational Monte Carlo and the local energy<a class="headerlink" href="#variational-monte-carlo-and-the-local-energy" title="Link to this heading">#</a></h3>
+<p>When the trial function grows too tangled for closed-form integrals, we evaluate <span class="math notranslate nohighlight">\(\langle H\rangle\)</span>
+statistically instead. Multiplying and dividing the integrand of <span class="math notranslate nohighlight">\(\int\psi^* H\psi\)</span> by <span class="math notranslate nohighlight">\(\psi\)</span> recasts
+the expectation value as</p>
+<div class="math notranslate nohighlight" id="equation-eq-vmc">
+<span class="eqno">(616)<a class="headerlink" href="#equation-eq-vmc" title="Link to this equation">#</a></span>\[\langle H\rangle=\frac{\int|\psi|^2 E_L}{\int|\psi|^2},\qquad E_L(R)=\frac{H\psi(R)}{\psi(R)} ,\]</div>
+<p>an average of the <strong>local energy</strong> <span class="math notranslate nohighlight">\(E_L\)</span> over <span class="math notranslate nohighlight">\(|\psi|^2\)</span>. Sample configurations <span class="math notranslate nohighlight">\(R\)</span> from <span class="math notranslate nohighlight">\(|\psi|^2\)</span> with
+<strong>Metropolis</strong> (<a class="reference internal" href="../05-classical-stat-mech/probability.html"><span class="std std-doc">§5.2</span></a>/<a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a>: propose a move, accept with probability <span class="math notranslate nohighlight">\(\min(1,|\psi_{\text{new}}|^2/
+|\psi_{\text{old}}|^2)\)</span>) and average <span class="math notranslate nohighlight">\(E_L\)</span>; the statistical error is <span class="math notranslate nohighlight">\(\sim\sigma(E_L)/\sqrt N\)</span>. This
+evaluates trial functions — like one with an explicit <span class="math notranslate nohighlight">\(r_{12}\)</span> <strong>Jastrow</strong> correlation factor — that have
+no closed-form integral.</p>
+</section>
+<section id="the-zero-variance-principle">
+<h3>The zero-variance principle<a class="headerlink" href="#the-zero-variance-principle" title="Link to this heading">#</a></h3>
+<p>The local energy is more than a computational device, and one substitution shows why: feed an exact
+eigenstate into its definition <a class="reference internal" href="#equation-eq-vmc">Eq. 616</a> and the wavefunction cancels,</p>
+<div class="math notranslate nohighlight" id="equation-eq-zero-variance">
+<span class="eqno">(617)<a class="headerlink" href="#equation-eq-zero-variance" title="Link to this equation">#</a></span>\[H\psi=E\psi\ \Rightarrow\ E_L=\frac{H\psi}{\psi}=E\ \text{(constant)},\quad \mathrm{Var}(E_L)=0 .\]</div>
+<p>If <span class="math notranslate nohighlight">\(\psi\)</span> is an <strong>exact</strong> eigenstate, <span class="math notranslate nohighlight">\(E_L\)</span> is the <em>same everywhere</em> — its variance is zero. So
+<span class="math notranslate nohighlight">\(\mathrm{Var}(E_L)\)</span> measures how far <span class="math notranslate nohighlight">\(\psi\)</span> is from an eigenstate, and minimizing it optimizes trial
+functions. This <strong>zero-variance principle</strong> is the foundation of modern quantum Monte Carlo.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data and instruments only: the series palette, the Hartree conversion and the experimental helium
+energy, the three closed-form trial energies <span class="math notranslate nohighlight">\(E(\alpha)\)</span> and <span class="math notranslate nohighlight">\(E(Z)\)</span> that a page of hydrogenic
+integrals hands us (Griffiths carries them out — they are the specimens, not the method), the
+Jastrow exponent <span class="math notranslate nohighlight">\(u(r_{12})\)</span>, and <code class="docutils literal notranslate"><span class="pre">optimize_trial</span></code>, a bounded wrapper around
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize_scalar</span></code>. The two objects variational Monte Carlo <em>is</em> are deliberately
+absent: you write the helium local energy <span class="math notranslate nohighlight">\(E_L=H\psi/\psi\)</span> and the Metropolis sampler yourself in
+Exercise 5, and Exercises 7 and 8 run the sampler you wrote.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize_scalar</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>  <span class="c1"># data: the series palette</span>
+<span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;#c1121f&quot;</span>
+
+<span class="n">HARTREE_EV</span> <span class="o">=</span> <span class="mf">27.211386</span>  <span class="c1"># data: 1 Hartree in eV</span>
+<span class="n">HE_EXPERIMENT</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="o">-</span><span class="mf">2.9037</span>
+<span class="p">)</span>  <span class="c1"># data: helium ground state (non-relativistic, infinite nuclear mass), Ha</span>
+
+
+<span class="c1"># data: a given closed form — the Gaussian integrals are carried out for us in the theory above,</span>
+<span class="c1"># so there is nothing here for the reader&#39;s fingers to do but transcribe the displayed equation.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">variational_energy_oscillator</span><span class="p">(</span><span class="n">alpha</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The oscillator trial energy $E(\alpha)=\alpha/4+1/4\alpha$ for $\psi_\alpha=e^{-\alpha x^2/2}$ {eq}`eq-trial`.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">alpha</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">alpha</span><span class="p">)</span>
+
+
+<span class="c1"># data: a given closed form, as above — the hydrogenic integrals are done in the theory section.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">variational_energy_hydrogen</span><span class="p">(</span><span class="n">alpha</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The hydrogen trial energy $E(\alpha)=\alpha^2/2-\alpha$ for $\psi_\alpha=e^{-\alpha r}$ {eq}`eq-trial`.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">alpha</span>
+
+
+<span class="c1"># data: the specimen this notebook&#39;s flagship problem hands us — the page of hydrogenic integrals</span>
+<span class="c1"># behind $E(Z)=Z^2-\tfrac{27}{8}Z$ is Griffiths&#39; work, quoted in {eq}`eq-helium`, not the lesson here.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">variational_energy_helium</span><span class="p">(</span><span class="n">Z</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The helium trial energy $E(Z)=Z^2-\tfrac{27}{8}Z$ for $\psi=e^{-Z(r_1+r_2)}$ {eq}`eq-helium`.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Z</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="mi">27</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)</span> <span class="o">*</span> <span class="n">Z</span>
+
+
+<span class="c1"># instrument: a thin bounded wrapper over scipy.optimize.minimize_scalar — the lesson of the</span>
+<span class="c1"># variational method is which $E(\alpha)$ to minimize and what its minimum means, never how to</span>
+<span class="c1"># call a one-dimensional minimizer.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">optimize_trial</span><span class="p">(</span><span class="n">energy_of_param</span><span class="p">,</span> <span class="n">bounds</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Minimize a trial energy over its parameter with ``scipy.optimize.minimize_scalar`` (bounded).</span>
+
+<span class="sd">    Returns the minimizing parameter and the minimum energy — the best (lowest, hence tightest) bound in</span>
+<span class="sd">    the family {eq}`eq-trial`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">minimize_scalar</span><span class="p">(</span><span class="n">energy_of_param</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bounded&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">fun</span>
+
+
+<span class="c1"># data: the given Jastrow correlation exponent, a one-line specified form (Exercise 8 states it).</span>
+<span class="c1"># The Metropolis sampler you write in Exercise 5 calls this — Python resolves the name at call time.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_jastrow</span><span class="p">(</span><span class="n">r12</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The Jastrow correlation exponent $u(r_{12})=\tfrac12 r_{12}/(1+b\,r_{12})$ (keeps the electrons apart).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">r12</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">r12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-variational-principle">
+<h2>Exercise 1 — The variational principle<a class="headerlink" href="#exercise-1-the-variational-principle" title="Link to this heading">#</a></h2>
+<p>Everything in this notebook rests on one inequality, and the inequality costs two lines of algebra
+<a class="reference internal" href="#equation-eq-variational">Eq. 613</a>. Expand a normalized trial state in the (unknown) energy eigenbasis,
+<span class="math notranslate nohighlight">\(|\psi\rangle=\sum_n c_n|n\rangle\)</span>; then <span class="math notranslate nohighlight">\(\langle H\rangle=\sum_n|c_n|^2E_n\ge E_0\sum_n|c_n|^2=E_0\)</span>,
+because every <span class="math notranslate nohighlight">\(E_n\ge E_0\)</span>. Equality requires all the weight on the ground state. An inequality this
+cheap deserves a numerical test, and a small Hermitian matrix is the ideal specimen: its <span class="math notranslate nohighlight">\(E_0\)</span> is the
+lowest eigenvalue (<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code>), so every trial vector can be scored against the truth.</p>
+<ol class="arabic simple">
+<li><p>Build a solvable model <span class="math notranslate nohighlight">\(H\)</span> — a random Hermitian <span class="math notranslate nohighlight">\(6\times6\)</span> matrix — and take its exact <span class="math notranslate nohighlight">\(E_0\)</span> from
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code>.</p></li>
+<li><p>Draw many random normalized trial vectors and compute
+<span class="math notranslate nohighlight">\(\langle\psi|H|\psi\rangle/\langle\psi|\psi\rangle\)</span> for each.</p></li>
+<li><p>Confirm every one is <span class="math notranslate nohighlight">\(\ge E_0\)</span>, and that the ground eigenvector attains equality. The estimate is
+always an upper bound — lower is better.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>exact ground-state energy E₀ = -5.2726
+of 5000 random trial states, 5000 satisfy ⟨H⟩ ≥ E₀   (100.0%)
+the exact ground state attains equality: ⟨H⟩ = -5.2726 = E₀
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the variational principle bounds the ground-state energy from above: ⟨H⟩ ≥ E₀ for every trial state, with equality at the ground state
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-optimizing-a-trial-the-oscillator">
+<h2>Exercise 2 — Optimizing a trial: the oscillator<a class="headerlink" href="#exercise-2-optimizing-a-trial-the-oscillator" title="Link to this heading">#</a></h2>
+<p>The natural one-parameter family for the harmonic oscillator is the Gaussian
+<span class="math notranslate nohighlight">\(\psi_\alpha=e^{-\alpha x^2/2}\)</span>, whose width <span class="math notranslate nohighlight">\(\alpha\)</span> is the knob. Doing the two Gaussian integrals
+gives the trial energy <span class="math notranslate nohighlight">\(E(\alpha)=\alpha/4+1/4\alpha\)</span> <a class="reference internal" href="#equation-eq-trial">Eq. 614</a> — Setup’s
+<code class="docutils literal notranslate"><span class="pre">variational_energy_oscillator</span></code>, a specimen handed to us rather than machinery to build. This family
+is a lucky one: the exact ground state of the oscillator <em>is</em> a Gaussian, so the family <strong>contains</strong>
+the answer, the bound is saturated, and the minimum should land exactly on <span class="math notranslate nohighlight">\(E_0=\tfrac12\)</span> at
+<span class="math notranslate nohighlight">\(\alpha=1\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Minimize <span class="math notranslate nohighlight">\(E(\alpha)\)</span> over <span class="math notranslate nohighlight">\(\alpha\)</span> with <code class="docutils literal notranslate"><span class="pre">optimize_trial</span></code> (bounded
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize_scalar</span></code>).</p></li>
+<li><p>Confirm the minimum is <span class="math notranslate nohighlight">\(E_0=\tfrac12\)</span>, attained at <span class="math notranslate nohighlight">\(\alpha=1\)</span>.</p></li>
+<li><p>Report what saturation means here: when the family is right, the bound is exact.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>oscillator Gaussian trial e^(−αx²/2):  min E(α) = 0.50000 at α = 1.0000
+  exact ground state E₀ = 0.5 (the trial contains it → bound saturated)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Gaussian trial saturates the oscillator ground-state energy (E₀=½ at α=1)   [got 0.5 vs expected 0.5 (rtol=1e-06, atol=0.001)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-oscillator-trial">
+<img alt="../../_images/96ef31632b1aff4b0594bd18b0d9d03f26db9e4fa8747a93e7ece25c67cf37d7.png" src="../../_images/96ef31632b1aff4b0594bd18b0d9d03f26db9e4fa8747a93e7ece25c67cf37d7.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 573 </span><span class="caption-text"><strong>The variational bound, saturated.</strong> The trial energy <span class="math notranslate nohighlight">\(E(\alpha)=\alpha/4+1/4\alpha\)</span> of a Gaussian <span class="math notranslate nohighlight">\(e^{-\alpha x^2/2}\)</span> for the harmonic oscillator, against the width parameter <span class="math notranslate nohighlight">\(\alpha\)</span> (amber). Every point lies <strong>on or above</strong> the true ground-state energy <span class="math notranslate nohighlight">\(E_0=\tfrac12\)</span> (ink dashed) — the variational principle in action, the curve never dipping below the truth. The minimum (dot) sits <em>exactly</em> on the <span class="math notranslate nohighlight">\(E_0\)</span> line, at <span class="math notranslate nohighlight">\(\alpha=1\)</span>: here the trial family contains the exact Gaussian ground state, so the best member <em>is</em> the answer and the bound is saturated. This is the ideal case, and the reassurance that the method is sound before we turn it on a problem — helium — whose trial family does not contain the exact state, where the bound will sit a little above the truth and the gap will measure what our guess left out.</span><a class="headerlink" href="#fig-oscillator-trial" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-optimizing-a-trial-hydrogen">
+<h2>Exercise 3 — Optimizing a trial: hydrogen<a class="headerlink" href="#exercise-3-optimizing-a-trial-hydrogen" title="Link to this heading">#</a></h2>
+<p>Hydrogen is a second saturated bound, and the warm-up that matters most: the exponential family
+<span class="math notranslate nohighlight">\(\psi_\alpha=e^{-\alpha r}\)</span> is the one that will reappear, doubled, as helium’s product trial. The
+hydrogenic integrals give <span class="math notranslate nohighlight">\(E(\alpha)=\alpha^2/2-\alpha\)</span> <a class="reference internal" href="#equation-eq-trial">Eq. 614</a> — Setup’s
+<code class="docutils literal notranslate"><span class="pre">variational_energy_hydrogen</span></code>, again a given closed form. At <span class="math notranslate nohighlight">\(\alpha=1\)</span> this trial <em>is</em> the exact
+<span class="math notranslate nohighlight">\(1s\)</span> orbital of <a class="reference internal" href="hydrogen-atom.html"><span class="std std-doc">§6.17</span></a>, so the family contains the ground state and the
+minimum must be <span class="math notranslate nohighlight">\(-\tfrac12\,\)</span>Ha exactly.</p>
+<ol class="arabic simple">
+<li><p>Minimize <span class="math notranslate nohighlight">\(E(\alpha)\)</span> with <code class="docutils literal notranslate"><span class="pre">optimize_trial</span></code>.</p></li>
+<li><p>Confirm the minimum is <span class="math notranslate nohighlight">\(-\tfrac12\,\)</span>Ha, attained at <span class="math notranslate nohighlight">\(\alpha=1\)</span>.</p></li>
+<li><p>Report the optimal <span class="math notranslate nohighlight">\(\alpha\)</span> against the exact <span class="math notranslate nohighlight">\(1s\)</span> decay constant.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>hydrogen exponential trial e^(−αr):  min E(α) = -0.50000 Ha at α = 1.0000
+  exact ground state −0.5 Ha (the trial at α=1 is the exact 1s orbital, 6.17)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the exponential trial saturates the hydrogen ground-state energy (−0.5 Ha at α=1)   [got -0.5 vs expected -0.5 (rtol=1e-06, atol=0.001)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-helium-and-screening">
+<h2>Exercise 4 — Helium and screening<a class="headerlink" href="#exercise-4-helium-and-screening" title="Link to this heading">#</a></h2>
+<p>Helium is the method’s first real test. Its Hamiltonian carries a <span class="math notranslate nohighlight">\(1/r_{12}\)</span> repulsion that is
+neither small nor separable <a class="reference internal" href="#equation-eq-helium">Eq. 615</a>, and the trial that meets it is the product of two
+hydrogenic orbitals, <span class="math notranslate nohighlight">\(\psi=e^{-Z(r_1+r_2)}\)</span>, with the nuclear charge <span class="math notranslate nohighlight">\(Z\)</span> demoted to a variational
+parameter. A page of hydrogenic integrals (Griffiths carries them out) turns that trial into
+<span class="math notranslate nohighlight">\(E(Z)=Z^2-\tfrac{27}{8}Z\)</span> — kinetic <span class="math notranslate nohighlight">\(Z^2\)</span>, electron–nucleus <span class="math notranslate nohighlight">\(-4Z\)</span>, electron–electron <span class="math notranslate nohighlight">\(+\tfrac58Z\)</span> —
+which is Setup’s <code class="docutils literal notranslate"><span class="pre">variational_energy_helium</span></code>. Two comparisons make the result speak: the
+experimental <span class="math notranslate nohighlight">\(-2.9037\,\)</span>Ha, and the unscreened evaluation at the bare <span class="math notranslate nohighlight">\(Z=2\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Minimize <span class="math notranslate nohighlight">\(E(Z)\)</span> with <code class="docutils literal notranslate"><span class="pre">optimize_trial</span></code> and confirm <span class="math notranslate nohighlight">\(Z_{\text{eff}}=27/16\approx1.69\)</span> — <em>less</em>
+than the bare nuclear charge.</p></li>
+<li><p>Evaluate the energy there, and evaluate the unscreened <span class="math notranslate nohighlight">\(E(2)\)</span> for contrast.</p></li>
+<li><p>Compare both to experiment and report the residual gap. Each electron screens the nucleus from
+the other, and one variational parameter finds it.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>helium product trial e^(−Z(r₁+r₂)):  E(Z) = Z² − (27/8)Z
+  minimized: Z_eff = 1.68750  (= 27/16 = 1.68750) — LESS than 2: screening
+  variational energy E = -2.8477 Ha = -77.49 eV
+  vs experiment -2.9037 Ha,  vs unscreened Z=2: -2.7500 Ha
+  one parameter recovers most of the binding; the residual gap (+0.056 Ha) is correlation
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  helium&#39;s screened variational energy (Z_eff=27/16, E=−2.85 Ha) is close to experiment and beats the unscreened guess   [max|Δ| = 4.375e-05 (rtol=0.001, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-helium-screening">
+<img alt="../../_images/ebfed106b798fd123e2379d6b3ba63e950e774a07ab1f009cb4322d6deaf37d3.png" src="../../_images/ebfed106b798fd123e2379d6b3ba63e950e774a07ab1f009cb4322d6deaf37d3.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 574 </span><span class="caption-text"><strong>Screening solves helium with one parameter.</strong> The variational energy <span class="math notranslate nohighlight">\(E(Z)=Z^2-\tfrac{27}{8}Z\)</span> of the helium product trial <span class="math notranslate nohighlight">\(e^{-Z(r_1+r_2)}\)</span>, against the effective nuclear charge <span class="math notranslate nohighlight">\(Z\)</span> (amber). The minimum (dot) sits at <span class="math notranslate nohighlight">\(Z_{\text{eff}}=27/16\approx1.69\)</span> — decisively <em>less</em> than the true nuclear charge <span class="math notranslate nohighlight">\(Z=2\)</span> (grey line): each electron <strong>screens</strong> the nucleus from the other, so the charge each effectively feels is reduced. That screening is the physics low-order perturbation theory cannot see, and here a single variational parameter finds it, landing at <span class="math notranslate nohighlight">\(-2.85\,\)</span>Ha (amber dot) — a long way below the unscreened <span class="math notranslate nohighlight">\(Z=2\)</span> value (<span class="math notranslate nohighlight">\(-2.75\)</span>, grey dot) and gratifyingly close to the experimental <span class="math notranslate nohighlight">\(-2.90\,\)</span>Ha (red dashed). The small remaining gap is <em>correlation</em> — the electrons’ instantaneous avoidance, beyond a mean effective charge — which the Monte Carlo of the following exercises captures with an explicit <span class="math notranslate nohighlight">\(r_{12}\)</span> factor.</span><a class="headerlink" href="#fig-helium-screening" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-variational-monte-carlo-the-local-energy">
+<h2>Exercise 5 — Variational Monte Carlo: the local energy<a class="headerlink" href="#exercise-5-variational-monte-carlo-the-local-energy" title="Link to this heading">#</a></h2>
+<p>Multiplying and dividing the integrand of <span class="math notranslate nohighlight">\(\int\psi^*H\psi\)</span> by <span class="math notranslate nohighlight">\(\psi\)</span> turns the expectation value
+into an average of the <strong>local energy</strong> <span class="math notranslate nohighlight">\(E_L=H\psi/\psi\)</span> over the probability density <span class="math notranslate nohighlight">\(|\psi|^2\)</span>
+<a class="reference internal" href="#equation-eq-vmc">Eq. 616</a>. That single algebraic move is what lets Monte Carlo evaluate a six-dimensional
+integral by sampling — the sampling spine of Volume V (<a class="reference internal" href="../05-classical-stat-mech/probability.html"><span class="std std-doc">§5.2</span></a>,
+<a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a>) turned on wavefunctions. Two objects are
+needed, and this exercise is where they are written.</p>
+<p>The first is the local energy itself. For the helium product trial <span class="math notranslate nohighlight">\(\psi=e^{-Z(r_1+r_2)}\)</span>, applying
+<span class="math notranslate nohighlight">\(H\)</span> and dividing gives <span class="math notranslate nohighlight">\(E_L=-Z^2+(Z-2)(1/r_1+1/r_2)+1/r_{12}\)</span>. Multiplying that trial by a Jastrow
+factor <span class="math notranslate nohighlight">\(e^{u(r_{12})}\)</span> with <span class="math notranslate nohighlight">\(u=\tfrac12 r_{12}/(1+b\,r_{12})\)</span> (Exercise 8’s business) adds a kinetic
+contribution, which we quote rather than derive: writing <span class="math notranslate nohighlight">\(u'=\tfrac12/(1+b r_{12})^2\)</span> and
+<span class="math notranslate nohighlight">\(u''=-b/(1+b r_{12})^3\)</span>, the extra term is <span class="math notranslate nohighlight">\(-u'^2-u''-2u'/r_{12}+Z\,u'\,(\hat r_1-\hat r_2)\cdot\hat r_{12}\)</span>,
+with <span class="math notranslate nohighlight">\(\hat r_{12}=(\mathbf r_1-\mathbf r_2)/r_{12}\)</span>. (It was checked against a finite-difference
+Laplacian to a part in <span class="math notranslate nohighlight">\(10^7\)</span>.)</p>
+<p>The second is the sampler. Metropolis on <span class="math notranslate nohighlight">\(|\psi|^2\)</span> never needs the normalization: propose a move of
+one electron, accept it with probability <span class="math notranslate nohighlight">\(\min(1,|\psi_{\text{new}}|^2/|\psi_{\text{old}}|^2)\)</span>, and
+the chain visits configurations with the right frequency. Work with <span class="math notranslate nohighlight">\(\ln|\psi|\)</span> throughout and
+accept when <span class="math notranslate nohighlight">\(\ln\xi&lt;2\,\Delta\ln|\psi|\)</span> for a uniform deviate <span class="math notranslate nohighlight">\(\xi\)</span>, which keeps the ratio from
+overflowing and costs one logarithm. Two
+practicalities matter: a <strong>burn-in</strong> discarded before averaging, and a <strong>block-averaged</strong> error bar,
+because Metropolis samples are correlated and a naive <span class="math notranslate nohighlight">\(\sigma/\sqrt N\)</span> would flatter us. The product
+trial has a closed-form energy, so this first run can be graded against an answer we already know.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">local_energy_helium(r1,</span> <span class="pre">r2,</span> <span class="pre">Z,</span> <span class="pre">b=0.0)</span></code> for the two electron position 3-vectors, returning
+the product-trial <span class="math notranslate nohighlight">\(E_L\)</span> above and, when <code class="docutils literal notranslate"><span class="pre">b</span></code> is nonzero, adding the quoted Jastrow term.
+<strong>Write this one yourself</strong> — the implementation is the lesson.</p></li>
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">metropolis_vmc(Z,</span> <span class="pre">b=0.0,</span> <span class="pre">n_steps=120000,</span> <span class="pre">step=0.6,</span> <span class="pre">burn=8000,</span> <span class="pre">n_blocks=80,</span> <span class="pre">seed=1)</span></code>:
+single-electron moves proposed as <span class="math notranslate nohighlight">\(r_i\to r_i+\text{step}\cdot\mathcal N(0,1)\)</span> with
+<code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng</span></code>, the acceptance test above, and after the burn-in an average of
+<code class="docutils literal notranslate"><span class="pre">local_energy_helium</span></code>. Return the mean, the block-averaged error, the local-energy standard
+deviation, and the acceptance rate. <strong>Write this one yourself</strong> — the implementation is the lesson.</p></li>
+<li><p>Run it on the product trial at the <span class="math notranslate nohighlight">\(Z_{\text{eff}}\)</span> of Exercise 4 and confirm the mean matches the
+analytic <span class="math notranslate nohighlight">\(E(Z_{\text{eff}})=-2.85\,\)</span>Ha, quoting the discrepancy in units of the error bar.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>helium VMC (product trial, Z_eff=1.6875), Metropolis sampling of |ψ|²:
+  VMC energy = -2.8460 ± 0.0113 Ha   (analytic -2.8477 Ha)
+  agreement: 0.1σ;   acceptance = 0.40;   local-energy spread σ(E_L) = 0.86
+  the mean local energy reproduces the analytic ⟨H⟩ — Monte Carlo did the 6-D integral by sampling
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  VMC reproduces the analytic variational energy of the helium product trial (within a few statistical error bars)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-vmc-convergence">
+<img alt="../../_images/e59c3e2ccf69e0a095bcaf081e62095d9e192e4c79c2fde74c1fdfa4891eb4c7.png" src="../../_images/e59c3e2ccf69e0a095bcaf081e62095d9e192e4c79c2fde74c1fdfa4891eb4c7.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 575 </span><span class="caption-text"><strong>Monte Carlo converges on the integral.</strong> The running average of the local energy <span class="math notranslate nohighlight">\(E_L\)</span> as the Metropolis walk accumulates samples (amber), for the helium product trial. It starts noisy and settles onto the analytic variational energy (ink dashed), the shaded band its block-averaged statistical uncertainty <span class="math notranslate nohighlight">\(\sim\sigma(E_L)/\sqrt N\)</span>, which narrows only as <span class="math notranslate nohighlight">\(\sqrt N\)</span> — the characteristic slow, honest convergence of Monte Carlo. There is no free lunch: the answer is exact only in the limit of infinite samples, and every finite run carries an error bar. But the pay-off is generality — this same procedure evaluates the expectation of <em>any</em> trial wavefunction, however complicated, including ones (with explicit electron correlation) that no closed-form integral can reach. That is what makes variational Monte Carlo, and its descendants, the workhorse of modern electronic-structure and many-body computation.</span><a class="headerlink" href="#fig-vmc-convergence" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-the-zero-variance-principle">
+<h2>Exercise 6 — The zero-variance principle<a class="headerlink" href="#exercise-6-the-zero-variance-principle" title="Link to this heading">#</a></h2>
+<p>The local energy is more than a computational device, and one substitution shows why: if
+<span class="math notranslate nohighlight">\(H\psi=E\psi\)</span> then <span class="math notranslate nohighlight">\(E_L=H\psi/\psi=E\)</span> identically, the same number at every configuration, so
+<span class="math notranslate nohighlight">\(\mathrm{Var}(E_L)=0\)</span> <a class="reference internal" href="#equation-eq-zero-variance">Eq. 617</a>. The variance is therefore a <em>second</em> quality meter,
+independent of the mean: it measures how far a trial is from being an eigenstate, and it vanishes
+only at the exact answer. That is the foundation of quantum Monte Carlo — and, in spirit, of
+sampling-based optimization generally, since a quantity one can drive to a known floor is a
+quantity one can optimize against. Hydrogen makes the point in one line: for
+<span class="math notranslate nohighlight">\(\psi_\alpha=e^{-\alpha r}\)</span>, applying <span class="math notranslate nohighlight">\(H\)</span> and dividing gives <span class="math notranslate nohighlight">\(E_L=-\alpha^2/2+(\alpha-1)/r\)</span>, whose
+<span class="math notranslate nohighlight">\(r\)</span>-dependence switches off precisely at <span class="math notranslate nohighlight">\(\alpha=1\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">hydrogen_local_energy(r,</span> <span class="pre">alpha)</span></code> returning <span class="math notranslate nohighlight">\(E_L=-\alpha^2/2+(\alpha-1)/r\)</span>.</p></li>
+<li><p>Evaluate it on a radial grid at <span class="math notranslate nohighlight">\(\alpha=1\)</span> (the exact ground state) and confirm <span class="math notranslate nohighlight">\(E_L=-\tfrac12\)</span>
+<em>everywhere</em> — zero spread.</p></li>
+<li><p>Evaluate it at <span class="math notranslate nohighlight">\(\alpha=0.7\)</span> and <span class="math notranslate nohighlight">\(\alpha=1.3\)</span> and report the spread that appears once the trial
+is no longer an eigenstate.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>hydrogen local energy E_L = −α²/2 + (α−1)/r:
+  α=1.0:  E_L std over r = 0.0000  ← EXACT ground state: E_L constant everywhere (zero variance!)
+  α=0.7:  E_L std over r = 0.3637
+  α=1.3:  E_L std over r = 0.3637
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the local energy is constant at the exact ground state (α=1) — the zero-variance principle   [got 0 vs expected 0 (rtol=1e-06, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-zero-variance">
+<img alt="../../_images/9823e8f67044182ab80cc30f02b385fb4c17b39111e49917554316bc58c1b909.png" src="../../_images/9823e8f67044182ab80cc30f02b385fb4c17b39111e49917554316bc58c1b909.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 576 </span><span class="caption-text"><strong>The zero-variance principle.</strong> The hydrogen local energy <span class="math notranslate nohighlight">\(E_L=-\alpha^2/2+(\alpha-1)/r\)</span> as a function of radius, for three exponential trials. At <span class="math notranslate nohighlight">\(\alpha=1\)</span> (amber) the trial <em>is</em> the exact <span class="math notranslate nohighlight">\(1s\)</span> ground state, so <span class="math notranslate nohighlight">\(H\psi=E\psi\)</span> and the local energy is a <strong>flat line at <span class="math notranslate nohighlight">\(-\tfrac12\)</span></strong> — the same value at every point, its variance exactly zero. For <span class="math notranslate nohighlight">\(\alpha\ne1\)</span> (ink, red) the trial is not an eigenstate, and <span class="math notranslate nohighlight">\(E_L\)</span> <strong>curves and scatters</strong>, diverging as <span class="math notranslate nohighlight">\(r\to0\)</span> where the trial mismatches the Coulomb cusp. This is the deepest idea in the method: the <em>spread</em> of the local energy measures precisely how far a trial is from an eigenstate, and it vanishes only at the exact answer. So one can optimize a wavefunction by minimizing not just the mean energy but its <em>variance</em> — and a good trial makes Monte Carlo both accurate and quiet, the principle on which modern quantum Monte Carlo is built.</span><a class="headerlink" href="#fig-zero-variance" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-practical-vmc-tuning-and-error-bars-student">
+<h2>Exercise 7 — Practical VMC: tuning and error bars <em>(student)</em><a class="headerlink" href="#exercise-7-practical-vmc-tuning-and-error-bars-student" title="Link to this heading">#</a></h2>
+<p>A Monte Carlo result is not a number but a number with a texture, and that texture has two knobs
+<a class="reference internal" href="#equation-eq-vmc">Eq. 616</a>. The first is the proposal step: too large and almost every move is rejected, so the
+chain sits still; too small and every move is accepted but the walk crawls, exploring configuration
+space at a snail’s pace. The practitioner’s compromise is a step tuned for an acceptance rate near
+<span class="math notranslate nohighlight">\(\sim0.5\)</span>. The second is the sample count, which buys precision only as <span class="math notranslate nohighlight">\(\sqrt N\)</span> — sixteen times
+the samples for four times the accuracy. Both come with a third habit, the burn-in discarded before
+averaging, so the chain’s memory of its arbitrary starting configuration does not contaminate the
+mean.</p>
+<ol class="arabic simple">
+<li><p>Run the <code class="docutils literal notranslate"><span class="pre">metropolis_vmc</span></code> you wrote in Exercise 5 at several step sizes and record the acceptance
+rate at each.</p></li>
+<li><p>Identify the step giving an acceptance near <span class="math notranslate nohighlight">\(\sim0.5\)</span>, and confirm the rate falls monotonically
+through it as the step grows.</p></li>
+<li><p>At that well-tuned step, run at increasing sample counts and show the error bar shrinks as
+<span class="math notranslate nohighlight">\(\sim1/\sqrt N\)</span>. Step tuning, equilibration, and error bars are features of a stochastic
+calculation, not bugs.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>step-size tuning (acceptance rate vs Metropolis step):
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  step = 0.2:  acceptance = 0.74
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  step = 0.4:  acceptance = 0.54  ← near 0.5 (well-tuned)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  step = 0.6:  acceptance = 0.40
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  step = 1.0:  acceptance = 0.21
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  step = 1.6:  acceptance = 0.10
+
+error bar shrinks as ~1/√N (at the well-tuned step 0.4):
+  N =  10000:  error = 0.03200 Ha
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  N =  40000:  error = 0.01271 Ha
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  N = 160000:  error = 0.00703 Ha
+
+  acceptance decreases through 0.5 (tunable): True;   error drops 4.6× for N ×16 (1/√N): True
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  practical VMC requires step tuning (acceptance ~0.5), equilibration, and reports a statistical error bar that scales as 1/√N
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-vmc-practical">
+<img alt="../../_images/4ae7192d016265820efcca719a5cdf7195bd507c0a3b81c7403ef1845b49a302.png" src="../../_images/4ae7192d016265820efcca719a5cdf7195bd507c0a3b81c7403ef1845b49a302.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 577 </span><span class="caption-text"><strong>The honest texture of Monte Carlo.</strong> <em>Left:</em> the Metropolis acceptance rate against step size for the helium VMC. Too small a step (left) accepts nearly every move but crawls through configuration space; too large (right) proposes wild moves that are almost always rejected; the sweet spot is a step giving acceptance near <span class="math notranslate nohighlight">\(\tfrac12\)</span> (grey band), which mixes efficiently. <em>Right:</em> the statistical error bar against the number of samples, on log–log axes — a straight line of slope <span class="math notranslate nohighlight">\(-\tfrac12\)</span>, the universal <span class="math notranslate nohighlight">\(\sigma/\sqrt N\)</span> of Monte Carlo, so cutting the error in half costs four times the samples. Neither of these is a defect to be hidden: step tuning, a burn-in before averaging, and an error bar that shrinks only as <span class="math notranslate nohighlight">\(\sqrt N\)</span> are the real, teachable texture of every stochastic calculation — the price of being able to integrate in six (or six hundred) dimensions at all.</span><a class="headerlink" href="#fig-vmc-practical" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-a-jastrow-factor-beats-the-product-trial-student-stretch">
+<h2>Exercise 8 — A Jastrow factor beats the product trial <em>(student / stretch)</em><a class="headerlink" href="#exercise-8-a-jastrow-factor-beats-the-product-trial-student-stretch" title="Link to this heading">#</a></h2>
+<p>The product trial <span class="math notranslate nohighlight">\(e^{-Z(r_1+r_2)}\)</span> treats the two electrons as independent, each feeling only a
+mean screened charge; what it cannot represent is their <em>instantaneous</em> avoidance. The standard
+repair multiplies it by a <strong>Jastrow</strong> factor <span class="math notranslate nohighlight">\(e^{u(r_{12})}\)</span> with <span class="math notranslate nohighlight">\(u=\tfrac12 r_{12}/(1+b\,r_{12})\)</span>,
+a function that grows with the electron separation and so suppresses configurations where the two
+come close. No closed-form integral survives this — which is exactly why Monte Carlo was built in
+Exercise 5, and why the local energy there already carries the <span class="math notranslate nohighlight">\(b&gt;0\)</span> branch. With <span class="math notranslate nohighlight">\(Z=1.85\)</span> and
+<span class="math notranslate nohighlight">\(b=0.35\)</span> the correlated trial should improve on <em>both</em> meters at once <a class="reference internal" href="#equation-eq-vmc">Eq. 616</a>,
+<a class="reference internal" href="#equation-eq-zero-variance">Eq. 617</a>: a lower energy, still bounded from below by the truth, and a smaller
+local-energy spread, because the Jastrow removes the electron-coalescence mismatch that made <span class="math notranslate nohighlight">\(E_L\)</span>
+noisy.</p>
+<ol class="arabic simple">
+<li><p>Run the <code class="docutils literal notranslate"><span class="pre">metropolis_vmc</span></code> you wrote in Exercise 5 twice under identical sampling: the product
+trial at <span class="math notranslate nohighlight">\(Z_{\text{eff}}\)</span> with <span class="math notranslate nohighlight">\(b=0\)</span>, and the Jastrow trial at <span class="math notranslate nohighlight">\(Z=1.85\)</span>, <span class="math notranslate nohighlight">\(b=0.35\)</span>.</p></li>
+<li><p>Show the Jastrow energy is <em>lower</em> than the product trial’s and closer to <span class="math notranslate nohighlight">\(-2.90\,\)</span>Ha, while
+still lying above it.</p></li>
+<li><p>Show the local-energy spread <span class="math notranslate nohighlight">\(\sigma(E_L)\)</span> is <em>smaller</em>. Better trials, better bounds — the path
+modern QMC takes.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>helium VMC: product trial vs Jastrow-correlated trial
+  product  (Z=27/16):        E = -2.8460 ± 0.0113 Ha,  σ(E_L) = 0.86
+  Jastrow  (Z=1.85, b=0.35): E = -2.8832 ± 0.0052 Ha,  σ(E_L) = 0.33
+  experiment = -2.9037 Ha
+  → Jastrow LOWER than product (-2.883 &lt; -2.846), toward experiment; and variance REDUCED (0.33 &lt; 0.86)
+  the r₁₂ factor captures correlation — the electrons&#39; instantaneous avoidance — a product cannot
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-8">
+<h3>Validation 8<a class="headerlink" href="#validation-8" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  explicit correlation improves the variational energy: the Jastrow trial lowers the VMC energy below the product trial toward experiment, with reduced variance
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-9-a-guess-with-a-guarantee-synthesis">
+<h2>Exercise 9 — A guess with a guarantee <em>(synthesis)</em><a class="headerlink" href="#exercise-9-a-guess-with-a-guarantee-synthesis" title="Link to this heading">#</a></h2>
+<p>The variational method asks only for a plausible <em>shape</em> and returns something rare in approximation: a
+rigorous bound, never below the truth, so that lowering the energy always means getting closer. We watched
+it <strong>saturate</strong> for the oscillator and hydrogen, where the trial family contained the exact state; then
+<strong>screen</strong> the nucleus to solve helium with a single parameter (<span class="math notranslate nohighlight">\(Z_{\text{eff}}=27/16\)</span>) where low-order
+perturbation theory faltered on the electron–electron repulsion; and finally, when the best trial
+functions grew too tangled to integrate, we handed the wavefunction to <strong>Monte Carlo</strong> and averaged the
+local energy — whose <em>stillness</em> at the exact ground state (the zero-variance principle) is the idea the
+whole method turns on.</p>
+<p>There is no new computation here; the method, and its honesty, are the result.
+Perturbation theory (<a class="reference internal" href="perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a>) and the variational method are the <strong>two hands</strong> of approximate quantum
+mechanics — one expands around what you can solve, the other guesses the answer and bounds its error. The
+variational method’s quiet strength is exactly that honesty: it can be wrong, but never <em>optimistically</em>,
+and Monte Carlo lets the guess be as elaborate as the physics demands. This VMC machinery — Metropolis
+sampling of <span class="math notranslate nohighlight">\(|\psi|^2\)</span>, local-energy averaging, variance as a quality measure — is the foundation of
+modern electronic-structure and many-body computation, and it is the same sample-and-average logic that
+underlies stochastic methods far beyond it, from diffusion Monte Carlo to the sampling behind
+machine-learned interatomic potentials. The next notebook (<a class="reference internal" href="wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a>) turns to the opposite regime — not a
+good guess at the wavefunction, but the short-wavelength limit where quantum mechanics shades into the
+classical action of Volume II: the <strong>WKB approximation</strong>.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>The variational method — a guess with a guarantee — and variational Monte Carlo.</p>
+<ul class="simple">
+<li><p><strong>The variational principle</strong> <a class="reference internal" href="#equation-eq-variational">Eq. 613</a>: <span class="math notranslate nohighlight">\(\langle\psi|H|\psi\rangle\ge E_0\)</span> for any trial
+(proven by expanding in the eigenbasis) — an upper bound, so lower is better.</p></li>
+<li><p><strong>Optimizing trials</strong> <a class="reference internal" href="#equation-eq-trial">Eq. 614</a>: minimize <span class="math notranslate nohighlight">\(E(\alpha)\)</span> (<code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize_scalar</span></code>); the
+Gaussian oscillator and exponential hydrogen trials saturate at <span class="math notranslate nohighlight">\(\tfrac12\)</span> and <span class="math notranslate nohighlight">\(-\tfrac12\,\)</span>Ha.</p></li>
+<li><p><strong>Helium and screening</strong> <a class="reference internal" href="#equation-eq-helium">Eq. 615</a>: <span class="math notranslate nohighlight">\(E(Z)=Z^2-\tfrac{27}{8}Z\)</span> gives <span class="math notranslate nohighlight">\(Z_{\text{eff}}=27/16&lt;2\)</span> and
+<span class="math notranslate nohighlight">\(-2.85\,\)</span>Ha — screening captured by one parameter, where perturbation theory struggles.</p></li>
+<li><p><strong>Variational Monte Carlo</strong> <a class="reference internal" href="#equation-eq-vmc">Eq. 616</a>: <span class="math notranslate nohighlight">\(\langle H\rangle=\langle E_L\rangle_{|\psi|^2}\)</span> with <span class="math notranslate nohighlight">\(E_L=
+H\psi/\psi\)</span>, by Metropolis sampling (<code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng</span></code>, <a class="reference internal" href="../05-classical-stat-mech/probability.html"><span class="std std-doc">§5.2</span></a>/<a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a>) — reproduces the analytic
+energy, with block-averaged error bars, tuned steps (<span class="math notranslate nohighlight">\(\sim0.5\)</span> acceptance), and <span class="math notranslate nohighlight">\(1/\sqrt N\)</span> convergence.</p></li>
+<li><p><strong>The zero-variance principle</strong> <a class="reference internal" href="#equation-eq-zero-variance">Eq. 617</a>: <span class="math notranslate nohighlight">\(E_L\)</span> is constant at an exact eigenstate; its
+variance gauges trial quality — the foundation of quantum Monte Carlo. A Jastrow factor lowers helium’s
+energy toward experiment with reduced variance.</p></li>
+</ul>
+<p>A plausible shape, a rigorous bound, and Monte Carlo to make the guess as rich as the physics needs.
+Next: the semiclassical limit.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The WKB / semiclassical approximation (<a class="reference internal" href="wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a>)</strong>: the short-wavelength limit and the classical action —
+the connection to the Hamilton–Jacobi theory of Volume II (<a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html"><span class="std std-doc">§2.10</span></a>).</p></li>
+<li><p><strong>Time-dependent perturbation theory and Fermi’s golden rule (<a class="reference internal" href="time-dependent-perturbation.html"><span class="std std-doc">§6.24</span></a>)</strong>: transitions and spectra.</p></li>
+<li><p><strong>Quantum Monte Carlo beyond VMC</strong>: diffusion Monte Carlo, the fermion sign problem, electronic-structure
+methods (horizons — and a nod to the sampling that powers modern computational materials science).</p></li>
+<li><p><strong>Correlation and the many-electron problem</strong>: Hartree–Fock and beyond (horizons; Volume VII / quantum
+chemistry).</p></li>
+<li><p><strong>Cross-reference</strong> <a class="reference internal" href="perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a> (perturbation theory — the complementary method), <a class="reference internal" href="hydrogen-atom.html"><span class="std std-doc">§6.17</span></a> (hydrogenic orbitals),
+<a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a> (the oscillator), <a class="reference internal" href="../05-classical-stat-mech/probability.html"><span class="std std-doc">§5.2</span></a>/<a class="reference internal" href="../05-classical-stat-mech/partition-function.html"><span class="std std-doc">§5.8</span></a> (Monte Carlo / Metropolis), and forward to <a class="reference internal" href="wkb-semiclassical.html"><span class="std std-doc">§6.23</span></a>, <a class="reference internal" href="time-dependent-perturbation.html"><span class="std std-doc">§6.24</span></a>.</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/06-quantum-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="perturbation-fine-structure.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6.21 Time-Independent Perturbation Theory and Fine Structure</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="wkb-semiclassical.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">6.23 The WKB Approximation and the Semiclassical Limit</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-variational-principle">The variational principle</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-method-and-the-warm-ups">The method, and the warm-ups</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#helium-and-screening">Helium and screening</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variational-monte-carlo-and-the-local-energy">Variational Monte Carlo and the local energy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-zero-variance-principle">The zero-variance principle</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-variational-principle">Exercise 1 — The variational principle</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-optimizing-a-trial-the-oscillator">Exercise 2 — Optimizing a trial: the oscillator</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-optimizing-a-trial-hydrogen">Exercise 3 — Optimizing a trial: hydrogen</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-helium-and-screening">Exercise 4 — Helium and screening</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-variational-monte-carlo-the-local-energy">Exercise 5 — Variational Monte Carlo: the local energy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-zero-variance-principle">Exercise 6 — The zero-variance principle</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-practical-vmc-tuning-and-error-bars-student">Exercise 7 — Practical VMC: tuning and error bars <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-a-jastrow-factor-beats-the-product-trial-student-stretch">Exercise 8 — A Jastrow factor beats the product trial <em>(student / stretch)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-a-guess-with-a-guarantee-synthesis">Exercise 9 — A guess with a guarantee <em>(synthesis)</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

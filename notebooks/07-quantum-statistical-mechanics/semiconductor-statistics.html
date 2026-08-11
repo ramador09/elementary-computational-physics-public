@@ -1,0 +1,1830 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="7.13 Semiconductors: Fermi–Dirac in a Gap" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/semiconductor-statistics.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: §7.12 ended with a promise: set the chemical potential loose in the gap and let Fermi–Dirac do the rest. This notebook keeps that promise ..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: §7.12 ended with a promise: set the chemical potential loose in the gap and let Fermi–Dirac do the rest. This notebook keeps that promise ..." />
+
+    <title>7.13 Semiconductors: Fermi–Dirac in a Gap &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/07-quantum-statistical-mechanics/semiconductor-statistics';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/semiconductor-statistics.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="7.14 The Photon Gas and Planck’s Law" href="photon-gas-planck.html" />
+    <link rel="prev" title="7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands" href="bloch-theorem-band-structure.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VII — Quantum Statistical Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-electronic-structure/index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/07-quantum-statistical-mechanics/semiconductor-statistics.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/07-quantum-statistical-mechanics/semiconductor-statistics.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/07-quantum-statistical-mechanics/semiconductor-statistics.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/07-quantum-statistical-mechanics/semiconductor-statistics.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7.13 Semiconductors: Fermi–Dirac in a Gap</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-bands-two-species">Two bands, two species</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-boltzmann-limit-and-an-old-friend-in-overalls">The Boltzmann limit, and an old friend in overalls</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-law-of-mass-action">The law of mass action</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-silicon-number-and-seven-decades">The silicon number, and seven decades</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-chemical-potential-of-an-insulator">The chemical potential of an insulator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#doping-the-three-regimes">Doping: the three regimes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-license-revoked-the-degenerate-return">The license revoked: the degenerate return</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-0-7-volts-stretch">The 0.7 volts (stretch)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-two-bands-two-species">Exercise 1 — Two bands, two species</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-engineer-s-constant-is-the-thermal-wavelength">Exercise 2 — The engineer’s constant is the thermal wavelength</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-law-of-mass-action-and-the-silicon-number">Exercise 3 — The law of mass action, and the silicon number</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-chemical-potential-of-an-insulator">Exercise 4 — The chemical potential of an insulator</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-doping-the-three-regimes">Exercise 5 — Doping: the three regimes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-license-revoked-the-degenerate-return">Exercise 6 — The license revoked: the degenerate return</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-0-7-volts">Exercise 7 — The 0.7 volts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-movement-iii-closed">Exercise 8 — Movement III, closed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="semiconductors-fermidirac-in-a-gap">
+<h1>7.13 Semiconductors: Fermi–Dirac in a Gap<a class="headerlink" href="#semiconductors-fermidirac-in-a-gap" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VII — Quantum Statistical Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;7.13
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Nothing new happens in this notebook — that is its point. The Fermi function of §7.7, the integrals of §7.3, and the thermal wavelength of §7.8 are aimed at the gapped density of states built in §7.12, and an entire technology falls out: a law of mass action that doping cannot touch, ten billion carriers per cubic centimetre computed from Planck&#x27;s constant and one energy gap, a temperature plateau on which every chip you own depends, and — in the heavily doped limit — a return, on schedule, to the metal where the movement began.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;195–235 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> ended with a promise: set the chemical potential loose in the gap and let Fermi–Dirac do
+the rest. This notebook keeps that promise with conspicuous economy, because every tool in it
+is second-hand. The distribution is the Fermi function of <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>, unchanged; the carrier integrals are
+the <span class="math notranslate nohighlight">\(F_{1/2}\)</span> machinery of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a> pointed at a new density of states; the criterion that decides when
+they collapse to Boltzmann form is verbatim the <span class="math notranslate nohighlight">\(n\lambda_T^3 \ll 2\)</span> of <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a>; and the one genuinely
+new object, a density of states with a gap in it, was built, gated, and handed over by <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a>.
+The statistics resumes here, finishes Movement III, and an entire technology falls out of the
+resumption.</p>
+<p>The model is two parabolic bands: conduction states above <span class="math notranslate nohighlight">\(E_c\)</span> with density-of-states mass
+<span class="math notranslate nohighlight">\(m_c\)</span>, valence states below <span class="math notranslate nohighlight">\(E_v\)</span> with <span class="math notranslate nohighlight">\(m_v\)</span>, separated by the gap <span class="math notranslate nohighlight">\(E_g\)</span> (silicon: 1.12 eV;
+the masses are the band curvatures of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a>, taken here as stated inputs the way a DFT calculation
+would supply them). Electrons in the conduction band are counted by <span class="math notranslate nohighlight">\(n_F\)</span>; <strong>holes</strong>, the negative-mass band-top carriers of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> now made statistical, are counted by <span class="math notranslate nohighlight">\(1 - n_F\)</span> in the
+valence band: two dilute gases, one Fermi function. In the Boltzmann limit the engineer’s
+workhorse constant appears, <span class="math notranslate nohighlight">\(N_c = 2(m_c k_BT/2\pi\hbar^2)^{3/2}\)</span>, and turns out to be
+<em>literally</em> <span class="math notranslate nohighlight">\(2/\lambda_T^3\)</span> — the thermal wavelength of <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a> wearing overalls — with the
+nondegeneracy license quantified against the exact integrals (ratio 1.000 at
+<span class="math notranslate nohighlight">\(E_c - \mu = 200\)</span> meV, 1.05 at 50 meV, 2.5 inside the band). Multiplying the two populations
+cancels <span class="math notranslate nohighlight">\(\mu\)</span> and yields the <strong>law of mass action</strong> <span class="math notranslate nohighlight">\(np = n_i^2\)</span>: however doping tilts the
+populations, their product is fixed by gap and temperature alone. The data jewel follows —
+<span class="math notranslate nohighlight">\(n_i(\text{Si}, 300\,\text{K}) = 8.9\times10^9\ \text{cm}^{-3}\)</span> from <span class="math notranslate nohighlight">\(\hbar\)</span>, one gap, and two
+masses, within 10% of the accepted value; a Ge/GaAs table spanning seven decades from gaps
+that differ by a factor of two; one carrier pair per <span class="math notranslate nohighlight">\(5.6\times10^{12}\)</span> silicon atoms.</p>
+<p>The centerpiece is <strong>doping</strong>. Donor statistics and exact charge neutrality (solved by
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code> at every temperature) produce the classic Arrhenius portrait with its
+three regimes: freeze-out, the <strong>saturation plateau</strong> (<span class="math notranslate nohighlight">\(n \approx N_D\)</span> across 100–450 K, the reason electronics works at all: carrier density set by chemistry rather than temperature),
+and the intrinsic takeover, with device death computed at 719 K for <span class="math notranslate nohighlight">\(N_D = 10^{16}\)</span>. The
+mass-action seesaw meanwhile crushes the minority holes to <span class="math notranslate nohighlight">\(7.9\times10^3\ \text{cm}^{-3}\)</span>,
+twelve decades below the majority. Then the license is revoked on schedule: pushed toward
+<span class="math notranslate nohighlight">\(N_c = 2.8\times10^{19}\ \text{cm}^{-3}\)</span> the carriers go degenerate, <span class="math notranslate nohighlight">\(\mu\)</span> enters the band,
+and the heavily doped semiconductor <em>is</em> the metal of <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a>, and Movement III closes its loop on the
+same dimensionless number that opened it. A stretch computes the most famous number in hobby
+electronics: <span class="math notranslate nohighlight">\(V_{bi} = (k_BT/q)\ln(N_AN_D/n_i^2) = 0.720\)</span> V, the silicon diode drop, from one
+logarithm of mass action, with the junction’s mechanics deferred outward, per the volume’s
+contract.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Energies in eV, densities in cm⁻³, <span class="math notranslate nohighlight">\(E_c = 0\)</span> as the energy
+reference (so <span class="math notranslate nohighlight">\(E_v = -E_g\)</span> and everything in the gap is negative); <span class="math notranslate nohighlight">\(k_BT = 0.02585\)</span> eV at
+300 K. Unit discipline is <em>the</em> numerical trap here (a silently mixed eV/J or cm⁻³/m⁻³ shifts <span class="math notranslate nohighlight">\(n_i\)</span> by ten orders of magnitude), so every Joule↔eV and m⁻³↔cm⁻³ conversion happens
+inside exactly two Setup helpers (<code class="docutils literal notranslate"><span class="pre">N_eff</span></code>, <code class="docutils literal notranslate"><span class="pre">lambda_T</span></code>) and nowhere else. The exact carrier
+integrals use <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> on the <span class="math notranslate nohighlight">\(F_{1/2}\)</span> form with the substitution
+<span class="math notranslate nohighlight">\(x = (\varepsilon - E_c)/k_BT\)</span> and a stated cutoff (insensitivity shown once); every
+neutrality condition (intrinsic, doped, and the takeover temperature) is solved by
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code> with its bracket stated. Band parameters carry their sources.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against an
+independent fact: the hole integral against a brute-force second route; the <span class="math notranslate nohighlight">\(N_c = 2/
+\lambda_T^3\)</span> identity at <span class="math notranslate nohighlight">\(10^{-10}\)</span>; the silicon number against the accepted range (cited,
+not tuned); the intrinsic <span class="math notranslate nohighlight">\(\mu\)</span> formula against the exact solve to all displayed digits;
+the three-regime portrait against its landmark values; the degenerate ladder against the
+criterion of <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a>; the diode drop against the number every hobbyist knows. A ✓ is strong evidence;
+a ✗ is a prompt to <em>locate the discrepancy</em>.</p>
+<p><strong>Scope (the framing constraint, binding).</strong> Nothing new happens here, and the visible prose
+says so: this is quantum statistical mechanics consuming the object of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a>, not device physics.
+The p–n junction’s mechanics (depletion, rectification, the transistor) are <em>named and
+deferred</em> (Sze &amp; Ng, <em>Physics of Semiconductor Devices</em>); real gaps and masses from
+electronic structure belong to DFT and the MMM course; the Saha equation is named as this
+notebook’s mathematics in a stellar atmosphere. See Ashcroft &amp; Mermin (Ch. 28); Kittel
+(Ch. 8). Cross-reference <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> (the function, unchanged), <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a> (the integrals), <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a> (the
+license, twice decisive), <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a> (the degenerate return), <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> (the object consumed), <a class="reference internal" href="../06-quantum-mechanics/identical-particles.html"><span class="std std-doc">§6.20</span></a>
+(Pauli underneath it all), and forward to <a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a> (the photon gas opens Movement IV).</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="two-bands-two-species">
+<h3>Two bands, two species<a class="headerlink" href="#two-bands-two-species" title="Link to this heading">#</a></h3>
+<p>Near its extrema, the band structure of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> is parabolic: conduction states with curvature mass
+<span class="math notranslate nohighlight">\(m_c\)</span> above <span class="math notranslate nohighlight">\(E_c\)</span>, valence states with <span class="math notranslate nohighlight">\(m_v\)</span> below <span class="math notranslate nohighlight">\(E_v\)</span>, and <em>no states at all</em> in the gap
+<span class="math notranslate nohighlight">\(E_g = E_c - E_v\)</span>. Each band therefore carries a √-edge density of states, and the Fermi
+function of <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> counts both species at once:</p>
+<div class="math notranslate nohighlight" id="equation-eq-two-bands">
+<span class="eqno">(754)<a class="headerlink" href="#equation-eq-two-bands" title="Link to this equation">#</a></span>\[n = \int_{E_c}^{\infty} g_c(\varepsilon)\,n_F(\varepsilon)\,d\varepsilon,
+\qquad
+p = \int_{-\infty}^{E_v} g_v(\varepsilon)\,\bigl[1 - n_F(\varepsilon)\bigr]\,d\varepsilon .\]</div>
+<p>The hole bookkeeping is the filled-band argument of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> made statistical: a full valence band is
+inert, so only its <em>empty</em> states, with weight <span class="math notranslate nohighlight">\(1 - n_F\)</span>, respond, and each responds as a positive
+carrier of mass <span class="math notranslate nohighlight">\(|m_v|\)</span>. Exact evaluation goes through the substitution of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>
+<span class="math notranslate nohighlight">\(x = (\varepsilon - E_c)/k_BT\)</span>, which turns each integral into the Fermi–Dirac form
+<span class="math notranslate nohighlight">\(F_{1/2}(\eta) = \int_0^\infty \sqrt{x}\,dx/(1 + e^{x-\eta})\)</span>, evaluated by
+<code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> with a stated cutoff.</p>
+</section>
+<section id="the-boltzmann-limit-and-an-old-friend-in-overalls">
+<h3>The Boltzmann limit, and an old friend in overalls<a class="headerlink" href="#the-boltzmann-limit-and-an-old-friend-in-overalls" title="Link to this heading">#</a></h3>
+<p>When <span class="math notranslate nohighlight">\(E_c - \mu \gg k_BT\)</span> the Fermi tail is exponential and the integral collapses:</p>
+<div class="math notranslate nohighlight" id="equation-eq-boltzmann-carriers">
+<span class="eqno">(755)<a class="headerlink" href="#equation-eq-boltzmann-carriers" title="Link to this equation">#</a></span>\[n \;\longrightarrow\; N_c\,e^{-(E_c-\mu)/k_BT},
+\qquad
+N_c = 2\left(\frac{m_c k_BT}{2\pi\hbar^2}\right)^{3/2} \equiv \frac{2}{\lambda_T^3},\]</div>
+<p>and likewise <span class="math notranslate nohighlight">\(p \to N_v e^{-(\mu - E_v)/k_BT}\)</span>. The identity on the right deserves a pause:
+the “effective density of states,” the workhorse constant of every device textbook, is
+<em>identically</em> <span class="math notranslate nohighlight">\(2/\lambda_T^3\)</span> — the thermal wavelength of <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a> for the carrier mass, spin included
+(verified below: <span class="math notranslate nohighlight">\(2.816\times10^{19}\ \text{cm}^{-3}\)</span> by both routes). Nondegeneracy for
+carriers is therefore verbatim the criterion of <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a> <span class="math notranslate nohighlight">\(n\lambda_T^3 \ll 2\)</span>, i.e. <span class="math notranslate nohighlight">\(n \ll N_c\)</span> — the
+movement’s opening map ruling its closing notebook. The license is precise and its revocation
+is scheduled: quantified against the exact integrals, Boltzmann/exact = 1.000 at
+<span class="math notranslate nohighlight">\(E_c - \mu = 200\)</span> meV, 1.050 at 50 meV, and 2.5 once <span class="math notranslate nohighlight">\(\mu\)</span> sits 50 meV <em>inside</em> the band.</p>
+</section>
+<section id="the-law-of-mass-action">
+<h3>The law of mass action<a class="headerlink" href="#the-law-of-mass-action" title="Link to this heading">#</a></h3>
+<p>Multiply the two Boltzmann populations and watch <span class="math notranslate nohighlight">\(\mu\)</span> cancel:</p>
+<div class="math notranslate nohighlight" id="equation-eq-mass-action">
+<span class="eqno">(756)<a class="headerlink" href="#equation-eq-mass-action" title="Link to this equation">#</a></span>\[np = N_cN_v\,e^{-E_g/k_BT} \equiv n_i^2(T) .\]</div>
+<p>The product is independent of <span class="math notranslate nohighlight">\(\mu\)</span>, and therefore of <em>doping</em>: however the populations are
+tilted, their product is fixed by the gap and the temperature alone. The structure is a
+chemical equilibrium constant for the reaction <span class="math notranslate nohighlight">\(\varnothing \rightleftharpoons e^- + h^+\)</span>,
+and the same mathematics, applied to <span class="math notranslate nohighlight">\(\text{H} \rightleftharpoons p + e^-\)</span> in a stellar
+atmosphere, is the Saha ionization equation: one breath, outward.</p>
+</section>
+<section id="the-silicon-number-and-seven-decades">
+<h3>The silicon number, and seven decades<a class="headerlink" href="#the-silicon-number-and-seven-decades" title="Link to this heading">#</a></h3>
+<p>Setting <span class="math notranslate nohighlight">\(n = p\)</span> turns mass action into the intrinsic density in one square root, and
+differentiating its logarithm with respect to the gap measures the exponential’s leverage:</p>
+<div class="math notranslate nohighlight" id="equation-eq-intrinsic-density">
+<span class="eqno">(757)<a class="headerlink" href="#equation-eq-intrinsic-density" title="Link to this equation">#</a></span>\[n_i = \sqrt{N_cN_v}\;e^{-E_g/2k_BT},
+\qquad
+\frac{d\ln n_i}{dE_g} = -\frac{1}{2k_BT}
+\;\;(\text{a factor of 10 per 119 meV at 300 K}).\]</div>
+<p>For silicon (<span class="math notranslate nohighlight">\(E_g = 1.12\)</span> eV, <span class="math notranslate nohighlight">\(m_c = 1.08\)</span>, <span class="math notranslate nohighlight">\(m_v = 0.81\)</span>) this gives
+<span class="math notranslate nohighlight">\(8.9\times10^9\ \text{cm}^{-3}\)</span> at 300 K against the accepted <span class="math notranslate nohighlight">\(9.65\times10^9\)</span> (modern) to
+<span class="math notranslate nohighlight">\(1.45\times10^{10}\)</span> (older texts): within 10% from <span class="math notranslate nohighlight">\(\hbar\)</span>, one gap, and two masses, the
+residual honestly assigned to the effective-mass inputs rather than tuned away. The same three
+constants give germanium (<span class="math notranslate nohighlight">\(0.67\)</span> eV) <span class="math notranslate nohighlight">\(1.5\times10^{13}\)</span> and GaAs (<span class="math notranslate nohighlight">\(1.42\)</span> eV) <span class="math notranslate nohighlight">\(2.2\times10^6\)</span>:
+<strong>seven decades</strong> of carrier density from gaps within a factor of two, because the
+sensitivity is exponential, the field’s defining fact. And the scale: one carrier pair per
+<span class="math notranslate nohighlight">\(5.6\times10^{12}\)</span> silicon atoms, a part-per-trillion impurity of pure thermodynamics.</p>
+</section>
+<section id="the-chemical-potential-of-an-insulator">
+<h3>The chemical potential of an insulator<a class="headerlink" href="#the-chemical-potential-of-an-insulator" title="Link to this heading">#</a></h3>
+<p>Intrinsic neutrality <span class="math notranslate nohighlight">\(n = p\)</span>, solved exactly by <code class="docutils literal notranslate"><span class="pre">brentq</span></code> on the Fermi–Dirac integrals, sits at</p>
+<div class="math notranslate nohighlight" id="equation-eq-intrinsic-mu">
+<span class="eqno">(758)<a class="headerlink" href="#equation-eq-intrinsic-mu" title="Link to this equation">#</a></span>\[\mu_i = \frac{E_c + E_v}{2} + \frac{3}{4}k_BT\ln\frac{m_v}{m_c},\]</div>
+<p>mid-gap plus a mass drift (the heavier band offers more states; <span class="math notranslate nohighlight">\(\mu\)</span> leans away from it) —
+and the Boltzmann-level formula matches the exact solve to all displayed digits
+(<span class="math notranslate nohighlight">\(-0.56558\)</span> eV at 300 K). Pause on the scandal <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> normalized: the chemical potential of an
+insulator lives <em>where there are no states at all</em>. That is routine for the formalism (<span class="math notranslate nohighlight">\(\mu\)</span> is the bookkeeping price of one more particle, the lineage of <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a>, not the address of any occupied level) and offensive only to the intuition that expects <span class="math notranslate nohighlight">\(\mu\)</span> to live on a state.</p>
+</section>
+<section id="doping-the-three-regimes">
+<h3>Doping: the three regimes<a class="headerlink" href="#doping-the-three-regimes" title="Link to this heading">#</a></h3>
+<p>Donors (phosphorus in silicon) park an electron <span class="math notranslate nohighlight">\(\Delta E_D = 45\)</span> meV below <span class="math notranslate nohighlight">\(E_c\)</span>; the level
+ionizes per the degeneracy-2 donor statistics, and neutrality picks <span class="math notranslate nohighlight">\(\mu\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-doping-regimes">
+<span class="eqno">(759)<a class="headerlink" href="#equation-eq-doping-regimes" title="Link to this equation">#</a></span>\[N_D^+ = \frac{N_D}{1 + 2\,e^{(\mu - E_D)/k_BT}},
+\qquad
+n = p + N_D^+ \quad(\text{solved by brentq at each } T).\]</div>
+<p>The classic Arrhenius portrait has three acts (<span class="math notranslate nohighlight">\(N_D = 10^{16}\)</span>): <strong>freeze-out</strong> below
+<span class="math notranslate nohighlight">\(\sim\)</span>80 K (carriers recaptured by their donors, <span class="math notranslate nohighlight">\(n\)</span> collapsing with slope <span class="math notranslate nohighlight">\(\Delta E_D/2\)</span>);
+the <strong>saturation plateau</strong> from <span class="math notranslate nohighlight">\(\sim\)</span>100–450 K, where <span class="math notranslate nohighlight">\(n \approx N_D\)</span> — read it slowly: for
+three hundred kelvin the carrier density is set by <em>chemistry</em>, not temperature, and this
+plateau is the operating premise of all electronics; and the <strong>intrinsic takeover</strong> as
+<span class="math notranslate nohighlight">\(n_i(T)\)</span> storms past <span class="math notranslate nohighlight">\(N_D\)</span>: device death at 719 K, and the reason power electronics reaches
+for wide gaps (SiC, GaN: one breath, outward). Meanwhile the mass-action seesaw does its
+quiet work: doping to <span class="math notranslate nohighlight">\(10^{16}\)</span> crushes the minority holes to <span class="math notranslate nohighlight">\(n_i^2/N_D = 7.9\times10^3\
+\text{cm}^{-3}\)</span>, twelve decades down, the leverage on which bipolar devices run.</p>
+</section>
+<section id="the-license-revoked-the-degenerate-return">
+<h3>The license revoked: the degenerate return<a class="headerlink" href="#the-license-revoked-the-degenerate-return" title="Link to this heading">#</a></h3>
+<p>The Boltzmann license was granted by the criterion of <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a>, so it must be audited by the same
+number; in this notebook’s variables the degeneracy parameter is simply <span class="math notranslate nohighlight">\(n/N_c\)</span>, marched
+here up the doping ladder:</p>
+<div class="math notranslate nohighlight" id="equation-eq-degenerate-return">
+<span class="eqno">(760)<a class="headerlink" href="#equation-eq-degenerate-return" title="Link to this equation">#</a></span>\[\frac{n\lambda_T^3}{2} = \frac{n}{N_c}:
+\qquad
+3.6\times10^{-10} \;(\text{intrinsic})
+\;\to\; 3.6\times10^{-4} \;(10^{16})
+\;\to\; 1 \;(N_c = 2.8\times10^{19})
+\;\to\; 3.6 \;(10^{20}).\]</div>
+<p>At <span class="math notranslate nohighlight">\(n \sim N_c\)</span> Boltzmann fails (the ratios of <a class="reference internal" href="#equation-eq-boltzmann-carriers">Eq. 755</a> now bite), <span class="math notranslate nohighlight">\(\mu\)</span>
+crosses <em>into</em> the conduction band, and the heavily doped semiconductor is a metal in every
+respect the movement owns: a Fermi level in a band, a degenerate gas, the formulas of <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a>.
+Industry uses exactly this limit daily (degenerate emitters, ohmic contacts). Movement III
+ends where it began: the dimensionless number of the map of <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a> adjudicates its last notebook.</p>
+</section>
+<section id="the-0-7-volts-stretch">
+<h3>The 0.7 volts (stretch)<a class="headerlink" href="#the-0-7-volts-stretch" title="Link to this heading">#</a></h3>
+<p>Join an n-type and a p-type region in equilibrium and <em>one</em> chemical potential must span both
+(the equilibrium condition of <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a> and <a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html"><span class="std std-doc">§5.9</span></a>), so the bands bend by the difference of the bulk
+chemical potentials:</p>
+<div class="math notranslate nohighlight" id="equation-eq-builtin-potential">
+<span class="eqno">(761)<a class="headerlink" href="#equation-eq-builtin-potential" title="Link to this equation">#</a></span>\[qV_{bi} = k_BT\,\ln\frac{N_AN_D}{n_i^2} = 0.720\ \text{eV}
+\quad(N_A = N_D = 10^{16}\ \text{cm}^{-3},\ 300\ \text{K}),\]</div>
+<p>the ~0.7 volts every silicon diode drops, computed from one logarithm of mass action. The
+junction’s mechanics, depletion widths and rectification and the transistor, belong to device
+physics (Sze &amp; Ng) and are deferred outward, per the framing constraint: this course computes
+the number and stops.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data and instruments only: the series colours, the CODATA constants, the band-parameter
+tables for silicon, germanium and GaAs (gaps and density-of-states masses, sourced), the
+donor depth and its degeneracy, the two unit-conversion helpers the conventions above
+name — <code class="docutils literal notranslate"><span class="pre">N_eff</span></code> and <code class="docutils literal notranslate"><span class="pre">lambda_T</span></code> — the Fermi–Dirac quadrature of
+<a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>, and the Boltzmann-limit transcription that Exercise 2
+derives. The objects this notebook is <em>about</em> are not here: the exact carrier integrals
+are built in Exercise 1, the intrinsic neutrality solve in Exercise 3, the doped
+neutrality and takeover solves in Exercise 5, and the built-in potential in Exercise 7.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">quad</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">brentq</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>
+<span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;#c1121f&quot;</span>
+
+<span class="c1"># Conventions: energies in eV, densities in cm^-3, E_c = 0 (so</span>
+<span class="c1"># E_v = -E_g). ALL Joule↔eV and m^-3↔cm^-3 conversion happens inside N_eff and</span>
+<span class="c1"># lambda_T below and nowhere else — unit discipline is this notebook&#39;s stated trap</span>
+<span class="c1"># (a silently mixed unit shifts n_i by ten orders of magnitude).</span>
+<span class="n">KB</span> <span class="o">=</span> <span class="mf">8.617333262e-5</span>  <span class="c1"># Boltzmann constant, eV/K (CODATA 2018)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">m_e</span> <span class="k">as</span> <span class="n">ME</span>  <span class="c1"># electron mass, kg (CODATA 2018)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">h</span> <span class="k">as</span> <span class="n">H_PLANCK</span>  <span class="c1"># Planck constant, J·s (exact, SI 2019)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">eV</span> <span class="k">as</span> <span class="n">EV</span>  <span class="c1"># eV in J (exact, SI 2019)</span>
+
+<span class="c1"># ħ DERIVED from the exact h rather than typed as its own rounded literal: a</span>
+<span class="c1"># 10-digit ħ alongside the exact h breaks h = 2πħ at the 6e-10 level, which is</span>
+<span class="c1"># enough to fail Exercise 2&#39;s 1e-10 identity gate between the two routes.</span>
+<span class="n">HBAR</span> <span class="o">=</span> <span class="n">H_PLANCK</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>  <span class="c1"># reduced Planck constant, J·s</span>
+
+<span class="c1"># Band parameters (density-of-states masses in units of m_e; 300 K gaps).</span>
+<span class="c1"># Sources: Sze &amp; Ng, Physics of Semiconductor Devices, Ch. 1 (Si, Ge, GaAs);</span>
+<span class="c1"># the masses are the band-curvature inputs whose origin is §7.12 (and, for real</span>
+<span class="c1"># materials, a DFT band structure — the outward provenance).</span>
+<span class="n">SI</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Eg&quot;</span><span class="p">:</span> <span class="mf">1.12</span><span class="p">,</span> <span class="s2">&quot;mc&quot;</span><span class="p">:</span> <span class="mf">1.08</span><span class="p">,</span> <span class="s2">&quot;mv&quot;</span><span class="p">:</span> <span class="mf">0.81</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Si&quot;</span><span class="p">}</span>
+<span class="n">GE</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Eg&quot;</span><span class="p">:</span> <span class="mf">0.67</span><span class="p">,</span> <span class="s2">&quot;mc&quot;</span><span class="p">:</span> <span class="mf">0.56</span><span class="p">,</span> <span class="s2">&quot;mv&quot;</span><span class="p">:</span> <span class="mf">0.29</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Ge&quot;</span><span class="p">}</span>
+<span class="n">GAAS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Eg&quot;</span><span class="p">:</span> <span class="mf">1.42</span><span class="p">,</span> <span class="s2">&quot;mc&quot;</span><span class="p">:</span> <span class="mf">0.067</span><span class="p">,</span> <span class="s2">&quot;mv&quot;</span><span class="p">:</span> <span class="mf">0.47</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GaAs&quot;</span><span class="p">}</span>
+<span class="n">E_C</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># conduction band edge: the energy reference</span>
+<span class="n">DE_D</span> <span class="o">=</span> <span class="mf">0.045</span>  <span class="c1"># donor depth ΔE_D below E_c (phosphorus in silicon), eV</span>
+<span class="n">G_D</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># donor spin degeneracy (one electron, two spins — the honest factor)</span>
+<span class="n">N_ATOMS_SI</span> <span class="o">=</span> <span class="mf">5.0e22</span>  <span class="c1"># silicon atom density, cm^-3</span>
+<span class="n">X_CUT</span> <span class="o">=</span> <span class="mf">60.0</span>  <span class="c1"># baseline cutoff for the F_{1/2} integrals (insensitivity shown in Ex 1)</span>
+
+
+<span class="c1"># built from scratch in §7.3 (Exercise 5, there called `fermi_integral` — the same</span>
+<span class="c1"># scipy.integrate.quad route to the Fermi–Dirac integral, specialized here to s = 3/2</span>
+<span class="c1"># and reparameterized in η); restated here as an instrument.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fermi_half</span><span class="p">(</span><span class="n">eta</span><span class="p">,</span> <span class="n">x_cut</span><span class="o">=</span><span class="n">X_CUT</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Fermi–Dirac integral F_{1/2}(η) = ∫_0^∞ √x dx / (1 + e^{x−η}).</span>
+
+<span class="sd">    Evaluated by scipy.integrate.quad on [0, cutoff] with cutoff = max(x_cut,</span>
+<span class="sd">    η + x_cut): for nondegenerate η the tail beyond x = 60 is e^{−60} of the</span>
+<span class="sd">    integrand (insensitivity gated in Exercise 1), and for degenerate η &gt; 0 the</span>
+<span class="sd">    window must extend past the Fermi step, hence the η + x_cut guard. The</span>
+<span class="sd">    tolerance is PURELY RELATIVE (epsabs = 0): deep in the gap F_{1/2} ~ e^η can</span>
+<span class="sd">    sit far below quad&#39;s default absolute floor of 1.5e-8, and leaving that</span>
+<span class="sd">    default in place silently degrades the integral to ~1e-3 relative accuracy —</span>
+<span class="sd">    the unit trap&#39;s quieter sibling, caught by Exercise 1&#39;s cutoff gate. This is</span>
+<span class="sd">    the integral of §7.3, unchanged — the notebook&#39;s contract is that nothing here is new.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    eta : float</span>
+<span class="sd">        Reduced chemical potential (μ − E_edge)/k_BT measured into the band.</span>
+<span class="sd">    x_cut : float, optional</span>
+<span class="sd">        Baseline integration cutoff (default 60).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        F_{1/2}(η).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">upper</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x_cut</span><span class="p">,</span> <span class="n">eta</span> <span class="o">+</span> <span class="n">x_cut</span><span class="p">)</span>
+    <span class="n">val</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">quad</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">eta</span><span class="p">)),</span>
+        <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">upper</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+        <span class="n">epsabs</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">epsrel</span><span class="o">=</span><span class="mf">1e-11</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">val</span>
+
+
+<span class="c1"># instrument: the first of the notebook&#39;s two unit-conversion points (eV→J, m^-3→cm^-3),</span>
+<span class="c1"># and nobody&#39;s lesson here — Exercise 2&#39;s lesson is the *identity* N_c = 2/λ_T^3, proved</span>
+<span class="c1"># algebraically and then checked against lambda_T&#39;s independent arithmetic route; every</span>
+<span class="c1"># carrier formula in the notebook is written in terms of this constant rather than about it.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">N_eff</span><span class="p">(</span><span class="n">m_rel</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The effective density of states N = 2(m k_BT / 2πħ^2)^{3/2}, in cm^-3.</span>
+
+<span class="sd">    The engineer&#39;s workhorse constant — and, per Exercise 2&#39;s identity, literally</span>
+<span class="sd">    2/λ_T^3: the thermal wavelength of §7.8 for the carrier mass, spin included. This</span>
+<span class="sd">    helper is one of the notebook&#39;s two unit-conversion points: k_BT enters in</span>
+<span class="sd">    Joules (KB·T·EV) and the m^-3 result is converted to cm^-3 once, here.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    m_rel : float</span>
+<span class="sd">        Density-of-states mass in units of the electron mass.</span>
+<span class="sd">    T : float</span>
+<span class="sd">        Temperature in K.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        Effective density of states, cm^-3.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kT_J</span> <span class="o">=</span> <span class="n">KB</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="n">EV</span>  <span class="c1"># the eV→J conversion point</span>
+    <span class="n">n_per_m3</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">m_rel</span> <span class="o">*</span> <span class="n">ME</span> <span class="o">*</span> <span class="n">kT_J</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">HBAR</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">**</span> <span class="mf">1.5</span>
+    <span class="k">return</span> <span class="n">n_per_m3</span> <span class="o">*</span> <span class="mf">1e-6</span>  <span class="c1"># the m^-3 → cm^-3 conversion point</span>
+
+
+<span class="c1"># built from scratch in §7.8 (Exercise 1, where λ_T = h/√(2πmk_BT) falls out of the</span>
+<span class="c1"># Gaussian momentum integral for Z_1); restated here as an instrument — evaluated for a</span>
+<span class="c1"># carrier mass, and the second and last of this notebook&#39;s unit-conversion points.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lambda_T</span><span class="p">(</span><span class="n">m_rel</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The thermal de Broglie wavelength λ_T = h/√(2π m k_BT), in cm.</span>
+
+<span class="sd">    Verbatim the definition of §7.8, evaluated for a carrier of mass m_rel·m_e — the</span>
+<span class="sd">    second of the two unit-conversion points (J and m inside, cm out), so that</span>
+<span class="sd">    2/λ_T^3 lands directly in cm^-3 for Exercise 2&#39;s identity gate.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    m_rel : float</span>
+<span class="sd">        Carrier mass in units of the electron mass.</span>
+<span class="sd">    T : float</span>
+<span class="sd">        Temperature in K.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        Thermal wavelength, cm.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kT_J</span> <span class="o">=</span> <span class="n">KB</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="n">EV</span>
+    <span class="n">lam_m</span> <span class="o">=</span> <span class="n">H_PLANCK</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">m_rel</span> <span class="o">*</span> <span class="n">ME</span> <span class="o">*</span> <span class="n">kT_J</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">lam_m</span> <span class="o">*</span> <span class="mf">1e2</span>  <span class="c1"># m → cm</span>
+
+
+<span class="c1"># data: eq-boltzmann-carriers transcribed — one exponential times N_c, with nothing to</span>
+<span class="c1"># construct beyond the displayed formula. Exercise 2 derives this limit from F_{1/2} and</span>
+<span class="c1"># then measures where it stops being true; Exercise 6 revokes it.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">n_boltzmann</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">mat</span><span class="o">=</span><span class="n">SI</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Boltzmann-limit electron density n = N_c e^{−(E_c−μ)/k_BT} (eq-boltzmann-carriers).</span>
+
+<span class="sd">    The nondegenerate approximation whose license — n ≪ N_c, verbatim the</span>
+<span class="sd">    nλ^3 ≪ 2 of §7.8 — Exercise 2 quantifies and Exercise 6 revokes. The exponent is</span>
+<span class="sd">    negative throughout this notebook&#39;s use (μ below E_c), so no overflow guard is</span>
+<span class="sd">    needed on this branch; the low-T guard lives in the neutrality solver instead.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mu : float</span>
+<span class="sd">        Chemical potential, eV.</span>
+<span class="sd">    T : float</span>
+<span class="sd">        Temperature in K.</span>
+<span class="sd">    mat : dict, optional</span>
+<span class="sd">        Band-parameter set (default silicon).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        Boltzmann electron density, cm^-3.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">N_eff</span><span class="p">(</span><span class="n">mat</span><span class="p">[</span><span class="s2">&quot;mc&quot;</span><span class="p">],</span> <span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">E_C</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">KB</span> <span class="o">*</span> <span class="n">T</span><span class="p">))</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;k_BT at 300 K = </span><span class="si">{</span><span class="n">KB</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">300</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> eV (the 0.02585 of the conventions)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;N_c(Si, 300 K) = </span><span class="si">{</span><span class="n">N_eff</span><span class="p">(</span><span class="n">SI</span><span class="p">[</span><span class="s1">&#39;mc&#39;</span><span class="p">],</span><span class="w"> </span><span class="mi">300</span><span class="p">)</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2"> cm^-3,  N_v = </span><span class="si">{</span><span class="n">N_eff</span><span class="p">(</span><span class="n">SI</span><span class="p">[</span><span class="s1">&#39;mv&#39;</span><span class="p">],</span><span class="w"> </span><span class="mi">300</span><span class="p">)</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2"> cm^-3&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k_BT at 300 K = 0.02585 eV (the 0.02585 of the conventions)
+N_c(Si, 300 K) = 2.816e+19 cm^-3,  N_v = 1.829e+19 cm^-3
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-two-bands-two-species">
+<h2>Exercise 1 — Two bands, two species<a class="headerlink" href="#exercise-1-two-bands-two-species" title="Link to this heading">#</a></h2>
+<p>The gapped DOS of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> meets the Fermi function of <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> — electrons above, holes below, one
+distribution. Cite <a class="reference internal" href="#equation-eq-two-bands">Eq. 754</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive the carrier integrals <span class="math notranslate nohighlight">\(n = \int g_c\,n_F\)</span> and <span class="math notranslate nohighlight">\(p = \int g_v(1 - n_F)\)</span>, with the hole
+bookkeeping taken from the filled-band-minus-occupations argument of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a>.</p></li>
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">n_electrons(mu,</span> <span class="pre">T,</span> <span class="pre">mat)</span></code> and <code class="docutils literal notranslate"><span class="pre">p_holes(mu,</span> <span class="pre">T,</span> <span class="pre">mat)</span></code>: the same two integrals in the
+<span class="math notranslate nohighlight">\(x = (\varepsilon - E_c)/k_BT\)</span> form of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>, each of them
+<span class="math notranslate nohighlight">\(N(T)\,(2/\sqrt{\pi})\,F_{1/2}(\eta)\)</span> with the Setup’s <code class="docutils literal notranslate"><span class="pre">fermi_half</span></code> doing the quadrature
+and the Setup’s <code class="docutils literal notranslate"><span class="pre">N_eff</span></code> carrying the units — electrons at <span class="math notranslate nohighlight">\(\eta = (\mu - E_c)/k_BT\)</span>,
+holes at the mirrored <span class="math notranslate nohighlight">\(\eta_p = (E_v - \mu)/k_BT\)</span>.
+<strong>Write these yourself</strong> — the implementation is the lesson.</p></li>
+<li><p>Certify them: show the <span class="math notranslate nohighlight">\(F_{1/2}\)</span> cutoff is a non-issue by doubling it, and check the hole
+route against a brute-force integral in raw <span class="math notranslate nohighlight">\(\varepsilon\)</span> with no substitution.</p></li>
+<li><p>Plot the band diagram: <span class="math notranslate nohighlight">\(g(\varepsilon)\)</span> with the gap, <span class="math notranslate nohighlight">\(\mu\)</span>, and the two shaded carrier
+populations at 300 K.</p></li>
+<li><p>State the framing contract (prose, the course’s voice): every tool in this notebook is
+second-hand (the function of <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>, the integrals of <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a>, the license of <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a>), aimed at the object of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a>; the
+statistics resumes here and finishes the movement.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cutoff insensitivity: |n(120) − n(60)|/n = 0.0e+00
+holes, mirrored F_1/2 route: 7.156713e+09 cm^-3
+holes, brute-force ε route:  7.156713e+09 cm^-3
+electrons at the same μ:     1.101848e+10 cm^-3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-semi-band-diagram">
+<img alt="../../_images/a5fd62e647f1b016d9700caf6d01f796ae385e5d7bb4c7197f6cb544e75b6e37.png" src="../../_images/a5fd62e647f1b016d9700caf6d01f796ae385e5d7bb4c7197f6cb544e75b6e37.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 674 </span><span class="caption-text">Two bands, two species, one Fermi function. The gapped density of states silicon presents to the statistics (dark curves: <span class="math notranslate nohighlight">\(g_c \propto \sqrt{\varepsilon - E_c}\)</span> above the gap with mass <span class="math notranslate nohighlight">\(m_c = 1.08\)</span>, <span class="math notranslate nohighlight">\(g_v \propto \sqrt{E_v - \varepsilon}\)</span> below with <span class="math notranslate nohighlight">\(m_v = 0.81\)</span>; gap <span class="math notranslate nohighlight">\(E_g = 1.12\)</span> eV shaded), the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span> stranded mid-gap (dashed — Exercise 4’s scandal), and the two carrier populations at 300 K: electrons weighted <span class="math notranslate nohighlight">\(n_F\)</span> (amber, above), holes weighted <span class="math notranslate nohighlight">\(1 - n_F\)</span> (red, below). The populations are drawn magnified <span class="math notranslate nohighlight">\(\times 2\times10^{9}\)</span> — to scale they would be invisible, and that invisibility is the physics: at <span class="math notranslate nohighlight">\(\mu - E_c \approx -22\,k_BT\)</span> the occupations are <span class="math notranslate nohighlight">\(\sim e^{-22}\)</span>, which is why ten billion carriers per cubic centimetre counts as a triumph. <a class="reference internal" href="#equation-eq-two-bands">Eq. 754</a>.</span><a class="headerlink" href="#fig-semi-band-diagram" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the F_1/2 cutoff is a non-issue: doubling x_cut moves n at the 1e-10 level or below   [relative shift 0.0e+00]
+✓  the hole bookkeeping survives a second route: brute-force ε-integral vs the mirrored F_1/2   [got 7.15671e+09 vs expected 7.15671e+09 (rtol=1e-08, atol=1e-09)]
+✓  two carrier gases from one Fermi function, both evaluating stably at mid-gap μ   [n = 1.10e+10, p = 7.16e+09 cm^-3]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-engineer-s-constant-is-the-thermal-wavelength">
+<h2>Exercise 2 — The engineer’s constant is the thermal wavelength<a class="headerlink" href="#exercise-2-the-engineer-s-constant-is-the-thermal-wavelength" title="Link to this heading">#</a></h2>
+<p>The Boltzmann limit, its workhorse <span class="math notranslate nohighlight">\(N_c\)</span>, and the license quantified. Cite
+<a class="reference internal" href="#equation-eq-boltzmann-carriers">Eq. 755</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive <span class="math notranslate nohighlight">\(n \to N_c e^{-(E_c-\mu)/k_BT}\)</span> with <span class="math notranslate nohighlight">\(N_c = 2(m_ck_BT/2\pi\hbar^2)^{3/2}\)</span>, and prove
+the identity <span class="math notranslate nohighlight">\(N_c = 2/\lambda_T^3\)</span> (the wavelength of <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a> for the carrier mass).</p></li>
+<li><p>Verify the identity numerically to machine precision (<span class="math notranslate nohighlight">\(2.816\times10^{19}\)</span> cm⁻³ by both
+routes, via <code class="docutils literal notranslate"><span class="pre">N_eff</span></code> and via <code class="docutils literal notranslate"><span class="pre">lambda_T</span></code>) and evaluate <span class="math notranslate nohighlight">\(N_v\)</span>.</p></li>
+<li><p>Quantify the license against exact Fermi–Dirac: the ratio of the Setup’s <code class="docutils literal notranslate"><span class="pre">n_boltzmann</span></code>
+to the <code class="docutils literal notranslate"><span class="pre">n_electrons</span></code> you wrote in Exercise 1, at <span class="math notranslate nohighlight">\(E_c - \mu = 200, 50, -50\)</span> meV — plot it
+against <span class="math notranslate nohighlight">\((E_c - \mu)/k_BT\)</span>.</p></li>
+<li><p>Read it (prose): nondegeneracy for carriers is verbatim <span class="math notranslate nohighlight">\(n\lambda^3 \ll 2\)</span> — the movement’s
+opening map ruling its closing notebook; the revocation at <span class="math notranslate nohighlight">\(n \sim N_c\)</span> is Exercise 6’s
+business.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N_c via (m kT/2πħ^2)^3/2:  2.816486e+19 cm^-3
+N_c via 2/λ_T^3:           2.816486e+19 cm^-3
+N_v (m_v = 0.81):          1.829e+19 cm^-3
+E_c − μ =  200 meV:  Boltzmann/exact = 1.000
+E_c − μ =   50 meV:  Boltzmann/exact = 1.050
+E_c − μ =  -50 meV:  Boltzmann/exact = 2.536
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-semi-boltzmann-ratio">
+<img alt="../../_images/912808c9b7079a2591a037eeabd59be4ab81531ae181ed6c38d99a994a67055c.png" src="../../_images/912808c9b7079a2591a037eeabd59be4ab81531ae181ed6c38d99a994a67055c.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 675 </span><span class="caption-text">The nondegeneracy license, quantified. The ratio of the Boltzmann carrier density <span class="math notranslate nohighlight">\(N_ce^{-(E_c-\mu)/k_BT}\)</span> to the exact Fermi–Dirac integral, against the reduced distance <span class="math notranslate nohighlight">\((E_c - \mu)/k_BT\)</span> of the chemical potential below the band edge. Deep in the tail the ratio is 1.000 to the tenth digit (<span class="math notranslate nohighlight">\(E_c - \mu = 200\)</span> meV <span class="math notranslate nohighlight">\(\approx 7.7\,k_BT\)</span>, first marker); at 50 meV (<span class="math notranslate nohighlight">\(\approx 2\,k_BT\)</span>) Boltzmann already overcounts by 5%; and with <span class="math notranslate nohighlight">\(\mu\)</span> 50 meV <em>inside</em> the band the overcount is 2.5<span class="math notranslate nohighlight">\(\times\)</span> — Pauli refuses the double occupancy the classical form assumes. The license <span class="math notranslate nohighlight">\(n \ll N_c\)</span> is verbatim the <span class="math notranslate nohighlight">\(n\lambda_T^3 \ll 2\)</span> of <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a> (<a class="reference internal" href="#equation-eq-boltzmann-carriers">Eq. 755</a>), and its revocation at <span class="math notranslate nohighlight">\(n \sim N_c\)</span> is Exercise 6’s degenerate return.</span><a class="headerlink" href="#fig-semi-boltzmann-ratio" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  N_c is 2/λ^3: the thermal wavelength in industrial dress, by two code routes   [got 2.81649e+19 vs expected 2.81649e+19 (rtol=1e-10, atol=1e-09)]
+✓  the license quantified: exact in the tail, 5% at 2 k_BT, 2.5× wrong inside the band   [max|Δ| = 0.00428562 (rtol=0.02, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-the-law-of-mass-action-and-the-silicon-number">
+<h2>Exercise 3 — The law of mass action, and the silicon number<a class="headerlink" href="#exercise-3-the-law-of-mass-action-and-the-silicon-number" title="Link to this heading">#</a></h2>
+<p>One line makes <span class="math notranslate nohighlight">\(np\)</span> immune to doping; three constants make it <span class="math notranslate nohighlight">\(10^{10}\)</span>. Cite
+<a class="reference internal" href="#equation-eq-mass-action">Eq. 756</a>, <a class="reference internal" href="#equation-eq-intrinsic-density">Eq. 757</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive <span class="math notranslate nohighlight">\(np = N_cN_v e^{-E_g/k_BT} = n_i^2\)</span> and state <em>why</em> <span class="math notranslate nohighlight">\(\mu\)</span> cancels, hence doping-independence; note the equilibrium-constant structure (Saha named, one breath).</p></li>
+<li><p>Build the exact machinery the rest of the notebook runs on. Write <code class="docutils literal notranslate"><span class="pre">mu_intrinsic(T,</span> <span class="pre">mat)</span></code>,
+which solves intrinsic neutrality <span class="math notranslate nohighlight">\(n(\mu) = p(\mu)\)</span> for <span class="math notranslate nohighlight">\(\mu\)</span> with <code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code>
+on the Exercise 1 integrals, bracketed by the gap itself <span class="math notranslate nohighlight">\([E_v, E_c]\)</span> (holes dominate at
+the lower edge, electrons at the upper, and <span class="math notranslate nohighlight">\(n - p\)</span> is monotone in <span class="math notranslate nohighlight">\(\mu\)</span>, so the root is
+unique); and <code class="docutils literal notranslate"><span class="pre">n_intrinsic(T,</span> <span class="pre">mat)</span></code>, the electron density evaluated at that <span class="math notranslate nohighlight">\(\mu\)</span> — the
+exact route, so that no closed form and no Boltzmann step is smuggled into anything
+downstream. <strong>Write these yourself</strong> — the implementation is the lesson.</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(n_i(\text{Si}, 300\,\text{K})\)</span> with them and compare with the accepted range
+(<span class="math notranslate nohighlight">\(9.65\times10^9\)</span> modern to <span class="math notranslate nohighlight">\(1.45\times10^{10}\)</span> in older texts, cited): within 10%, the
+residual honestly assigned to the effective-mass inputs, not tuned away.</p></li>
+<li><p>Build the table: Ge and GaAs by the same three constants: seven decades from a
+factor-two gap spread; verify the sensitivity <span class="math notranslate nohighlight">\(d\ln n_i/dE_g = -1/2k_BT\)</span> numerically from
+the exact solve at shifted gaps.</p></li>
+<li><p>Weigh the scales (prose): one pair per <span class="math notranslate nohighlight">\(5.6\times10^{12}\)</span> silicon atoms, a part-per-trillion impurity of pure thermodynamics, and the substrate of the information
+age; exponential gap-sensitivity stated as the field’s defining fact.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n_i(Si, 300 K), exact machinery: 8.880e+09 cm^-3
+n_i(Si, 300 K), closed form:     8.880e+09 cm^-3
+accepted: 9.65e9 (modern) … 1.45e10 (older texts) — ours within 10% of the modern value
+
+the mass-action table at 300 K (same three constants per material):
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Si    E_g = 1.12 eV:  n_i = 8.88e+09 cm^-3
+  Ge    E_g = 0.67 eV:  n_i = 1.51e+13 cm^-3
+  GaAs  E_g = 1.42 eV:  n_i = 2.22e+06 cm^-3
+Ge / GaAs span: 6.8 decades from a gap ratio of 2.1
+d ln n_i/dE_g = -19.341 eV^-1   (−1/2k_BT = -19.341)
+→ a factor of 10 per 119 meV of gap
+
+one carrier pair per 5.6e+12 silicon atoms
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-semi-ni-arrhenius">
+<img alt="../../_images/93986b7a7346cdebcf618e4060a37db00d455157a9a52606f158f03fc1fd8fa5.png" src="../../_images/93986b7a7346cdebcf618e4060a37db00d455157a9a52606f158f03fc1fd8fa5.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 676 </span><span class="caption-text">Seven decades from a factor of two. Intrinsic carrier density <span class="math notranslate nohighlight">\(n_i(T)\)</span> for germanium (<span class="math notranslate nohighlight">\(E_g = 0.67\)</span> eV), silicon (1.12 eV), and GaAs (1.42 eV), computed from the exact neutrality solve at each temperature and plotted against <span class="math notranslate nohighlight">\(1000/T\)</span> — the Arrhenius axis on which mass action (<a class="reference internal" href="#equation-eq-mass-action">Eq. 756</a>) draws near-straight lines of slope <span class="math notranslate nohighlight">\(-E_g/2k_B\)</span>. At 300 K (dotted) the three materials read <span class="math notranslate nohighlight">\(1.5\times10^{13}\)</span>, <span class="math notranslate nohighlight">\(8.9\times10^{9}\)</span>, and <span class="math notranslate nohighlight">\(2.2\times10^{6}\)</span> cm<span class="math notranslate nohighlight">\(^{-3}\)</span>: gaps within a factor of two, carrier densities spanning seven decades, because the sensitivity is <span class="math notranslate nohighlight">\(e^{-E_g/2k_BT}\)</span> — a factor of ten per 119 meV. The slight curvature is the <span class="math notranslate nohighlight">\(T^{3/2}\)</span> prefactor of <span class="math notranslate nohighlight">\(\sqrt{N_cN_v}\)</span>.</span><a class="headerlink" href="#fig-semi-ni-arrhenius" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the silicon number from ħ, one gap, two masses — cited against 9.65e9 accepted, not tuned   [got 8.8801e+09 vs expected 8.88e+09 (rtol=0.02, atol=1e-09)]
+✓  the seven-decade table: Ge and GaAs from the same three constants each   [max|Δ| = 1.27209e+11 (rtol=0.05, atol=1e-09)]
+✓  the exponential lever, measured from the exact solve: d ln n_i/dE_g = −1/2k_BT   [got -19.3409 vs expected -19.3409 (rtol=0.001, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-the-chemical-potential-of-an-insulator">
+<h2>Exercise 4 — The chemical potential of an insulator<a class="headerlink" href="#exercise-4-the-chemical-potential-of-an-insulator" title="Link to this heading">#</a></h2>
+<p><span class="math notranslate nohighlight">\(\mu\)</span> lives in the gap — where there are no states at all. Cite <a class="reference internal" href="#equation-eq-intrinsic-mu">Eq. 758</a>.</p>
+<ol class="arabic simple">
+<li><p>Evaluate <span class="math notranslate nohighlight">\(\mu_i\)</span> at 300 and 500 K with the <code class="docutils literal notranslate"><span class="pre">mu_intrinsic</span></code> you wrote in Exercise 3 — an
+exact <code class="docutils literal notranslate"><span class="pre">brentq</span></code> solve on the Fermi–Dirac integrals, with no Boltzmann step in it anywhere.</p></li>
+<li><p>Derive the Boltzmann-level formula <span class="math notranslate nohighlight">\(\mu_i = (E_c + E_v)/2 + (3/4)k_BT\ln(m_v/m_c)\)</span> and
+verify it matches the exact solve to all displayed digits.</p></li>
+<li><p>Plot <span class="math notranslate nohighlight">\(\mu_i(T)\)</span> and attribute the drift’s sign (the heavier band wins states; <span class="math notranslate nohighlight">\(\mu\)</span> leans
+away from it).</p></li>
+<li><p>Address the scandal (prose): a chemical potential in a stateless region is routine for
+the formalism of <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> and offensive to naive intuition; resolve it (<span class="math notranslate nohighlight">\(\mu\)</span> is the bookkeeping
+price of a particle, not an address), and note the lineage of <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>T = 300 K:  exact μ_i = -0.56558 eV   formula = -0.56558 eV
+T = 500 K:  exact μ_i = -0.56930 eV   formula = -0.56930 eV
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-semi-mu-intrinsic">
+<img alt="../../_images/65ff66d9bd60eac35d648bcff5e75dbbe67eb5d1453df1807051a04231ea7c67.png" src="../../_images/65ff66d9bd60eac35d648bcff5e75dbbe67eb5d1453df1807051a04231ea7c67.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 677 </span><span class="caption-text">The chemical potential of an insulator lives where there are no states. Intrinsic <span class="math notranslate nohighlight">\(\mu_i(T)\)</span> for silicon from the exact <code class="docutils literal notranslate"><span class="pre">brentq</span></code> neutrality solve (amber) against the Boltzmann-level formula mid-gap <span class="math notranslate nohighlight">\(+\, (3/4)k_BT\ln(m_v/m_c)\)</span> of <a class="reference internal" href="#equation-eq-intrinsic-mu">Eq. 758</a> (dashed dark — indistinguishable to all displayed digits: <span class="math notranslate nohighlight">\(-0.56558\)</span> eV at 300 K by both routes). The band edges frame the gap; <span class="math notranslate nohighlight">\(\mu_i\)</span> starts at mid-gap at <span class="math notranslate nohighlight">\(T \to 0\)</span> and drifts <em>away from the heavier band</em> (here <span class="math notranslate nohighlight">\(m_c &gt; m_v\)</span>, so downward) as temperature widens the thermal window — the heavier band hosts states more cheaply, and <span class="math notranslate nohighlight">\(n = p\)</span> makes <span class="math notranslate nohighlight">\(\mu\)</span> compensate. The whole trajectory sits in the stateless gap: <span class="math notranslate nohighlight">\(\mu\)</span> is a bookkeeping level (the <span class="math notranslate nohighlight">\(\partial F/\partial N\)</span> of <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a>), not an address.</span><a class="headerlink" href="#fig-semi-mu-intrinsic" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  intrinsic μ: mid-gap plus the mass drift, matching the exact solve to all displayed digits   [max|Δ| = 7.50904e-09 (rtol=0.0001, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-doping-the-three-regimes">
+<h2>Exercise 5 — Doping: the three regimes<a class="headerlink" href="#exercise-5-doping-the-three-regimes" title="Link to this heading">#</a></h2>
+<p>Donor statistics, exact neutrality, and the temperature plateau on which every chip depends —
+the movement’s centerpiece. Cite <a class="reference internal" href="#equation-eq-doping-regimes">Eq. 759</a>.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">solve_neutrality(T,</span> <span class="pre">N_D,</span> <span class="pre">dE_D)</span></code>: <span class="math notranslate nohighlight">\(n = p + N_D^+\)</span> with
+<span class="math notranslate nohighlight">\(N_D^+ = N_D/(1 + 2e^{(\mu - E_D)/k_BT})\)</span>, solved for <span class="math notranslate nohighlight">\(\mu\)</span> by <code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code> on
+your Exercise 1 integrals — the <span class="math notranslate nohighlight">\(g = 2\)</span> stated, and the bracket with its low-T guard
+stated. <strong>Write this one yourself</strong> — the implementation is the lesson.</p></li>
+<li><p>Sweep <span class="math notranslate nohighlight">\(T = 30\)</span>–800 K for <span class="math notranslate nohighlight">\(N_D = 10^{16}\)</span> (P:Si, <span class="math notranslate nohighlight">\(\Delta E_D = 45\)</span> meV) and reproduce the
+portrait: freeze-out, saturation across 100–450 K, intrinsic takeover; plot <span class="math notranslate nohighlight">\(\log n\)</span> vs
+<span class="math notranslate nohighlight">\(1000/T\)</span> with the regimes labelled and the freeze-out slope <span class="math notranslate nohighlight">\(\sim\Delta E_D/2\)</span> exhibited
+(fit <span class="math notranslate nohighlight">\(\ln(n/T^{3/4})\)</span> against <span class="math notranslate nohighlight">\(1/T\)</span> over 30–45 K).</p></li>
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">takeover_temperature(N_D)</span></code>: <span class="math notranslate nohighlight">\(n_i(T) = N_D\)</span> solved by <code class="docutils literal notranslate"><span class="pre">brentq</span></code> in the logarithm on
+the bracket [400, 1200] K, with the <code class="docutils literal notranslate"><span class="pre">n_intrinsic</span></code> of Exercise 3 supplying <span class="math notranslate nohighlight">\(n_i(T)\)</span> — the
+logarithm because <span class="math notranslate nohighlight">\(n_i\)</span> is exponentially steep and raw values would wreck brentq’s
+interpolation across the decades. <strong>Write this one yourself</strong> — the implementation is the
+lesson.</p></li>
+<li><p>Evaluate it for <span class="math notranslate nohighlight">\(N_D = 10^{16}\)</span>: device death, with the wide-gap moral (SiC/GaN, one
+breath outward); plot <span class="math notranslate nohighlight">\(\mu(T) - E_c\)</span> sliding from the donor level toward mid-gap.</p></li>
+<li><p>Work the seesaw (computation + prose): <span class="math notranslate nohighlight">\(p = n_i^2/n\)</span> at 300 K, twelve decades of minority
+suppression from one doping decision; verify mass action at the doped <span class="math notranslate nohighlight">\(\mu\)</span>; read the
+plateau slowly.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>T =    30 K:  n = 1.11e+13 cm^-3   μ = -0.0292 eV   p = 3.28e-166
+T =   100 K:  n = 6.82e+15 cm^-3   μ = -0.0575 eV   p = 1.00e-35
+T =   300 K:  n = 9.96e+15 cm^-3   μ = -0.2054 eV   p = 7.92e+03
+T =   450 K:  n = 9.99e+15 cm^-3   μ = -0.3317 eV   p = 4.98e+10
+T =   800 K:  n = 3.47e+16 cm^-3   μ = -0.5632 eV   p = 2.47e+16
+
+freeze-out: fitted slope of ln(n/T^0.75) vs 1/T = -260.0 K
+            −ΔE_D/2k_B = -261.1 K  (the /2 of the frozen regime)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>intrinsic takeover: n_i(T) = N_D at T = 719 K — device death for N_D = 1e16
+
+the seesaw at 300 K:  n = 9.96e+15,  p (exact) = 7.92e+03,  n_i^2/n = 7.92e+03
+minority suppression: 12.1 decades below the majority
+mass action at doped μ: np/n_i^2 = 0.999875
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-semi-doping-arrhenius">
+<img alt="../../_images/7b17c96b6e8a83fcb8e6da6f479fd8896d2836d06907f6f91824b0593d505bd6.png" src="../../_images/7b17c96b6e8a83fcb8e6da6f479fd8896d2836d06907f6f91824b0593d505bd6.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 678 </span><span class="caption-text">The three regimes of a doped semiconductor — the portrait every device rests on. Majority-carrier density <span class="math notranslate nohighlight">\(n(T)\)</span> for phosphorus-doped silicon (<span class="math notranslate nohighlight">\(N_D = 10^{16}\)</span> cm<span class="math notranslate nohighlight">\(^{-3}\)</span>, <span class="math notranslate nohighlight">\(\Delta E_D = 45\)</span> meV) from the exact <code class="docutils literal notranslate"><span class="pre">brentq</span></code> neutrality solve of <a class="reference internal" href="#equation-eq-doping-regimes">Eq. 759</a>, on the Arrhenius axis. Right: <strong>freeze-out</strong> — carriers recaptured by their donors, collapsing with the frozen-regime slope <span class="math notranslate nohighlight">\(\Delta E_D/2\)</span> (guide line, dashed). Centre: the <strong>saturation plateau</strong> — <span class="math notranslate nohighlight">\(n \approx N_D\)</span> (dotted) from <span class="math notranslate nohighlight">\(\sim\)</span>100 to <span class="math notranslate nohighlight">\(\sim\)</span>450 K: for three hundred kelvin the carrier density is set by chemistry, not temperature, and this flat stretch is why electronics works. Left: the <strong>intrinsic takeover</strong> — <span class="math notranslate nohighlight">\(n_i(T)\)</span> (red, dashed) storms past <span class="math notranslate nohighlight">\(N_D\)</span> and thermodynamics retakes control at <span class="math notranslate nohighlight">\(T = 719\)</span> K: device death, and the reason hot power electronics reaches for wider gaps (SiC, GaN).</span><a class="headerlink" href="#fig-semi-doping-arrhenius" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-semi-mu-trajectory">
+<img alt="../../_images/283ed1150a156c29432c9e9c38413331735f1b659fe35b85a41ba340eccc002b.png" src="../../_images/283ed1150a156c29432c9e9c38413331735f1b659fe35b85a41ba340eccc002b.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 679 </span><span class="caption-text">Where the ledger balances: the doped chemical potential <span class="math notranslate nohighlight">\(\mu(T)\)</span> for <span class="math notranslate nohighlight">\(N_D = 10^{16}\)</span> cm<span class="math notranslate nohighlight">\(^{-3}\)</span> (amber), sliding from just below the donor level <span class="math notranslate nohighlight">\(E_D = E_c - 45\)</span> meV at 30 K (freeze-out: the level half-occupied, <span class="math notranslate nohighlight">\(\mu\)</span> pinned near it) down through the gap as saturation liberates every donor, and joining the intrinsic <span class="math notranslate nohighlight">\(\mu_i(T)\)</span> (dashed dark) once the takeover makes the donors irrelevant (<span class="math notranslate nohighlight">\(-0.563\)</span> eV at 800 K, within 12 meV of intrinsic). The donor level and mid-gap are marked; the entire trajectory again lives in stateless territory. Reading this panel against the Arrhenius portrait above: each regime of <span class="math notranslate nohighlight">\(n(T)\)</span> is a chapter in <span class="math notranslate nohighlight">\(\mu\)</span>’s descent.</span><a class="headerlink" href="#fig-semi-mu-trajectory" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the three regimes&#39; landmarks: the plateau carrier density and device death   [max|Δ| = 1.6499e+11 (rtol=0.02, atol=1e-09)]
+✓  the plateau bracketed: 68% ionized at 100 K, fully saturated at 450 K   [max|Δ| = 0.00190936 (rtol=0.05, atol=1e-09)]
+✓  freeze-out at the frozen slope ΔE_D/2 (prefactor-corrected fit over 30–45 K)   [got -259.997 vs expected -261.102 (rtol=0.05, atol=1e-09)]
+✓  the seesaw: doping to 1e16 crushes minority holes twelve decades down   [got 7916.42 vs expected 7900 (rtol=0.05, atol=1e-09)]
+✓  and mass action holds at the doped μ: np = n_i^2, the potential genuinely cancelled   [got 0.999875 vs expected 1 (rtol=0.001, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-the-license-revoked-the-degenerate-return">
+<h2>Exercise 6 — The license revoked: the degenerate return<a class="headerlink" href="#exercise-6-the-license-revoked-the-degenerate-return" title="Link to this heading">#</a></h2>
+<p>The number of <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a> climbs its ladder, Boltzmann fails on schedule, and the movement ends where it
+began. Cite <a class="reference internal" href="#equation-eq-degenerate-return">Eq. 760</a>.</p>
+<ol class="arabic simple">
+<li><p>Compute <span class="math notranslate nohighlight">\(n\lambda_T^3/2 = n/N_c\)</span> across the doping ladder <span class="math notranslate nohighlight">\(10^{10} \to 10^{20}\)</span> cm⁻³ (via
+<code class="docutils literal notranslate"><span class="pre">lambda_T</span></code>, so the identity does the work) and mark the crossover <span class="math notranslate nohighlight">\(n \sim N_c\)</span>.</p></li>
+<li><p>Solve <span class="math notranslate nohighlight">\(\mu\)</span> from exact neutrality at <span class="math notranslate nohighlight">\(N_D = 10^{20}\)</span> by <code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code> on
+<span class="math notranslate nohighlight">\(n(\mu) = p(\mu) + N_D\)</span>, with the <code class="docutils literal notranslate"><span class="pre">n_electrons</span></code> and <code class="docutils literal notranslate"><span class="pre">p_holes</span></code> you wrote in Exercise 1
+(donors taken fully ionized; the stated guard: at this density the
+donor levels merge into the band and the two-state statistics no longer applies) and confirm
+<span class="math notranslate nohighlight">\(\mu\)</span> enters the conduction band.</p></li>
+<li><p>Show Boltzmann’s failure there quantitatively (Exercise 2’s ratio at the degenerate <span class="math notranslate nohighlight">\(\mu\)</span>)
+and hand the regime to the formulas of <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a>: compute <span class="math notranslate nohighlight">\(\varepsilon_F - E_c\)</span> for the carrier gas
+and its <span class="math notranslate nohighlight">\(T_F\)</span>.</p></li>
+<li><p>Close the loop (prose): the heavily doped semiconductor is a metal by every measure the
+movement owns — degenerate emitters and ohmic contacts named as industry’s daily use of
+exactly this limit; one dimensionless number opened Movement III and now closes it.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>the degeneracy ladder at 300 K (nλ^3/2 = n/N_c):
+  n = 1.0e+10 cm^-3:  nλ^3/2 = 3.55e-10
+  n = 1.0e+16 cm^-3:  nλ^3/2 = 3.55e-04
+  n = 2.8e+19 cm^-3:  nλ^3/2 = 9.94e-01  ← the crossover: n ~ N_c
+  n = 1.0e+20 cm^-3:  nλ^3/2 = 3.55e+00
+
+N_D = 1e20, full ionization:  μ = +0.0638 eV = E_c + 0.0638 eV
+→ μ sits 2.5 k_BT INSIDE the conduction band
+Boltzmann/exact at this μ: 3.32 — the license is revoked
+the formulas of §7.9 take over: ε_F − E_c = 0.0727 eV,  T_F = 844 K &gt; 300 K
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-semi-degeneracy-ladder">
+<img alt="../../_images/3b07fa9bbb1a1fdb768135d09c9e1198dfad92fa2518939be513535f7ed8f3b3.png" src="../../_images/3b07fa9bbb1a1fdb768135d09c9e1198dfad92fa2518939be513535f7ed8f3b3.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 680 </span><span class="caption-text">One doping dial drives silicon across the entire map of <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a>. The degeneracy parameter <span class="math notranslate nohighlight">\(n\lambda_T^3/2 = n/N_c\)</span> at 300 K against carrier density, from intrinsic (<span class="math notranslate nohighlight">\(\sim 10^{10}\)</span> cm<span class="math notranslate nohighlight">\(^{-3}\)</span>: ten decades into the classical regime) through device doping (<span class="math notranslate nohighlight">\(10^{16}\)</span>) to degenerate contact doping (<span class="math notranslate nohighlight">\(10^{20}\)</span>: past the boundary). The crossover <span class="math notranslate nohighlight">\(n = N_c = 2.8\times10^{19}\)</span> cm<span class="math notranslate nohighlight">\(^{-3}\)</span> (dashed) is where Boltzmann fails (Exercise 2’s ratio bites), <span class="math notranslate nohighlight">\(\mu\)</span> crosses into the band, and the material becomes the metal of <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a> — <span class="math notranslate nohighlight">\(T_F = 844\)</span> K at <span class="math notranslate nohighlight">\(10^{20}\)</span>, comfortably degenerate at room temperature. <a class="reference internal" href="#equation-eq-degenerate-return">Eq. 760</a>: the dimensionless number that opened Movement III adjudicates its close.</span><a class="headerlink" href="#fig-semi-degeneracy-ladder" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the ladder verbatim: ten decades of classical headroom spent by one doping dial   [max|Δ| = 0.0494768 (rtol=0.05, atol=1e-09)]
+✓  μ crosses into the conduction band at degenerate doping   [μ − E_c = +0.0638 eV]
+✓  and Boltzmann fails there while T_F &gt; T: the degenerate return to the metal of §7.9   [Boltzmann/exact = 3.32, T_F = 844 K]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-the-0-7-volts">
+<h2>Exercise 7 — The 0.7 volts<a class="headerlink" href="#exercise-7-the-0-7-volts" title="Link to this heading">#</a></h2>
+<p>One chemical potential, two doped regions, and the most famous number in hobby electronics.
+Cite <a class="reference internal" href="#equation-eq-builtin-potential">Eq. 761</a>.</p>
+<ol class="arabic simple">
+<li><p>State the equilibrium condition: joined materials share <em>one</em> <span class="math notranslate nohighlight">\(\mu\)</span> (the <a class="reference internal" href="thermal-density-matrix.html"><span class="std std-doc">§7.4</span></a>/<a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html"><span class="std std-doc">§5.9</span></a> lineage),
+so the bands must bend by the difference of the two bulk chemical potentials.</p></li>
+<li><p>Derive <span class="math notranslate nohighlight">\(qV_{bi} = k_BT\ln(N_AN_D/n_i^2)\)</span> from the Boltzmann carrier forms on each side.</p></li>
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">builtin_potential(N_A,</span> <span class="pre">N_D,</span> <span class="pre">T)</span></code> <span class="math notranslate nohighlight">\(= k_BT\ln(N_AN_D/n_i^2)\)</span>, taking <span class="math notranslate nohighlight">\(n_i\)</span> from the
+<code class="docutils literal notranslate"><span class="pre">n_intrinsic</span></code> you wrote in Exercise 3 (the exact route, not the closed form).</p></li>
+<li><p>Evaluate it for <span class="math notranslate nohighlight">\(N_A = N_D = 10^{16}\)</span> — the silicon diode drop — and explore the (weak,
+logarithmic) doping dependence and the (strong) <span class="math notranslate nohighlight">\(n_i^2\)</span> temperature dependence (why
+<span class="math notranslate nohighlight">\(V_{bi}\)</span> sags with heat).</p></li>
+<li><p>Defer outward (prose, per the framing constraint): depletion widths, rectification, and
+the transistor belong to device physics (Sze cited); this course computed the number and stops, because the statistics has done its job.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>V_bi(1e16/1e16, 300 K) = 0.720 V — the diode drop of hobby electronics
+
+doping dependence (weak — one logarithm):
+  N_A = N_D = 1e+15:  V_bi = 0.601 V
+  N_A = N_D = 1e+16:  V_bi = 0.720 V
+  N_A = N_D = 1e+17:  V_bi = 0.840 V
+  N_A = N_D = 1e+18:  V_bi = 0.959 V
+temperature dependence (strong — n_i^2 in the denominator):
+  T = 250 K:  V_bi = 0.799 V
+  T = 300 K:  V_bi = 0.720 V
+  T = 350 K:  V_bi = 0.640 V
+  T = 400 K:  V_bi = 0.558 V
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the diode drop from one logarithm of mass action   [got 0.720458 vs expected 0.72 (rtol=0.01, atol=1e-09)]
+✓  and it sags with heat, as every data sheet says: n_i^2 outruns the k_BT prefactor   [0.799 → 0.558 V across 250–400 K]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-movement-iii-closed">
+<h2>Exercise 8 — Movement III, closed<a class="headerlink" href="#exercise-8-movement-iii-closed" title="Link to this heading">#</a></h2>
+<p>The movement opened with a sea and closes with a gap, and the remarkable thing is how little
+new physics the closing required. Five notebooks ago the free Fermi gas priced the heat
+capacity and magnetism of real metals and weighed a dead star; then it confessed it could not
+make an insulator; <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> bought the one missing ingredient; and this notebook spent it, with tools the volume already owned. Fermi–Dirac in a gap gave a product law that doping cannot
+touch, ten billion carriers per cubic centimetre from Planck’s constant and one energy, a
+three-hundred-kelvin plateau on which the information age operates, a seesaw that buries
+minority carriers twelve decades deep, and — pushed hard enough — a return, on the
+schedule of <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a>, to the metal where it all began. The confession of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> is now fully answered:
+copper and diamond and silicon differ not in their electrons but in their counting.</p>
+<p>It is worth savoring that the most consequential materials in modern history are the
+<em>mediocre</em> ones — neither the full bands of an insulator nor the half-filled abundance of a
+metal, but a gap small enough to leak. Ten billion carriers per cubic centimetre is, by any
+metallic standard, a rounding error. Civilization runs on the rounding error.</p>
+<p>The movement’s fermions now rest. Movement IV turns to the other statistics: light itself,
+where the story the volume opened with (Planck, 1900) is finally told to its end (<a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>).</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>Movement III’s finale, run entirely on second-hand tools, the notebook’s stated point.</p>
+<ul class="simple">
+<li><p><strong>Two bands, two species</strong> <a class="reference internal" href="#equation-eq-two-bands">Eq. 754</a>: electrons by <span class="math notranslate nohighlight">\(n_F\)</span> on the conduction √-edge,
+holes by <span class="math notranslate nohighlight">\(1 - n_F\)</span> on the valence one (the filled-band bookkeeping of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> made statistical);
+exact evaluation by <code class="docutils literal notranslate"><span class="pre">quad</span></code> on the <span class="math notranslate nohighlight">\(F_{1/2}\)</span> form, cutoff-insensitive at <span class="math notranslate nohighlight">\(10^{-10}\)</span> and
+gated against a brute-force second route.</p></li>
+<li><p><strong>The engineer’s constant unmasked</strong> <a class="reference internal" href="#equation-eq-boltzmann-carriers">Eq. 755</a>: <span class="math notranslate nohighlight">\(N_c \equiv 2/\lambda_T^3\)</span>
+at <span class="math notranslate nohighlight">\(10^{-10}\)</span> by two code routes (<span class="math notranslate nohighlight">\(2.816\times10^{19}\)</span> cm⁻³): the wavelength of <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a> in overalls;
+the license quantified (1.000 / 1.050 / 2.5 at 200 / 50 / −50 meV).</p></li>
+<li><p><strong>Mass action</strong> <a class="reference internal" href="#equation-eq-mass-action">Eq. 756</a>, <a class="reference internal" href="#equation-eq-intrinsic-density">Eq. 757</a>: <span class="math notranslate nohighlight">\(\mu\)</span> cancels, so doping
+cannot touch <span class="math notranslate nohighlight">\(np\)</span>; the silicon number <span class="math notranslate nohighlight">\(8.9\times10^9\)</span> cm⁻³ within 10% of the cited accepted
+value; Ge/GaAs complete the seven-decade table; the lever measured at <span class="math notranslate nohighlight">\(-1/2k_BT\)</span>.</p></li>
+<li><p><strong>The stateless chemical potential</strong> <a class="reference internal" href="#equation-eq-intrinsic-mu">Eq. 758</a>: exact <code class="docutils literal notranslate"><span class="pre">brentq</span></code> neutrality vs
+mid-gap <span class="math notranslate nohighlight">\(+\,(3/4)k_BT\ln(m_v/m_c)\)</span>, matching to all displayed digits; the scandal resolved
+(<span class="math notranslate nohighlight">\(\mu\)</span> is a price, not an address).</p></li>
+<li><p><strong>The three regimes</strong> <a class="reference internal" href="#equation-eq-doping-regimes">Eq. 759</a>: freeze-out at slope <span class="math notranslate nohighlight">\(\Delta E_D/2\)</span>
+(prefactor-corrected fit), the plateau (<span class="math notranslate nohighlight">\(n = N_D\)</span> across 100–450 K: chemistry beating
+temperature, the premise of electronics), takeover at 719 K; the seesaw at
+<span class="math notranslate nohighlight">\(7.9\times10^3\)</span> cm⁻³; mass action verified at the doped <span class="math notranslate nohighlight">\(\mu\)</span>.</p></li>
+<li><p><strong>The degenerate return</strong> <a class="reference internal" href="#equation-eq-degenerate-return">Eq. 760</a>: the <span class="math notranslate nohighlight">\(n\lambda^3/2\)</span> ladder from
+<span class="math notranslate nohighlight">\(3.6\times10^{-10}\)</span> to 3.6; <span class="math notranslate nohighlight">\(\mu\)</span> crosses into the band; Boltzmann fails 3×; <span class="math notranslate nohighlight">\(T_F = 844\)</span> K
+hands the gas to <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a>: the movement closed by the number that opened it.</p></li>
+<li><p><strong>The 0.7 volts</strong> <a class="reference internal" href="#equation-eq-builtin-potential">Eq. 761</a>: <span class="math notranslate nohighlight">\(V_{bi} = 0.720\)</span> V from one logarithm, sagging
+with heat as every data sheet says; the junction’s mechanics deferred outward.</p></li>
+</ul>
+<p>Movement IV opens next door with the photon gas.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Movement IV: the other statistics.</strong> The photon gas and Planck’s law: the crisis that opened the volume’s story (1900), resolved with the volume’s own tools (<a class="reference internal" href="photon-gas-planck.html"><span class="std std-doc">§7.14</span></a>); phonons on the Bloch counting of <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> (<a class="reference internal" href="phonons-debye.html"><span class="std std-doc">§7.16</span></a>); condensation
+when the boson ceiling saturates (<a class="reference internal" href="bose-einstein-condensation.html"><span class="std std-doc">§7.17</span></a>).</p></li>
+<li><p><strong>Devices, outward.</strong> The p–n junction’s mechanics, the transistor, LEDs as mass action run
+backwards (Sze &amp; Ng); SiC and GaN on the wide-gap frontier.</p></li>
+<li><p><strong>Real gaps and masses.</strong> From electronic structure: DFT and the MMM course, the standing bridge for everything this notebook took as stated inputs.</p></li>
+<li><p><strong>The Saha equation.</strong> This notebook’s mathematics in stellar atmospheres: ionization equilibrium as mass action with the vacuum as a band.</p></li>
+<li><p><strong>Cross-reference</strong> <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> (the function, unchanged), <a class="reference internal" href="statistical-toolkit.html"><span class="std std-doc">§7.3</span></a> (the integrals), <a class="reference internal" href="classical-limit-thermal-wavelength.html"><span class="std std-doc">§7.8</span></a> (the license,
+twice decisive), <a class="reference internal" href="fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a> (the degenerate return), <a class="reference internal" href="bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a> (the object consumed), <a class="reference internal" href="../06-quantum-mechanics/identical-particles.html"><span class="std std-doc">§6.20</span></a> (Pauli
+underneath it all).</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/07-quantum-statistical-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="bloch-theorem-band-structure.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="photon-gas-planck.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">7.14 The Photon Gas and Planck’s Law</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-bands-two-species">Two bands, two species</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-boltzmann-limit-and-an-old-friend-in-overalls">The Boltzmann limit, and an old friend in overalls</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-law-of-mass-action">The law of mass action</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-silicon-number-and-seven-decades">The silicon number, and seven decades</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-chemical-potential-of-an-insulator">The chemical potential of an insulator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#doping-the-three-regimes">Doping: the three regimes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-license-revoked-the-degenerate-return">The license revoked: the degenerate return</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-0-7-volts-stretch">The 0.7 volts (stretch)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-two-bands-two-species">Exercise 1 — Two bands, two species</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-engineer-s-constant-is-the-thermal-wavelength">Exercise 2 — The engineer’s constant is the thermal wavelength</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-law-of-mass-action-and-the-silicon-number">Exercise 3 — The law of mass action, and the silicon number</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-chemical-potential-of-an-insulator">Exercise 4 — The chemical potential of an insulator</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-doping-the-three-regimes">Exercise 5 — Doping: the three regimes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-license-revoked-the-degenerate-return">Exercise 6 — The license revoked: the degenerate return</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-0-7-volts">Exercise 7 — The 0.7 volts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-movement-iii-closed">Exercise 8 — Movement III, closed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

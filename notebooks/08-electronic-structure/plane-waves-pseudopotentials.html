@@ -1,0 +1,1550 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="8.10 Plane Waves and Pseudopotentials" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/plane-waves-pseudopotentials.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Tight binding ( §8.9) built bands from the atomic limit; this notebook builds them from the opposite shore. Plane waves are the natural la..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Tight binding ( §8.9) built bands from the atomic limit; this notebook builds them from the opposite shore. Plane waves are the natural la..." />
+
+    <title>8.10 Plane Waves and Pseudopotentials &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/08-electronic-structure/plane-waves-pseudopotentials';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/plane-waves-pseudopotentials.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="8.11 Real Band Structures: The Empirical Pseudopotential Method" href="epm-band-structures.html" />
+    <link rel="prev" title="8.9 Tight Binding: From Chain to Graphene" href="tight-binding.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/08-electronic-structure/plane-waves-pseudopotentials.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/08-electronic-structure/plane-waves-pseudopotentials.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/08-electronic-structure/plane-waves-pseudopotentials.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/08-electronic-structure/plane-waves-pseudopotentials.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>8.10 Plane Waves and Pseudopotentials</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-secular-problem-in-plane-waves">The secular problem in plane waves</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-cost-of-hardness">The cost of hardness</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudopotentials-construction-transferability-and-the-nodal-catch">Pseudopotentials: construction, transferability, and the nodal catch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-gap-is-a-fourier-coefficient">Exercise 1 — The gap is a Fourier coefficient</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-first-order-then-not">Validation 1 — first order, then not</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-folding-and-gaps-at-every-crossing">Exercise 2 — Folding, and gaps at every crossing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-gaps-live-on-crossings">Validation 2 — gaps live on crossings</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-fcc-skeleton-every-textbook-s-first-band-structure">Exercise 3 — The fcc skeleton: every textbook’s first band structure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-the-shells-count-themselves">Validation 3 — the shells count themselves</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-cost-of-hardness-as-a-law">Exercise 4 — The cost of hardness, as a law</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-the-economics-fitted">Validation 4 — the economics, fitted</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-a-pseudopotential-built-on-the-atom-and-tested-in-the-crystal">Exercise 5 — A pseudopotential, built on the atom and tested in the crystal</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-transferability-earned">Validation 5 — transferability, earned</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-nodal-catch-why-pseudopotentials-are-nonlocal">Exercise 6 — The nodal catch: why pseudopotentials are nonlocal</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-the-minus-sign-that-built-an-industry">Validation 6 — the minus sign that built an industry</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="plane-waves-and-pseudopotentials">
+<h1>8.10 Plane Waves and Pseudopotentials<a class="headerlink" href="#plane-waves-and-pseudopotentials" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VIII — Electronic Structure and Many-Body Matter
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;8.10
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">The physicist&#x27;s basis for crystals, priced honestly: Bloch states expanded in plane waves, the secular matrix assembled from the potential&#x27;s Fourier coefficients, gaps opening by exactly twice the coefficient at every folded crossing, and the empty-lattice skeleton of every fcc band structure drawn from pure arithmetic. Then the price — a convergence rate proportional to the potential&#x27;s softness, measured as a law — and its remedy: a pseudopotential constructed on the atom, tested for transferability in the crystal, and honestly broken on a nodal orbital to reveal why real pseudopotentials must be nonlocal.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;130–160 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Tight binding (<a class="reference internal" href="tight-binding.html"><span class="std std-doc">§8.9</span></a>) built bands from the atomic limit;
+this notebook builds them from the opposite shore. Plane waves are the natural
+language of Bloch’s theorem, the basis in which the kinetic energy is diagonal
+and the potential enters through its Fourier coefficients alone — the basis in
+which most of the world’s density-functional calculations actually run. Its
+virtues are structural: systematic completeness (one knob, the cutoff),
+unbiased coverage of space, and machinery that is nothing but the
+<a class="reference internal" href="../00-foundations/fft.html"><span class="std std-doc">§0.6</span></a> Fourier toolkit wearing crystal clothes.
+Its vice is equally structural: near a nucleus the wavefunction wiggles on the
+scale of the core, and resolving wiggles costs plane waves without mercy.
+Both the virtue and the vice are worth holding onto, because the alternative
+runs the other way: <a class="reference internal" href="gaussian-basis-sets.html"><span class="std std-doc">§8.18</span></a> hangs its functions on
+the atoms instead of on space, which buys the core cheaply and gives up the
+single knob — and, because those functions travel with the nuclei, invents an
+error that a basis filling the cell cannot have.</p>
+<p>The notebook prices everything. The secular problem is assembled for a
+one-dimensional crystal whose Fourier coefficients are <em>known in closed form</em>
+(the soft-Coulomb chain, whose transform is the Bessel function <span class="math notranslate nohighlight">\(2K_0\)</span> met in
+<a class="reference internal" href="kohn-sham.html"><span class="std std-doc">§8.7</span></a>); the weak-potential gap law
+<span class="math notranslate nohighlight">\(E_{\mathrm{gap}} = 2|V_G|\)</span> is verified to a percent and watched failing as the
+potential strengthens. The empty-lattice bands of the fcc crystal are folded
+along <span class="math notranslate nohighlight">\(L\)</span>–<span class="math notranslate nohighlight">\(\Gamma\)</span>–<span class="math notranslate nohighlight">\(X\)</span> by pure arithmetic — the skeleton under every real fcc
+band structure, degeneracies counted shell by shell. The cost of hardness
+becomes a measured law: exponential convergence with a rate <em>proportional to
+the potential’s softening length</em> (fitted slopes <span class="math notranslate nohighlight">\(-2.95, -1.92, -1.38\)</span> for
+<span class="math notranslate nohighlight">\(\varepsilon = 0.5, 0.3, 0.2\)</span>). And the remedy is built the way practitioners
+build it: a pseudopotential <em>constructed on the atom</em> (match the valence
+level and its tail, banish the core state), then <em>tested in the crystal</em> —
+where it transfers beautifully for an <span class="math notranslate nohighlight">\(s\)</span>-like valence (band shapes
+correlating at <span class="math notranslate nohighlight">\(+0.999\)</span> across lattice constants) and fails with instructive
+perfection for a nodal one (correlation <span class="math notranslate nohighlight">\(-0.996\)</span>: a local potential cannot
+know angular character), motivating the nonlocal projectors every modern
+pseudopotential carries and setting up the empirical shortcut of
+<a class="reference internal" href="epm-band-structures.html"><span class="std std-doc">§8.11</span></a>.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Hartree atomic units. The one-dimensional
+crystal is the soft-Coulomb chain <span class="math notranslate nohighlight">\(V(x) = -Z\sum_n [ (x-na)^2 +
+\varepsilon^2 ]^{-1/2}\)</span> with Fourier coefficients <span class="math notranslate nohighlight">\(V_G = -(2Z/a)\,
+K_0(|G|\varepsilon)\)</span> for <span class="math notranslate nohighlight">\(G \ne 0\)</span> (<code class="docutils literal notranslate"><span class="pre">scipy.special.k0</span></code>); the divergent
+<span class="math notranslate nohighlight">\(G = 0\)</span> coefficient (the one-dimensional Coulomb tail) is dropped, so all
+crystal energies carry an overall alignment constant and band <em>shapes</em> are
+the physical content. Secular matrices are explicit <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays over
+<span class="math notranslate nohighlight">\(G \in (2\pi/a)[-n_G, n_G]\)</span>, diagonalized by <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code>.
+Atomic reference problems use the <a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a>-style grid
+and <code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code>.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call
+against an independent fact: a perturbative law, exact degeneracy counts, a
+fitted rate, a correlation coefficient. A ✓ is strong evidence; a ✗ is a
+prompt to locate the discrepancy, not an automatic verdict.</p>
+<p><strong>Scope.</strong> Local pseudopotentials only, constructed by level-and-tail
+matching; norm conservation, Kleinman–Bylander separable forms, ultrasoft
+and PAW machinery are surveyed in Martin <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id77" title="Richard M. Martin. Electronic Structure: Basic Theory and Practical Methods. Cambridge University Press, Cambridge, 2004.">Mar04</a>]</span>, Ch. 11, and
+Giustino <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id80" title="Feliciano Giustino. Materials Modelling using Density Functional Theory: Properties and Predictions. Oxford University Press, Oxford, 2014.">Giu14</a>]</span>, Ch. 5 — and the reason they exist is
+precisely the nodal lesson this notebook closes on.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-secular-problem-in-plane-waves">
+<h3>The secular problem in plane waves<a class="headerlink" href="#the-secular-problem-in-plane-waves" title="Link to this heading">#</a></h3>
+<p>Bloch’s theorem
+(<a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a>)
+writes a crystal state as <span class="math notranslate nohighlight">\(e^{ikx}\)</span> times a lattice-periodic function, and
+expanding the periodic part in reciprocal-lattice harmonics turns the
+Schrödinger equation into linear algebra:</p>
+<div class="math notranslate nohighlight" id="equation-eq-pw-secular">
+<span class="eqno">(895)<a class="headerlink" href="#equation-eq-pw-secular" title="Link to this equation">#</a></span>\[\sum_{G'} \left[ \tfrac12 (k+G)^2\,\delta_{GG'} + V_{G-G'} \right] c_{G'}
+= \varepsilon(k)\, c_G ,\]</div>
+<p>one matrix per <span class="math notranslate nohighlight">\(k\)</span>, kinetic energy on the diagonal, the potential a Toeplitz
+pattern of Fourier coefficients. Two limits organize everything. With
+<span class="math notranslate nohighlight">\(V = 0\)</span> the eigenvalues are free parabolas <em>folded</em> into the first zone —
+every band structure’s skeleton. With <span class="math notranslate nohighlight">\(V\)</span> weak, degenerate folded branches
+split by first-order degenerate perturbation theory
+(<a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a>): at the
+zone boundary the two branches <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(k - 2\pi/a\)</span> mix through exactly one
+coefficient, and</p>
+<div class="math notranslate nohighlight" id="equation-eq-pw-gap">
+<span class="eqno">(896)<a class="headerlink" href="#equation-eq-pw-gap" title="Link to this equation">#</a></span>\[E_{\mathrm{gap}} = 2\,|V_{G}|
+\qquad (G = 2\pi/a,\ \text{weak } V):\]</div>
+<p>the gap <em>is</em> the Fourier coefficient, doubled. Everything a crystal does to
+electrons at band edges is encoded in how its potential decomposes into
+harmonics.</p>
+</section>
+<section id="the-cost-of-hardness">
+<h3>The cost of hardness<a class="headerlink" href="#the-cost-of-hardness" title="Link to this heading">#</a></h3>
+<p>How many plane waves? The coefficients of the soft-Coulomb chain decay as
+<span class="math notranslate nohighlight">\(K_0(|G|\varepsilon) \sim e^{-|G|\varepsilon}\)</span>: the softening length
+<span class="math notranslate nohighlight">\(\varepsilon\)</span> sets the reciprocal-space extent of the potential, and with it
+the basis size. The rule — convergence exponential with rate proportional to
+the softness — is measured below as a fitted law, and its message is the
+plane-wave method’s economics in one line: <em>core wiggles are unaffordable;
+soften them</em>. That is the entire mandate of the pseudopotential.</p>
+</section>
+<section id="pseudopotentials-construction-transferability-and-the-nodal-catch">
+<h3>Pseudopotentials: construction, transferability, and the nodal catch<a class="headerlink" href="#pseudopotentials-construction-transferability-and-the-nodal-catch" title="Link to this heading">#</a></h3>
+<p>Valence electrons decide bonding; core states merely enforce orthogonality,
+and their principal effect on valence orbitals is the nodes they impose near
+the nucleus. The pseudopotential program (Martin <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id77" title="Richard M. Martin. Electronic Structure: Basic Theory and Practical Methods. Cambridge University Press, Cambridge, 2004.">Mar04</a>]</span>, Ch. 11)
+replaces nucleus-plus-core by a soft effective potential built on the <em>atom</em>:
+choose a smooth candidate, tune its parameters so its ground level matches
+the true valence level and its wavefunction matches the true one outside a
+core radius <span class="math notranslate nohighlight">\(r_c\)</span>, and — critically — <em>test</em> it in environments it was not
+fitted to. That last property, transferability, is what makes
+pseudopotentials predictive rather than descriptive, and it works because
+scattering at the valence energy is controlled by the wavefunction outside
+<span class="math notranslate nohighlight">\(r_c\)</span>, which the construction preserves. The catch, delivered honestly in the
+closing exercise: a <em>local</em> potential’s crystal band inherits the
+nodal/angular character of the orbital it carries, and no tuning of a local
+well can turn an <span class="math notranslate nohighlight">\(s\)</span>-like band into a <span class="math notranslate nohighlight">\(p\)</span>-like one. Real pseudopotentials are
+therefore <strong>nonlocal</strong> — a different potential per angular channel, applied
+through projectors — and the one-dimensional laboratory makes the necessity
+measurable as a sign.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data and instruments: the series colors, the atomic reference grid, and the
+finite-difference well solver of
+<a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a> restated for
+the soft-Coulomb atom. The notebook’s own machinery — the plane-wave secular
+matrix and its diagonalization — you build in Exercise 1 and use in every
+exercise after it.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eigh_tridiagonal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">least_squares</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">k0</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+<span class="n">INK</span><span class="p">,</span> <span class="n">AMBER</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="s2">&quot;#16213e&quot;</span><span class="p">,</span> <span class="s2">&quot;#c0851a&quot;</span><span class="p">,</span> <span class="s2">&quot;#46506b&quot;</span>
+
+
+<span class="c1"># data: the atomic reference grid for the pseudopotential construction, and the</span>
+<span class="c1"># constant off-diagonal of the three-point kinetic stencil on it.</span>
+<span class="n">x_atom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mi">3001</span><span class="p">)</span>
+<span class="n">h_atom</span> <span class="o">=</span> <span class="n">x_atom</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x_atom</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">OFF_ATOM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">/</span> <span class="n">h_atom</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+
+<span class="c1"># built from scratch in §6.10 (the finite-difference Hamiltonian in Exercise 1,</span>
+<span class="c1"># its diagonalization and sqrt(dx) normalization in Exercise 2); restated here</span>
+<span class="c1"># as an instrument for the soft-Coulomb well — the atomic side is the reference</span>
+<span class="c1"># this notebook fits against, not the method it teaches.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">atom_levels</span><span class="p">(</span><span class="n">z_chg</span><span class="p">,</span> <span class="n">eps_soft</span><span class="p">,</span> <span class="n">n_states</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Bound levels and orbitals of the single soft-Coulomb well.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z_chg, eps_soft : float</span>
+<span class="sd">        Well parameters of -Z/sqrt(x^2 + eps^2).</span>
+<span class="sd">    n_states : int, optional</span>
+<span class="sd">        Number of lowest states.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple</span>
+<span class="sd">        ``(energies, orbitals)``: orbitals normalized on the grid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">energies</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">=</span> <span class="n">eigh_tridiagonal</span><span class="p">(</span>
+        <span class="mf">1.0</span> <span class="o">/</span> <span class="n">h_atom</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">z_chg</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x_atom</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">eps_soft</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">OFF_ATOM</span><span class="p">,</span>
+        <span class="n">select</span><span class="o">=</span><span class="s2">&quot;i&quot;</span><span class="p">,</span>
+        <span class="n">select_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_states</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">energies</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">h_atom</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-gap-is-a-fourier-coefficient">
+<h2>Exercise 1 — The gap is a Fourier coefficient<a class="headerlink" href="#exercise-1-the-gap-is-a-fourier-coefficient" title="Link to this heading">#</a></h2>
+<p>Equation <a class="reference internal" href="#equation-eq-pw-gap">Eq. 896</a> is degenerate perturbation theory’s cleanest
+prediction, and the soft-Coulomb chain’s closed-form coefficients make it a
+sharp check: at the zone boundary <span class="math notranslate nohighlight">\(k = \pi/a\)</span> the gap between bands 1 and
+2 should equal <span class="math notranslate nohighlight">\(2|V_{2\pi/a}| = (4Z/a)\,K_0(2\pi\varepsilon/a)\)</span> while the
+potential is weak, and overshoot it as higher orders kick in. Testing it needs
+the secular problem itself, so that is what gets built first.
+Equation <a class="reference internal" href="#equation-eq-pw-secular">Eq. 895</a> is one dense matrix per <span class="math notranslate nohighlight">\(k\)</span>: kinetic energy
+<span class="math notranslate nohighlight">\(\tfrac12(k+G)^2\)</span> on the diagonal, and off it the Fourier coefficients
+<span class="math notranslate nohighlight">\(V_{G-G'} = -(2Z/a)\,K_0(|G-G'|\varepsilon)\)</span> of the soft-Coulomb chain. The
+divergent <span class="math notranslate nohighlight">\(G = G'\)</span> coefficient is dropped, which costs only an overall
+alignment constant that band <em>shapes</em> — and gaps — never see.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">pw_bands(a_lat,</span> <span class="pre">z_chg,</span> <span class="pre">eps_soft,</span> <span class="pre">n_g,</span> <span class="pre">k_list,</span> <span class="pre">n_bands=4)</span></code>
+returning an array of shape <code class="docutils literal notranslate"><span class="pre">(len(k_list),</span> <span class="pre">n_bands)</span></code>: reciprocal vectors
+<span class="math notranslate nohighlight">\(G \in (2\pi/a)[-n_G, n_G]\)</span>, one matrix per <span class="math notranslate nohighlight">\(k\)</span> assembled as above with
+<code class="docutils literal notranslate"><span class="pre">scipy.special.k0</span></code> for the coefficients, each diagonalized by
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code> and truncated to the lowest <code class="docutils literal notranslate"><span class="pre">n_bands</span></code> levels.
+<strong>Write this one yourself</strong> — the implementation is the lesson, and every
+band structure in this notebook comes out of it.</p>
+<p><strong>Part b)</strong> For the chain with <span class="math notranslate nohighlight">\(a = 2.5\)</span>, <span class="math notranslate nohighlight">\(\varepsilon = 0.5\)</span>, compute the
+zone-boundary gap (<span class="math notranslate nohighlight">\(n_G = 12\)</span>) at <span class="math notranslate nohighlight">\(Z = 0.05\)</span> and <span class="math notranslate nohighlight">\(Z = 2.0\)</span>, against the
+first-order prediction (a <code class="docutils literal notranslate"><span class="pre">scipy.special.k0</span></code> evaluation).</p>
+<p><strong>Part c)</strong> Sweep <span class="math notranslate nohighlight">\(Z\)</span> from <span class="math notranslate nohighlight">\(0.05\)</span> to <span class="math notranslate nohighlight">\(2\)</span> and plot the measured-to-predicted
+ratio: unity at weak coupling, drifting beyond it as the perturbative regime
+ends — a validity boundary located by computation rather than decree.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>gap ratio at Z = 0.05: 1.0008;  at Z = 2.0: 1.0262
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-pw-gap">
+<img alt="../../_images/7858575173f649bfe46a02fc2c754f303763ca8337c0d6bbe83f56def021b41f.png" src="../../_images/7858575173f649bfe46a02fc2c754f303763ca8337c0d6bbe83f56def021b41f.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 793 </span><span class="caption-text">The weak-potential gap law <span class="math notranslate nohighlight">\(E_{\mathrm{gap}} = 2|V_G|\)</span> on the soft-Coulomb chain: the ratio of the measured zone-boundary gap to the first-order prediction <span class="math notranslate nohighlight">\((4Z/a)K_0(2\pi\varepsilon/a)\)</span> against the well charge <span class="math notranslate nohighlight">\(Z\)</span>. At <span class="math notranslate nohighlight">\(Z = 0.05\)</span> the law holds to 0.1%; by <span class="math notranslate nohighlight">\(Z = 2\)</span> higher orders have shifted it by nearly 3% — the perturbative regime’s edge, located by computation.</span><a class="headerlink" href="#fig-pw-gap" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-1-first-order-then-not">
+<h3>Validation 1 — first order, then not<a class="headerlink" href="#validation-1-first-order-then-not" title="Link to this heading">#</a></h3>
+<p>The weak-coupling ratio must be 1 within a percent, and the strong-coupling
+ratio must have drifted measurably (beyond <span class="math notranslate nohighlight">\(2\%\)</span>): the law and its limits in
+two numbers.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the 2|V_G| law at weak coupling   [got 1.00079 vs expected 1 (rtol=0.01, atol=1e-09)]
+✓  higher orders visible at strong coupling   [ratio 1.026 at Z = 2]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-folding-and-gaps-at-every-crossing">
+<h2>Exercise 2 — Folding, and gaps at every crossing<a class="headerlink" href="#exercise-2-folding-and-gaps-at-every-crossing" title="Link to this heading">#</a></h2>
+<p>The empty lattice is the skeleton: at <span class="math notranslate nohighlight">\(V = 0\)</span> <a class="reference internal" href="#equation-eq-pw-secular">Eq. 895</a> gives
+the free parabolas <span class="math notranslate nohighlight">\(\tfrac12(k+G)^2\)</span>, one branch per reciprocal vector,
+folded into the first zone. Switching the potential on splits every folded
+crossing.</p>
+<p><strong>Part a)</strong> Plot the lowest four folded free branches over
+<span class="math notranslate nohighlight">\(k \in [0, \pi/a]\)</span> (plain <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arithmetic on <span class="math notranslate nohighlight">\(\tfrac12(k+G)^2\)</span>), and
+confirm the band-1/band-2 crossing sits exactly at the zone boundary with the
+free value <span class="math notranslate nohighlight">\(\tfrac12(\pi/a)^2\)</span>.</p>
+<p><strong>Part b)</strong> Overlay the true bands at <span class="math notranslate nohighlight">\(Z = 1\)</span>, from the <code class="docutils literal notranslate"><span class="pre">pw_bands</span></code> you wrote
+in Exercise 1: gaps open precisely where branches crossed and nowhere
+else — avoided crossings, the
+<a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a> mechanism
+drawn at crystal scale.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>free crossing at the zone boundary: 0.7896 Ha
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-pw-folding">
+<img alt="../../_images/f6ed47f3446677df935655dbdf5d0db5459999fa00683b953310e3e14bcb62fd.png" src="../../_images/f6ed47f3446677df935655dbdf5d0db5459999fa00683b953310e3e14bcb62fd.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 794 </span><span class="caption-text">The skeleton and the flesh: free-electron parabolas folded into the first zone of the <span class="math notranslate nohighlight">\(a = 2.5\)</span> chain (grey dashed) and the true bands of the <span class="math notranslate nohighlight">\(Z = 1\)</span> soft-Coulomb crystal (ink). Gaps open exactly where folded branches crossed — at the zone boundary and at <span class="math notranslate nohighlight">\(\Gamma\)</span> — and nowhere else: degenerate perturbation theory, drawn at crystal scale.</span><a class="headerlink" href="#fig-pw-folding" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2-gaps-live-on-crossings">
+<h3>Validation 2 — gaps live on crossings<a class="headerlink" href="#validation-2-gaps-live-on-crossings" title="Link to this heading">#</a></h3>
+<p>The sorted free branches must be degenerate at the zone boundary (bands 1–2)
+and at <span class="math notranslate nohighlight">\(\Gamma\)</span> (bands 2–3), and the true bands must split both while
+tracking the skeleton over the inner 60% of the zone (band 1 within a
+constant offset of the free branch to <span class="math notranslate nohighlight">\(15\%\)</span> of the inner bandwidth; nearer
+the boundary the gap physics itself bends the band away, as it must).</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  free degeneracy at the zone boundary   [got 0 vs expected 0 (rtol=0, atol=1e-09)]
+✓  the crossing opens into a gap   [gap = 0.479 Ha]
+✓  free degeneracy at Gamma   [got 0.000502655 vs expected 0 (rtol=0, atol=0.001)]
+✓  the Gamma crossing opens into a gap   [gap = 0.063 Ha]
+✓  inner-zone dispersion tracks the skeleton   [got 0.0666183 vs expected 0 (rtol=0, atol=0.15)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-the-fcc-skeleton-every-textbook-s-first-band-structure">
+<h2>Exercise 3 — The fcc skeleton: every textbook’s first band structure<a class="headerlink" href="#exercise-3-the-fcc-skeleton-every-textbook-s-first-band-structure" title="Link to this heading">#</a></h2>
+<p>In three dimensions the same folding produces the celebrated empty-lattice
+fcc diagram — the skeleton under silicon, aluminum, and every other fcc
+band structure, including the real ones of
+<a class="reference internal" href="epm-band-structures.html"><span class="std std-doc">§8.11</span></a>. The fcc reciprocal lattice is bcc,
+<span class="math notranslate nohighlight">\(\mathbf G = \tfrac{2\pi}{a}(n_1, n_2, n_3)\)</span> with all-even or all-odd
+integers, and the branches are <span class="math notranslate nohighlight">\(\tfrac12|\mathbf k + \mathbf G|^2\)</span> along
+<span class="math notranslate nohighlight">\(L = \tfrac{\pi}{a}(1,1,1) \to \Gamma \to X = \tfrac{2\pi}{a}(1,0,0)\)</span>.</p>
+<p><strong>Part a)</strong> Generate the bcc reciprocal set by integer enumeration
+(<code class="docutils literal notranslate"><span class="pre">numpy</span></code> meshgrid over <span class="math notranslate nohighlight">\(n_i \in [-2, 2]\)</span> filtered by
+the all-even/all-odd rule), and count the degeneracies of the free levels at
+<span class="math notranslate nohighlight">\(\Gamma\)</span>: the shells <span class="math notranslate nohighlight">\((0,0,0)\)</span>, <span class="math notranslate nohighlight">\((1,1,1)\)</span>-type, and <span class="math notranslate nohighlight">\((2,0,0)\)</span>-type must
+count <span class="math notranslate nohighlight">\(1, 8, 6\)</span>.</p>
+<p><strong>Part b)</strong> Plot the folded branches along <span class="math notranslate nohighlight">\(L\)</span>–<span class="math notranslate nohighlight">\(\Gamma\)</span>–<span class="math notranslate nohighlight">\(X\)</span> (in units of
+<span class="math notranslate nohighlight">\((2\pi/a)^2\)</span>): the classic figure, and the answer key for reading any real
+fcc band structure — every feature of silicon’s valence bands in
+<a class="reference internal" href="epm-band-structures.html"><span class="std std-doc">§8.11</span></a> is one of these branches, gapped.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>shell census at Gamma: |n|^2 = 0 -&gt; 1, 3 -&gt; 8, 4 -&gt; 6
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-pw-fcc">
+<img alt="../../_images/ba3a6501679babb1745ab19ffb4b15e32e04c86506151d1340c0a89eb9f9d78b.png" src="../../_images/ba3a6501679babb1745ab19ffb4b15e32e04c86506151d1340c0a89eb9f9d78b.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 795 </span><span class="caption-text">The empty-lattice band structure of the fcc crystal along <span class="math notranslate nohighlight">\(L\)</span>–<span class="math notranslate nohighlight">\(\Gamma\)</span>–<span class="math notranslate nohighlight">\(X\)</span>, folded from free parabolas <span class="math notranslate nohighlight">\(|\mathbf k + \mathbf G|^2/2\)</span> over the bcc reciprocal shells (energies in units of <span class="math notranslate nohighlight">\((2\pi/a)^2\)</span>): the skeleton beneath every fcc band structure, with <span class="math notranslate nohighlight">\(\Gamma\)</span>-point degeneracies 1, 8, 6 counted shell by shell. Silicon’s real bands in §8.11 are these lines, split by the pseudopotential’s Fourier coefficients.</span><a class="headerlink" href="#fig-pw-fcc" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3-the-shells-count-themselves">
+<h3>Validation 3 — the shells count themselves<a class="headerlink" href="#validation-3-the-shells-count-themselves" title="Link to this heading">#</a></h3>
+<p>The <span class="math notranslate nohighlight">\(\Gamma\)</span>-point degeneracies must be exactly <span class="math notranslate nohighlight">\(1, 8, 6\)</span> (integer
+arithmetic), the lowest branch at <span class="math notranslate nohighlight">\(\Gamma\)</span> exactly zero, and the lowest
+level at <span class="math notranslate nohighlight">\(X\)</span> exactly <span class="math notranslate nohighlight">\(1/2\)</span> in the reduced units (the <span class="math notranslate nohighlight">\((1,0,0)\)</span> zone-boundary
+free energy).</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  fcc shell degeneracies 1, 8, 6 at Gamma   [1, 8, 6]
+✓  the lowest level at Gamma   [got 0 vs expected 0 (rtol=0, atol=1e-12)]
+✓  the lowest level at X   [got 0.5 vs expected 0.5 (rtol=1e-12, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-the-cost-of-hardness-as-a-law">
+<h2>Exercise 4 — The cost of hardness, as a law<a class="headerlink" href="#exercise-4-the-cost-of-hardness-as-a-law" title="Link to this heading">#</a></h2>
+<p>The coefficients <span class="math notranslate nohighlight">\(V_G \propto K_0(|G|\varepsilon)\)</span> decay exponentially with
+the softening length <span class="math notranslate nohighlight">\(\varepsilon\)</span>, so the basis error should too — and the
+<em>rate</em> should scale with <span class="math notranslate nohighlight">\(\varepsilon\)</span> itself. A claim about rates is a fit.</p>
+<p><strong>Part a)</strong> For the chain at <span class="math notranslate nohighlight">\(a = 2.5\)</span>, <span class="math notranslate nohighlight">\(Z = 5\)</span>, <span class="math notranslate nohighlight">\(k = 0.4\)</span>: with your
+Exercise 1 <code class="docutils literal notranslate"><span class="pre">pw_bands</span></code>, compute the band-1 error against an <span class="math notranslate nohighlight">\(n_G = 40\)</span>
+reference for <span class="math notranslate nohighlight">\(n_G = 3, 5, 7, 9\)</span>, at the three softenings
+<span class="math notranslate nohighlight">\(\varepsilon = 0.5, 0.3, 0.2\)</span>, and fit each error sequence’s logarithm
+against <span class="math notranslate nohighlight">\(n_G\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code>).</p>
+<p><strong>Part b)</strong> Plot the three convergence lines and compare the fitted rates:
+their ratios must track the <span class="math notranslate nohighlight">\(\varepsilon\)</span> ratios (<span class="math notranslate nohighlight">\(0.6\)</span> and <span class="math notranslate nohighlight">\(0.4\)</span> against the
+<span class="math notranslate nohighlight">\(\varepsilon = 0.5\)</span> baseline) — <em>convergence rate proportional to softness</em>,
+the plane-wave method’s economics in one measured law, and the entire
+mandate of the pseudopotential in one figure.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>eps = 0.5: errors [&#39;1.2e-04&#39;, &#39;2.5e-07&#39;, &#39;7.1e-10&#39;, &#39;1.9e-12&#39;], rate -2.986
+eps = 0.3: errors [&#39;9.5e-03&#39;, &#39;1.7e-04&#39;, &#39;3.8e-06&#39;, &#39;9.7e-08&#39;], rate -1.915
+eps = 0.2: errors [&#39;9.7e-02&#39;, &#39;5.3e-03&#39;, &#39;3.4e-04&#39;, &#39;2.4e-05&#39;], rate -1.381
+rate ratios: 0.641 (eps ratio 0.6), 0.463 (eps ratio 0.4)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-pw-hardness">
+<img alt="../../_images/97d176ca6f7deba1462b43244ade7a50f26526bffe8dbd474d6d3a99738d3a9e.png" src="../../_images/97d176ca6f7deba1462b43244ade7a50f26526bffe8dbd474d6d3a99738d3a9e.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 796 </span><span class="caption-text">The cost of hardness as a measured law: plane-wave truncation error of the soft-Coulomb chain’s lowest band against the basis size <span class="math notranslate nohighlight">\(n_G\)</span>, for softening lengths <span class="math notranslate nohighlight">\(\varepsilon = 0.5, 0.3, 0.2\)</span> (bottom to top slopes <span class="math notranslate nohighlight">\(-2.95, -1.92, -1.38\)</span>). Convergence is exponential with rate proportional to the softness — rate ratios 0.65 and 0.47 against the <span class="math notranslate nohighlight">\(\varepsilon\)</span> ratios 0.6 and 0.4 — so a hard core is unaffordable and the pseudopotential’s mandate is written on this axis.</span><a class="headerlink" href="#fig-pw-hardness" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4-the-economics-fitted">
+<h3>Validation 4 — the economics, fitted<a class="headerlink" href="#validation-4-the-economics-fitted" title="Link to this heading">#</a></h3>
+<p>All three convergences must be genuinely exponential (monotone falling by
+orders of magnitude), and the rate ratios must track the softness ratios
+within <span class="math notranslate nohighlight">\(20\%\)</span> — the measured law behind every plane-wave cutoff ever chosen.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  exponential convergence at every hardness   [errors fall monotonically over decades]
+✓  rate ratio tracks softness ratio (0.3/0.5)   [got 0.641251 vs expected 0.6 (rtol=0.2, atol=1e-09)]
+✓  rate ratio tracks softness ratio (0.2/0.5)   [got 0.462611 vs expected 0.4 (rtol=0.2, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-a-pseudopotential-built-on-the-atom-and-tested-in-the-crystal">
+<h2>Exercise 5 — A pseudopotential, built on the atom and tested in the crystal<a class="headerlink" href="#exercise-5-a-pseudopotential-built-on-the-atom-and-tested-in-the-crystal" title="Link to this heading">#</a></h2>
+<p>The construction follows the practitioner’s liturgy. The all-electron atom is
+the single well <span class="math notranslate nohighlight">\(-Z/\sqrt{x^2+\varepsilon^2}\)</span> with <span class="math notranslate nohighlight">\(Z = 5\)</span>,
+<span class="math notranslate nohighlight">\(\varepsilon = 0.2\)</span>: levels <span class="math notranslate nohighlight">\(-16.74\)</span> (core), <span class="math notranslate nohighlight">\(-6.87\)</span>, and <span class="math notranslate nohighlight">\(-3.79\)</span> Ha. The
+target valence state is the <em>even</em> level at <span class="math notranslate nohighlight">\(-3.787\)</span> Ha (two nodes; its
+even parity matches a nodeless pseudo ground state — the odd level’s turn
+comes in Exercise 6). The pseudopotential is the same functional form, made
+soft, with <span class="math notranslate nohighlight">\((Z_{\mathrm{pp}}, \varepsilon_{\mathrm{pp}})\)</span> tuned so its
+nodeless ground state reproduces the valence <em>energy</em> and the valence
+<em>amplitude</em> at the matching radius <span class="math notranslate nohighlight">\(r_c = 3\)</span> Bohr. The choice of <span class="math notranslate nohighlight">\(r_c\)</span> is
+itself physics: crystal bandwidths are set by wavefunction overlap at the
+<em>neighbor distance</em>, so the tail must be matched out to roughly <span class="math notranslate nohighlight">\(a/2\)</span> of the
+environments one intends to predict — a matching radius of 2 Bohr reproduces
+the level perfectly yet misses the <span class="math notranslate nohighlight">\(a = 5\)</span> bandwidth by 70%, while <span class="math notranslate nohighlight">\(r_c = 3\)</span>
+brings both test crystals within 25% (the solution prints the comparison).</p>
+<p><strong>Part a)</strong> Fit with <code class="docutils literal notranslate"><span class="pre">scipy.optimize.least_squares</span></code> (residuals: the level
+mismatch, and <span class="math notranslate nohighlight">\(10\times\)</span> the amplitude mismatch at <span class="math notranslate nohighlight">\(r_c\)</span>; bounds
+<span class="math notranslate nohighlight">\(Z \in [0.1, 15]\)</span>, <span class="math notranslate nohighlight">\(\varepsilon \in [0.3, 5]\)</span>; the Setup helper
+<code class="docutils literal notranslate"><span class="pre">atom_levels</span></code>). Confirm the pseudo atom has <em>no</em> state near the core level.</p>
+<p><strong>Part b)</strong> The transferability test: with your Exercise 1 <code class="docutils literal notranslate"><span class="pre">pw_bands</span></code>, place
+both atoms in crystals at <span class="math notranslate nohighlight">\(a = 5\)</span> and <span class="math notranslate nohighlight">\(a = 6\)</span> (environments the fit never
+saw) and compare the pseudo
+band 1 against the all-electron band 3 (the target level’s band), after mean
+alignment (the dropped <span class="math notranslate nohighlight">\(V_0\)</span>’s constant). Correlation and width agreement
+across both lattice constants — a fit at one geometry predicting two others —
+is the property that makes the entire pseudopotential industry possible.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pseudo: Z_pp = 7.9324, eps_pp = 1.8555
+levels: pseudo ground -3.7868 vs AE valence -3.7868; AE core at -16.74 has no pseudo counterpart
+(r_c = 2 Bohr also matches the level exactly but gives a 70% too-wide band at a = 5; the tail must reach the neighbors)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a = 5.0: correlation +0.9998, widths AE 0.0626 vs pseudo 0.0523
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a = 6.0: correlation +1.0000, widths AE 0.0090 vs pseudo 0.0109
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-pw-pseudo">
+<img alt="../../_images/378651139836a7ae60de905062e32ada5b0d817533aa19ca1087e7e4022c583c.png" src="../../_images/378651139836a7ae60de905062e32ada5b0d817533aa19ca1087e7e4022c583c.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 797 </span><span class="caption-text">A pseudopotential earning transferability: the all-electron valence band (band 3 of the deep <span class="math notranslate nohighlight">\(Z = 5\)</span>, <span class="math notranslate nohighlight">\(\varepsilon = 0.2\)</span> chain, ink) and the pseudo band 1 (amber, mean-aligned) at two lattice constants the atomic fit never saw. Shapes correlate at <span class="math notranslate nohighlight">\(+0.999\)</span> with widths agreeing within 25% (17% and 21% at the two lattice constants): energy and tail matched on the atom suffice to predict the crystal — the property the entire pseudopotential industry rests on.</span><a class="headerlink" href="#fig-pw-pseudo" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5-transferability-earned">
+<h3>Validation 5 — transferability, earned<a class="headerlink" href="#validation-5-transferability-earned" title="Link to this heading">#</a></h3>
+<p>The pseudo ground level must match the target valence level to <span class="math notranslate nohighlight">\(10^{-2}\)</span> Ha;
+both crystal tests must correlate above <span class="math notranslate nohighlight">\(+0.99\)</span>; and the band widths must
+agree within <span class="math notranslate nohighlight">\(25\%\)</span> at both lattice constants — prediction, not description.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the atomic valence level, matched   [got -3.78676 vs expected -3.78676 (rtol=0, atol=0.01)]
+✓  band shapes correlate at a = 5.0   [corr +0.9998]
+✓  bandwidths agree at a = 5.0   [got 0.0522654 vs expected 0.0625977 (rtol=0.25, atol=1e-09)]
+✓  band shapes correlate at a = 6.0   [corr +1.0000]
+✓  bandwidths agree at a = 6.0   [got 0.0108587 vs expected 0.008972 (rtol=0.25, atol=1e-09)]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-the-nodal-catch-why-pseudopotentials-are-nonlocal">
+<h2>Exercise 6 — The nodal catch: why pseudopotentials are nonlocal<a class="headerlink" href="#exercise-6-the-nodal-catch-why-pseudopotentials-are-nonlocal" title="Link to this heading">#</a></h2>
+<p>Now the same liturgy on the <em>odd</em> valence level (<span class="math notranslate nohighlight">\(-6.87\)</span> Ha, one node), and
+the honest failure that built an industry. A nodeless pseudo ground state can
+match the odd level’s energy and tail perfectly on the atom — but in the
+crystal, the band’s <em>dispersion sign</em> is set by the orbital’s parity
+(odd orbitals flip the effective hopping’s sign, exactly the
+<a class="reference internal" href="tight-binding.html"><span class="std std-doc">§8.9</span></a> overlap logic), and no local potential can give
+a nodeless orbital an odd orbital’s band.</p>
+<p><strong>Part a)</strong> Refit the pseudopotential against the odd level (the same
+residuals with the <span class="math notranslate nohighlight">\(-6.87\)</span> Ha target and its amplitude at <span class="math notranslate nohighlight">\(r_c = 1.5\)</span>), and
+confirm the atomic match is again excellent.</p>
+<p><strong>Part b)</strong> Run the crystal test at <span class="math notranslate nohighlight">\(a = 3\)</span> with your Exercise 1 <code class="docutils literal notranslate"><span class="pre">pw_bands</span></code>:
+the aligned bands must <em>anti</em>-correlate (measured <span class="math notranslate nohighlight">\(-0.996\)</span>) — the pseudo band
+curves the wrong way,
+with near-perfect magnitude and reversed sign. The remedy, stated plainly:
+real pseudopotentials are <strong>nonlocal</strong>, one potential per angular-momentum
+channel applied through projectors, so each channel’s nodal character is
+respected (Martin <span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id77" title="Richard M. Martin. Electronic Structure: Basic Theory and Practical Methods. Cambridge University Press, Cambridge, 2004.">Mar04</a>]</span>, Ch. 11). The empirical method of
+<a class="reference internal" href="epm-band-structures.html"><span class="std std-doc">§8.11</span></a> sidesteps the construction entirely by
+fitting the crystal’s Fourier coefficients to experiment — and inherits this
+lesson as its license.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>odd-level pseudo: Z_pp = 7.4160, eps_pp = 0.9065, ground -6.8729 vs target -6.8729
+crystal test at a = 3: correlation -0.9960
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-pw-nodal">
+<img alt="../../_images/303e46c9d44d0d7c81042300f65be742469a947dba1ce63dfa2e632684f70442.png" src="../../_images/303e46c9d44d0d7c81042300f65be742469a947dba1ce63dfa2e632684f70442.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 798 </span><span class="caption-text">The nodal catch: a local pseudopotential fitted perfectly to the odd valence level of the atom (energy and tail matched) produces a crystal band that anti-correlates with the all-electron one at <span class="math notranslate nohighlight">\(-0.996\)</span> — right magnitude, wrong sign, because band curvature inherits the orbital’s parity and no local well can hand a nodeless orbital an odd orbital’s dispersion. This measured minus sign is why every modern pseudopotential is nonlocal.</span><a class="headerlink" href="#fig-pw-nodal" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6-the-minus-sign-that-built-an-industry">
+<h3>Validation 6 — the minus sign that built an industry<a class="headerlink" href="#validation-6-the-minus-sign-that-built-an-industry" title="Link to this heading">#</a></h3>
+<p>The odd-level atomic fit must match the level to <span class="math notranslate nohighlight">\(10^{-2}\)</span> Ha, and the
+crystal bands must anti-correlate below <span class="math notranslate nohighlight">\(-0.9\)</span>: a perfect atomic fit and a
+reversed crystal band, in the same construction.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the odd valence level, matched on the atom   [got -6.87285 vs expected -6.87285 (rtol=0, atol=0.01)]
+✓  the crystal band anti-correlates (the nodal sign)   [corr -0.9960]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">With your assistant</p>
+<p>The secular builder <code class="docutils literal notranslate"><span class="pre">pw_bands</span></code> you wrote recomputes every <span class="math notranslate nohighlight">\(K_0\)</span> per matrix
+element — clean but wasteful, since <span class="math notranslate nohighlight">\(V_{G-G'}\)</span> depends only on the
+difference. Have
+your assistant refactor it to precompute the coefficient vector once and
+fill the matrix by <code class="docutils literal notranslate"><span class="pre">numpy</span></code> index arithmetic (a Toeplitz fill), then run the
+check that is yours alone: the refactored bands must match the original at
+machine precision across ten random <span class="math notranslate nohighlight">\((k, Z, \varepsilon)\)</span> triples
+(<code class="docutils literal notranslate"><span class="pre">numpy.allclose</span></code>, <code class="docutils literal notranslate"><span class="pre">rtol=1e-12</span></code>) while running measurably faster
+(<code class="docutils literal notranslate"><span class="pre">time.perf_counter</span></code> ratio). The check is yours.</p>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>The plane-wave method arrived with its price tag attached. The secular
+problem’s weak-coupling gap law <span class="math notranslate nohighlight">\(E_{\mathrm{gap}} = 2|V_G|\)</span> held to <span class="math notranslate nohighlight">\(0.1\%\)</span>
+at <span class="math notranslate nohighlight">\(Z = 0.05\)</span> and drifted measurably by <span class="math notranslate nohighlight">\(Z = 2\)</span>; folding produced the
+skeleton (gaps only where free branches crossed), and the fcc empty lattice
+delivered the classic <span class="math notranslate nohighlight">\(L\)</span>–<span class="math notranslate nohighlight">\(\Gamma\)</span>–<span class="math notranslate nohighlight">\(X\)</span> diagram with its shell degeneracies
+<span class="math notranslate nohighlight">\(1, 8, 6\)</span> counted by integer arithmetic. The cost of hardness became a
+fitted law — exponential convergence with rate proportional to the
+softening (<span class="math notranslate nohighlight">\(-2.95, -1.92, -1.38\)</span> at <span class="math notranslate nohighlight">\(\varepsilon = 0.5, 0.3, 0.2\)</span>; rate
+ratios <span class="math notranslate nohighlight">\(0.65, 0.47\)</span> against softness ratios <span class="math notranslate nohighlight">\(0.6, 0.4\)</span>). The pseudopotential
+answered: built on the atom (valence level matched to <span class="math notranslate nohighlight">\(10^{-4}\)</span>, tail
+matched at <span class="math notranslate nohighlight">\(r_c\)</span>), it transferred to crystals the fit never saw with band
+correlations <span class="math notranslate nohighlight">\(+0.999\)</span> and widths within 25% — and then failed with
+perfect instructiveness on the odd level, whose crystal band anti-correlated
+at <span class="math notranslate nohighlight">\(-0.996\)</span> because parity sets curvature and no local well can fake a node.
+The minus sign is the reason every modern pseudopotential is nonlocal, and
+the license for the empirical shortcut that now builds real silicon.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="epm-band-structures.html"><span class="std std-doc">§8.11</span></a> takes the shortcut: rather than
+constructing potentials from atoms, the empirical pseudopotential method
+fits the crystal’s three symmetric (and, for GaAs, three antisymmetric)
+Fourier coefficients directly to measured gaps — and the full band
+structures of real silicon and gallium arsenide fall out of a matrix this
+notebook already knows how to build.</p></li>
+<li><p>Norm conservation (making the pseudo orbital’s charge inside <span class="math notranslate nohighlight">\(r_c\)</span> match
+the true one) upgrades level-and-tail matching into energy-derivative
+matching, the modern transferability criterion; Kleinman–Bylander
+separability makes nonlocality affordable; PAW keeps the true wiggles
+recoverable. Martin <span class="bibtex-citation" id="id5">[<a class="reference internal" href="#id77" title="Richard M. Martin. Electronic Structure: Basic Theory and Practical Methods. Cambridge University Press, Cambridge, 2004.">Mar04</a>]</span>, Ch. 11, walks the whole ladder.</p></li>
+<li><p>The hardness law is why “soft” and “ultrasoft” are words worth millions of
+core-hours: halving the effective hardness halves the exponent that sets
+every plane-wave calculation’s memory and time.</p></li>
+</ul>
+<div class="docutils container" id="id6">
+<div role="list" class="citation-list">
+<div class="citation" id="id80" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Giu14</a><span class="fn-bracket">]</span></span>
+<p>Feliciano Giustino. <em>Materials Modelling using Density Functional Theory: Properties and Predictions</em>. Oxford University Press, Oxford, 2014.</p>
+</div>
+<div class="citation" id="id77" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Mar04<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id3">2</a>,<a role="doc-backlink" href="#id4">3</a>,<a role="doc-backlink" href="#id5">4</a>)</span>
+<p>Richard M. Martin. <em>Electronic Structure: Basic Theory and Practical Methods</em>. Cambridge University Press, Cambridge, 2004.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/08-electronic-structure"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="tight-binding.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">8.9 Tight Binding: From Chain to Graphene</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="epm-band-structures.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">8.11 Real Band Structures: The Empirical Pseudopotential Method</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-secular-problem-in-plane-waves">The secular problem in plane waves</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-cost-of-hardness">The cost of hardness</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudopotentials-construction-transferability-and-the-nodal-catch">Pseudopotentials: construction, transferability, and the nodal catch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-gap-is-a-fourier-coefficient">Exercise 1 — The gap is a Fourier coefficient</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-first-order-then-not">Validation 1 — first order, then not</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-folding-and-gaps-at-every-crossing">Exercise 2 — Folding, and gaps at every crossing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-gaps-live-on-crossings">Validation 2 — gaps live on crossings</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-fcc-skeleton-every-textbook-s-first-band-structure">Exercise 3 — The fcc skeleton: every textbook’s first band structure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-the-shells-count-themselves">Validation 3 — the shells count themselves</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-cost-of-hardness-as-a-law">Exercise 4 — The cost of hardness, as a law</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-the-economics-fitted">Validation 4 — the economics, fitted</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-a-pseudopotential-built-on-the-atom-and-tested-in-the-crystal">Exercise 5 — A pseudopotential, built on the atom and tested in the crystal</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-transferability-earned">Validation 5 — transferability, earned</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-nodal-catch-why-pseudopotentials-are-nonlocal">Exercise 6 — The nodal catch: why pseudopotentials are nonlocal</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-the-minus-sign-that-built-an-industry">Validation 6 — the minus sign that built an industry</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

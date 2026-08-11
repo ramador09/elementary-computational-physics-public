@@ -1,0 +1,1703 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="8.7 The Kohn–Sham Construction" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/kohn-sham.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: This is the notebook the movement was built toward. Thomas–Fermi( §8.5) showed a density-only theory is possible and its local kinetic ene..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: This is the notebook the movement was built toward. Thomas–Fermi( §8.5) showed a density-only theory is possible and its local kinetic ene..." />
+
+    <title>8.7 The Kohn–Sham Construction &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/08-electronic-structure/kohn-sham';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/kohn-sham.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="8.8 Exact Conditions and the Band-Gap Problem" href="exact-conditions-band-gap.html" />
+    <link rel="prev" title="8.6 Hohenberg–Kohn and the Constrained Search" href="hohenberg-kohn.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/08-electronic-structure/kohn-sham.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/08-electronic-structure/kohn-sham.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/08-electronic-structure/kohn-sham.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/08-electronic-structure/kohn-sham.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>8.7 The Kohn–Sham Construction</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-construction">The construction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-local-density-approximation">The local-density approximation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-lda-potential-assembled-and-certified">Exercise 1 — The LDA potential, assembled and certified</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-transcription-is-faithful">Validation 1 — the transcription is faithful</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-engine-and-the-loop-watched">Exercise 2 — The engine, and the loop watched</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-the-fixed-point-is-unique">Validation 2 — the fixed point is unique</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-helium-beryllium-neon-the-working-theory">Exercise 3 — Helium, beryllium, neon: the working theory</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-the-reference-values-hit">Validation 3 — the reference values, hit</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-one-electron-repelling-itself">Exercise 4 — One electron, repelling itself</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-the-disaster-quantified">Validation 4 — the disaster, quantified</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-an-lda-of-our-own-the-laboratory-judged-exactly">Exercise 5 — An LDA of our own: the laboratory judged exactly</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-the-ladder-s-fourth-rung">Validation 5 — the ladder’s fourth rung</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-face-off-the-lda-potential-against-the-exact-one">Exercise 6 — Face-off: the LDA potential against the exact one</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-energies-forgive-potentials-punish">Validation 6 — energies forgive, potentials punish</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-kohnsham-construction">
+<h1>8.7 The Kohn–Sham Construction<a class="headerlink" href="#the-kohnsham-construction" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VIII — Electronic Structure and Many-Body Matter
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;8.7
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">The most-used method in computational science, built end to end: orbitals restore the kinetic energy Thomas–Fermi butchered, the uniform gas of 8.4 supplies the exchange-correlation input, and a working radial code solves helium, beryllium, and neon to the reference values. Then the honest accounting: the hydrogen atom&#x27;s self-interaction disaster, a local-density approximation built from scratch for the exact laboratory&#x27;s own interaction and judged against the exact answer, and the face-off between the LDA potential and the exact one recovered in 8.6.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;140–170 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>This is the notebook the movement was built toward. Thomas–Fermi
+(<a class="reference internal" href="thomas-fermi.html"><span class="std std-doc">§8.5</span></a>) showed a density-only theory is <em>possible</em> and its
+local kinetic energy is fatal; Hohenberg–Kohn (<a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a>)
+proved the density suffices and even computed the exact Kohn–Sham potential of
+the laboratory. Kohn and Sham’s 1965 move <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id89" title="W. Kohn and L. J. Sham. Self-consistent equations including exchange and correlation effects. Physical Review, 140:A1133–A1138, 1965. doi:10.1103/PhysRev.140.A1133.">KS65</a>]</span> assembled the
+pieces into the scheme that now consumes a measurable share of the world’s
+supercomputing: <em>keep orbitals for the kinetic energy</em> (the fictitious
+non-interacting system of the <a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a> inversion, now made
+the engine rather than the diagnostic), and shovel everything unknown into an
+exchange-correlation functional <span class="math notranslate nohighlight">\(E_{xc}[n]\)</span> — which the homogeneous electron gas
+of <a class="reference internal" href="hartree-fock-gas.html"><span class="std std-doc">§8.4</span></a> supplies in its local-density form.</p>
+<p>The program: derive the KS equations and assemble the LDA potential from the
+<a class="reference internal" href="hartree-fock-gas.html"><span class="std std-doc">§8.4</span></a> deliverable (certifying the correlation
+potential’s derivative by central differences, in the
+<a class="reference internal" href="thomas-fermi.html"><span class="std std-doc">§8.5</span></a> toolkit’s spirit); study the self-consistent loop as
+the damped fixed point it is; solve He, Be, and Ne against the standard
+reference values (shells restored, <span class="math notranslate nohighlight">\(2p\)</span> channel and all); then the honest
+ledger, in three exhibits. The hydrogen atom, where one electron interacts with
+itself through the mean field and LDA misses the exact <span class="math notranslate nohighlight">\(-1/2\)</span> Ha by <span class="math notranslate nohighlight">\(11\%\)</span>
+while its eigenvalue misses by <em>half</em>. A local-density approximation <em>built
+from scratch</em> for the laboratory’s own soft interaction — its uniform-gas
+exchange computed by two independent routes that agree to better than <span class="math notranslate nohighlight">\(10^{-4}\)</span> — and
+judged against the exact answer the laboratory knows. And the face-off: the
+LDA exchange-correlation potential laid over the exact one recovered in
+<a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a>, where the local approximation’s exponentially
+dying tail against the exact <span class="math notranslate nohighlight">\(-1/|x|\)</span> makes the band-gap troubles of
+<a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a> visible a notebook early.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Hartree atomic units. Three-dimensional
+atoms are spin-unpolarized (all systems here are closed-shell except
+hydrogen, whose unpolarized treatment is deliberate and discussed), on the
+uniform radial grid <span class="math notranslate nohighlight">\(r_j = jh\)</span>, <span class="math notranslate nohighlight">\(h = 25/8000\)</span> Bohr, with the Hartree
+potential by the shell theorem’s two cumulative integrals (<code class="docutils literal notranslate"><span class="pre">numpy.cumsum</span></code>,
+an <span class="math notranslate nohighlight">\(O(N)\)</span> replacement for the dense kernel) and eigenproblems per angular
+channel by <code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code> (the <span class="math notranslate nohighlight">\(l(l+1)/2r^2\)</span> centrifugal
+term added for <span class="math notranslate nohighlight">\(p\)</span> states). The LDA uses <a class="reference internal" href="hartree-fock-gas.html"><span class="std std-doc">§8.4</span></a>
+exchange and Perdew–Zunger correlation <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id92" title="J. P. Perdew and Alex Zunger. Self-interaction correction to density-functional approximations for many-electron systems. Physical Review B, 23:5048–5079, 1981. doi:10.1103/PhysRevB.23.5048.">PZ81</a>]</span>. Total
+energies use the standard double-counting-corrected assembly
+<span class="math notranslate nohighlight">\(E = \sum_i f_i\varepsilon_i - \tfrac12\!\int\! v_H n - \!\int\! v_{xc} n +
+E_{xc}[n]\)</span>. One-dimensional laboratory work reuses the
+<a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a> grid and interaction.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call
+against an independent fact: a derivative identity, the standard reference
+energies, the exact laboratory, the <a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a> potential.
+A ✓ is strong evidence; a ✗ is a prompt to locate the discrepancy, not an
+automatic verdict.</p>
+<p><strong>Scope.</strong> LDA only, deliberately: gradient corrections, hybrids, and the
+rest of the functional zoo are surveyed against exact constraints in
+<a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a>, and Martin <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id78" title="Richard M. Martin. Electronic Structure: Basic Theory and Practical Methods. Cambridge University Press, Cambridge, 2004.">Mar04</a>]</span>,
+Ch. 8–9, and Parr &amp; Yang <span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id80" title="Robert G. Parr and Weitao Yang. Density-Functional Theory of Atoms and Molecules. Oxford University Press, New York, 1989.">PY89</a>]</span>, Ch. 7–8, carry the full
+story. The reference atomic values quoted are the standard local-density
+benchmarks (the NIST atomic reference data; tiny differences between
+correlation parametrizations are noted where they show).</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-construction">
+<h3>The construction<a class="headerlink" href="#the-construction" title="Link to this heading">#</a></h3>
+<p>Kohn and Sham <span class="bibtex-citation" id="id5">[<a class="reference internal" href="#id89" title="W. Kohn and L. J. Sham. Self-consistent equations including exchange and correlation effects. Physical Review, 140:A1133–A1138, 1965. doi:10.1103/PhysRev.140.A1133.">KS65</a>]</span> split Levy’s functional
+(<a class="reference internal" href="hohenberg-kohn.html#equation-eq-hk-levy">Eq. 879</a>) not where nature suggests but where computation does:</p>
+<div class="math notranslate nohighlight" id="equation-eq-ks-split">
+<span class="eqno">(883)<a class="headerlink" href="#equation-eq-ks-split" title="Link to this equation">#</a></span>\[F[n] = T_s[n] + E_H[n] + E_{xc}[n],
+\qquad
+E_{xc}[n] \equiv (T - T_s) + (W - E_H),\]</div>
+<p>with <span class="math notranslate nohighlight">\(T_s\)</span> the non-interacting kinetic functional evaluated through orbitals
+and <span class="math notranslate nohighlight">\(E_{xc}\)</span> <em>defined</em> as everything left over — the kinetic correlation the
+<a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a> Levy bound measured, plus the interaction beyond
+Hartree. Varying the total energy over orbitals (the
+<a class="reference internal" href="hartree-fock-atoms.html"><span class="std std-doc">§8.3</span></a> constrained-variation pattern) gives
+one-electron equations in a <em>local</em> potential,</p>
+<div class="math notranslate nohighlight" id="equation-eq-ks-equations">
+<span class="eqno">(884)<a class="headerlink" href="#equation-eq-ks-equations" title="Link to this equation">#</a></span>\[\Big[ -\tfrac12\nabla^2 + v_{\mathrm{ext}} + v_H[n] + v_{xc}[n] \Big]
+\varphi_i = \varepsilon_i \varphi_i,
+\qquad
+v_{xc} = \frac{\delta E_{xc}}{\delta n},
+\qquad
+n = \sum_i f_i\,|\varphi_i|^2 ,\]</div>
+<p>a self-consistency loop identical in shape to Hartree–Fock’s but with
+exchange’s nonlocal matrix replaced by a function of the local density. All
+the many-body difficulty now lives in one functional, and the total energy is
+assembled without double counting as</p>
+<div class="math notranslate nohighlight" id="equation-eq-ks-energy">
+<span class="eqno">(885)<a class="headerlink" href="#equation-eq-ks-energy" title="Link to this equation">#</a></span>\[E = \sum_i f_i\,\varepsilon_i
+\;-\; \tfrac12\!\int\! v_H\,n
+\;-\; \!\int\! v_{xc}\,n
+\;+\; E_{xc}[n]\]</div>
+<p>(the eigenvalue sum counts the mean field once per electron; the corrections
+put back the halves — the bookkeeping trap first met in
+<a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a>, now in its canonical form).</p>
+</section>
+<section id="the-local-density-approximation">
+<h3>The local-density approximation<a class="headerlink" href="#the-local-density-approximation" title="Link to this heading">#</a></h3>
+<p>The one functional the course has <em>earned</em> is local: assign each point the
+exchange-correlation energy a uniform gas of that density would have,</p>
+<div class="math notranslate nohighlight" id="equation-eq-ks-lda">
+<span class="eqno">(886)<a class="headerlink" href="#equation-eq-ks-lda" title="Link to this equation">#</a></span>\[E_{xc}^{\mathrm{LDA}}[n] = \!\int\! n(\mathbf r)\,
+\varepsilon_{xc}\big(n(\mathbf r)\big)\,d^3r,
+\qquad
+v_{xc}^{\mathrm{LDA}} = \frac{d\big(n\,\varepsilon_{xc}\big)}{dn}
+= \varepsilon_{xc} + n\,\frac{d\varepsilon_{xc}}{dn},\]</div>
+<p>with <span class="math notranslate nohighlight">\(\varepsilon_{xc} = \varepsilon_x + \varepsilon_c\)</span> exactly the
+<a class="reference internal" href="hartree-fock-gas.html"><span class="std std-doc">§8.4</span></a> deliverable: <span class="math notranslate nohighlight">\(\varepsilon_x = -\tfrac34
+(3/\pi)^{1/3} n^{1/3}\)</span> (so <span class="math notranslate nohighlight">\(v_x = -(3/\pi)^{1/3} n^{1/3}\)</span>, the derivative
+picking up <span class="math notranslate nohighlight">\(4/3\)</span>) and the Perdew–Zunger <span class="math notranslate nohighlight">\(\varepsilon_c(r_s)\)</span>, whose <span class="math notranslate nohighlight">\(v_c\)</span>
+follows from the same rule via <span class="math notranslate nohighlight">\(r_s(n)\)</span>. Why should a uniform-gas fact serve
+atoms whose density spans six orders of magnitude? Two structural reasons,
+both met already: the LDA hole inherits the exact <span class="math notranslate nohighlight">\(-1\)</span> sum rule from the real
+gas it is stolen from (<a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a>’s constraint), and
+energies integrate over the hole’s <em>spherical average</em> only, forgiving much
+local error. The approximation’s failures are equally structural — above all
+<strong>self-interaction</strong>: in <a class="reference internal" href="#equation-eq-ks-equations">Eq. 884</a> each electron’s own charge
+sits in <span class="math notranslate nohighlight">\(v_H\)</span>, and where Hartree–Fock’s <span class="math notranslate nohighlight">\(K_{ii} = J_{ii}\)</span>
+(<a class="reference internal" href="hartree-fock-atoms.html"><span class="std std-doc">§8.3</span></a>) cancelled it exactly, the LDA can only
+cancel it approximately. One electron alone in the universe still repels
+itself. Hydrogen will put a number on that.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data and instruments: the series palette, the exchange coefficient <span class="math notranslate nohighlight">\(C_x\)</span> and
+the Perdew–Zunger correlation <em>energy</em> fit that
+<a class="reference internal" href="hartree-fock-gas.html"><span class="std std-doc">§8.4</span></a> delivered, the Wigner–Seitz conversion, the
+radial grid, and the classical Hartree potential. The notebook’s own
+machinery — the correlation <em>potential</em> and the self-consistent Kohn–Sham
+engine itself — you build in Exercises 1 and 2, and the laboratory’s
+from-scratch functional in Exercise 5.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">quad</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">CubicSpline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eigh_tridiagonal</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+<span class="c1"># data: the series palette</span>
+<span class="n">INK</span><span class="p">,</span> <span class="n">AMBER</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="s2">&quot;#16213e&quot;</span><span class="p">,</span> <span class="s2">&quot;#c0851a&quot;</span><span class="p">,</span> <span class="s2">&quot;#46506b&quot;</span>
+
+<span class="c1"># --- 3-D LDA ingredients: the 8.4 deliverable, as given ---</span>
+<span class="c1"># data: the exchange energy coefficient -(3/4)(3/pi)^(1/3) of Eq. eq-ks-lda</span>
+<span class="n">CX_LDA</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mf">3.0</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">)</span>
+
+
+<span class="c1"># data: the Perdew-Zunger parametrization of the Ceperley-Alder quantum Monte</span>
+<span class="c1"># Carlo correlation energies (Eq. eq-heg-pz, section 8.4) - a published fit,</span>
+<span class="c1"># an input the problem hands you, not machinery anyone builds here. Its</span>
+<span class="c1"># DERIVATIVE, the correlation potential, is yours to write in Exercise 1.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">eps_c_pz_vec</span><span class="p">(</span><span class="n">rs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perdew-Zunger correlation energy per electron, vectorized over r_s.</span>
+
+<span class="sd">    The two-branch fit of Eq. eq-heg-pz through the Ceperley-Alder energies,</span>
+<span class="sd">    in Hartree (section 8.4).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rs : numpy.ndarray</span>
+<span class="sd">        Wigner-Seitz radii in Bohr.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Correlation energy per electron.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
+    <span class="n">hi</span> <span class="o">=</span> <span class="n">rs</span> <span class="o">&gt;=</span> <span class="mf">1.0</span>
+    <span class="n">out</span><span class="p">[</span><span class="n">hi</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.1423</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="mf">1.0529</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">rs</span><span class="p">[</span><span class="n">hi</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.3334</span> <span class="o">*</span> <span class="n">rs</span><span class="p">[</span><span class="n">hi</span><span class="p">])</span>
+    <span class="n">lo</span> <span class="o">=</span> <span class="o">~</span><span class="n">hi</span>
+    <span class="n">out</span><span class="p">[</span><span class="n">lo</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mf">0.0311</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">rs</span><span class="p">[</span><span class="n">lo</span><span class="p">])</span>
+        <span class="o">-</span> <span class="mf">0.048</span>
+        <span class="o">+</span> <span class="mf">0.0020</span> <span class="o">*</span> <span class="n">rs</span><span class="p">[</span><span class="n">lo</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">rs</span><span class="p">[</span><span class="n">lo</span><span class="p">])</span>
+        <span class="o">-</span> <span class="mf">0.0116</span> <span class="o">*</span> <span class="n">rs</span><span class="p">[</span><span class="n">lo</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="c1"># instrument: a variable conversion, density to Wigner-Seitz radius, with a</span>
+<span class="c1"># floor so empty tail regions stay finite - bookkeeping, not the lesson.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">rs_of_n</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wigner-Seitz radius of a 3-D density, with a floor for empty regions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : numpy.ndarray</span>
+<span class="sd">        Density in Bohr^-3.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        r_s = (3/(4 pi n))^(1/3).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">4.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mf">1e-30</span><span class="p">,</span> <span class="kc">None</span><span class="p">)))</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">)</span>
+
+
+<span class="c1"># --- the radial grid the engine will run on ---</span>
+<span class="c1"># data: uniform grid r_j = j h out to 25 Bohr, and the constant off-diagonal</span>
+<span class="c1"># -1/(2h^2) of the three-point kinetic stencil on it</span>
+<span class="n">N_R</span><span class="p">,</span> <span class="n">R_MAX</span> <span class="o">=</span> <span class="mi">8000</span><span class="p">,</span> <span class="mf">25.0</span>
+<span class="n">H_R</span> <span class="o">=</span> <span class="n">R_MAX</span> <span class="o">/</span> <span class="n">N_R</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">H_R</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N_R</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">OFF_R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">N_R</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">/</span> <span class="n">H_R</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+
+<span class="c1"># instrument: classical electrostatics, not density-functional theory - the</span>
+<span class="c1"># shell theorem&#39;s two cumulative integrals, already used with a dense O(N^2)</span>
+<span class="c1"># monopole kernel in section 8.3 and rewritten here as an O(N) running sum.</span>
+<span class="c1"># No exercise builds or certifies it; it is plumbing the engine calls.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hartree_radial</span><span class="p">(</span><span class="n">charge_shell</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Radial Hartree potential by the shell theorem&#39;s two cumulative integrals.</span>
+
+<span class="sd">    v_H(r) = Q_in(r)/r + integral_r^inf q(r&#39;)/r&#39; dr&#39; with q = 4 pi r&#39;^2 n:</span>
+<span class="sd">    charge inside acts from the center, shells outside contribute their</span>
+<span class="sd">    surface value. Both integrals are running sums, O(N) via numpy.cumsum</span>
+<span class="sd">    (the dense kernel of section 8.3 would be O(N^2) and is unnecessary for</span>
+<span class="sd">    a local theory).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    charge_shell : numpy.ndarray</span>
+<span class="sd">        The shell charge q(r) = 4 pi r^2 n(r) on the grid.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The Hartree potential in Hartree.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># cumulative TRAPEZOID sums, not rectangles: the half-cell correction is</span>
+    <span class="c1"># an O(h) accuracy difference worth several mHa in a total energy (the</span>
+    <span class="c1"># rectangle version was caught by the reference-value gate).</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">cumulative_trapezoid</span>
+
+    <span class="n">q_in</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">cumulative_trapezoid</span><span class="p">(</span><span class="n">charge_shell</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">charge_shell</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">H_R</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="p">)</span>
+    <span class="n">over_r</span> <span class="o">=</span> <span class="n">charge_shell</span> <span class="o">/</span> <span class="n">r</span>
+    <span class="n">q_out_rev</span> <span class="o">=</span> <span class="n">cumulative_trapezoid</span><span class="p">(</span><span class="n">over_r</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dx</span><span class="o">=</span><span class="n">H_R</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">q_in</span> <span class="o">/</span> <span class="n">r</span> <span class="o">+</span> <span class="n">q_out_rev</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-lda-potential-assembled-and-certified">
+<h2>Exercise 1 — The LDA potential, assembled and certified<a class="headerlink" href="#exercise-1-the-lda-potential-assembled-and-certified" title="Link to this heading">#</a></h2>
+<p>Setup holds the <a class="reference internal" href="hartree-fock-gas.html"><span class="std std-doc">§8.4</span></a> <em>energy</em> curve; Equation
+<a class="reference internal" href="#equation-eq-ks-lda">Eq. 886</a> turns it into a <em>potential</em> by differentiation, and that
+potential is what every orbital in this notebook will feel. Exchange
+differentiates in one line — <span class="math notranslate nohighlight">\(\varepsilon_x = C_x n^{1/3}\)</span> gives
+<span class="math notranslate nohighlight">\(v_x = \tfrac43 C_x n^{1/3}\)</span>, the <span class="math notranslate nohighlight">\(4/3\)</span> the whole story — while
+Perdew–Zunger publish their <span class="math notranslate nohighlight">\(v_c\)</span> in closed form, one expression per branch
+of <a class="reference internal" href="hartree-fock-gas.html#equation-eq-heg-pz">Eq. 872</a>. For <span class="math notranslate nohighlight">\(r_s \ge 1\)</span>, where
+<span class="math notranslate nohighlight">\(\varepsilon_c = \gamma/(1 + \beta_1\sqrt{r_s} + \beta_2 r_s)\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+v_c = \varepsilon_c\,
+\frac{1 + \tfrac76\beta_1\sqrt{r_s} + \tfrac43\beta_2 r_s}
+     {1 + \beta_1\sqrt{r_s} + \beta_2 r_s};
+\]</div>
+<p>for <span class="math notranslate nohighlight">\(r_s &lt; 1\)</span>, where <span class="math notranslate nohighlight">\(\varepsilon_c = A\ln r_s + B + C r_s \ln r_s + D r_s\)</span>,
+the same rule gives</p>
+<div class="math notranslate nohighlight">
+\[
+v_c = A\ln r_s + \big(B - \tfrac13 A\big) + \tfrac23 C\,r_s\ln r_s
++ \tfrac13\big(2D - C\big)\,r_s ,
+\]</div>
+<p>with the
+<a class="reference internal" href="hartree-fock-gas.html"><span class="std std-doc">§8.4</span></a> constants <span class="math notranslate nohighlight">\(\gamma = -0.1423\)</span>,
+<span class="math notranslate nohighlight">\(\beta_1 = 1.0529\)</span>, <span class="math notranslate nohighlight">\(\beta_2 = 0.3334\)</span> and <span class="math notranslate nohighlight">\(A = 0.0311\)</span>, <span class="math notranslate nohighlight">\(B = -0.048\)</span>,
+<span class="math notranslate nohighlight">\(C = 0.0020\)</span>, <span class="math notranslate nohighlight">\(D = -0.0116\)</span> (Hartree). Transcribing formulas like these is
+exactly the kind of step that deserves a gate: a dropped <span class="math notranslate nohighlight">\(7/6\)</span> would poison
+every result downstream while looking perfectly plausible. The certificate is
+the <a class="reference internal" href="thomas-fermi.html"><span class="std std-doc">§8.5</span></a> functional-derivative discipline applied to a
+plain function — <span class="math notranslate nohighlight">\(v_{xc}(n)\)</span> must equal the central difference of
+<span class="math notranslate nohighlight">\(n\,\varepsilon_{xc}(n)\)</span>.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">v_c_pz_vec(rs)</span></code>, the two-branch correlation potential
+above, vectorized over an array of Wigner–Seitz radii (boolean masks on
+<code class="docutils literal notranslate"><span class="pre">rs</span> <span class="pre">&gt;=</span> <span class="pre">1</span></code>, as the Setup energy fit does).</p>
+<p><strong>Part b)</strong> Evaluate the assembled <span class="math notranslate nohighlight">\(v_{xc}(n) = \tfrac43 C_x n^{1/3} + v_c\)</span>
+on twenty densities log-spaced over <span class="math notranslate nohighlight">\(n \in [10^{-4}, 10]\)</span>
+(<code class="docutils literal notranslate"><span class="pre">numpy.geomspace</span></code>, with the Setup <code class="docutils literal notranslate"><span class="pre">rs_of_n</span></code> converting).</p>
+<p><strong>Part c)</strong> Certify it against
+<span class="math notranslate nohighlight">\(\big[(n+\delta)\varepsilon_{xc}(n+\delta) - (n-\delta)\varepsilon_{xc}(n-\delta)\big]/2\delta\)</span>
+with <span class="math notranslate nohighlight">\(\delta = 10^{-6}\,n\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy</span></code> arithmetic; relative step, since the
+densities span five decades). Agreement at <span class="math notranslate nohighlight">\(10^{-6}\)</span> certifies the
+transcription; the ladder to every atom below rests on these twenty numbers.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>max relative deviation of v_xc from its definition: 1.15e-10
+sample: at n = 0.01, v_xc = -0.27590 Ha
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1-the-transcription-is-faithful">
+<h3>Validation 1 — the transcription is faithful<a class="headerlink" href="#validation-1-the-transcription-is-faithful" title="Link to this heading">#</a></h3>
+<p>The closed-form potential must match the defining derivative to <span class="math notranslate nohighlight">\(10^{-6}\)</span>
+across all twenty densities, both Perdew–Zunger branches included.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  v_xc equals d(n eps_xc)/dn across five decades   [got 1.15252e-10 vs expected 0 (rtol=0, atol=1e-06)]
+✓  the xc potential is attractive throughout   [electrons dig their own holes]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-engine-and-the-loop-watched">
+<h2>Exercise 2 — The engine, and the loop watched<a class="headerlink" href="#exercise-2-the-engine-and-the-loop-watched" title="Link to this heading">#</a></h2>
+<p>Everything above has been preparation; here the Kohn–Sham scheme becomes a
+program. Equation <a class="reference internal" href="#equation-eq-ks-equations">Eq. 884</a> is solved channel by channel — for
+each angular momentum <span class="math notranslate nohighlight">\(l\)</span> the radial Hamiltonian is tridiagonal on the Setup
+grid, <span class="math notranslate nohighlight">\(1/h^2 - Z/r + v_H + v_{xc} + l(l+1)/2r^2\)</span> on the diagonal and the
+Setup <code class="docutils literal notranslate"><span class="pre">OFF_R</span></code> off it, so <code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code> with
+<code class="docutils literal notranslate"><span class="pre">select=&quot;i&quot;</span></code> returns exactly the lowest states each channel needs — and each
+occupied radial function <span class="math notranslate nohighlight">\(u_i\)</span>, normalized as <span class="math notranslate nohighlight">\(h\sum u_i^2 = 1\)</span>, contributes
+<span class="math notranslate nohighlight">\(f_i u_i^2 / 4\pi r^2\)</span> to the new density. The total energy is the
+double-counting-corrected assembly of <a class="reference internal" href="#equation-eq-ks-energy">Eq. 885</a>, whose four
+terms are the eigenvalue sum, the half-subtracted Hartree integral, the
+subtracted <span class="math notranslate nohighlight">\(\int v_{xc} n\)</span>, and <span class="math notranslate nohighlight">\(E_{xc}\)</span> itself.</p>
+<p>The equations demand self-consistency, and
+<a class="reference internal" href="../00-foundations/root-finding.html"><span class="std std-doc">§0.2</span></a> taught the vocabulary: the SCF
+cycle is a fixed-point map on densities, linear mixing
+<span class="math notranslate nohighlight">\(n \leftarrow (1-\alpha)\,n + \alpha\,n_{\mathrm{new}}\)</span> is damped iteration,
+and the damping trades speed against stability. Helium is the clean test bed.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">solve_atom_lda(Z,</span> <span class="pre">channels,</span> <span class="pre">mixing=0.35,</span> <span class="pre">tol=1e-9,</span> <span class="pre">max_iter=300)</span></code>, the self-consistent spin-unpolarized radial Kohn–Sham LDA
+solver: start from zero <span class="math notranslate nohighlight">\(v_H\)</span> and <span class="math notranslate nohighlight">\(v_{xc}\)</span>, build the exchange–correlation
+potential of each iterate as <span class="math notranslate nohighlight">\(\tfrac43 C_x n^{1/3}\)</span> plus the <code class="docutils literal notranslate"><span class="pre">v_c_pz_vec</span></code> you
+wrote in Exercise 1 (with the Setup <code class="docutils literal notranslate"><span class="pre">rs_of_n</span></code> and <code class="docutils literal notranslate"><span class="pre">hartree_radial</span></code> supplying
+<span class="math notranslate nohighlight">\(r_s\)</span> and <span class="math notranslate nohighlight">\(v_H\)</span>), diagonalize every channel of the <code class="docutils literal notranslate"><span class="pre">channels</span></code> dict
+(mapping <span class="math notranslate nohighlight">\(l\)</span> to the occupations of that channel’s lowest states, so neon is
+<code class="docutils literal notranslate"><span class="pre">{0:</span> <span class="pre">[2,</span> <span class="pre">2],</span> <span class="pre">1:</span> <span class="pre">[6]}</span></code>), mix the new density in linearly, and return
+<code class="docutils literal notranslate"><span class="pre">(E,</span> <span class="pre">eigenvalues,</span> <span class="pre">density,</span> <span class="pre">history)</span></code> with <code class="docutils literal notranslate"><span class="pre">history</span></code> the per-iteration
+<span class="math notranslate nohighlight">\(|\Delta E|\)</span>. <strong>Write this one yourself</strong> — the implementation is the lesson.</p>
+<p><strong>Part b)</strong> Run it on helium at mixing <span class="math notranslate nohighlight">\(\alpha = 0.1, 0.35, 0.7\)</span> and record
+the three <span class="math notranslate nohighlight">\(|\Delta E|\)</span> histories.</p>
+<p><strong>Part c)</strong> Plot the three convergence traces on a <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> log axis and
+confirm the trade: all three reach the <em>same</em> energy to <span class="math notranslate nohighlight">\(10^{-8}\)</span> Ha (a fixed
+point does not care how it is approached), with iteration counts falling as
+<span class="math notranslate nohighlight">\(\alpha\)</span> grows — and with the standing warning that in harder systems (small
+gaps, charge sloshing between distant regions) large <span class="math notranslate nohighlight">\(\alpha\)</span> turns
+oscillatory or divergent, which is why production codes ship with Anderson,
+Broyden, and Pulay accelerators.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alpha = 0.1: 54 iterations, E = -2.83425501 Ha
+alpha = 0.35: 16 iterations, E = -2.83425501 Ha
+alpha = 0.7: 8 iterations, E = -2.83425501 Ha
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ks-mixing">
+<img alt="../../_images/faa524194b61ce3815f1c8f83f2402f0851f860e7a6a59fd48f2144c0f1b5e5a.png" src="../../_images/faa524194b61ce3815f1c8f83f2402f0851f860e7a6a59fd48f2144c0f1b5e5a.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 780 </span><span class="caption-text">The Kohn–Sham self-consistency loop as a damped fixed point: per-iteration energy change for helium at linear mixing <span class="math notranslate nohighlight">\(\alpha = 0.1, 0.35, 0.7\)</span>, all converging geometrically to the same total energy within <span class="math notranslate nohighlight">\(10^{-8}\)</span> Ha, with rate increasing with <span class="math notranslate nohighlight">\(\alpha\)</span>. In harder systems (small gaps, long-range charge sloshing) aggressive mixing destabilizes, which is why production codes accelerate with Anderson or Pulay schemes.</span><a class="headerlink" href="#fig-ks-mixing" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2-the-fixed-point-is-unique">
+<h3>Validation 2 — the fixed point is unique<a class="headerlink" href="#validation-2-the-fixed-point-is-unique" title="Link to this heading">#</a></h3>
+<p>The three runs must agree to <span class="math notranslate nohighlight">\(10^{-8}\)</span> Ha, and the iteration count must fall
+monotonically with <span class="math notranslate nohighlight">\(\alpha\)</span> on this well-behaved system.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  one destination for every damping   [got 1.36417e-09 vs expected 0 (rtol=0, atol=1e-08)]
+✓  heavier damping pays in iterations   [54 &gt; 16 &gt; 8]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-helium-beryllium-neon-the-working-theory">
+<h2>Exercise 3 — Helium, beryllium, neon: the working theory<a class="headerlink" href="#exercise-3-helium-beryllium-neon-the-working-theory" title="Link to this heading">#</a></h2>
+<p>The engine now earns its keep on three closed-shell atoms against the standard
+local-density reference values (the NIST atomic benchmarks; the uniform grid
+and the correlation parametrization together account for differences at a few
+parts in <span class="math notranslate nohighlight">\(10^4\)</span> of the totals): total
+energies <span class="math notranslate nohighlight">\(-2.8348\)</span>, <span class="math notranslate nohighlight">\(-14.4472\)</span>, <span class="math notranslate nohighlight">\(-128.2335\)</span> Ha, and the orbital-energy
+spectra including neon’s <span class="math notranslate nohighlight">\(2p\)</span> channel — the volume’s first <span class="math notranslate nohighlight">\(l &gt; 0\)</span> state,
+carried by the centrifugal term in the engine you wrote.</p>
+<p><strong>Part a)</strong> Solve He (<span class="math notranslate nohighlight">\(1s^2\)</span>), Be (<span class="math notranslate nohighlight">\(1s^2 2s^2\)</span>), and Ne (<span class="math notranslate nohighlight">\(1s^2 2s^2 2p^6\)</span>)
+with the <code class="docutils literal notranslate"><span class="pre">solve_atom_lda</span></code> you wrote in Exercise 2, and tabulate totals and
+eigenvalues against the
+references (He <span class="math notranslate nohighlight">\(\varepsilon_{1s} = -0.5704\)</span>; Be <span class="math notranslate nohighlight">\(-3.8564, -0.2057\)</span>; Ne
+<span class="math notranslate nohighlight">\(-30.306, -1.3228, -0.4980\)</span> Ha).</p>
+<p><strong>Part b)</strong> Plot beryllium’s radial density <span class="math notranslate nohighlight">\(4\pi r^2 n\)</span>: the two shells are
+back — the structure Thomas–Fermi could not make
+(<a class="reference internal" href="thomas-fermi.html#fig-tf-density"><span class="std std-numref">Fig. 772</span></a>) restored by exactly the orbital kinetic energy
+Kohn–Sham reinstated. Alongside, tabulate the three-way comparison for He and
+Be: LDA total vs the Hartree–Fock limits of
+<a class="reference internal" href="hartree-fock-atoms.html"><span class="std std-doc">§8.3</span></a> vs exact — LDA’s <em>totals</em> are worse than
+Hartree–Fock’s (self-interaction inflates them), yet its energy <em>differences</em>
+(the currency of chemistry) compete, which is the paradox that made DFT’s
+fortune.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>He: E = -2.8343 Ha (ref -2.8348), eigenvalues: {0: [-0.5702]}
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Be: E = -14.4456 Ha (ref -14.4472), eigenvalues: {0: [-3.8554, -0.206]}
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ne: E = -128.2015 Ha (ref -128.2335), eigenvalues: {0: [-30.2951, -1.322], 1: [-0.4978]}
+
+three-way ledger (Ha):
+  He: LDA -2.8343  HF -2.8617  exact -2.90372
+  Be: LDA -14.4456  HF -14.573  exact -14.6674
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ks-shells">
+<img alt="../../_images/8deed215c42ce4bd3bceee6384414544520130eb2d80e10073138469d9f6143a.png" src="../../_images/8deed215c42ce4bd3bceee6384414544520130eb2d80e10073138469d9f6143a.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 781 </span><span class="caption-text">Shells, restored: the radial density <span class="math notranslate nohighlight">\(4\pi r^2 n(r)\)</span> of beryllium from the self-consistent Kohn–Sham LDA calculation. The two-hump structure that the orbital-free Thomas–Fermi theory of §8.5 was constitutionally unable to produce returns with the orbital kinetic energy, at the cost of solving one-electron equations self-consistently.</span><a class="headerlink" href="#fig-ks-shells" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3-the-reference-values-hit">
+<h3>Validation 3 — the reference values, hit<a class="headerlink" href="#validation-3-the-reference-values-hit" title="Link to this heading">#</a></h3>
+<p>All three totals within <span class="math notranslate nohighlight">\(5\times10^{-4}\)</span> relative of the references (grid plus
+parametrization flavor), every tabulated eigenvalue within <span class="math notranslate nohighlight">\(3\times10^{-3}\)</span>,
+and the LDA totals must sit <em>above</em> the Hartree–Fock limits for He and Be:
+self-interaction, visible in the bottom line.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  He LDA total energy   [got -2.83426 vs expected -2.8348 (rtol=0.0005, atol=1e-09)]
+✓  He eigenvalue (l=0, state 0)   [got -0.570213 vs expected -0.5704 (rtol=0.003, atol=1e-09)]
+✓  Be LDA total energy   [got -14.4456 vs expected -14.4472 (rtol=0.0005, atol=1e-09)]
+✓  Be eigenvalue (l=0, state 0)   [got -3.85538 vs expected -3.8564 (rtol=0.003, atol=1e-09)]
+✓  Be eigenvalue (l=0, state 1)   [got -0.206006 vs expected -0.2057 (rtol=0.003, atol=1e-09)]
+✓  Ne LDA total energy   [got -128.201 vs expected -128.233 (rtol=0.0005, atol=1e-09)]
+✓  Ne eigenvalue (l=0, state 0)   [got -30.2951 vs expected -30.306 (rtol=0.003, atol=1e-09)]
+✓  Ne eigenvalue (l=0, state 1)   [got -1.32204 vs expected -1.3228 (rtol=0.003, atol=1e-09)]
+✓  Ne eigenvalue (l=1, state 0)   [got -0.49782 vs expected -0.498 (rtol=0.003, atol=1e-09)]
+✓  LDA totals sit above the HF limits (self-interaction shows)   [totals are the wrong scoreboard; differences are the right one]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-one-electron-repelling-itself">
+<h2>Exercise 4 — One electron, repelling itself<a class="headerlink" href="#exercise-4-one-electron-repelling-itself" title="Link to this heading">#</a></h2>
+<p>The cleanest indictment in density-functional theory: hydrogen. One electron,
+so the exact answer is <span class="math notranslate nohighlight">\(E = -1/2\)</span> Ha with <span class="math notranslate nohighlight">\(\varepsilon_{1s} = -1/2\)</span>, and the
+exact functional would deliver it — the Hartree self-repulsion must be
+<em>exactly</em> cancelled by exchange-correlation, as Hartree–Fock’s
+<span class="math notranslate nohighlight">\(K_{11} = J_{11}\)</span> did in <a class="reference internal" href="hartree-fock-atoms.html"><span class="std std-doc">§8.3</span></a>. The LDA cannot
+manage the cancellation: its <span class="math notranslate nohighlight">\(v_{xc}\)</span>, built for a sea of electrons, only
+roughly offsets <span class="math notranslate nohighlight">\(v_H\)</span> for a single one. (The calculation is spin-unpolarized,
+the cleanest form of the demonstration; the spin-polarized LSD variant
+softens the numbers without curing the disease.)</p>
+<p><strong>Part a)</strong> Solve hydrogen with your Exercise 2 <code class="docutils literal notranslate"><span class="pre">solve_atom_lda</span></code> (<code class="docutils literal notranslate"><span class="pre">{0:</span> <span class="pre">[1]}</span></code>
+occupation) and report <span class="math notranslate nohighlight">\(E\)</span> and <span class="math notranslate nohighlight">\(\varepsilon_{1s}\)</span> against the exact <span class="math notranslate nohighlight">\(-1/2\)</span>
+and <span class="math notranslate nohighlight">\(-1/2\)</span>.</p>
+<p><strong>Part b)</strong> Assemble the converged <span class="math notranslate nohighlight">\(v_{xc}\)</span> from the Setup exchange
+coefficient and your Exercise 1 <code class="docutils literal notranslate"><span class="pre">v_c_pz_vec</span></code>, then plot the residual
+potential <span class="math notranslate nohighlight">\(v_H + v_{xc}\)</span> (which the exact
+functional would make identically zero) against <span class="math notranslate nohighlight">\(v_H\)</span> itself: the
+uncancelled self-interaction, in person. The energy misses by <span class="math notranslate nohighlight">\(11\%\)</span>; the
+<em>eigenvalue</em> misses by half — and since <a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a> proved
+the exact HOMO equals <span class="math notranslate nohighlight">\(-I\)</span>, the LDA eigenvalue’s failure is not cosmetic but
+the seed of every underestimated gap in <a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>H in LDA: E = -0.44589 Ha (exact -0.5, error +10.8%)
+          eps_1s = -0.23364 Ha (exact -0.5, error +53.3%)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ks-sie">
+<img alt="../../_images/d5fed2c70664b04ea88d4bc9f0d4576c7995d4ef6a655a34b8ccd306f9c926b5.png" src="../../_images/d5fed2c70664b04ea88d4bc9f0d4576c7995d4ef6a655a34b8ccd306f9c926b5.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 782 </span><span class="caption-text">Self-interaction in person: for the hydrogen atom the exact functional would cancel the Hartree self-repulsion <span class="math notranslate nohighlight">\(v_H\)</span> (grey) exactly with <span class="math notranslate nohighlight">\(v_{xc}\)</span>, leaving zero; the LDA leaves the residual <span class="math notranslate nohighlight">\(v_H + v_{xc}\)</span> (ink), a spurious repulsive shell that raises the total energy to <span class="math notranslate nohighlight">\(-0.446\)</span> Ha (exact: <span class="math notranslate nohighlight">\(-1/2\)</span>) and the eigenvalue to <span class="math notranslate nohighlight">\(-0.234\)</span> Ha (exact: <span class="math notranslate nohighlight">\(-1/2\)</span>): the orbital energy fails by half, the seed of the band-gap problem.</span><a class="headerlink" href="#fig-ks-sie" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4-the-disaster-quantified">
+<h3>Validation 4 — the disaster, quantified<a class="headerlink" href="#validation-4-the-disaster-quantified" title="Link to this heading">#</a></h3>
+<p>The energy must land at the standard unpolarized-LDA value <span class="math notranslate nohighlight">\(-0.4459\)</span> Ha (an
+<span class="math notranslate nohighlight">\(11\%\)</span> miss), the eigenvalue at <span class="math notranslate nohighlight">\(-0.2336\)</span> Ha (a <span class="math notranslate nohighlight">\(53\%\)</span> miss against the
+ionization theorem), and the residual potential must be genuinely repulsive
+where the electron lives (positive at the density’s peak shell).</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the unpolarized-LDA hydrogen energy   [got -0.445892 vs expected -0.4459 (rtol=0.001, atol=1e-09)]
+✓  the LDA hydrogen eigenvalue   [got -0.233643 vs expected -0.2336 (rtol=0.002, atol=1e-09)]
+✓  the uncancelled self-interaction is repulsive at the density peak   [0.299 Ha]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-an-lda-of-our-own-the-laboratory-judged-exactly">
+<h2>Exercise 5 — An LDA of our own: the laboratory judged exactly<a class="headerlink" href="#exercise-5-an-lda-of-our-own-the-laboratory-judged-exactly" title="Link to this heading">#</a></h2>
+<p>Every LDA number so far leaned on the three-dimensional gas. The laboratory of
+<a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a> deserves better: its interaction is the soft
+<span class="math notranslate nohighlight">\(w(u) = 1/\sqrt{u^2+1}\)</span>, so the <em>honest</em> local approximation for it must be
+built from the uniform 1-D gas with that same interaction — a functional
+constructed from scratch, for our own world, and then judged against the exact
+answer. The uniform-gas exchange comes out by the
+<a class="reference internal" href="hartree-fock-gas.html"><span class="std std-doc">§8.4</span></a> route: the one-body density matrix of the 1-D
+unpolarized gas is <span class="math notranslate nohighlight">\(\rho_\sigma(u) = \sin(k_F u)/\pi u\)</span> with
+<span class="math notranslate nohighlight">\(k_F = \pi n/2\)</span>, so</p>
+<div class="math notranslate nohighlight" id="equation-eq-ks-lab-ex">
+<span class="eqno">(887)<a class="headerlink" href="#equation-eq-ks-lab-ex" title="Link to this equation">#</a></span>\[\varepsilon_x(n) = -\frac{2}{n}\int_0^\infty
+\left(\frac{\sin k_F u}{\pi u}\right)^{\!2} \frac{du}{\sqrt{u^2+1}},\]</div>
+<p>with an independent cross-check in momentum space: the same quantity via the
+interaction’s Fourier transform <span class="math notranslate nohighlight">\(\tilde w(q) = 2K_0(|q|)\)</span> (a modified Bessel
+function, <code class="docutils literal notranslate"><span class="pre">scipy.special.k0</span></code>) integrated over two Fermi seas. Exchange only,
+deliberately: correlation of the 1-D gas would need its own quantum Monte
+Carlo, and the exchange-only comparison against exact and Hartree–Fock is
+already the lesson.</p>
+<p><strong>Part a)</strong> Tabulate <a class="reference internal" href="#equation-eq-ks-lab-ex">Eq. 887</a> by <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> on 160
+densities to <span class="math notranslate nohighlight">\(n = 1.6\)</span>, cross-check three of them against the <span class="math notranslate nohighlight">\(K_0\)</span> route
+(<code class="docutils literal notranslate"><span class="pre">scipy.integrate.dblquad</span></code> over the two Fermi seas, agreement below <span class="math notranslate nohighlight">\(10^{-4}\)</span> —
+the <span class="math notranslate nohighlight">\(K_0\)</span> kernel’s logarithmic point limits that route’s quadrature),
+and build <span class="math notranslate nohighlight">\(v_x(n)\)</span> as the derivative of a <code class="docutils literal notranslate"><span class="pre">scipy.interpolate.CubicSpline</span></code>
+through <span class="math notranslate nohighlight">\(n\,\varepsilon_x(n)\)</span>.</p>
+<p><strong>Part b)</strong> Write the 1-D Kohn–Sham loop for the laboratory: the
+<a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a> grid and its dense <span class="math notranslate nohighlight">\(v_H\)</span> kernel, the Part a
+spline derivative as <span class="math notranslate nohighlight">\(v_x\)</span>, density mixing <span class="math notranslate nohighlight">\(1/2\)</span>, and the total energy
+assembled <em>directly</em> as
+<span class="math notranslate nohighlight">\(2\langle\varphi|T + v_{\mathrm{ext}}|\varphi\rangle + E_H + E_x\)</span>, which
+sidesteps the double-counting bookkeeping of <a class="reference internal" href="#equation-eq-ks-energy">Eq. 885</a> entirely.
+The Exercise 2 engine’s radial geometry does not carry over, so this loop is
+new work. <strong>Write this one yourself</strong> — the implementation is the lesson.</p>
+<p><strong>Part c)</strong> Place the result on the laboratory’s ladder: exact <span class="math notranslate nohighlight">\(-2.2386\)</span>,
+Hartree–Fock <span class="math notranslate nohighlight">\(-2.2245\)</span>, and now LDA-exchange — plus the eigenvalue against
+the ionization theorem the exact functional passed at <span class="math notranslate nohighlight">\(0.3\%\)</span> in
+<a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n = 0.1: real-space -0.139273 vs k-space -0.139278 Ha
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n = 0.4: real-space -0.297788 vs k-space -0.297790 Ha
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n = 0.8: real-space -0.379421 vs k-space -0.379422 Ha
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ladder: exact -2.23855  HF -2.2245  LDA-x -2.15845 Ha
+eps_HOMO = -0.46732 vs -I = -0.75489 (+38%)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ks-lab">
+<img alt="../../_images/f5e68311a76efbce0c0e64dfdae298d589d00e2a0838ce241ddeef713ea948db.png" src="../../_images/f5e68311a76efbce0c0e64dfdae298d589d00e2a0838ce241ddeef713ea948db.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 783 </span><span class="caption-text">A local-density approximation built from scratch for the laboratory’s own interaction: the uniform-gas exchange energy per electron of Eq. 5 computed by the real-space density-matrix route (curve) and cross-checked by the momentum-space Bessel route (<span class="math notranslate nohighlight">\(\tilde w = 2K_0\)</span>, amber points, agreement below <span class="math notranslate nohighlight">\(10^{-4}\)</span>), and the resulting self-consistent LDA-exchange density of the laboratory against the exact one. The LDA lands at <span class="math notranslate nohighlight">\(-2.158\)</span> Ha on a ladder whose exact rung is <span class="math notranslate nohighlight">\(-2.2386\)</span>: locality costs 3.6% of the energy and, more tellingly, 38% of the frontier eigenvalue.</span><a class="headerlink" href="#fig-ks-lab" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5-the-ladder-s-fourth-rung">
+<h3>Validation 5 — the ladder’s fourth rung<a class="headerlink" href="#validation-5-the-ladder-s-fourth-rung" title="Link to this heading">#</a></h3>
+<p>The two exchange routes must agree below <span class="math notranslate nohighlight">\(10^{-4}\)</span> (the <span class="math notranslate nohighlight">\(K_0\)</span> kernel’s
+logarithmic point limits the momentum-space quadrature); the LDA-exchange total must
+land at its measured <span class="math notranslate nohighlight">\(-2.1584\)</span> Ha (above Hartree–Fock — locality <em>loses</em>
+exchange energy — and <span class="math notranslate nohighlight">\(3.6\%\)</span> above exact); and the frontier eigenvalue must
+miss the ionization theorem by its measured <span class="math notranslate nohighlight">\(38\%\)</span>: the hydrogen story,
+recurring in a system with a known exact answer.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  two derivations of the gas exchange agree   [max deviation 4.0e-05]
+✓  the laboratory&#39;s LDA-exchange energy   [got -2.15845 vs expected -2.15845 (rtol=0.001, atol=1e-09)]
+✓  the energy ladder orders correctly   [-2.1584 &gt; -2.2245 &gt; -2.23855]
+✓  the LDA frontier eigenvalue   [got -0.467317 vs expected -0.46732 (rtol=0.002, atol=1e-09)]
+✓  the ionization theorem fails by over 30% in LDA   [38% (exact functional: 0.3%)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-face-off-the-lda-potential-against-the-exact-one">
+<h2>Exercise 6 — Face-off: the LDA potential against the exact one<a class="headerlink" href="#exercise-6-face-off-the-lda-potential-against-the-exact-one" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a> recovered the <em>exact</em> <span class="math notranslate nohighlight">\(v_{xc}\)</span> of the laboratory
+by inversion; Exercise 5 built the LDA’s. Laying one over the other is the
+movement’s most honest picture, and it teaches a distinction every DFT
+practitioner eventually internalizes: <em>energies forgive, potentials punish</em>.
+The LDA exchange <strong>energy</strong> of the laboratory lands within ten percent of the
+exact <span class="math notranslate nohighlight">\(E_x = -J/2\)</span> (the integral averages over the hole, and the sum rule
+does quiet work); the LDA <strong>potential</strong> — the functional’s derivative, the
+thing the orbitals actually feel — is off by nearly <span class="math notranslate nohighlight">\(40\%\)</span> at the very center
+and collapses in the tail, where the exact potential falls as the physical
+<span class="math notranslate nohighlight">\(-1/|x|\)</span> (the image of the hole left behind) while the LDA follows the
+density’s exponential decay. A potential too shallow at the frontier is
+precisely why LDA eigenvalues sit too high (Exercises 4 and 5) and why gaps
+come out too small (<a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a>).</p>
+<p><strong>Part a)</strong> Recover the exact <span class="math notranslate nohighlight">\(v_{xc}\)</span> by rerunning the
+<a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a> inversion on the exact density (the update rule
+restated here on the Exercise 5 grid, <span class="math notranslate nohighlight">\(\alpha = 0.2\)</span> to <span class="math notranslate nohighlight">\(10^{-9}\)</span>; exchange-tail gauge as
+there), and evaluate the Exercise 5 LDA potential on the same exact density.</p>
+<p><strong>Part b)</strong> Plot both, and quantify the three verdicts by <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arithmetic:
+the <em>energy</em> verdict (<span class="math notranslate nohighlight">\(E_x^{\mathrm{LDA}} = \int n\,\varepsilon_x(n)\)</span> by
+<code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code> against the exact <span class="math notranslate nohighlight">\(E_x = -J/2\)</span>, within ten percent), the
+<em>potential</em> verdict (the relative gap at the center, near <span class="math notranslate nohighlight">\(40\%\)</span>), and the
+<em>tail</em> verdict (at <span class="math notranslate nohighlight">\(x = 5\)</span> the exact potential exceeds the LDA’s by more than
+a factor of 20).</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>energy:    E_x LDA -0.6526 vs exact -J/2 = -0.7183 (9.1%)
+potential: center relative gap 37.6%
+tail:      exact/LDA magnitude ratio at x = 5: 40.7
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-ks-faceoff">
+<img alt="../../_images/da20ab9f89ed184ec571b66eb4f9e406b2f4501c24876493abdd031f42e743df.png" src="../../_images/da20ab9f89ed184ec571b66eb4f9e406b2f4501c24876493abdd031f42e743df.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 784 </span><span class="caption-text">The face-off: the exact exchange-correlation potential of the laboratory recovered by the §8.6 inversion (ink) against the from-scratch LDA-exchange potential evaluated on the same exact density (amber). The exchange energy integral agrees within 10% (energies forgive: the hole-averaged integral benefits from the sum rule), but the potential — what the orbitals feel — misses by 38% at the center and collapses in the tail, where the exact <span class="math notranslate nohighlight">\(v_{xc}\)</span> falls as the physical <span class="math notranslate nohighlight">\(-1/|x|\)</span> while the LDA follows the density’s exponential decay: the too-shallow frontier that misplaces every LDA eigenvalue.</span><a class="headerlink" href="#fig-ks-faceoff" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6-energies-forgive-potentials-punish">
+<h3>Validation 6 — energies forgive, potentials punish<a class="headerlink" href="#validation-6-energies-forgive-potentials-punish" title="Link to this heading">#</a></h3>
+<p>The exchange <em>energy</em> must land within <span class="math notranslate nohighlight">\(12\%\)</span> of the exact <span class="math notranslate nohighlight">\(-J/2\)</span>; the
+<em>potential</em> must miss by <span class="math notranslate nohighlight">\(30\)</span>–<span class="math notranslate nohighlight">\(45\%\)</span> at the center (measured <span class="math notranslate nohighlight">\(38\%\)</span>); and the
+<span class="math notranslate nohighlight">\(x = 5\)</span> magnitude ratio must exceed 20 (measured <span class="math notranslate nohighlight">\(41\)</span>): one functional, three
+report cards, all gated.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the LDA exchange energy lands within 12% of exact   [9.1% (energies forgive)]
+✓  the LDA potential misses by ~40% at the center   [37.6% (potentials punish)]
+✓  the LDA tail dies too fast by over 20x at x = 5   [exact/LDA magnitude ratio 40.7]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">With your assistant</p>
+<p>The engine’s occupations dict makes ions one edit away. Have your assistant
+compute the LDA first ionization energy of neon by total-energy differences
+(<span class="math notranslate nohighlight">\(I = E(\mathrm{Ne}^+) - E(\mathrm{Ne})\)</span> with occupations
+<code class="docutils literal notranslate"><span class="pre">{0:</span> <span class="pre">[2,</span> <span class="pre">2],</span> <span class="pre">1:</span> <span class="pre">[5]}</span></code>), then run the check that is yours alone: the
+<span class="math notranslate nohighlight">\(\Delta\)</span>SCF value must land within <span class="math notranslate nohighlight">\(15\%\)</span> of the measured <span class="math notranslate nohighlight">\(21.56\)</span> eV — far
+better than the <span class="math notranslate nohighlight">\(-\varepsilon_{2p} = 13.5\)</span> eV Koopmans-style reading, because
+total-energy <em>differences</em> let the self-interaction error largely cancel
+(<code class="docutils literal notranslate"><span class="pre">numpy</span></code> arithmetic, the <a class="reference internal" href="many-electron-problem.html"><span class="std std-doc">§8.1</span></a> eV conversion).
+The check is yours.</p>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>The construction is built and its books are open. The LDA potential was
+assembled from the <a class="reference internal" href="hartree-fock-gas.html"><span class="std std-doc">§8.4</span></a> deliverable and certified
+against its defining derivative at <span class="math notranslate nohighlight">\(10^{-6}\)</span> across five decades of density.
+The self-consistent loop behaved as the damped fixed point of
+<a class="reference internal" href="../00-foundations/root-finding.html"><span class="std std-doc">§0.2</span></a>: one destination for every
+damping, iterations falling with <span class="math notranslate nohighlight">\(\alpha\)</span>. The engine hit the standard
+references — He <span class="math notranslate nohighlight">\(-2.8343\)</span>, Be <span class="math notranslate nohighlight">\(-14.4456\)</span>, Ne <span class="math notranslate nohighlight">\(-128.20\)</span> Ha (totals to
+<span class="math notranslate nohighlight">\(5\times10^{-4}\)</span>, eigenvalues including neon’s <span class="math notranslate nohighlight">\(2p\)</span> to <span class="math notranslate nohighlight">\(3\times10^{-3}\)</span>) —
+and beryllium’s two shells returned with the orbital kinetic energy. Then the
+ledger: hydrogen’s self-interaction disaster (<span class="math notranslate nohighlight">\(-0.446\)</span> Ha, eigenvalue
+<span class="math notranslate nohighlight">\(-0.234\)</span>: half of <span class="math notranslate nohighlight">\(-1/2\)</span>); a from-scratch LDA for the laboratory’s own
+interaction (two derivations of its gas exchange agreeing below <span class="math notranslate nohighlight">\(10^{-4}\)</span>)
+landing at <span class="math notranslate nohighlight">\(-2.158\)</span> Ha on the exact ladder and missing the ionization theorem
+by <span class="math notranslate nohighlight">\(38\%\)</span> where the exact functional missed by <span class="math notranslate nohighlight">\(0.3\%\)</span>; and the face-off’s
+three report cards — the LDA exchange <em>energy</em> within <span class="math notranslate nohighlight">\(10\%\)</span> of the exact
+<span class="math notranslate nohighlight">\(-J/2\)</span>, the <em>potential</em> off by <span class="math notranslate nohighlight">\(38\%\)</span> at the center, and the tail too shallow
+by a factor of <span class="math notranslate nohighlight">\(41\)</span> at <span class="math notranslate nohighlight">\(x = 5\)</span>: energies forgive, potentials punish.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The frontier failures (eigenvalues high, tails shallow) are not random:
+they trace to exact constraints the LDA violates — piecewise linearity in
+particle number above all. <a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a> computes
+those constraints on the laboratory and assembles DFT’s deepest practical
+issue, the band gap, from them.</p></li>
+<li><p>Everything beyond LDA — gradient corrections, meta-GGAs, hybrids mixing in
+the exact exchange of <a class="reference internal" href="hartree-fock-atoms.html"><span class="std std-doc">§8.3</span></a> — is an attempt to
+keep the sum rule’s dividends while fixing the tails and the
+self-interaction; Martin <span class="bibtex-citation" id="id6">[<a class="reference internal" href="#id78" title="Richard M. Martin. Electronic Structure: Basic Theory and Practical Methods. Cambridge University Press, Cambridge, 2004.">Mar04</a>]</span>, Ch. 8, surveys the ladder.</p></li>
+<li><p>The engine built here is two steps from a plane-wave solid-state code:
+swap the radial grid for the plane waves of
+<a class="reference internal" href="plane-waves-pseudopotentials.html"><span class="std std-doc">§8.10</span></a> and the nucleus for a
+pseudopotential. The companion MMM course drives exactly such codes; the
+machinery is no longer a black box.</p></li>
+</ul>
+<div class="docutils container" id="id7">
+<div role="list" class="citation-list">
+<div class="citation" id="id89" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>KS65<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id5">2</a>)</span>
+<p>W. Kohn and L. J. Sham. Self-consistent equations including exchange and correlation effects. <em>Physical Review</em>, 140:A1133–A1138, 1965. <a class="reference external" href="https://doi.org/10.1103/PhysRev.140.A1133">doi:10.1103/PhysRev.140.A1133</a>.</p>
+</div>
+<div class="citation" id="id78" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Mar04<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id6">2</a>)</span>
+<p>Richard M. Martin. <em>Electronic Structure: Basic Theory and Practical Methods</em>. Cambridge University Press, Cambridge, 2004.</p>
+</div>
+<div class="citation" id="id80" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">PY89</a><span class="fn-bracket">]</span></span>
+<p>Robert G. Parr and Weitao Yang. <em>Density-Functional Theory of Atoms and Molecules</em>. Oxford University Press, New York, 1989.</p>
+</div>
+<div class="citation" id="id92" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">PZ81</a><span class="fn-bracket">]</span></span>
+<p>J. P. Perdew and Alex Zunger. Self-interaction correction to density-functional approximations for many-electron systems. <em>Physical Review B</em>, 23:5048–5079, 1981. <a class="reference external" href="https://doi.org/10.1103/PhysRevB.23.5048">doi:10.1103/PhysRevB.23.5048</a>.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/08-electronic-structure"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="hohenberg-kohn.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">8.6 Hohenberg–Kohn and the Constrained Search</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="exact-conditions-band-gap.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">8.8 Exact Conditions and the Band-Gap Problem</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-construction">The construction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-local-density-approximation">The local-density approximation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-lda-potential-assembled-and-certified">Exercise 1 — The LDA potential, assembled and certified</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-transcription-is-faithful">Validation 1 — the transcription is faithful</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-engine-and-the-loop-watched">Exercise 2 — The engine, and the loop watched</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-the-fixed-point-is-unique">Validation 2 — the fixed point is unique</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-helium-beryllium-neon-the-working-theory">Exercise 3 — Helium, beryllium, neon: the working theory</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-the-reference-values-hit">Validation 3 — the reference values, hit</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-one-electron-repelling-itself">Exercise 4 — One electron, repelling itself</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-the-disaster-quantified">Validation 4 — the disaster, quantified</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-an-lda-of-our-own-the-laboratory-judged-exactly">Exercise 5 — An LDA of our own: the laboratory judged exactly</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-the-ladder-s-fourth-rung">Validation 5 — the ladder’s fourth rung</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-face-off-the-lda-potential-against-the-exact-one">Exercise 6 — Face-off: the LDA potential against the exact one</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-energies-forgive-potentials-punish">Validation 6 — energies forgive, potentials punish</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1659 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="6.17 The Hydrogen Atom" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/hydrogen-atom.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: This is the notebook the whole volume has been building toward. Every tool is now in hand — the eigenvalue solver of §6.10, the spherical ..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: This is the notebook the whole volume has been building toward. Every tool is now in hand — the eigenvalue solver of §6.10, the spherical ..." />
+
+    <title>6.17 The Hydrogen Atom &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/06-quantum-mechanics/hydrogen-atom';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/hydrogen-atom.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field" href="spin-magnetic.html" />
+    <link rel="prev" title="6.16 The Three-Dimensional Schrödinger Equation and Central Potentials" href="central-potentials-3d.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VI — Quantum Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-electronic-structure/index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/06-quantum-mechanics/hydrogen-atom.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/06-quantum-mechanics/hydrogen-atom.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/06-quantum-mechanics/hydrogen-atom.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/06-quantum-mechanics/hydrogen-atom.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>6.17 The Hydrogen Atom</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-coulomb-problem">The Coulomb problem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-rydberg-spectrum">The Rydberg spectrum</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-three-quantum-numbers-and-the-orbitals">The three quantum numbers and the orbitals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-l-degeneracy-and-the-hidden-symmetry">The <span class="math notranslate nohighlight">\(l\)</span>-degeneracy and the hidden symmetry</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shell-degeneracy-and-the-periodic-table">Shell degeneracy and the periodic table</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#realism-caveats">Realism caveats</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-coulomb-radial-equation-and-the-ground-state">Exercise 1 — The Coulomb radial equation and the ground state</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-rydberg-spectrum">Exercise 2 — The Rydberg spectrum</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-spectral-lines-lyman-balmer-paschen">Exercise 3 — Spectral lines: Lyman, Balmer, Paschen</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-orbitals-radial-functions-and-shapes">Exercise 4 — The orbitals: radial functions and shapes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-most-probable-radius-and-the-bohr-radius">Exercise 5 — The most probable radius and the Bohr radius</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-l-degeneracy-and-the-hidden-symmetry">Exercise 6 — The <span class="math notranslate nohighlight">\(l\)</span>-degeneracy and the hidden symmetry</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-shell-degeneracy-and-the-periodic-table-student">Exercise 7 — Shell degeneracy and the periodic table <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-hydrogen-like-ions-and-scaling-student">Exercise 8 — Hydrogen-like ions and scaling <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-the-atom-that-built-the-theory-synthesis">Exercise 9 — The atom that built the theory <em>(synthesis)</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-hydrogen-atom">
+<h1>6.17 The Hydrogen Atom<a class="headerlink" href="#the-hydrogen-atom" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VI — Quantum Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;6.17
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">The triumph. Put the Coulomb attraction of a proton for an electron into the radial equation, and out come the energies that explain the hydrogen spectral lines, the orbitals that shape chemistry, and a surprise: the energy depends only on the principal quantum number, not on angular momentum, so the s, p, and d states of a shell all share one energy. That extra degeneracy is no accident — it is the signature of a hidden symmetry, the same one that keeps the planets&#x27; orbits from precessing.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;180–220 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>This is the notebook the whole volume has been building toward. Every tool is now in hand — the
+eigenvalue solver of <a class="reference internal" href="schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a>, the spherical harmonics of <a class="reference internal" href="orbital-angular-momentum.html"><span class="std std-doc">§6.15</span></a>, and the radial reduction of <a class="reference internal" href="central-potentials-3d.html"><span class="std std-doc">§6.16</span></a> — and we
+point all of them at the one potential that matters most: the <strong>Coulomb attraction</strong> of a proton for an
+electron, <span class="math notranslate nohighlight">\(V(r)=-Z/r\)</span>. What comes out is the <strong>hydrogen atom</strong>, the first real atom ever solved exactly,
+and the calculation that turned quantum mechanics from a promising idea into the established theory of
+matter.</p>
+<p>It delivers two triumphs. The first is the <strong>Rydberg spectrum</strong> <span class="math notranslate nohighlight">\(E_n=-13.6\,Z^2/n^2\,\)</span>eV: feeding
+<span class="math notranslate nohighlight">\(V=-Z/r\)</span> into the radial equation of <a class="reference internal" href="central-potentials-3d.html"><span class="std std-doc">§6.16</span></a> yields bound states whose energies depend on a single integer
+<span class="math notranslate nohighlight">\(n\)</span>, and whose <em>differences</em> are exactly the spectral lines — Lyman, Balmer, Paschen — that
+spectroscopists had catalogued for decades without understanding. Bohr had guessed this formula in 1913
+from a model he knew was provisional; here Schrödinger’s equation produces it exactly, on a grid, in
+seconds. The second triumph is the <strong>orbitals</strong> <span class="math notranslate nohighlight">\(\psi_{n,l,m}=R_{n,l}(r)Y_l^m(\theta,\varphi)\)</span> — the
+1s, 2s, 2p, 3d shapes that organize all of chemistry, labelled by three quantum numbers: <span class="math notranslate nohighlight">\(n\)</span> (the shell),
+<span class="math notranslate nohighlight">\(l\)</span> (angular momentum, <span class="math notranslate nohighlight">\(0\le l\le n-1\)</span>), and <span class="math notranslate nohighlight">\(m\)</span> (orientation).</p>
+<p>And then the surprise. The Coulomb energy depends <strong>only on <span class="math notranslate nohighlight">\(n\)</span>, not on <span class="math notranslate nohighlight">\(l\)</span></strong>: the 2s and 2p states,
+though shaped completely differently, have <em>exactly</em> the same energy. Rotational symmetry alone would
+only make the <span class="math notranslate nohighlight">\(2l+1\)</span> orientations degenerate; this extra “accidental” <span class="math notranslate nohighlight">\(l\)</span>-degeneracy is special to the
+<span class="math notranslate nohighlight">\(1/r\)</span> potential, and it is no accident at all. It is the fingerprint of a <strong>hidden symmetry</strong> — the
+conservation of the quantum <strong>Runge–Lenz vector</strong>, which enlarges the rotation group <span class="math notranslate nohighlight">\(SO(3)\)</span> to <span class="math notranslate nohighlight">\(SO(4)\)</span>,
+the very same conserved quantity that keeps a classical Kepler orbit from precessing (the thread from
+Volumes I, II, and IV, where Mercury’s <em>failure</em> to close revealed relativity). Counting a shell’s states
+gives <span class="math notranslate nohighlight">\(n^2\)</span> orbitals, <span class="math notranslate nohighlight">\(2n^2\)</span> with spin — exactly the <span class="math notranslate nohighlight">\(2,8,18,32\)</span> capacities of the periodic table’s rows.</p>
+<p>As in every Volume VI notebook, each exercise opens with a <strong>crystal-clear statement</strong> and enumerated parts, each naming the exact operation — the <a class="reference internal" href="central-potentials-3d.html"><span class="std std-doc">§6.16</span></a> radial reduction <span class="math notranslate nohighlight">\(u=rR\)</span> with the Coulomb <span class="math notranslate nohighlight">\(V_{\text{eff}}
+=-Z/r+l(l+1)/2r^2\)</span>, the efficient <code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code> for the radial eigenproblem, and
+<code class="docutils literal notranslate"><span class="pre">scipy.special.genlaguerre</span></code> for the analytic hydrogen radial functions in the comparison.</p>
+<blockquote>
+<div><p><strong>Units and method notes.</strong> We work in <strong>atomic units</strong> (<span class="math notranslate nohighlight">\(\hbar=m_e=e=4\pi\varepsilon_0=1\)</span>), so
+energies are in <strong>Hartree</strong> (<span class="math notranslate nohighlight">\(1\,\text{Ha}=27.211\,\)</span>eV) and lengths in <strong>Bohr radii</strong> (<span class="math notranslate nohighlight">\(a_0=1\)</span>, i.e.
+<span class="math notranslate nohighlight">\(0.529\,\)</span>Å). The radial Hamiltonian is <strong>tridiagonal</strong> (the <span class="math notranslate nohighlight">\((1,-2,1)\)</span> stencil), so we use
+<code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code> rather than the dense <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> of <a class="reference internal" href="schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a> — the dense solver
+is far too slow on the fine grids and many <span class="math notranslate nohighlight">\(l\)</span> values this notebook needs. <strong>Numerical honesty:</strong> high-
+<span class="math notranslate nohighlight">\(n\)</span> orbitals are large and diffuse (<span class="math notranslate nohighlight">\(\langle r\rangle\sim n^2 a_0\)</span>), so the box <span class="math notranslate nohighlight">\(r_{\max}\)</span> must be big
+enough to contain them, or their energies come out spuriously <em>high</em> — a box artifact, not physics
+(the <a class="reference internal" href="schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a>/<a class="reference internal" href="bound-states-1d.html"><span class="std std-doc">§6.11</span></a> lesson). We keep comparisons to well-contained levels. The radial node count is
+<span class="math notranslate nohighlight">\(n_r=n-l-1\)</span>. See Sakurai &amp; Napolitano and Griffiths (the hydrogen atom, the degeneracy, the Runge–Lenz
+vector); and Notebooks <a class="reference internal" href="central-potentials-3d.html"><span class="std std-doc">§6.16</span></a> (the radial equation), <a class="reference internal" href="orbital-angular-momentum.html"><span class="std std-doc">§6.15</span></a> (the spherical harmonics), <a class="reference internal" href="schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a> (the
+eigenmethod), <a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a> (Laguerre/Hermite special functions).</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-coulomb-problem">
+<h3>The Coulomb problem<a class="headerlink" href="#the-coulomb-problem" title="Link to this heading">#</a></h3>
+<p>The electron in a hydrogen-like atom feels the central potential</p>
+<div class="math notranslate nohighlight" id="equation-eq-hydrogen-coulomb">
+<span class="eqno">(584)<a class="headerlink" href="#equation-eq-hydrogen-coulomb" title="Link to this equation">#</a></span>\[V(r)=-\frac{Ze^2}{4\pi\varepsilon_0 r}=-\frac{Z}{r}\quad(\text{atomic units}),\qquad V_{\text{eff}}(r)=-\frac{Z}{r}+\frac{l(l+1)}{2r^2} .\]</div>
+<p>This is a central potential (<a class="reference internal" href="central-potentials-3d.html"><span class="std std-doc">§6.16</span></a>), so the stationary states factor as <span class="math notranslate nohighlight">\(\psi_{n,l,m}=R_{n,l}(r)Y_l^m(
+\theta,\varphi)\)</span> and the radial function obeys the 1-D radial equation with the Coulomb well plus the
+centrifugal barrier. Their competition — the <span class="math notranslate nohighlight">\(-Z/r\)</span> attraction versus the <span class="math notranslate nohighlight">\(l(l+1)/r^2\)</span> repulsion — sets
+the sizes of the orbitals.</p>
+</section>
+<section id="the-rydberg-spectrum">
+<h3>The Rydberg spectrum<a class="headerlink" href="#the-rydberg-spectrum" title="Link to this heading">#</a></h3>
+<p>Solving the radial equation (a power-series analysis that Griffiths carries out in full) gives the
+bound-state energies</p>
+<div class="math notranslate nohighlight" id="equation-eq-rydberg">
+<span class="eqno">(585)<a class="headerlink" href="#equation-eq-rydberg" title="Link to this equation">#</a></span>\[E_n=-\frac{Z^2}{2n^2}\ \text{Hartree}=-\frac{13.6\,Z^2}{n^2}\ \text{eV},\qquad n=n_r+l+1=1,2,3,\dots ,\]</div>
+<p>with <span class="math notranslate nohighlight">\(n\)</span> the <strong>principal</strong> quantum number and <span class="math notranslate nohighlight">\(n_r\)</span> the number of radial nodes. The <em>differences</em>
+<span class="math notranslate nohighlight">\(E_n-E_{n'}\)</span> are the spectral-line energies: the <strong>Lyman</strong> series (to <span class="math notranslate nohighlight">\(n=1\)</span>, ultraviolet), <strong>Balmer</strong> (to
+<span class="math notranslate nohighlight">\(n=2\)</span>, visible), and <strong>Paschen</strong> (to <span class="math notranslate nohighlight">\(n=3\)</span>, infrared). This is the formula that explained the hydrogen
+spectrum — quantum mechanics’ first great empirical triumph.</p>
+</section>
+<section id="the-three-quantum-numbers-and-the-orbitals">
+<h3>The three quantum numbers and the orbitals<a class="headerlink" href="#the-three-quantum-numbers-and-the-orbitals" title="Link to this heading">#</a></h3>
+<p>The separation of variables in <a class="reference internal" href="central-potentials-3d.html"><span class="std std-doc">§6.16</span></a> did most of the labelling for us: the angular equation fixed
+<span class="math notranslate nohighlight">\(Y_l^m\)</span> with its integers <span class="math notranslate nohighlight">\(l\)</span> and <span class="math notranslate nohighlight">\(m\)</span>, and the radial equation contributes one more integer, the node
+count <span class="math notranslate nohighlight">\(n_r\)</span>, which combines with <span class="math notranslate nohighlight">\(l\)</span> into the principal quantum number <span class="math notranslate nohighlight">\(n\)</span>. Every bound state therefore
+carries three labels:</p>
+<div class="math notranslate nohighlight" id="equation-eq-orbitals">
+<span class="eqno">(586)<a class="headerlink" href="#equation-eq-orbitals" title="Link to this equation">#</a></span>\[\psi_{n,l,m}(r,\theta,\varphi)=R_{n,l}(r)\,Y_l^m(\theta,\varphi),\qquad 0\le l\le n-1,\quad -l\le m\le l,\quad n_r=n-l-1 .\]</div>
+<p>The radial function <span class="math notranslate nohighlight">\(R_{n,l}\)</span> (an exponential times an associated Laguerre polynomial) has <span class="math notranslate nohighlight">\(n_r=n-l-1\)</span>
+nodes; the angular factor is a spherical harmonic (<a class="reference internal" href="orbital-angular-momentum.html"><span class="std std-doc">§6.15</span></a>). Together they are the <strong>atomic orbitals</strong> —
+1s, 2s, 2p, 3s, 3p, 3d, and so on. The radial density <span class="math notranslate nohighlight">\(r^2|R|^2\)</span> gives the probability of finding the
+electron at radius <span class="math notranslate nohighlight">\(r\)</span>; for the ground state it peaks at the <strong>Bohr radius</strong> <span class="math notranslate nohighlight">\(a_0\)</span>.</p>
+</section>
+<section id="the-l-degeneracy-and-the-hidden-symmetry">
+<h3>The <span class="math notranslate nohighlight">\(l\)</span>-degeneracy and the hidden symmetry<a class="headerlink" href="#the-l-degeneracy-and-the-hidden-symmetry" title="Link to this heading">#</a></h3>
+<p>In a generic central potential the energy depends on <span class="math notranslate nohighlight">\(n_r\)</span> and <span class="math notranslate nohighlight">\(l\)</span> separately, as the wells of <a class="reference internal" href="central-potentials-3d.html"><span class="std std-doc">§6.16</span></a>
+showed. For the Coulomb potential something remarkable happens: the energies <a class="reference internal" href="#equation-eq-rydberg">Eq. 585</a> collapse
+onto the single combination <span class="math notranslate nohighlight">\(n=n_r+l+1\)</span>, so that</p>
+<div class="math notranslate nohighlight" id="equation-eq-degeneracy">
+<span class="eqno">(587)<a class="headerlink" href="#equation-eq-degeneracy" title="Link to this equation">#</a></span>\[E_n\ \text{depends on } n\ \text{only, not on } l\ \Longrightarrow\ \text{all } l=0,\dots,n-1\ \text{share the energy } -Z^2/2n^2 .\]</div>
+<p>Rotational symmetry alone guarantees only the <span class="math notranslate nohighlight">\((2l+1)\)</span>-fold <span class="math notranslate nohighlight">\(m\)</span>-degeneracy; the extra <span class="math notranslate nohighlight">\(l\)</span>-degeneracy is
+“accidental” — the fingerprint of a <strong>hidden symmetry</strong> special to <span class="math notranslate nohighlight">\(1/r\)</span>. The quantum <strong>Runge–Lenz
+vector</strong> <span class="math notranslate nohighlight">\(\mathbf A\)</span> is conserved (as it is classically, where it points along the fixed major axis of a
+non-precessing Kepler ellipse), and together with <span class="math notranslate nohighlight">\(\mathbf L\)</span> it generates the group <span class="math notranslate nohighlight">\(SO(4)\)</span>, larger than
+<span class="math notranslate nohighlight">\(SO(3)\)</span>. This enlarged symmetry forces the <span class="math notranslate nohighlight">\(l\)</span>-degeneracy — the same phenomenon as the isotropic
+oscillator’s <span class="math notranslate nohighlight">\(2n_r+l\)</span> degeneracy (<a class="reference internal" href="central-potentials-3d.html"><span class="std std-doc">§6.16</span></a>), here in its sharpest form. Any departure from exact <span class="math notranslate nohighlight">\(1/r\)</span> — the
+screening of the nucleus by inner electrons in a many-electron atom — <strong>breaks</strong> the symmetry and splits
+<span class="math notranslate nohighlight">\(s,p,d\)</span>, and <em>that splitting is why the periodic table has the structure it does</em>.</p>
+</section>
+<section id="shell-degeneracy-and-the-periodic-table">
+<h3>Shell degeneracy and the periodic table<a class="headerlink" href="#shell-degeneracy-and-the-periodic-table" title="Link to this heading">#</a></h3>
+<p>Counting the states of shell <span class="math notranslate nohighlight">\(n\)</span> is now pure arithmetic: each allowed <span class="math notranslate nohighlight">\(l\)</span> contributes its <span class="math notranslate nohighlight">\(2l+1\)</span>
+orientations, and the <span class="math notranslate nohighlight">\(l\)</span>-degeneracy just established puts them all at one energy, so the sum runs over
+<span class="math notranslate nohighlight">\(l=0,\dots,n-1\)</span> and gives</p>
+<div class="math notranslate nohighlight" id="equation-eq-shells">
+<span class="eqno">(588)<a class="headerlink" href="#equation-eq-shells" title="Link to this equation">#</a></span>\[\sum_{l=0}^{n-1}(2l+1)=n^2\ \text{orbitals per shell}\ \Longrightarrow\ 2n^2\ \text{with spin}=2,8,18,32,\dots\]</div>
+<p>the exact row capacities of the periodic table. The shell structure of matter is the degeneracy counting
+of the hydrogen atom (spin, the factor of 2, is added properly in <a class="reference internal" href="spin-magnetic.html"><span class="std std-doc">§6.18</span></a>).</p>
+</section>
+<section id="realism-caveats">
+<h3>Realism caveats<a class="headerlink" href="#realism-caveats" title="Link to this heading">#</a></h3>
+<p>Before trusting the triumph, one should ask what the Hamiltonian left out. The answer, quantified by
+the perturbative estimates that Griffiths works through systematically, is: nothing above the <span class="math notranslate nohighlight">\(10^{-3}\)</span>
+level in relative terms, because every neglected effect is suppressed by powers of the fine-structure
+constant <span class="math notranslate nohighlight">\(\alpha\approx1/137\)</span> or of the mass ratio <span class="math notranslate nohighlight">\(m_e/m_p\)</span>. In summary,</p>
+<div class="math notranslate nohighlight" id="equation-eq-caveats">
+<span class="eqno">(589)<a class="headerlink" href="#equation-eq-caveats" title="Link to this equation">#</a></span>\[E_1=-13.6\,\text{eV}\ \text{is the gross structure; the corrections are}\ \lesssim10^{-3}\ \text{of it.}\]</div>
+<p>This is the non-relativistic, infinite-nuclear-mass, spinless-Coulomb atom. Real hydrogen has small
+corrections — the finite-mass (reduced-mass) shift, <strong>fine structure</strong> (relativistic + spin–orbit, <a class="reference internal" href="perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a>),
+the <strong>Lamb shift</strong> (QED), and <strong>hyperfine</strong> structure (the 21-cm line) — all tiny on the scale of
+<span class="math notranslate nohighlight">\(-13.6\,\)</span>eV. The gross structure computed here is right to about <span class="math notranslate nohighlight">\(0.05\%\)</span> (reduced-mass-limited).</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>The data are the series palette, the atomic-unit conversions (<span class="math notranslate nohighlight">\(1\,\)</span>Ha in eV, the Bohr radius in
+ångströms, <span class="math notranslate nohighlight">\(hc\)</span> in eV·nm), and the <strong>analytic</strong> hydrogen radial functions — the closed Laguerre
+form of <a class="reference internal" href="#equation-eq-orbitals">Eq. 586</a>, which is the reference standard the grid solutions are checked
+against, not something to construct. The instruments are the radial density, which is nothing
+but <span class="math notranslate nohighlight">\(|u|^2\)</span> once <span class="math notranslate nohighlight">\(u=rR\)</span>, and the <strong>real</strong> spherical harmonics, built from scratch in
+<a class="reference internal" href="../03-electrodynamics/multipole-expansion.html"><span class="std std-doc">§3.5</span></a> and restated here as a tool for the
+orbital cross-sections. The Coulomb radial solver is deliberately absent: you build
+<code class="docutils literal notranslate"><span class="pre">solve_hydrogen_radial</span></code> in Exercise 1, and Exercises 2, 4, 5, 6 and 8 all run on the one you
+wrote.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eigh_tridiagonal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">factorial</span><span class="p">,</span> <span class="n">genlaguerre</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="c1"># data: the series palette</span>
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>
+<span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;#c1121f&quot;</span>
+
+<span class="c1"># data: atomic units (ℏ = m_e = e = 4πε₀ = 1) and the conversions out of them</span>
+<span class="n">HARTREE_EV</span> <span class="o">=</span> <span class="mf">27.211386</span>  <span class="c1"># 1 Hartree in electron-volts</span>
+<span class="n">BOHR_ANGSTROM</span> <span class="o">=</span> <span class="mf">0.529177</span>  <span class="c1"># the Bohr radius a₀ in ångströms</span>
+<span class="n">HC_EV_NM</span> <span class="o">=</span> <span class="mf">1239.841984</span>  <span class="c1"># hc in eV·nm (for wavelengths)</span>
+
+
+<span class="c1"># data: the exact answer, handed over so the grid can be judged against it. This is the closed</span>
+<span class="c1"># form quoted in the theory section, transcribed; the orbitals this notebook *computes* come out</span>
+<span class="c1"># of the solver you write in Exercise 1, and this is only what they are measured against.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hydrogen_radial_analytic</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The exact hydrogen radial function $R_{n,l}(r)$, via ``scipy.special.genlaguerre``.</span>
+
+<span class="sd">    $R_{n,l}(r)=N_{nl}\,e^{-Zr/n}(2Zr/n)^l L_{n-l-1}^{2l+1}(2Zr/n)$ with $L$ the associated Laguerre</span>
+<span class="sd">    polynomial and $N_{nl}$ the normalization $\int|R|^2r^2dr=1$. Used to check the grid solutions</span>
+<span class="sd">    {eq}`eq-orbitals`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Z</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="n">l</span><span class="p">)))</span>
+    <span class="n">rho</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">Z</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="n">norm</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">rho</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">rho</span><span class="o">**</span><span class="n">l</span> <span class="o">*</span> <span class="n">genlaguerre</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)(</span><span class="n">rho</span><span class="p">)</span>
+
+
+<span class="c1"># instrument: because u = rR, the radial density IS |u|² — there is nothing to derive and nothing</span>
+<span class="c1"># to choose. Naming the absolute square keeps the peak-finding of Exercises 5 and 8 readable; the</span>
+<span class="c1"># lesson there is *where* the density peaks, not the squaring that forms it.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">radial_density</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The radial probability density $|u(r)|^2=r^2|R(r)|^2$ — the probability per unit $r$ (§6.16).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+
+<span class="c1"># built from scratch in §3.5 (Exercise 6, where the cosine/sine combinations are assembled and</span>
+<span class="c1"># drawn as the orbital lobes); restated here as an instrument for the orbital cross-sections.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">real_spherical_harmonic</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The **real** spherical harmonic (the orbital angular shape), reused from §6.15 / Volume III.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">sph_harm_y</span>
+
+    <span class="k">if</span> <span class="n">m</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sph_harm_y</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">**</span> <span class="n">m</span> <span class="o">*</span> <span class="n">sph_harm_y</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">**</span> <span class="n">m</span> <span class="o">*</span> <span class="n">sph_harm_y</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="o">-</span><span class="n">m</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span><span class="o">.</span><span class="n">imag</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-coulomb-radial-equation-and-the-ground-state">
+<h2>Exercise 1 — The Coulomb radial equation and the ground state<a class="headerlink" href="#exercise-1-the-coulomb-radial-equation-and-the-ground-state" title="Link to this heading">#</a></h2>
+<p>Every tool of the volume now meets one potential. The <a class="reference internal" href="central-potentials-3d.html"><span class="std std-doc">§6.16</span></a> reduction <span class="math notranslate nohighlight">\(u=rR\)</span> has already turned
+the three-dimensional problem into a one-dimensional radial equation, and dropping the Coulomb
+attraction into it gives <span class="math notranslate nohighlight">\(V_{\text{eff}}(r)=-Z/r+l(l+1)/2r^2\)</span> <a class="reference internal" href="#equation-eq-hydrogen-coulomb">Eq. 584</a> — for <span class="math notranslate nohighlight">\(s\)</span>
+states (<span class="math notranslate nohighlight">\(l=0\)</span>) the bare well <span class="math notranslate nohighlight">\(-Z/r\)</span>, with no centrifugal barrier at all. Discretized on an
+interior grid <span class="math notranslate nohighlight">\(r\in(0,r_{\max})\)</span> that excludes both endpoints (so <span class="math notranslate nohighlight">\(u(0)=u(r_{\max})=0\)</span> by
+construction), the radial Hamiltonian is <strong>tridiagonal</strong>: the <span class="math notranslate nohighlight">\((1,-2,1)/dr^2\)</span> kinetic stencil plus
+<span class="math notranslate nohighlight">\(\mathrm{diag}\,V_{\text{eff}}\)</span> has a diagonal <span class="math notranslate nohighlight">\(1/dr^2+V_{\text{eff}}\)</span> and a single off-diagonal
+<span class="math notranslate nohighlight">\(-\tfrac12/dr^2\)</span>, and nothing else. That is why <code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code> replaces the dense
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> of <a class="reference internal" href="schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a> here: it needs only those two vectors, and the fine grids and many
+<span class="math notranslate nohighlight">\(l\)</span> values the rest of this notebook asks for would be far too slow dense. Dividing the
+eigenvectors by <span class="math notranslate nohighlight">\(\sqrt{dr}\)</span> normalizes them to <span class="math notranslate nohighlight">\(\int|u|^2dr=1\)</span>. The number the whole construction
+must produce is the one Bohr guessed in 1913: <span class="math notranslate nohighlight">\(E_1=-0.5\,\)</span>Ha <span class="math notranslate nohighlight">\(=-13.6\,\)</span>eV <a class="reference internal" href="#equation-eq-rydberg">Eq. 585</a>, the
+ground state of the first atom ever solved exactly.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">solve_hydrogen_radial(l,</span> <span class="pre">Z,</span> <span class="pre">rmax,</span> <span class="pre">N)</span></code>, returning the interior grid <code class="docutils literal notranslate"><span class="pre">r</span></code>, the ascending
+radial energies, and the matrix whose column <span class="math notranslate nohighlight">\(n_r\)</span> is <span class="math notranslate nohighlight">\(u_{n_r,l}=rR\)</span>: build the grid with
+<code class="docutils literal notranslate"><span class="pre">numpy.linspace</span></code>, form <span class="math notranslate nohighlight">\(V_{\text{eff}}\)</span>, assemble the tridiagonal Hamiltonian’s diagonal and
+off-diagonal, diagonalize with <code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code>, and divide by <span class="math notranslate nohighlight">\(\sqrt{dr}\)</span>.
+<strong>Write this one yourself</strong> — the implementation is the lesson.</p></li>
+<li><p>Solve it at <span class="math notranslate nohighlight">\(l=0\)</span>, <span class="math notranslate nohighlight">\(Z=1\)</span> on a box wide enough to hold the ground state, and read the lowest
+energy.</p></li>
+<li><p>Confirm <span class="math notranslate nohighlight">\(E_1=-0.5\,\)</span>Ha and convert to eV with <code class="docutils literal notranslate"><span class="pre">HARTREE_EV</span></code>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>hydrogen ground state (l=0):  E₁ = -0.49997 Ha = -13.605 eV
+  exact: −0.5 Ha = −13.606 eV
+  (n_r = 0 radial nodes, so n = n_r + l + 1 = 1: the 1s state)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the hydrogen ground state is E₁ = −0.5 Ha = −13.6 eV (the first exactly-solved atom)   [got -0.499972 vs expected -0.5 (rtol=1e-06, atol=0.002)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-coulomb-levels">
+<img alt="../../_images/94d28c83b4ea29d881297274b8a2bcd19ce3a841067c70bcfe2c3a290d571df1.png" src="../../_images/94d28c83b4ea29d881297274b8a2bcd19ce3a841067c70bcfe2c3a290d571df1.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 555 </span><span class="caption-text"><strong>The Coulomb well and its bound ladder.</strong> The effective potential <span class="math notranslate nohighlight">\(V_{\text{eff}}(r)=-Z/r+l(l+1)/2r^2\)</span> for hydrogen. For <span class="math notranslate nohighlight">\(l=0\)</span> (amber) it is the bare Coulomb well <span class="math notranslate nohighlight">\(-1/r\)</span>; the horizontal lines are the computed <span class="math notranslate nohighlight">\(s\)</span>-state energies <span class="math notranslate nohighlight">\(E_n=-1/2n^2\,\)</span>Ha, crowding toward the <span class="math notranslate nohighlight">\(E=0\)</span> ionization threshold as <span class="math notranslate nohighlight">\(n\)</span> grows — the infinitely many bound states of the long-range <span class="math notranslate nohighlight">\(1/r\)</span> tail. For <span class="math notranslate nohighlight">\(l=1\)</span> (ink, dashed) the centrifugal barrier <span class="math notranslate nohighlight">\(l(l+1)/2r^2\)</span> lifts the well’s floor and walls off the origin, so the lowest <span class="math notranslate nohighlight">\(p\)</span> state is <span class="math notranslate nohighlight">\(2p\)</span> (there is no <span class="math notranslate nohighlight">\(1p\)</span>). The energies pile up at <span class="math notranslate nohighlight">\(E=0\)</span>: unlike a finite well, the Coulomb potential binds an infinite ladder, because <span class="math notranslate nohighlight">\(-1/r\)</span> falls off slowly enough to hold states arbitrarily far out.</span><a class="headerlink" href="#fig-coulomb-levels" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-rydberg-spectrum">
+<h2>Exercise 2 — The Rydberg spectrum<a class="headerlink" href="#exercise-2-the-rydberg-spectrum" title="Link to this heading">#</a></h2>
+<p>One value of <span class="math notranslate nohighlight">\(l\)</span> gives one ladder; the spectrum is what happens when the ladders are laid side by
+side. Each fixed-<span class="math notranslate nohighlight">\(l\)</span> solve returns its bound states (<span class="math notranslate nohighlight">\(E&lt;0\)</span>) in order, so the level at index <span class="math notranslate nohighlight">\(n_r\)</span>
+is the one with <span class="math notranslate nohighlight">\(n_r\)</span> radial nodes, and its <strong>principal</strong> quantum number is <span class="math notranslate nohighlight">\(n=n_r+l+1\)</span>
+<a class="reference internal" href="#equation-eq-orbitals">Eq. 586</a>. Labelled that way, every level should fall on <span class="math notranslate nohighlight">\(E_n=-1/2n^2\,\)</span>Ha
+<span class="math notranslate nohighlight">\(=-13.6/n^2\,\)</span>eV <a class="reference internal" href="#equation-eq-rydberg">Eq. 585</a> — the formula that explained the spectral lines, and the reason
+this calculation mattered. One caution before reading the numbers: a level only lands on its
+Rydberg value if the box holds it, and since <span class="math notranslate nohighlight">\(\langle r\rangle\sim n^2a_0\)</span> the high-<span class="math notranslate nohighlight">\(n\)</span> states
+outgrow any fixed <span class="math notranslate nohighlight">\(r_{\max}\)</span> and come out spuriously <em>high</em>. That is a box artifact, not physics
+(the <a class="reference internal" href="schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a>/<a class="reference internal" href="bound-states-1d.html"><span class="std std-doc">§6.11</span></a> lesson), so the comparison below is kept to the well-contained levels.</p>
+<ol class="arabic simple">
+<li><p>With the <code class="docutils literal notranslate"><span class="pre">solve_hydrogen_radial</span></code> you wrote in Exercise 1, solve for <span class="math notranslate nohighlight">\(l=0,1,2\)</span> and collect the
+bound energies.</p></li>
+<li><p>Assign each level its principal number <span class="math notranslate nohighlight">\(n=n_r+l+1\)</span>.</p></li>
+<li><p>Compare the well-contained levels to <span class="math notranslate nohighlight">\(-1/2n^2\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>hydrogen spectrum  Eₙ = −1/2n²  (well-contained levels, box r_max = 60 a₀):
+  n=1, l=0 (n_r=0):  E = -0.49997 Ha   (−1/2n² = -0.50000)   = -13.605 eV
+  n=2, l=0 (n_r=1):  E = -0.12500 Ha   (−1/2n² = -0.12500)   = -3.401 eV
+  n=3, l=0 (n_r=2):  E = -0.05556 Ha   (−1/2n² = -0.05556)   = -1.512 eV
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  n=2, l=1 (n_r=0):  E = -0.12500 Ha   (−1/2n² = -0.12500)   = -3.401 eV
+  n=3, l=1 (n_r=1):  E = -0.05556 Ha   (−1/2n² = -0.05556)   = -1.512 eV
+  n=4, l=1 (n_r=2):  E = -0.03125 Ha   (−1/2n² = -0.03125)   = -0.850 eV
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  n=3, l=2 (n_r=0):  E = -0.05556 Ha   (−1/2n² = -0.05556)   = -1.512 eV
+  n=4, l=2 (n_r=1):  E = -0.03125 Ha   (−1/2n² = -0.03125)   = -0.850 eV
+  n=5, l=2 (n_r=2):  E = -0.01978 Ha   (−1/2n² = -0.02000)   = -0.538 eV
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the hydrogen spectrum is Eₙ = −Z²/2n² Hartree (the Rydberg formula), for every (n,l)   [max|Δ| = 0.000222874 (rtol=1e-06, atol=0.002)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">With your assistant</p>
+<p>Ask your assistant for a radial-grid convergence sweep of its own design —
+grid sizes, box radii, however it structures the loop — and run it. The gate
+is the one this atom is famous for: the computed levels must approach
+<span class="math notranslate nohighlight">\(E_n = -1/(2n^2)\)</span> Hartree, and a sweep that “converges” anywhere else has
+converged to its own discretization, not to hydrogen. The check is yours.</p>
+</div>
+</section>
+</section>
+<section id="exercise-3-spectral-lines-lyman-balmer-paschen">
+<h2>Exercise 3 — Spectral lines: Lyman, Balmer, Paschen<a class="headerlink" href="#exercise-3-spectral-lines-lyman-balmer-paschen" title="Link to this heading">#</a></h2>
+<p>What a spectroscope records is not an energy level but a <em>difference</em> between two of them: an
+electron falling from <span class="math notranslate nohighlight">\(n'\)</span> to <span class="math notranslate nohighlight">\(n\)</span> emits a photon carrying <span class="math notranslate nohighlight">\(\Delta E=E_{n'}-E_n\)</span>, which appears at
+the wavelength <span class="math notranslate nohighlight">\(\lambda=hc/\Delta E\)</span> (with <span class="math notranslate nohighlight">\(hc=1239.84\,\)</span>eV·nm, the <code class="docutils literal notranslate"><span class="pre">HC_EV_NM</span></code> constant). Grouping
+the transitions by their lower level sorts them into the classic series: <strong>Lyman</strong> down to <span class="math notranslate nohighlight">\(n=1\)</span>
+(ultraviolet), <strong>Balmer</strong> down to <span class="math notranslate nohighlight">\(n=2\)</span> (visible), <strong>Paschen</strong> down to <span class="math notranslate nohighlight">\(n=3\)</span> (infrared). The
+Balmer lines are the ones a person can actually see — <span class="math notranslate nohighlight">\(H\alpha\)</span> (<span class="math notranslate nohighlight">\(3\to2\)</span>) observed at <span class="math notranslate nohighlight">\(656.3\,\)</span>nm,
+<span class="math notranslate nohighlight">\(H\beta\)</span> (<span class="math notranslate nohighlight">\(4\to2\)</span>) at <span class="math notranslate nohighlight">\(486\,\)</span>nm — and Balmer fit them by eye in 1885, four decades before there
+was a theory to fit. Reproducing that catalogue line for line, out of <a class="reference internal" href="#equation-eq-rydberg">Eq. 585</a> alone, is
+quantum mechanics’ most direct empirical triumph.</p>
+<ol class="arabic simple">
+<li><p>From <span class="math notranslate nohighlight">\(E_n=-1/2n^2\,\)</span>Ha, form the transition energies <span class="math notranslate nohighlight">\(\Delta E=E_{n'}-E_n\)</span> for <span class="math notranslate nohighlight">\(n'&gt;n\)</span>.</p></li>
+<li><p>Convert them to wavelengths <span class="math notranslate nohighlight">\(\lambda=hc/\Delta E\)</span>.</p></li>
+<li><p>Compare the Balmer <span class="math notranslate nohighlight">\(H\alpha\)</span> and <span class="math notranslate nohighlight">\(H\beta\)</span> wavelengths to the observed lines.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Lyman (→1, UV)        : 2→1: 122 nm   3→1: 103 nm   4→1: 97 nm
+  Balmer (→2, visible)  : 3→2: 656 nm   4→2: 486 nm   5→2: 434 nm
+  Paschen (→3, IR)      : 4→3: 1875 nm   5→3: 1281 nm   6→3: 1094 nm
+
+Balmer Hα (3→2) = 656.1 nm   (observed 656.3 nm — the red hydrogen line)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the energy differences reproduce the hydrogen spectral series — the Balmer Hα line at 656 nm   [got 656.112 vs expected 656.3 (rtol=1e-06, atol=2)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-series">
+<img alt="../../_images/0f889b3a0e9b14e734d64a07f1df4365aa3dce06d0718df78e3257734af5042a.png" src="../../_images/0f889b3a0e9b14e734d64a07f1df4365aa3dce06d0718df78e3257734af5042a.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 556 </span><span class="caption-text"><strong>The spectral series, from energy differences.</strong> The hydrogen energy levels <span class="math notranslate nohighlight">\(E_n=-13.6/n^2\,\)</span>eV (horizontal lines), with the transitions that produce the three classic spectral series drawn as arrows: <strong>Lyman</strong> (down to <span class="math notranslate nohighlight">\(n=1\)</span>, ultraviolet), <strong>Balmer</strong> (down to <span class="math notranslate nohighlight">\(n=2\)</span>, visible — this is the series Balmer fit by eye in 1885), and <strong>Paschen</strong> (down to <span class="math notranslate nohighlight">\(n=3\)</span>, infrared). The energy released in each downward jump sets the photon’s wavelength through <span class="math notranslate nohighlight">\(\lambda=hc/\Delta E\)</span>; the labelled Balmer lines land in the visible (<span class="math notranslate nohighlight">\(H\alpha\)</span> red at 656 nm, <span class="math notranslate nohighlight">\(H\beta\)</span> blue-green at 486 nm), exactly where spectroscopists saw them. That these arrows reproduce a catalogue compiled decades before quantum mechanics existed is the theory’s first and most direct empirical triumph.</span><a class="headerlink" href="#fig-series" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-the-orbitals-radial-functions-and-shapes">
+<h2>Exercise 4 — The orbitals: radial functions and shapes<a class="headerlink" href="#exercise-4-the-orbitals-radial-functions-and-shapes" title="Link to this heading">#</a></h2>
+<p>The energies are only half of what the radial equation returns. The eigenvectors are the reduced
+functions <span class="math notranslate nohighlight">\(u_{n_r,l}\)</span>, and dividing out the reduction, <span class="math notranslate nohighlight">\(R_{n,l}=u/r\)</span>, gives the radial factor of
+the orbital <span class="math notranslate nohighlight">\(\psi_{n,l,m}=R_{n,l}Y_l^m\)</span> <a class="reference internal" href="#equation-eq-orbitals">Eq. 586</a>. There is an exact answer to check them
+against: <span class="math notranslate nohighlight">\(R_{n,l}\)</span> is an exponential times an associated Laguerre polynomial, the closed form
+<code class="docutils literal notranslate"><span class="pre">hydrogen_radial_analytic</span></code> supplies from <code class="docutils literal notranslate"><span class="pre">scipy.special.genlaguerre</span></code>, and the two should agree to
+the discretization error. The structural fingerprint to look for is the node count <span class="math notranslate nohighlight">\(n_r=n-l-1\)</span> —
+the 1s and 2p are nodeless, the 2s changes sign once — which is exactly the index at which each
+state sits in its fixed-<span class="math notranslate nohighlight">\(l\)</span> list. Two cautions on the comparison: a diagonalizer returns
+eigenvectors up to an arbitrary overall sign, so one of the two curves may need flipping before
+they can be subtracted, and the agreement should be judged where the function has appreciable
+amplitude, not out in the exponential tail where both are numerically zero. Wrapping the radial
+factor in the <a class="reference internal" href="orbital-angular-momentum.html"><span class="std std-doc">§6.15</span></a> angular shapes then gives the full orbital density <span class="math notranslate nohighlight">\(|\psi_{n,l,m}|^2\)</span> — the
+1s, 2s, 2p, 3d pictures that organize chemistry.</p>
+<ol class="arabic simple">
+<li><p>With the <code class="docutils literal notranslate"><span class="pre">solve_hydrogen_radial</span></code> you wrote in Exercise 1, extract <span class="math notranslate nohighlight">\(R_{n,l}(r)=u/r\)</span> from the
+grid for <span class="math notranslate nohighlight">\((1,0),(2,0),(2,1)\)</span>.</p></li>
+<li><p>Compare each to the analytic Laguerre form and confirm the radial node count <span class="math notranslate nohighlight">\(n_r=n-l-1\)</span>
+(1s: 0, 2s: 1, 2p: 0).</p></li>
+<li><p>Plot <span class="math notranslate nohighlight">\(R_{n,l}\)</span>, the radial densities <span class="math notranslate nohighlight">\(r^2|R|^2\)</span>, and a cross-section of the full orbital
+density <span class="math notranslate nohighlight">\(|\psi_{n,l,m}|^2\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>grid radial functions vs analytic (Laguerre) forms:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1s (n_r=0 nodes):  max|R_grid − R_analytic| = 8.69e-05
+  2s (n_r=1 node):  max|R_grid − R_analytic| = 8.41e-06
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2p (n_r=0 nodes):  max|R_grid − R_analytic| = 2.80e-06
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the grid radial functions match the analytic hydrogen orbitals (scipy.special.genlaguerre) with n_r=n−l−1 nodes
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-hydrogen-radial">
+<img alt="../../_images/671854fc707a3acb60b41f2a89601bd06329766a284caae2159846f9679ae2ae.png" src="../../_images/671854fc707a3acb60b41f2a89601bd06329766a284caae2159846f9679ae2ae.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 557 </span><span class="caption-text"><strong>The hydrogen radial functions.</strong> <em>Left:</em> the radial functions <span class="math notranslate nohighlight">\(R_{n,l}(r)\)</span> for 1s, 2s, 2p, 3d — computed on the grid, matching the analytic Laguerre forms to a part in <span class="math notranslate nohighlight">\(10^4\)</span>. The node count is <span class="math notranslate nohighlight">\(n_r=n-l-1\)</span>: the 1s and 2p are nodeless, the 2s has one radial node (it changes sign), and the diffuse 3d spreads far out. <em>Right:</em> the radial probability densities <span class="math notranslate nohighlight">\(r^2|R|^2\)</span> — the probability of finding the electron in a thin shell at radius <span class="math notranslate nohighlight">\(r\)</span>. The extra factor of <span class="math notranslate nohighlight">\(r^2\)</span> pushes every peak outward from the origin (even the 1s, whose <span class="math notranslate nohighlight">\(R\)</span> is largest at <span class="math notranslate nohighlight">\(r=0\)</span>, is <em>most likely found</em> at <span class="math notranslate nohighlight">\(r=a_0\)</span>, Exercise 5), and higher shells peak further out, building the atom’s layered structure.</span><a class="headerlink" href="#fig-hydrogen-radial" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-orbital-shapes">
+<img alt="../../_images/3996a10c2fe21564716972a6183f3b489fffe85e81d7f78b4f6ecda5ff0daa47.png" src="../../_images/3996a10c2fe21564716972a6183f3b489fffe85e81d7f78b4f6ecda5ff0daa47.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 558 </span><span class="caption-text"><strong>The atomic orbitals: cross-sections of <span class="math notranslate nohighlight">\(|\psi_{n,l,m}|^2\)</span>.</strong> Slices of the probability density in the <span class="math notranslate nohighlight">\(x\)</span>–<span class="math notranslate nohighlight">\(z\)</span> plane (bright = high probability), each the product of a radial function <span class="math notranslate nohighlight">\(R_{n,l}(r)\)</span> and an angular shape <span class="math notranslate nohighlight">\(Y_l^m\)</span> (<a class="reference internal" href="orbital-angular-momentum.html"><span class="std std-doc">§6.15</span></a>). The <strong>1s</strong> is a compact spherical cloud; the <strong>2s</strong> is a larger sphere with a faint inner shell set off by its radial node; the <strong>2p<span class="math notranslate nohighlight">\(_z\)</span></strong> is the two-lobed dumbbell along <span class="math notranslate nohighlight">\(z\)</span>; and the <strong>3d<span class="math notranslate nohighlight">\(_{z^2}\)</span></strong> shows the characteristic lobes-and-collar of a <span class="math notranslate nohighlight">\(d\)</span> orbital, now dressed with radial structure. These are the shapes that determine how atoms bond — the whole of structural chemistry is built from the angular harmonics of <a class="reference internal" href="orbital-angular-momentum.html"><span class="std std-doc">§6.15</span></a> wrapped in these Coulomb radial functions.</span><a class="headerlink" href="#fig-orbital-shapes" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-the-most-probable-radius-and-the-bohr-radius">
+<h2>Exercise 5 — The most probable radius and the Bohr radius<a class="headerlink" href="#exercise-5-the-most-probable-radius-and-the-bohr-radius" title="Link to this heading">#</a></h2>
+<p>“How big is a hydrogen atom” has a sharp answer once the wavefunction is in hand, but it needs the
+right question. The quantity to look at is the radial probability density <span class="math notranslate nohighlight">\(r^2|R_{10}|^2\)</span>, which
+because <span class="math notranslate nohighlight">\(u=rR\)</span> is simply <span class="math notranslate nohighlight">\(|u_{10}|^2\)</span> — the probability of finding the electron in a thin shell at
+radius <span class="math notranslate nohighlight">\(r\)</span>, angles integrated out. Its maximum is the <strong>most probable</strong> radius, and for the ground
+state it should land on the <strong>Bohr radius</strong> <span class="math notranslate nohighlight">\(a_0\)</span>, which in atomic units is exactly <span class="math notranslate nohighlight">\(1\)</span>
+<a class="reference internal" href="#equation-eq-orbitals">Eq. 586</a>: the length Bohr postulated in 1913, here recovered from the wavefunction rather
+than assumed. It is worth contrasting that with the <em>mean</em> radius <span class="math notranslate nohighlight">\(\langle r\rangle=\int r|u|^2dr\)</span>,
+which comes out at <span class="math notranslate nohighlight">\(1.5\,a_0\)</span> — larger, because the density has a long outward tail that pulls the
+average out while leaving the peak where it is. Note also that <span class="math notranslate nohighlight">\(R\)</span> itself is largest at the
+nucleus; it is the <span class="math notranslate nohighlight">\(r^2\)</span> shell volume that moves the most likely radius outward.</p>
+<ol class="arabic simple">
+<li><p>With the <code class="docutils literal notranslate"><span class="pre">solve_hydrogen_radial</span></code> you wrote in Exercise 1, form the ground-state radial density
+<span class="math notranslate nohighlight">\(|u_{10}|^2\)</span> (<code class="docutils literal notranslate"><span class="pre">radial_density</span></code>).</p></li>
+<li><p>Find its maximum (<code class="docutils literal notranslate"><span class="pre">numpy.argmax</span></code>) and confirm the peak is at <span class="math notranslate nohighlight">\(r=a_0\)</span>.</p></li>
+<li><p>Compute the mean radius <span class="math notranslate nohighlight">\(\langle r\rangle\)</span> and compare it with the peak.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ground-state (1s) radial density r²|R|² = |u|²:
+  most probable radius r_peak = 1.000 a₀   (the Bohr radius a₀ = 1, = 0.529 Å)
+  mean radius ⟨r⟩ = 1.500 a₀   (larger — the density has a long outward tail)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the ground-state radial density peaks at the Bohr radius a₀ (=1 atomic unit)   [got 0.99975 vs expected 1 (rtol=1e-06, atol=0.02)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-the-l-degeneracy-and-the-hidden-symmetry">
+<h2>Exercise 6 — The <span class="math notranslate nohighlight">\(l\)</span>-degeneracy and the hidden symmetry<a class="headerlink" href="#exercise-6-the-l-degeneracy-and-the-hidden-symmetry" title="Link to this heading">#</a></h2>
+<p>In a generic central potential the energy depends on <span class="math notranslate nohighlight">\(n_r\)</span> and <span class="math notranslate nohighlight">\(l\)</span> separately — the wells of
+<a class="reference internal" href="central-potentials-3d.html"><span class="std std-doc">§6.16</span></a> showed exactly that. The Coulomb potential is not generic: its levels collapse onto the
+single combination <span class="math notranslate nohighlight">\(n=n_r+l+1\)</span>, so the 2s and 2p, shaped nothing alike, sit at <em>precisely</em> the same
+energy <a class="reference internal" href="#equation-eq-degeneracy">Eq. 587</a>. Rotational symmetry cannot account for this. Invariance under
+rotations guarantees only that the <span class="math notranslate nohighlight">\(2l+1\)</span> orientations of a given <span class="math notranslate nohighlight">\(l\)</span> are degenerate; that
+different <span class="math notranslate nohighlight">\(l\)</span> agree is an extra coincidence, called “accidental” for as long as no one could say
+what caused it. What causes it is a <strong>hidden symmetry</strong> special to <span class="math notranslate nohighlight">\(1/r\)</span>: the quantum
+<strong>Runge–Lenz vector</strong> <span class="math notranslate nohighlight">\(\mathbf A\)</span> is conserved, and together with <span class="math notranslate nohighlight">\(\mathbf L\)</span> it generates <span class="math notranslate nohighlight">\(SO(4)\)</span>
+rather than <span class="math notranslate nohighlight">\(SO(3)\)</span>, an enlarged symmetry that forces levels of different <span class="math notranslate nohighlight">\(l\)</span> together. It is the
+same conserved vector that fixes the major axis of a classical Kepler ellipse and keeps it from
+precessing (Volumes I, II, and IV). The converse matters just as much: any departure from exact
+<span class="math notranslate nohighlight">\(1/r\)</span> — inner electrons screening the nucleus in a many-electron atom — breaks the symmetry and
+splits <span class="math notranslate nohighlight">\(s\)</span> from <span class="math notranslate nohighlight">\(p\)</span> from <span class="math notranslate nohighlight">\(d\)</span>, and that splitting is what gives the periodic table its structure.
+Note that the levels below are three <em>independent</em> diagonalizations, one per <span class="math notranslate nohighlight">\(l\)</span>, agreeing to five
+decimal places; nothing in the code arranges for that.</p>
+<ol class="arabic simple">
+<li><p>With the <code class="docutils literal notranslate"><span class="pre">solve_hydrogen_radial</span></code> you wrote in Exercise 1, collect the energies of the <span class="math notranslate nohighlight">\((n,l)\)</span>
+states for <span class="math notranslate nohighlight">\(n=1..4\)</span>, <span class="math notranslate nohighlight">\(l=0..n-1\)</span> (the lowest state of each <span class="math notranslate nohighlight">\(l\)</span> has <span class="math notranslate nohighlight">\(n=l+1\)</span>).</p></li>
+<li><p>Confirm all <span class="math notranslate nohighlight">\(l\)</span> at fixed <span class="math notranslate nohighlight">\(n\)</span> share the energy <span class="math notranslate nohighlight">\(-1/2n^2\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>hydrogen levels by (n, l) — energy depends on n only (the l-degeneracy):
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  n=1 (−1/2n²=-0.50000):  1s=-0.49995
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  n=2 (−1/2n²=-0.12500):  2s=-0.12500  2p=-0.12500
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  n=3 (−1/2n²=-0.05556):  3s=-0.05555  3p=-0.05556  3d=-0.05556
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  n=4 (−1/2n²=-0.03125):  4s=-0.03125  4p=-0.03125  4d=-0.03125  4f=-0.03125
+
+→ all l of a shell share ONE energy: 2s = 2p, 3s = 3p = 3d, …
+  rotational symmetry gives only the (2l+1) m-degeneracy; the extra l-degeneracy is the
+  fingerprint of the conserved Runge–Lenz vector — the SO(4) hidden symmetry of the 1/r potential,
+  the same conserved axis that keeps a Kepler ellipse from precessing (Vols I, II, IV).
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  hydrogen&#39;s energy depends only on n, not l — the SO(4) hidden-symmetry (Runge–Lenz) degeneracy   [max|Δ| = 4.9965e-05 (rtol=1e-06, atol=0.002)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-degeneracy">
+<img alt="../../_images/7acb99b67328b546bd32c759db73c7cf4fb08586636af6caed9fac18df42a11c.png" src="../../_images/7acb99b67328b546bd32c759db73c7cf4fb08586636af6caed9fac18df42a11c.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 559 </span><span class="caption-text"><strong>The <span class="math notranslate nohighlight">\(l\)</span>-degeneracy made visible.</strong> The hydrogen energy levels, with the <span class="math notranslate nohighlight">\(s,p,d,f\)</span> states of each shell drawn as separate columns but placed at their computed energies. They line up <strong>exactly</strong>: every orbital of shell <span class="math notranslate nohighlight">\(n\)</span> — whatever its angular momentum — sits at the <em>same</em> energy <span class="math notranslate nohighlight">\(-13.6/n^2\,\)</span>eV (the 2s and 2p coincide, the 3s/3p/3d coincide, and so on). Rotational symmetry alone does not require this; it is the signature of the extra <span class="math notranslate nohighlight">\(SO(4)\)</span> symmetry special to the <span class="math notranslate nohighlight">\(1/r\)</span> potential (the conserved Runge–Lenz vector, the quantum echo of the non-precessing Kepler ellipse). In a <em>many-electron</em> atom, inner electrons screen the nucleus, the potential is no longer exactly <span class="math notranslate nohighlight">\(1/r\)</span>, and these columns <strong>split</strong> — <span class="math notranslate nohighlight">\(s\)</span> below <span class="math notranslate nohighlight">\(p\)</span> below <span class="math notranslate nohighlight">\(d\)</span> — and that splitting is precisely what gives the periodic table its shape.</span><a class="headerlink" href="#fig-degeneracy" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-shell-degeneracy-and-the-periodic-table-student">
+<h2>Exercise 7 — Shell degeneracy and the periodic table <em>(student)</em><a class="headerlink" href="#exercise-7-shell-degeneracy-and-the-periodic-table-student" title="Link to this heading">#</a></h2>
+<p>With the <span class="math notranslate nohighlight">\(l\)</span>-degeneracy of Exercise 6 established, counting the states of a shell is pure
+arithmetic. Each allowed <span class="math notranslate nohighlight">\(l\)</span> contributes its <span class="math notranslate nohighlight">\(2l+1\)</span> orientations, the degeneracy puts them all at
+one energy, and the sum runs over <span class="math notranslate nohighlight">\(l=0,\dots,n-1\)</span> to give <span class="math notranslate nohighlight">\(n^2\)</span> orbitals per shell, or <span class="math notranslate nohighlight">\(2n^2\)</span> once
+the electron’s two spin states are counted (<a class="reference internal" href="spin-magnetic.html"><span class="std std-doc">§6.18</span></a>) <a class="reference internal" href="#equation-eq-shells">Eq. 588</a>. Those numbers —
+<span class="math notranslate nohighlight">\(2,8,18,32\)</span> — are the row capacities of the periodic table. The shell structure of matter is
+hydrogen’s degeneracy counting, with one caveat worth stating plainly: in real atoms screening
+reorders the subshells (4s fills before 3d), so the <em>filling order</em> is not hydrogen’s, even though
+the counting is.</p>
+<ol class="arabic simple">
+<li><p>For <span class="math notranslate nohighlight">\(n=1..4\)</span>, count the orbitals <span class="math notranslate nohighlight">\(\sum_{l=0}^{n-1}(2l+1)\)</span> and check the sum equals <span class="math notranslate nohighlight">\(n^2\)</span>.</p></li>
+<li><p>Multiply by 2 for spin and compare to the periodic table’s row lengths <span class="math notranslate nohighlight">\(2,8,18,32\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>shell degeneracy  Σ(2l+1) = n²,  and 2n² with spin:
+  n=1:  1(s) = 1 = n²   → 2n² = 2 (periodic-table row 1: 2)
+  n=2:  1(s) + 3(p) = 4 = n²   → 2n² = 8 (periodic-table row 2: 8)
+  n=3:  1(s) + 3(p) + 5(d) = 9 = n²   → 2n² = 18 (periodic-table row 3: 18)
+  n=4:  1(s) + 3(p) + 5(d) + 7(f) = 16 = n²   → 2n² = 32 (periodic-table row 4: 32)
+
+the 2, 8, 18, 32 row capacities ARE the hydrogen shell degeneracies 2n²
+(in real atoms screening reorders subshells — e.g. 4s fills before 3d — but the counting stands)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  shell n holds n² orbitals (2n² with spin) = the periodic-table row capacities 2,8,18,32 — the n² degeneracy underlies the periodic table
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-hydrogen-like-ions-and-scaling-student">
+<h2>Exercise 8 — Hydrogen-like ions and scaling <em>(student)</em><a class="headerlink" href="#exercise-8-hydrogen-like-ions-and-scaling-student" title="Link to this heading">#</a></h2>
+<p>The nuclear charge <span class="math notranslate nohighlight">\(Z\)</span> was carried along all through <a class="reference internal" href="#equation-eq-hydrogen-coulomb">Eq. 584</a> and
+<a class="reference internal" href="#equation-eq-rydberg">Eq. 585</a> without ever being set to anything but 1, and collecting it now buys a whole
+isoelectronic family — He<span class="math notranslate nohighlight">\(^+\)</span>, Li<span class="math notranslate nohighlight">\(^{2+}\)</span>, and every other one-electron ion — from the same
+solution. A stronger nucleus binds more tightly and pulls the electron in: energies deepen as
+<span class="math notranslate nohighlight">\(E_n=-Z^2/2n^2\)</span>, and the orbitals shrink as <span class="math notranslate nohighlight">\(1/Z\)</span>, so the ground-state density peaks at <span class="math notranslate nohighlight">\(a_0/Z\)</span>.
+One practical consequence of that shrinking is that the box should shrink with it — scaling
+<span class="math notranslate nohighlight">\(r_{\max}\)</span> down by <span class="math notranslate nohighlight">\(Z\)</span> keeps each ion’s grid resolving its own compressed wavefunction instead of
+spending points on empty space.</p>
+<ol class="arabic simple">
+<li><p>With the <code class="docutils literal notranslate"><span class="pre">solve_hydrogen_radial</span></code> you wrote in Exercise 1, solve at nuclear charge <span class="math notranslate nohighlight">\(Z=1,2,3\)</span>.</p></li>
+<li><p>Confirm the energies scale as <span class="math notranslate nohighlight">\(E_n=-Z^2/2n^2\)</span>.</p></li>
+<li><p>Confirm the ground-state density peak moves to <span class="math notranslate nohighlight">\(a_0/Z\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>hydrogen-like ions:  E₁ = −Z²/2,  r_peak = a₀/Z
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  H     (Z=1):  E₁ = -0.5000 Ha (−Z²/2 = -0.5000)   r_peak = 0.9997 a₀ (a₀/Z = 1.0000)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  He⁺   (Z=2):  E₁ = -1.9999 Ha (−Z²/2 = -2.0000)   r_peak = 0.4998 a₀ (a₀/Z = 0.5000)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Li²⁺  (Z=3):  E₁ = -4.4998 Ha (−Z²/2 = -4.5000)   r_peak = 0.3332 a₀ (a₀/Z = 0.3333)
+
+a stronger nucleus binds tighter (E ∝ Z²) and pulls the electron in (size ∝ 1/Z)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-8">
+<h3>Validation 8<a class="headerlink" href="#validation-8" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  hydrogen-like ion energies scale as Eₙ = −Z²/2n² and orbitals shrink as 1/Z   [max|Δ| = 0.000199849 (rtol=0.01, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-9-the-atom-that-built-the-theory-synthesis">
+<h2>Exercise 9 — The atom that built the theory <em>(synthesis)</em><a class="headerlink" href="#exercise-9-the-atom-that-built-the-theory-synthesis" title="Link to this heading">#</a></h2>
+<p>Everything in this volume came together here. The spherical harmonics gave us the angles (<a class="reference internal" href="orbital-angular-momentum.html"><span class="std std-doc">§6.15</span></a>), the
+radial reduction gave us the distance (<a class="reference internal" href="central-potentials-3d.html"><span class="std std-doc">§6.16</span></a>), and the eigenvalue solver gave us the energies (<a class="reference internal" href="schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a>) — and
+out of the three came the hydrogen atom: the Rydberg spectrum that matched the spectral lines to a
+fraction of a percent, the orbitals that shape every molecule, and a degeneracy so exact it revealed a
+symmetry no one had put in by hand.</p>
+<p>There is no new computation to do here; the atom is the result. The energy’s blindness to <span class="math notranslate nohighlight">\(l\)</span>
+is the quantum echo of the Kepler ellipse that never precesses — the conserved Runge–Lenz vector, the
+same <span class="math notranslate nohighlight">\(SO(4)\)</span> symmetry we first met as the <em>closed orbit</em> of an inverse-square force in Volumes I and II,
+and whose tiny violation (Mercury’s precession) opened the door to general relativity in Volume IV. Here
+it is exact, and its <em>breaking</em> — by letting inner electrons screen the nucleus, so the potential is no
+longer quite <span class="math notranslate nohighlight">\(1/r\)</span> — is what splits <span class="math notranslate nohighlight">\(s\)</span> from <span class="math notranslate nohighlight">\(p\)</span> from <span class="math notranslate nohighlight">\(d\)</span> and gives the periodic table its rows and
+columns. What remains is to add the one thing the Schrödinger equation left out: the electron’s <strong>spin</strong>,
+the fourth quantum number, which the next notebook (<a class="reference internal" href="spin-magnetic.html"><span class="std std-doc">§6.18</span></a>) restores and which completes the <span class="math notranslate nohighlight">\(2n^2\)</span> counting
+— and which fine structure (<a class="reference internal" href="perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a>) will use to split these perfect Coulomb levels at last.</p>
+<p>Bohr guessed the <span class="math notranslate nohighlight">\(-13.6\,\)</span>eV<span class="math notranslate nohighlight">\(/n^2\)</span> formula in 1913 from a model he knew was provisional. Thirteen years
+later the Schrödinger equation produced it <em>exactly</em>, along with the orbitals Bohr could not have drawn,
+and hid inside it a symmetry that took another decade to name. We computed the whole of it, on a grid, in
+an afternoon.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>The hydrogen atom — the crown of Movement III, and a summit of the volume.</p>
+<ul class="simple">
+<li><p><strong>The Coulomb problem</strong> <a class="reference internal" href="#equation-eq-hydrogen-coulomb">Eq. 584</a>: <span class="math notranslate nohighlight">\(V=-Z/r\)</span> in the <a class="reference internal" href="central-potentials-3d.html"><span class="std std-doc">§6.16</span></a> radial equation, <span class="math notranslate nohighlight">\(V_{\text{eff}}=-Z/r+
+l(l+1)/2r^2\)</span>, solved with <code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code> in atomic units.</p></li>
+<li><p><strong>The Rydberg spectrum</strong> <a class="reference internal" href="#equation-eq-rydberg">Eq. 585</a>: <span class="math notranslate nohighlight">\(E_n=-Z^2/2n^2\,\)</span>Ha <span class="math notranslate nohighlight">\(=-13.6\,Z^2/n^2\,\)</span>eV; the differences
+are the Lyman/Balmer/Paschen lines (<span class="math notranslate nohighlight">\(H\alpha=656\,\)</span>nm), matched to spectroscopy.</p></li>
+<li><p><strong>The orbitals</strong> <a class="reference internal" href="#equation-eq-orbitals">Eq. 586</a>: <span class="math notranslate nohighlight">\(\psi_{n,l,m}=R_{n,l}Y_l^m\)</span>, radial nodes <span class="math notranslate nohighlight">\(n_r=n-l-1\)</span>, matching the
+analytic Laguerre forms to <span class="math notranslate nohighlight">\(\sim10^{-4}\)</span>; the 1s density peaks at the Bohr radius <span class="math notranslate nohighlight">\(a_0\)</span>.</p></li>
+<li><p><strong>The <span class="math notranslate nohighlight">\(l\)</span>-degeneracy</strong> <a class="reference internal" href="#equation-eq-degeneracy">Eq. 587</a>: <span class="math notranslate nohighlight">\(E\)</span> depends on <span class="math notranslate nohighlight">\(n\)</span> only — the Runge–Lenz / <span class="math notranslate nohighlight">\(SO(4)\)</span> hidden
+symmetry (the closed Kepler orbit), broken by screening in many-electron atoms.</p></li>
+<li><p><strong>Shell degeneracy</strong> <a class="reference internal" href="#equation-eq-shells">Eq. 588</a>: <span class="math notranslate nohighlight">\(n^2\)</span> orbitals (<span class="math notranslate nohighlight">\(2n^2\)</span> with spin) <span class="math notranslate nohighlight">\(=2,8,18,32\)</span> — the periodic
+table’s rows.</p></li>
+<li><p><strong>Scaling</strong>: hydrogen-like ions have <span class="math notranslate nohighlight">\(E\propto Z^2\)</span> and sizes <span class="math notranslate nohighlight">\(\propto1/Z\)</span>.</p></li>
+</ul>
+<p>The first exact atom, the spectrum that explained the lines, and a hidden symmetry linking the quantum
+atom to the classical Kepler orbit. Only spin is missing — and that is next.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Spin (<a class="reference internal" href="spin-magnetic.html"><span class="std std-doc">§6.18</span></a>)</strong>: the fourth quantum number <span class="math notranslate nohighlight">\(m_s\)</span>, the electron’s intrinsic angular momentum (the
+half-integers of <a class="reference internal" href="angular-momentum-algebra.html"><span class="std std-doc">§6.14</span></a>), completing the <span class="math notranslate nohighlight">\(2n^2\)</span> counting.</p></li>
+<li><p><strong>Fine structure (<a class="reference internal" href="perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a>)</strong>: relativistic and spin–orbit corrections lift the <span class="math notranslate nohighlight">\(l\)</span>-degeneracy; the Lamb
+shift (QED) and hyperfine structure (the 21-cm line) are further, tinier splittings (horizons).</p></li>
+<li><p><strong>Many-electron atoms and the periodic table</strong> (a horizon): screening breaks the <span class="math notranslate nohighlight">\(SO(4)\)</span> symmetry and
+orders the subshells, with the exclusion principle filling them.</p></li>
+<li><p><strong>The Runge–Lenz vector and <span class="math notranslate nohighlight">\(SO(4)\)</span></strong> (an algebraic horizon): hydrogen solved by symmetry alone, with no
+differential equation — the Pauli/Fock method.</p></li>
+<li><p><strong>Cross-reference</strong> <a class="reference internal" href="central-potentials-3d.html"><span class="std std-doc">§6.16</span></a> (the radial equation), <a class="reference internal" href="orbital-angular-momentum.html"><span class="std std-doc">§6.15</span></a> (the spherical harmonics), <a class="reference internal" href="schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a> (the eigenmethod),
+<a class="reference internal" href="harmonic-oscillator.html"><span class="std std-doc">§6.12</span></a> (Laguerre/Hermite special functions), and forward to <a class="reference internal" href="spin-magnetic.html"><span class="std std-doc">§6.18</span></a>, <a class="reference internal" href="perturbation-fine-structure.html"><span class="std std-doc">§6.21</span></a>.</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/06-quantum-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="central-potentials-3d.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="spin-magnetic.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-coulomb-problem">The Coulomb problem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-rydberg-spectrum">The Rydberg spectrum</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-three-quantum-numbers-and-the-orbitals">The three quantum numbers and the orbitals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-l-degeneracy-and-the-hidden-symmetry">The <span class="math notranslate nohighlight">\(l\)</span>-degeneracy and the hidden symmetry</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shell-degeneracy-and-the-periodic-table">Shell degeneracy and the periodic table</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#realism-caveats">Realism caveats</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-coulomb-radial-equation-and-the-ground-state">Exercise 1 — The Coulomb radial equation and the ground state</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-rydberg-spectrum">Exercise 2 — The Rydberg spectrum</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-spectral-lines-lyman-balmer-paschen">Exercise 3 — Spectral lines: Lyman, Balmer, Paschen</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-orbitals-radial-functions-and-shapes">Exercise 4 — The orbitals: radial functions and shapes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-most-probable-radius-and-the-bohr-radius">Exercise 5 — The most probable radius and the Bohr radius</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-l-degeneracy-and-the-hidden-symmetry">Exercise 6 — The <span class="math notranslate nohighlight">\(l\)</span>-degeneracy and the hidden symmetry</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-shell-degeneracy-and-the-periodic-table-student">Exercise 7 — Shell degeneracy and the periodic table <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-hydrogen-like-ions-and-scaling-student">Exercise 8 — Hydrogen-like ions and scaling <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-the-atom-that-built-the-theory-synthesis">Exercise 9 — The atom that built the theory <em>(synthesis)</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

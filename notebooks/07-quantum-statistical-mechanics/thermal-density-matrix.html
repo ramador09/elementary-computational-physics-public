@@ -1,0 +1,1764 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/thermal-density-matrix.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Movement 0 sharpened the tools; this notebook opens the physics, and it does so by keeping the central promise of the quantum volume. Volu..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Movement 0 sharpened the tools; this notebook opens the physics, and it does so by keeping the central promise of the quantum volume. Volu..." />
+
+    <title>7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/07-quantum-statistical-mechanics/thermal-density-matrix';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/07-quantum-statistical-mechanics/thermal-density-matrix.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit" href="oscillator-at-temperature.html" />
+    <link rel="prev" title="7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals" href="statistical-toolkit.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VII — Quantum Statistical Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-electronic-structure/index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/07-quantum-statistical-mechanics/thermal-density-matrix.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/07-quantum-statistical-mechanics/thermal-density-matrix.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/07-quantum-statistical-mechanics/thermal-density-matrix.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/07-quantum-statistical-mechanics/thermal-density-matrix.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-roads-to-the-thermal-state">Three roads to the thermal state</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-quantum-partition-function">The quantum partition function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#thermodynamics-from-z">Thermodynamics from Z</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-two-level-system-and-the-fermi-function-three-movements-early">The two-level system, and the Fermi function three movements early</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-schottky-anomaly">The Schottky anomaly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entropy-purity-and-the-third-law">Entropy, purity, and the third law</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#negative-temperature">Negative temperature</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-seeds-imaginary-time-and-low-temperature-numerics">Two seeds: imaginary time, and low-temperature numerics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-thermal-state-by-maximum-entropy">Exercise 1 — The thermal state by maximum entropy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-partition-function-is-a-trace">Exercise 2 — The partition function is a trace</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-thermodynamics-from-z">Exercise 3 — Thermodynamics from Z</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-warm-qubit-and-the-fermi-function-three-movements-early">Exercise 4 — The warm qubit, and the Fermi function three movements early</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-schottky-anomaly">Exercise 5 — The Schottky anomaly</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-entropy-purity-and-the-third-law">Exercise 6 — Entropy, purity, and the third law</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-negative-temperature-hotter-than-infinity">Exercise 7 — Negative temperature: hotter than infinity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-a-general-hamiltonian-and-the-two-standing-disciplines">Exercise 8 — A general Hamiltonian, and the two standing disciplines</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-the-honest-state">Exercise 9 — The honest state</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-thermal-density-matrix-and-the-quantum-canonical-ensemble">
+<h1>7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble<a class="headerlink" href="#the-thermal-density-matrix-and-the-quantum-canonical-ensemble" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VII — Quantum Statistical Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;7.4
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">The density matrix, given a temperature. Among every mixed state with the right average energy, one is uniquely honest — the state that assumes nothing else — and it is the Boltzmann weight of Volume V transplanted onto a quantum spectrum. A single warm qubit then delivers a remarkable haul: the Fermi function three movements early, a bump in the heat capacity that experimentalists hunt for, the third law of thermodynamics as a quantum fact, and temperatures below zero that are hotter than infinity.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;185–225 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Movement 0 sharpened the tools; this notebook opens the physics, and it does so by keeping the
+central promise of the quantum volume. Volume VI ended (<a class="reference internal" href="../06-quantum-mechanics/density-matrix.html"><span class="std std-doc">§6.26</span></a>) with the density matrix — the
+language for quantum states we know only partially — and with a question it deliberately left
+open: what does <span class="math notranslate nohighlight">\(\rho\)</span> become when a system sits in contact with the world at temperature <span class="math notranslate nohighlight">\(T\)</span>? The
+answer is the <strong>thermal state</strong>,</p>
+<div class="math notranslate nohighlight">
+\[
+\rho \;=\; \frac{e^{-\beta H}}{Z},\qquad Z = \operatorname{Tr} e^{-\beta H},
+\]</div>
+<p>and this notebook earns it rather than declares it. Three roads lead here, and each illuminates
+something different. The road we take is <strong>maximum entropy</strong>: among all density matrices with a
+given mean energy, the thermal one uniquely maximizes the von Neumann entropy of <a class="reference internal" href="../06-quantum-mechanics/density-matrix.html"><span class="std std-doc">§6.26</span></a> — it is the
+<em>honest</em> state, encoding the one number we know and refusing to pretend we know more. The
+derivation is four lines of Lagrange multipliers, and then we do something a formula cannot: we
+let twenty thousand random competitor states try to beat it, each compared against the thermal
+entropy <em>at its own mean energy</em>, and count the violations. (There are none — and the phrase “at
+its own mean energy” turns out to be a genuine numerical lesson, not pedantry.) The second road is
+<strong>correspondence</strong>: this is exactly Volume V’s canonical ensemble (<a class="reference internal" href="../05-classical-stat-mech/ergodicity.html"><span class="std std-doc">§5.5</span></a>), with the Boltzmann weight
+transplanted from phase space onto a discrete quantum spectrum. The third is <strong>entanglement with a
+bath</strong>: trace out an environment, and what remains of the subsystem is thermal — stated here as
+the physical origin, demonstrated dynamically in <a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a>.</p>
+<p>The <strong>quantum partition function</strong> <span class="math notranslate nohighlight">\(Z = \operatorname{Tr}\,e^{-\beta H}\)</span> then generates all of
+thermodynamics exactly as its classical parent did, and being a trace it is <em>basis-free</em> — a fact
+we verify three ways rather than assert. The physics of the notebook is carried by the smallest
+quantum system there is: the <strong>two-level system</strong>, the qubit of Volume VI, now warm. It delivers
+an unreasonable haul. Its upper-level population is <em>identically</em> the Fermi–Dirac function — no
+accident, since a fermionic mode is a two-level system, and the statistics of <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> thereby arrive three
+movements early. Its heat capacity is not a monotone rise but a bump — the <strong>Schottky anomaly</strong>,
+the calorimetric fingerprint by which experimentalists detect hidden two-level degrees of freedom
+and read off their gaps. Its entropy runs from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(\ln 2\)</span>, and the zero at <span class="math notranslate nohighlight">\(T \to 0\)</span> is the
+<strong>third law of thermodynamics</strong>, delivered here as an intrinsically <em>quantum</em> fact: Volume V’s
+classical entropy diverges to <span class="math notranslate nohighlight">\(-\infty\)</span> at low temperature, and it is the discreteness of the
+spectrum that rescues thermodynamics. And because the two-level spectrum is bounded above, its
+<span class="math notranslate nohighlight">\(S(E)\)</span> curve bends over — <span class="math notranslate nohighlight">\(\beta = \partial S/\partial E\)</span> falls through zero at half filling and
+goes <strong>negative</strong> for inverted populations: temperatures below zero that are <em>hotter than
+infinity</em>, the thermodynamic seed of the laser (<a class="reference internal" href="einstein-a-b-coefficients.html"><span class="std std-doc">§7.15</span></a>).</p>
+<p>Two further seeds close the notebook, both planted for <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> and for every cold calculation to
+come: the identity <span class="math notranslate nohighlight">\(e^{-\beta H} = U(-i\hbar\beta)\)</span> — the thermal weight <em>is</em> time evolution
+continued to imaginary time — and the log-sum-exp discipline, demonstrated by letting a naive <span class="math notranslate nohighlight">\(Z\)</span>
+underflow to exactly <span class="math notranslate nohighlight">\(0.0\)</span> and then rescuing it. The harmonic oscillator is deliberately absent:
+it gets a notebook of its own (<a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>), where a spectrum unbounded above finally has room for the
+classical limit.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Units <span class="math notranslate nohighlight">\(k_B = 1\)</span> throughout (temperatures measured in energy
+units; the <span class="math notranslate nohighlight">\(k_B\)</span>’s are restored in physical statements), and <span class="math notranslate nohighlight">\(\hbar = 1\)</span> where time evolution
+appears. The <strong>standing low-temperature policy</strong>, adopted in Exercise 8 and used everywhere
+after: thermal weights are always computed with the ground energy subtracted,
+<span class="math notranslate nohighlight">\(e^{-\beta(E_n - E_0)}\)</span> — populations are unchanged and the numerics survive any <span class="math notranslate nohighlight">\(\beta\)</span>. For
+negative-temperature discussions the scale is ordered by <span class="math notranslate nohighlight">\(\beta\)</span>, not by <span class="math notranslate nohighlight">\(T\)</span>: <span class="math notranslate nohighlight">\(\beta\)</span> decreasing
+means hotter, and <span class="math notranslate nohighlight">\(\beta &lt; 0\)</span> sits <em>above</em> <span class="math notranslate nohighlight">\(T = \infty\)</span>, not below <span class="math notranslate nohighlight">\(T = 0\)</span>.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against an independent
+fact: zero entropy violations across <span class="math notranslate nohighlight">\(2\times10^4\)</span> per-state-constrained competitors; <span class="math notranslate nohighlight">\(Z\)</span>
+agreeing to eight digits across the eigenvalue sum, <code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code>, and a randomly rotated
+basis; <span class="math notranslate nohighlight">\(-\partial\ln Z/\partial\beta\)</span> meeting <span class="math notranslate nohighlight">\(\operatorname{Tr}(\rho H)\)</span> by central
+differences; the two-level population matching <span class="math notranslate nohighlight">\(n_F\)</span> at machine precision; the Schottky peak at
+<span class="math notranslate nohighlight">\(k_BT = 0.417\Delta\)</span>; entropy and purity running <span class="math notranslate nohighlight">\(0 \to \ln 2\)</span> and <span class="math notranslate nohighlight">\(1 \to \tfrac12\)</span>; the sign
+change of <span class="math notranslate nohighlight">\(\beta = \partial S/\partial E\)</span> at half filling; and <span class="math notranslate nohighlight">\(e^{-\beta H}\)</span> matching
+<span class="math notranslate nohighlight">\(U(-i\beta)\)</span> to twelve digits. A ✓ is strong evidence; a ✗ is a prompt to <em>locate the
+discrepancy</em>.</p>
+<p><strong>Scope.</strong> The canonical ensemble on discrete quantum spectra, with the two-level system as the
+working example. The oscillator is <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a> <em>entire</em>; the spin-<span class="math notranslate nohighlight">\(J\)</span> Brillouin treatment is <a class="reference internal" href="quantum-paramagnets-brillouin.html"><span class="std std-doc">§7.18</span></a>; the
+ensemble derivations of <span class="math notranslate nohighlight">\(n_B\)</span> and <span class="math notranslate nohighlight">\(n_F\)</span> are <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> (today’s Fermi function is a flagged preview,
+not a derivation); thermalization dynamics from bath entanglement is <a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a>. See Pathria &amp; Beale,
+<em>Statistical Mechanics</em> (Ch. 5, the density-matrix formulation); Sakurai &amp; Napolitano (§3.4);
+and Jaynes’s information-theoretic papers for the maximum-entropy viewpoint. Cross-reference
+<a class="reference internal" href="../06-quantum-mechanics/density-matrix.html"><span class="std std-doc">§6.26</span></a> (the density matrix and von Neumann entropy, now put to work), <a class="reference internal" href="../06-quantum-mechanics/time-evolution.html"><span class="std std-doc">§6.7</span></a> (<span class="math notranslate nohighlight">\(U(t)\)</span>, about to be
+continued), <a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html"><span class="std std-doc">§5.4</span></a> (<span class="math notranslate nohighlight">\(\beta = \partial S/\partial E\)</span>), <a class="reference internal" href="../05-classical-stat-mech/ergodicity.html"><span class="std std-doc">§5.5</span></a> (the classical canonical ensemble), <a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html"><span class="std std-doc">§5.7</span></a>
+(the potentials), and forward to <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>, <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>, <a class="reference internal" href="einstein-a-b-coefficients.html"><span class="std std-doc">§7.15</span></a>, <a class="reference internal" href="quantum-paramagnets-brillouin.html"><span class="std std-doc">§7.18</span></a>, <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>, <a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a>.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="three-roads-to-the-thermal-state">
+<h3>Three roads to the thermal state<a class="headerlink" href="#three-roads-to-the-thermal-state" title="Link to this heading">#</a></h3>
+<p>What density matrix describes a system at temperature <span class="math notranslate nohighlight">\(T\)</span>? The volume’s derivation of record is
+<strong>maximum entropy</strong>. We know one number about the system — its mean energy <span class="math notranslate nohighlight">\(\langle E\rangle =
+\operatorname{Tr}(\rho H)\)</span> — and honesty demands the state that encodes that number and <em>nothing
+else</em>: the <span class="math notranslate nohighlight">\(\rho\)</span> that maximizes the von Neumann entropy <span class="math notranslate nohighlight">\(S = -\operatorname{Tr}(\rho\ln\rho)\)</span>
+of <a class="reference internal" href="../06-quantum-mechanics/density-matrix.html"><span class="std std-doc">§6.26</span></a> subject to <span class="math notranslate nohighlight">\(\operatorname{Tr}\rho = 1\)</span> and the energy constraint. Two Lagrange
+multipliers later (the derivation is Exercise 1’s opening part),</p>
+<div class="math notranslate nohighlight" id="equation-eq-thermal-state">
+<span class="eqno">(689)<a class="headerlink" href="#equation-eq-thermal-state" title="Link to this equation">#</a></span>\[\rho \;=\; \frac{e^{-\beta H}}{Z},
+\qquad
+p_n = \frac{e^{-\beta E_n}}{Z},
+\qquad
+Z = \sum_n e^{-\beta E_n},\]</div>
+<p>with <span class="math notranslate nohighlight">\(\beta\)</span> the multiplier conjugate to energy — soon identified with <span class="math notranslate nohighlight">\(1/k_BT\)</span> through the
+thermodynamic relations below. Two other roads reach the same state. <strong>Correspondence</strong>: this is
+Volume V’s canonical ensemble (<a class="reference internal" href="../05-classical-stat-mech/ergodicity.html"><span class="std std-doc">§5.5</span></a>) verbatim, the phase-space Boltzmann weight transplanted onto
+the discrete spectrum. And <strong>bath entanglement</strong>: a subsystem of a large closed system, entangled
+with the rest and traced over it (the reduced density matrix of <a class="reference internal" href="../06-quantum-mechanics/density-matrix.html"><span class="std std-doc">§6.26</span></a>), is generically left
+thermal — the physical <em>origin</em> of temperature, stated here and demonstrated dynamically in <a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a>.
+Note what <a class="reference internal" href="#equation-eq-thermal-state">Eq. 689</a> says structurally: in the energy eigenbasis <span class="math notranslate nohighlight">\(\rho\)</span> is
+<strong>diagonal</strong>. A thermal state carries no coherences between energy eigenstates — any such
+coherence would be information beyond the one number we claimed to know, and maximum entropy
+forbids exactly that.</p>
+</section>
+<section id="the-quantum-partition-function">
+<h3>The quantum partition function<a class="headerlink" href="#the-quantum-partition-function" title="Link to this heading">#</a></h3>
+<p>The normalization is the volume’s central object,</p>
+<div class="math notranslate nohighlight" id="equation-eq-partition-function">
+<span class="eqno">(690)<a class="headerlink" href="#equation-eq-partition-function" title="Link to this equation">#</a></span>\[Z(\beta) \;=\; \operatorname{Tr}\,e^{-\beta H} \;=\; \sum_n e^{-\beta E_n},
+\qquad
+\langle A\rangle = \operatorname{Tr}(\rho A)\ \ \text{for any observable }A .\]</div>
+<p>Being a <strong>trace</strong>, <span class="math notranslate nohighlight">\(Z\)</span> is basis-independent — computable from the spectrum
+(<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code>), from the matrix exponential (<code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code>), or in any rotated
+basis whatsoever, and Exercise 2 checks all three to eight digits. The thermal-average formula
+needs no simultaneous eigenbasis and no commutation: <span class="math notranslate nohighlight">\(\operatorname{Tr}(\rho A)\)</span> is well-defined
+for <em>any</em> <span class="math notranslate nohighlight">\(A\)</span>, which is precisely why the trace formulation, not the population list, is the
+fundamental one.</p>
+</section>
+<section id="thermodynamics-from-z">
+<h3>Thermodynamics from Z<a class="headerlink" href="#thermodynamics-from-z" title="Link to this heading">#</a></h3>
+<p>Every generating identity of Volume V (<a class="reference internal" href="../05-classical-stat-mech/ergodicity.html"><span class="std std-doc">§5.5</span></a>, <a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html"><span class="std std-doc">§5.7</span></a>) survives verbatim, with the phase-space integral
+replaced by the spectral sum:</p>
+<div class="math notranslate nohighlight" id="equation-eq-thermo-from-z">
+<span class="eqno">(691)<a class="headerlink" href="#equation-eq-thermo-from-z" title="Link to this equation">#</a></span>\[F = -k_BT\,\ln Z,
+\qquad
+\langle E\rangle = -\frac{\partial \ln Z}{\partial\beta} = \operatorname{Tr}(\rho H),
+\qquad
+C = \frac{\partial\langle E\rangle}{\partial T},
+\qquad
+S = \frac{\langle E\rangle - F}{T}.\]</div>
+<p>The last identity closes a conceptual loop: for the diagonal thermal <span class="math notranslate nohighlight">\(\rho\)</span>, the thermodynamic
+entropy <span class="math notranslate nohighlight">\((\langle E\rangle - F)/T\)</span> <em>is</em> the von Neumann entropy <span class="math notranslate nohighlight">\(-\operatorname{Tr}(\rho\ln\rho)\)</span>,
+which is the Shannon entropy of the Boltzmann populations — one object wearing three names, and
+Exercise 3 verifies the identification numerically rather than by decree.</p>
+</section>
+<section id="the-two-level-system-and-the-fermi-function-three-movements-early">
+<h3>The two-level system, and the Fermi function three movements early<a class="headerlink" href="#the-two-level-system-and-the-fermi-function-three-movements-early" title="Link to this heading">#</a></h3>
+<p>The smallest quantum system — ground state <span class="math notranslate nohighlight">\(0\)</span>, excited state <span class="math notranslate nohighlight">\(\Delta\)</span>; the qubit of Volume VI,
+now warm — carries this notebook’s physics:</p>
+<div class="math notranslate nohighlight" id="equation-eq-two-level">
+<span class="eqno">(692)<a class="headerlink" href="#equation-eq-two-level" title="Link to this equation">#</a></span>\[Z = 1 + e^{-\beta\Delta},
+\qquad
+p_1 = \frac{1}{e^{\beta\Delta} + 1} \;=\; n_F(\Delta),
+\qquad
+\langle E\rangle = \Delta\,p_1 .\]</div>
+<p>The upper-level population is <em>identically</em> the Fermi–Dirac function, and this is no accident: a
+fermionic <strong>mode</strong> is a two-level system (empty or occupied, with Pauli forbidding more), so the
+thermal qubit already contains the fermionic statistics that <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> will derive properly from the
+grand canonical ensemble. We flag the convergence now and complete it there. A spin-<span class="math notranslate nohighlight">\(\tfrac12\)</span> in a
+field <span class="math notranslate nohighlight">\(B\)</span> is the same system in different clothes: magnetization <span class="math notranslate nohighlight">\(m = \mu\tanh(\beta\mu B)\)</span>, with
+the <strong>Curie <span class="math notranslate nohighlight">\(1/T\)</span> tail</strong> at high temperature (the general spin-<span class="math notranslate nohighlight">\(J\)</span> Brillouin treatment is <a class="reference internal" href="quantum-paramagnets-brillouin.html"><span class="std std-doc">§7.18</span></a>).</p>
+</section>
+<section id="the-schottky-anomaly">
+<h3>The Schottky anomaly<a class="headerlink" href="#the-schottky-anomaly" title="Link to this heading">#</a></h3>
+<p>Differentiating <span class="math notranslate nohighlight">\(\langle E\rangle(T)\)</span> gives the two-level heat capacity,</p>
+<div class="math notranslate nohighlight" id="equation-eq-schottky">
+<span class="eqno">(693)<a class="headerlink" href="#equation-eq-schottky" title="Link to this equation">#</a></span>\[C(T) = k_B\,x^2\,\frac{e^{x}}{(e^{x}+1)^2},
+\qquad
+x = \frac{\Delta}{k_BT},\]</div>
+<p>and it is a <strong>bump</strong>, not a monotone rise: exponentially small at low <span class="math notranslate nohighlight">\(T\)</span> (the gap freezes the
+system out), decaying as <span class="math notranslate nohighlight">\(1/T^2\)</span> at high <span class="math notranslate nohighlight">\(T\)</span> (both levels equally occupied — nothing left to
+excite), and maximal in between, at <span class="math notranslate nohighlight">\(k_BT = 0.417\Delta\)</span> with <span class="math notranslate nohighlight">\(C_{\max} = 0.439\,k_B\)</span> (located
+numerically with <code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize_scalar</span></code> in Exercise 5). This <strong>Schottky anomaly</strong> is
+the experimental fingerprint of <em>any</em> two-level degree of freedom hiding in a material — defects,
+tunneling systems, nuclear spins — and the bump’s position reads off the gap. Low-temperature
+calorimetry hunts for exactly this shape.</p>
+</section>
+<section id="entropy-purity-and-the-third-law">
+<h3>Entropy, purity, and the third law<a class="headerlink" href="#entropy-purity-and-the-third-law" title="Link to this heading">#</a></h3>
+<p>The two-level entropy and purity interpolate between two clean limits,</p>
+<div class="math notranslate nohighlight" id="equation-eq-third-law">
+<span class="eqno">(694)<a class="headerlink" href="#equation-eq-third-law" title="Link to this equation">#</a></span>\[S(T\to0) = 0 \quad (\text{purity}\to1),
+\qquad
+S(T\to\infty) = \ln 2 \quad (\text{purity}\to\tfrac12),\]</div>
+<p>and the first limit is the <strong>third law of thermodynamics</strong> — delivered as an intrinsically
+<em>quantum</em> fact. As <span class="math notranslate nohighlight">\(T \to 0\)</span> the thermal state settles into the pure, non-degenerate ground state
+and <span class="math notranslate nohighlight">\(S \to \ln g_0 = 0\)</span>. Classical mechanics cannot do this: Volume V’s classical entropy runs to
+<span class="math notranslate nohighlight">\(-\infty\)</span> as <span class="math notranslate nohighlight">\(T \to 0\)</span> (the accessible phase-space volume shrinks without bound, and its logarithm
+follows), a genuine failure of the classical theory. The discreteness of the quantum spectrum —
+a lowest rung, and a gap above it — is what pins the low-temperature entropy. This is the first of
+the volume’s “where classical failed” resolutions, and its heat-capacity companion (<span class="math notranslate nohighlight">\(C \to 0\)</span> as
+<span class="math notranslate nohighlight">\(T \to 0\)</span>, visible in the Schottky curve’s frozen side) travels with it.</p>
+</section>
+<section id="negative-temperature">
+<h3>Negative temperature<a class="headerlink" href="#negative-temperature" title="Link to this heading">#</a></h3>
+<p>For <span class="math notranslate nohighlight">\(N\)</span> independent two-level systems the entropy per system is the binary entropy of the excited
+fraction <span class="math notranslate nohighlight">\(p = E/(N\Delta)\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-negative-t">
+<span class="eqno">(695)<a class="headerlink" href="#equation-eq-negative-t" title="Link to this equation">#</a></span>\[\frac{S(E)}{N} = -p\ln p - (1-p)\ln(1-p),
+\qquad
+\beta = \frac{\partial S}{\partial E} = \frac{1}{\Delta}\ln\frac{1-p}{p},\]</div>
+<p>and because the spectrum is <strong>bounded above</strong>, <span class="math notranslate nohighlight">\(S(E)\)</span> is non-monotonic: maximal at half filling,
+where <span class="math notranslate nohighlight">\(\beta\)</span> falls through zero and goes <strong>negative</strong> for inverted populations (<span class="math notranslate nohighlight">\(p &gt; \tfrac12\)</span>).
+Three careful statements unpack this. Negative temperatures exist <em>only</em> for spectra bounded
+above — never for gases or oscillators, whose entropy grows with energy forever. They are
+<strong>hotter than every positive temperature</strong>: energy flows spontaneously from a <span class="math notranslate nohighlight">\(\beta &lt; 0\)</span> body to
+any <span class="math notranslate nohighlight">\(\beta &gt; 0\)</span> body, so the correct ordering of the scale is by <span class="math notranslate nohighlight">\(\beta\)</span> descending, with
+<span class="math notranslate nohighlight">\(\beta \to -\infty\)</span> (”<span class="math notranslate nohighlight">\(T = -0\)</span>”) the hottest state of all — <em>above</em> infinity, not below zero. And they
+are not a curiosity: an inverted population is a negative-temperature medium, pumping one is how a
+laser is loaded, and <a class="reference internal" href="einstein-a-b-coefficients.html"><span class="std std-doc">§7.15</span></a> will grow exactly this seed.</p>
+</section>
+<section id="two-seeds-imaginary-time-and-low-temperature-numerics">
+<h3>Two seeds: imaginary time, and low-temperature numerics<a class="headerlink" href="#two-seeds-imaginary-time-and-low-temperature-numerics" title="Link to this heading">#</a></h3>
+<p>The thermal weight is not a new operator. It is the time-evolution operator of <a class="reference internal" href="../06-quantum-mechanics/time-evolution.html"><span class="std std-doc">§6.7</span></a>, continued:</p>
+<div class="math notranslate nohighlight" id="equation-eq-imaginary-time">
+<span class="eqno">(696)<a class="headerlink" href="#equation-eq-imaginary-time" title="Link to this equation">#</a></span>\[e^{-\beta H} \;=\; U(t)\big|_{\,t = -i\hbar\beta},
+\qquad
+U(t) = e^{-iHt/\hbar},\]</div>
+<p>verified below to twelve digits. Statistical mechanics at inverse temperature <span class="math notranslate nohighlight">\(\beta\)</span> is quantum
+dynamics for an imaginary duration <span class="math notranslate nohighlight">\(\hbar\beta\)</span> — the single fact on which the path integral of
+<a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> is built, where this identity, sliced into Trotter steps, will turn a thermal quantum
+particle into a classical ring polymer. The second seed is humbler and just as load-bearing: at
+large <span class="math notranslate nohighlight">\(\beta\)</span> the naive weights <span class="math notranslate nohighlight">\(e^{-\beta E_n}\)</span> underflow (Exercise 8 exhibits a <span class="math notranslate nohighlight">\(Z\)</span> that is
+<em>exactly</em> <span class="math notranslate nohighlight">\(0.0\)</span>), so the volume’s standing rule is to subtract the ground energy first —
+populations are unchanged, and the numerics survive arbitrarily deep cold.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>The data are the conventions — <span class="math notranslate nohighlight">\(k_B = 1\)</span> and <span class="math notranslate nohighlight">\(\hbar = 1\)</span> (temperatures in energy units), the
+series colours, and the standing low-temperature policy under which every thermal weight in the
+notebook is computed. The single instrument is <code class="docutils literal notranslate"><span class="pre">entropy_purity(rho)</span></code>, the pair of mixedness
+meters carried over from <a class="reference internal" href="../06-quantum-mechanics/density-matrix.html"><span class="std std-doc">§6.26</span></a>: the von Neumann
+entropy <span class="math notranslate nohighlight">\(-\operatorname{Tr}(\rho\ln\rho)\)</span> and the purity <span class="math notranslate nohighlight">\(\operatorname{Tr}\rho^2\)</span> of a density
+matrix, whose arithmetic was that notebook’s business and is here only a reading device. This
+notebook’s own machinery is <em>not</em> here: you write the shift-protected populations
+<code class="docutils literal notranslate"><span class="pre">thermal_populations</span></code> and the energy inversion <code class="docutils literal notranslate"><span class="pre">beta_from_energy</span></code> in Exercise 1, and the
+log-safe <code class="docutils literal notranslate"><span class="pre">ln_partition_function</span></code>, the thermal state <code class="docutils literal notranslate"><span class="pre">thermal_state</span></code>, and the thermal average
+<code class="docutils literal notranslate"><span class="pre">thermal_average</span></code> in Exercise 2.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">expm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">brentq</span><span class="p">,</span> <span class="n">minimize_scalar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">xlogy</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>
+<span class="n">RED</span> <span class="o">=</span> <span class="s2">&quot;#c1121f&quot;</span>
+
+<span class="c1"># data: conventions. k_B = 1 and ħ = 1 (temperatures in energy units; k_B&#39;s</span>
+<span class="c1"># restored in physical statements). STANDING LOW-T POLICY (adopted formally in</span>
+<span class="c1"># Exercise 8): thermal weights are always built from the SHIFTED spectrum E_n − E_ref</span>
+<span class="c1"># with E_ref chosen so the largest weight is exp(0) = 1 — populations are unchanged</span>
+<span class="c1"># (the shift cancels between numerator and Z) and no β, positive or negative, can</span>
+<span class="c1"># underflow the arithmetic. The helpers you write in Exercises 1 and 2 implement the</span>
+<span class="c1"># policy from birth.</span>
+
+
+<span class="c1"># instrument: the two mixedness meters of §6.26 (von Neumann entropy and purity),</span>
+<span class="c1"># restated behind one call in nats. What the exercises put under test is which</span>
+<span class="c1"># thermal states come out pure and which maximally mixed, not how −Σ λ ln λ is</span>
+<span class="c1"># evaluated — the arithmetic was the lesson of §6.26, and here it is a reading device.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">entropy_purity</span><span class="p">(</span><span class="n">rho</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The von Neumann entropy S = −Tr(ρ ln ρ) and purity Tr(ρ^2) of a density matrix.</span>
+
+<span class="sd">    Diagonalizes ρ with numpy.linalg.eigvalsh and evaluates S = −Σ λ ln λ through</span>
+<span class="sd">    scipy.special.xlogy, which returns exactly 0 at λ = 0 instead of the nan that</span>
+<span class="sd">    0·log(0) would produce — thermal populations at low temperature are routinely</span>
+<span class="sd">    denormal-or-zero, and the entropy must not care. Tiny negative eigenvalues from</span>
+<span class="sd">    rounding are clipped.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rho : numpy.ndarray</span>
+<span class="sd">        A density matrix (Hermitian, unit trace, positive).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple of float</span>
+<span class="sd">        (S, purity).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">rho</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">xlogy</span><span class="p">(</span><span class="n">lam</span><span class="p">,</span> <span class="n">lam</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">S</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">lam</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-thermal-state-by-maximum-entropy">
+<h2>Exercise 1 — The thermal state by maximum entropy<a class="headerlink" href="#exercise-1-the-thermal-state-by-maximum-entropy" title="Link to this heading">#</a></h2>
+<p>Among all states with the right average energy, one assumes nothing else — we derive it, then let
+twenty thousand competitors try to beat it. Two facts carry the work below. First, the
+populations <span class="math notranslate nohighlight">\(p_n = e^{-\beta E_n}/Z\)</span> are untouched by a rigid shift of the whole spectrum,
+because the shift cancels between numerator and <span class="math notranslate nohighlight">\(Z\)</span>; computing the weights as
+<span class="math notranslate nohighlight">\(e^{-\beta(E_n - E_{\mathrm{ref}})}\)</span> with <span class="math notranslate nohighlight">\(E_{\mathrm{ref}}\)</span> the level that maximizes
+<span class="math notranslate nohighlight">\(-\beta E_n\)</span> (the ground state for <span class="math notranslate nohighlight">\(\beta &gt; 0\)</span>, the top state for <span class="math notranslate nohighlight">\(\beta &lt; 0\)</span>) therefore costs
+no physics, makes the largest weight exactly <span class="math notranslate nohighlight">\(1\)</span>, and lets the rest underflow harmlessly to <span class="math notranslate nohighlight">\(0\)</span>
+instead of dragging <span class="math notranslate nohighlight">\(Z\)</span> down with them — the standing policy of this volume, whose necessity
+Exercise 8 exhibits. Second, <span class="math notranslate nohighlight">\(\langle E\rangle(\beta)\)</span> is <em>strictly decreasing</em>, since its
+derivative is <span class="math notranslate nohighlight">\(-\operatorname{Var}(E) &lt; 0\)</span>; it runs from the top of the spectrum at
+<span class="math notranslate nohighlight">\(\beta \to -\infty\)</span> to the bottom at <span class="math notranslate nohighlight">\(\beta \to +\infty\)</span>, so a bracketing root find is
+guaranteed a unique solution whenever the target energy lies strictly inside the spectrum’s
+range — which every normalized population vector’s mean energy does. Cite
+<a class="reference internal" href="#equation-eq-thermal-state">Eq. 689</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive <span class="math notranslate nohighlight">\(\rho = e^{-\beta H}/Z\)</span> by maximizing <span class="math notranslate nohighlight">\(S = -\operatorname{Tr}(\rho\ln\rho)\)</span> subject to
+<span class="math notranslate nohighlight">\(\operatorname{Tr}\rho = 1\)</span> and <span class="math notranslate nohighlight">\(\operatorname{Tr}(\rho H) = \langle E\rangle\)</span> (Lagrange
+multipliers, working in the energy basis where the problem is over populations).</p></li>
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">thermal_populations(E_levels,</span> <span class="pre">beta)</span></code>, returning the shift-protected Boltzmann
+populations <span class="math notranslate nohighlight">\(p_n\)</span> on a discrete spectrum, correct for either sign of <span class="math notranslate nohighlight">\(\beta\)</span> (negative
+temperatures arrive in Exercise 7). <strong>Write this one yourself</strong> — the implementation is the
+lesson.</p></li>
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">beta_from_energy(E_levels,</span> <span class="pre">E_mean)</span></code>, inverting <span class="math notranslate nohighlight">\(\langle E\rangle(\beta) = E_{\rm mean}\)</span>
+with <code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code> on a bracket wide enough for populations concentrated to one
+part in <span class="math notranslate nohighlight">\(e^{\pm 60}\)</span>. <strong>Write this one yourself</strong> — the implementation is the lesson.</p></li>
+<li><p>For the four-level spectrum <span class="math notranslate nohighlight">\(E = (0,\ 0.7,\ 1.5,\ 2.1)\)</span>, compute the thermal populations and
+entropy at <span class="math notranslate nohighlight">\(\langle E\rangle = 0.9\)</span>.</p></li>
+<li><p>Sample <span class="math notranslate nohighlight">\(2\times10^4\)</span> random population vectors with <code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng().dirichlet</span></code>,
+and for <em>each</em> compare its Shannon entropy against the thermal entropy at <em>its own</em> mean
+energy (a <code class="docutils literal notranslate"><span class="pre">brentq</span></code> inversion per sample); confirm zero violations of <span class="math notranslate nohighlight">\(S \le S_{\text{th}}\)</span>.</p></li>
+<li><p>Explain (prose) why the comparison must be per-state — an acceptance window around one target
+energy admits states whose legitimately higher entropy belongs to a different
+<span class="math notranslate nohighlight">\(\langle E\rangle\)</span> — and state the conclusion: the thermal state is the least-informative
+state consistent with the known mean energy.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>four-level spectrum [0.  0.7 1.5 2.1], target ⟨E⟩ = 0.9
+  β(⟨E⟩) by brentq: 0.278058
+  thermal populations: [0.329  0.2708 0.2168 0.1835]
+  thermal entropy S_th(⟨E⟩ = 0.9) = 1.362044
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>20000 dirichlet competitors, each vs the thermal state at ITS OWN ⟨E⟩:
+  violations of S ≤ S_th: 0
+  smallest margin S_th − S: 9.58e-06   (largest: 1.224)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the thermal state maximizes entropy at fixed mean energy (per-state comparison, 2e4 samples)   [violations 0, min margin 9.6e-06]
+✓  beta_from_energy inverts ⟨E⟩(β) exactly: the brentq root reproduces the target energy   [got 0.9 vs expected 0.9 (rtol=1e-10, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-partition-function-is-a-trace">
+<h2>Exercise 2 — The partition function is a trace<a class="headerlink" href="#exercise-2-the-partition-function-is-a-trace" title="Link to this heading">#</a></h2>
+<p><span class="math notranslate nohighlight">\(Z\)</span>’s basis-freedom, exhibited three ways on a Hamiltonian with no special structure — and the
+three pieces of machinery the rest of the notebook runs on, each with a reason. The partition
+function is handled through its <strong>logarithm</strong>, because <span class="math notranslate nohighlight">\(Z\)</span> itself is the quantity that dies:
+with <span class="math notranslate nohighlight">\(w_n = -\beta E_n\)</span> and <span class="math notranslate nohighlight">\(w_{\max} = \max_n w_n\)</span>, the identity
+<span class="math notranslate nohighlight">\(\ln Z = w_{\max} + \ln\sum_n e^{\,w_n - w_{\max}}\)</span> is finite for any <span class="math notranslate nohighlight">\(\beta\)</span> while <span class="math notranslate nohighlight">\(Z\)</span> is not
+(Exercise 8 exhibits a <span class="math notranslate nohighlight">\(Z\)</span> that underflows to exactly <span class="math notranslate nohighlight">\(0.0\)</span>), and every thermodynamic identity
+of <a class="reference internal" href="#equation-eq-thermo-from-z">Eq. 691</a> consumes <span class="math notranslate nohighlight">\(\ln Z\)</span> anyway. The thermal state is assembled
+<strong>spectrally</strong>: diagonalizing <span class="math notranslate nohighlight">\(H = V\,\mathrm{diag}(E)\,V^\dagger\)</span> turns an exponential of an
+operator into an exponential of numbers, so that <span class="math notranslate nohighlight">\(\rho = V\,\mathrm{diag}(p)\,V^\dagger\)</span> with
+<span class="math notranslate nohighlight">\(p\)</span> the Boltzmann populations. That is the same matrix <code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code> would return
+(Exercise 8 checks it), but it inherits the shift protection, which a naive <code class="docutils literal notranslate"><span class="pre">expm</span></code> of a
+strongly offset spectrum does not. And the thermal average is a plain contraction,
+<span class="math notranslate nohighlight">\(\langle A\rangle = \operatorname{Tr}(\rho A)\)</span>, which is exactly why it works for observables
+sharing no eigenbasis with <span class="math notranslate nohighlight">\(H\)</span>. Cite <a class="reference internal" href="#equation-eq-partition-function">Eq. 690</a>.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">ln_partition_function(H,</span> <span class="pre">beta)</span></code>, returning <span class="math notranslate nohighlight">\(\ln Z(\beta)\)</span> by the log-sum-exp identity
+above, with the spectrum from <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code>. <strong>Write this one yourself</strong> — the
+implementation is the lesson.</p></li>
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">thermal_state(H,</span> <span class="pre">beta)</span></code>, returning <span class="math notranslate nohighlight">\(\rho = e^{-\beta H}/Z\)</span> by the spectral route:
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code>, then the <code class="docutils literal notranslate"><span class="pre">thermal_populations</span></code> you wrote in Exercise 1 on the resulting
+spectrum, then the rotation back. <strong>Write this one yourself</strong> — the implementation is the
+lesson.</p></li>
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">thermal_average(H,</span> <span class="pre">A,</span> <span class="pre">beta)</span></code> for <span class="math notranslate nohighlight">\(\langle A\rangle = \operatorname{Tr}(\rho A)\)</span>,
+building <span class="math notranslate nohighlight">\(\rho\)</span> with your <code class="docutils literal notranslate"><span class="pre">thermal_state</span></code> and closing with <code class="docutils literal notranslate"><span class="pre">numpy.trace</span></code>.</p></li>
+<li><p>For a random <span class="math notranslate nohighlight">\(5\times5\)</span> Hermitian <span class="math notranslate nohighlight">\(H\)</span>, compute <span class="math notranslate nohighlight">\(Z(\beta)\)</span> as <span class="math notranslate nohighlight">\(\sum_n e^{-\beta E_n}\)</span> from
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code>.</p></li>
+<li><p>Recompute as <span class="math notranslate nohighlight">\(\operatorname{Tr}(e^{-\beta H})\)</span> via <code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code> and <code class="docutils literal notranslate"><span class="pre">numpy.trace</span></code>.</p></li>
+<li><p>Recompute the trace in a randomly rotated orthonormal basis (<code class="docutils literal notranslate"><span class="pre">numpy.linalg.qr</span></code> of a random
+matrix) and confirm all three agree to at least eight digits.</p></li>
+<li><p>Compute a thermal average <span class="math notranslate nohighlight">\(\langle A\rangle = \operatorname{Tr}(\rho A)\)</span> for an observable
+<span class="math notranslate nohighlight">\(A\)</span> that does <em>not</em> commute with <span class="math notranslate nohighlight">\(H\)</span>, and note (prose) that the formula needs no simultaneous
+eigenbasis — the whole point of the trace.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>spectrum of H: [-2.8613 -1.1674 -0.3806  1.554   2.0665]
+Z by eigenvalue sum:      14.245549533280
+Z by Tr expm(−βH):        14.245549533280
+Z in a random QR basis:   14.245549533280
+
+‖[H, A]‖ = 7.262   (decisively non-commuting)
+⟨A⟩ = Tr(ρA) = 1.4058521515
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Z = Tr e^(−βH) is basis-independent: eigenvalue sum, expm trace, and a random QR basis agree   [max|Δ| = 5.86198e-14 (rtol=1e-08, atol=1e-09)]
+✓  the log-safe ln Z helper reproduces the direct sum (its raison d&#39;être arrives in Exercise 8)   [got 14.2455 vs expected 14.2455 (rtol=1e-12, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-thermodynamics-from-z">
+<h2>Exercise 3 — Thermodynamics from Z<a class="headerlink" href="#exercise-3-thermodynamics-from-z" title="Link to this heading">#</a></h2>
+<p>The generating identities of Volume V, verified on a quantum spectrum — and the identification of
+three entropies as one object. Cite <a class="reference internal" href="#equation-eq-thermo-from-z">Eq. 691</a>.</p>
+<ol class="arabic simple">
+<li><p>Verify <span class="math notranslate nohighlight">\(\langle E\rangle = -\partial\ln Z/\partial\beta\)</span> against <span class="math notranslate nohighlight">\(\operatorname{Tr}(\rho H)\)</span>
+by central differences (step <span class="math notranslate nohighlight">\(10^{-6}\)</span>), to at least eight digits, using the
+<code class="docutils literal notranslate"><span class="pre">ln_partition_function</span></code> and <code class="docutils literal notranslate"><span class="pre">thermal_average</span></code> you wrote in Exercise 2.</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(F = -k_BT\ln Z\)</span> and <span class="math notranslate nohighlight">\(C = \partial\langle E\rangle/\partial T\)</span> (central differences
+again) across a temperature range.</p></li>
+<li><p>Show the thermodynamic entropy <span class="math notranslate nohighlight">\((\langle E\rangle - F)/T\)</span> equals the von Neumann entropy
+<span class="math notranslate nohighlight">\(-\operatorname{Tr}(\rho\ln\rho)\)</span> of the thermal state — your Exercise 2 <code class="docutils literal notranslate"><span class="pre">thermal_state</span></code>
+read by the Setup’s <code class="docutils literal notranslate"><span class="pre">entropy_purity</span></code> — the same object, wearing its information-theoretic
+name.</p></li>
+<li><p>Note (prose) the inheritance: every Volume V identity (<a class="reference internal" href="../05-classical-stat-mech/ergodicity.html"><span class="std std-doc">§5.5</span></a>/<a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html"><span class="std std-doc">§5.7</span></a>) survives verbatim, with the
+sum over phase space replaced by the sum over the spectrum.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>−∂lnZ/∂β (central diff) = -2.1669708765
+Tr(ρH)                  = -2.1669708764
+
+sweep T = 0.2..4.0: C &gt; 0 everywhere: True
+F monotonically decreasing: True
+
+at T = 1.25:  S_thermo = (⟨E⟩−F)/T = 0.9228678434
+            S_vonNeumann = −Tr(ρ ln ρ) = 0.9228678434
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  ⟨E⟩ = −∂lnZ/∂β = Tr(ρH): the generating identity, by central differences   [got -2.16697 vs expected -2.16697 (rtol=1e-07, atol=1e-09)]
+✓  the thermodynamic entropy (⟨E⟩−F)/T IS the von Neumann entropy of the thermal state   [got 0.922868 vs expected 0.922868 (rtol=1e-08, atol=1e-09)]
+✓  C &gt; 0 (energy fluctuations are a variance) and F decreases with T (slope −S ≤ 0)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-the-warm-qubit-and-the-fermi-function-three-movements-early">
+<h2>Exercise 4 — The warm qubit, and the Fermi function three movements early<a class="headerlink" href="#exercise-4-the-warm-qubit-and-the-fermi-function-three-movements-early" title="Link to this heading">#</a></h2>
+<p>One two-level system, an unreasonable amount of physics. Cite <a class="reference internal" href="#equation-eq-two-level">Eq. 692</a>.</p>
+<ol class="arabic simple">
+<li><p>Write <span class="math notranslate nohighlight">\(Z = 1 + e^{-\beta\Delta}\)</span> and derive the upper-level population <span class="math notranslate nohighlight">\(p_1(T)\)</span> and mean
+energy <span class="math notranslate nohighlight">\(\langle E\rangle(T)\)</span>.</p></li>
+<li><p>Confirm numerically that <span class="math notranslate nohighlight">\(p_1(T) = 1/(e^{\beta\Delta}+1)\)</span> is identically the Fermi–Dirac
+function <span class="math notranslate nohighlight">\(n_F(\Delta)\)</span>, and explain why (a fermionic mode <em>is</em> a two-level system: empty or
+occupied) — the statistics of <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>, arriving early.</p></li>
+<li><p>Compute the spin-<span class="math notranslate nohighlight">\(\tfrac12\)</span> magnetization <span class="math notranslate nohighlight">\(m = \tanh(\beta\mu B)\)</span> and verify the Curie <span class="math notranslate nohighlight">\(1/T\)</span>
+tail at high temperature (<span class="math notranslate nohighlight">\(m \approx \mu B/k_BT\)</span> to <span class="math notranslate nohighlight">\(1\%\)</span> at <span class="math notranslate nohighlight">\(k_BT = 10\,\mu B\)</span>).</p></li>
+<li><p>Plot populations and <span class="math notranslate nohighlight">\(\langle E\rangle\)</span> vs <span class="math notranslate nohighlight">\(T\)</span>; note the saturation <span class="math notranslate nohighlight">\(\langle E\rangle \to
+\Delta/2\)</span> (both levels equal) and defer the classical-limit discussion to <a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>, where a
+spectrum unbounded above makes equipartition possible. (Prose part.)</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>max |p_1(T) − n_F(Δ)| over the sweep: 1.11e-16   (identical up to rounding)
+m(k_BT = 10μB) = 0.099668   vs Curie μB/k_BT = 0.100000
+relative deviation: 0.33%   (tanh&#39;s −x^3/3 term)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tdm-qubit">
+<img alt="../../_images/c621cf6e56798d510cf3fc87faa8cbb38526719f8ee10ced953a926c51fb12b7.png" src="../../_images/c621cf6e56798d510cf3fc87faa8cbb38526719f8ee10ced953a926c51fb12b7.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 631 </span><span class="caption-text">The warm qubit. Populations of the ground (dark) and excited (amber) levels of a two-level system with gap <span class="math notranslate nohighlight">\(\Delta\)</span>, and the mean energy <span class="math notranslate nohighlight">\(\langle E\rangle/\Delta\)</span> (red, dashed): frozen into the pure ground state at <span class="math notranslate nohighlight">\(k_BT \ll \Delta\)</span>, saturating toward equal occupation and <span class="math notranslate nohighlight">\(\langle E\rangle = \Delta/2\)</span> at <span class="math notranslate nohighlight">\(k_BT \gg \Delta\)</span>. The excited-state curve <span class="math notranslate nohighlight">\(p_1 = 1/(e^{\Delta/k_BT}+1)\)</span> is <strong>identically the Fermi–Dirac function</strong> <span class="math notranslate nohighlight">\(n_F(\Delta)\)</span> — a fermionic mode is a two-level system (empty or occupied), so the statistics of <a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a> appear here three movements early. The saturation is the signature of a bounded spectrum: with no states above <span class="math notranslate nohighlight">\(\Delta\)</span>, equipartition is impossible, and the classical limit must wait for the oscillator’s unbounded ladder (<a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>).</span><a class="headerlink" href="#fig-tdm-qubit" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the two-level upper population is the Fermi function n_F(Δ), identically   [max|Δ| = 1.11022e-16 (rtol=1e-12, atol=1e-09)]
+✓  the Curie 1/T tail: m ≈ μB/k_BT to 1% at k_BT = 10μB   [got 0.099668 vs expected 0.1 (rtol=0.01, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-the-schottky-anomaly">
+<h2>Exercise 5 — The Schottky anomaly<a class="headerlink" href="#exercise-5-the-schottky-anomaly" title="Link to this heading">#</a></h2>
+<p>A bump in the heat capacity — the calorimetric fingerprint of a gap. Cite <a class="reference internal" href="#equation-eq-schottky">Eq. 693</a>.</p>
+<ol class="arabic simple">
+<li><p>Derive <span class="math notranslate nohighlight">\(C(T) = k_B\,x^2 e^x/(e^x+1)^2\)</span> with <span class="math notranslate nohighlight">\(x = \Delta/k_BT\)</span> from <span class="math notranslate nohighlight">\(\langle E\rangle(T)\)</span>.</p></li>
+<li><p>Locate the maximum with <code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize_scalar</span></code>: <span class="math notranslate nohighlight">\(x^* = 2.399\)</span>, i.e.
+<span class="math notranslate nohighlight">\(k_BT = 0.417\Delta\)</span>, with <span class="math notranslate nohighlight">\(C_{\max} = 0.439\,k_B\)</span>.</p></li>
+<li><p>Explain the shape (prose): frozen out below the gap, exhausted above it — a two-level system
+can only absorb heat in the window where the upper level is filling.</p></li>
+<li><p>State the experimental use: a Schottky bump in low-temperature calorimetry reveals hidden
+two-level degrees of freedom (defects, nuclear spins, tunneling systems), and its position
+measures <span class="math notranslate nohighlight">\(\Delta\)</span>.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Schottky peak: x* = Δ/k_BT = 2.3994
+  i.e. k_BT = 0.4168 Δ,   C_max = 0.4392 k_B
+
+calorimetric reading: T_peak → Δ (position), bump height → count of two-level systems
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tdm-schottky">
+<img alt="../../_images/164c09716d3e1679d5d515e1bbe21d46d431a63f35d9f350694ad8302c3055a8.png" src="../../_images/164c09716d3e1679d5d515e1bbe21d46d431a63f35d9f350694ad8302c3055a8.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 632 </span><span class="caption-text">The Schottky anomaly. The two-level heat capacity <span class="math notranslate nohighlight">\(C(T) = k_B x^2 e^x/(e^x+1)^2\)</span> with <span class="math notranslate nohighlight">\(x = \Delta/k_BT\)</span> is a <strong>bump</strong>, not a monotone rise: exponentially frozen below the gap, decaying as <span class="math notranslate nohighlight">\(1/T^2\)</span> once both levels are equally occupied, and maximal at <span class="math notranslate nohighlight">\(k_BT = 0.417\Delta\)</span> (marked) where <span class="math notranslate nohighlight">\(C_{\max} = 0.439\,k_B\)</span>: a peak located numerically with <code class="docutils literal notranslate"><span class="pre">minimize_scalar</span></code>, since its defining equation is transcendental. In low-temperature calorimetry this shape, riding on the smooth lattice and electron backgrounds, is the fingerprint of hidden two-level degrees of freedom (defects, nuclear spins, tunneling systems), with the peak position reading off the gap and the height counting the systems. The freeze-out side is also the third law’s heat-capacity face: <span class="math notranslate nohighlight">\(C \to 0\)</span> as <span class="math notranslate nohighlight">\(T \to 0\)</span> (Exercise 6).</span><a class="headerlink" href="#fig-tdm-schottky" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Schottky anomaly peaks at x* = 2.399 (k_BT = 0.417Δ) with C_max = 0.439 k_B   [max|Δ| = 0.000355867 (rtol=0.001, atol=1e-09)]
+✓  both tails vanish: frozen out below the gap, exhausted above it   [C(T=0.02Δ) = 4.8e-19, C(T=50Δ) = 1.0e-04]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-entropy-purity-and-the-third-law">
+<h2>Exercise 6 — Entropy, purity, and the third law<a class="headerlink" href="#exercise-6-entropy-purity-and-the-third-law" title="Link to this heading">#</a></h2>
+<p>Where classical thermodynamics failed at low temperature, and how discreteness rescues it. Cite
+<a class="reference internal" href="#equation-eq-third-law">Eq. 694</a>.</p>
+<ol class="arabic simple">
+<li><p>Compute <span class="math notranslate nohighlight">\(S(T)\)</span> and purity <span class="math notranslate nohighlight">\(\operatorname{Tr}(\rho^2)\)</span> for the two-level system across
+<span class="math notranslate nohighlight">\(T = 0.05\)</span> to <span class="math notranslate nohighlight">\(50\)</span> (in units of <span class="math notranslate nohighlight">\(\Delta/k_B\)</span>), with the Setup’s <code class="docutils literal notranslate"><span class="pre">entropy_purity</span></code> reading the
+state your Exercise 2 <code class="docutils literal notranslate"><span class="pre">thermal_state</span></code> builds, confirming <span class="math notranslate nohighlight">\(S: 0 \to \ln 2\)</span> and purity:
+<span class="math notranslate nohighlight">\(1 \to \tfrac12\)</span>.</p></li>
+<li><p>Show the <span class="math notranslate nohighlight">\(T\to0\)</span> state is the <em>pure</em> ground state (the thermal density matrix’s limit), so
+<span class="math notranslate nohighlight">\(S \to 0\)</span>: the third law.</p></li>
+<li><p>Contrast (prose plus one formula) with the classical result: Volume V’s classical entropy
+diverges to <span class="math notranslate nohighlight">\(-\infty\)</span> as <span class="math notranslate nohighlight">\(T \to 0\)</span> (a genuine failure), while the quantum spectrum’s
+discreteness pins <span class="math notranslate nohighlight">\(S(0) = \ln g_0\)</span> to the ground degeneracy.</p></li>
+<li><p>Record this as the volume’s first “where classical failed” resolution, with the heat-capacity
+companion (<span class="math notranslate nohighlight">\(C \to 0\)</span> as <span class="math notranslate nohighlight">\(T \to 0\)</span>, visible in the Schottky curve) noted.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>S(T = 0.05) = 4.33e-08          S(T = 50) = 0.693097   (ln 2 = 0.693147)
+purity(0.05) = 0.9999999959   purity(50) = 0.500050
+
+at T = 0.01: S = 3.72e-42, purity = 1.000000000000   (the pure ground state)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tdm-third-law">
+<img alt="../../_images/7a6e20f2a1479c8810903f5ce0f4a674e92f8846ed7e305b0da57071477f69f7.png" src="../../_images/7a6e20f2a1479c8810903f5ce0f4a674e92f8846ed7e305b0da57071477f69f7.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 633 </span><span class="caption-text">The third law, as a quantum fact. Von Neumann entropy <span class="math notranslate nohighlight">\(S(T)\)</span> (amber, left axis) and purity <span class="math notranslate nohighlight">\(\operatorname{Tr}\rho^2\)</span> (dark, right axis) of the thermal two-level state across three decades of temperature: at <span class="math notranslate nohighlight">\(k_BT \ll \Delta\)</span> the state exits the mixed states entirely (purity <span class="math notranslate nohighlight">\(\to 1\)</span>, <span class="math notranslate nohighlight">\(S \to 0\)</span>: the pure ground state), while at <span class="math notranslate nohighlight">\(k_BT \gg \Delta\)</span> it saturates at maximal mixedness, <span class="math notranslate nohighlight">\(S \to \ln 2\)</span> and purity <span class="math notranslate nohighlight">\(\to \tfrac12\)</span>. The vanishing of <span class="math notranslate nohighlight">\(S\)</span> at <span class="math notranslate nohighlight">\(T \to 0\)</span> is the third law of thermodynamics, and it is intrinsically quantum: the classical entropy <span class="math notranslate nohighlight">\(S_{cl} \sim k_B\ln T\)</span> of Volume V diverges to <span class="math notranslate nohighlight">\(-\infty\)</span> instead, because a continuous phase space has no lowest rung. Discreteness, a ground state and a gap above it, is what pins the cold end of thermodynamics.</span><a class="headerlink" href="#fig-tdm-third-law" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  S(T) runs from 0 (third law) to ln 2 (maximal mixedness)   [S(0.05) = 4.3e-08, S(50) = 0.69310]
+✓  purity runs from 1 (the pure ground state) to 1/2 (the maximally mixed qubit)   [purity(0.05) = 1.000000, purity(50) = 0.50005]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-negative-temperature-hotter-than-infinity">
+<h2>Exercise 7 — Negative temperature: hotter than infinity<a class="headerlink" href="#exercise-7-negative-temperature-hotter-than-infinity" title="Link to this heading">#</a></h2>
+<p>A bounded spectrum lets <span class="math notranslate nohighlight">\(\beta\)</span> change sign — and the thermodynamics is impeccable. Cite
+<a class="reference internal" href="#equation-eq-negative-t">Eq. 695</a>.</p>
+<ol class="arabic simple">
+<li><p>For <span class="math notranslate nohighlight">\(N\)</span> independent two-level systems, write <span class="math notranslate nohighlight">\(S(E)/N\)</span> as the binary entropy of
+<span class="math notranslate nohighlight">\(p = E/(N\Delta)\)</span> and plot it: non-monotonic, maximal at half filling.</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(\beta = \partial S/\partial E\)</span> with <code class="docutils literal notranslate"><span class="pre">numpy.gradient</span></code> on the curve and confirm the
+sign change at <span class="math notranslate nohighlight">\(E = N\Delta/2\)</span>, with the antisymmetric values at <span class="math notranslate nohighlight">\(p = 0.25\)</span> and <span class="math notranslate nohighlight">\(0.75\)</span>
+matching the closed form <span class="math notranslate nohighlight">\(\beta\Delta = \ln\big((1-p)/p\big) = \pm\ln 3\)</span>.</p></li>
+<li><p>Argue (prose, carefully): <span class="math notranslate nohighlight">\(\beta &lt; 0\)</span> states are <em>hotter</em> than all <span class="math notranslate nohighlight">\(\beta &gt; 0\)</span> states —
+energy flows spontaneously from them to any positive-temperature body (order the scale by
+<span class="math notranslate nohighlight">\(\beta\)</span>, not <span class="math notranslate nohighlight">\(T\)</span>) — and they exist only for spectra bounded above, never for a gas or an
+oscillator.</p></li>
+<li><p>Connect forward: an inverted population is a negative-temperature medium, and pumping one is
+how a laser is loaded — the thermodynamic seed <a class="reference internal" href="einstein-a-b-coefficients.html"><span class="std std-doc">§7.15</span></a> will grow.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>β at p = 0.2506: +1.09522   (closed form +1.09521; ln 3 = +1.09861)
+β at p = 0.7494: -1.09522   (closed form -1.09521)
+β &gt; 0 on the left half, β &lt; 0 on the right half: True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tdm-negative-t">
+<img alt="../../_images/309904b3cbb03a8cb914e3d2ffb5aa9b5432213b64e49de17ceadb14d0870307.png" src="../../_images/309904b3cbb03a8cb914e3d2ffb5aa9b5432213b64e49de17ceadb14d0870307.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 634 </span><span class="caption-text">Hotter than infinity. The entropy per system <span class="math notranslate nohighlight">\(S/N\)</span> of <span class="math notranslate nohighlight">\(N\)</span> two-level systems against the excited fraction <span class="math notranslate nohighlight">\(p = E/N\Delta\)</span> is <strong>non-monotonic</strong> (the spectrum is bounded above, so <span class="math notranslate nohighlight">\(S\)</span> must return to zero at full inversion), and the inverse temperature <span class="math notranslate nohighlight">\(\beta = \partial S/\partial E\)</span> (red, right axis) falls through zero at half filling and goes negative beyond: <span class="math notranslate nohighlight">\(\beta\Delta = \ln\big((1-p)/p\big) = \pm\ln 3\)</span> at <span class="math notranslate nohighlight">\(p = 0.25/0.75\)</span>, read off the curve by <code class="docutils literal notranslate"><span class="pre">numpy.gradient</span></code>. On the shaded right half the system <em>donates</em> energy to any positive-temperature body: negative temperatures are hotter than <span class="math notranslate nohighlight">\(T = \infty\)</span> (order the scale by <span class="math notranslate nohighlight">\(\beta\)</span>, never by <span class="math notranslate nohighlight">\(T\)</span>), they exist only for spectra bounded above, and an inverted, pumped population at <span class="math notranslate nohighlight">\(\beta &lt; 0\)</span> is exactly the medium a laser runs on (<a class="reference internal" href="einstein-a-b-coefficients.html"><span class="std std-doc">§7.15</span></a>).</span><a class="headerlink" href="#fig-tdm-negative-t" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  β = ∂S/∂E changes sign at half filling: inverted populations are negative-temperature states
+✓  the gradient matches the closed form βΔ = ln((1−p)/p) (≈ ±ln 3 at p = 0.25/0.75)   [max|Δ| = 1.45066e-05 (rtol=0.001, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-a-general-hamiltonian-and-the-two-standing-disciplines">
+<h2>Exercise 8 — A general Hamiltonian, and the two standing disciplines<a class="headerlink" href="#exercise-8-a-general-hamiltonian-and-the-two-standing-disciplines" title="Link to this heading">#</a></h2>
+<p>The machinery on an arbitrary spectrum — plus the two numerical rules the volume will live by,
+one of them the seed of the path integral. Cite <a class="reference internal" href="#equation-eq-partition-function">Eq. 690</a>,
+<a class="reference internal" href="#equation-eq-imaginary-time">Eq. 696</a>.</p>
+<ol class="arabic simple">
+<li><p>For a five-level Hamiltonian with an offset spectrum, build <span class="math notranslate nohighlight">\(\rho(\beta)\)</span> both by the spectral
+route (the <code class="docutils literal notranslate"><span class="pre">thermal_state</span></code> you wrote in Exercise 2) and by <code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code>, confirm the
+routes agree to machine precision, and compute <span class="math notranslate nohighlight">\(\langle A\rangle\)</span> for a non-commuting
+observable with your Exercise 2 <code class="docutils literal notranslate"><span class="pre">thermal_average</span></code>.</p></li>
+<li><p>Demonstrate the low-temperature catastrophe: at <span class="math notranslate nohighlight">\(\beta = 800\)</span>, show the naive
+<span class="math notranslate nohighlight">\(Z = \sum e^{-\beta E_n}\)</span> underflows to exactly <span class="math notranslate nohighlight">\(0.0\)</span>, then repeat with the ground energy
+subtracted — which is what your Exercise 1 <code class="docutils literal notranslate"><span class="pre">thermal_populations</span></code> has been doing all along —
+and confirm the populations are correct and stable, adopting <span class="math notranslate nohighlight">\(E_0\)</span>-subtraction as standing
+policy.</p></li>
+<li><p>Verify <span class="math notranslate nohighlight">\(e^{-\beta H} = U(t = -i\hbar\beta)\)</span> by evaluating <code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code><span class="math notranslate nohighlight">\((-iH\cdot(-i\beta))\)</span>
+against <code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code><span class="math notranslate nohighlight">\((-\beta H)\)</span> (agreement at the <span class="math notranslate nohighlight">\(10^{-12}\)</span> level): the thermal
+weight is imaginary-time evolution.</p></li>
+<li><p>State (prose) what that identity will become: sliced into <span class="math notranslate nohighlight">\(P\)</span> steps it is the Trotter
+decomposition, and the thermal quantum particle becomes a classical ring polymer — the path
+integral of <a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>, planted.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>spectral vs expm route: max|Δρ| = 2.55e-15
+⟨A⟩ for a non-commuting A: 0.2673411963   (‖[H,A]‖ = 4.32)
+
+β = 800.0: naive weights [0. 0. 0. 0. 0.]  →  Z_naive = 0.0
+shifted populations: [1.000e+000 1.061e-139 0.000e+000 0.000e+000 0.000e+000]   (sum = 1.0)
+the ground state holds everything, as physics demands — the naive route returned nothing at all
+
+max|U(−iβ) − e^(−βH)| = 4.39e-18
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-8">
+<h3>Validation 8<a class="headerlink" href="#validation-8" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the spectral and expm routes build the same thermal state on a full (rotated) Hamiltonian   [max|Δρ| = 2.6e-15]
+✓  the log-sum-exp discipline: the naive Z underflows to exactly 0.0; the shifted populations are exact   [Z_naive = 0.0, shifted p_0 = 1.0]
+✓  e^(−βH) = U(t = −iβ): the thermal weight is evolution in imaginary time — the path-integral seed   [max|Δ| = 4.39102e-18 (rtol=1e-06, atol=1e-10)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-9-the-honest-state">
+<h2>Exercise 9 — The honest state<a class="headerlink" href="#exercise-9-the-honest-state" title="Link to this heading">#</a></h2>
+<p>The thermal density matrix earned its form three times over in this notebook — as the state that
+assumes nothing beyond one measured number, as the quantum rendering of Volume V’s Boltzmann
+weight, and as what a bath leaves behind when we stop tracking it. The first road is the one
+worth carrying: there is a quiet philosophical satisfaction in the maximum-entropy route, because
+the Boltzmann factor is revealed as not an assumption about nature so much as a confession of
+what we know (one number) and a refusal to pretend we know more. Twenty thousand random states
+tried to be less committal at the same energy; none managed it, and the smallest margin of defeat
+was still positive. Even the numerical lesson inside that verification (compare each state to the
+ceiling at <em>its own</em> energy, or manufacture false violations) is the same idea in miniature:
+constraints are to be honored exactly, not approximately.</p>
+<p>A single warm qubit then carried the whole notebook. The Fermi function appeared uninvited,
+three movements early, because a fermionic mode simply <em>is</em> a two-level system. The heat capacity
+grew a bump that experimentalists use as a fingerprint for hidden two-level defects, its position
+a ruler for the gap. The entropy obeyed a third law that classical mechanics could never deliver
+— Volume V’s entropy dives to <span class="math notranslate nohighlight">\(-\infty\)</span> where the quantum answer settles serenely to zero — and
+the bounded spectrum opened a door marked “below zero” that turns out to lead <em>above</em> infinity,
+where pumped, inverted, laser-ready media live. Two seeds are in the ground for later notebooks:
+the thermal weight is time evolution run for an imaginary duration (<a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a> will slice it into a
+ring polymer), and cold numerics demand the shifted spectrum (a rule the volume now follows as
+policy). The next notebook (<a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>) puts the first <em>unbounded</em> spectrum on the scale: Planck’s
+oscillator, where freezing out is born, the Einstein solid explains a century-old anomaly, and
+the classical limit finally has room to appear.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>Movement I opens with the volume’s central object, earned three ways and put to work on the
+smallest quantum system there is.</p>
+<ul class="simple">
+<li><p><strong>The thermal state</strong> <a class="reference internal" href="#equation-eq-thermal-state">Eq. 689</a>: <span class="math notranslate nohighlight">\(\rho = e^{-\beta H}/Z\)</span>, derived by maximizing
+von Neumann entropy at fixed mean energy — and defended against <span class="math notranslate nohighlight">\(2\times10^4\)</span> Dirichlet
+competitors with zero violations, each judged at <em>its own</em> mean energy (the per-state
+constraint being itself a numerical lesson). Diagonal in the energy basis: a thermal state
+holds no coherences, because coherence would be unclaimed knowledge.</p></li>
+<li><p><strong>The partition function is a trace</strong> <a class="reference internal" href="#equation-eq-partition-function">Eq. 690</a>: eigenvalue sum,
+<code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code>, and a randomly rotated basis agree to eight digits, and
+<span class="math notranslate nohighlight">\(\langle A\rangle = \operatorname{Tr}(\rho A)\)</span> needs no commutation with <span class="math notranslate nohighlight">\(H\)</span>.</p></li>
+<li><p><strong>Thermodynamics from <span class="math notranslate nohighlight">\(Z\)</span></strong> <a class="reference internal" href="#equation-eq-thermo-from-z">Eq. 691</a>: Volume V’s identities survive verbatim on
+the spectrum; <span class="math notranslate nohighlight">\(-\partial\ln Z/\partial\beta\)</span> meets <span class="math notranslate nohighlight">\(\operatorname{Tr}(\rho H)\)</span> by central
+differences, and the thermodynamic entropy <em>is</em> the von Neumann entropy.</p></li>
+<li><p><strong>The warm qubit</strong> <a class="reference internal" href="#equation-eq-two-level">Eq. 692</a>: <span class="math notranslate nohighlight">\(p_1 = n_F(\Delta)\)</span> identically — the Fermi function
+three movements early, because a fermionic mode is a two-level system — plus the Curie <span class="math notranslate nohighlight">\(1/T\)</span>
+tail of the spin-<span class="math notranslate nohighlight">\(\tfrac12\)</span> magnetization.</p></li>
+<li><p><strong>The Schottky anomaly</strong> <a class="reference internal" href="#equation-eq-schottky">Eq. 693</a>: a bump at <span class="math notranslate nohighlight">\(k_BT = 0.417\Delta\)</span>, <span class="math notranslate nohighlight">\(C_{\max} =
+0.439\,k_B\)</span>, frozen below the gap and exhausted above it — calorimetry’s fingerprint for
+hidden two-level degrees of freedom.</p></li>
+<li><p><strong>The third law is quantum</strong> <a class="reference internal" href="#equation-eq-third-law">Eq. 694</a>: <span class="math notranslate nohighlight">\(S: 0 \to \ln2\)</span> and purity <span class="math notranslate nohighlight">\(1 \to \tfrac12\)</span>;
+the <span class="math notranslate nohighlight">\(T \to 0\)</span> state is the pure ground state, where the classical entropy diverges to
+<span class="math notranslate nohighlight">\(-\infty\)</span> — discreteness rescues thermodynamics.</p></li>
+<li><p><strong>Negative temperature</strong> <a class="reference internal" href="#equation-eq-negative-t">Eq. 695</a>: the bounded spectrum bends <span class="math notranslate nohighlight">\(S(E)\)</span> over;
+<span class="math notranslate nohighlight">\(\beta = \partial S/\partial E\)</span> crosses zero at half filling (<span class="math notranslate nohighlight">\(\pm\ln3\)</span> at <span class="math notranslate nohighlight">\(p = 0.25/0.75\)</span>);
+<span class="math notranslate nohighlight">\(\beta &lt; 0\)</span> is hotter than every positive temperature, and an inverted population is the
+laser’s medium (<a class="reference internal" href="einstein-a-b-coefficients.html"><span class="std std-doc">§7.15</span></a>).</p></li>
+<li><p><strong>Two seeds</strong> <a class="reference internal" href="#equation-eq-imaginary-time">Eq. 696</a>: <span class="math notranslate nohighlight">\(e^{-\beta H} = U(-i\hbar\beta)\)</span> to twelve digits — the
+path integral’s foundation (<a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>) — and the log-sum-exp discipline, adopted after watching a
+naive <span class="math notranslate nohighlight">\(Z\)</span> underflow to exactly <span class="math notranslate nohighlight">\(0.0\)</span>.</p></li>
+</ul>
+<p>The density matrix has its temperature; the oscillator is next.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The quantum oscillator at temperature (<a class="reference internal" href="oscillator-at-temperature.html"><span class="std std-doc">§7.5</span></a>).</strong> Planck’s occupation, the Einstein solid,
+freezing out, and the classical limit recovered on the first unbounded spectrum.</p></li>
+<li><p><strong>Molecules (<a class="reference internal" href="molecules-rotation-vibration.html"><span class="std std-doc">§7.6</span></a>).</strong> The heat-capacity staircase and ortho/para hydrogen.</p></li>
+<li><p><strong>The payoffs downstream.</strong> The Fermi function’s proper grand-canonical derivation (<a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>); the
+laser’s inverted medium (<a class="reference internal" href="einstein-a-b-coefficients.html"><span class="std std-doc">§7.15</span></a>); Brillouin paramagnetism (<a class="reference internal" href="quantum-paramagnets-brillouin.html"><span class="std std-doc">§7.18</span></a>); the path integral from
+imaginary time (<a class="reference internal" href="imaginary-time-quantum-classical.html"><span class="std std-doc">§7.20</span></a>); thermalization from bath entanglement (<a class="reference internal" href="eigenstate-thermalization.html"><span class="std std-doc">§7.22</span></a>).</p></li>
+<li><p><strong>The grand canonical ensemble, quantized</strong> — the machinery of <a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html"><span class="std std-doc">§5.9</span></a> pointed at quantum modes (<a class="reference internal" href="bose-einstein-fermi-dirac.html"><span class="std std-doc">§7.7</span></a>).</p></li>
+<li><p><strong>Cross-reference</strong> <a class="reference internal" href="../06-quantum-mechanics/density-matrix.html"><span class="std std-doc">§6.26</span></a> (the density matrix and its entropy, now put to work), <a class="reference internal" href="../06-quantum-mechanics/time-evolution.html"><span class="std std-doc">§6.7</span></a> (<span class="math notranslate nohighlight">\(U(t)\)</span>,
+continued to imaginary time), <a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html"><span class="std std-doc">§5.4</span></a> (<span class="math notranslate nohighlight">\(\beta = \partial S/\partial E\)</span>), <a class="reference internal" href="../05-classical-stat-mech/ergodicity.html"><span class="std std-doc">§5.5</span></a>/<a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html"><span class="std std-doc">§5.7</span></a> (the classical
+canonical machinery, inherited verbatim).</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/07-quantum-statistical-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="statistical-toolkit.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="oscillator-at-temperature.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-roads-to-the-thermal-state">Three roads to the thermal state</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-quantum-partition-function">The quantum partition function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#thermodynamics-from-z">Thermodynamics from Z</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-two-level-system-and-the-fermi-function-three-movements-early">The two-level system, and the Fermi function three movements early</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-schottky-anomaly">The Schottky anomaly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entropy-purity-and-the-third-law">Entropy, purity, and the third law</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#negative-temperature">Negative temperature</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-seeds-imaginary-time-and-low-temperature-numerics">Two seeds: imaginary time, and low-temperature numerics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-thermal-state-by-maximum-entropy">Exercise 1 — The thermal state by maximum entropy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-partition-function-is-a-trace">Exercise 2 — The partition function is a trace</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-thermodynamics-from-z">Exercise 3 — Thermodynamics from Z</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-warm-qubit-and-the-fermi-function-three-movements-early">Exercise 4 — The warm qubit, and the Fermi function three movements early</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-schottky-anomaly">Exercise 5 — The Schottky anomaly</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-entropy-purity-and-the-third-law">Exercise 6 — Entropy, purity, and the third law</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-negative-temperature-hotter-than-infinity">Exercise 7 — Negative temperature: hotter than infinity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-a-general-hamiltonian-and-the-two-standing-disciplines">Exercise 8 — A general Hamiltonian, and the two standing disciplines</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-8">Validation 8</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-the-honest-state">Exercise 9 — The honest state</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

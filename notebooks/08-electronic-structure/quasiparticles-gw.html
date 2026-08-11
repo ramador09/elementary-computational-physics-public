@@ -1,0 +1,1726 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="8.14 Quasiparticles, Spectral Functions, and GW" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/quasiparticles-gw.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Every band structure this volume has drawn — §8.9 ’s cosines, §8.11 ’s silicon — assigned each electron an energy\varepsilon(k) as if the ..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Every band structure this volume has drawn — §8.9 ’s cosines, §8.11 ’s silicon — assigned each electron an energy\varepsilon(k) as if the ..." />
+
+    <title>8.14 Quasiparticles, Spectral Functions, and GW &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/08-electronic-structure/quasiparticles-gw';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/quasiparticles-gw.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="8.15 Optical Absorption and Excitons" href="optics-excitons.html" />
+    <link rel="prev" title="8.13 The Hubbard Model: Correlation on a Lattice" href="hubbard-model.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/08-electronic-structure/quasiparticles-gw.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/08-electronic-structure/quasiparticles-gw.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/08-electronic-structure/quasiparticles-gw.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/08-electronic-structure/quasiparticles-gw.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>8.14 Quasiparticles, Spectral Functions, and GW</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-lehmann-representation-dynamics-from-eigenstates">The Lehmann representation: dynamics from eigenstates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quasiparticles-z-and-the-self-energy">Quasiparticles, Z, and the self-energy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gw-screening-the-exchange">GW: screening the exchange</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-lehmann-machine-certified-where-the-answer-is-known">Exercise 1 — The Lehmann machine, certified where the answer is known</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-machine-s-certificate">Validation 1 — the machine’s certificate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-dimer-s-green-function-one-band-state-two-poles">Exercise 2 — The dimer’s Green function: one band state, two poles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-the-closed-forms">Validation 2 — the closed forms</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-dyson-run-backwards-measuring-the-self-energy">Exercise 3 — Dyson run backwards: measuring the self-energy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-one-number-two-routes-second-order">Validation 3 — one number, two routes, second order</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-a-k-omega-watching-a-band-die-into-hubbard-bands">Exercise 4 — <span class="math notranslate nohighlight">\(A(k, \omega)\)</span>: watching a band die into Hubbard bands</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-sum-rules-with-no-mercy">Validation 4 — sum rules with no mercy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-verdict-g-0w-0-built-from-scratch-judged-exactly">Exercise 5 — Verdict: <span class="math notranslate nohighlight">\(G_0W_0\)</span> built from scratch, judged exactly</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-a-weak-coupling-theory-measured-as-such">Validation 5 — a weak-coupling theory, measured as such</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="quasiparticles-spectral-functions-and-gw">
+<h1>8.14 Quasiparticles, Spectral Functions, and GW<a class="headerlink" href="#quasiparticles-spectral-functions-and-gw" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VIII — Electronic Structure and Many-Body Matter
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;8.14
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">What survives of &#x27;an electron&#x27;s energy&#x27; when electrons interact? The Lehmann spectral function — built exactly from the sectors of §8.13, sum rules landing at 1.0000000000 and the first moment at ε(k) + U/2 to ten digits — answers: a quasiparticle peak with weight Z &lt; 1, plus satellites carrying the rest. The dimer&#x27;s self-energy is extracted from Dyson&#x27;s equation, Z computed two independent ways, and then the workhorse of modern band theory is built from scratch: G₀W₀, screened interaction and all, whose quasiparticle gap rescues Hartree–Fock&#x27;s at weak coupling (−19% → −2.6% at U = 2t) and honestly collapses in the Mott regime. The many-body deficit of the §8.11 silicon gap, explained by construction.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;150–180 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Every band structure this volume has drawn —
+<a class="reference internal" href="tight-binding.html"><span class="std std-doc">§8.9</span></a>’s cosines, <a class="reference internal" href="epm-band-structures.html"><span class="std std-doc">§8.11</span></a>’s
+silicon — assigned each electron an energy <span class="math notranslate nohighlight">\(\varepsilon(k)\)</span> as if the
+others were scenery. <a class="reference internal" href="hubbard-model.html"><span class="std std-doc">§8.13</span></a> showed what that misses.
+But photoemission experiments <em>do</em> measure sharp band-like dispersions in
+real interacting materials, and <a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a>
+showed the fundamental gap is a difference of <span class="math notranslate nohighlight">\(N\pm1\)</span> ground-state
+energies. This notebook builds the object that reconciles all of it: the
+one-particle <strong>spectral function</strong> <span class="math notranslate nohighlight">\(A(k, \omega)\)</span> — the probability
+distribution of energies for adding or removing one electron — which is
+what <a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html"><span class="std std-doc">§7.24</span></a>’s
+Green function becomes when the many-body machinery of
+<a class="reference internal" href="hubbard-model.html"><span class="std std-doc">§8.13</span></a> evaluates it exactly.</p>
+<p>The build: the Lehmann representation computed literally — every <span class="math notranslate nohighlight">\(N\pm1\)</span>
+eigenstate of the <span class="math notranslate nohighlight">\(L = 6\)</span> Hubbard ring, every matrix element of
+<span class="math notranslate nohighlight">\(\hat c^\dagger_k\)</span> — with its two exact sum rules landing not
+approximately but to ten digits (total weight <span class="math notranslate nohighlight">\(1\)</span>; first moment
+<span class="math notranslate nohighlight">\(\varepsilon(k) + U/2\)</span>, interactions shifting the band’s center of
+gravity by a constant and nothing else). The Hubbard dimer then becomes
+the Rosetta stone: its Green function has <em>two</em> poles per orbital where
+the band picture promises one — a quasiparticle carrying weight
+<span class="math notranslate nohighlight">\(Z = \tfrac12 + 2t/\sqrt{U^2 + 16t^2}\)</span> (a closed form our numerics must
+and does hit) and a satellite carrying <span class="math notranslate nohighlight">\(1 - Z\)</span>. Dyson’s equation is run
+<em>backwards</em> to extract the self-energy <span class="math notranslate nohighlight">\(\Sigma(\omega)\)</span>, whose single
+pole is where all the correlation hides, and <span class="math notranslate nohighlight">\(Z\)</span> is recomputed from
+<span class="math notranslate nohighlight">\(\partial\Sigma/\partial\omega\)</span> — two unrelated routes, one number. The
+chain’s <span class="math notranslate nohighlight">\(A(k, \omega)\)</span> then shows the full drama: a sharp band at
+<span class="math notranslate nohighlight">\(U = 0\)</span> fractioning into upper and lower Hubbard bands, with the
+spectral gap <em>equal</em> to <a class="reference internal" href="hubbard-model.html"><span class="std std-doc">§8.13</span></a>’s charge gap by
+construction. The finale builds Hedin’s <span class="math notranslate nohighlight">\(G_0W_0\)</span> <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id101" title="Lars Hedin. New method for calculating the one-particle green's function with application to the electron-gas problem. Physical Review, 139:A796–A823, 1965. doi:10.1103/PhysRev.139.A796.">Hed65</a>]</span> on
+the dimer — polarizability, plasmon-pole screened interaction
+<span class="math notranslate nohighlight">\(W(\omega)\)</span>, correlation self-energy, quasiparticle equation — and holds
+it against the exact solution in the spirit of Romaniello’s dimer
+autopsy <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id107" title="P. Romaniello, S. Guyot, and L. Reining. The self-energy beyond GW: local and nonlocal vertex corrections. The Journal of Chemical Physics, 131:154111, 2009. doi:10.1063/1.3249965.">RGR09</a>]</span>: the gap error shrinks from
+Hartree–Fock’s <span class="math notranslate nohighlight">\(-19\%\)</span> to <span class="math notranslate nohighlight">\(-2.6\%\)</span> at <span class="math notranslate nohighlight">\(U = 2t\)</span>, and grows to <span class="math notranslate nohighlight">\(-38\%\)</span> by
+<span class="math notranslate nohighlight">\(U = 8t\)</span> — GW is the world’s production band-gap machine <em>and</em> a
+weak-coupling theory, both facts measured here. This is the machinery
+behind every “<span class="math notranslate nohighlight">\(GW\)</span> band structure” in the literature — including the
+photocathode calculations of the author’s thesis <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id115" title="Raymond Amador. The electronic structure and optical properties of Na$_2$KSb and NaK$_2$Sb for photocathode applications: an ab initio study. Master's thesis, Humboldt-Universität zu Berlin, 2019.">Ama19</a>]</span> —
+and it is why <a class="reference internal" href="epm-band-structures.html"><span class="std std-doc">§8.11</span></a>’s silicon gap came out
+<span class="math notranslate nohighlight">\(0.35\)</span> eV short.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Hopping <span class="math notranslate nohighlight">\(t = 1\)</span> sets the energy unit.
+Chains are periodic (<span class="math notranslate nohighlight">\(L = 6\)</span>, half filled); the dimer is open with one
+electron per spin. Energies are measured from the <span class="math notranslate nohighlight">\(N\)</span>-electron ground
+state (no chemical-potential shift: addition poles at
+<span class="math notranslate nohighlight">\(E_n^{N+1} - E_0^N\)</span>, removal poles at <span class="math notranslate nohighlight">\(E_0^N - E_n^{N-1}\)</span>), so
+particle–hole symmetry puts the gap’s center at <span class="math notranslate nohighlight">\(U/2\)</span>. All spectra are
+kept as exact pole lists (energies, weights) from dense
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> of the <a class="reference internal" href="hubbard-model.html"><span class="std std-doc">§8.13</span></a> sector
+machinery; Lorentzian broadening <span class="math notranslate nohighlight">\(\eta\)</span> is applied only for plotting.
+Momentum operators are <span class="math notranslate nohighlight">\(\hat c^\dagger_{k\sigma} = L^{-1/2}\sum_j
+e^{ikj}\hat c^\dagger_{j\sigma}\)</span> on the ring, <span class="math notranslate nohighlight">\(k = 2\pi m/L\)</span>.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call
+against an independent fact: an exact sum rule, a closed-form pole
+weight, an identity between two routes to the same number. A ✓ is
+strong evidence; a ✗ is a prompt to locate the discrepancy, not an
+automatic verdict.</p>
+<p><strong>Scope.</strong> Zero temperature, one dimension, exact diagonalization, and
+the <span class="math notranslate nohighlight">\(G_0W_0\)</span> approximation on a two-site model. Production GW — plane
+waves, frequency integration, self-consistency flavors — is reviewed
+in Onida, Reining &amp; Rubio <span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id102" title="Giovanni Onida, Lucia Reining, and Angel Rubio. Electronic excitations: density-functional versus many-body Green's-function approaches. Reviews of Modern Physics, 74:601–659, 2002. doi:10.1103/RevModPhys.74.601.">ORR02</a>]</span> and Martin
+<span class="bibtex-citation" id="id5">[<a class="reference internal" href="#id83" title="Richard M. Martin. Electronic Structure: Basic Theory and Practical Methods. Cambridge University Press, Cambridge, 2004.">Mar04</a>]</span>; what light does with these quasiparticles (and the
+electron–hole attraction GW leaves out) is
+<a class="reference internal" href="optics-excitons.html"><span class="std std-doc">§8.15</span></a>’s story.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-lehmann-representation-dynamics-from-eigenstates">
+<h3>The Lehmann representation: dynamics from eigenstates<a class="headerlink" href="#the-lehmann-representation-dynamics-from-eigenstates" title="Link to this heading">#</a></h3>
+<p>The retarded Green function of
+<a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html"><span class="std std-doc">§7.24</span></a>,
+<span class="math notranslate nohighlight">\(G_k(\omega)\)</span>, asks: inject an electron with momentum <span class="math notranslate nohighlight">\(k\)</span> into the
+interacting ground state — with what amplitude does the system carry it
+at frequency <span class="math notranslate nohighlight">\(\omega\)</span>? Inserting a complete set of <span class="math notranslate nohighlight">\(N\pm1\)</span> eigenstates
+turns the question into spectroscopy:</p>
+<div class="math notranslate nohighlight" id="equation-eq-qp-lehmann">
+<span class="eqno">(906)<a class="headerlink" href="#equation-eq-qp-lehmann" title="Link to this equation">#</a></span>\[A_k(\omega) \;=\; \sum_n \big|\langle n^{N+1}|\,\hat c^\dagger_k\,
+|0^N\rangle\big|^2\,\delta\!\big(\omega - (E_n^{N+1} - E_0^N)\big)
+\;+\; \sum_m \big|\langle m^{N-1}|\,\hat c_k\,|0^N\rangle\big|^2\,
+\delta\!\big(\omega - (E_0^N - E_m^{N-1})\big) .\]</div>
+<p>Photoemission measures the second sum; inverse photoemission the first.
+Completeness of the <span class="math notranslate nohighlight">\(N\pm1\)</span> eigenbases forces the <strong>zeroth-moment sum
+rule</strong> <span class="math notranslate nohighlight">\(\int A_k\,d\omega = \{\hat c_k, \hat c^\dagger_k\} = 1\)</span>, and the
+equation-of-motion anticommutator
+<span class="math notranslate nohighlight">\(\{[\hat c_k, \hat H], \hat c^\dagger_k\}\)</span> gives the <strong>first moment</strong>
+<span class="math notranslate nohighlight">\(\int \omega A_k\,d\omega = \varepsilon(k) + U\langle n_{-\sigma}\rangle\)</span>:
+whatever interactions do to the <em>shape</em>, the band’s center of gravity
+only shifts by the Hartree constant. Both are exact at any <span class="math notranslate nohighlight">\(U\)</span>, and both
+are gates below.</p>
+</section>
+<section id="quasiparticles-z-and-the-self-energy">
+<h3>Quasiparticles, Z, and the self-energy<a class="headerlink" href="#quasiparticles-z-and-the-self-energy" title="Link to this heading">#</a></h3>
+<p>For free electrons <span class="math notranslate nohighlight">\(A_k(\omega) = \delta(\omega - \varepsilon_k)\)</span>: one
+pole, weight <span class="math notranslate nohighlight">\(1\)</span>. Interactions split the delta into a <strong>quasiparticle</strong>
+peak — the surviving band-like excitation, carrying weight <span class="math notranslate nohighlight">\(Z_k &lt; 1\)</span> —
+and incoherent <strong>satellites</strong> carrying <span class="math notranslate nohighlight">\(1 - Z_k\)</span> (the injected electron
+shakes up the others, and part of its identity goes into the
+shake-up). The bookkeeping device is the self-energy, defined by Dyson’s
+equation</p>
+<div class="math notranslate nohighlight" id="equation-eq-qp-dyson">
+<span class="eqno">(907)<a class="headerlink" href="#equation-eq-qp-dyson" title="Link to this equation">#</a></span>\[G_k(\omega) \;=\; \frac{1}{\omega - \varepsilon_k^{\mathrm{HF}}
+- \Sigma_k(\omega)},
+\qquad
+Z \;=\; \Big(1 - \frac{\partial\,\mathrm{Re}\,\Sigma}{\partial\omega}
+\Big)^{-1}_{\omega = E_{\mathrm{qp}}} ,\]</div>
+<p>which this notebook runs <em>backwards</em>: with <span class="math notranslate nohighlight">\(G\)</span> exact from Lehmann,
+<span class="math notranslate nohighlight">\(\Sigma = \omega - \varepsilon^{\mathrm{HF}} - G^{-1}\)</span> is measured, not
+approximated. For the half-filled dimer everything is closed-form: the
+bonding orbital’s two poles sit at
+<span class="math notranslate nohighlight">\(E_0 + t\)</span> and <span class="math notranslate nohighlight">\(U + t - E_0\)</span> (with <span class="math notranslate nohighlight">\(E_0\)</span> from <a class="reference internal" href="hubbard-model.html#equation-eq-hub-dimer">Eq. 904</a> of
+<a class="reference internal" href="hubbard-model.html"><span class="std std-doc">§8.13</span></a>), with quasiparticle weight</p>
+<div class="math notranslate nohighlight" id="equation-eq-qp-z">
+<span class="eqno">(908)<a class="headerlink" href="#equation-eq-qp-z" title="Link to this equation">#</a></span>\[Z \;=\; \frac12 + \frac{2t}{\sqrt{U^2 + 16t^2}} ,\]</div>
+<p>and <span class="math notranslate nohighlight">\(\Sigma(\omega)\)</span> has exactly one pole — correlation compressed into
+one resonance.</p>
+</section>
+<section id="gw-screening-the-exchange">
+<h3>GW: screening the exchange<a class="headerlink" href="#gw-screening-the-exchange" title="Link to this heading">#</a></h3>
+<p>Hartree–Fock fails for gaps because its exchange is <em>bare</em>: in a solid,
+the other electrons rearrange to screen any added charge. Hedin’s
+expansion <span class="bibtex-citation" id="id6">[<a class="reference internal" href="#id101" title="Lars Hedin. New method for calculating the one-particle green's function with application to the electron-gas problem. Physical Review, 139:A796–A823, 1965. doi:10.1103/PhysRev.139.A796.">Hed65</a>]</span> replaces the bare interaction <span class="math notranslate nohighlight">\(v\)</span> in the
+exchange diagram by the <strong>screened</strong> one,</p>
+<div class="math notranslate nohighlight" id="equation-eq-qp-gw">
+<span class="eqno">(909)<a class="headerlink" href="#equation-eq-qp-gw" title="Link to this equation">#</a></span>\[W(\omega) \;=\; \frac{v}{1 - v\,\chi_0(\omega)},
+\qquad
+\Sigma^{GW} \;=\; \mathrm{i}\,G\,W ,\]</div>
+<p>with <span class="math notranslate nohighlight">\(\chi_0\)</span> the independent-particle polarizability. On the dimer,
+<span class="math notranslate nohighlight">\(\chi_0\)</span> has a single resonance at the HF gap <span class="math notranslate nohighlight">\(\Delta = 2t\)</span>, so <span class="math notranslate nohighlight">\(W\)</span> has
+a single “plasmon” pole at <span class="math notranslate nohighlight">\(\omega_p = \sqrt{\Delta^2 + 2\Delta U}\)</span> —
+screening <em>stiffens</em> the resonance — and the correlation self-energy is
+a one-pole function whose quasiparticle equation
+<span class="math notranslate nohighlight">\(\omega = \varepsilon^{\mathrm{HF}} + \Sigma_c(\omega)\)</span> closes with
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code>. Everything in <a class="reference internal" href="#equation-eq-qp-gw">Eq. 909</a> is built
+explicitly in Exercise 5, and judged against the exact dimer in the
+spirit of <span class="bibtex-citation" id="id7">[<a class="reference internal" href="#id107" title="P. Romaniello, S. Guyot, and L. Reining. The self-energy beyond GW: local and nonlocal vertex corrections. The Journal of Chemical Physics, 131:154111, 2009. doi:10.1063/1.3249965.">RGR09</a>]</span>.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data and instruments: the hopping unit, the Jordan–Wigner parity of
+<a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html"><span class="std std-doc">§7.23</span></a>, the
+basis enumerator and sector Hamiltonian of
+<a class="reference internal" href="hubbard-model.html"><span class="std std-doc">§8.13</span></a>, the sector-restricted operator matrices those
+two feed, and a Lorentzian broadening kernel used only for drawing. The
+notebook’s own machinery — the Lehmann spectral machine itself — you build
+in Exercise 1, and everything downstream (the dimer’s Green function, its
+measured self-energy, <span class="math notranslate nohighlight">\(G_0W_0\)</span>) is built on it in Exercises 2–5.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">combinations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">brentq</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+<span class="n">INK</span><span class="p">,</span> <span class="n">AMBER</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="s2">&quot;#16213e&quot;</span><span class="p">,</span> <span class="s2">&quot;#c0851a&quot;</span><span class="p">,</span> <span class="s2">&quot;#46506b&quot;</span>
+
+<span class="n">T_HOP</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># data: the hopping integral — the energy unit throughout</span>
+
+
+<span class="c1"># built from scratch in §7.23 (Exercise 2: jw_ops, the string of Z&#39;s, unit-tested</span>
+<span class="c1"># by the anticommutator table); restated here in bit arithmetic as an instrument.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">jw_sign</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Jordan-Wigner sign (-1)^(occupied modes below bit i); see section 8.13.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mask : int</span>
+<span class="sd">        Occupation bit mask.</span>
+<span class="sd">    i : int</span>
+<span class="sd">        Mode index acted on.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        +1.0 or -1.0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">1.0</span> <span class="k">if</span> <span class="p">(</span><span class="n">mask</span> <span class="o">&amp;</span> <span class="p">((</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">bit_count</span><span class="p">()</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mf">1.0</span>
+
+
+<span class="c1"># instrument: combinatorial plumbing — enumerating fixed-occupation bit masks is</span>
+<span class="c1"># bookkeeping, not the lesson of any exercise here.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">basis_masks</span><span class="p">(</span><span class="n">n_modes</span><span class="p">,</span> <span class="n">n_occ</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;All n_modes-bit masks with n_occ bits set (the section 8.13 sector basis).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_modes, n_occ : int</span>
+<span class="sd">        Orbital count and occupation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of int</span>
+<span class="sd">        The masks in canonical order.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">combo</span><span class="p">)</span> <span class="k">for</span> <span class="n">combo</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_modes</span><span class="p">),</span> <span class="n">n_occ</span><span class="p">)]</span>
+
+
+<span class="c1"># built from scratch in §8.13 (Exercise 2: hubbard_sector, the same sector</span>
+<span class="c1"># assembly in sparse form); restated here densely as an instrument — every sector</span>
+<span class="c1"># this notebook needs is small, and Lehmann needs all the eigenvectors anyway.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hubbard_dense</span><span class="p">(</span><span class="n">n_sites</span><span class="p">,</span> <span class="n">n_up</span><span class="p">,</span> <span class="n">n_dn</span><span class="p">,</span> <span class="n">u_int</span><span class="p">,</span> <span class="n">pbc</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dense Hubbard sector Hamiltonian (small chains; the section 8.13 build).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_sites, n_up, n_dn : int</span>
+<span class="sd">        Chain length and electron numbers.</span>
+<span class="sd">    u_int : float</span>
+<span class="sd">        On-site repulsion.</span>
+<span class="sd">    pbc : bool, optional</span>
+<span class="sd">        Periodic if True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple</span>
+<span class="sd">        (H dense array, up masks, down masks).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ups</span> <span class="o">=</span> <span class="n">basis_masks</span><span class="p">(</span><span class="n">n_sites</span><span class="p">,</span> <span class="n">n_up</span><span class="p">)</span>
+    <span class="n">dns</span> <span class="o">=</span> <span class="n">basis_masks</span><span class="p">(</span><span class="n">n_sites</span><span class="p">,</span> <span class="n">n_dn</span><span class="p">)</span>
+    <span class="n">up_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">m</span><span class="p">:</span> <span class="n">a</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ups</span><span class="p">)}</span>
+    <span class="n">dn_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">m</span><span class="p">:</span> <span class="n">b</span> <span class="k">for</span> <span class="n">b</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dns</span><span class="p">)}</span>
+    <span class="n">dim_dn</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dns</span><span class="p">)</span>
+    <span class="n">ham</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">ups</span><span class="p">)</span> <span class="o">*</span> <span class="n">dim_dn</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ups</span><span class="p">)</span> <span class="o">*</span> <span class="n">dim_dn</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">mask_up</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ups</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">b</span><span class="p">,</span> <span class="n">mask_dn</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dns</span><span class="p">):</span>
+            <span class="n">ham</span><span class="p">[</span><span class="n">a</span> <span class="o">*</span> <span class="n">dim_dn</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">dim_dn</span> <span class="o">+</span> <span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">u_int</span> <span class="o">*</span> <span class="p">(</span><span class="n">mask_up</span> <span class="o">&amp;</span> <span class="n">mask_dn</span><span class="p">)</span><span class="o">.</span><span class="n">bit_count</span><span class="p">()</span>
+            <span class="p">)</span>
+    <span class="n">bonds</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n_sites</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sites</span> <span class="k">if</span> <span class="n">pbc</span> <span class="k">else</span> <span class="n">n_sites</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">spin_hops</span><span class="p">(</span><span class="n">masks</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;(from, to, sign) hopping triples within one spin species.&quot;&quot;&quot;</span>
+        <span class="n">moves</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">mask</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">masks</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">bonds</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span> <span class="ow">in</span> <span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">mask</span> <span class="o">&gt;&gt;</span> <span class="n">src</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">mask</span> <span class="o">&gt;&gt;</span> <span class="n">dst</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
+                        <span class="n">between</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">mask</span> <span class="o">&amp;</span> <span class="p">((</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">hi</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="p">((</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">lo</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">bit_count</span><span class="p">()</span>
+                        <span class="n">moves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="p">(</span>
+                                <span class="n">a</span><span class="p">,</span>
+                                <span class="n">index</span><span class="p">[</span><span class="n">mask</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">src</span><span class="p">)</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">dst</span><span class="p">)],</span>
+                                <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">**</span> <span class="n">between</span><span class="p">,</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">moves</span>
+
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">sign</span> <span class="ow">in</span> <span class="n">spin_hops</span><span class="p">(</span><span class="n">ups</span><span class="p">,</span> <span class="n">up_index</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim_dn</span><span class="p">):</span>
+            <span class="n">ham</span><span class="p">[</span><span class="n">a2</span> <span class="o">*</span> <span class="n">dim_dn</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">dim_dn</span> <span class="o">+</span> <span class="n">b</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="n">T_HOP</span> <span class="o">*</span> <span class="n">sign</span>
+    <span class="k">for</span> <span class="n">b</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">sign</span> <span class="ow">in</span> <span class="n">spin_hops</span><span class="p">(</span><span class="n">dns</span><span class="p">,</span> <span class="n">dn_index</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ups</span><span class="p">)):</span>
+            <span class="n">ham</span><span class="p">[</span><span class="n">a</span> <span class="o">*</span> <span class="n">dim_dn</span> <span class="o">+</span> <span class="n">b2</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">dim_dn</span> <span class="o">+</span> <span class="n">b</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="n">T_HOP</span> <span class="o">*</span> <span class="n">sign</span>
+    <span class="k">return</span> <span class="n">ham</span><span class="p">,</span> <span class="n">ups</span><span class="p">,</span> <span class="n">dns</span>
+
+
+<span class="c1"># instrument: the Exercise 1 annihilator of §8.13, restricted to a sector — the same</span>
+<span class="c1"># Jordan-Wigner rule with the down-spin block carried along as a spectator. The</span>
+<span class="c1"># index bookkeeping is plumbing; Exercise 1&#39;s lesson is what Lehmann does with</span>
+<span class="c1"># the matrix elements, not how the rectangle is laid out.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cdag_up_matrix</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ups_from</span><span class="p">,</span> <span class="n">dns</span><span class="p">,</span> <span class="n">ups_to</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Matrix of cdag_{i,up} between fixed-(N_up, N_dn) sectors.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    i : int</span>
+<span class="sd">        Site index.</span>
+<span class="sd">    ups_from, ups_to : list of int</span>
+<span class="sd">        Up-spin masks of the source and target sectors.</span>
+<span class="sd">    dns : list of int</span>
+<span class="sd">        Down-spin masks (unchanged spectator).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The rectangular operator matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">to_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">m</span><span class="p">:</span> <span class="n">a</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ups_to</span><span class="p">)}</span>
+    <span class="n">dim_dn</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dns</span><span class="p">)</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">ups_to</span><span class="p">)</span> <span class="o">*</span> <span class="n">dim_dn</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ups_from</span><span class="p">)</span> <span class="o">*</span> <span class="n">dim_dn</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">mask</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ups_from</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">mask</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">a2</span> <span class="o">=</span> <span class="n">to_index</span><span class="p">[</span><span class="n">mask</span> <span class="o">|</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)]</span>
+            <span class="n">sign</span> <span class="o">=</span> <span class="n">jw_sign</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim_dn</span><span class="p">):</span>
+                <span class="n">mat</span><span class="p">[</span><span class="n">a2</span> <span class="o">*</span> <span class="n">dim_dn</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">dim_dn</span> <span class="o">+</span> <span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">sign</span>
+    <span class="k">return</span> <span class="n">mat</span>
+
+
+<span class="c1"># instrument: the adjoint partner of cdag_up_matrix, same status — the</span>
+<span class="c1"># sector-restricted form of the Exercise 1 annihilator of §8.13.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">c_up_matrix</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ups_from</span><span class="p">,</span> <span class="n">dns</span><span class="p">,</span> <span class="n">ups_to</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Matrix of c_{i,up} between fixed-(N_up, N_dn) sectors.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    i : int</span>
+<span class="sd">        Site index.</span>
+<span class="sd">    ups_from, ups_to : list of int</span>
+<span class="sd">        Up-spin masks of source and target sectors.</span>
+<span class="sd">    dns : list of int</span>
+<span class="sd">        Down-spin masks.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The rectangular operator matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">to_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">m</span><span class="p">:</span> <span class="n">a</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ups_to</span><span class="p">)}</span>
+    <span class="n">dim_dn</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dns</span><span class="p">)</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">ups_to</span><span class="p">)</span> <span class="o">*</span> <span class="n">dim_dn</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ups_from</span><span class="p">)</span> <span class="o">*</span> <span class="n">dim_dn</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">mask</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ups_from</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">mask</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">a2</span> <span class="o">=</span> <span class="n">to_index</span><span class="p">[</span><span class="n">mask</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)]</span>
+            <span class="n">sign</span> <span class="o">=</span> <span class="n">jw_sign</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim_dn</span><span class="p">):</span>
+                <span class="n">mat</span><span class="p">[</span><span class="n">a2</span> <span class="o">*</span> <span class="n">dim_dn</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">dim_dn</span> <span class="o">+</span> <span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">sign</span>
+    <span class="k">return</span> <span class="n">mat</span>
+
+
+<span class="c1"># instrument: a display kernel. The poles are exact everywhere in this notebook;</span>
+<span class="c1"># a Lorentzian of finite width exists only so a stick spectrum can be drawn as a</span>
+<span class="c1"># curve, and no result is read off it.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">broaden</span><span class="p">(</span><span class="n">energies</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">w_grid</span><span class="p">,</span> <span class="n">eta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lorentzian-broadened spectrum from exact poles (plotting only).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    energies, weights : numpy.ndarray</span>
+<span class="sd">        Pole positions and weights.</span>
+<span class="sd">    w_grid : numpy.ndarray</span>
+<span class="sd">        Frequency grid.</span>
+<span class="sd">    eta : float</span>
+<span class="sd">        Lorentzian half-width.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The broadened A(w) on the grid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">weights</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="o">*</span> <span class="n">eta</span>
+        <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="o">/</span> <span class="p">((</span><span class="n">w_grid</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">energies</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">eta</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-lehmann-machine-certified-where-the-answer-is-known">
+<h2>Exercise 1 — The Lehmann machine, certified where the answer is known<a class="headerlink" href="#exercise-1-the-lehmann-machine-certified-where-the-answer-is-known" title="Link to this heading">#</a></h2>
+<p>Everything in this notebook is read off one machine, so the machine is
+built first and then held against the one case where “the energy of an
+electron” is unambiguous. At <span class="math notranslate nohighlight">\(U = 0\)</span> the spectrum at each <span class="math notranslate nohighlight">\(k\)</span> must be a
+<em>single</em> pole — one distinct energy carrying the full unit weight — at
+exactly the tight-binding energy <span class="math notranslate nohighlight">\(\varepsilon(k) = -2t\cos k\)</span> of
+<a class="reference internal" href="tight-binding.html"><span class="std std-doc">§8.9</span></a>; sector eigenstates, operator matrices,
+Jordan–Wigner signs, and momentum transform all conspire to reproduce
+six numbers known in advance. (On the doubly degenerate levels
+<span class="math notranslate nohighlight">\(\varepsilon = \pm t\)</span> the diagonalizer may split that weight across two
+degenerate <span class="math notranslate nohighlight">\(N\pm1\)</span> eigenstates, so count <em>distinct</em> energies.) The
+zeroth-moment sum rule then holds at <em>any</em> coupling: the weights at
+every <span class="math notranslate nohighlight">\(k\)</span> total exactly <span class="math notranslate nohighlight">\(1\)</span> — not because the physics is simple (at
+<span class="math notranslate nohighlight">\(U = 4\)</span> each <span class="math notranslate nohighlight">\(k\)</span> has dozens of poles) but because the <span class="math notranslate nohighlight">\(N\pm1\)</span> eigenbases
+are complete, and <span class="math notranslate nohighlight">\(\int A_k\,d\omega = \{\hat c_k, \hat c^\dagger_k\}\)</span>.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">lehmann_spectra(n_sites,</span> <span class="pre">u_int,</span> <span class="pre">pbc=True)</span></code>, which
+evaluates <a class="reference internal" href="#equation-eq-qp-lehmann">Eq. 906</a> literally for the half-filled chain:
+densely diagonalize the <span class="math notranslate nohighlight">\(N\)</span>, <span class="math notranslate nohighlight">\(N+1\)</span> and <span class="math notranslate nohighlight">\(N-1\)</span> sectors with <code class="docutils literal notranslate"><span class="pre">hubbard_dense</span></code>;
+build the momentum operators
+<span class="math notranslate nohighlight">\(\hat c^\dagger_{k} = L^{-1/2}\sum_j e^{ikj}\hat c^\dagger_{j}\)</span> from the
+site matrices of <code class="docutils literal notranslate"><span class="pre">cdag_up_matrix</span></code> and <code class="docutils literal notranslate"><span class="pre">c_up_matrix</span></code>; project the
+<span class="math notranslate nohighlight">\(N\)</span>-electron ground state onto every <span class="math notranslate nohighlight">\(N\pm1\)</span> eigenvector; and return, for
+each <span class="math notranslate nohighlight">\(k = 2\pi m/L\)</span>, the addition energies <span class="math notranslate nohighlight">\(E_n^{N+1} - E_0^N\)</span> and
+removal energies <span class="math notranslate nohighlight">\(E_0^N - E_m^{N-1}\)</span> together with their squared matrix
+elements. Return exact poles and weights — no broadening anywhere.
+<strong>Write this one yourself</strong> — the implementation is the lesson.</p>
+<p><strong>Part b)</strong> Build the full Lehmann data for the <span class="math notranslate nohighlight">\(L = 6\)</span> ring at <span class="math notranslate nohighlight">\(U = 0\)</span>
+and confirm the single pole on <span class="math notranslate nohighlight">\(\varepsilon(k)\)</span> at every momentum, to
+<span class="math notranslate nohighlight">\(10^{-10}\)</span>.</p>
+<p><strong>Part c)</strong> Check the zeroth-moment sum rule at <span class="math notranslate nohighlight">\(U = 0\)</span> <em>and</em> <span class="math notranslate nohighlight">\(U = 4\)</span>.
+A sum rule that holds at <span class="math notranslate nohighlight">\(10^{-10}\)</span> under strong interaction is the
+machine’s certificate.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k = 2pi*0/6: eps_k = -2.0000, main pole -2.0000000000, poles 1
+k = 2pi*1/6: eps_k = -1.0000, main pole -1.0000000000, poles 1
+k = 2pi*2/6: eps_k = +1.0000, main pole +1.0000000000, poles 1
+k = 2pi*3/6: eps_k = +2.0000, main pole +2.0000000000, poles 1
+k = 2pi*4/6: eps_k = +1.0000, main pole +1.0000000000, poles 1
+k = 2pi*5/6: eps_k = -1.0000, main pole -1.0000000000, poles 1
+max |pole - eps_k| = 1.29e-14
+U = 4, k = 2pi*0/6: sum rule 1.0000000000 over 22 poles
+U = 4, k = 2pi*1/6: sum rule 1.0000000000 over 36 poles
+U = 4, k = 2pi*2/6: sum rule 1.0000000000 over 36 poles
+U = 4, k = 2pi*3/6: sum rule 1.0000000000 over 22 poles
+U = 4, k = 2pi*4/6: sum rule 1.0000000000 over 36 poles
+U = 4, k = 2pi*5/6: sum rule 1.0000000000 over 36 poles
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1-the-machine-s-certificate">
+<h3>Validation 1 — the machine’s certificate<a class="headerlink" href="#validation-1-the-machine-s-certificate" title="Link to this heading">#</a></h3>
+<p>Free poles on the tight-binding band at <span class="math notranslate nohighlight">\(10^{-10}\)</span>; total weight <span class="math notranslate nohighlight">\(1\)</span> at
+every momentum, interacting or not.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  U = 0 spectra collapse onto eps(k) = -2t cos k   [max deviation 1.3e-14]
+✓  zeroth-moment sum rule = 1 at U = 0 and U = 4, all k   [max deviations 2.7e-15, 1.1e-15]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-dimer-s-green-function-one-band-state-two-poles">
+<h2>Exercise 2 — The dimer’s Green function: one band state, two poles<a class="headerlink" href="#exercise-2-the-dimer-s-green-function-one-band-state-two-poles" title="Link to this heading">#</a></h2>
+<p>The smallest system where “the electron’s energy” stops being one
+number.</p>
+<p><strong>Part a)</strong> With the <code class="docutils literal notranslate"><span class="pre">lehmann_spectra</span></code> you wrote in Exercise 1, compute
+the exact Lehmann spectrum of the half-filled dimer
+(open, <span class="math notranslate nohighlight">\(L = 2\)</span>; the <span class="math notranslate nohighlight">\(k = 0\)</span> combination is the bonding orbital, <span class="math notranslate nohighlight">\(k =
+\pi\)</span> antibonding) at <span class="math notranslate nohighlight">\(U = 4\)</span>. The bonding orbital must show exactly two
+poles: the quasiparticle (electron <em>removal</em> at <span class="math notranslate nohighlight">\(E_0 + t = 0.1716\)</span>,
+weight <span class="math notranslate nohighlight">\(0.8536\)</span>) and a satellite (electron <em>addition</em> at <span class="math notranslate nohighlight">\(U + t - E_0 =
+5.8284\)</span>, weight <span class="math notranslate nohighlight">\(0.1464\)</span>) — the removed electron sometimes leaves its
+partner shaken into the antibonding level.</p>
+<p><strong>Part b)</strong> Gate the weights against the closed form,
+<a class="reference internal" href="#equation-eq-qp-z">Eq. 908</a>: <span class="math notranslate nohighlight">\(Z = \tfrac12 + 2t/\sqrt{U^2 + 16t^2}\)</span> at <span class="math notranslate nohighlight">\(U = 2, 4, 8\)</span>
+(three closed forms, <span class="math notranslate nohighlight">\(10^{-12}\)</span>), satellite weight <span class="math notranslate nohighlight">\(1 - Z\)</span> by the sum
+rule.</p>
+<p><strong>Part c)</strong> Plot <span class="math notranslate nohighlight">\(A_{\mathrm{bonding}}(\omega)\)</span> at <span class="math notranslate nohighlight">\(U = 1, 4, 8\)</span>: watch
+the quasiparticle surrender weight to the satellite as correlation
+grows — the single free pole (<span class="math notranslate nohighlight">\(Z = 1\)</span>) dying by degrees.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bonding, U = 4: removal pole 0.171573 (E0 + t = 0.171573), weight 0.853553
+                addition pole 5.828427 (U + t - E0 = 5.828427), weight 0.146447
+U =   2: Z = 0.947213595500   closed form 0.947213595500
+U =   4: Z = 0.853553390593   closed form 0.853553390593
+U =   8: Z = 0.723606797750   closed form 0.723606797750
+worst |Z - closed form|: 1.2e-15
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-qp-dimer">
+<img alt="../../_images/408fd7b386694f6dadd9647625076d6da890a05b0f7d5c9a9791b78d199b8aa4.png" src="../../_images/408fd7b386694f6dadd9647625076d6da890a05b0f7d5c9a9791b78d199b8aa4.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 813 </span><span class="caption-text">One orbital, two identities. The exact bonding-orbital spectral function of the half-filled Hubbard dimer at <span class="math notranslate nohighlight">\(U = 1, 4, 8\)</span> (broadened for display; the underlying poles are exact). The quasiparticle peak (left of the gap center) carries weight <span class="math notranslate nohighlight">\(Z = \frac{1}{2} + 2t/\sqrt{U^2 + 16t^2}\)</span> — <span class="math notranslate nohighlight">\(0.99\)</span>, <span class="math notranslate nohighlight">\(0.85\)</span>, <span class="math notranslate nohighlight">\(0.72\)</span> — and the satellite at <span class="math notranslate nohighlight">\(U + t - E_0\)</span> carries the remainder: the removed electron increasingly leaves its partner shaken into the antibonding level. At <span class="math notranslate nohighlight">\(U = 0\)</span> the satellite would vanish and the quasiparticle would be the whole story; interactions make ‘the energy of the electron’ a distribution.</span><a class="headerlink" href="#fig-qp-dimer" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2-the-closed-forms">
+<h3>Validation 2 — the closed forms<a class="headerlink" href="#validation-2-the-closed-forms" title="Link to this heading">#</a></h3>
+<p>Both poles on their closed-form positions, and <span class="math notranslate nohighlight">\(Z\)</span> on <a class="reference internal" href="#equation-eq-qp-z">Eq. 908</a>
+at three couplings.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  quasiparticle pole at E0 + t   [got 0.171573 vs expected 0.171573 (rtol=1e-10, atol=1e-09)]
+✓  satellite pole at U + t - E0   [got 5.82843 vs expected 5.82843 (rtol=1e-10, atol=1e-09)]
+✓  Z = 1/2 + 2t/sqrt(U^2 + 16t^2) at U = 2, 4, 8   [worst deviation 1.2e-15]
+✓  quasiparticle + satellite = one electron   [got 1 vs expected 1 (rtol=1e-10, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-dyson-run-backwards-measuring-the-self-energy">
+<h2>Exercise 3 — Dyson run backwards: measuring the self-energy<a class="headerlink" href="#exercise-3-dyson-run-backwards-measuring-the-self-energy" title="Link to this heading">#</a></h2>
+<p>The self-energy is usually something one <em>approximates</em>; on the dimer
+it can be <em>measured</em>.</p>
+<p><strong>Part a)</strong> From the exact two-pole <span class="math notranslate nohighlight">\(G_{\mathrm{bonding}}(\omega)\)</span> at
+<span class="math notranslate nohighlight">\(U = 4\)</span> (a real rational function away from its poles), extract
+<span class="math notranslate nohighlight">\(\Sigma(\omega) = \omega - \varepsilon^{\mathrm{HF}} - 1/G(\omega)\)</span> on a
+real grid, with <span class="math notranslate nohighlight">\(\varepsilon^{\mathrm{HF}} = -t + U/2\)</span> the Hartree–Fock
+level. Plot <span class="math notranslate nohighlight">\(G^{-1}\)</span>’s ingredients and <span class="math notranslate nohighlight">\(\Sigma\)</span>: a two-pole <span class="math notranslate nohighlight">\(G\)</span> forces a
+<em>one-pole</em> <span class="math notranslate nohighlight">\(\Sigma\)</span> — all correlation compressed into a single
+resonance between the quasiparticle and the satellite.</p>
+<p><strong>Part b)</strong> Recompute the quasiparticle weight from the <em>derivative</em>
+route of <a class="reference internal" href="#equation-eq-qp-dyson">Eq. 907</a>, <span class="math notranslate nohighlight">\(Z = (1 - \partial\Sigma/\partial
+\omega)^{-1}\)</span> at <span class="math notranslate nohighlight">\(\omega = E_{\mathrm{qp}}\)</span> (central differences on the
+measured <span class="math notranslate nohighlight">\(\Sigma\)</span>), and check it against the <em>pole-weight</em> route of
+Exercise 2 at <span class="math notranslate nohighlight">\(U = 2, 4, 8\)</span>: two unrelated definitions, one number, at
+<span class="math notranslate nohighlight">\(10^{-7}\)</span>.</p>
+<p><strong>Part c)</strong> Confirm <span class="math notranslate nohighlight">\(\max_\omega|\Sigma|\)</span> on a gap-centered window dies
+as <span class="math notranslate nohighlight">\(U \to 0\)</span> (measure at <span class="math notranslate nohighlight">\(U = 0.5, 0.25\)</span>: the ratio must be <span class="math notranslate nohighlight">\(\approx 4\)</span>,
+since <span class="math notranslate nohighlight">\(\Sigma \propto U^2\)</span> — correlation is second order, as
+<a class="reference internal" href="hubbard-model.html"><span class="std std-doc">§8.13</span></a>’s superexchange already knew).</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sigma pole (zero of G between its poles): 5.0  [U/2 + 3t]
+G&#39;s poles: [0.17157288 5.82842712]
+U =   2: Z(pole weight) = 0.947213595   Z(dSigma/dw) = 0.947213595
+U =   4: Z(pole weight) = 0.853553391   Z(dSigma/dw) = 0.853553391
+U =   8: Z(pole weight) = 0.723606798   Z(dSigma/dw) = 0.723606798
+worst route disagreement: 6.5e-12
+max|Sigma|(U = 0.5) / max|Sigma|(U = 0.25) = 3.945  (U^2 predicts 4)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-qp-sigma">
+<img alt="../../_images/2ee5bb3afb349ea7fd2a98079a41ac3f5f1ee251497d4b1030ef5536e78eb42b.png" src="../../_images/2ee5bb3afb349ea7fd2a98079a41ac3f5f1ee251497d4b1030ef5536e78eb42b.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 814 </span><span class="caption-text">The self-energy, measured rather than approximated. For the dimer’s bonding orbital at <span class="math notranslate nohighlight">\(U = 4\)</span>, Dyson’s equation is inverted: <span class="math notranslate nohighlight">\(\Sigma(\omega) = \omega - \varepsilon^{\mathrm{HF}} - 1/G(\omega)\)</span> with <span class="math notranslate nohighlight">\(G\)</span> exact. Two poles in <span class="math notranslate nohighlight">\(G\)</span> (dotted verticals: quasiparticle and satellite) force exactly one pole in <span class="math notranslate nohighlight">\(\Sigma\)</span> (amber), sitting between them at <span class="math notranslate nohighlight">\(\omega = U/2 + 3t\)</span>: every many-body effect beyond Hartree–Fock, compressed into one resonance. Where the line <span class="math notranslate nohighlight">\(\omega - \varepsilon^{\mathrm{HF}}\)</span> (grey dashes) meets <span class="math notranslate nohighlight">\(\Sigma\)</span>, quasiparticle energies live; the slope of <span class="math notranslate nohighlight">\(\Sigma\)</span> there is <span class="math notranslate nohighlight">\(1 - 1/Z\)</span>.</span><a class="headerlink" href="#fig-qp-sigma" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3-one-number-two-routes-second-order">
+<h3>Validation 3 — one number, two routes, second order<a class="headerlink" href="#validation-3-one-number-two-routes-second-order" title="Link to this heading">#</a></h3>
+<p>The derivative-route <span class="math notranslate nohighlight">\(Z\)</span> against the pole-weight <span class="math notranslate nohighlight">\(Z\)</span> at three
+couplings, and the <span class="math notranslate nohighlight">\(U^2\)</span> scaling of the measured <span class="math notranslate nohighlight">\(\Sigma\)</span>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Z from dSigma/dw = Z from the pole weight (U = 2, 4, 8)   [worst disagreement 6.5e-12]
+✓  Sigma scales as U^2 (correlation is second order)   [got 3.94536 vs expected 4 (rtol=0.05, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-a-k-omega-watching-a-band-die-into-hubbard-bands">
+<h2>Exercise 4 — <span class="math notranslate nohighlight">\(A(k, \omega)\)</span>: watching a band die into Hubbard bands<a class="headerlink" href="#exercise-4-a-k-omega-watching-a-band-die-into-hubbard-bands" title="Link to this heading">#</a></h2>
+<p>The chain’s full momentum-resolved spectral function — what an ARPES
+beamline would see, computed exactly.</p>
+<p><strong>Part a)</strong> Assemble <span class="math notranslate nohighlight">\(A(k, \omega)\)</span> heatmaps for the <span class="math notranslate nohighlight">\(L = 6\)</span> ring at
+<span class="math notranslate nohighlight">\(U = 0, 2, 4, 8\)</span> from exact pole data — Exercise 1’s at <span class="math notranslate nohighlight">\(U = 0\)</span> and <span class="math notranslate nohighlight">\(4\)</span>,
+and two fresh calls to your Exercise 1 <code class="docutils literal notranslate"><span class="pre">lehmann_spectra</span></code> for <span class="math notranslate nohighlight">\(U = 2\)</span> and
+<span class="math notranslate nohighlight">\(8\)</span> (Lorentzian broadening for
+display only). At <span class="math notranslate nohighlight">\(U = 0\)</span>: the tight-binding cosine. As <span class="math notranslate nohighlight">\(U\)</span> grows: the
+band splits into <em>lower and upper Hubbard bands</em> separated by the
+correlation gap, each carrying part of every <span class="math notranslate nohighlight">\(k\)</span>’s weight.</p>
+<p><strong>Part b)</strong> Check the first-moment sum rule at <span class="math notranslate nohighlight">\(U = 4\)</span> and <span class="math notranslate nohighlight">\(8\)</span>: for
+every <span class="math notranslate nohighlight">\(k\)</span>, <span class="math notranslate nohighlight">\(\int\omega A_k\,d\omega = \varepsilon(k) + U/2\)</span> <em>to ten
+digits</em> — the interactions rearrange the weight but cannot move its
+center of gravity (an operator identity, and a merciless test of every
+matrix element).</p>
+<p><strong>Part c)</strong> Measure the spectral gap (lowest addition pole minus
+highest removal pole with nonzero weight, over all <span class="math notranslate nohighlight">\(k\)</span>) at <span class="math notranslate nohighlight">\(U = 4\)</span> and
+confirm it <em>equals</em> the charge gap <span class="math notranslate nohighlight">\(E_0^{N+1} + E_0^{N-1} - 2E_0^N\)</span> of
+<a class="reference internal" href="hubbard-model.html"><span class="std std-doc">§8.13</span></a> at <span class="math notranslate nohighlight">\(10^{-10}\)</span>: photoemission and
+thermodynamics agree by construction, because they are the same
+eigenvalues.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-qp-akw">
+<img alt="../../_images/97d507635ad24f25a6967465baed91e90fbbcd2909d676105a6dbf8071dfd366.png" src="../../_images/97d507635ad24f25a6967465baed91e90fbbcd2909d676105a6dbf8071dfd366.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 815 </span><span class="caption-text">A band dying into Hubbard bands, exactly. Momentum-resolved spectral function <span class="math notranslate nohighlight">\(A(k, \omega)\)</span> of the half-filled <span class="math notranslate nohighlight">\(L = 6\)</span> Hubbard ring at <span class="math notranslate nohighlight">\(U/t = 0, 2, 4, 8\)</span> (exact poles, Lorentzian-broadened for display; amber intensity). At <span class="math notranslate nohighlight">\(U = 0\)</span> the tight-binding cosine of §8.9 passes through zero at the Fermi points. With growing <span class="math notranslate nohighlight">\(U\)</span> the single band splits into a filled lower and empty upper Hubbard band separated by the correlation gap (equal to §8.13’s charge gap at <span class="math notranslate nohighlight">\(10^{-10}\)</span>), while each momentum keeps total weight 1 and its center of gravity at <span class="math notranslate nohighlight">\(\varepsilon(k) + U/2\)</span> exactly — the sum rules pin the bookkeeping while the physics rearranges everything.</span><a class="headerlink" href="#fig-qp-akw" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>first-moment sum rule, worst |dev| over U = 4, 8 and all k: 1.42e-14
+spectral gap 2.6275126053   charge gap 2.6275126053
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-4-sum-rules-with-no-mercy">
+<h3>Validation 4 — sum rules with no mercy<a class="headerlink" href="#validation-4-sum-rules-with-no-mercy" title="Link to this heading">#</a></h3>
+<p>First moment at <span class="math notranslate nohighlight">\(\varepsilon(k) + U/2\)</span> over twelve <span class="math notranslate nohighlight">\((U, k)\)</span> pairs;
+spectral gap <span class="math notranslate nohighlight">\(=\)</span> charge gap.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  first moment = eps(k) + U/2 at U = 4, 8, all k   [worst deviation 1.4e-14]
+✓  spectral gap = charge gap (same eigenvalues)   [got 2.62751 vs expected 2.62751 (rtol=1e-10, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-verdict-g-0w-0-built-from-scratch-judged-exactly">
+<h2>Exercise 5 — Verdict: <span class="math notranslate nohighlight">\(G_0W_0\)</span> built from scratch, judged exactly<a class="headerlink" href="#exercise-5-verdict-g-0w-0-built-from-scratch-judged-exactly" title="Link to this heading">#</a></h2>
+<p>The finale assembles the machinery behind essentially every published
+<em>ab initio</em> quasiparticle band structure — on the one system where the
+exact answer sits alongside it.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">dimer_g0w0(u_int)</span></code>, assembling every ingredient of
+<a class="reference internal" href="#equation-eq-qp-gw">Eq. 909</a> for the dimer and closing the quasiparticle equation.
+<strong>Write this one yourself</strong> — the implementation is the lesson.
+HF: <span class="math notranslate nohighlight">\(\varepsilon_{b,a} = \mp t + U/2\)</span>, gap <span class="math notranslate nohighlight">\(\Delta = 2t\)</span> at <em>every</em> <span class="math notranslate nohighlight">\(U\)</span>
+(bare exchange cannot see on-site correlation; on-site <span class="math notranslate nohighlight">\(U\)</span> has no
+opposite-spin exchange). Polarizability: one resonance,
+<span class="math notranslate nohighlight">\(\chi_0(\omega) = 2\Delta c_0/(\omega^2 - \Delta^2)\)</span> with <span class="math notranslate nohighlight">\(c_0 = 1\)</span> from
+the bonding→antibonding transition densities <span class="math notranslate nohighlight">\((\pm\tfrac12)\)</span>. Screening:
+the RPA denominator <span class="math notranslate nohighlight">\(1 - U\chi_0\)</span> shifts the pole to <span class="math notranslate nohighlight">\(\omega_p =
+\sqrt{\Delta^2 + 2\Delta U}\)</span>, and <span class="math notranslate nohighlight">\(W\)</span> acquires strength <span class="math notranslate nohighlight">\(\lambda =
+U^2\Delta/\omega_p\)</span>. Correlation self-energy: the plasmon-pole formula
+gives one pole per orbital, <span class="math notranslate nohighlight">\(\Sigma_c^{b}(\omega) = \lambda/2 \cdot
+(\omega - \varepsilon_a - \omega_p)^{-1}\)</span> (and mirrored for <span class="math notranslate nohighlight">\(a\)</span>).</p>
+<p><strong>Part b)</strong> Solve the quasiparticle equation <span class="math notranslate nohighlight">\(\omega =
+\varepsilon^{\mathrm{HF}} + \Sigma_c(\omega)\)</span> with
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code> for both orbitals at <span class="math notranslate nohighlight">\(U/t = 0.5, 1, 2, 4, 8\)</span>,
+and print the verdict table: exact gap (from Exercise 2’s Lehmann
+poles), HF gap, <span class="math notranslate nohighlight">\(G_0W_0\)</span> gap, and both errors. The pattern to gate: GW
+<em>always</em> beats HF; at <span class="math notranslate nohighlight">\(U \leq 2t\)</span> it is a few-percent theory
+(<span class="math notranslate nohighlight">\(+0.7\%\)</span>, <span class="math notranslate nohighlight">\(+1.0\%\)</span>, <span class="math notranslate nohighlight">\(-2.6\%\)</span>); by <span class="math notranslate nohighlight">\(U = 8t\)</span> it is off by <span class="math notranslate nohighlight">\(-38\%\)</span> —
+screening builds a better weak-coupling theory, not a Mott theory
+<span class="bibtex-citation" id="id8">[<a class="reference internal" href="#id107" title="P. Romaniello, S. Guyot, and L. Reining. The self-energy beyond GW: local and nonlocal vertex corrections. The Journal of Chemical Physics, 131:154111, 2009. doi:10.1063/1.3249965.">RGR09</a>]</span>. The GW quasiparticle weight <span class="math notranslate nohighlight">\(Z_b\)</span> falls
+<span class="math notranslate nohighlight">\(0.995 \to 0.887\)</span>: correlation eating the quasiparticle, now predicted
+rather than measured.</p>
+<p><strong>Part c)</strong> Close the volume-wide loop: this is why
+<a class="reference internal" href="epm-band-structures.html"><span class="std std-doc">§8.11</span></a>’s converged EPM silicon still sat
+<span class="math notranslate nohighlight">\(0.35\)</span> eV below the measured gap, and why production codes run
+<span class="math notranslate nohighlight">\(G_0W_0\)</span> <em>on top of</em> the DFT bands of <a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a>
+— as in the alkali-antimonide photocathode calculations of the author’s
+thesis <span class="bibtex-citation" id="id9">[<a class="reference internal" href="#id115" title="Raymond Amador. The electronic structure and optical properties of Na$_2$KSb and NaK$_2$Sb for photocathode applications: an ab initio study. Master's thesis, Humboldt-Universität zu Berlin, 2019.">Ama19</a>]</span>, where exactly this machinery (plane-wave
+basis instead of two sites) turns Kohn–Sham bands into measurable
+quasiparticle energies.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Verdict: the gap, three theories ---
+   U   exact     HF    G0W0   errHF   errGW    Z_b
+ 0.5  2.0311  2.000  2.0456   -1.5%   +0.7%  0.995
+ 1.0  2.1231  2.000  2.1443   -5.8%   +1.0%  0.985
+ 2.0  2.4721  2.000  2.4075  -19.1%   -2.6%  0.965
+ 4.0  3.6569  2.000  3.0245  -45.3%  -17.3%  0.932
+ 8.0  6.9443  2.000  4.3280  -71.2%  -37.7%  0.887
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-qp-gw">
+<img alt="../../_images/13eecb6f65abc9da75d4c5c1e36a531ab95795de50c9fdaa0dc2410ec7827b86.png" src="../../_images/13eecb6f65abc9da75d4c5c1e36a531ab95795de50c9fdaa0dc2410ec7827b86.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 816 </span><span class="caption-text"><span class="math notranslate nohighlight">\(G_0W_0\)</span>, judged on the one system with an exact answer. Left: the dimer’s quasiparticle gap versus <span class="math notranslate nohighlight">\(U\)</span> — Hartree–Fock (grey) is stuck at <span class="math notranslate nohighlight">\(2t\)</span> forever (bare on-site exchange cannot see opposite-spin correlation), the exact gap (ink) grows toward the Mott limit, and <span class="math notranslate nohighlight">\(G_0W_0\)</span> (amber) tracks it to a few percent through <span class="math notranslate nohighlight">\(U \approx 2t\)</span> before falling away: screening rescues the weak-coupling gap and cannot manufacture Mott physics. Right: the GW quasiparticle weight <span class="math notranslate nohighlight">\(Z_b\)</span> falling from <span class="math notranslate nohighlight">\(0.995\)</span> to <span class="math notranslate nohighlight">\(0.887\)</span> — the same weight the exact dimer loses to its satellite, now predicted by the plasmon-pole self-energy.</span><a class="headerlink" href="#fig-qp-gw" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5-a-weak-coupling-theory-measured-as-such">
+<h3>Validation 5 — a weak-coupling theory, measured as such<a class="headerlink" href="#validation-5-a-weak-coupling-theory-measured-as-such" title="Link to this heading">#</a></h3>
+<p>GW strictly better than HF at every coupling; a few-percent theory
+through <span class="math notranslate nohighlight">\(U = 2t\)</span>; honestly wrong by tens of percent at <span class="math notranslate nohighlight">\(U = 8t\)</span>; <span class="math notranslate nohighlight">\(Z\)</span>
+and <span class="math notranslate nohighlight">\(\omega_p\)</span> behaving as screening demands.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  G0W0 beats Hartree-Fock at every U   [all five couplings]
+✓  G0W0 gap within 3% for U &lt;= 2t   [errors +0.7%, +1.0%, -2.6%]
+✓  the Mott failure, quantified (U = 8t)   [got -0.376759 vs expected -0.38 (rtol=1e-06, atol=0.03)]
+✓  Z_b falls monotonically (0.995 -&gt; 0.887)   [0.995 -&gt; 0.887]
+✓  plasmon pole at sqrt(Delta^2 + 2 Delta U)   [got 4.47214 vs expected 4.47214 (rtol=1e-12, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">With your assistant</p>
+<p>The satellites of Exercise 4 hide a clean strong-coupling law: at large
+<span class="math notranslate nohighlight">\(U\)</span> the lower and upper Hubbard bands are separated by <span class="math notranslate nohighlight">\(\approx U\)</span>
+(each still roughly <span class="math notranslate nohighlight">\(4t\)</span> wide). Have your assistant compute the
+weight-averaged center of the addition spectrum and of the removal
+spectrum (over all <span class="math notranslate nohighlight">\(k\)</span>) for the <span class="math notranslate nohighlight">\(L = 6\)</span> ring at <span class="math notranslate nohighlight">\(U = 12\)</span> and <span class="math notranslate nohighlight">\(16\)</span>. Then
+run the check that is yours alone: the center-to-center separation must
+track <span class="math notranslate nohighlight">\(U\)</span> within one hopping unit at both couplings
+(<code class="docutils literal notranslate"><span class="pre">numpy.isclose</span></code>, <code class="docutils literal notranslate"><span class="pre">atol=1.0</span></code>) — and, as a bonus, the first-moment sum
+rule forces the <em>midpoint</em> of the two centers to sit at <span class="math notranslate nohighlight">\(U/2\)</span> exactly.
+The check is yours.</p>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>The volume’s language shifted from energies to spectra, with every step
+certified. The Lehmann machinery — <a class="reference internal" href="hubbard-model.html"><span class="std std-doc">§8.13</span></a>’s
+sectors plus momentum-resolved <span class="math notranslate nohighlight">\(\hat c^\dagger_k\)</span> matrices — reproduced
+the free chain’s band to <span class="math notranslate nohighlight">\(10^{-10}\)</span> and obeyed its two exact sum rules
+under full interaction: total weight <span class="math notranslate nohighlight">\(1.0000000000\)</span> at every momentum,
+first moment <span class="math notranslate nohighlight">\(\varepsilon(k) + U/2\)</span> to ten digits at <span class="math notranslate nohighlight">\(U = 4\)</span> and <span class="math notranslate nohighlight">\(8\)</span>.
+The dimer showed what interactions do to “the electron’s energy”: two
+poles per orbital, a quasiparticle with closed-form weight
+<span class="math notranslate nohighlight">\(Z = \tfrac12 + 2t/\sqrt{U^2 + 16t^2}\)</span> (hit at <span class="math notranslate nohighlight">\(10^{-13}\)</span> three times)
+and a satellite with the rest. Dyson’s equation, run backwards, measured
+the self-energy — one pole at <span class="math notranslate nohighlight">\(U/2 + 3t\)</span>, weight scaling as <span class="math notranslate nohighlight">\(U^2\)</span>
+(ratio <span class="math notranslate nohighlight">\(3.95\)</span> measured against the prediction of <span class="math notranslate nohighlight">\(4\)</span>) — and the derivative route to <span class="math notranslate nohighlight">\(Z\)</span> agreed with
+the pole-weight route at <span class="math notranslate nohighlight">\(10^{-8}\)</span>. The chain’s <span class="math notranslate nohighlight">\(A(k, \omega)\)</span> showed
+the cosine band dying into Hubbard bands with the spectral gap equal to
+the charge gap at <span class="math notranslate nohighlight">\(10^{-10}\)</span>. And <span class="math notranslate nohighlight">\(G_0W_0\)</span>, assembled from
+polarizability to plasmon pole (<span class="math notranslate nohighlight">\(\omega_p = \sqrt{\Delta^2 + 2\Delta U}\)</span>)
+to quasiparticle equation, was judged against the exact dimer: better
+than Hartree–Fock at every coupling, a few-percent theory through
+<span class="math notranslate nohighlight">\(U = 2t\)</span>, and <span class="math notranslate nohighlight">\(-38\%\)</span> wrong at <span class="math notranslate nohighlight">\(U = 8t\)</span> — the production band-gap
+machine of modern electronic structure, certified as the weak-coupling
+theory it is. <a class="reference internal" href="epm-band-structures.html"><span class="std std-doc">§8.11</span></a>’s missing <span class="math notranslate nohighlight">\(0.35\)</span> eV
+now has a name, a diagram, and a price tag.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(A(k, \omega)\)</span> is what photoemission sees; what <em>optics</em> sees is a
+two-particle story — the excited electron and the hole it left behind
+attract, and the resulting excitons live <em>inside</em> the quasiparticle
+gap. <a class="reference internal" href="optics-excitons.html"><span class="std std-doc">§8.15</span></a> builds the dielectric function on
+<a class="reference internal" href="epm-band-structures.html"><span class="std std-doc">§8.11</span></a>’s EPM machinery and pulls the
+exciton out of a model Bethe–Salpeter equation.</p></li>
+<li><p>The plasmon-pole <span class="math notranslate nohighlight">\(G_0W_0\)</span> here becomes production GW by swapping two
+sites for plane waves and one resonance for a frequency integration —
+Onida, Reining &amp; Rubio <span class="bibtex-citation" id="id10">[<a class="reference internal" href="#id102" title="Giovanni Onida, Lucia Reining, and Angel Rubio. Electronic excitations: density-functional versus many-body Green's-function approaches. Reviews of Modern Physics, 74:601–659, 2002. doi:10.1103/RevModPhys.74.601.">ORR02</a>]</span> is the standard tour;
+self-consistency variants (ev<span class="math notranslate nohighlight">\(GW\)</span>, QS<span class="math notranslate nohighlight">\(GW\)</span>) start from the same
+<span class="math notranslate nohighlight">\(\Sigma = \mathrm{i}GW\)</span>.</p></li>
+<li><p>Where GW died (<span class="math notranslate nohighlight">\(U \gg t\)</span>), dynamical mean-field theory takes over —
+built exactly on this notebook’s objects (<span class="math notranslate nohighlight">\(A(\omega)\)</span>, <span class="math notranslate nohighlight">\(\Sigma(\omega)\)</span>)
+with the Hubbard dimer’s big sibling, an impurity model, at its core;
+Martin, Reining &amp; Ceperley <span class="bibtex-citation" id="id11">[<a class="reference internal" href="#id84" title="Richard M. Martin, Lucia Reining, and David M. Ceperley. Interacting Electrons: Theory and Computational Approaches. Cambridge University Press, Cambridge, 2016.">MRC16</a>]</span> Ch. 21 connects the threads.</p></li>
+</ul>
+<div class="docutils container" id="id12">
+<div role="list" class="citation-list">
+<div class="citation" id="id115" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Ama19<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id9">2</a>)</span>
+<p>Raymond Amador. The electronic structure and optical properties of Na$_2$KSb and NaK$_2$Sb for photocathode applications: an ab initio study. Master's thesis, Humboldt-Universität zu Berlin, 2019.</p>
+</div>
+<div class="citation" id="id101" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Hed65<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id6">2</a>)</span>
+<p>Lars Hedin. New method for calculating the one-particle green's function with application to the electron-gas problem. <em>Physical Review</em>, 139:A796–A823, 1965. <a class="reference external" href="https://doi.org/10.1103/PhysRev.139.A796">doi:10.1103/PhysRev.139.A796</a>.</p>
+</div>
+<div class="citation" id="id83" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">Mar04</a><span class="fn-bracket">]</span></span>
+<p>Richard M. Martin. <em>Electronic Structure: Basic Theory and Practical Methods</em>. Cambridge University Press, Cambridge, 2004.</p>
+</div>
+<div class="citation" id="id84" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id11">MRC16</a><span class="fn-bracket">]</span></span>
+<p>Richard M. Martin, Lucia Reining, and David M. Ceperley. <em>Interacting Electrons: Theory and Computational Approaches</em>. Cambridge University Press, Cambridge, 2016.</p>
+</div>
+<div class="citation" id="id102" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>ORR02<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id4">1</a>,<a role="doc-backlink" href="#id10">2</a>)</span>
+<p>Giovanni Onida, Lucia Reining, and Angel Rubio. Electronic excitations: density-functional versus many-body Green's-function approaches. <em>Reviews of Modern Physics</em>, 74:601–659, 2002. <a class="reference external" href="https://doi.org/10.1103/RevModPhys.74.601">doi:10.1103/RevModPhys.74.601</a>.</p>
+</div>
+<div class="citation" id="id107" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>RGR09<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id7">2</a>,<a role="doc-backlink" href="#id8">3</a>)</span>
+<p>P. Romaniello, S. Guyot, and L. Reining. The self-energy beyond GW: local and nonlocal vertex corrections. <em>The Journal of Chemical Physics</em>, 131:154111, 2009. <a class="reference external" href="https://doi.org/10.1063/1.3249965">doi:10.1063/1.3249965</a>.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/08-electronic-structure"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="hubbard-model.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">8.13 The Hubbard Model: Correlation on a Lattice</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="optics-excitons.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">8.15 Optical Absorption and Excitons</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-lehmann-representation-dynamics-from-eigenstates">The Lehmann representation: dynamics from eigenstates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quasiparticles-z-and-the-self-energy">Quasiparticles, Z, and the self-energy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gw-screening-the-exchange">GW: screening the exchange</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-lehmann-machine-certified-where-the-answer-is-known">Exercise 1 — The Lehmann machine, certified where the answer is known</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-machine-s-certificate">Validation 1 — the machine’s certificate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-dimer-s-green-function-one-band-state-two-poles">Exercise 2 — The dimer’s Green function: one band state, two poles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-the-closed-forms">Validation 2 — the closed forms</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-dyson-run-backwards-measuring-the-self-energy">Exercise 3 — Dyson run backwards: measuring the self-energy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-one-number-two-routes-second-order">Validation 3 — one number, two routes, second order</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-a-k-omega-watching-a-band-die-into-hubbard-bands">Exercise 4 — <span class="math notranslate nohighlight">\(A(k, \omega)\)</span>: watching a band die into Hubbard bands</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-sum-rules-with-no-mercy">Validation 4 — sum rules with no mercy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-verdict-g-0w-0-built-from-scratch-judged-exactly">Exercise 5 — Verdict: <span class="math notranslate nohighlight">\(G_0W_0\)</span> built from scratch, judged exactly</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-a-weak-coupling-theory-measured-as-such">Validation 5 — a weak-coupling theory, measured as such</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

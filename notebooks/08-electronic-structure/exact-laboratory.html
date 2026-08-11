@@ -1,0 +1,1715 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="8.2 An Exact Laboratory: Two Electrons on a Grid" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/exact-laboratory.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: §8.1 measured the exponential wall and found it impassable in general. This notebook exploits the one gap: for N = 2 electrons in one dime..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: §8.1 measured the exponential wall and found it impassable in general. This notebook exploits the one gap: for N = 2 electrons in one dime..." />
+
+    <title>8.2 An Exact Laboratory: Two Electrons on a Grid &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/08-electronic-structure/exact-laboratory';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/exact-laboratory.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="8.3 Hartree–Fock I: Atoms" href="hartree-fock-atoms.html" />
+    <link rel="prev" title="8.1 The Many-Electron Problem" href="many-electron-problem.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/08-electronic-structure/exact-laboratory.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/08-electronic-structure/exact-laboratory.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/08-electronic-structure/exact-laboratory.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/08-electronic-structure/exact-laboratory.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>8.2 An Exact Laboratory: Two Electrons on a Grid</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-laboratory-s-hamiltonian-and-why-it-fits-in-memory">The laboratory’s Hamiltonian, and why it fits in memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exchange-symmetry-without-spin-machinery">Exchange symmetry without spin machinery</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#density-pair-density-and-the-hole">Density, pair density, and the hole</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hartreefock-for-the-laboratory-and-the-definition-of-correlation">Hartree–Fock for the laboratory, and the definition of correlation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-one-electron-references">Exercise 1 — The one-electron references</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-ion-s-credentials">Validation 1 — the ion’s credentials</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-exact-two-electron-problem">Exercise 2 — The exact two-electron problem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-the-exact-ladder-and-its-symmetries">Validation 2 — the exact ladder and its symmetries</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-certifying-the-digits-the-convergence-ladder">Exercise 3 — Certifying the digits: the convergence ladder</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-second-order-as-owed">Validation 3 — second order, as owed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-exact-density">Exercise 4 — The exact density</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-two-electrons-redistributed">Validation 4 — two electrons, redistributed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-hole-that-does-not-move-exchange-correlation-and-the-sum-rule">Exercise 5 — The hole that does not move: exchange, correlation, and the sum rule</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-one-missing-electron-and-a-deformation-that-sums-to-nothing">Validation 5 — one missing electron, and a deformation that sums to nothing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-hartreefock-on-the-same-grid">Exercise 6 — Hartree–Fock on the same grid</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-the-mean-field-settles">Validation 6 — the mean field settles</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-correlation-energy-measured">Exercise 7 — The correlation energy, measured</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7-the-certificate">Validation 7 — the certificate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="an-exact-laboratory-two-electrons-on-a-grid">
+<h1>8.2 An Exact Laboratory: Two Electrons on a Grid<a class="headerlink" href="#an-exact-laboratory-two-electrons-on-a-grid" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VIII — Electronic Structure and Many-Body Matter
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;8.2
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">The wall of the previous notebook has one gap in it: two electrons in one dimension fit in memory. We walk through and build the volume&#x27;s referee — a soft-Coulomb helium solved exactly by sparse diagonalization: its singlet and triplet, its exact density, the exchange-correlation hole with its sum rule, and, against a Hartree–Fock solved on the same grid, the exact correlation energy. Every approximation in this volume will be judged against numbers computed here, not against textbook assertions.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;120–150 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="many-electron-problem.html"><span class="std std-doc">§8.1</span></a> measured the exponential wall and found it
+impassable in general. This notebook exploits the one gap: for <span class="math notranslate nohighlight">\(N = 2\)</span> electrons in
+one dimension the full wavefunction <span class="math notranslate nohighlight">\(\Psi(x_1, x_2)\)</span> is just a function of two
+variables, a modest matrix of grid values, and the many-body Schrödinger equation
+becomes a sparse eigenproblem a laptop solves in seconds. That makes the system a
+<em>laboratory</em>: small enough to solve exactly, rich enough to contain interaction,
+exchange, and correlation in full. The volume will return to it again and again — the
+exact exchange-correlation potential is extracted from it in
+<a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a>, the local-density approximation is judged against it in
+<a class="reference internal" href="kohn-sham.html"><span class="std std-doc">§8.7</span></a>, the piecewise-linearity theorem is exhibited on it in
+<a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a>, and its real-time dynamics referee
+time-dependent DFT in <a class="reference internal" href="tddft.html"><span class="std std-doc">§8.16</span></a>.</p>
+<p>The build proceeds in the order a real calculation would. First the one-electron
+reference states of the soft-Coulomb well (the “helium ion” of the model). Then the
+two-electron Hamiltonian as a Kronecker sum plus a diagonal interaction, its ground
+singlet and lowest triplet, and the exchange symmetry read directly off the computed
+wavefunctions. A convergence ladder in the grid spacing certifies the digits. From
+the exact <span class="math notranslate nohighlight">\(\Psi\)</span> we then extract the objects density-functional theory is built from:
+the density <span class="math notranslate nohighlight">\(n(x)\)</span>, the pair density, and the exchange-correlation hole with its
+exact <span class="math notranslate nohighlight">\(-1\)</span> sum rule. Finally we solve restricted Hartree–Fock <em>on the same grid</em> and
+take the difference: the correlation energy of the laboratory,
+<span class="math notranslate nohighlight">\(E_c = -0.01405\)</span> Hartree, a number this volume computed rather than quoted, and the
+standard against which every functional to come will be measured.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Hartree atomic units
+(<a class="reference internal" href="many-electron-problem.html"><span class="std std-doc">§8.1</span></a>). The laboratory is fixed once for the whole
+volume: external potential <span class="math notranslate nohighlight">\(v(x) = -2/\sqrt{x^2 + 1}\)</span> (a softened charge-2
+nucleus), interaction <span class="math notranslate nohighlight">\(w(x_1, x_2) = 1/\sqrt{(x_1 - x_2)^2 + 1}\)</span>, box
+<span class="math notranslate nohighlight">\(x \in [-10, 10]\)</span> with hard walls, run-of-record grid <span class="math notranslate nohighlight">\(N = 201\)</span> points
+(<span class="math notranslate nohighlight">\(h = 0.1\)</span>). Two-electron states are matrices <span class="math notranslate nohighlight">\(\Psi_{jk} = \Psi(x_j, x_k)\)</span>
+normalized by <span class="math notranslate nohighlight">\(\sum_{jk} \Psi_{jk}^2\, h^2 = 1\)</span>; the sparse ground state comes from
+<code class="docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh</span></code> (<code class="docutils literal notranslate"><span class="pre">which=&quot;SA&quot;</span></code>). Spatial symmetry under <span class="math notranslate nohighlight">\(x_1 \leftrightarrow x_2\)</span>
+stands in for spin: symmetric = singlet, antisymmetric = triplet (the
+antisymmetrization postulate of
+<a class="reference internal" href="../06-quantum-mechanics/identical-particles.html"><span class="std std-doc">§6.20</span></a> applied to the total
+state).</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call against an
+independent fact: a norm that must be exactly 2, a sum rule that must be exactly
+<span class="math notranslate nohighlight">\(-1\)</span>, a Richardson ratio that must be 4, a variational bound. A ✓ is strong
+evidence; a ✗ is a prompt to locate the discrepancy, not an automatic verdict.</p>
+<p><strong>Scope.</strong> The soft-Coulomb model is the standard benchmarking system of the
+time-dependent DFT and strong-field communities precisely because it is exactly
+solvable; see Ullrich <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id82" title="Carsten A. Ullrich. Time-Dependent Density-Functional Theory: Concepts and Applications. Oxford University Press, Oxford, 2012.">Ull12</a>]</span>, App. and Ch. 9, for its pedigree. The
+Hartree–Fock theory used here is specialized to two electrons in one orbital; the
+general derivation is <a class="reference internal" href="hartree-fock-atoms.html"><span class="std std-doc">§8.3</span></a>. Martin
+<span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id77" title="Richard M. Martin. Electronic Structure: Basic Theory and Practical Methods. Cambridge University Press, Cambridge, 2004.">Mar04</a>]</span>, Ch. 5, and Parr &amp; Yang <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id79" title="Robert G. Parr and Weitao Yang. Density-Functional Theory of Atoms and Molecules. Oxford University Press, New York, 1989.">PY89</a>]</span>, Ch. 2, cover the
+pair-density and hole formalism in full.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-laboratory-s-hamiltonian-and-why-it-fits-in-memory">
+<h3>The laboratory’s Hamiltonian, and why it fits in memory<a class="headerlink" href="#the-laboratory-s-hamiltonian-and-why-it-fits-in-memory" title="Link to this heading">#</a></h3>
+<p>The system is two electrons on a line, bound by a softened charge-2 nucleus and
+repelling each other through a softened Coulomb interaction. Softening (the
+<span class="math notranslate nohighlight">\(\sqrt{\,\cdot\, + 1}\)</span> in place of an absolute value) is what makes one dimension an
+honest model of three: it removes the non-integrable <span class="math notranslate nohighlight">\(1/|x|\)</span> singularity while
+keeping the long-range tail that makes atoms atoms (Ullrich <span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id82" title="Carsten A. Ullrich. Time-Dependent Density-Functional Theory: Concepts and Applications. Oxford University Press, Oxford, 2012.">Ull12</a>]</span>).
+The Hamiltonian is</p>
+<div class="math notranslate nohighlight" id="equation-eq-lab-hamiltonian">
+<span class="eqno">(861)<a class="headerlink" href="#equation-eq-lab-hamiltonian" title="Link to this equation">#</a></span>\[\hat H \;=\; \hat h(x_1) + \hat h(x_2) + \frac{1}{\sqrt{(x_1 - x_2)^2 + 1}},
+\qquad
+\hat h(x) = -\tfrac12 \frac{d^2}{dx^2} - \frac{2}{\sqrt{x^2 + 1}} .\]</div>
+<p>On a grid of <span class="math notranslate nohighlight">\(N\)</span> points the one-body operator <span class="math notranslate nohighlight">\(\hat h\)</span> is the familiar tridiagonal
+matrix of <a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a>, and the
+two-body operator inherits a beautiful structure: the kinetic-plus-external part is
+the <em>Kronecker sum</em> <span class="math notranslate nohighlight">\(h \otimes \mathbb 1 + \mathbb 1 \otimes h\)</span> (each term acts on
+one coordinate and ignores the other), while the interaction, diagonal in the
+position basis, is simply the vector <span class="math notranslate nohighlight">\(w(x_j, x_k)\)</span> laid along the diagonal. The full
+matrix is <span class="math notranslate nohighlight">\(N^2 \times N^2\)</span> but overwhelmingly sparse (five nonzero diagonals), which
+is exactly the regime <code class="docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh</span></code> — the Lanczos-type solver the
+course has used since <a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a> —
+is built for.</p>
+</section>
+<section id="exchange-symmetry-without-spin-machinery">
+<h3>Exchange symmetry without spin machinery<a class="headerlink" href="#exchange-symmetry-without-spin-machinery" title="Link to this heading">#</a></h3>
+<p>The Hamiltonian <a class="reference internal" href="#equation-eq-lab-hamiltonian">Eq. 861</a> contains no spin, so the total state
+factorizes into (spatial) × (spin), and the antisymmetrization postulate of
+<a class="reference internal" href="../06-quantum-mechanics/identical-particles.html"><span class="std std-doc">§6.20</span></a> links the two: a
+spatially <em>symmetric</em> <span class="math notranslate nohighlight">\(\Psi(x_1, x_2) = \Psi(x_2, x_1)\)</span> must carry the antisymmetric
+spin singlet, and a spatially <em>antisymmetric</em> <span class="math notranslate nohighlight">\(\Psi\)</span> the symmetric triplet. The
+computation therefore never needs Pauli matrices; it needs only to <em>read the
+symmetry off the eigenvector</em>, which on the grid is one transposition:
+<span class="math notranslate nohighlight">\(\Psi \mapsto \Psi^{\mathsf T}\)</span>. The ground state of a one-dimensional two-electron
+system is nodeless and hence symmetric — a singlet — and the lowest antisymmetric
+state vanishes identically on the diagonal <span class="math notranslate nohighlight">\(x_1 = x_2\)</span>: the exchange node, Pauli’s
+principle drawn as a line of zeros.</p>
+</section>
+<section id="density-pair-density-and-the-hole">
+<h3>Density, pair density, and the hole<a class="headerlink" href="#density-pair-density-and-the-hole" title="Link to this heading">#</a></h3>
+<p>Density-functional theory’s cast of characters all derive from <span class="math notranslate nohighlight">\(\Psi\)</span> by
+integration. The density and pair density of a two-electron state are</p>
+<div class="math notranslate nohighlight" id="equation-eq-lab-density">
+<span class="eqno">(862)<a class="headerlink" href="#equation-eq-lab-density" title="Link to this equation">#</a></span>\[n(x) = 2\!\int |\Psi(x, x_2)|^2\, dx_2,
+\qquad
+n_2(x_1, x_2) = 2\,|\Psi(x_1, x_2)|^2 ,\]</div>
+<p>normalized to <span class="math notranslate nohighlight">\(\int n = 2\)</span> and <span class="math notranslate nohighlight">\(\iint n_2 = N(N-1) = 2\)</span>: <span class="math notranslate nohighlight">\(n_2(x_1,x_2)\)</span> is the
+probability density of finding <em>a</em> pair at <span class="math notranslate nohighlight">\((x_1, x_2)\)</span>. If electrons ignored each
+other, <span class="math notranslate nohighlight">\(n_2\)</span> would factorize as <span class="math notranslate nohighlight">\(n(x_1)\,n(x_2)\,(N-1)/N\)</span>; the failure to factorize
+is interaction made visible, and it is conventionally packaged as the
+<strong>exchange-correlation hole</strong> around an electron known to be at <span class="math notranslate nohighlight">\(x_1\)</span>
+(Parr &amp; Yang <span class="bibtex-citation" id="id5">[<a class="reference internal" href="#id79" title="Robert G. Parr and Weitao Yang. Density-Functional Theory of Atoms and Molecules. Oxford University Press, New York, 1989.">PY89</a>]</span>, Ch. 2):</p>
+<div class="math notranslate nohighlight" id="equation-eq-lab-hole">
+<span class="eqno">(863)<a class="headerlink" href="#equation-eq-lab-hole" title="Link to this equation">#</a></span>\[n_{xc}(x_2 \mid x_1) \;=\; \frac{n_2(x_1, x_2)}{n(x_1)} \;-\; n(x_2),
+\qquad
+\int n_{xc}(x_2 \mid x_1)\, dx_2 = -1 \;\;\text{for every } x_1 .\]</div>
+<p>The sum rule on the right is exact and universal: an electron at <span class="math notranslate nohighlight">\(x_1\)</span> digs a hole
+in the remaining density containing exactly one missing electron (it cannot repel
+more charge than exists). This single constraint, satisfied by construction in the
+local-density approximation, is a large part of why LDA works at all — a story
+<a class="reference internal" href="kohn-sham.html"><span class="std std-doc">§8.7</span></a> will pick up.</p>
+</section>
+<section id="hartreefock-for-the-laboratory-and-the-definition-of-correlation">
+<h3>Hartree–Fock for the laboratory, and the definition of correlation<a class="headerlink" href="#hartreefock-for-the-laboratory-and-the-definition-of-correlation" title="Link to this heading">#</a></h3>
+<p>The best <em>uncorrelated</em> description puts both electrons (opposite spins) into one
+orbital <span class="math notranslate nohighlight">\(\varphi\)</span>: <span class="math notranslate nohighlight">\(\Psi_{\mathrm{HF}}(x_1,x_2) = \varphi(x_1)\varphi(x_2)\)</span>. Taking
+the expectation of <a class="reference internal" href="#equation-eq-lab-hamiltonian">Eq. 861</a> in this state and minimizing over
+<span class="math notranslate nohighlight">\(\varphi\)</span> (the general machinery arrives in <a class="reference internal" href="hartree-fock-atoms.html"><span class="std std-doc">§8.3</span></a>; for
+two electrons in one orbital the algebra is three lines) gives the self-consistent
+condition</p>
+<div class="math notranslate nohighlight" id="equation-eq-lab-hf">
+<span class="eqno">(864)<a class="headerlink" href="#equation-eq-lab-hf" title="Link to this equation">#</a></span>\[\Big[ \hat h + v_{\mathrm{mf}}(x) \Big] \varphi = \varepsilon\,\varphi,
+\qquad
+v_{\mathrm{mf}}(x) = \int |\varphi(x')|^2\, w(x, x')\, dx',
+\qquad
+E_{\mathrm{HF}} = 2\,\langle\varphi|\hat h|\varphi\rangle + J[\varphi],\]</div>
+<p>with <span class="math notranslate nohighlight">\(J = \iint |\varphi(x)|^2 w(x,x') |\varphi(x')|^2\,dx\,dx'\)</span> the Coulomb energy
+of the orbital’s charge cloud: each electron moves in the mean field of the other.
+The variational principle guarantees <span class="math notranslate nohighlight">\(E_{\mathrm{HF}} \ge E_{\mathrm{exact}}\)</span>, and
+the (negative) difference</p>
+<div class="math notranslate nohighlight" id="equation-eq-lab-ec">
+<span class="eqno">(865)<a class="headerlink" href="#equation-eq-lab-ec" title="Link to this equation">#</a></span>\[E_c \;=\; E_{\mathrm{exact}} - E_{\mathrm{HF}}\]</div>
+<p><em>defines</em> the correlation energy: the binding the product form cannot capture,
+because it assigns the electrons independent positions while the true <span class="math notranslate nohighlight">\(\Psi\)</span> lets
+them dodge each other. In this notebook both sides of <a class="reference internal" href="#equation-eq-lab-ec">Eq. 865</a> are
+computed on the same grid, so <span class="math notranslate nohighlight">\(E_c\)</span> comes out as a clean measured number.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data and instruments: the laboratory’s fixed box and run-of-record grid, the given
+external potential and interaction of the Conventions, a grid builder, and the
+one-body grid Hamiltonian of
+<a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html"><span class="std std-doc">§6.10</span></a> restated in sparse
+form. The two-electron Hamiltonian itself — the object the whole volume rests on —
+you assemble in Exercise 2.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.sparse</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eigh_tridiagonal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.sparse.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eigsh</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+<span class="n">INK</span><span class="p">,</span> <span class="n">AMBER</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="s2">&quot;#16213e&quot;</span><span class="p">,</span> <span class="s2">&quot;#c0851a&quot;</span><span class="p">,</span> <span class="s2">&quot;#46506b&quot;</span>
+
+<span class="c1"># data: the laboratory, fixed once for the whole volume</span>
+<span class="n">L_BOX</span> <span class="o">=</span> <span class="mf">10.0</span>  <span class="c1"># half-width of the box, Bohr</span>
+<span class="n">N_RUN</span> <span class="o">=</span> <span class="mi">201</span>  <span class="c1"># run-of-record grid points (h = 0.1)</span>
+
+
+<span class="c1"># instrument: a grid builder — laying evenly spaced points along the box and</span>
+<span class="c1"># reporting the spacing is bookkeeping, not the lesson of any exercise here.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lab_grid</span><span class="p">(</span><span class="n">n_pts</span><span class="p">,</span> <span class="n">half_width</span><span class="o">=</span><span class="n">L_BOX</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The laboratory&#39;s uniform grid and its spacing.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_pts : int</span>
+<span class="sd">        Number of grid points.</span>
+<span class="sd">    half_width : float, optional</span>
+<span class="sd">        Half-width of the box in Bohr (default the volume&#39;s 10.0).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple</span>
+<span class="sd">        ``(x, h)``: the grid array and its spacing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">half_width</span><span class="p">,</span> <span class="n">half_width</span><span class="p">,</span> <span class="n">n_pts</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+
+<span class="c1"># data: the given external potential of the Conventions, transcribed from</span>
+<span class="c1"># Eq. eq-lab-hamiltonian — the specimen the problem hands you, not machinery.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">v_ext</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The laboratory&#39;s external potential: a softened charge-2 nucleus.</span>
+
+<span class="sd">    v(x) = -2/sqrt(x^2 + 1), the soft-Coulomb attraction that stands in for</span>
+<span class="sd">    the helium nucleus in one dimension. Fixed for the whole volume.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : numpy.ndarray</span>
+<span class="sd">        Grid coordinates in Bohr.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The potential in Hartree.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+
+
+<span class="c1"># data: the given interaction of the Conventions, transcribed from</span>
+<span class="c1"># Eq. eq-lab-hamiltonian and laid out as the full (N, N) matrix that both the</span>
+<span class="c1"># two-body diagonal and the Exercise 6 mean field read from.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">w_int</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The laboratory&#39;s electron-electron interaction matrix on the grid.</span>
+
+<span class="sd">    w(x1, x2) = 1/sqrt((x1 - x2)^2 + 1), the softened repulsion, returned as</span>
+<span class="sd">    the full (N, N) matrix w[j, k] = w(x_j, x_k) used both as the two-body</span>
+<span class="sd">    diagonal and as the mean-field integral kernel.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : numpy.ndarray</span>
+<span class="sd">        Grid coordinates in Bohr.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The (N, N) interaction matrix in Hartree.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">x</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+
+
+<span class="c1"># built from scratch in §6.10 (Exercise 1&#39;s `hamiltonian(x, V)`: the (1, -2, 1)</span>
+<span class="c1"># stencil plus diag V, written by hand and certified Hermitian); restated here as</span>
+<span class="c1"># an instrument, in sparse form and in atomic units.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">one_body</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The one-body grid Hamiltonian h = -(1/2) d^2/dx^2 + v_ext as a sparse matrix.</span>
+
+<span class="sd">    Three-point Laplacian on the uniform grid; hard walls at the box edges are</span>
+<span class="sd">    implicit in the truncation. This is the h whose Kronecker sum builds the</span>
+<span class="sd">    two-electron problem.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : numpy.ndarray</span>
+<span class="sd">        Uniform grid in Bohr.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    scipy.sparse.dia_matrix</span>
+<span class="sd">        The (N, N) sparse one-body Hamiltonian in Hartree.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">sp</span><span class="o">.</span><span class="n">diags</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">/</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+            <span class="mf">1.0</span> <span class="o">/</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">v_ext</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">/</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-one-electron-references">
+<h2>Exercise 1 — The one-electron references<a class="headerlink" href="#exercise-1-the-one-electron-references" title="Link to this heading">#</a></h2>
+<p>Every ionization story needs the ion. Removing one electron from the laboratory
+leaves a single electron in the bare well <span class="math notranslate nohighlight">\(\hat h\)</span> of <a class="reference internal" href="#equation-eq-lab-hamiltonian">Eq. 861</a>:
+the model’s “He<span class="math notranslate nohighlight">\(^+\)</span>”, whose exact energy <span class="math notranslate nohighlight">\(E(1)\)</span> is a one-line tridiagonal
+diagonalization. This number does double duty later: it anchors the exact
+ionization energy <span class="math notranslate nohighlight">\(I = E(1) - E(2)\)</span> of Exercise 7, and it opens the <span class="math notranslate nohighlight">\(E(N)\)</span> ladder
+(<span class="math notranslate nohighlight">\(N = 0, 1, 2\)</span>) on which <a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a> will build the
+piecewise-linearity theorem.</p>
+<p><strong>Part a)</strong> On the run-of-record grid (<span class="math notranslate nohighlight">\(N = 201\)</span>, <span class="math notranslate nohighlight">\(x \in [-10, 10]\)</span>), diagonalize
+the one-body Hamiltonian with <code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code> (diagonal
+<span class="math notranslate nohighlight">\(1/h^2 + v(x_j)\)</span>, off-diagonal <span class="math notranslate nohighlight">\(-1/(2h^2)\)</span>, <code class="docutils literal notranslate"><span class="pre">select=&quot;i&quot;</span></code> for the two lowest states)
+and report the one-electron ground and first-excited energies.</p>
+<p><strong>Part b)</strong> Confirm the ground orbital is nodeless and even (numerically: its
+minimum absolute value on the grid interior stays far from a sign change, and the
+<code class="docutils literal notranslate"><span class="pre">numpy</span></code> overlap of <span class="math notranslate nohighlight">\(\varphi(x)\)</span> with <span class="math notranslate nohighlight">\(\varphi(-x)\)</span>, via the reversed array
+<code class="docutils literal notranslate"><span class="pre">phi[::-1]</span></code>, equals <span class="math notranslate nohighlight">\(+1\)</span> after normalization).</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>one-electron (He+ analog): E0 = -1.483663 Ha, E1 = -0.772559 Ha
+parity overlap &lt;phi|P|phi&gt; = 1.00000000;  nodeless: True
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1-the-ion-s-credentials">
+<h3>Validation 1 — the ion’s credentials<a class="headerlink" href="#validation-1-the-ion-s-credentials" title="Link to this heading">#</a></h3>
+<p>The one-electron ground energy on this grid is <span class="math notranslate nohighlight">\(-1.48366\)</span> Ha (its own convergence
+was certified by the <a class="reference internal" href="many-electron-problem.html"><span class="std std-doc">§8.1</span></a> hydrogen test of the same
+machinery); the ground orbital must be even (parity overlap <span class="math notranslate nohighlight">\(+1\)</span>) and nodeless.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  one-electron ground energy of the laboratory well   [got -1.48366 vs expected -1.48366 (rtol=1e-05, atol=1e-09)]
+✓  the ground orbital is even   [got 1 vs expected 1 (rtol=1e-08, atol=1e-09)]
+✓  the ground orbital is nodeless   [one sign across the interior]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-exact-two-electron-problem">
+<h2>Exercise 2 — The exact two-electron problem<a class="headerlink" href="#exercise-2-the-exact-two-electron-problem" title="Link to this heading">#</a></h2>
+<p>Now the main event. The two-electron Hamiltonian of <a class="reference internal" href="#equation-eq-lab-hamiltonian">Eq. 861</a>
+lives on the product grid: an <span class="math notranslate nohighlight">\(N^2 \times N^2\)</span> sparse matrix whose
+kinetic-plus-external part is the Kronecker sum
+<span class="math notranslate nohighlight">\(h \otimes \mathbb 1 + \mathbb 1 \otimes h\)</span> of the Setup’s one-body operator — each
+term acting on one coordinate and ignoring the other — and whose interaction, diagonal
+in the position product basis, is the matrix <span class="math notranslate nohighlight">\(w(x_j, x_k)\)</span> laid along the diagonal in
+the same flattened order. Its low end contains, per the symmetry discussion in the
+theory section, the nodeless singlet ground state and above it the lowest triplet with
+its exchange node on <span class="math notranslate nohighlight">\(x_1 = x_2\)</span>.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">two_body(x)</span></code>, returning that <span class="math notranslate nohighlight">\(N^2 \times N^2\)</span> sparse matrix for a
+grid <code class="docutils literal notranslate"><span class="pre">x</span></code>: the two Kronecker products of <code class="docutils literal notranslate"><span class="pre">one_body(x)</span></code> with <code class="docutils literal notranslate"><span class="pre">scipy.sparse.identity</span></code>
+(via <code class="docutils literal notranslate"><span class="pre">scipy.sparse.kron</span></code>, in both orders), plus <code class="docutils literal notranslate"><span class="pre">scipy.sparse.diags</span></code> of the flattened
+interaction <code class="docutils literal notranslate"><span class="pre">w_int(x).ravel()</span></code>, the whole converted to CSR for the solver.
+<strong>Write this one yourself</strong> — the implementation is the lesson.</p>
+<p><strong>Part b)</strong> Assemble it on the run-of-record grid and compute its four lowest
+eigenpairs with <code class="docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh</span></code>
+(<code class="docutils literal notranslate"><span class="pre">k=4,</span> <span class="pre">which=&quot;SA&quot;</span></code>). Reshape each eigenvector to an <span class="math notranslate nohighlight">\((N, N)\)</span> matrix, normalize by
+<span class="math notranslate nohighlight">\(\sum \Psi^2\, h^2 = 1\)</span>, and classify its exchange symmetry by the overlap
+<span class="math notranslate nohighlight">\(s = \sum \Psi\,\Psi^{\mathsf T} h^2\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy</span></code> elementwise product with the
+transpose): <span class="math notranslate nohighlight">\(s = +1\)</span> symmetric (singlet), <span class="math notranslate nohighlight">\(s = -1\)</span> antisymmetric (triplet).</p>
+<p><strong>Part c)</strong> Report the level ladder with its symmetry labels, and plot the ground
+singlet and lowest triplet as <span class="math notranslate nohighlight">\((x_1, x_2)\)</span> maps with the exchange diagonal marked.
+The triplet must vanish identically on the diagonal; the singlet must ridge <em>across</em>
+it: a single nodeless hump at the origin, visibly stretched along the anti-diagonal
+<span class="math notranslate nohighlight">\(x_1 = -x_2\)</span> because the electrons keep apart — correlation visible to the naked eye.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>E = -2.238550 Ha   exchange symmetry s = +1.0000
+E = -1.816409 Ha   exchange symmetry s = -1.0000
+E = -1.704541 Ha   exchange symmetry s = +1.0000
+E = -1.640553 Ha   exchange symmetry s = -1.0000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-lab-wavefunctions">
+<img alt="../../_images/efe136c29cf8f33f56ab8d9411d6d0e613cabfaf2fda63ddbaf6db0289270cc0.png" src="../../_images/efe136c29cf8f33f56ab8d9411d6d0e613cabfaf2fda63ddbaf6db0289270cc0.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 756 </span><span class="caption-text">The exact two-electron eigenstates of the laboratory as functions of the two electron coordinates: the nodeless ground singlet (left, <span class="math notranslate nohighlight">\(E = -2.2385\)</span> Ha), whose single hump at the origin is stretched perpendicular to the <span class="math notranslate nohighlight">\(x_1 = x_2\)</span> diagonal (dashed) by the repulsion, and the lowest triplet (right, <span class="math notranslate nohighlight">\(E = -1.8164\)</span> Ha), which vanishes identically on the diagonal: the exchange node, Pauli’s principle as a visible line of zeros.</span><a class="headerlink" href="#fig-lab-wavefunctions" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>max |triplet| on the diagonal = 1.32e-14  (the exchange node)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-2-the-exact-ladder-and-its-symmetries">
+<h3>Validation 2 — the exact ladder and its symmetries<a class="headerlink" href="#validation-2-the-exact-ladder-and-its-symmetries" title="Link to this heading">#</a></h3>
+<p>The ground state is a singlet at <span class="math notranslate nohighlight">\(-2.23855\)</span> Ha and the first excitation a triplet at
+<span class="math notranslate nohighlight">\(-1.81641\)</span> Ha (this grid’s converged values, certified in Exercise 3); the symmetry
+overlaps must be <span class="math notranslate nohighlight">\(\pm 1\)</span> to rounding; and the triplet’s diagonal must vanish at
+machine level relative to its peak amplitude.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  exact ground-singlet energy   [got -2.23855 vs expected -2.23855 (rtol=1e-05, atol=1e-09)]
+✓  exact lowest-triplet energy   [got -1.81641 vs expected -1.81641 (rtol=1e-05, atol=1e-09)]
+✓  singlet exchange symmetry s = +1   [got 1 vs expected 1 (rtol=1e-08, atol=1e-09)]
+✓  triplet exchange symmetry s = -1   [got -1 vs expected -1 (rtol=1e-08, atol=1e-09)]
+✓  the triplet vanishes on the exchange diagonal   [max diagonal amplitude 1.3e-14 vs peak 2.7e-01]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-certifying-the-digits-the-convergence-ladder">
+<h2>Exercise 3 — Certifying the digits: the convergence ladder<a class="headerlink" href="#exercise-3-certifying-the-digits-the-convergence-ladder" title="Link to this heading">#</a></h2>
+<p>A laboratory is only as good as its calibration. The three-point Laplacian carries
+an <span class="math notranslate nohighlight">\(O(h^2)\)</span> discretization error, so halving the grid spacing must cut the energy
+error by four; a ladder of three grids exposes both the <em>rate</em> and the converged
+digits, exactly the discipline every discretized result of the course has owed since
+Volume 0. Richardson’s logic, applied to grids <span class="math notranslate nohighlight">\(N = 101, 201, 401\)</span> (spacings
+<span class="math notranslate nohighlight">\(h = 0.2, 0.1, 0.05\)</span>): the differences <span class="math notranslate nohighlight">\(E_{101} - E_{201}\)</span> and <span class="math notranslate nohighlight">\(E_{201} - E_{401}\)</span>
+must sit in ratio <span class="math notranslate nohighlight">\(\approx 4\)</span>, and their size bounds the residual error of the
+run-of-record grid.</p>
+<p><strong>Part a)</strong> Compute the exact ground energy on the three grids, rebuilding the
+Hamiltonian on each with the <code class="docutils literal notranslate"><span class="pre">two_body</span></code> you wrote in Exercise 2 (<code class="docutils literal notranslate"><span class="pre">k=1</span></code> in
+<code class="docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh</span></code> for the coarser two; reuse the <span class="math notranslate nohighlight">\(N = 201\)</span> value from
+Exercise 2). Report the two successive differences and their ratio.</p>
+<p><strong>Part b)</strong> Plot <span class="math notranslate nohighlight">\(E\)</span> against <span class="math notranslate nohighlight">\(1/N^2\)</span> (the differences should fall on a straight
+line through the converged value) and state the run-of-record error bound.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>E(101) = -2.239430, E(201) = -2.238550, E(401) = -2.238331
+differences -8.80e-04, -2.19e-04;  ratio = 4.02 (second order -&gt; 4)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-lab-convergence">
+<img alt="../../_images/7e8d9bbdd863f7177c6da46cb8b1f66eb89285431119076ae063cc8166b54800.png" src="../../_images/7e8d9bbdd863f7177c6da46cb8b1f66eb89285431119076ae063cc8166b54800.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 757 </span><span class="caption-text">The convergence ladder of the laboratory’s exact ground energy on grids <span class="math notranslate nohighlight">\(N = 101, 201, 401\)</span>, plotted against <span class="math notranslate nohighlight">\(1/N^2\)</span>: the three energies fall on the straight line of the second-order Laplacian, with successive differences in ratio <span class="math notranslate nohighlight">\(4.02\)</span>, bounding the run-of-record (<span class="math notranslate nohighlight">\(N = 201\)</span>) error at <span class="math notranslate nohighlight">\(3\times10^{-4}\)</span> Ha.</span><a class="headerlink" href="#fig-lab-convergence" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3-second-order-as-owed">
+<h3>Validation 3 — second order, as owed<a class="headerlink" href="#validation-3-second-order-as-owed" title="Link to this heading">#</a></h3>
+<p>The difference ratio must be 4 within the ladder’s own next-order corrections, and
+the run-of-record energy must sit within <span class="math notranslate nohighlight">\(5\times10^{-4}\)</span> Ha of the extrapolated
+limit: the laboratory’s calibration certificate.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Richardson ratio of the energy ladder   [got 4.01767 vs expected 4 (rtol=0.05, atol=1e-09)]
+✓  run-of-record energy vs the extrapolated limit   [got -2.23855 vs expected -2.23826 (rtol=0, atol=0.0005)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-the-exact-density">
+<h2>Exercise 4 — The exact density<a class="headerlink" href="#exercise-4-the-exact-density" title="Link to this heading">#</a></h2>
+<p>The first of the laboratory’s deliverables: the exact ground-state density of
+<a class="reference internal" href="#equation-eq-lab-density">Eq. 862</a>, the central object of everything from
+<a class="reference internal" href="thomas-fermi.html"><span class="std std-doc">§8.5</span></a> onward. On the grid the marginal integral is one
+<code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code> along the second axis of <span class="math notranslate nohighlight">\(|\Psi|^2\)</span> (times 2 for the two
+electrons).</p>
+<p><strong>Part a)</strong> Compute <span class="math notranslate nohighlight">\(n(x)\)</span> from the Exercise 2 ground state and confirm
+<span class="math notranslate nohighlight">\(\int n\,dx = 2\)</span> by <code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code>.</p>
+<p><strong>Part b)</strong> Compare it with the <em>uncorrelated reference</em>: the density
+<span class="math notranslate nohighlight">\(2|\varphi_{\mathrm{ion}}(x)|^2\)</span> of both electrons parked in the one-electron ground
+orbital of Exercise 1 (no repulsion between them). Plot both; the exact density must
+be visibly broader — the repulsion pushes charge outward — and the comparison
+quantified as the <span class="math notranslate nohighlight">\(L^1\)</span> difference <span class="math notranslate nohighlight">\(\int |n - n_{\mathrm{ref}}|\,dx\)</span>
+(<code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code> of the <code class="docutils literal notranslate"><span class="pre">numpy.abs</span></code> difference).</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>integral of n(x) = 2.0000000000 (must be 2)
+L1 difference to the uncorrelated reference = 0.2844
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-lab-density">
+<img alt="../../_images/03a622cf77ead8b0d18c0753e765c9e3a2a1201b1ea9078017ad033b3adbfc4f.png" src="../../_images/03a622cf77ead8b0d18c0753e765c9e3a2a1201b1ea9078017ad033b3adbfc4f.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 758 </span><span class="caption-text">The exact ground-state density <span class="math notranslate nohighlight">\(n(x)\)</span> of the laboratory (ink) against the uncorrelated reference <span class="math notranslate nohighlight">\(2|\varphi_{\mathrm{ion}}|^2\)</span> of two electrons parked in the one-electron ground orbital (grey dashed): the interaction broadens the cloud, pushing charge outward. Both curves integrate to exactly 2 electrons.</span><a class="headerlink" href="#fig-lab-density" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4-two-electrons-redistributed">
+<h3>Validation 4 — two electrons, redistributed<a class="headerlink" href="#validation-4-two-electrons-redistributed" title="Link to this heading">#</a></h3>
+<p>The density must integrate to 2 essentially exactly, the peak must sit at the
+nucleus, and the interaction must have <em>lowered</em> the central density relative to the
+uncorrelated reference (charge pushed outward).</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the exact density integrates to two electrons   [got 2 vs expected 2 (rtol=1e-09, atol=1e-09)]
+✓  the density peaks at the nucleus   [argmax at x = 0.00]
+✓  repulsion lowers the on-nucleus density   [exact 0.9112 &lt; reference 1.0508]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-the-hole-that-does-not-move-exchange-correlation-and-the-sum-rule">
+<h2>Exercise 5 — The hole that does not move: exchange, correlation, and the sum rule<a class="headerlink" href="#exercise-5-the-hole-that-does-not-move-exchange-correlation-and-the-sum-rule" title="Link to this heading">#</a></h2>
+<p>The hole of <a class="reference internal" href="#equation-eq-lab-hole">Eq. 863</a> is usually a formal object; here it is three
+<code class="docutils literal notranslate"><span class="pre">numpy</span></code> lines, and computing it exposes a genuine surprise. Intuition says the hole
+should follow its electron — pin the electron at <span class="math notranslate nohighlight">\(x_1\)</span> and the depletion should be
+deepest there. For two opposite-spin electrons that intuition <em>fails</em>. In the
+uncorrelated product state <span class="math notranslate nohighlight">\(\varphi(x_1)\varphi(x_2)\)</span> the pair density factorizes,
+<span class="math notranslate nohighlight">\(n_2 = n(x_1)\,n(x_2)/2\)</span>, so <a class="reference internal" href="#equation-eq-lab-hole">Eq. 863</a> collapses to</p>
+<div class="math notranslate nohighlight" id="equation-eq-lab-xhole">
+<span class="eqno">(866)<a class="headerlink" href="#equation-eq-lab-xhole" title="Link to this equation">#</a></span>\[n_{x}(x_2 \mid x_1) = -\tfrac12\, n(x_2)
+\qquad\text{(two electrons, opposite spins)} :\]</div>
+<p>a hole of exactly half the density, <em>rigidly centered on the atom, independent of
+where the electron sits</em>. There is no like-spin partner to exclude, so exchange digs
+nothing local; the electron’s entire <span class="math notranslate nohighlight">\(-1\)</span> is carried by this static shape. Whatever
+<span class="math notranslate nohighlight">\(x_1\)</span>-dependence the <em>exact</em> hole shows is therefore pure <strong>correlation</strong>: the
+deformation <span class="math notranslate nohighlight">\(n_c \equiv n_{xc} + \tfrac12 n(x_2)\)</span>, which integrates to exactly
+<em>zero</em> (the sum rule is already saturated) and rearranges charge away from the
+pinned electron.</p>
+<p><strong>Part a)</strong> Compute <span class="math notranslate nohighlight">\(n_{xc}(x_2 \mid x_1)\)</span> from the Exercise 2 ground state at the
+three reference points <span class="math notranslate nohighlight">\(x_1 = 0, 2, 4\)</span> Bohr (nearest grid indices via
+<code class="docutils literal notranslate"><span class="pre">numpy.argmin</span></code> of the coordinate distance), using <a class="reference internal" href="#equation-eq-lab-density">Eq. 862</a> for
+<span class="math notranslate nohighlight">\(n_2 = 2|\Psi|^2\)</span>, and verify the sum rule <span class="math notranslate nohighlight">\(\int n_{xc}\,dx_2 = -1\)</span> at each point by
+<code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code>.</p>
+<p><strong>Part b)</strong> Split each hole into the static exchange part
+<a class="reference internal" href="#equation-eq-lab-xhole">Eq. 866</a> and the correlation deformation
+<span class="math notranslate nohighlight">\(n_c = n_{xc} + \tfrac12 n\)</span>. Verify <span class="math notranslate nohighlight">\(\int n_c\,dx_2 = 0\)</span> at each reference point
+(<code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code>), confirm the on-top dip <span class="math notranslate nohighlight">\(n_c(x_2{=}x_1) &lt; 0\)</span> at <span class="math notranslate nohighlight">\(x_1 = 0\)</span> and
+<span class="math notranslate nohighlight">\(2\)</span> (electrons dodge each other at contact), and measure where correlation deforms
+most: the <code class="docutils literal notranslate"><span class="pre">numpy.max</span></code> of <span class="math notranslate nohighlight">\(|n_c|\)</span> should be several times larger for the electron
+pinned mid-density (<span class="math notranslate nohighlight">\(x_1 = 2\)</span>) than at the center. Plot the full holes and the
+deformations side by side.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x1 = 0:  sum(n_xc) = -1.00000000,  sum(n_c) = -9.75e-13,  n_c at the electron = -0.01756,  max|n_c| = 0.01756
+x1 = 2:  sum(n_xc) = -1.00000000,  sum(n_c) = +2.66e-12,  n_c at the electron = -0.03157,  max|n_c| = 0.09334
+x1 = 4:  sum(n_xc) = -1.00000000,  sum(n_c) = +5.45e-12,  n_c at the electron = -0.00088,  max|n_c| = 0.08486
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-lab-hole">
+<img alt="../../_images/bcc850f2491730f1a97ff932b2dfae88114dc7535894a17b79b4788ad8ecd48c.png" src="../../_images/bcc850f2491730f1a97ff932b2dfae88114dc7535894a17b79b4788ad8ecd48c.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 759 </span><span class="caption-text">The exact exchange-correlation hole of the laboratory at three reference positions <span class="math notranslate nohighlight">\(x_1 = 0, 2, 4\)</span> Bohr. Left: the full holes <span class="math notranslate nohighlight">\(n_{xc}(x_2 \mid x_1)\)</span> all but coincide with the static exchange hole <span class="math notranslate nohighlight">\(-n(x_2)/2\)</span> (black dashed), centered on the atom regardless of where the electron sits, and each integrates to exactly <span class="math notranslate nohighlight">\(-1\)</span>. Right: the correlation deformations <span class="math notranslate nohighlight">\(n_c = n_{xc} + n/2\)</span>, which integrate to zero, dip at the pinned electron’s position (markers), and are largest for the electron mid-density: all the hole’s mobility is correlation.</span><a class="headerlink" href="#fig-lab-hole" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5-one-missing-electron-and-a-deformation-that-sums-to-nothing">
+<h3>Validation 5 — one missing electron, and a deformation that sums to nothing<a class="headerlink" href="#validation-5-one-missing-electron-and-a-deformation-that-sums-to-nothing" title="Link to this heading">#</a></h3>
+<p>The full hole must integrate to <span class="math notranslate nohighlight">\(-1\)</span> at all three reference points (exact for any
+normalized two-electron state: failure would flag broken bookkeeping, not broken
+physics); the correlation part must integrate to zero, dip at the pinned electron
+for <span class="math notranslate nohighlight">\(x_1 = 0\)</span> and <span class="math notranslate nohighlight">\(2\)</span>, and deform at least three times more strongly mid-density
+than at the center (measured ratio <span class="math notranslate nohighlight">\(5.3\)</span> on this grid).</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  hole sum rule at x1 = 0   [got -1 vs expected -1 (rtol=1e-06, atol=1e-09)]
+✓  hole sum rule at x1 = 2   [got -1 vs expected -1 (rtol=1e-06, atol=1e-09)]
+✓  hole sum rule at x1 = 4   [got -1 vs expected -1 (rtol=1e-06, atol=1e-09)]
+✓  correlation part sums to zero at x1 = 0   [got -9.74771e-13 vs expected 0 (rtol=0, atol=1e-06)]
+✓  correlation part sums to zero at x1 = 2   [got 2.65653e-12 vs expected 0 (rtol=0, atol=1e-06)]
+✓  correlation part sums to zero at x1 = 4   [got 5.44978e-12 vs expected 0 (rtol=0, atol=1e-06)]
+✓  the on-top correlation dip: electrons dodge at contact   [n_c(x1) = -0.0176 and -0.0316]
+✓  correlation deforms most for the electron mid-density   [max|n_c|: 0.0933 (x1=2) vs 0.0176 (x1=0)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-hartreefock-on-the-same-grid">
+<h2>Exercise 6 — Hartree–Fock on the same grid<a class="headerlink" href="#exercise-6-hartreefock-on-the-same-grid" title="Link to this heading">#</a></h2>
+<p>Now the laboratory’s first customer. The restricted Hartree–Fock problem of
+<a class="reference internal" href="#equation-eq-lab-hf">Eq. 864</a> is a fixed-point loop in the orbital: guess <span class="math notranslate nohighlight">\(\varphi\)</span>, build the
+mean field <span class="math notranslate nohighlight">\(v_{\mathrm{mf}}\)</span>, rediagonalize, repeat — the same self-consistency
+structure <a class="reference internal" href="../00-foundations/root-finding.html"><span class="std std-doc">§0.2</span></a> treated abstractly and
+<a class="reference internal" href="kohn-sham.html"><span class="std std-doc">§8.7</span></a> will industrialize. On the grid the mean-field integral is a
+matrix–vector product of the interaction matrix with <span class="math notranslate nohighlight">\(|\varphi|^2\)</span>.</p>
+<p><strong>Part a)</strong> Iterate the loop: start from the Exercise 1 one-electron orbital, build
+<span class="math notranslate nohighlight">\(v_{\mathrm{mf}} = h\,(W \mathbin{&#64;} \varphi^2)\)</span> (the <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> product of the interaction
+matrix with the squared orbital, times the grid spacing), rediagonalize
+<span class="math notranslate nohighlight">\(\hat h + v_{\mathrm{mf}}\)</span> with <code class="docutils literal notranslate"><span class="pre">scipy.linalg.eigh_tridiagonal</span></code>, and repeat until
+the total energy <span class="math notranslate nohighlight">\(E_{\mathrm{HF}} = 2\langle\varphi|\hat h|\varphi\rangle + J\)</span> of
+<a class="reference internal" href="#equation-eq-lab-hf">Eq. 864</a> changes by less than <span class="math notranslate nohighlight">\(10^{-12}\)</span> Ha. Track the energy at every
+iteration. <strong>Write this one yourself</strong> — the implementation is the lesson.</p>
+<p><strong>Part b)</strong> Report the converged <span class="math notranslate nohighlight">\(E_{\mathrm{HF}}\)</span>, the orbital energy
+<span class="math notranslate nohighlight">\(\varepsilon\)</span>, and the iteration count; plot the convergence trace (energy change
+per iteration on a <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> log axis). This loop, seven iterations here, is the
+ancestor of every SCF cycle in computational chemistry and materials science.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>converged in 7 iterations: E_HF = -2.224500 Ha, eps = -0.750321 Ha
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-lab-scf">
+<img alt="../../_images/a805dc7dc85d8867add6edab84561c478f9b04120fbc2f53ed1d76151bcdc3a9.png" src="../../_images/a805dc7dc85d8867add6edab84561c478f9b04120fbc2f53ed1d76151bcdc3a9.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 760 </span><span class="caption-text">Self-consistency reached: the energy change per iteration of the laboratory’s restricted Hartree–Fock loop on a logarithmic axis, converging geometrically to <span class="math notranslate nohighlight">\(E_{\mathrm{HF}} = -2.22450\)</span> Ha in seven iterations from the one-electron starting orbital. This fixed-point loop is the ancestor of every SCF cycle in quantum chemistry.</span><a class="headerlink" href="#fig-lab-scf" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6-the-mean-field-settles">
+<h3>Validation 6 — the mean field settles<a class="headerlink" href="#validation-6-the-mean-field-settles" title="Link to this heading">#</a></h3>
+<p>The converged energy and orbital eigenvalue on this grid are <span class="math notranslate nohighlight">\(-2.22450\)</span> and
+<span class="math notranslate nohighlight">\(-0.75032\)</span> Ha; convergence must arrive within 20 iterations (this loop is
+well-conditioned; harder cases and their damping arrive in
+<a class="reference internal" href="kohn-sham.html"><span class="std std-doc">§8.7</span></a>); and the variational bound
+<span class="math notranslate nohighlight">\(E_{\mathrm{HF}} \ge E_{\mathrm{exact}}\)</span> must hold.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  converged Hartree-Fock energy of the laboratory   [got -2.2245 vs expected -2.2245 (rtol=1e-05, atol=1e-09)]
+✓  the occupied orbital energy   [got -0.750321 vs expected -0.750321 (rtol=1e-05, atol=1e-09)]
+✓  SCF converges promptly   [7 iterations to 1e-12]
+✓  the variational bound E_HF &gt;= E_exact   [-2.224500 &gt; -2.238550]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-the-correlation-energy-measured">
+<h2>Exercise 7 — The correlation energy, measured<a class="headerlink" href="#exercise-7-the-correlation-energy-measured" title="Link to this heading">#</a></h2>
+<p>The notebook’s closing numbers, and the volume’s referee installed. With both
+<span class="math notranslate nohighlight">\(E_{\mathrm{exact}}\)</span> and <span class="math notranslate nohighlight">\(E_{\mathrm{HF}}\)</span> computed on the same grid, the
+correlation energy of <a class="reference internal" href="#equation-eq-lab-ec">Eq. 865</a> is a subtraction; alongside it sit two
+ionization stories: the <em>exact</em> ionization energy <span class="math notranslate nohighlight">\(I = E(1) - E(2)\)</span> from Exercises 1
+and 2, and Koopmans’ approximation <span class="math notranslate nohighlight">\(I \approx -\varepsilon_{\mathrm{HOMO}}\)</span> from
+Exercise 6 (the theorem itself is proven in <a class="reference internal" href="hartree-fock-atoms.html"><span class="std std-doc">§8.3</span></a>; here
+it is met as a measurement).</p>
+<p><strong>Part a)</strong> Compute <span class="math notranslate nohighlight">\(E_c = E_{\mathrm{exact}} - E_{\mathrm{HF}}\)</span> and express it also
+as a percentage of the total energy: correlation is <em>small</em> in this laboratory
+(under one percent), which is exactly why it is hard — approximations must resolve a
+sliver without wrecking the bulk. Chemistry’s energy scales (bonds, barriers) live
+in that sliver.</p>
+<p><strong>Part b)</strong> Compute the exact <span class="math notranslate nohighlight">\(I = E(1) - E(2)\)</span> and compare
+<span class="math notranslate nohighlight">\(-\varepsilon_{\mathrm{HOMO}}\)</span> against it (<code class="docutils literal notranslate"><span class="pre">numpy</span></code> arithmetic on the stored
+scalars). The two agree to better than a percent: Koopmans’ frozen-orbital error and
+the neglected correlation partially cancel, a fortunate accident the literature has
+leaned on for a century.</p>
+<p><strong>Part c)</strong> Assemble the laboratory’s certificate: a printed table of every number
+this notebook pinned (one-electron energy, singlet, triplet, <span class="math notranslate nohighlight">\(E_{\mathrm{HF}}\)</span>,
+<span class="math notranslate nohighlight">\(\varepsilon\)</span>, <span class="math notranslate nohighlight">\(E_c\)</span>, <span class="math notranslate nohighlight">\(I\)</span>), the values the rest of the volume will cite.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>E_c = E_exact - E_HF = -0.014050 Ha (0.63% of the total)
+I_exact = 0.754887 Ha;  -eps_HOMO = 0.750321 Ha (Koopmans error -0.60%)
+
+--- the laboratory&#39;s certificate (N = 201, x in [-10, 10]) ---
+  E(1)  one-electron ground        -1.483663 Ha
+  E(2)  exact singlet              -2.238550 Ha
+        exact triplet              -1.816409 Ha
+  E_HF  restricted Hartree-Fock    -2.224500 Ha
+  eps   occupied orbital           -0.750321 Ha
+  E_c   correlation energy         -0.014050 Ha
+  I     exact ionization           +0.754887 Ha
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-7-the-certificate">
+<h3>Validation 7 — the certificate<a class="headerlink" href="#validation-7-the-certificate" title="Link to this heading">#</a></h3>
+<p>The correlation energy must be <span class="math notranslate nohighlight">\(-0.01405\)</span> Ha (negative by the variational theorem,
+and under 1% of the total), and Koopmans’ estimate must land within 1% of the exact
+ionization energy.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the laboratory&#39;s correlation energy   [got -0.0140502 vs expected -0.01405 (rtol=0.001, atol=1e-09)]
+✓  correlation lowers the energy (variational theorem)   [E_c = -0.014050 Ha]
+✓  the exact ionization energy   [got 0.754887 vs expected 0.754887 (rtol=0.0001, atol=1e-09)]
+✓  Koopmans lands within 1% of the exact I   [error -0.60%]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">With your assistant</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">two_body</span></code> you wrote in Exercise 2 generalizes naturally: have your assistant
+write a version accepting an arbitrary interaction strength <span class="math notranslate nohighlight">\(\lambda\)</span> multiplying
+<span class="math notranslate nohighlight">\(w(x_1, x_2)\)</span>, then run the check that is yours alone: at <span class="math notranslate nohighlight">\(\lambda = 0\)</span> the exact
+ground energy must equal exactly twice the one-electron energy of Exercise 1
+(<span class="math notranslate nohighlight">\(-2.96733\)</span> Ha on this grid, <code class="docutils literal notranslate"><span class="pre">numpy.isclose</span></code> at <code class="docutils literal notranslate"><span class="pre">rtol=1e-8</span></code>), because
+non-interacting electrons separate. The check is yours.</p>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>The laboratory is built, calibrated, and certified. The soft-Coulomb two-electron
+system, assembled as a Kronecker-sum sparse matrix and diagonalized by
+<code class="docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh</span></code>, has exact ground singlet <span class="math notranslate nohighlight">\(-2.23855\)</span> Ha and lowest
+triplet <span class="math notranslate nohighlight">\(-1.81641\)</span> Ha (their exchange symmetries read off the eigenvectors as
+<span class="math notranslate nohighlight">\(s = \pm 1\)</span>, and the triplet’s diagonal zero exhibiting the exchange node); the
+convergence ladder <span class="math notranslate nohighlight">\(N = 101/201/401\)</span> confirmed second-order convergence (ratio
+<span class="math notranslate nohighlight">\(4.02\)</span>) and bounded the run-of-record error at <span class="math notranslate nohighlight">\(3\times10^{-4}\)</span> Ha. From the exact
+wavefunction came the objects density-functional theory is made of: the density
+(integrating to 2 exactly, visibly broadened by repulsion), and the
+exchange-correlation hole, which integrates to <span class="math notranslate nohighlight">\(-1\)</span> at every reference point and
+holds a genuine surprise: for two opposite-spin electrons the exchange part is the
+static <span class="math notranslate nohighlight">\(-n(x_2)/2\)</span>, pinned to the atom, and <em>all</em> of the hole’s mobility is the
+zero-sum correlation deformation (on-top dip at the electron, five times stronger
+mid-density than at the center). Restricted Hartree–Fock, solved on the same grid by a
+seven-iteration SCF loop, gave <span class="math notranslate nohighlight">\(E_{\mathrm{HF}} = -2.22450\)</span> Ha and
+<span class="math notranslate nohighlight">\(\varepsilon = -0.75032\)</span> Ha, whence the volume’s referee numbers: correlation energy
+<span class="math notranslate nohighlight">\(E_c = -0.01405\)</span> Ha (0.6% of the total: the decisive sliver) and Koopmans’
+<span class="math notranslate nohighlight">\(-\varepsilon_{\mathrm{HOMO}}\)</span> within 0.6% of the exact ionization energy
+<span class="math notranslate nohighlight">\(I = 0.75489\)</span> Ha.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The general Hartree–Fock theory behind Exercise 6’s three-line special case —
+Slater determinants, exchange, Koopmans’ theorem proven — is
+<a class="reference internal" href="hartree-fock-atoms.html"><span class="std std-doc">§8.3</span></a>, which takes the method to real atoms in three
+dimensions.</p></li>
+<li><p>The exact density computed here becomes <em>input</em> in
+<a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a>: the Hohenberg–Kohn theorem says it determines the
+potential, and the laboratory will make that concrete by numerically <em>inverting</em>
+<span class="math notranslate nohighlight">\(n(x)\)</span> to find the exact Kohn–Sham potential.</p></li>
+<li><p>The hole’s <span class="math notranslate nohighlight">\(-1\)</span> sum rule is the quiet hero of practical DFT: the local-density
+approximation inherits it from the uniform gas, which is much of why LDA’s errors
+cancel as well as they do (<a class="reference internal" href="kohn-sham.html"><span class="std std-doc">§8.7</span></a>).</p></li>
+<li><p>Pin the laboratory’s certificate somewhere visible. Its numbers return in
+<a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a>, <a class="reference internal" href="kohn-sham.html"><span class="std std-doc">§8.7</span></a>,
+<a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a>, and <a class="reference internal" href="tddft.html"><span class="std std-doc">§8.16</span></a>.</p></li>
+</ul>
+<div class="docutils container" id="id6">
+<div role="list" class="citation-list">
+<div class="citation" id="id77" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Mar04</a><span class="fn-bracket">]</span></span>
+<p>Richard M. Martin. <em>Electronic Structure: Basic Theory and Practical Methods</em>. Cambridge University Press, Cambridge, 2004.</p>
+</div>
+<div class="citation" id="id79" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>PY89<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id5">2</a>)</span>
+<p>Robert G. Parr and Weitao Yang. <em>Density-Functional Theory of Atoms and Molecules</em>. Oxford University Press, New York, 1989.</p>
+</div>
+<div class="citation" id="id82" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Ull12<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id4">2</a>)</span>
+<p>Carsten A. Ullrich. <em>Time-Dependent Density-Functional Theory: Concepts and Applications</em>. Oxford University Press, Oxford, 2012.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/08-electronic-structure"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="many-electron-problem.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">8.1 The Many-Electron Problem</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="hartree-fock-atoms.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">8.3 Hartree–Fock I: Atoms</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-laboratory-s-hamiltonian-and-why-it-fits-in-memory">The laboratory’s Hamiltonian, and why it fits in memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exchange-symmetry-without-spin-machinery">Exchange symmetry without spin machinery</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#density-pair-density-and-the-hole">Density, pair density, and the hole</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hartreefock-for-the-laboratory-and-the-definition-of-correlation">Hartree–Fock for the laboratory, and the definition of correlation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-one-electron-references">Exercise 1 — The one-electron references</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-ion-s-credentials">Validation 1 — the ion’s credentials</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-exact-two-electron-problem">Exercise 2 — The exact two-electron problem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-the-exact-ladder-and-its-symmetries">Validation 2 — the exact ladder and its symmetries</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-certifying-the-digits-the-convergence-ladder">Exercise 3 — Certifying the digits: the convergence ladder</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-second-order-as-owed">Validation 3 — second order, as owed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-exact-density">Exercise 4 — The exact density</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-two-electrons-redistributed">Validation 4 — two electrons, redistributed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-hole-that-does-not-move-exchange-correlation-and-the-sum-rule">Exercise 5 — The hole that does not move: exchange, correlation, and the sum rule</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-one-missing-electron-and-a-deformation-that-sums-to-nothing">Validation 5 — one missing electron, and a deformation that sums to nothing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-hartreefock-on-the-same-grid">Exercise 6 — Hartree–Fock on the same grid</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-the-mean-field-settles">Validation 6 — the mean field settles</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-correlation-energy-measured">Exercise 7 — The correlation energy, measured</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7-the-certificate">Validation 7 — the certificate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

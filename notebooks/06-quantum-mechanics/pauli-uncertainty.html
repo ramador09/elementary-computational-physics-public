@@ -1,0 +1,1512 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/pauli-uncertainty.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: The Stern–Gerlach experiment ( §6.4) showed us, as a brute fact, that measuring spin along x destroys what we knew about spin along z; the..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: The Stern–Gerlach experiment ( §6.4) showed us, as a brute fact, that measuring spin along x destroys what we knew about spin along z; the..." />
+
+    <title>6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/06-quantum-mechanics/pauli-uncertainty';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/06-quantum-mechanics/pauli-uncertainty.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="6.7 Time Evolution and the Schrödinger Equation" href="time-evolution.html" />
+    <link rel="prev" title="6.5 The Postulates of Quantum Mechanics" href="postulates.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VI — Quantum Mechanics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-electronic-structure/index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-electronic-structure/gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/06-quantum-mechanics/pauli-uncertainty.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/06-quantum-mechanics/pauli-uncertainty.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/06-quantum-mechanics/pauli-uncertainty.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/06-quantum-mechanics/pauli-uncertainty.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-pauli-matrices-and-spin-operators">The Pauli matrices and spin operators</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-algebra-commutators-and-the-product-identity">The algebra: commutators and the product identity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compatible-versus-incompatible-observables">Compatible versus incompatible observables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-robertson-uncertainty-relation-derived">The Robertson uncertainty relation — derived</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimum-uncertainty-states-and-complete-sets">Minimum-uncertainty states and complete sets</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-pauli-algebra">Exercise 1 — The Pauli algebra</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-commutator-as-the-test-for-compatibility">Exercise 2 — The commutator as the test for compatibility</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-deriving-the-uncertainty-relation">Exercise 3 — Deriving the uncertainty relation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-spin-uncertainty-relation-verified-and-visualized">Exercise 4 — The spin uncertainty relation, verified and visualized</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-minimum-uncertainty-states">Exercise 5 — Minimum-uncertainty states</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-compatible-observables-and-a-complete-set">Exercise 6 — Compatible observables and a complete set</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-general-uncertainty-relation-in-a-larger-space-student">Exercise 7 — The general uncertainty relation in a larger space <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-the-uncertainty-principle-is-an-algebraic-fact-synthesis">Exercise 8 — The uncertainty principle is an algebraic fact <em>(synthesis)</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-pauli-matrices-incompatible-observables-and-the-uncertainty-relation">
+<h1>6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation<a class="headerlink" href="#the-pauli-matrices-incompatible-observables-and-the-uncertainty-relation" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VI — Quantum Mechanics
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;6.6
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Why looking along x erases what we knew along z. The three spin components do not commute, and that single algebraic fact is the whole of the uncertainty principle: when two observables fail to commute, no state makes both sharp, and the product of their uncertainties is bounded below by their commutator. We build the Pauli algebra, derive the uncertainty relation from Cauchy–Schwarz, and find the states that meet it exactly.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;150–185 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>The Stern–Gerlach experiment (<a class="reference internal" href="stern-gerlach-qubit.html"><span class="std std-doc">§6.4</span></a>) showed us, as a brute fact, that measuring spin along <span class="math notranslate nohighlight">\(x\)</span> destroys
+what we knew about spin along <span class="math notranslate nohighlight">\(z\)</span>; the postulates (<a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a>) gave us the variance <span class="math notranslate nohighlight">\(\Delta A\)</span> that measures
+how <em>un</em>-sharp an observable is in a state. This notebook supplies the missing piece — the <strong>algebra</strong>
+that explains <em>why</em> the destruction happens and <em>how much</em> it must — and it turns out to be one of the
+cleanest results in all of physics: the uncertainty principle is a three-line theorem about operators
+that do not commute.</p>
+<p>The central new object is the <strong>commutator</strong> <span class="math notranslate nohighlight">\([A,B]=AB-BA\)</span>. We met it in <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a> as the test for whether
+two operators share an eigenbasis; here it becomes the protagonist. Two observables are <em>compatible</em> —
+can be simultaneously sharp in a common basis — exactly when they commute, and <em>incompatible</em> when they do not. The
+<strong>Pauli matrices</strong> are the canonical incompatible observables: the three spin components pairwise fail
+to commute, <span class="math notranslate nohighlight">\([\sigma_x,\sigma_y]=2i\sigma_z\)</span> and cyclically, so a state perfectly definite along one
+axis is <em>maximally</em> uncertain along the others. That is the sequential Stern–Gerlach experiment, now
+as algebra rather than anecdote.</p>
+<p>The heart of the notebook is the <strong>derivation</strong> of the Robertson uncertainty relation <span class="math notranslate nohighlight">\(\Delta A\,
+\Delta B\ge\tfrac12|\langle[A,B]\rangle|\)</span>. We do not assert it — we derive it, gently and in full,
+from the <strong>Cauchy–Schwarz inequality</strong> of <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a>, the very inequality that bounded probability amplitudes
+there. The lesson is worth stating plainly and is easy to get wrong: the uncertainty principle is
+<strong>not</strong> a statement about clumsy instruments disturbing delicate systems. It is a theorem about
+non-commuting Hermitian operators, true of <em>every</em> state whether or not anyone is looking, and it is
+<em>saturated</em> — met with equality — by special minimum-uncertainty states.</p>
+<p>As in every Volume VI notebook, each exercise opens with a <strong>crystal-clear statement</strong> and enumerated parts, each naming the exact operation — explicit Pauli-matrix construction, <code class="docutils literal notranslate"><span class="pre">commutator</span></code> and
+<code class="docutils literal notranslate"><span class="pre">anticommutator</span></code> via the matrix-multiply <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy.vdot</span></code> for the moments <span class="math notranslate nohighlight">\(\langle A\rangle\)</span> and
+<span class="math notranslate nohighlight">\(\langle A^2\rangle\)</span>, and <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> where spectra are needed.</p>
+<blockquote>
+<div><p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call: the full Pauli algebra
+(commutators, anticommutators, the product identity); the maximal uncertainty of <span class="math notranslate nohighlight">\(\sigma_x\)</span> in a
+<span class="math notranslate nohighlight">\(\sigma_z\)</span>-eigenstate; the Robertson inequality holding for random observables and states; its
+saturation by <span class="math notranslate nohighlight">\(|{+}z\rangle\)</span>; and the simultaneous definiteness of commuting observables. A ✓ is
+strong evidence; a ✗ is a prompt to <em>locate the discrepancy</em>.</p>
+<p><strong>Conventions and scope.</strong> We work with <span class="math notranslate nohighlight">\(\hbar=1\)</span>, so the spin operators are <span class="math notranslate nohighlight">\(S=\tfrac12\boldsymbol
+\sigma\)</span> with eigenvalues <span class="math notranslate nohighlight">\(\pm\tfrac12\)</span> (physically <span class="math notranslate nohighlight">\(\pm\hbar/2\)</span>); we restore <span class="math notranslate nohighlight">\(\hbar\)</span> in formulas
+where it clarifies. The qubit is the running example, with general Hermitian observables on
+<span class="math notranslate nohighlight">\(\mathbb{C}^3\)</span> for the general check. The position–momentum relation <span class="math notranslate nohighlight">\(\Delta x\,\Delta p\ge\hbar/2\)</span>
+from <span class="math notranslate nohighlight">\([x,p]=i\hbar\)</span> is <a class="reference internal" href="position-representation.html"><span class="std std-doc">§6.9</span></a>; the angular-momentum algebra <span class="math notranslate nohighlight">\([J_i,J_j]=i\hbar\varepsilon_{ijk}J_k\)</span> is
+<a class="reference internal" href="angular-momentum-algebra.html"><span class="std std-doc">§6.14</span></a>; complete sets of commuting observables catalogue the hydrogen atom in <a class="reference internal" href="hydrogen-atom.html"><span class="std std-doc">§6.17</span></a>. See Sakurai &amp;
+Napolitano (§1.4); Robertson (1929); Schrödinger (1930); and Notebooks <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a> (Cauchy–Schwarz), <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>
+(commutators), <a class="reference internal" href="stern-gerlach-qubit.html"><span class="std std-doc">§6.4</span></a> (the experiment), <a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a> (variance).</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-pauli-matrices-and-spin-operators">
+<h3>The Pauli matrices and spin operators<a class="headerlink" href="#the-pauli-matrices-and-spin-operators" title="Link to this heading">#</a></h3>
+<p>The three <strong>Pauli matrices</strong> are the Hermitian observables of the qubit; the spin operators are
+<span class="math notranslate nohighlight">\(S=\tfrac{\hbar}{2}\boldsymbol\sigma\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-eq-pauli">
+<span class="eqno">(521)<a class="headerlink" href="#equation-eq-pauli" title="Link to this equation">#</a></span>\[\begin{split}\sigma_x=\begin{pmatrix}0&amp;1\\1&amp;0\end{pmatrix},\ \sigma_y=\begin{pmatrix}0&amp;-i\\i&amp;0\end{pmatrix},\ \sigma_z=\begin{pmatrix}1&amp;0\\0&amp;-1\end{pmatrix},\qquad \sigma_i=\sigma_i^{\dagger},\ \sigma_i^2=I,\ \text{eigenvalues }\pm1 .\end{split}\]</div>
+<p>They are exactly the observables a Stern–Gerlach magnet oriented along <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(z\)</span> measures (<a class="reference internal" href="stern-gerlach-qubit.html"><span class="std std-doc">§6.4</span></a>).</p>
+</section>
+<section id="the-algebra-commutators-and-the-product-identity">
+<h3>The algebra: commutators and the product identity<a class="headerlink" href="#the-algebra-commutators-and-the-product-identity" title="Link to this heading">#</a></h3>
+<p>The <strong>commutator</strong> <span class="math notranslate nohighlight">\([A,B]=AB-BA\)</span> measures the failure to commute. The Pauli matrices satisfy</p>
+<div class="math notranslate nohighlight" id="equation-eq-pauli-algebra">
+<span class="eqno">(522)<a class="headerlink" href="#equation-eq-pauli-algebra" title="Link to this equation">#</a></span>\[[\sigma_x,\sigma_y]=2i\sigma_z\ (\text{cyclic}),\quad \{\sigma_i,\sigma_j\}=0\ (i\ne j),\quad \sigma_i\sigma_j=\delta_{ij}I+i\varepsilon_{ijk}\sigma_k ,\]</div>
+<p>equivalently <span class="math notranslate nohighlight">\([S_x,S_y]=i\hbar S_z\)</span> — the <strong>angular-momentum algebra</strong> (generalized in <a class="reference internal" href="angular-momentum-algebra.html"><span class="std std-doc">§6.14</span></a>). The
+commutator is zero for compatible observables and non-zero for incompatible ones.</p>
+</section>
+<section id="compatible-versus-incompatible-observables">
+<h3>Compatible versus incompatible observables<a class="headerlink" href="#compatible-versus-incompatible-observables" title="Link to this heading">#</a></h3>
+<p>Two observables are <strong>compatible</strong> if <span class="math notranslate nohighlight">\([A,B]=0\)</span> — then (<a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a>) they share an eigenbasis and <em>can</em> be
+simultaneously definite — and <strong>incompatible</strong> if <span class="math notranslate nohighlight">\([A,B]\ne0\)</span>, when no common eigenbasis exists,</p>
+<div class="math notranslate nohighlight" id="equation-eq-compatible">
+<span class="eqno">(523)<a class="headerlink" href="#equation-eq-compatible" title="Link to this equation">#</a></span>\[[A,B]=0\ \Longleftrightarrow\ \text{simultaneously diagonalizable}\ \Longleftrightarrow\ \text{can be jointly sharp in a common basis} .\]</div>
+<p>Concretely: in <span class="math notranslate nohighlight">\(|{+}z\rangle\)</span>, where <span class="math notranslate nohighlight">\(\sigma_z\)</span> is perfectly definite, <span class="math notranslate nohighlight">\(\langle\sigma_x\rangle=0\)</span> and
+<span class="math notranslate nohighlight">\((\Delta\sigma_x)^2=1\)</span> — <em>maximal</em> uncertainty. This is the algebra of the sequential experiment.</p>
+</section>
+<section id="the-robertson-uncertainty-relation-derived">
+<h3>The Robertson uncertainty relation — derived<a class="headerlink" href="#the-robertson-uncertainty-relation-derived" title="Link to this heading">#</a></h3>
+<p>For any two observables and any state,</p>
+<div class="math notranslate nohighlight" id="equation-eq-uncertainty">
+<span class="eqno">(524)<a class="headerlink" href="#equation-eq-uncertainty" title="Link to this equation">#</a></span>\[\Delta A\,\Delta B\ \ge\ \tfrac12\,\big|\langle[A,B]\rangle\big|,\qquad \Delta A=\sqrt{\langle A^2\rangle-\langle A\rangle^2} .\]</div>
+<p><em>Derivation (Exercise 3).</em> With the shifted operators <span class="math notranslate nohighlight">\(\delta A=A-\langle A\rangle\)</span>, <span class="math notranslate nohighlight">\(\delta B=B-
+\langle B\rangle\)</span>, the variance is <span class="math notranslate nohighlight">\((\Delta A)^2=\langle\delta A^2\rangle\)</span>. Apply <strong>Cauchy–Schwarz</strong>
+(<a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a>) to <span class="math notranslate nohighlight">\(|\delta A\,\psi\rangle\)</span> and <span class="math notranslate nohighlight">\(|\delta B\,\psi\rangle\)</span>: <span class="math notranslate nohighlight">\(\langle\delta A^2\rangle\langle\delta
+B^2\rangle\ge|\langle\delta A\,\delta B\rangle|^2\)</span>. Split <span class="math notranslate nohighlight">\(\delta A\,\delta B=\tfrac12\{\delta A,\delta
+B\}+\tfrac12[A,B]\)</span> into its Hermitian (anticommutator, real expectation) and anti-Hermitian
+(commutator, imaginary expectation) parts; dropping the anticommutator term keeps <span class="math notranslate nohighlight">\(|\langle\delta A\,
+\delta B\rangle|^2\ge\big(\tfrac12|\langle[A,B]\rangle|\big)^2\)</span>, and the square root is the relation.
+It is <strong>Cauchy–Schwarz plus non-commutation</strong> — a theorem about operators, not instruments. (Keeping
+the anticommutator term gives the stronger Schrödinger relation; a pointer, not developed.)</p>
+</section>
+<section id="minimum-uncertainty-states-and-complete-sets">
+<h3>Minimum-uncertainty states and complete sets<a class="headerlink" href="#minimum-uncertainty-states-and-complete-sets" title="Link to this heading">#</a></h3>
+<p>The inequality is <strong>saturated</strong> by special states,</p>
+<div class="math notranslate nohighlight" id="equation-eq-saturation">
+<span class="eqno">(525)<a class="headerlink" href="#equation-eq-saturation" title="Link to this equation">#</a></span>\[\text{for }(S_x,S_y):\quad |{+}z\rangle\ \text{gives}\ \Delta S_x\,\Delta S_y=\tfrac14=\tfrac12|\langle S_z\rangle| ,\]</div>
+<p>the most “classical” allowed states (the Gaussian wave packet is their position–momentum analogue,
+<a class="reference internal" href="position-representation.html"><span class="std std-doc">§6.9</span></a>). And commuting observables can be measured together and labelled by joint eigenvalues; a maximal
+commuting set — a <strong>complete set of commuting observables</strong> — labels states uniquely,</p>
+<div class="math notranslate nohighlight" id="equation-eq-cso">
+<span class="eqno">(526)<a class="headerlink" href="#equation-eq-cso" title="Link to this equation">#</a></span>\[\{A,B,\dots\}\ \text{mutually commuting and maximal}\ \Longrightarrow\ \text{joint eigenvalues label states uniquely} ,\]</div>
+<p>which is how quantum states are catalogued (the hydrogen atom’s <span class="math notranslate nohighlight">\(n,\ell,m,m_s\)</span>, <a class="reference internal" href="hydrogen-atom.html"><span class="std std-doc">§6.17</span></a>).</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data and instruments only: the series palette, the three Pauli matrices <a class="reference internal" href="#equation-eq-pauli">Eq. 521</a> and the
+spin operators <span class="math notranslate nohighlight">\(S=\tfrac12\boldsymbol\sigma\)</span> they define, the commutator of
+<a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a> with its anticommutator companion, and the moment
+machinery of <a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a> — the expectation <span class="math notranslate nohighlight">\(\langle A\rangle\)</span> and the uncertainty
+<span class="math notranslate nohighlight">\(\Delta A\)</span> — restated here as tools. The new object this notebook is named for, the Robertson
+bound <span class="math notranslate nohighlight">\(\tfrac12|\langle[A,B]\rangle|\)</span>, is deliberately absent: you write it in Exercise 3.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span><span class="p">,</span> <span class="n">validate</span>
+
+<span class="n">ACCENT</span><span class="p">,</span> <span class="n">INK</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">ACCENT</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">INK</span><span class="p">,</span> <span class="n">draw</span><span class="o">.</span><span class="n">SOFT</span>  <span class="c1"># data: the series palette</span>
+
+<span class="c1"># Conventions: ℏ=1, so the spin operators are S = ½σ with eigenvalues ±½. Observables are</span>
+<span class="c1"># Hermitian matrices; moments use numpy.vdot (conjugate-first, §6.1); commutators/anticommutators use the</span>
+<span class="c1"># matrix-multiply @. The qubit is the running example; general checks use Hermitian matrices on ℂ³.</span>
+
+<span class="c1"># data: the Pauli matrices (the SX/SY/SZ of §6.2), the canonical incompatible observables</span>
+<span class="n">SIGMA_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="n">SIGMA_Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="n">SIGMA_Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="n">ID2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="c1"># data: the spin operators S = ½σ (ℏ = 1)</span>
+<span class="n">S_X</span><span class="p">,</span> <span class="n">S_Y</span><span class="p">,</span> <span class="n">S_Z</span> <span class="o">=</span> <span class="n">SIGMA_X</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">SIGMA_Y</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">SIGMA_Z</span> <span class="o">/</span> <span class="mi">2</span>
+
+
+<span class="c1"># instrument: the AB−BA difference, met in §6.2 as the test for a shared eigenbasis — this</span>
+<span class="c1"># notebook&#39;s lesson is what a non-zero commutator *implies* (incompatibility, and a floor</span>
+<span class="c1"># under the uncertainty product), not the two-term difference that forms it.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">commutator</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The commutator $[A,B]=AB-BA$ {eq}`eq-pauli-algebra`.</span>
+
+<span class="sd">    Computed with the matrix-multiply operator ``@``. It vanishes for compatible observables and is</span>
+<span class="sd">    non-zero for incompatible ones; for Hermitian $A,B$ it is anti-Hermitian, so $\\langle[A,B]\\rangle$</span>
+<span class="sd">    is purely imaginary — the fact that makes the uncertainty bound real.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">A</span> <span class="o">@</span> <span class="n">B</span> <span class="o">-</span> <span class="n">B</span> <span class="o">@</span> <span class="n">A</span>
+
+
+<span class="c1"># instrument: the AB+BA companion to the commutator — plumbing for the algebra checks and</span>
+<span class="c1"># for the Hermitian/anti-Hermitian split of Exercise 3; the lesson is what its expectation</span>
+<span class="c1"># contributes to the bound, not the two-term sum itself.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">anticommutator</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The anticommutator $\\{A,B\\}=AB+BA$ {eq}`eq-pauli-algebra`.</span>
+
+<span class="sd">    Computed with ``@``. For Hermitian $A,B$ it is Hermitian, so $\\langle\\{A,B\\}\\rangle$ is real; it</span>
+<span class="sd">    is the term dropped in the Robertson relation and kept in the stronger Schrödinger relation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">A</span> <span class="o">@</span> <span class="n">B</span> <span class="o">+</span> <span class="n">B</span> <span class="o">@</span> <span class="n">A</span>
+
+
+<span class="c1"># built from scratch in §6.5 (the expectation value derived from the Born rule);</span>
+<span class="c1"># restated here as an instrument.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">expectation</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">psi</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The expectation value $\\langle A\\rangle=\\langle\\psi|A|\\psi\\rangle$ (§6.5), via ``numpy.vdot``.</span>
+
+<span class="sd">    Real because $A$ is Hermitian (``numpy.vdot(psi, A @ psi).real``).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vdot</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">A</span> <span class="o">@</span> <span class="n">psi</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+
+
+<span class="c1"># built from scratch in §6.5 (the variance and its vanishing on definite values);</span>
+<span class="c1"># restated here as its square root, an instrument: ΔA is the quantity this notebook</span>
+<span class="c1"># bounds, not a quantity it teaches you to form.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dispersion</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">psi</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The uncertainty $\\Delta A=\\sqrt{\\langle A^2\\rangle-\\langle A\\rangle^2}$ {eq}`eq-uncertainty` (§6.5).</span>
+
+<span class="sd">    The square root of the variance — zero exactly when ``psi`` is an eigenstate of ``A`` (a definite</span>
+<span class="sd">    value). A small negative variance from rounding is clipped to zero before the square root.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="n">expectation</span><span class="p">(</span><span class="n">A</span> <span class="o">@</span> <span class="n">A</span><span class="p">,</span> <span class="n">psi</span><span class="p">)</span> <span class="o">-</span> <span class="n">expectation</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">psi</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-pauli-algebra">
+<h2>Exercise 1 — The Pauli algebra<a class="headerlink" href="#exercise-1-the-pauli-algebra" title="Link to this heading">#</a></h2>
+<p>The three Pauli matrices are more than three convenient Hermitian <span class="math notranslate nohighlight">\(2\times2\)</span> matrices: they close
+among themselves under multiplication into an <strong>algebra</strong> <a class="reference internal" href="#equation-eq-pauli">Eq. 521</a>, <a class="reference internal" href="#equation-eq-pauli-algebra">Eq. 522</a> —
+the commutation relations <span class="math notranslate nohighlight">\([\sigma_x,\sigma_y]=2i\sigma_z\)</span> and its cyclic partners, the
+anticommutation <span class="math notranslate nohighlight">\(\{\sigma_i,\sigma_j\}=0\)</span> for <span class="math notranslate nohighlight">\(i \ne j\)</span>, the squares <span class="math notranslate nohighlight">\(\sigma_i^2=I\)</span>, and the single
+product identity <span class="math notranslate nohighlight">\(\sigma_i\sigma_j=\delta_{ij}I+i\varepsilon_{ijk}\sigma_k\)</span> that contains all
+three. That algebra is the entire content of spin-<span class="math notranslate nohighlight">\(\tfrac12\)</span>, and every result in this notebook
+is a consequence of it.</p>
+<ol class="arabic simple">
+<li><p>Take the matrices <code class="docutils literal notranslate"><span class="pre">SIGMA_X</span></code>, <code class="docutils literal notranslate"><span class="pre">SIGMA_Y</span></code>, <code class="docutils literal notranslate"><span class="pre">SIGMA_Z</span></code> from the setup.</p></li>
+<li><p>Compute the three commutators with the <code class="docutils literal notranslate"><span class="pre">commutator</span></code> helper and confirm with <code class="docutils literal notranslate"><span class="pre">numpy.allclose</span></code>
+that they equal <code class="docutils literal notranslate"><span class="pre">2j*SIGMA_Z</span></code>, <code class="docutils literal notranslate"><span class="pre">2j*SIGMA_X</span></code>, <code class="docutils literal notranslate"><span class="pre">2j*SIGMA_Y</span></code>.</p></li>
+<li><p>Confirm the anticommutators <code class="docutils literal notranslate"><span class="pre">anticommutator(SIGMA_i,</span> <span class="pre">SIGMA_j)</span></code> vanish for <span class="math notranslate nohighlight">\(i\ne j\)</span> and that
+each <code class="docutils literal notranslate"><span class="pre">SIGMA_i</span> <span class="pre">&#64;</span> <span class="pre">SIGMA_i</span></code> equals <code class="docutils literal notranslate"><span class="pre">ID2</span></code>.</p></li>
+<li><p>Verify the product identity on a representative pair, e.g. <code class="docutils literal notranslate"><span class="pre">SIGMA_X</span> <span class="pre">&#64;</span> <span class="pre">SIGMA_Y</span></code> equals
+<code class="docutils literal notranslate"><span class="pre">1j*SIGMA_Z</span></code>. Note that <span class="math notranslate nohighlight">\(S=\tfrac12 \sigma\)</span> turns the first relation into the angular-momentum
+algebra <span class="math notranslate nohighlight">\([S_x,S_y]=iS_z\)</span> (<span class="math notranslate nohighlight">\(\hbar=1\)</span>).</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[σx,σy]=2iσz: True; [σy,σz]=2iσx: True; [σz,σx]=2iσy: True
+{σi,σj}=0 (i≠j): True;  σ²=I: True
+product identity σxσy=iσz (cyclic): True;  with S=½σ this is [Sx,Sy]=iSz (ℏ=1)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1">
+<h3>Validation 1<a class="headerlink" href="#validation-1" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Pauli matrices satisfy the full algebra: [σx,σy]=2iσz (cyclic), {σi,σj}=0 for i≠j, σ²=I, and σiσj=δijI+iεijkσk
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-commutator-as-the-test-for-compatibility">
+<h2>Exercise 2 — The commutator as the test for compatibility<a class="headerlink" href="#exercise-2-the-commutator-as-the-test-for-compatibility" title="Link to this heading">#</a></h2>
+<p>The sequential Stern–Gerlach destruction of <a class="reference internal" href="stern-gerlach-qubit.html"><span class="std std-doc">§6.4</span></a> is governed by the commutator. <span class="math notranslate nohighlight">\(\sigma_z\)</span> and
+<span class="math notranslate nohighlight">\(\sigma_x\)</span> are <strong>incompatible</strong> (<span class="math notranslate nohighlight">\([\sigma_z,\sigma_x]\ne0\)</span>), so a state perfectly definite along
+<span class="math notranslate nohighlight">\(z\)</span> is <em>maximally</em> uncertain along <span class="math notranslate nohighlight">\(x\)</span>; a <strong>compatible</strong> pair, one with a vanishing commutator,
+can instead be jointly sharp <a class="reference internal" href="#equation-eq-compatible">Eq. 523</a>. For an observable with eigenvalues <span class="math notranslate nohighlight">\(\pm1\)</span> the
+largest variance any state can produce is <span class="math notranslate nohighlight">\(1\)</span>, so “maximal” below is meant literally.</p>
+<ol class="arabic simple">
+<li><p>Compute <span class="math notranslate nohighlight">\([\sigma_z,\sigma_x]\)</span> with the <code class="docutils literal notranslate"><span class="pre">commutator</span></code> helper and confirm it is non-zero —
+incompatible.</p></li>
+<li><p>In the <span class="math notranslate nohighlight">\(\sigma_z\)</span>-eigenstate <span class="math notranslate nohighlight">\(|{+}z\rangle=\)</span><code class="docutils literal notranslate"><span class="pre">numpy.array([1,0])</span></code>, compute
+<span class="math notranslate nohighlight">\(\langle\sigma_x\rangle\)</span> with the <code class="docutils literal notranslate"><span class="pre">expectation</span></code> helper and <span class="math notranslate nohighlight">\((\Delta\sigma_x)^2\)</span> with the
+<code class="docutils literal notranslate"><span class="pre">dispersion</span></code> helper squared.</p></li>
+<li><p>Find <span class="math notranslate nohighlight">\(\langle\sigma_x\rangle=0\)</span> and <span class="math notranslate nohighlight">\((\Delta\sigma_x)^2=1\)</span> — the maximum possible for an
+observable with eigenvalues <span class="math notranslate nohighlight">\(\pm1\)</span> (no common eigenbasis).</p></li>
+<li><p>Contrast with the compatible pair <span class="math notranslate nohighlight">\((\sigma_z,\sigma_z^2)\)</span>: <span class="math notranslate nohighlight">\([\sigma_z,\sigma_z^2]=0\)</span>, and both
+are perfectly definite in <span class="math notranslate nohighlight">\(|{+}z \rangle\)</span>. The contrast between the two pairs is the
+sequential experiment, told algebraically.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[σz,σx] ≠ 0 (incompatible): True
+in |+z⟩:  ⟨σx⟩ = 0.000,  (Δσx)² = 1.000   (maximal — eigenvalues ±1)
+[σz,σz²] = 0 (compatible): True;  both definite in |+z⟩: True
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-2">
+<h3>Validation 2<a class="headerlink" href="#validation-2" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  an incompatible observable is maximally uncertain in an eigenstate of its partner: σx has ⟨σx⟩=0 and (Δσx)²=1 in |+z⟩   [max|Δ| = 0 (rtol=1e-06, atol=1e-12)]
+✓  the commutator is the test for compatibility: [σz,σx]≠0 (incompatible, cannot be jointly sharp) while [σz,σz²]=0 (compatible, both definite)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-deriving-the-uncertainty-relation">
+<h2>Exercise 3 — Deriving the uncertainty relation<a class="headerlink" href="#exercise-3-deriving-the-uncertainty-relation" title="Link to this heading">#</a></h2>
+<p>The Robertson relation is not asserted in this course; it is <em>derived</em>, and the derivation is
+three lines of Hilbert-space geometry <a class="reference internal" href="#equation-eq-uncertainty">Eq. 524</a>. With the <strong>shifted</strong> operators
+<span class="math notranslate nohighlight">\(\delta A=A-\langle A\rangle I\)</span> and <span class="math notranslate nohighlight">\(\delta B=B-\langle B\rangle I\)</span> the variance is
+<span class="math notranslate nohighlight">\((\Delta A)^2=\langle\delta A^2\rangle\)</span>; <strong>Cauchy–Schwarz</strong> (<a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a>), applied to <span class="math notranslate nohighlight">\(|\delta A\,
+\psi\rangle\)</span> and <span class="math notranslate nohighlight">\(|\delta B\,\psi\rangle\)</span>, bounds <span class="math notranslate nohighlight">\(\langle\delta A^2\rangle\langle\delta
+B^2\rangle\ge|\langle\delta A\,\delta B\rangle|^2\)</span>; and the product splits as <span class="math notranslate nohighlight">\(\delta A\,\delta B=
+\tfrac12\{\delta A,\delta B\}+\tfrac12[A,B]\)</span> into a Hermitian part with real expectation and an
+anti-Hermitian part with purely imaginary expectation, so their squares simply add. Dropping the
+non-negative anticommutator square is what turns that equality into the inequality. The whole
+argument used nothing but the inner product, so it is checked below on <em>random</em> Hermitian
+observables on <span class="math notranslate nohighlight">\(\mathbb{C}^3\)</span> and a random state: the uncertainty principle is Cauchy–Schwarz
+plus non-commutation, and nothing else.</p>
+<ol class="arabic simple">
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">robertson_rhs(A,</span> <span class="pre">B,</span> <span class="pre">psi)</span></code>, the Robertson lower bound <span class="math notranslate nohighlight">\(\tfrac12|\langle[A,B]\rangle|\)</span>
+<a class="reference internal" href="#equation-eq-uncertainty">Eq. 524</a>: half the magnitude of the commutator’s expectation value,
+<code class="docutils literal notranslate"><span class="pre">0.5</span> <span class="pre">*</span> <span class="pre">numpy.abs(numpy.vdot(psi,</span> <span class="pre">commutator(A,</span> <span class="pre">B)</span> <span class="pre">&#64;</span> <span class="pre">psi))</span></code>. It is the floor the rest of this
+exercise derives, and the object the notebook is named for.</p></li>
+<li><p>Build Hermitian <span class="math notranslate nohighlight">\(A,B\)</span> on <span class="math notranslate nohighlight">\(\mathbb{C}^3\)</span> and a unit state, and form the shifted operators
+<span class="math notranslate nohighlight">\(\delta A\)</span> and <span class="math notranslate nohighlight">\(\delta B\)</span>.</p></li>
+<li><p>Verify the Cauchy–Schwarz step, <span class="math notranslate nohighlight">\(\langle\delta A^2\rangle\langle\delta B^2\rangle\ge
+|\langle\delta A\, \delta B\rangle|^2\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.vdot</span></code> for each inner product).</p></li>
+<li><p>Confirm <span class="math notranslate nohighlight">\(\langle\{\delta A,\delta B\}\rangle\)</span> is real and <span class="math notranslate nohighlight">\(\langle[A,B]\rangle\)</span> purely
+imaginary, so <span class="math notranslate nohighlight">\(|\langle\delta A\,\delta B\rangle|^2=\big(\tfrac12 \langle\{\delta A,\delta
+B\}\rangle\big)^2+\big(\tfrac12|\langle[A,B]\rangle|\big)^2\)</span>.</p></li>
+<li><p>Confirm what survives when the anticommutator square is dropped: <span class="math notranslate nohighlight">\(\Delta A\,\Delta
+B\ge\tfrac12|\langle[A,B]\rangle|\)</span>, your <code class="docutils literal notranslate"><span class="pre">robertson_rhs</span></code> against the product of two
+<code class="docutils literal notranslate"><span class="pre">dispersion</span></code> values.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3) Cauchy–Schwarz ⟨δA²⟩⟨δB²⟩ = 49.2950 ≥ |⟨δAδB⟩|² = 20.1564: True
+(4) ⟨{δA,δB}⟩ real (Im=-4.4e-16); ⟨[A,B]⟩ imaginary (Re=-5.6e-16)
+(5) ΔA·ΔB = 7.0210 ≥ ½|⟨[A,B]⟩| = 4.4322: True
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-3">
+<h3>Validation 3<a class="headerlink" href="#validation-3" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  ΔA·ΔB ≥ ½|⟨[A,B]⟩| follows from Cauchy–Schwarz: |⟨δAδB⟩|² splits into anticommutator + commutator squares, and the relation holds for all tested observables and states
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-the-spin-uncertainty-relation-verified-and-visualized">
+<h2>Exercise 4 — The spin uncertainty relation, verified and visualized<a class="headerlink" href="#exercise-4-the-spin-uncertainty-relation-verified-and-visualized" title="Link to this heading">#</a></h2>
+<p>Specialized to the spin components, the relation reads <span class="math notranslate nohighlight">\(\Delta S_x\,\Delta S_y\ge\tfrac12|\langle
+S_z\rangle|\)</span>, because <span class="math notranslate nohighlight">\([S_x,S_y]=iS_z\)</span> turns the commutator on the right into the third component
+itself <a class="reference internal" href="#equation-eq-uncertainty">Eq. 524</a>. The striking feature is that this floor is not a number: it <em>moves
+with the state</em>, through <span class="math notranslate nohighlight">\(\langle S_z\rangle\)</span>. A one-parameter family of qubit states is enough to
+watch it move.</p>
+<ol class="arabic simple">
+<li><p>Parametrize qubit states on the Bloch sphere, <span class="math notranslate nohighlight">\(|\psi(\theta,\varphi)\rangle=
+\cos\tfrac{\theta}{2}|{+}z\rangle+e^{i\varphi}\sin\tfrac{\theta}{2}|{-}z\rangle\)</span> (a light
+preview of <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>), sweeping <span class="math notranslate nohighlight">\(\theta\)</span> at a fixed generic <span class="math notranslate nohighlight">\(\varphi\)</span>.</p></li>
+<li><p>For each state compute <span class="math notranslate nohighlight">\(\Delta S_x\)</span>, <span class="math notranslate nohighlight">\(\Delta S_y\)</span> with the <code class="docutils literal notranslate"><span class="pre">dispersion</span></code> helper and the bound
+<span class="math notranslate nohighlight">\(\tfrac12|\langle S_z\rangle|\)</span> with the <code class="docutils literal notranslate"><span class="pre">robertson_rhs</span></code> you wrote in Exercise 3 (which returns
+exactly that, since <span class="math notranslate nohighlight">\([S_x,S_y]=iS_z\)</span>).</p></li>
+<li><p>Confirm <span class="math notranslate nohighlight">\(\Delta S_x\,\Delta S_y\ge\)</span> the bound everywhere.</p></li>
+<li><p>Plot the product and the bound against <span class="math notranslate nohighlight">\(\theta\)</span>, so that the bound is seen to be
+<em>state-dependent</em> (through <span class="math notranslate nohighlight">\(\langle S_z\rangle\)</span>) — uncertainty is a trade-off set by the
+state, not a fixed number.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ΔSx·ΔSy ≥ ½|⟨Sz⟩| across the state family (φ=1.0): True
+  at θ=0 (|+z⟩): product = 0.2500, bound = 0.2500  (saturated)
+  at θ=π/2:      product = 0.1137, bound = 0.0020  (slack)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-4">
+<h3>Validation 4<a class="headerlink" href="#validation-4" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the spin-component uncertainty relation ΔSx·ΔSy ≥ ½|⟨Sz⟩| holds across the whole Bloch-sphere family of states
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-spin-uncertainty">
+<img alt="../../_images/9e078e92696165767586ac575c75535a8e5635ad302083708a566056e07bd3b7.png" src="../../_images/9e078e92696165767586ac575c75535a8e5635ad302083708a566056e07bd3b7.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 520 </span><span class="caption-text"><strong>The uncertainty relation is a state-dependent trade-off.</strong> Across a family of qubit states (sweeping the polar angle <span class="math notranslate nohighlight">\(\theta\)</span> at a fixed azimuth), the uncertainty product <span class="math notranslate nohighlight">\(\Delta S_x\,\Delta S_y\)</span> (amber) never falls below the Robertson bound <span class="math notranslate nohighlight">\(\tfrac12|\langle S_z\rangle|\)</span> (ink); the shaded gap is the <em>slack</em>. The bound itself moves with the state — it is largest where the atom is most definite along <span class="math notranslate nohighlight">\(z\)</span> (the poles, <span class="math notranslate nohighlight">\(\theta=0,\pi\)</span>), and there the product <strong>saturates</strong>, touching the bound exactly. Uncertainty is not a fixed number stamped on the observables; it is a trade-off whose floor each state sets through <span class="math notranslate nohighlight">\(\langle S_z\rangle\)</span>. The principle is the <em>inequality</em>, true everywhere; the minimum-uncertainty states are where it becomes an equality.</span><a class="headerlink" href="#fig-spin-uncertainty" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-minimum-uncertainty-states">
+<h2>Exercise 5 — Minimum-uncertainty states<a class="headerlink" href="#exercise-5-minimum-uncertainty-states" title="Link to this heading">#</a></h2>
+<p>The relation is an inequality, but for special states it closes into an equality. The
+<span class="math notranslate nohighlight">\(\sigma_z\)</span>-eigenstate <span class="math notranslate nohighlight">\(|{+}z\rangle\)</span> is one of them: it <strong>saturates</strong> the spin uncertainty
+relation, <span class="math notranslate nohighlight">\(\Delta S_x\,\Delta S_y=\tfrac12|\langle S_z\rangle|=\tfrac14\)</span> <a class="reference internal" href="#equation-eq-saturation">Eq. 525</a>, which
+is the smallest product the pair <span class="math notranslate nohighlight">\((S_x,S_y)\)</span> permits any state at all. Such
+minimum-uncertainty states are the most “classical” ones quantum mechanics allows; the Gaussian
+wave packet is their position–momentum analogue (<a class="reference internal" href="position-representation.html"><span class="std std-doc">§6.9</span></a>).</p>
+<ol class="arabic simple">
+<li><p>For <span class="math notranslate nohighlight">\(|{+}z\rangle\)</span>, compute <span class="math notranslate nohighlight">\(\Delta S_x\)</span> and <span class="math notranslate nohighlight">\(\Delta S_y\)</span> with the <code class="docutils literal notranslate"><span class="pre">dispersion</span></code> helper and
+their product.</p></li>
+<li><p>Compute the bound <span class="math notranslate nohighlight">\(\tfrac12|\langle S_z\rangle|\)</span> with the <code class="docutils literal notranslate"><span class="pre">robertson_rhs</span></code> you wrote in
+Exercise 3.</p></li>
+<li><p>Confirm product and bound are equal (<span class="math notranslate nohighlight">\(\tfrac14=\tfrac14\)</span>) — a minimum-uncertainty state.</p></li>
+<li><p>Note that a generic state (e.g. <span class="math notranslate nohighlight">\(\theta=1,\varphi=1\)</span>, from the <code class="docutils literal notranslate"><span class="pre">qubit</span></code> you built in
+Exercise 4) does <strong>not</strong> saturate, leaving slack.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|+z⟩:  ΔSx·ΔSy = 0.2500,  ½|⟨Sz⟩| = 0.2500   saturated: True
+generic (θ=1,φ=1):  ΔSx·ΔSy = 0.1572,  ½|⟨Sz⟩| = 0.1351   slack: 0.0222
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-5">
+<h3>Validation 5<a class="headerlink" href="#validation-5" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  |+z⟩ saturates the uncertainty relation, ΔSx·ΔSy = ½|⟨Sz⟩| = ¼ — a minimum-uncertainty state   [got 0.25 vs expected 0.25 (rtol=1e-12, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-compatible-observables-and-a-complete-set">
+<h2>Exercise 6 — Compatible observables and a complete set<a class="headerlink" href="#exercise-6-compatible-observables-and-a-complete-set" title="Link to this heading">#</a></h2>
+<p>When observables commute the trade-off disappears altogether: they can be simultaneously sharp,
+and their joint eigenvalues label states <a class="reference internal" href="#equation-eq-compatible">Eq. 523</a>, <a class="reference internal" href="#equation-eq-cso">Eq. 526</a>. <span class="math notranslate nohighlight">\(S_z\)</span> and <span class="math notranslate nohighlight">\(S_z^2\)</span> are
+the simplest such pair — any function of an observable commutes with it — and a <em>maximal</em> set of
+mutually commuting observables, a <strong>complete set of commuting observables</strong>, labels every state of
+a system uniquely.</p>
+<ol class="arabic simple">
+<li><p>Compute <span class="math notranslate nohighlight">\([S_z,S_z^2]\)</span> with the <code class="docutils literal notranslate"><span class="pre">commutator</span></code> helper (<code class="docutils literal notranslate"><span class="pre">S_Z</span> <span class="pre">&#64;</span> <span class="pre">S_Z</span></code> for <span class="math notranslate nohighlight">\(S_z^2\)</span>) and confirm it is
+the zero matrix (<code class="docutils literal notranslate"><span class="pre">numpy.allclose</span></code>).</p></li>
+<li><p>Confirm both <span class="math notranslate nohighlight">\(\Delta S_z\)</span> and <span class="math notranslate nohighlight">\(\Delta S_z^2\)</span> are zero in <span class="math notranslate nohighlight">\(|{+}z\rangle\)</span> with the <code class="docutils literal notranslate"><span class="pre">dispersion</span></code>
+helper — both perfectly definite.</p></li>
+<li><p>Note that the commuting bound <span class="math notranslate nohighlight">\(\tfrac12|\langle[S_z,S_z^2]\rangle|=0\)</span> — your Exercise 3
+<code class="docutils literal notranslate"><span class="pre">robertson_rhs</span></code> returns zero here — so the relation is trivially satisfied, with no trade-off.</p></li>
+<li><p>Reason in prose: joint eigenstates of commuting observables carry joint eigenvalue labels, and
+a <strong>complete set of commuting observables</strong> labels every state uniquely — the way the hydrogen
+atom’s states are tagged by <span class="math notranslate nohighlight">\((n,\ell,m,m_s)\)</span> in <a class="reference internal" href="hydrogen-atom.html"><span class="std std-doc">§6.17</span></a>. That labelling is
+how quantum states are catalogued.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Sz, Sz²] = 0 (compatible): True
+in |+z⟩:  ΔSz = 0.00e+00,  ΔSz² = 0.00e+00   (both definite)
+½|⟨[Sz,Sz²]⟩| = 0.00e+00   (zero: no uncertainty trade-off)
+→ commuting observables carry joint eigenvalue labels; a complete set labels states uniquely (e.g. hydrogen&#39;s n,ℓ,m,m_s, §6.17).
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-6">
+<h3>Validation 6<a class="headerlink" href="#validation-6" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  compatible observables ([Sz,Sz²]=0) can be simultaneously definite (both sharp in |+z⟩) and jointly label states
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-the-general-uncertainty-relation-in-a-larger-space-student">
+<h2>Exercise 7 — The general uncertainty relation in a larger space <em>(student)</em><a class="headerlink" href="#exercise-7-the-general-uncertainty-relation-in-a-larger-space-student" title="Link to this heading">#</a></h2>
+<p>The relation is universal — it holds for <em>any</em> pair of observables on <em>any</em> space, not just spins,
+because its proof used nothing beyond the inner product <a class="reference internal" href="#equation-eq-uncertainty">Eq. 524</a>. Random Hermitian
+observables on <span class="math notranslate nohighlight">\(\mathbb{C}^3\)</span> are therefore a fair and unsentimental test of it, and the
+<strong>saturation ratio</strong> <span class="math notranslate nohighlight">\(\tfrac12|\langle[A,B]\rangle|/(\Delta A\,\Delta B)\)</span>, which lies in <span class="math notranslate nohighlight">\([0,1]\)</span>,
+says how near such a state comes to the floor.</p>
+<ol class="arabic simple">
+<li><p>Build Hermitian <span class="math notranslate nohighlight">\(A,B\)</span> on <span class="math notranslate nohighlight">\(\mathbb{C}^3\)</span> (symmetrize random complex matrices, <code class="docutils literal notranslate"><span class="pre">M</span> <span class="pre">+</span> <span class="pre">M.conj().T</span></code>)
+and a normalized random state.</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(\Delta A\)</span>, <span class="math notranslate nohighlight">\(\Delta B\)</span> with the <code class="docutils literal notranslate"><span class="pre">dispersion</span></code> helper and the bound with the
+<code class="docutils literal notranslate"><span class="pre">robertson_rhs</span></code> you wrote in Exercise 3.</p></li>
+<li><p>Confirm <span class="math notranslate nohighlight">\(\Delta A\,\Delta B\ge\tfrac12| \langle[A,B]\rangle|\)</span> and report the saturation ratio.</p></li>
+<li><p>Observe that the ratio is usually well below <span class="math notranslate nohighlight">\(1\)</span> — the bound is loose unless the state is
+special. The inequality is universal, but only rarely tight.</p></li>
+</ol>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ΔA·ΔB = 3.0048 ≥ ½|⟨[A,B]⟩| = 0.8538:  holds = True
+saturation ratio = 0.284   (≪ 1: the bound is loose for a generic state)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-7">
+<h3>Validation 7<a class="headerlink" href="#validation-7" title="Link to this heading">#</a></h3>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Robertson uncertainty relation holds for an arbitrary pair of Hermitian observables on ℂ³, with a saturation ratio in [0,1]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-8-the-uncertainty-principle-is-an-algebraic-fact-synthesis">
+<h2>Exercise 8 — The uncertainty principle is an algebraic fact <em>(synthesis)</em><a class="headerlink" href="#exercise-8-the-uncertainty-principle-is-an-algebraic-fact-synthesis" title="Link to this heading">#</a></h2>
+<p>The strangeness of the sequential Stern–Gerlach experiment was never about disturbing delicate atoms.
+It was the <strong>algebra</strong>. Two observables that fail to commute cannot both be sharp in any state, and
+<em>how</em> sharply they can be co-defined is bounded below by their commutator: <span class="math notranslate nohighlight">\(\Delta A\,\Delta B\ge
+\tfrac12|\langle[A,B]\rangle|\)</span>. The Pauli matrices made this concrete — the three spin components
+pairwise anticommute and fail to commute, so definiteness along one axis forces maximal uncertainty
+along the others — and <strong>Cauchy–Schwarz</strong>, the same inequality that bounded amplitudes in <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a>, made it
+general. Minimum-uncertainty states saturate the bound; commuting observables escape it entirely and
+can be jointly sharp, labelling states by their joint eigenvalues.</p>
+<p>There is no new computation to do here; the theorem is the result. “You cannot know both at
+once” sounds like a limitation imposed on us by clumsy instruments. It is the opposite — a fact about
+the observables themselves, true whether or not anyone is looking, and we derived it in three lines
+from the geometry of the Hilbert space. The next notebook (<a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>) finally sets the state in motion: the
+dynamics postulate worked out, the Hamiltonian generating unitary evolution, and the spin precessing
+on the very Bloch sphere this uncertainty trade-off lives on.</p>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>The algebra behind the incompatibility that Stern–Gerlach showed and the variance measured — and the
+uncertainty principle as its theorem.</p>
+<ul class="simple">
+<li><p><strong>The Pauli algebra</strong> <a class="reference internal" href="#equation-eq-pauli">Eq. 521</a>, <a class="reference internal" href="#equation-eq-pauli-algebra">Eq. 522</a>: <span class="math notranslate nohighlight">\([\sigma_x,\sigma_y]=2i\sigma_z\)</span>
+(cyclic), <span class="math notranslate nohighlight">\(\{\sigma_i,\sigma_j\}=0\)</span>, <span class="math notranslate nohighlight">\(\sigma_i^2=I\)</span>, <span class="math notranslate nohighlight">\(\sigma_i\sigma_j=\delta_{ij}I+i\varepsilon_{ijk}
+\sigma_k\)</span> — equivalently <span class="math notranslate nohighlight">\([S_x,S_y]=iS_z\)</span>, the angular-momentum algebra.</p></li>
+<li><p><strong>Compatibility</strong> <a class="reference internal" href="#equation-eq-compatible">Eq. 523</a>: <span class="math notranslate nohighlight">\([A,B]=0\)</span> means jointly sharp; <span class="math notranslate nohighlight">\([A,B]\ne0\)</span> means not — and
+<span class="math notranslate nohighlight">\(\sigma_x\)</span> is <em>maximally</em> uncertain (<span class="math notranslate nohighlight">\((\Delta\sigma_x)^2=1\)</span>) in a <span class="math notranslate nohighlight">\(\sigma_z\)</span>-eigenstate.</p></li>
+<li><p><strong>The Robertson relation, derived</strong> <a class="reference internal" href="#equation-eq-uncertainty">Eq. 524</a>: <span class="math notranslate nohighlight">\(\Delta A\,\Delta B\ge\tfrac12|\langle[A,B]
+\rangle|\)</span>, from Cauchy–Schwarz (<a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a>) plus the commutator/anticommutator split — a theorem about
+operators, true of every state, <em>not</em> measurement disturbance.</p></li>
+<li><p><strong>Minimum-uncertainty states</strong> <a class="reference internal" href="#equation-eq-saturation">Eq. 525</a>: <span class="math notranslate nohighlight">\(|{+}z\rangle\)</span> saturates <span class="math notranslate nohighlight">\(\Delta S_x\,\Delta S_y
+=\tfrac14=\tfrac12|\langle S_z\rangle|\)</span> — the most classical states allowed.</p></li>
+<li><p><strong>Complete sets</strong> <a class="reference internal" href="#equation-eq-cso">Eq. 526</a>: commuting observables can be jointly sharp and label states by joint
+eigenvalues (hydrogen’s <span class="math notranslate nohighlight">\(n,\ell,m,m_s\)</span>, <a class="reference internal" href="hydrogen-atom.html"><span class="std std-doc">§6.17</span></a>).</p></li>
+</ul>
+<p>The uncertainty principle is Cauchy–Schwarz plus non-commutation. The commutator is literally the
+floor on how much two observables must trade off — an algebraic fact, true whether or not anyone looks.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Time evolution (<a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>)</strong>: the Hamiltonian as generator, <span class="math notranslate nohighlight">\(U(t)=e^{-iHt/\hbar}\)</span>, spin precession and
+Rabi oscillations — the state set in motion.</p></li>
+<li><p><strong>The Bloch sphere (<a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>)</strong>: the geometry of qubit states, where this uncertainty trade-off is
+visible.</p></li>
+<li><p><strong>Position and momentum (<a class="reference internal" href="position-representation.html"><span class="std std-doc">§6.9</span></a>)</strong>: <span class="math notranslate nohighlight">\([x,p]=i\hbar\)</span> gives <span class="math notranslate nohighlight">\(\Delta x\,\Delta p\ge\hbar/2\)</span>, with the
+Gaussian as the minimum-uncertainty state.</p></li>
+<li><p><strong>The angular-momentum algebra generalized (<a class="reference internal" href="angular-momentum-algebra.html"><span class="std std-doc">§6.14</span></a>)</strong>: <span class="math notranslate nohighlight">\([J_i,J_j]=i\hbar\varepsilon_{ijk}J_k\)</span>, the
+full theory of spin and orbital angular momentum, and complete sets of commuting observables (<a class="reference internal" href="hydrogen-atom.html"><span class="std std-doc">§6.17</span></a>).</p></li>
+<li><p><strong>Cross-reference</strong> <a class="reference internal" href="complex-vector-spaces.html"><span class="std std-doc">§6.1</span></a> (Cauchy–Schwarz), <a class="reference internal" href="operators-spectral-theorem.html"><span class="std std-doc">§6.2</span></a> (commutators / common eigenbasis), <a class="reference internal" href="stern-gerlach-qubit.html"><span class="std std-doc">§6.4</span></a> (the
+experiment), <a class="reference internal" href="postulates.html"><span class="std std-doc">§6.5</span></a> (variance), and forward to <a class="reference internal" href="time-evolution.html"><span class="std std-doc">§6.7</span></a>, <a class="reference internal" href="bloch-sphere-entanglement.html"><span class="std std-doc">§6.8</span></a>, <a class="reference internal" href="position-representation.html"><span class="std std-doc">§6.9</span></a>, <a class="reference internal" href="angular-momentum-algebra.html"><span class="std std-doc">§6.14</span></a>, <a class="reference internal" href="hydrogen-atom.html"><span class="std std-doc">§6.17</span></a>.</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/06-quantum-mechanics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="postulates.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6.5 The Postulates of Quantum Mechanics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="time-evolution.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">6.7 Time Evolution and the Schrödinger Equation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-pauli-matrices-and-spin-operators">The Pauli matrices and spin operators</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-algebra-commutators-and-the-product-identity">The algebra: commutators and the product identity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compatible-versus-incompatible-observables">Compatible versus incompatible observables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-robertson-uncertainty-relation-derived">The Robertson uncertainty relation — derived</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimum-uncertainty-states-and-complete-sets">Minimum-uncertainty states and complete sets</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-pauli-algebra">Exercise 1 — The Pauli algebra</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1">Validation 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-commutator-as-the-test-for-compatibility">Exercise 2 — The commutator as the test for compatibility</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2">Validation 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-deriving-the-uncertainty-relation">Exercise 3 — Deriving the uncertainty relation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3">Validation 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-spin-uncertainty-relation-verified-and-visualized">Exercise 4 — The spin uncertainty relation, verified and visualized</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4">Validation 4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-minimum-uncertainty-states">Exercise 5 — Minimum-uncertainty states</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5">Validation 5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-compatible-observables-and-a-complete-set">Exercise 6 — Compatible observables and a complete set</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6">Validation 6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-the-general-uncertainty-relation-in-a-larger-space-student">Exercise 7 — The general uncertainty relation in a larger space <em>(student)</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7">Validation 7</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-the-uncertainty-principle-is-an-algebraic-fact-synthesis">Exercise 8 — The uncertainty principle is an algebraic fact <em>(synthesis)</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

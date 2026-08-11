@@ -1,0 +1,1579 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="8.11 Real Band Structures: The Empirical Pseudopotential Method" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/epm-band-structures.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Everything Movement III has built converges on this notebook’s promise: real materials. The empirical pseudopotential method (EPM) of Cohe..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Everything Movement III has built converges on this notebook’s promise: real materials. The empirical pseudopotential method (EPM) of Cohe..." />
+
+    <title>8.11 Real Band Structures: The Empirical Pseudopotential Method &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/08-electronic-structure/epm-band-structures';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/epm-band-structures.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="8.12 Berry Phase, Wannier Functions, and the SSH Model" href="berry-wannier-ssh.html" />
+    <link rel="prev" title="8.10 Plane Waves and Pseudopotentials" href="plane-waves-pseudopotentials.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/08-electronic-structure/epm-band-structures.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/08-electronic-structure/epm-band-structures.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/08-electronic-structure/epm-band-structures.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/08-electronic-structure/epm-band-structures.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>8.11 Real Band Structures: The Empirical Pseudopotential Method</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#symmetry-pares-the-potential-to-six-numbers">Symmetry pares the potential to six numbers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-a-semiconductor-s-band-structure">Reading a semiconductor’s band structure</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-six-numbers-into-a-matrix">Exercise 1 — Six numbers into a matrix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-symmetry-delivered-not-declared">Validation 1 — symmetry, delivered not declared</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-silicon">Exercise 2 — Silicon</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-silicon-s-identity">Validation 2 — silicon’s identity</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-basis-lesson-empirical-means-model-plus-truncation">Exercise 3 — The basis lesson: empirical means model <em>plus</em> truncation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-the-drift-measured">Validation 3 — the drift, measured</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-gallium-arsenide-and-the-ionicity-switch">Exercise 4 — Gallium arsenide, and the ionicity switch</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-direct-and-ionic">Validation 4 — direct, and ionic</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-densities-of-states-by-monte-carlo">Exercise 5 — Densities of states, by Monte Carlo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-the-gap-is-empty">Validation 5 — the gap is empty</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-verdict-and-the-handshake">Exercise 6 — The verdict, and the handshake</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-the-fit-still-stands">Validation 6 — the fit still stands</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="real-band-structures-the-empirical-pseudopotential-method">
+<h1>8.11 Real Band Structures: The Empirical Pseudopotential Method<a class="headerlink" href="#real-band-structures-the-empirical-pseudopotential-method" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VIII — Electronic Structure and Many-Body Matter
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;8.11
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Three numbers and a matrix produce silicon. Cohen and Bergstresser&#x27;s 1966 form factors — three per element, fitted to optical data — turn the plane-wave secular problem of 8.10 into the genuine band structures of Si and GaAs: the indirect gap with its conduction minimum famously parked at 85% of the way to X, the direct gap that makes gallium arsenide glow, the ionicity splitting switched on and off by the antisymmetric factors, and the honest lesson that an empirical model&#x27;s parameters belong to its basis. The volume&#x27;s handshake with the companion MMM course happens here, at the silicon band structure both courses compute.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;130–160 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Everything Movement III has built converges on this notebook’s promise: <em>real
+materials</em>. The empirical pseudopotential method (EPM) of Cohen and
+Bergstresser <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id92" title="Marvin L. Cohen and T. K. Bergstresser. Band structures and pseudopotential form factors for fourteen semiconductors of the diamond and zinc-blende structures. Physical Review, 141:789–796, 1966. doi:10.1103/PhysRev.141.789.">CB66</a>]</span> is the licensed shortcut of
+<a class="reference internal" href="plane-waves-pseudopotentials.html"><span class="std std-doc">§8.10</span></a>: rather than constructing
+potentials from atoms and fighting the nodal catch, fit the crystal’s few
+symmetry-allowed Fourier coefficients directly to measured optical gaps. For
+diamond- and zinc-blende semiconductors only three symmetric (and, for the
+ionic compounds, three antisymmetric) coefficients survive symmetry — six
+numbers for GaAs, three for Si — and with them the full valence and low
+conduction bands of fourteen semiconductors emerged in 1966 to
+tenth-of-an-eV fidelity. It remains the fastest honest route from “lattice
+constant plus a handful of parameters” to “the band structure in a textbook.”</p>
+<p>The build: the diamond/zinc-blende potential matrix (structure factors,
+symmetric and antisymmetric channels) assembled and its symmetry content
+verified at <span class="math notranslate nohighlight">\(\Gamma\)</span>; silicon’s band structure along <span class="math notranslate nohighlight">\(L\)</span>–<span class="math notranslate nohighlight">\(\Gamma\)</span>–<span class="math notranslate nohighlight">\(X\)</span> with
+its triply degenerate valence top, <span class="math notranslate nohighlight">\(12.6\)</span>-eV valence width, and the
+conduction minimum at <span class="math notranslate nohighlight">\(0.85\)</span> of <span class="math notranslate nohighlight">\(\Gamma X\)</span> — the indirect gap that makes
+silicon silicon; a lesson about the basis (at the 1966 paper’s own
+51-plane-wave truncation the valley bottoms at <span class="math notranslate nohighlight">\(X\)</span> instead, and the gap sits
+<span class="math notranslate nohighlight">\(0.1\)</span> eV higher: empirical parameters, basis, and even the original paper’s
+perturbative fold-in are one package — and note that this is a lesson about
+<em>truncating</em> a basis, whereas <a class="reference internal" href="gaussian-basis-sets.html"><span class="std std-doc">§8.18</span></a> is about
+choosing a different kind of one); gallium arsenide with its direct
+<span class="math notranslate nohighlight">\(1.43\)</span>-eV gap and the
+antisymmetric factors’ ionicity splitting (<span class="math notranslate nohighlight">\(4.1\)</span> eV at <span class="math notranslate nohighlight">\(X\)</span>, ablated to zero
+by switching them off); densities of states by seeded Monte Carlo zone
+sampling; and the closing verdict table — indirect versus direct, why LEDs
+are not made of silicon — with the volume’s formal handshake to the
+companion MMM course, whose DFT silicon band structure is this figure’s
+production-code twin.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Rydberg units for band energies (the EPM
+literature’s convention; <span class="math notranslate nohighlight">\(1\,\mathrm{Ry} = 13.6057\)</span> eV converts for every
+verdict), wavevectors in units of <span class="math notranslate nohighlight">\(2\pi/a\)</span>. Lattice constants: Si
+<span class="math notranslate nohighlight">\(5.431\)</span> Å, GaAs <span class="math notranslate nohighlight">\(5.653\)</span> Å. The basis is every reciprocal vector with
+<span class="math notranslate nohighlight">\(|G|^2 \le 24\)</span> (137 plane waves, converged for these bands; Exercise 3
+measures what the 1966 paper’s own smaller basis changes). The atomic basis sits at
+<span class="math notranslate nohighlight">\(\pm\boldsymbol\tau = \pm\tfrac{a}{8}(1,1,1)\)</span>; form factors (Ry): Si
+<span class="math notranslate nohighlight">\(V^s_3 = -0.21, V^s_8 = 0.04, V^s_{11} = 0.08\)</span>; GaAs
+<span class="math notranslate nohighlight">\(V^s_3 = -0.23, V^s_8 = 0.01, V^s_{11} = 0.06\)</span> and
+<span class="math notranslate nohighlight">\(V^a_3 = 0.07, V^a_4 = 0.05, V^a_{11} = 0.01\)</span>
+<span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id92" title="Marvin L. Cohen and T. K. Bergstresser. Band structures and pseudopotential form factors for fourteen semiconductors of the diamond and zinc-blende structures. Physical Review, 141:789–796, 1966. doi:10.1103/PhysRev.141.789.">CB66</a>]</span>. Hamiltonians are complex Hermitian <code class="docutils literal notranslate"><span class="pre">numpy</span></code>
+arrays diagonalized by <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code>; valence-band maxima set
+the energy zero of every gap quote.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call
+against an independent fact: an exact degeneracy, the published gap
+targets, a measured band-extremum location, an ablation contrast. A ✓ is
+strong evidence; a ✗ is a prompt to locate the discrepancy, not an
+automatic verdict.</p>
+<p><strong>Scope.</strong> Spin–orbit coupling (which splits the valence top by
+<span class="math notranslate nohighlight">\(0.04\)</span>–<span class="math notranslate nohighlight">\(0.34\)</span> eV in these materials) and nonlocal EPM refinements are
+omitted, as in the original paper; Yu &amp; Cardona’s <em>Fundamentals of
+Semiconductors</em> carries the full story. The MMM companion course computes
+the same silicon bands with density-functional machinery (CP2K); the two
+courses deliberately meet at this figure.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="symmetry-pares-the-potential-to-six-numbers">
+<h3>Symmetry pares the potential to six numbers<a class="headerlink" href="#symmetry-pares-the-potential-to-six-numbers" title="Link to this heading">#</a></h3>
+<p>In the <a class="reference internal" href="plane-waves-pseudopotentials.html"><span class="std std-doc">§8.10</span></a> secular problem the
+crystal enters through <span class="math notranslate nohighlight">\(V_{\mathbf G}\)</span> alone. For the diamond/zinc-blende
+structure — an fcc lattice with atoms at <span class="math notranslate nohighlight">\(\pm\boldsymbol\tau\)</span>,
+<span class="math notranslate nohighlight">\(\boldsymbol\tau = \tfrac{a}{8}(1,1,1)\)</span> — the two-atom cell splits every
+coefficient into symmetric and antisymmetric parts with geometric structure
+factors (Cohen &amp; Bergstresser <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id92" title="Marvin L. Cohen and T. K. Bergstresser. Band structures and pseudopotential form factors for fourteen semiconductors of the diamond and zinc-blende structures. Physical Review, 141:789–796, 1966. doi:10.1103/PhysRev.141.789.">CB66</a>]</span>):</p>
+<div class="math notranslate nohighlight" id="equation-eq-epm-potential">
+<span class="eqno">(897)<a class="headerlink" href="#equation-eq-epm-potential" title="Link to this equation">#</a></span>\[V_{\mathbf G} = V^s_{|G|^2}\,\cos(\mathbf G\cdot\boldsymbol\tau)
+\;+\; i\,V^a_{|G|^2}\,\sin(\mathbf G\cdot\boldsymbol\tau),\]</div>
+<p>where <span class="math notranslate nohighlight">\(V^s\)</span> carries the <em>average</em> of the two atomic potentials and <span class="math notranslate nohighlight">\(V^a\)</span>
+their <em>difference</em> — identically zero for diamond structures (Si), the
+fingerprint of ionicity for zinc-blende (GaAs). On the fcc reciprocal
+lattice the shells <span class="math notranslate nohighlight">\(|G|^2 = 3, 4, 8, 11\)</span> (in <span class="math notranslate nohighlight">\((2\pi/a)^2\)</span> units) are the
+only ones both allowed by symmetry and large enough to matter before the
+coefficients’ decay (<span class="math notranslate nohighlight">\(\cos(\mathbf G\cdot\boldsymbol\tau)\)</span> kills the
+symmetric <span class="math notranslate nohighlight">\(|G|^2 = 4\)</span> shell), so <em>three numbers per channel</em> exhaust the
+model. Fitting them to a few measured optical transitions, Cohen and
+Bergstresser produced the band structures of fourteen semiconductors; the
+fit is the license, and its accuracy across features <em>not</em> fitted is the
+method’s enduring surprise.</p>
+</section>
+<section id="reading-a-semiconductor-s-band-structure">
+<h3>Reading a semiconductor’s band structure<a class="headerlink" href="#reading-a-semiconductor-s-band-structure" title="Link to this heading">#</a></h3>
+<p>The verdicts to extract, once the bands exist. The <strong>valence top</strong> at
+<span class="math notranslate nohighlight">\(\Gamma\)</span> is the triply degenerate <span class="math notranslate nohighlight">\(\Gamma_{25'}\)</span> manifold (<span class="math notranslate nohighlight">\(p\)</span>-like bonding
+states; the degeneracy is a symmetry fact and a numerical check at once).
+The <strong>fundamental gap</strong> is the distance from that top to the lowest
+conduction point <em>wherever it sits</em>: at <span class="math notranslate nohighlight">\(\Gamma\)</span> for GaAs (direct — a photon
+alone can bridge it, hence lasers and LEDs), but on the <span class="math notranslate nohighlight">\(\Delta\)</span> line at
+about <span class="math notranslate nohighlight">\(0.85 \times \Gamma X\)</span> for silicon (indirect — a phonon must supply
+the momentum, so silicon absorbs weakly and emits almost nothing;
+<a class="reference internal" href="optics-excitons.html"><span class="std std-doc">§8.15</span></a> makes this quantitative). The <strong>valence
+width</strong> (<span class="math notranslate nohighlight">\(12.6\)</span> eV in Si) measures the bonding bandwidth, and the
+<strong>ionicity splitting</strong> — gaps at <span class="math notranslate nohighlight">\(X\)</span> that open only through <span class="math notranslate nohighlight">\(V^a\)</span> — is how
+a band structure confesses that its two atoms differ.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data and instruments: the Rydberg and Bohr conversions, Cohen and
+Bergstresser’s published lattice constants and form factors, the atomic
+basis vector <span class="math notranslate nohighlight">\(\boldsymbol\tau\)</span>, the three high-symmetry points, an fcc
+reciprocal-lattice enumerator, the plane-wave secular solve of
+<a class="reference internal" href="plane-waves-pseudopotentials.html"><span class="std std-doc">§8.10</span></a> restated as a band driver, and
+a straight-segment <span class="math notranslate nohighlight">\(k\)</span>-path builder. The notebook’s own machinery — the
+diamond/zinc-blende potential matrix of <a class="reference internal" href="#equation-eq-epm-potential">Eq. 897</a>, the
+object the whole method reduces to — you build in Exercise 1.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+<span class="n">INK</span><span class="p">,</span> <span class="n">AMBER</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="s2">&quot;#16213e&quot;</span><span class="p">,</span> <span class="s2">&quot;#c0851a&quot;</span><span class="p">,</span> <span class="s2">&quot;#46506b&quot;</span>
+
+<span class="n">RY_EV</span> <span class="o">=</span> <span class="mf">13.6057</span>  <span class="c1"># data: 1 Rydberg in eV</span>
+<span class="n">BOHR_ANG</span> <span class="o">=</span> <span class="mf">0.529177</span>  <span class="c1"># data: 1 Bohr in Angstrom</span>
+
+<span class="c1"># data: Cohen-Bergstresser 1966, published fitted values — lattice constants</span>
+<span class="c1"># (Angstrom) and the three symmetric / three antisymmetric form factors (Ry)</span>
+<span class="n">CB_PARAMS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Si&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">5.431</span><span class="p">,</span> <span class="s2">&quot;vs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">3</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.21</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mi">11</span><span class="p">:</span> <span class="mf">0.08</span><span class="p">},</span> <span class="s2">&quot;va&quot;</span><span class="p">:</span> <span class="p">{}},</span>
+    <span class="s2">&quot;GaAs&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">5.653</span><span class="p">,</span>
+        <span class="s2">&quot;vs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">3</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.23</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mi">11</span><span class="p">:</span> <span class="mf">0.06</span><span class="p">},</span>
+        <span class="s2">&quot;va&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">3</span><span class="p">:</span> <span class="mf">0.07</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mi">11</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+<span class="n">TAU</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span> <span class="o">/</span> <span class="mf">8.0</span>  <span class="c1"># data: atomic basis +-tau, in units of a</span>
+
+<span class="c1"># data: high-symmetry points of the fcc zone, in 2 pi/a units</span>
+<span class="n">GAMMA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">X_PT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+<span class="n">L_PT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+
+
+<span class="c1"># instrument: a grid builder — enumerating the fcc reciprocal set by the</span>
+<span class="c1"># all-even/all-odd parity rule is lattice bookkeeping, not the lesson of any</span>
+<span class="c1"># exercise here.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fcc_reciprocal</span><span class="p">(</span><span class="n">g2_max</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The fcc reciprocal lattice (a bcc set) up to |G|^2 &lt;= g2_max.</span>
+
+<span class="sd">    Integer triples all-even or all-odd, in 2 pi/a units; the parity rule is</span>
+<span class="sd">    the fcc structure factor&#39;s selection (section 8.10).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g2_max : int</span>
+<span class="sd">        Largest |G|^2 kept, in (2 pi/a)^2 units.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Array of shape (n_G, 3) of reciprocal vectors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="n">ns</span><span class="p">,</span> <span class="n">ns</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
+    <span class="n">triples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">n1</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">n2</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">n3</span><span class="o">.</span><span class="n">ravel</span><span class="p">()],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">parity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">triples</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">triples</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">g_set</span> <span class="o">=</span> <span class="n">triples</span><span class="p">[</span><span class="n">parity</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">g_set</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">g_set</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">g2_max</span><span class="p">]</span>
+
+
+<span class="c1"># built from scratch in §8.10 (Exercise 1, as `pw_bands`); restated here as an</span>
+<span class="c1"># instrument. The kinetic diagonal plus potential, one `eigvalsh` per k, driving</span>
+<span class="c1"># bands rather than teaching them. It diagonalizes whatever `epm_hamiltonian_parts` is bound</span>
+<span class="c1"># to when it runs: the one you build in Exercise 1 (Python looks the name up</span>
+<span class="c1"># at call time, not at definition time).</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">epm_bands</span><span class="p">(</span><span class="n">material</span><span class="p">,</span> <span class="n">k_points</span><span class="p">,</span> <span class="n">n_bands</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">g2_max</span><span class="o">=</span><span class="mi">24</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EPM band energies at the given k-points (Ry).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    material : str</span>
+<span class="sd">        &quot;Si&quot; or &quot;GaAs&quot;.</span>
+<span class="sd">    k_points : array-like</span>
+<span class="sd">        Points in 2 pi/a units, shape (n_k, 3).</span>
+<span class="sd">    n_bands : int, optional</span>
+<span class="sd">        Bands returned.</span>
+<span class="sd">    g2_max : int, optional</span>
+<span class="sd">        Basis truncation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Shape (n_k, n_bands) band energies in Ry.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">g_set</span><span class="p">,</span> <span class="n">kin_unit</span><span class="p">,</span> <span class="n">v_mat</span> <span class="o">=</span> <span class="n">epm_hamiltonian_parts</span><span class="p">(</span><span class="n">material</span><span class="p">,</span> <span class="n">g2_max</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">k_points</span><span class="p">):</span>
+        <span class="n">kinetic</span> <span class="o">=</span> <span class="n">kin_unit</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">g_set</span> <span class="o">+</span> <span class="n">k</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">v_mat</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">kinetic</span><span class="p">))[:</span><span class="n">n_bands</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+
+<span class="c1"># instrument: a path builder — chaining straight segments through</span>
+<span class="c1"># high-symmetry points is plotting scaffolding, not physics anyone is asked</span>
+<span class="c1"># to learn here.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">k_path</span><span class="p">(</span><span class="o">*</span><span class="n">points</span><span class="p">,</span> <span class="n">n_per_segment</span><span class="o">=</span><span class="mi">40</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Straight-segment k-path through the given high-symmetry points.&quot;&quot;&quot;</span>
+    <span class="n">segs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">p0</span><span class="p">,</span> <span class="n">p1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">points</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">n_per_segment</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">segs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">p0</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="o">+</span> <span class="n">ts</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">p0</span><span class="p">))[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="p">)</span>
+    <span class="n">segs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">segs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-six-numbers-into-a-matrix">
+<h2>Exercise 1 — Six numbers into a matrix<a class="headerlink" href="#exercise-1-six-numbers-into-a-matrix" title="Link to this heading">#</a></h2>
+<p>The machinery first, its symmetry content as the certificate. Everything the
+empirical pseudopotential method knows about a crystal lives in one complex
+Hermitian matrix: <a class="reference internal" href="#equation-eq-epm-potential">Eq. 897</a> evaluated at every difference
+<span class="math notranslate nohighlight">\(\Delta\mathbf G = \mathbf G_i - \mathbf G_j\)</span> of the basis, with the shell
+index <span class="math notranslate nohighlight">\(|\Delta\mathbf G|^2\)</span> selecting the form factors and the phase
+<span class="math notranslate nohighlight">\(2\pi\,\Delta\mathbf G\cdot\boldsymbol\tau\)</span> splitting them into the
+symmetric (<span class="math notranslate nohighlight">\(\cos\)</span>) and antisymmetric (<span class="math notranslate nohighlight">\(\sin\)</span>) channels. Shells outside
+<span class="math notranslate nohighlight">\(\{3, 4, 8, 11\}\)</span> contribute nothing: <code class="docutils literal notranslate"><span class="pre">CB_PARAMS</span></code> simply has no entry, and
+the element is zero. Adding the kinetic diagonal and diagonalizing is the
+Setup’s <code class="docutils literal notranslate"><span class="pre">epm_bands</span></code>, the plane-wave secular solve of
+<a class="reference internal" href="plane-waves-pseudopotentials.html"><span class="std std-doc">§8.10</span></a>.</p>
+<p>The certificate is that the spectrum at <span class="math notranslate nohighlight">\(\Gamma\)</span> carries the structure’s
+fingerprints without ever having been told them. Group theory says the
+silicon valence manifold is a singlet <span class="math notranslate nohighlight">\(\Gamma_1\)</span> bottom (the <span class="math notranslate nohighlight">\(s\)</span>-like
+bonding state) below a <em>triply degenerate</em> <span class="math notranslate nohighlight">\(\Gamma_{25'}\)</span> top; nothing in
+the assembly mentions point groups. Symmetry also fixes the matrix’s field:
+for diamond the two atoms at <span class="math notranslate nohighlight">\(\pm\boldsymbol\tau\)</span> are identical, <span class="math notranslate nohighlight">\(V^a = 0\)</span>,
+the <span class="math notranslate nohighlight">\(\sin\)</span> channel dies and the matrix is real symmetric — while for
+zinc-blende it must be genuinely complex Hermitian.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">epm_hamiltonian_parts(material,</span> <span class="pre">g2_max=24)</span></code>, returning the
+basis (the Setup’s <code class="docutils literal notranslate"><span class="pre">fcc_reciprocal</span></code>), the kinetic unit <span class="math notranslate nohighlight">\((2\pi/a)^2\)</span> in Ry
+with <span class="math notranslate nohighlight">\(a\)</span> in Bohr, and the <span class="math notranslate nohighlight">\((n_G, n_G)\)</span> complex potential matrix
+<span class="math notranslate nohighlight">\(V_{ij} = V^s_{|\Delta\mathbf G|^2}\cos(2\pi\,\Delta\mathbf G\cdot
+\boldsymbol\tau) + i\,V^a_{|\Delta\mathbf G|^2}
+\sin(2\pi\,\Delta\mathbf G\cdot\boldsymbol\tau)\)</span>. <strong>Write this one
+yourself</strong> — the implementation is the lesson.</p>
+<p><strong>Part b)</strong> Assemble silicon’s Hamiltonian at <span class="math notranslate nohighlight">\(\Gamma\)</span> with it and report
+the eight lowest levels; the <span class="math notranslate nohighlight">\(\Gamma_{25'}\)</span> triple must show a <code class="docutils literal notranslate"><span class="pre">numpy</span></code>
+spread below <span class="math notranslate nohighlight">\(10^{-6}\)</span> Ry.</p>
+<p><strong>Part c)</strong> Confirm the model’s hermiticity and reality where symmetry
+demands it: silicon’s potential matrix must be real symmetric to machine
+precision, GaAs’s genuinely complex Hermitian (<code class="docutils literal notranslate"><span class="pre">numpy.abs</span></code> norms of the
+anti-Hermitian part and of the imaginary part).</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Si at Gamma (Ry): [-0.1585  0.7687  0.7687  0.7687  1.0201  1.0201  1.0201  1.0544]
+Gamma_25&#39; spread = 1.10e-14 Ry (triple degeneracy)
+Si: max |V - V^dag| = 0.0e+00, max |Im V| = 0.0e+00
+GaAs: max |V - V^dag| = 0.0e+00, max |Im V| = 0.050 (ionic)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1-symmetry-delivered-not-declared">
+<h3>Validation 1 — symmetry, delivered not declared<a class="headerlink" href="#validation-1-symmetry-delivered-not-declared" title="Link to this heading">#</a></h3>
+<p>The <span class="math notranslate nohighlight">\(\Gamma_{25'}\)</span> triple degeneracy must hold below <span class="math notranslate nohighlight">\(10^{-6}\)</span> Ry; both
+potential matrices must be Hermitian at machine precision; and the imaginary
+part must vanish for Si while being genuinely present for GaAs.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the triply degenerate valence top of Si   [got 1.09912e-14 vs expected 0 (rtol=0, atol=1e-06)]
+✓  both Hamiltonians Hermitian   [0e+00, 0e+00]
+✓  diamond real, zinc-blende genuinely complex   [Im: Si 0e+00, GaAs 0.050]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-silicon">
+<h2>Exercise 2 — Silicon<a class="headerlink" href="#exercise-2-silicon" title="Link to this heading">#</a></h2>
+<p>The figure this movement was heading toward. Bands along <span class="math notranslate nohighlight">\(L \to \Gamma \to
+X\)</span>, the valence maximum as energy zero, and silicon’s identity read off:
+valence width, and the conduction minimum <em>not</em> at a symmetry point but at
+<span class="math notranslate nohighlight">\(\approx 0.85\)</span> of the way to <span class="math notranslate nohighlight">\(X\)</span> — the six equivalent “<span class="math notranslate nohighlight">\(\Delta\)</span> valleys”
+behind every silicon transistor’s band physics.</p>
+<p><strong>Part a)</strong> Compute the bands along the path (the Setup <code class="docutils literal notranslate"><span class="pre">k_path</span></code> with 40
+points per segment, then <code class="docutils literal notranslate"><span class="pre">epm_bands</span></code> with 8 bands — which assembles each
+Hamiltonian with the <code class="docutils literal notranslate"><span class="pre">epm_hamiltonian_parts</span></code> you wrote in Exercise 1), plot
+with the standard labels, and report the valence width
+<span class="math notranslate nohighlight">\(\Gamma_{25'} - \Gamma_1 = 12.6\)</span> eV.</p>
+<p><strong>Part b)</strong> Locate the conduction minimum: scan band 5 along
+<span class="math notranslate nohighlight">\(\Delta = (\xi, 0, 0)\)</span> with <span class="math notranslate nohighlight">\(\xi \in [0, 1]\)</span> in steps of <span class="math notranslate nohighlight">\(0.01\)</span>
+(<code class="docutils literal notranslate"><span class="pre">numpy.argmin</span></code>), and report the indirect gap
+<span class="math notranslate nohighlight">\(E_c(\Delta_{\min}) - E_v(\Gamma) = 0.82\)</span> eV against silicon’s measured
+<span class="math notranslate nohighlight">\(1.17\)</span> eV. The valley <em>position</em> is dead on; the gap runs <span class="math notranslate nohighlight">\(0.35\)</span> eV low —
+and honestly so: a fundamental gap is a many-body quantity
+(<a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a>), the 1966 fit tuned optical
+features with a different numerical scheme (Exercise 3), and the modern
+repair is the quasiparticle machinery of
+<a class="reference internal" href="quasiparticles-gw.html"><span class="std std-doc">§8.14</span></a>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>valence width = 12.61 eV
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>conduction minimum at (0.85, 0, 0);  indirect gap = 0.821 eV (measured 1.17)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-epm-si">
+<img alt="../../_images/3958c0ac431d26d0b6bfa4f13e3a608ec5766149ceb871bdf7d37c2cf34c2bda.png" src="../../_images/3958c0ac431d26d0b6bfa4f13e3a608ec5766149ceb871bdf7d37c2cf34c2bda.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 799 </span><span class="caption-text">The band structure of real silicon from the 1966 Cohen–Bergstresser form factors (three numbers), along <span class="math notranslate nohighlight">\(L \to \Gamma \to X\)</span> with the valence maximum as zero: the triply degenerate <span class="math notranslate nohighlight">\(\Gamma_{25'}\)</span> top, a 12.6-eV valence width, and the conduction minimum on the <span class="math notranslate nohighlight">\(\Delta\)</span> line at <span class="math notranslate nohighlight">\(0.85\,\Gamma X\)</span> (amber marker) giving the model’s indirect gap of 0.82 eV against the measured 1.17 eV (the valley position exact, the gap honestly low: gaps are many-body quantities, §8.14’s business). The companion MMM course computes this same figure with production DFT machinery: the two courses shake hands here.</span><a class="headerlink" href="#fig-epm-si" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2-silicon-s-identity">
+<h3>Validation 2 — silicon’s identity<a class="headerlink" href="#validation-2-silicon-s-identity" title="Link to this heading">#</a></h3>
+<p>The valence width must be <span class="math notranslate nohighlight">\(12.6\)</span> eV (within <span class="math notranslate nohighlight">\(2\%\)</span>), the conduction minimum
+must sit at <span class="math notranslate nohighlight">\(\xi = 0.85 \pm 0.05\)</span> on the <span class="math notranslate nohighlight">\(\Delta\)</span> line (<em>not</em> at a symmetry
+point), and the indirect gap must land at the model’s <span class="math notranslate nohighlight">\(0.821\)</span> eV — within
+<span class="math notranslate nohighlight">\(0.4\)</span> eV of the measured <span class="math notranslate nohighlight">\(1.17\)</span>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the silicon valence bandwidth   [got 12.6149 vs expected 12.6 (rtol=0.02, atol=1e-09)]
+✓  the Delta-valley minimum position   [got 0.85 vs expected 0.85 (rtol=0, atol=0.05)]
+✓  the model&#39;s indirect gap at the converged basis   [got 0.821483 vs expected 0.821 (rtol=0.01, atol=1e-09)]
+✓  within 0.4 eV of measured silicon   [|0.82 - 1.17| = 0.35 eV (gaps are many-body)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-the-basis-lesson-empirical-means-model-plus-truncation">
+<h2>Exercise 3 — The basis lesson: empirical means model <em>plus</em> truncation<a class="headerlink" href="#exercise-3-the-basis-lesson-empirical-means-model-plus-truncation" title="Link to this heading">#</a></h2>
+<p>A subtlety with teeth, discovered by every student who tries to “improve”
+an empirical calculation. The 1966 form factors were fitted inside the 1966
+numerical scheme (a small explicit basis plus a Löwdin perturbative fold-in
+of higher shells); they are effective parameters of that whole package, and
+changing the numerics re-releases what the fit had silently absorbed.</p>
+<p><strong>Part a)</strong> Recompute silicon’s conduction landscape at basis truncations
+<span class="math notranslate nohighlight">\(|G|^2 \le 11, 16, 21, 24\)</span> (51, 65, 113, 137 plane waves; the <code class="docutils literal notranslate"><span class="pre">g2_max</span></code> of
+your Exercise 1 <code class="docutils literal notranslate"><span class="pre">epm_hamiltonian_parts</span></code>, threaded through <code class="docutils literal notranslate"><span class="pre">epm_bands</span></code>): at
+each cutoff, scan the <span class="math notranslate nohighlight">\(\Delta\)</span> line <em>and</em> report
+where the minimum sits. At 51 plane waves the valley bottoms at <span class="math notranslate nohighlight">\(X\)</span> with a
+<span class="math notranslate nohighlight">\(0.93\)</span>-eV gap; the celebrated <span class="math notranslate nohighlight">\(0.85\)</span> position only emerges as the basis
+grows, with the gap settling at <span class="math notranslate nohighlight">\(0.82\)</span> eV.</p>
+<p><strong>Part b)</strong> Plot gap versus basis size with the minimum’s location
+annotated. The variational lowering acts more on conduction than valence
+states, and it also <em>reshapes</em> the valley: position and depth both belong
+to the numerical scheme. The standing moral for every empirical model in
+computational science: parameters and numerics are one package, and
+“convergence” is only meaningful for ab-initio quantities — the fitted
+coefficients would need refitting at every cutoff (and the original
+paper’s own scheme was a third arrangement again).</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|G|^2 &lt;= 11 ( 51 PWs): gap = 0.930 eV, minimum at xi = 1.00
+|G|^2 &lt;= 16 ( 65 PWs): gap = 0.740 eV, minimum at xi = 0.85
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|G|^2 &lt;= 21 (113 PWs): gap = 0.826 eV, minimum at xi = 0.85
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|G|^2 &lt;= 24 (137 PWs): gap = 0.821 eV, minimum at xi = 0.85
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-epm-basis">
+<img alt="../../_images/d9c7f4e3cb2062be4e771b87bf7a7e913a83771d528358a8e843125f2e13354e.png" src="../../_images/d9c7f4e3cb2062be4e771b87bf7a7e913a83771d528358a8e843125f2e13354e.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 800 </span><span class="caption-text">The basis lesson: silicon’s EPM gap and valley position against plane-wave basis size. At 51 plane waves the conduction minimum sits at <span class="math notranslate nohighlight">\(X\)</span> (<span class="math notranslate nohighlight">\(\xi = 1\)</span>) with a 0.93-eV gap; growing the basis reshapes the valley to the celebrated <span class="math notranslate nohighlight">\(\xi = 0.85\)</span> and settles the gap at 0.82 eV against the measured 1.17 (grey dashed). Position and depth both belong to the numerical scheme: an empirical model’s parameters, basis, and fold-in method are one package.</span><a class="headerlink" href="#fig-epm-basis" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3-the-drift-measured">
+<h3>Validation 3 — the drift, measured<a class="headerlink" href="#validation-3-the-drift-measured" title="Link to this heading">#</a></h3>
+<p>The 51-plane-wave gap must be <span class="math notranslate nohighlight">\(0.930\)</span> eV with its minimum at <span class="math notranslate nohighlight">\(X\)</span>; the
+converged gap <span class="math notranslate nohighlight">\(0.821\)</span> eV with the minimum at <span class="math notranslate nohighlight">\(\xi = 0.85\)</span>; and the valley
+must genuinely move — position and depth both properties of the scheme.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the gap at the 1966 truncation   [got 0.929768 vs expected 0.93 (rtol=0.01, atol=1e-09)]
+✓  the 51-PW valley bottoms at X   [got 1 vs expected 1 (rtol=0, atol=0.02)]
+✓  the converged gap   [got 0.821483 vs expected 0.821 (rtol=0.01, atol=1e-09)]
+✓  the converged valley at 0.85   [got 0.85 vs expected 0.85 (rtol=0, atol=0.03)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-gallium-arsenide-and-the-ionicity-switch">
+<h2>Exercise 4 — Gallium arsenide, and the ionicity switch<a class="headerlink" href="#exercise-4-gallium-arsenide-and-the-ionicity-switch" title="Link to this heading">#</a></h2>
+<p>The zinc-blende compound brings the antisymmetric channel to life. GaAs’s
+six form factors produce a <em>direct</em> gap at <span class="math notranslate nohighlight">\(\Gamma\)</span> — the property that
+makes it the optoelectronic workhorse — and the <span class="math notranslate nohighlight">\(V^a\)</span> coefficients, which
+exist only because Ga and As differ, can be switched off in software to
+watch ionicity leave the band structure.</p>
+<p><strong>Part a)</strong> Compute GaAs along <span class="math notranslate nohighlight">\(L\)</span>–<span class="math notranslate nohighlight">\(\Gamma\)</span>–<span class="math notranslate nohighlight">\(X\)</span> and report the direct gap at
+<span class="math notranslate nohighlight">\(\Gamma\)</span> (<span class="math notranslate nohighlight">\(1.43\)</span> eV against the measured <span class="math notranslate nohighlight">\(1.52\)</span>) plus the <span class="math notranslate nohighlight">\(\Gamma\)</span>-versus-<span class="math notranslate nohighlight">\(X\)</span>
+and <span class="math notranslate nohighlight">\(\Gamma\)</span>-versus-<span class="math notranslate nohighlight">\(L\)</span> conduction ordering (the minimum must be <em>at</em>
+<span class="math notranslate nohighlight">\(\Gamma\)</span>: direct).</p>
+<p><strong>Part b)</strong> The ablation: empty <code class="docutils literal notranslate"><span class="pre">CB_PARAMS[&quot;GaAs&quot;][&quot;va&quot;]</span></code> so that your
+Exercise 1 <code class="docutils literal notranslate"><span class="pre">epm_hamiltonian_parts</span></code> rebuilds GaAs with the antisymmetric
+factors zeroed (a fictitious “diamond GaAs”), and compare the two lowest
+(valence) levels at <span class="math notranslate nohighlight">\(X\)</span>. With <span class="math notranslate nohighlight">\(V^a\)</span> on, the levels split by <span class="math notranslate nohighlight">\(4.1\)</span> eV (the ionicity
+gap); with <span class="math notranslate nohighlight">\(V^a\)</span> off they re-stick to near-degeneracy — the glide symmetry
+of the diamond structure, restored by deleting three numbers.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GaAs gaps: Gamma 1.428 eV (direct), X 1.773, L 1.685
+X-point splitting: 4.06 eV with V^a, 0.01 eV without
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-epm-gaas">
+<img alt="../../_images/abf5a30bc989525abc2e04e428ae68d1ef7be0fffacb7113e1a305b57d429678.png" src="../../_images/abf5a30bc989525abc2e04e428ae68d1ef7be0fffacb7113e1a305b57d429678.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 801 </span><span class="caption-text">Gallium arsenide from six numbers: the EPM band structure along <span class="math notranslate nohighlight">\(L\)</span>–<span class="math notranslate nohighlight">\(\Gamma\)</span>–<span class="math notranslate nohighlight">\(X\)</span> with its direct 1.43-eV gap at <span class="math notranslate nohighlight">\(\Gamma\)</span> (measured 1.52 eV) — the property that makes GaAs glow where silicon cannot. Inset: the two lowest levels at <span class="math notranslate nohighlight">\(X\)</span> with the antisymmetric form factors on (split by 4.1 eV, the ionicity gap) and off (re-stuck to degeneracy: deleting three numbers restores the diamond glide symmetry).</span><a class="headerlink" href="#fig-epm-gaas" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4-direct-and-ionic">
+<h3>Validation 4 — direct, and ionic<a class="headerlink" href="#validation-4-direct-and-ionic" title="Link to this heading">#</a></h3>
+<p>The GaAs gap must be the model’s <span class="math notranslate nohighlight">\(1.428\)</span> eV (within <span class="math notranslate nohighlight">\(0.15\)</span> eV of the
+measured <span class="math notranslate nohighlight">\(1.52\)</span>), the conduction minimum must sit at <span class="math notranslate nohighlight">\(\Gamma\)</span> (below both
+<span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(L\)</span>), and the ionicity splitting must exceed <span class="math notranslate nohighlight">\(3\)</span> eV with <span class="math notranslate nohighlight">\(V^a\)</span> on
+while collapsing below <span class="math notranslate nohighlight">\(0.1\)</span> eV without.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the model&#39;s direct GaAs gap   [got 1.42751 vs expected 1.428 (rtol=0.01, atol=1e-09)]
+✓  within 0.15 eV of measured GaAs   [|1.43 - 1.52| = 0.09 eV]
+✓  the minimum sits at Gamma: direct   [1.43 &lt; 1.77 (X), 1.68 (L)]
+✓  the ionicity splitting lives in the antisymmetric factors   [4.06 eV on, 0.01 eV off]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-densities-of-states-by-monte-carlo">
+<h2>Exercise 5 — Densities of states, by Monte Carlo<a class="headerlink" href="#exercise-5-densities-of-states-by-monte-carlo" title="Link to this heading">#</a></h2>
+<p>Band paths show symmetry lines; thermodynamics and optics
+(<a class="reference internal" href="optics-excitons.html"><span class="std std-doc">§8.15</span></a>) need the whole zone. Uniform random
+sampling of the Brillouin zone with a seeded generator is the honest cheap
+estimator (the <a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html"><span class="std std-doc">§0.11</span></a>
+machinery pointed at <span class="math notranslate nohighlight">\(k\)</span>-space).</p>
+<p><strong>Part a)</strong> Sample <span class="math notranslate nohighlight">\(4000\)</span> points uniformly in the zone’s bounding cube
+<span class="math notranslate nohighlight">\([-1, 1]^3\)</span> (in <span class="math notranslate nohighlight">\(2\pi/a\)</span> units, <code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng(1966)</span></code> — any full
+period tiles the DOS correctly), evaluate all eight silicon bands, and
+histogram (<code class="docutils literal notranslate"><span class="pre">numpy.histogram</span></code>, 160 bins, <code class="docutils literal notranslate"><span class="pre">density=True</span></code>).</p>
+<p><strong>Part b)</strong> Plot the DOS with the gap window shaded and verify its
+emptiness: no states between the valence top and the conduction minimum
+(the histogram must be identically zero across the open gap window), with
+the valence edge at <span class="math notranslate nohighlight">\(-12.6\)</span> eV.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>states inside the open gap window: 0.0000 (must be 0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-epm-dos">
+<img alt="../../_images/cc1c72b95d1e4c3097a02e8dc5252752b39918b5fc8e3d686ee09a72fa248cd2.png" src="../../_images/cc1c72b95d1e4c3097a02e8dc5252752b39918b5fc8e3d686ee09a72fa248cd2.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 802 </span><span class="caption-text">The density of states of EPM silicon by seeded Monte Carlo sampling of the Brillouin zone (4000 points, eight bands): the 12.6-eV valence manifold, the gap window between the valence top and the <span class="math notranslate nohighlight">\(\Delta\)</span>-valley conduction minimum shaded amber and verifiably empty, and the conduction onset — the whole-zone complement to the symmetry-line band structure, and the raw input for the optics of §8.15.</span><a class="headerlink" href="#fig-epm-dos" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5-the-gap-is-empty">
+<h3>Validation 5 — the gap is empty<a class="headerlink" href="#validation-5-the-gap-is-empty" title="Link to this heading">#</a></h3>
+<p>Not one sampled state may fall in the open gap window, and the lowest
+sampled energy must agree with the <span class="math notranslate nohighlight">\(\Gamma_1\)</span> valence bottom within the
+sampling resolution.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  no states inside the gap   [got 0 vs expected 0 (rtol=0, atol=1e-12)]
+✓  the valence bottom, sampled   [got -12.5785 vs expected -12.6149 (rtol=0, atol=0.15)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-the-verdict-and-the-handshake">
+<h2>Exercise 6 — The verdict, and the handshake<a class="headerlink" href="#exercise-6-the-verdict-and-the-handshake" title="Link to this heading">#</a></h2>
+<p>The movement’s payoff, in one table and one paragraph of consequence.</p>
+<p><strong>Part a)</strong> Assemble the verdict table (<code class="docutils literal notranslate"><span class="pre">numpy</span></code>-formatted print): for Si and
+GaAs, the model gap, its character (indirect/direct), the measured gap, and
+the deviation. The <em>characters</em> — indirect with the valley at <span class="math notranslate nohighlight">\(0.85\)</span>,
+direct at <span class="math notranslate nohighlight">\(\Gamma\)</span> — come out exactly right, GaAs’s gap lands within
+<span class="math notranslate nohighlight">\(0.1\)</span> eV, and silicon’s runs <span class="math notranslate nohighlight">\(0.35\)</span> eV low: the qualitative physics for
+free, the quantitative gap awaiting the many-body machinery of
+<a class="reference internal" href="quasiparticles-gw.html"><span class="std std-doc">§8.14</span></a>.</p>
+<p><strong>Part b)</strong> State the consequence quantitatively: in GaAs a photon at the
+gap energy can be emitted directly (<span class="math notranslate nohighlight">\(\Gamma \to \Gamma\)</span>, momentum
+conserved); in silicon the same process requires a phonon carrying
+<span class="math notranslate nohighlight">\(0.85 \times 2\pi/a\)</span> of momentum, suppressing light emission by orders of
+magnitude — why LEDs and laser diodes are made from III-V compounds while
+the transistor next to them is silicon. Verify the momentum mismatch number
+from the Exercise 2 valley position (<code class="docutils literal notranslate"><span class="pre">numpy</span></code> arithmetic, in units of
+<span class="math notranslate nohighlight">\(2\pi/a\)</span>). This figure and table are the volume’s formal handshake with the
+companion MMM course, whose CP2K/DFT silicon band structure is the
+production twin of <a class="reference internal" href="#fig-epm-si"><span class="std std-numref">Fig. 799</span></a>; the two courses meet, deliberately,
+at the same material.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>material    model gap  character  measured     dev
+Si             0.821    indirect      1.17   -0.35
+GaAs           1.428      direct      1.52   -0.09
+
+Si gap transition needs phonon momentum q = 0.85 (2 pi/a); GaAs needs q = 0
+handshake: the MMM companion course computes this same silicon figure with production DFT machinery
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-6-the-fit-still-stands">
+<h3>Validation 6 — the fit still stands<a class="headerlink" href="#validation-6-the-fit-still-stands" title="Link to this heading">#</a></h3>
+<p>Both gap characters must be correct, GaAs’s gap must sit within <span class="math notranslate nohighlight">\(0.15\)</span> eV
+of experiment, silicon’s within <span class="math notranslate nohighlight">\(0.4\)</span> (its <span class="math notranslate nohighlight">\(0.35\)</span>-eV deficit the honest
+many-body shortfall), and the phonon-momentum mismatch must equal the
+measured valley position.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  GaAs within 0.15 eV; Si within 0.4 (the many-body deficit)   [Si -0.35, GaAs -0.09 eV]
+✓  the phonon momentum silicon&#39;s photons must borrow   [got 0.85 vs expected 0.85 (rtol=0, atol=0.05)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">With your assistant</p>
+<p>The Cohen–Bergstresser paper tabulates form factors for fourteen
+semiconductors. Have your assistant add germanium
+(<span class="math notranslate nohighlight">\(a = 5.66\)</span> Å, <span class="math notranslate nohighlight">\(V^s_3 = -0.23, V^s_8 = 0.01, V^s_{11} = 0.06\)</span>, diamond
+structure) to <code class="docutils literal notranslate"><span class="pre">CB_PARAMS</span></code> and compute its band structure, then run the
+check that is yours alone: germanium’s conduction minimum must sit at <span class="math notranslate nohighlight">\(L\)</span>
+(not <span class="math notranslate nohighlight">\(\Gamma\)</span>, not on <span class="math notranslate nohighlight">\(\Delta\)</span>) with an indirect gap of <span class="math notranslate nohighlight">\(0.8\)</span>–<span class="math notranslate nohighlight">\(1.1\)</span> eV
+(<code class="docutils literal notranslate"><span class="pre">numpy.argmin</span></code> across the three candidates) — the third gap topology of
+the family, from the same six-line machinery. The check is yours.</p>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>Real materials arrived, on schedule and to specification. The
+diamond/zinc-blende potential of <a class="reference internal" href="#equation-eq-epm-potential">Eq. 897</a> was assembled
+over 137 plane waves, its symmetry content certified (the <span class="math notranslate nohighlight">\(\Gamma_{25'}\)</span>
+triple degenerate below <span class="math notranslate nohighlight">\(10^{-6}\)</span> Ry; silicon’s matrix real, GaAs’s
+genuinely complex). Silicon emerged from three numbers: valence width
+<span class="math notranslate nohighlight">\(12.6\)</span> eV, conduction minimum at <span class="math notranslate nohighlight">\(0.85\,\Gamma X\)</span>, indirect gap <span class="math notranslate nohighlight">\(0.82\)</span> eV
+against the measured <span class="math notranslate nohighlight">\(1.17\)</span> — position exact, depth honestly low, the
+many-body deficit <a class="reference internal" href="quasiparticles-gw.html"><span class="std std-doc">§8.14</span></a> exists to repair. The
+basis lesson was measured, not moralized: at the 1966 paper’s own 51-plane-
+wave truncation the valley bottoms at <span class="math notranslate nohighlight">\(X\)</span> with <span class="math notranslate nohighlight">\(0.93\)</span> eV — parameters,
+basis, and fold-in scheme are one package. GaAs delivered its direct
+<span class="math notranslate nohighlight">\(1.428\)</span> eV gap (measured <span class="math notranslate nohighlight">\(1.52\)</span>) with the conduction minimum at <span class="math notranslate nohighlight">\(\Gamma\)</span>,
+and the ionicity ablation split <span class="math notranslate nohighlight">\(X\)</span> by <span class="math notranslate nohighlight">\(4.1\)</span> eV through three antisymmetric
+numbers that vanish for diamond. The Monte Carlo density of states found
+not one state in the gap, and the verdict table closed with both
+characters exact — with silicon’s photons owing a <span class="math notranslate nohighlight">\(0.85 \times 2\pi/a\)</span> phonon,
+which is why the laser pointer is III-V and the computer is silicon. The
+MMM handshake is delivered: same material, two methodologies, one figure.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The eigen<em>vectors</em> this notebook discarded are
+<a class="reference internal" href="optics-excitons.html"><span class="std std-doc">§8.15</span></a>’s raw material: dipole matrix elements
+between EPM states build silicon’s absorption spectrum
+<span class="math notranslate nohighlight">\(\varepsilon_2(\omega)\)</span>, with the direct/indirect story made quantitative.</p></li>
+<li><p>The geometry of the Bloch states themselves — phases, not energies — is
+<a class="reference internal" href="berry-wannier-ssh.html"><span class="std std-doc">§8.12</span></a>’s subject, and it opens the volume’s
+window on topology.</p></li>
+<li><p>Modern band engineering (strain, alloying, heterostructures) still reasons
+in this notebook’s vocabulary of valleys and gap characters; when
+quantitative gaps are needed ab initio, the GW machinery of
+<a class="reference internal" href="quasiparticles-gw.html"><span class="std std-doc">§8.14</span></a> replaces fitting with many-body theory.</p></li>
+</ul>
+<div class="docutils container" id="id4">
+<div role="list" class="citation-list">
+<div class="citation" id="id92" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>CB66<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>,<a role="doc-backlink" href="#id3">3</a>)</span>
+<p>Marvin L. Cohen and T. K. Bergstresser. Band structures and pseudopotential form factors for fourteen semiconductors of the diamond and zinc-blende structures. <em>Physical Review</em>, 141:789–796, 1966. <a class="reference external" href="https://doi.org/10.1103/PhysRev.141.789">doi:10.1103/PhysRev.141.789</a>.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/08-electronic-structure"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="plane-waves-pseudopotentials.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">8.10 Plane Waves and Pseudopotentials</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="berry-wannier-ssh.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">8.12 Berry Phase, Wannier Functions, and the SSH Model</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#symmetry-pares-the-potential-to-six-numbers">Symmetry pares the potential to six numbers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-a-semiconductor-s-band-structure">Reading a semiconductor’s band structure</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-six-numbers-into-a-matrix">Exercise 1 — Six numbers into a matrix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-symmetry-delivered-not-declared">Validation 1 — symmetry, delivered not declared</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-silicon">Exercise 2 — Silicon</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-silicon-s-identity">Validation 2 — silicon’s identity</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-basis-lesson-empirical-means-model-plus-truncation">Exercise 3 — The basis lesson: empirical means model <em>plus</em> truncation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-the-drift-measured">Validation 3 — the drift, measured</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-gallium-arsenide-and-the-ionicity-switch">Exercise 4 — Gallium arsenide, and the ionicity switch</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-direct-and-ionic">Validation 4 — direct, and ionic</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-densities-of-states-by-monte-carlo">Exercise 5 — Densities of states, by Monte Carlo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-the-gap-is-empty">Validation 5 — the gap is empty</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-the-verdict-and-the-handshake">Exercise 6 — The verdict, and the handshake</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-the-fit-still-stands">Validation 6 — the fit still stands</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

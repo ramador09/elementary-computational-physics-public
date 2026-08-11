@@ -1,0 +1,1642 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="8.13 The Hubbard Model: Correlation on a Lattice" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/hubbard-model.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Movement III’s story had one silent assumption: an electron’s energy depends on which band state it occupies, not on where the other elect..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Movement III’s story had one silent assumption: an electron’s energy depends on which band state it occupies, not on where the other elect..." />
+
+    <title>8.13 The Hubbard Model: Correlation on a Lattice &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/08-electronic-structure/hubbard-model';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/hubbard-model.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="8.14 Quasiparticles, Spectral Functions, and GW" href="quasiparticles-gw.html" />
+    <link rel="prev" title="8.12 Berry Phase, Wannier Functions, and the SSH Model" href="berry-wannier-ssh.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/08-electronic-structure/hubbard-model.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/08-electronic-structure/hubbard-model.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/08-electronic-structure/hubbard-model.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/08-electronic-structure/hubbard-model.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>8.13 The Hubbard Model: Correlation on a Lattice</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-wannier-orbitals-to-two-parameters">From Wannier orbitals to two parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dimer-the-model-s-hydrogen-molecule">The dimer: the model’s hydrogen molecule</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-mott-insulator-and-the-effective-spin-model">The Mott insulator, and the effective spin model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-operators-certified-at-zero">Exercise 1 — The operators, certified at zero</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-algebra-is-exact-and-the-string-is-necessary">Validation 1 — the algebra is exact, and the string is necessary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-hubbard-dimer-exactly">Exercise 2 — The Hubbard dimer, exactly</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-the-dimer-knows-its-closed-form">Validation 2 — the dimer knows its closed form</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-eight-sites-the-sector-benchmarked-twice">Exercise 3 — Eight sites: the sector, benchmarked twice</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-counted-symmetric-and-twice-benchmarked">Validation 3 — counted, symmetric, and twice benchmarked</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-crossover-kinetic-energy-pays-the-repulsion-s-toll">Exercise 4 — The crossover: kinetic energy pays the repulsion’s toll</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-both-monotone-and-quantitatively-evicted">Validation 4 — both monotone, and quantitatively evicted</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-mott-gap-charge-pays-spin-does-not">Exercise 5 — The Mott gap: charge pays, spin does not</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-the-hierarchy-quantified">Validation 5 — the hierarchy, quantified</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-verdict-the-hidden-heisenberg-model">Exercise 6 — Verdict: the hidden Heisenberg model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-superexchange-at-the-percent-level">Validation 6 — superexchange at the percent level</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-hubbard-model-correlation-on-a-lattice">
+<h1>8.13 The Hubbard Model: Correlation on a Lattice<a class="headerlink" href="#the-hubbard-model-correlation-on-a-lattice" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VIII — Electronic Structure and Many-Body Matter
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;8.13
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Movement IV opens where the band picture breaks. Fermionic creation operators are built as explicit matrices — anticommutators certified at exactly zero error — and assembled into the Hubbard chain, solved exactly: the dimer against its closed form at 10⁻¹⁵, then eight sites in a 4900-dimensional sector where a band metal turns Mott insulator (charge gap growing to U − 4t while the spin gap stays put), double occupancy is squeezed out, and the surviving spins secretly enact a Heisenberg antiferromagnet with J = 4t²/U — matched to a separate Heisenberg diagonalization at the percent level. Anderson&#x27;s superexchange, computed.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;150–180 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Movement III’s story had one silent assumption: an electron’s energy
+depends on which <em>band state</em> it occupies, not on where the <em>other</em>
+electrons are. <a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a> already showed the
+assumption failing by exactly the derivative discontinuity; this movement
+meets the failure head-on. The minimal arena is Hubbard’s 1963 model
+<span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id104" title="J. Hubbard. Electron correlations in narrow energy bands. Proceedings of the Royal Society of London A, 276:238–257, 1963. doi:10.1098/rspa.1963.0204.">Hub63</a>]</span>: take the Wannier orbitals of
+<a class="reference internal" href="berry-wannier-ssh.html"><span class="std std-doc">§8.12</span></a> — one localized orbital per site, with a
+known center — keep only nearest-neighbor hopping <span class="math notranslate nohighlight">\(t\)</span> and the Coulomb
+repulsion <span class="math notranslate nohighlight">\(U\)</span> <em>between two electrons on the same orbital</em>, and discard
+everything else. Two parameters. The model contains band theory (<span class="math notranslate nohighlight">\(U = 0\)</span>),
+the atomic limit (<span class="math notranslate nohighlight">\(t = 0\)</span>), and, in between, the physics band theory
+cannot reach: the Mott insulator — a system with a half-filled band, which
+<a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a>
+would declare a metal, that <em>insulates because the electrons repel</em>.</p>
+<p>The build is exact diagonalization, the many-body method with no
+approximations to apologize for. First the operators themselves:
+<span class="math notranslate nohighlight">\(\hat c_i^\dagger\)</span> as explicit matrices on the Fock space of
+<a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html"><span class="std std-doc">§7.23</span></a>,
+with the Jordan–Wigner sign counted by <code class="docutils literal notranslate"><span class="pre">popcount</span></code> — and every
+anticommutator certified at <em>exactly</em> zero error, since sign bookkeeping
+is integer arithmetic. Then the Hubbard dimer, the model’s hydrogen
+molecule, against its closed-form ground state at <span class="math notranslate nohighlight">\(10^{-15}\)</span> across five
+values of <span class="math notranslate nohighlight">\(U\)</span>, with the superexchange energy <span class="math notranslate nohighlight">\(-4t^2/U\)</span> emerging at large
+<span class="math notranslate nohighlight">\(U\)</span>. Then the real thing: the <span class="math notranslate nohighlight">\(L = 8\)</span> chain at half filling, a
+<span class="math notranslate nohighlight">\(\binom{8}{4}^2 = 4900\)</span>-dimensional <span class="math notranslate nohighlight">\(S_z = 0\)</span> sector diagonalized by
+<code class="docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh</span></code> in a tenth of a second, benchmarked against
+the <span class="math notranslate nohighlight">\(U = 0\)</span> closed form <span class="math notranslate nohighlight">\(-(1+\sqrt2)/2\)</span> per site and against Lieb and
+Wu’s exact Bethe-ansatz solution <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id117" title="Elliott H. Lieb and F. Y. Wu. Absence of Mott transition in an exact solution of the short-range, one-band model in one dimension. Physical Review Letters, 20:1445–1448, 1968.">LW68</a>]</span> (our eight sites land
+within <span class="math notranslate nohighlight">\(0.3\%\)</span> of their infinite chain). The physics follows in three
+measured acts: double occupancy squeezed from <span class="math notranslate nohighlight">\(1/4\)</span> to <span class="math notranslate nohighlight">\(0.01\)</span> as <span class="math notranslate nohighlight">\(U\)</span>
+grows; the charge gap opening to <span class="math notranslate nohighlight">\(U - 4t\)</span> while the spin gap stays
+bounded — the Mott insulator, gapped for charge and soft for spin; and
+Anderson’s superexchange <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id118" title="P. W. Anderson. New approach to the theory of superexchange interactions. Physical Review, 115:2–13, 1959.">And59</a>]</span> — the ground-state spin
+correlations of the <span class="math notranslate nohighlight">\(U = 32\)</span> Hubbard chain match an independently
+diagonalized Heisenberg antiferromagnet with <span class="math notranslate nohighlight">\(J = 4t^2/U\)</span> at the percent
+level, with the deviation falling fourfold per doubling of <span class="math notranslate nohighlight">\(U\)</span>, exactly as
+second-order perturbation theory promises.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Hopping <span class="math notranslate nohighlight">\(t = 1\)</span> sets the energy unit;
+chains are periodic unless stated (the dimer is open). Site occupations
+are bit masks (bit <span class="math notranslate nohighlight">\(i\)</span> set <span class="math notranslate nohighlight">\(=\)</span> orbital <span class="math notranslate nohighlight">\(i\)</span> occupied), one integer per
+spin species, with the orbital ordering fixed once: all spin-up modes
+before all spin-down. Fermionic signs are Jordan–Wigner parities
+computed by <code class="docutils literal notranslate"><span class="pre">int.bit_count</span></code> of the mask below the acted-on bit. Sector
+bases are built with <code class="docutils literal notranslate"><span class="pre">itertools.combinations</span></code>, Hamiltonians as
+<code class="docutils literal notranslate"><span class="pre">scipy.sparse</span></code> matrices, ground states by <code class="docutils literal notranslate"><span class="pre">eigsh(k=1,</span> <span class="pre">which=&quot;SA&quot;)</span></code>
+(dense <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> where the sector is small).</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call
+against an independent fact: an exact anticommutator, a closed-form
+eigenvalue, a Bethe-ansatz benchmark, a second-order scaling law. A ✓
+is strong evidence; a ✗ is a prompt to locate the discrepancy, not an
+automatic verdict.</p>
+<p><strong>Scope.</strong> The one-band, one-dimensional, nearest-neighbor Hubbard
+model at and near half filling, by exact diagonalization. Doped chains,
+higher dimensions (where the model is believed to hold cuprate
+superconductivity’s secrets, and is <em>not</em> solved), and the
+quantum Monte Carlo and DMRG methods that reach them are surveyed in
+Martin, Reining, and Ceperley <span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id82" title="Richard M. Martin, Lucia Reining, and David M. Ceperley. Interacting Electrons: Theory and Computational Approaches. Cambridge University Press, Cambridge, 2016.">MRC16</a>]</span> Ch. 3 and
+Vanderbilt-adjacent reviews; the
+spectral-function view of this same model is
+<a class="reference internal" href="quasiparticles-gw.html"><span class="std std-doc">§8.14</span></a>’s business.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="from-wannier-orbitals-to-two-parameters">
+<h3>From Wannier orbitals to two parameters<a class="headerlink" href="#from-wannier-orbitals-to-two-parameters" title="Link to this heading">#</a></h3>
+<p>Expand the field operators of
+<a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html"><span class="std std-doc">§7.23</span></a> in
+a basis of localized Wannier orbitals <span class="math notranslate nohighlight">\(w_i\)</span> and the full interacting
+Hamiltonian becomes hoppings <span class="math notranslate nohighlight">\(t_{ij}\)</span> plus a four-index Coulomb tensor
+<span class="math notranslate nohighlight">\(U_{ijkl}\)</span>. Hubbard’s cut <span class="bibtex-citation" id="id5">[<a class="reference internal" href="#id104" title="J. Hubbard. Electron correlations in narrow energy bands. Proceedings of the Royal Society of London A, 276:238–257, 1963. doi:10.1098/rspa.1963.0204.">Hub63</a>]</span>: for well-localized
+orbitals the on-site element <span class="math notranslate nohighlight">\(U_{iiii} \equiv U\)</span> dwarfs all others
+(neighboring-orbital repulsion is screened; exchange is smaller still),
+and <span class="math notranslate nohighlight">\(t_{ij}\)</span> beyond nearest neighbors decays exponentially
+(<a class="reference internal" href="berry-wannier-ssh.html"><span class="std std-doc">§8.12</span></a> measured that decay). What survives is</p>
+<div class="math notranslate nohighlight" id="equation-eq-hub-model">
+<span class="eqno">(903)<a class="headerlink" href="#equation-eq-hub-model" title="Link to this equation">#</a></span>\[\hat H \;=\; -t \sum_{\langle ij\rangle\sigma}
+\left(\hat c^\dagger_{i\sigma}\hat c_{j\sigma} + \text{h.c.}\right)
+\;+\; U \sum_i \hat n_{i\uparrow}\hat n_{i\downarrow} ,\]</div>
+<p>the minimal Hamiltonian in which kinetic delocalization and local
+repulsion compete. At <span class="math notranslate nohighlight">\(U = 0\)</span> it is the tight-binding chain of
+<a class="reference internal" href="tight-binding.html"><span class="std std-doc">§8.9</span></a>, bandwidth <span class="math notranslate nohighlight">\(4t\)</span>; at <span class="math notranslate nohighlight">\(t = 0\)</span> each site holds
+<span class="math notranslate nohighlight">\(0\)</span>, <span class="math notranslate nohighlight">\(1\)</span> (<span class="math notranslate nohighlight">\(E = 0\)</span>), or <span class="math notranslate nohighlight">\(2\)</span> (<span class="math notranslate nohighlight">\(E = U\)</span>) electrons and half filling puts
+exactly one electron per site: an insulator with no kinetic energy at
+all. The interesting physics is the war between the limits, and the
+half-filled chain fights it at every <span class="math notranslate nohighlight">\(U\)</span>.</p>
+</section>
+<section id="the-dimer-the-model-s-hydrogen-molecule">
+<h3>The dimer: the model’s hydrogen molecule<a class="headerlink" href="#the-dimer-the-model-s-hydrogen-molecule" title="Link to this heading">#</a></h3>
+<p>Two sites, one electron of each spin, <span class="math notranslate nohighlight">\(S_z = 0\)</span>: a four-state problem.
+In the basis <span class="math notranslate nohighlight">\(\{|\!\uparrow,\downarrow\rangle, |\!\downarrow,\uparrow
+\rangle, |\!\uparrow\downarrow, 0\rangle, |0, \uparrow\downarrow\rangle\}\)</span>
+the Hamiltonian is a <span class="math notranslate nohighlight">\(4\times4\)</span> matrix whose singlet sector gives the
+closed-form ground state</p>
+<div class="math notranslate nohighlight" id="equation-eq-hub-dimer">
+<span class="eqno">(904)<a class="headerlink" href="#equation-eq-hub-dimer" title="Link to this equation">#</a></span>\[E_0 \;=\; \frac{U - \sqrt{U^2 + 16\,t^2}}{2}
+\;\;\xrightarrow{\;U \gg t\;}\;\; -\,\frac{4t^2}{U} :\]</div>
+<p>at large <span class="math notranslate nohighlight">\(U\)</span> the covalent bond gives way to <em>superexchange</em>
+<span class="bibtex-citation" id="id6">[<a class="reference internal" href="#id118" title="P. W. Anderson. New approach to the theory of superexchange interactions. Physical Review, 115:2–13, 1959.">And59</a>]</span> — the two spins can no longer share a site, but a
+virtual double occupation (cost <span class="math notranslate nohighlight">\(U\)</span>, amplitude <span class="math notranslate nohighlight">\(t\)</span>, twice) still lowers
+the singlet by <span class="math notranslate nohighlight">\(4t^2/U\)</span> while leaving the triplet untouched.
+Antiferromagnetism without any magnetic interaction in the Hamiltonian.</p>
+</section>
+<section id="the-mott-insulator-and-the-effective-spin-model">
+<h3>The Mott insulator, and the effective spin model<a class="headerlink" href="#the-mott-insulator-and-the-effective-spin-model" title="Link to this heading">#</a></h3>
+<p>At half filling the charge gap
+<span class="math notranslate nohighlight">\(\Delta_c = E_0(N{+}1) + E_0(N{-}1) - 2E_0(N)\)</span> — the cost of moving one
+electron across the system, <a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a>’s
+gap, now for an interacting Hamiltonian — opens for <em>any</em> <span class="math notranslate nohighlight">\(U &gt; 0\)</span> in one
+dimension (Lieb–Wu <span class="bibtex-citation" id="id7">[<a class="reference internal" href="#id117" title="Elliott H. Lieb and F. Y. Wu. Absence of Mott transition in an exact solution of the short-range, one-band model in one dimension. Physical Review Letters, 20:1445–1448, 1968.">LW68</a>]</span>) and approaches <span class="math notranslate nohighlight">\(U - 4t\)</span> at strong
+coupling: adding an electron costs the repulsion <span class="math notranslate nohighlight">\(U\)</span>, minus the <span class="math notranslate nohighlight">\(4t\)</span>
+a doubly-occupied site recovers by delocalizing. The spin sector pays no
+such toll: flipping spins moves no charge, so the spin gap stays of
+order <span class="math notranslate nohighlight">\(J\)</span> and vanishes as <span class="math notranslate nohighlight">\(L \to \infty\)</span>. One material, two energy
+scales. The surviving low-energy physics is spins only: second-order
+perturbation theory in <span class="math notranslate nohighlight">\(t/U\)</span> (each neighboring pair enacting the dimer’s
+virtual hop) maps the half-filled model onto the Heisenberg
+antiferromagnet</p>
+<div class="math notranslate nohighlight" id="equation-eq-hub-heisenberg">
+<span class="eqno">(905)<a class="headerlink" href="#equation-eq-hub-heisenberg" title="Link to this equation">#</a></span>\[\hat H_{\mathrm{eff}} \;=\; J \sum_{\langle ij\rangle}
+\left(\hat{\mathbf S}_i \cdot \hat{\mathbf S}_j - \tfrac14\right),
+\qquad J = \frac{4t^2}{U},\]</div>
+<p>with corrections entering at relative order <span class="math notranslate nohighlight">\((t/U)^2\)</span>. Exercise 6 tests
+the map where it can be tested: same sizes, both models solved exactly,
+correlation functions side by side.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data and instruments: the hopping unit, the Jordan–Wigner parity of
+<a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html"><span class="std std-doc">§7.23</span></a>
+restated in bit arithmetic, a basis enumerator, and a ground-state solver
+wrapper. The notebook’s own machinery — the fermionic operators and the
+sector Hamiltonian itself — you build in Exercises 1 and 2.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">combinations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.sparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">lil_matrix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.sparse.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eigsh</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+<span class="n">INK</span><span class="p">,</span> <span class="n">AMBER</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="s2">&quot;#16213e&quot;</span><span class="p">,</span> <span class="s2">&quot;#c0851a&quot;</span><span class="p">,</span> <span class="s2">&quot;#46506b&quot;</span>
+
+<span class="n">T_HOP</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># data: the hopping integral — the energy unit throughout</span>
+
+
+<span class="c1"># built from scratch in §7.23 (jw_ops, the string of Z&#39;s, unit-tested by the</span>
+<span class="c1"># anticommutator table); restated here in bit arithmetic as an instrument.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">jw_sign</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Jordan-Wigner sign (-1)^(number of occupied modes below bit i).</span>
+
+<span class="sd">    The fermionic sign an operator acting on mode i picks up from</span>
+<span class="sd">    anticommuting past every occupied mode of lower index.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mask : int</span>
+<span class="sd">        Occupation bit mask.</span>
+<span class="sd">    i : int</span>
+<span class="sd">        Mode index being acted on.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        +1.0 or -1.0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">1.0</span> <span class="k">if</span> <span class="p">(</span><span class="n">mask</span> <span class="o">&amp;</span> <span class="p">((</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">bit_count</span><span class="p">()</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mf">1.0</span>
+
+
+<span class="c1"># instrument: combinatorial plumbing — enumerating fixed-occupation bit</span>
+<span class="c1"># masks is bookkeeping, not the lesson of any exercise here.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">basis_masks</span><span class="p">(</span><span class="n">n_modes</span><span class="p">,</span> <span class="n">n_occ</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;All bit masks of n_modes bits with exactly n_occ bits set.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_modes : int</span>
+<span class="sd">        Number of orbitals (bits).</span>
+<span class="sd">    n_occ : int</span>
+<span class="sd">        Number of occupied orbitals.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of int</span>
+<span class="sd">        The masks, in the canonical combinations order.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">combo</span><span class="p">)</span> <span class="k">for</span> <span class="n">combo</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_modes</span><span class="p">),</span> <span class="n">n_occ</span><span class="p">)]</span>
+
+
+<span class="c1"># instrument: a solver dispatch wrapper (dense below dimension 200, sparse</span>
+<span class="c1"># Lanczos with a deterministic start vector above) — plumbing, not the</span>
+<span class="c1"># lesson. It diagonalizes whatever `hubbard_sector` is bound to when it</span>
+<span class="c1"># runs: the one you build in Exercise 2 (Python looks the name up at call</span>
+<span class="c1"># time, not at definition time).</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ground_state</span><span class="p">(</span><span class="n">n_sites</span><span class="p">,</span> <span class="n">n_up</span><span class="p">,</span> <span class="n">n_dn</span><span class="p">,</span> <span class="n">u_int</span><span class="p">,</span> <span class="n">pbc</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ground energy and vector of a Hubbard sector.</span>
+
+<span class="sd">    Uses sparse Lanczos (eigsh, which=&quot;SA&quot;) for sectors above dimension</span>
+<span class="sd">    200 and dense numpy.linalg.eigh below.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_sites, n_up, n_dn : int</span>
+<span class="sd">        Chain length and electron numbers.</span>
+<span class="sd">    u_int : float</span>
+<span class="sd">        On-site repulsion.</span>
+<span class="sd">    pbc : bool, optional</span>
+<span class="sd">        Boundary condition.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple</span>
+<span class="sd">        (E0, ground vector, up masks, down masks).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ham</span><span class="p">,</span> <span class="n">ups</span><span class="p">,</span> <span class="n">dns</span> <span class="o">=</span> <span class="n">hubbard_sector</span><span class="p">(</span><span class="n">n_sites</span><span class="p">,</span> <span class="n">n_up</span><span class="p">,</span> <span class="n">n_dn</span><span class="p">,</span> <span class="n">u_int</span><span class="p">,</span> <span class="n">pbc</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ham</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">vals</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">ham</span><span class="o">.</span><span class="n">toarray</span><span class="p">())</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">vecs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">ups</span><span class="p">,</span> <span class="n">dns</span>
+    <span class="c1"># fixed start vector: the U = 0 sector has an open-shell ground-state</span>
+    <span class="c1"># degeneracy (the k = +-pi/2 levels sit at zero energy), and a</span>
+    <span class="c1"># symmetric, deterministic v0 selects the same symmetric member on</span>
+    <span class="c1"># every run instead of whatever Lanczos&#39;s random start lands on</span>
+    <span class="n">vals</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">=</span> <span class="n">eigsh</span><span class="p">(</span><span class="n">ham</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;SA&quot;</span><span class="p">,</span> <span class="n">v0</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">ham</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">vecs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">ups</span><span class="p">,</span> <span class="n">dns</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-operators-certified-at-zero">
+<h2>Exercise 1 — The operators, certified at zero<a class="headerlink" href="#exercise-1-the-operators-certified-at-zero" title="Link to this heading">#</a></h2>
+<p>Everything downstream rests on getting fermionic signs right, so the
+first exercise builds <span class="math notranslate nohighlight">\(\hat c_i\)</span> as an explicit matrix and checks the
+algebra — not to a tolerance, but <em>exactly</em>, because Jordan–Wigner signs
+are integer arithmetic.</p>
+<p><strong>Part a)</strong> On the <span class="math notranslate nohighlight">\(2^3\)</span>-dimensional Fock space of three spinless modes,
+build the annihilation matrices: <span class="math notranslate nohighlight">\(\hat c_i\)</span> maps the basis state with
+mask <span class="math notranslate nohighlight">\(s\)</span> (bit <span class="math notranslate nohighlight">\(i\)</span> set) to the state with mask <span class="math notranslate nohighlight">\(s \oplus 2^i\)</span>, weighted by
+the Jordan–Wigner parity <code class="docutils literal notranslate"><span class="pre">jw_sign(s,</span> <span class="pre">i)</span></code>
+(<a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html"><span class="std std-doc">§7.23</span></a>’s
+convention, now executable).</p>
+<p><strong>Part b)</strong> Verify the full algebra with <code class="docutils literal notranslate"><span class="pre">numpy</span></code> matrix products: all
+nine <span class="math notranslate nohighlight">\(\{\hat c_i, \hat c^\dagger_j\} = \delta_{ij}\mathbb{1}\)</span> and all
+nine <span class="math notranslate nohighlight">\(\{\hat c_i, \hat c_j\} = 0\)</span>, with the <em>maximum absolute deviation
+equal to</em> <span class="math notranslate nohighlight">\(0.0\)</span> — floating point can represent these signs exactly, so
+any nonzero deviation means a sign error, full stop. Confirm also that
+dropping the string (using <span class="math notranslate nohighlight">\(+1\)</span> in place of the parity) <em>breaks</em> the
+<span class="math notranslate nohighlight">\(i \neq j\)</span> anticommutators: the string is load-bearing.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>max |{c_i, cdag_j} - delta_ij| over 9 pairs: 0.0
+max |{c_i, c_j}| over 9 pairs:            0.0
+without the string: max |{c_i, c_j}| (i != j) = 2.0  (bosons in disguise)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1-the-algebra-is-exact-and-the-string-is-necessary">
+<h3>Validation 1 — the algebra is exact, and the string is necessary<a class="headerlink" href="#validation-1-the-algebra-is-exact-and-the-string-is-necessary" title="Link to this heading">#</a></h3>
+<p>Zero means zero here: both anticommutator families at machine-exact
+<span class="math notranslate nohighlight">\(0.0\)</span>, and the string-free counterfeit failing at <span class="math notranslate nohighlight">\(O(1)\)</span>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  all 18 anticommutators exact to the last bit   [deviations 0.0, 0.0]
+✓  dropping the Jordan-Wigner string breaks the algebra   [max violation 2.0]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-hubbard-dimer-exactly">
+<h2>Exercise 2 — The Hubbard dimer, exactly<a class="headerlink" href="#exercise-2-the-hubbard-dimer-exactly" title="Link to this heading">#</a></h2>
+<p>The model’s hydrogen molecule, solved both ways — by machinery you must
+first build.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">hubbard_sector(n_sites,</span> <span class="pre">n_up,</span> <span class="pre">n_dn,</span> <span class="pre">u_int,</span> <span class="pre">pbc=True)</span></code>,
+the sparse Hubbard Hamiltonian <a class="reference internal" href="#equation-eq-hub-model">Eq. 903</a> in the fixed
+<span class="math notranslate nohighlight">\((N_\uparrow, N_\downarrow)\)</span> sector: basis states as the product of an
+up-spin mask and a down-spin mask (flattened as
+<span class="math notranslate nohighlight">\(a \cdot D_\downarrow + b\)</span>), the interaction diagonal (<span class="math notranslate nohighlight">\(U\)</span> per doubly
+occupied site), and hopping within each spin species carrying the
+Jordan–Wigner parity of the bits strictly <em>between</em> the two sites — the
+boundary bond of a periodic chain crosses the string, so its sign counts
+every mode in between, which is precisely the subtlety Exercise 1
+certified in miniature. <strong>Write this one yourself</strong> — the implementation
+is the lesson.</p>
+<p><strong>Part b)</strong> Certify it on the dimer, whose answer <a class="reference internal" href="#equation-eq-hub-dimer">Eq. 904</a>
+already gives in closed form: solve the two-site, one-up-one-down system
+(open boundary) via the Setup’s <code class="docutils literal notranslate"><span class="pre">ground_state</span></code> — which now drives <em>your</em>
+machinery — at <span class="math notranslate nohighlight">\(U = 0, 1, 4, 8, 20\)</span>, and match the closed form to
+<span class="math notranslate nohighlight">\(10^{-15}\)</span>, five for five.</p>
+<p><strong>Part c)</strong> Extract the double occupancy
+<span class="math notranslate nohighlight">\(d = \langle \hat n_{i\uparrow}\hat n_{i\downarrow}\rangle\)</span> per site from
+the ground vector. At <span class="math notranslate nohighlight">\(U = 0\)</span> the two electrons ignore each other and
+<span class="math notranslate nohighlight">\(d = 1/4\)</span> exactly (each site’s up and down occupations independent, each
+<span class="math notranslate nohighlight">\(1/2\)</span>); repulsion strangles it.</p>
+<p><strong>Part d)</strong> Watch superexchange emerge: at <span class="math notranslate nohighlight">\(U = 10, 20, 40\)</span> compare
+<span class="math notranslate nohighlight">\(E_0\)</span> with <span class="math notranslate nohighlight">\(-4t^2/U\)</span> — the ratio must walk monotonically to <span class="math notranslate nohighlight">\(1\)</span>
+(<span class="math notranslate nohighlight">\(0.963\)</span>, <span class="math notranslate nohighlight">\(0.990\)</span>, <span class="math notranslate nohighlight">\(0.9975\)</span>: the second-order correction <span class="math notranslate nohighlight">\(4t^2/U^2\)</span> dying as promised),
+the singlet’s virtual-hopping reward.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>U =    0: ED -2.000000000000   closed form -2.000000000000
+U =    1: ED -1.561552812809   closed form -1.561552812809
+U =    4: ED -0.828427124746   closed form -0.828427124746
+U =    8: ED -0.472135955000   closed form -0.472135955000
+U =   20: ED -0.198039027186   closed form -0.198039027186
+worst deviation over the five: 3.7e-15
+double occupancy at U = 0: 0.2500000000  (exact 1/4)
+E0 / (-4t^2/U) at U = 10, 20, 40: 0.9629, 0.9902, 0.9975
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-hub-dimer">
+<img alt="../../_images/e35f0e02e77a768f78b52a312f01f9d88500f0306dffa89cb370ee4af6363bbc.png" src="../../_images/e35f0e02e77a768f78b52a312f01f9d88500f0306dffa89cb370ee4af6363bbc.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 809 </span><span class="caption-text">The Hubbard dimer, exactly. Left: the ground energy against <span class="math notranslate nohighlight">\(U\)</span> — exact diagonalization (amber points) on the closed form <span class="math notranslate nohighlight">\((U - \sqrt{U^2 + 16t^2})/2\)</span> (ink), which starts out as the covalent bond <span class="math notranslate nohighlight">\(-2t + U/2\)</span> at weak coupling and lands on Anderson’s superexchange <span class="math notranslate nohighlight">\(-4t^2/U\)</span> (dashed) at strong. Right: double occupancy strangled from its free value <span class="math notranslate nohighlight">\(1/4\)</span> (dotted) toward zero as <span class="math notranslate nohighlight">\(U\)</span> grows — the electrons still bond, but they no longer share a room.</span><a class="headerlink" href="#fig-hub-dimer" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2-the-dimer-knows-its-closed-form">
+<h3>Validation 2 — the dimer knows its closed form<a class="headerlink" href="#validation-2-the-dimer-knows-its-closed-form" title="Link to this heading">#</a></h3>
+<p>Five exact energies at <span class="math notranslate nohighlight">\(10^{-14}\)</span>, the free-electron <span class="math notranslate nohighlight">\(d = 1/4\)</span>, and the
+superexchange ratio marching monotonically to <span class="math notranslate nohighlight">\(1\)</span>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  dimer ED = closed form at U = 0, 1, 4, 8, 20   [worst |dE| = 3.7e-15]
+✓  U = 0 double occupancy = 1/4   [got 0.25 vs expected 0.25 (rtol=1e-12, atol=1e-09)]
+✓  E0 -&gt; -4t^2/U monotonically (0.3% by U = 40t)   [ratios 0.9629 -&gt; 0.9975]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-eight-sites-the-sector-benchmarked-twice">
+<h2>Exercise 3 — Eight sites: the sector, benchmarked twice<a class="headerlink" href="#exercise-3-eight-sites-the-sector-benchmarked-twice" title="Link to this heading">#</a></h2>
+<p>Now the machinery earns its keep: the half-filled <span class="math notranslate nohighlight">\(L = 8\)</span> periodic chain.</p>
+<p><strong>Part a)</strong> Count before computing: the <span class="math notranslate nohighlight">\(S_z = 0\)</span>, <span class="math notranslate nohighlight">\(N = 8\)</span> sector is
+<span class="math notranslate nohighlight">\(\binom{8}{4}^2 = 4900\)</span>-dimensional (the full Fock space is <span class="math notranslate nohighlight">\(4^8 =
+65{,}536\)</span>; symmetry buys a factor of <span class="math notranslate nohighlight">\(13\)</span>). Build the sector Hamiltonian
+with the <code class="docutils literal notranslate"><span class="pre">hubbard_sector</span></code> you wrote in Exercise 2 and confirm dimension
+and Hermiticity (<code class="docutils literal notranslate"><span class="pre">scipy.sparse</span></code> max asymmetry, exactly <span class="math notranslate nohighlight">\(0\)</span>).</p>
+<p><strong>Part b)</strong> Benchmark against the two ends of the coupling axis. At
+<span class="math notranslate nohighlight">\(U = 0\)</span> the periodic tight-binding levels <span class="math notranslate nohighlight">\(-2t\cos(2\pi m/8)\)</span> filled
+with four electrons per spin give
+<span class="math notranslate nohighlight">\(E_0/L = -(1 + \sqrt2)/2 = -1.20711\)</span> <em>exactly</em> (the <span class="math notranslate nohighlight">\(k = \pm\pi/2\)</span>
+levels sit at zero energy, so the open-shell degeneracy costs nothing);
+<code class="docutils literal notranslate"><span class="pre">eigsh</span></code> must land on it at <span class="math notranslate nohighlight">\(10^{-9}\)</span>. At <span class="math notranslate nohighlight">\(U = 4\)</span> compare with the exact
+infinite-chain Bethe-ansatz energy of Lieb and Wu <span class="bibtex-citation" id="id8">[<a class="reference internal" href="#id117" title="Elliott H. Lieb and F. Y. Wu. Absence of Mott transition in an exact solution of the short-range, one-band model in one dimension. Physical Review Letters, 20:1445–1448, 1968.">LW68</a>]</span>,
+<span class="math notranslate nohighlight">\(-0.573729\)</span> per site: eight sites land at <span class="math notranslate nohighlight">\(-0.575441\)</span>, within <span class="math notranslate nohighlight">\(0.3\%\)</span> —
+exact diagonalization touching an exact solution.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sector dimension: 4900  (C(8,4)^2 = 4900); full Fock space 4^8 = 65536
+max |H - H^T|: 0.0
+U = 0: E0 = -9.6568542495   closed form 8 x -(1+sqrt(2))/2 = -9.6568542495
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>U = 4: E0/L = -0.575441   Lieb-Wu (L -&gt; inf) -0.573729   finite-size deviation 0.30%
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-3-counted-symmetric-and-twice-benchmarked">
+<h3>Validation 3 — counted, symmetric, and twice benchmarked<a class="headerlink" href="#validation-3-counted-symmetric-and-twice-benchmarked" title="Link to this heading">#</a></h3>
+<p>Dimension <span class="math notranslate nohighlight">\(4900\)</span>, symmetry exact, the <span class="math notranslate nohighlight">\(U = 0\)</span> closed form at <span class="math notranslate nohighlight">\(10^{-9}\)</span>,
+and Lieb–Wu within half a percent from eight sites.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  sector dimension 4900 and H exactly symmetric   [dim 4900, asym 0.0]
+✓  U = 0 energy = -(1+sqrt(2))/2 per site   [got -9.65685 vs expected -9.65685 (rtol=1e-09, atol=1e-09)]
+✓  eight sites within 0.5% of the infinite-chain Bethe ansatz (U = 4)   [deviation 0.30%]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-the-crossover-kinetic-energy-pays-the-repulsion-s-toll">
+<h2>Exercise 4 — The crossover: kinetic energy pays the repulsion’s toll<a class="headerlink" href="#exercise-4-the-crossover-kinetic-energy-pays-the-repulsion-s-toll" title="Link to this heading">#</a></h2>
+<p>With the machinery certified, sweep the war between the limits.</p>
+<p><strong>Part a)</strong> For <span class="math notranslate nohighlight">\(U = 0\)</span> to <span class="math notranslate nohighlight">\(16\)</span>, compute <span class="math notranslate nohighlight">\(E_0/L\)</span> and the double
+occupancy of the half-filled chain. Both must fall monotonically: energy
+because <span class="math notranslate nohighlight">\(U\)</span> only adds a positive diagonal, double occupancy because that
+is <em>how</em> the ground state dodges the toll — from exactly <span class="math notranslate nohighlight">\(1/4\)</span> at
+<span class="math notranslate nohighlight">\(U = 0\)</span> (the uncorrelated value; the free chain’s open-shell degeneracy
+is resolved deterministically by the fixed Lanczos start vector) to
+<span class="math notranslate nohighlight">\(0.011\)</span> at <span class="math notranslate nohighlight">\(U = 16\)</span>, a <span class="math notranslate nohighlight">\(96\%\)</span> eviction.</p>
+<p><strong>Part b)</strong> The eviction is the Mott localization in slow motion: plot
+both curves, and against the <span class="math notranslate nohighlight">\(E_0/L\)</span> curve mark the two asymptotes it
+interpolates — the free value <span class="math notranslate nohighlight">\(-(1+\sqrt2)/2\)</span> and the superexchange
+energy per site of the effective Heisenberg model (Exercise 6’s
+<span class="math notranslate nohighlight">\(J(E_{\mathrm{Heis}} - L/4)/L\)</span> with <span class="math notranslate nohighlight">\(J = 4t^2/U\)</span>).</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>U =    0: E0/L = -1.207107   d = 0.25000
+U =    1: E0/L = -0.994041   d = 0.19234
+U =    2: E0/L = -0.821024   d = 0.15449
+U =    3: E0/L = -0.683325   d = 0.12183
+U =    4: E0/L = -0.575441   d = 0.09493
+U =    6: E0/L = -0.426097   d = 0.05783
+U =    8: E0/L = -0.333268   d = 0.03702
+U =   12: E0/L = -0.229311   d = 0.01812
+U =   16: E0/L = -0.173958   d = 0.01055
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-hub-crossover">
+<img alt="../../_images/1842b1a2bea144eca302da9eac6fd877253d075a311fc86c454a7264949f06b5.png" src="../../_images/1842b1a2bea144eca302da9eac6fd877253d075a311fc86c454a7264949f06b5.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 810 </span><span class="caption-text">The half-filled chain’s crossover, measured. Left: ground energy per site rising from the free-electron <span class="math notranslate nohighlight">\(-(1+\sqrt{2})/2\)</span> (dotted) toward zero, hugging the superexchange asymptote <span class="math notranslate nohighlight">\(J(E_{\mathrm{Heis}}/L - 1/4)\)</span> (dashed) beyond <span class="math notranslate nohighlight">\(U \approx 8t\)</span>: by <span class="math notranslate nohighlight">\(U = 16t\)</span> the remaining binding energy is pure virtual hopping. Right: double occupancy evicted from the uncorrelated <span class="math notranslate nohighlight">\(1/4\)</span> at <span class="math notranslate nohighlight">\(U = 0\)</span> to <span class="math notranslate nohighlight">\(0.011\)</span> at <span class="math notranslate nohighlight">\(U = 16\)</span> — the ground state buys its way out of the repulsion by localizing one electron per site, which is precisely what a Mott insulator is.</span><a class="headerlink" href="#fig-hub-crossover" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4-both-monotone-and-quantitatively-evicted">
+<h3>Validation 4 — both monotone, and quantitatively evicted<a class="headerlink" href="#validation-4-both-monotone-and-quantitatively-evicted" title="Link to this heading">#</a></h3>
+<p>Energy and double occupancy strictly falling across the nine couplings;
+<span class="math notranslate nohighlight">\(d(U{=}16) \approx 0.011\)</span>, and the large-<span class="math notranslate nohighlight">\(U\)</span> energy within <span class="math notranslate nohighlight">\(2\%\)</span> of the
+Heisenberg asymptote.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  E0/L rises and d falls monotonically with U   [d: 0.250 -&gt; 0.011]
+✓  d(U = 16) (96% eviction)   [got 0.01055 vs expected 0.0106 (rtol=0.05, atol=1e-09)]
+✓  E0/L(U = 16) on the superexchange asymptote   [got -0.173958 vs expected -0.176597 (rtol=0.02, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-the-mott-gap-charge-pays-spin-does-not">
+<h2>Exercise 5 — The Mott gap: charge pays, spin does not<a class="headerlink" href="#exercise-5-the-mott-gap-charge-pays-spin-does-not" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html"><span class="std std-doc">§7.12</span></a>’s
+rule — half-filled band, therefore metal — meets its counterexample.</p>
+<p><strong>Part a)</strong> Compute the charge gap
+<span class="math notranslate nohighlight">\(\Delta_c = E_0(5,4) + E_0(3,4) - 2E_0(4,4)\)</span> (add an electron, remove
+one; particle–hole symmetry makes the two sectors’ costs equal) at
+<span class="math notranslate nohighlight">\(U = 2, 4, 8, 16\)</span>: it grows from <span class="math notranslate nohighlight">\(0.80\)</span> through <span class="math notranslate nohighlight">\(2.01\)</span> and <span class="math notranslate nohighlight">\(5.19\)</span> to
+<span class="math notranslate nohighlight">\(12.66\)</span>, closing on the strong-coupling law <span class="math notranslate nohighlight">\(U - 4t\)</span> (deviation <span class="math notranslate nohighlight">\(0.65t\)</span>
+at <span class="math notranslate nohighlight">\(U = 16\)</span> and shrinking).</p>
+<p><strong>Part b)</strong> Compute the spin gap <span class="math notranslate nohighlight">\(\Delta_s = E_0(5,3) - E_0(4,4)\)</span> — the
+cost of one spin flip, no charge moved. It stays below <span class="math notranslate nohighlight">\(0.35t\)</span> at every
+coupling (and vanishes as <span class="math notranslate nohighlight">\(L \to \infty\)</span>: the Bethe-ansatz spin sector
+is gapless). One system, two prices: this hierarchy <em>is</em> the Mott
+insulator — insulating for charge transport, alive with spin dynamics.
+A free-electron system cannot do this: at <span class="math notranslate nohighlight">\(U = 0\)</span> both gaps are finite-
+size artifacts of the same magnitude.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>U =    2: charge gap  0.7998   spin gap 0.1585   ratio    5.0
+U =    4: charge gap  2.0122   spin gap 0.3035   ratio    6.6
+U =    8: charge gap  5.1858   spin gap 0.2396   ratio   21.6
+U =   16: charge gap 12.6552   spin gap 0.1284   ratio   98.5
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-hub-gaps">
+<img alt="../../_images/631c158caeb18a703302224b1bd161c4a756f27f17fba2ce2285333953486a0c.png" src="../../_images/631c158caeb18a703302224b1bd161c4a756f27f17fba2ce2285333953486a0c.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 811 </span><span class="caption-text">One chain, two prices. The charge gap (amber: add plus remove an electron) opens with <span class="math notranslate nohighlight">\(U\)</span> and closes on the strong-coupling law <span class="math notranslate nohighlight">\(U - 4t\)</span> (dashed): by <span class="math notranslate nohighlight">\(U = 16t\)</span> moving charge across the half-filled chain costs <span class="math notranslate nohighlight">\(12.7t\)</span>. The spin gap (ink: flip one spin, move no charge) never exceeds <span class="math notranslate nohighlight">\(0.35t\)</span> and is headed for zero at infinite length. The band picture of §7.12 has no vocabulary for this split — a Mott insulator is gapped and gapless at the same time, depending on what you ask it to transport.</span><a class="headerlink" href="#fig-hub-gaps" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5-the-hierarchy-quantified">
+<h3>Validation 5 — the hierarchy, quantified<a class="headerlink" href="#validation-5-the-hierarchy-quantified" title="Link to this heading">#</a></h3>
+<p>Charge gap strictly growing and within <span class="math notranslate nohighlight">\(0.7t\)</span> of <span class="math notranslate nohighlight">\(U - 4t\)</span> at <span class="math notranslate nohighlight">\(U = 16\)</span>;
+spin gap bounded by <span class="math notranslate nohighlight">\(0.35t\)</span> throughout; a factor <span class="math notranslate nohighlight">\(\geq 20\)</span> between the
+two sectors at strong coupling.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  charge gap grows monotonically with U   [0.80 -&gt; 12.66]
+✓  charge gap -&gt; U - 4t   [got 12.6552 vs expected 12 (rtol=1e-06, atol=0.7)]
+✓  spin gap bounded (gapless sector in disguise)   [max 0.304 t]
+✓  charge/spin price ratio exceeds 20 at U = 16   [ratio 99]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-verdict-the-hidden-heisenberg-model">
+<h2>Exercise 6 — Verdict: the hidden Heisenberg model<a class="headerlink" href="#exercise-6-verdict-the-hidden-heisenberg-model" title="Link to this heading">#</a></h2>
+<p>Equation <a class="reference internal" href="#equation-eq-hub-heisenberg">Eq. 905</a> claims that at strong coupling the
+Hubbard chain <em>is</em> a spin chain. Both sides can be diagonalized exactly
+at <span class="math notranslate nohighlight">\(L = 8\)</span>; nothing needs to be taken on faith.</p>
+<p><strong>Part a)</strong> Build and solve the <span class="math notranslate nohighlight">\(L = 8\)</span> periodic Heisenberg
+antiferromagnet (<span class="math notranslate nohighlight">\(J = 1\)</span>) in its own <span class="math notranslate nohighlight">\(S_z = 0\)</span> basis
+(<span class="math notranslate nohighlight">\(\binom{8}{4} = 70\)</span> states): ground energy <span class="math notranslate nohighlight">\(E_{\mathrm{Heis}} =
+-3.651093\)</span> and the ground-state correlations
+<span class="math notranslate nohighlight">\(\langle\mathbf S_0\cdot\mathbf S_d\rangle\)</span> for <span class="math notranslate nohighlight">\(d = 1\)</span>–<span class="math notranslate nohighlight">\(4\)</span>,
+sign-alternating (antiferromagnetic) with slowly decaying magnitude —
+the correlations that become Bethe’s famous critical spin chain at
+<span class="math notranslate nohighlight">\(L \to \infty\)</span>.</p>
+<p><strong>Part b)</strong> Measure the same correlator in the <em>Hubbard</em> ground state
+(<span class="math notranslate nohighlight">\(\hat{\mathbf S}_i\)</span> built from the fermionic operators) at
+<span class="math notranslate nohighlight">\(U = 4, 8, 16, 32\)</span> and set the two spin chains side by side. The match
+must improve as <span class="math notranslate nohighlight">\((t/U)^2\)</span>: maximum relative deviation (over the four
+distances) <span class="math notranslate nohighlight">\(39\%\)</span> at <span class="math notranslate nohighlight">\(U = 4\)</span> falling to <span class="math notranslate nohighlight">\(1.1\%\)</span> at <span class="math notranslate nohighlight">\(U = 32\)</span>, roughly
+fourfold per doubling.
+Check the energies too: <span class="math notranslate nohighlight">\(E_0^{\mathrm{Hub}}\)</span> against
+<span class="math notranslate nohighlight">\(J(E_{\mathrm{Heis}} - L/4)\)</span> at <span class="math notranslate nohighlight">\(U = 32\)</span>, within half a percent.</p>
+<p><strong>Part c)</strong> Print the verdict table — <span class="math notranslate nohighlight">\(U\)</span>, <span class="math notranslate nohighlight">\(E_0/L\)</span>, <span class="math notranslate nohighlight">\(d\)</span>, <span class="math notranslate nohighlight">\(\Delta_c\)</span>,
+<span class="math notranslate nohighlight">\(\Delta_s\)</span>, and the Heisenberg deviation — and read it as one story:
+repulsion evicts double occupancy, the eviction gaps the charge sector,
+and what survives below the gap is an antiferromagnet no term of
+<a class="reference internal" href="#equation-eq-hub-model">Eq. 903</a> asked for.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Heisenberg L = 8: E0 = -3.651093
+  &lt;S0.Sd&gt;, d = 1..4: -0.45639, +0.19578, -0.18895, +0.14912
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>U =    4: -0.33996, +0.11858, -0.12945, +0.09403   max dev  39.4%
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>U =    8: -0.41112, +0.16651, -0.16701, +0.12877   max dev  14.9%
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>U =   16: -0.44357, +0.18767, -0.18298, +0.14357   max dev   4.1%
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>U =   32: -0.45308, +0.19370, -0.18743, +0.14771   max dev   1.1%
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>E0(U = 32) = -0.70370   J(E_Heis - L/4) = -0.70639   dev 0.38%
+
+--- Verdict: how a metal becomes an antiferromagnetic insulator ---
+   U      E0/L    docc  ch.gap  sp.gap  Heis.dev
+   4   -0.5754  0.0949   2.012   0.304     39.4%
+   8   -0.3333  0.0370   5.186   0.240     14.9%
+  16   -0.1740  0.0106  12.655   0.128      4.1%
+  32       nan     nan     nan     nan      1.1%
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-hub-heisenberg">
+<img alt="../../_images/776a05a25844cd097c101249a1fa133c986fa8f7d357e6641ece78e25d1f6146.png" src="../../_images/776a05a25844cd097c101249a1fa133c986fa8f7d357e6641ece78e25d1f6146.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 812 </span><span class="caption-text">Anderson’s superexchange, verified at the percent level. Ground-state spin correlations <span class="math notranslate nohighlight">\(\langle\mathbf{S}_0\cdot\mathbf{S}_d\rangle\)</span> of the half-filled Hubbard chain at <span class="math notranslate nohighlight">\(U/t = 4, 8, 16, 32\)</span> (amber, deepening) against the exactly diagonalized <span class="math notranslate nohighlight">\(L = 8\)</span> Heisenberg antiferromagnet (ink bars) — the model <a class="reference internal" href="#equation-eq-hub-heisenberg">Eq. 905</a> says they must become. The alternating signs are there at every coupling; the magnitudes converge onto the Heisenberg values as <span class="math notranslate nohighlight">\((t/U)^2\)</span>, from <span class="math notranslate nohighlight">\(39\%\)</span> off at <span class="math notranslate nohighlight">\(U = 4t\)</span> (worst of the four distances) to <span class="math notranslate nohighlight">\(1.1\%\)</span> at <span class="math notranslate nohighlight">\(U = 32t\)</span>. The Hubbard Hamiltonian contains no spin coupling; the antiferromagnet is entirely emergent.</span><a class="headerlink" href="#fig-hub-heisenberg" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6-superexchange-at-the-percent-level">
+<h3>Validation 6 — superexchange at the percent level<a class="headerlink" href="#validation-6-superexchange-at-the-percent-level" title="Link to this heading">#</a></h3>
+<p>Heisenberg ground energy against its known value; alternating signs at
+every coupling; the worst-of-four deviation falling as second order demands; and the
+energy map closing within half a percent at <span class="math notranslate nohighlight">\(U = 32\)</span>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  L = 8 Heisenberg ground energy   [got -3.65109 vs expected -3.65109 (rtol=1e-06, atol=1e-09)]
+✓  antiferromagnetic sign alternation at every U   [signs -,+,-,+ for d = 1..4]
+✓  Heisenberg deviation falls monotonically to ~1% at U = 32   [39% -&gt; 1.1%]
+✓  deviation shrinks fourfold per doubling of U (second order in t/U)   [ratio 3.9]
+✓  E0(U = 32) = J(E_Heis - L/4) within 0.5%   [got -0.703699 vs expected -0.706387 (rtol=0.005, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">With your assistant</p>
+<p>Away from half filling the Mott insulator becomes one of the strangest
+metals known: in one dimension the electron falls apart into separate
+spin and charge excitations. A first look is within your reach: have
+your assistant compute the ground energy of the <span class="math notranslate nohighlight">\(L = 8\)</span>, <span class="math notranslate nohighlight">\(U = 8\)</span> chain
+with <span class="math notranslate nohighlight">\(N = 8, 7, 6\)</span> electrons (<span class="math notranslate nohighlight">\(S_z = 0\)</span> or <span class="math notranslate nohighlight">\(\pm\tfrac12\)</span> sectors) and
+form the chemical potentials <span class="math notranslate nohighlight">\(\mu^+ = E_0(N{+}1) - E_0(N)\)</span> and
+<span class="math notranslate nohighlight">\(\mu^- = E_0(N) - E_0(N{-}1)\)</span> at <span class="math notranslate nohighlight">\(N = 7\)</span>. Then run the check that is
+yours alone: at <span class="math notranslate nohighlight">\(N = 7\)</span> (doped) the two chemical potentials must differ
+by far less than the half-filled charge gap — <code class="docutils literal notranslate"><span class="pre">numpy.isclose</span></code> of
+<span class="math notranslate nohighlight">\(\mu^+ - \mu^-\)</span> against <span class="math notranslate nohighlight">\(0\)</span> with <code class="docutils literal notranslate"><span class="pre">atol</span></code> a tenth of Exercise 5’s
+<span class="math notranslate nohighlight">\(\Delta_c(U{=}8)\)</span> — the doped chain conducts, the half-filled one
+cannot. The check is yours.</p>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>Movement IV opened with the band picture’s minimal enemy: two terms, one
+competition. The fermionic algebra was built as matrices and certified
+at exactly zero error — 18 anticommutators, integer arithmetic, no
+tolerance — with the Jordan–Wigner string shown load-bearing by breaking
+it. The dimer matched its closed form <span class="math notranslate nohighlight">\((U - \sqrt{U^2 + 16t^2})/2\)</span> at
+<span class="math notranslate nohighlight">\(10^{-15}\)</span> five times over and handed us superexchange in miniature
+(ratio to <span class="math notranslate nohighlight">\(-4t^2/U\)</span> walking <span class="math notranslate nohighlight">\(0.963 \to 0.9975\)</span> from <span class="math notranslate nohighlight">\(U = 10\)</span> to <span class="math notranslate nohighlight">\(40\)</span>).
+Eight periodic sites at half filling — a 4900-dimensional sector,
+<code class="docutils literal notranslate"><span class="pre">eigsh</span></code>, a tenth of a second — hit the <span class="math notranslate nohighlight">\(U = 0\)</span> closed form
+<span class="math notranslate nohighlight">\(-(1+\sqrt2)/2\)</span> at <span class="math notranslate nohighlight">\(10^{-10}\)</span> and Lieb–Wu’s infinite-chain Bethe ansatz
+within <span class="math notranslate nohighlight">\(0.3\%\)</span>. Then the physics: double occupancy evicted from <span class="math notranslate nohighlight">\(1/4\)</span>
+to <span class="math notranslate nohighlight">\(0.011\)</span>; the charge gap climbing <span class="math notranslate nohighlight">\(0.80 \to 12.66\)</span> onto the <span class="math notranslate nohighlight">\(U - 4t\)</span>
+law while the spin gap idled below <span class="math notranslate nohighlight">\(0.35t\)</span> — a system insulating for
+charge and gapless for spin, which no independent-electron theory of
+this volume can produce; and the buried punchline, Anderson’s
+superexchange, verified by diagonalizing the Heisenberg chain the
+Hubbard model is supposed to become and watching four correlation
+functions converge onto it as <span class="math notranslate nohighlight">\((t/U)^2\)</span> — worst-distance deviations
+<span class="math notranslate nohighlight">\(39\%\)</span>, <span class="math notranslate nohighlight">\(15\%\)</span>, <span class="math notranslate nohighlight">\(4\%\)</span>, <span class="math notranslate nohighlight">\(1.1\%\)</span> — with the ground energies agreeing through <span class="math notranslate nohighlight">\(J = 4t^2/U\)</span> to
+<span class="math notranslate nohighlight">\(0.4\%\)</span>. An antiferromagnet emerged from a Hamiltonian containing no
+spin coupling whatsoever.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Everything here was energies and equal-time correlators. The
+<em>dynamics</em> — what happens when one electron is injected or removed,
+the spectral function that photoemission actually measures — needs the
+Lehmann machinery of <a class="reference internal" href="quasiparticles-gw.html"><span class="std std-doc">§8.14</span></a>, where this same
+<span class="math notranslate nohighlight">\(N \pm 1\)</span> sector arithmetic becomes <span class="math notranslate nohighlight">\(A(k, \omega)\)</span> and the GW
+approximation is tested against exactly these chains.</p></li>
+<li><p>The <span class="math notranslate nohighlight">\(4900\)</span>-dimensional sector was comfortable; <span class="math notranslate nohighlight">\(L = 16\)</span> is
+<span class="math notranslate nohighlight">\(165\)</span> million. The exponential wall is real, and the methods that
+negotiate it — quantum Monte Carlo
+(<a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html"><span class="std std-doc">§7.21</span></a>
+grown up), DMRG, embedding — define modern many-body practice; Martin,
+Reining, and Ceperley <span class="bibtex-citation" id="id9">[<a class="reference internal" href="#id82" title="Richard M. Martin, Lucia Reining, and David M. Ceperley. Interacting Electrons: Theory and Computational Approaches. Cambridge University Press, Cambridge, 2016.">MRC16</a>]</span> surveys the field
+(Ch. 23–25 for the stochastic methods).</p></li>
+<li><p>In two dimensions the doped Hubbard model is the leading candidate
+theory of high-temperature superconductivity — unsolved after four
+decades. The one-dimensional physics computed here (spin–charge
+separation, emergent magnetism) is the solved corner of that problem.</p></li>
+</ul>
+<div class="docutils container" id="id10">
+<div role="list" class="citation-list">
+<div class="citation" id="id118" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>And59<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id6">2</a>)</span>
+<p>P. W. Anderson. New approach to the theory of superexchange interactions. <em>Physical Review</em>, 115:2–13, 1959.</p>
+</div>
+<div class="citation" id="id104" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Hub63<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id5">2</a>)</span>
+<p>J. Hubbard. Electron correlations in narrow energy bands. <em>Proceedings of the Royal Society of London A</em>, 276:238–257, 1963. <a class="reference external" href="https://doi.org/10.1098/rspa.1963.0204">doi:10.1098/rspa.1963.0204</a>.</p>
+</div>
+<div class="citation" id="id117" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>LW68<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id7">2</a>,<a role="doc-backlink" href="#id8">3</a>)</span>
+<p>Elliott H. Lieb and F. Y. Wu. Absence of Mott transition in an exact solution of the short-range, one-band model in one dimension. <em>Physical Review Letters</em>, 20:1445–1448, 1968.</p>
+</div>
+<div class="citation" id="id82" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>MRC16<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id4">1</a>,<a role="doc-backlink" href="#id9">2</a>)</span>
+<p>Richard M. Martin, Lucia Reining, and David M. Ceperley. <em>Interacting Electrons: Theory and Computational Approaches</em>. Cambridge University Press, Cambridge, 2016.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/08-electronic-structure"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="berry-wannier-ssh.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">8.12 Berry Phase, Wannier Functions, and the SSH Model</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="quasiparticles-gw.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">8.14 Quasiparticles, Spectral Functions, and GW</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-wannier-orbitals-to-two-parameters">From Wannier orbitals to two parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dimer-the-model-s-hydrogen-molecule">The dimer: the model’s hydrogen molecule</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-mott-insulator-and-the-effective-spin-model">The Mott insulator, and the effective spin model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-operators-certified-at-zero">Exercise 1 — The operators, certified at zero</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-algebra-is-exact-and-the-string-is-necessary">Validation 1 — the algebra is exact, and the string is necessary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-hubbard-dimer-exactly">Exercise 2 — The Hubbard dimer, exactly</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-the-dimer-knows-its-closed-form">Validation 2 — the dimer knows its closed form</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-eight-sites-the-sector-benchmarked-twice">Exercise 3 — Eight sites: the sector, benchmarked twice</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-counted-symmetric-and-twice-benchmarked">Validation 3 — counted, symmetric, and twice benchmarked</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-the-crossover-kinetic-energy-pays-the-repulsion-s-toll">Exercise 4 — The crossover: kinetic energy pays the repulsion’s toll</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-both-monotone-and-quantitatively-evicted">Validation 4 — both monotone, and quantitatively evicted</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-the-mott-gap-charge-pays-spin-does-not">Exercise 5 — The Mott gap: charge pays, spin does not</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-the-hierarchy-quantified">Validation 5 — the hierarchy, quantified</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-verdict-the-hidden-heisenberg-model">Exercise 6 — Verdict: the hidden Heisenberg model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-superexchange-at-the-percent-level">Validation 6 — superexchange at the percent level</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

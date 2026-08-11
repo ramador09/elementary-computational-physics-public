@@ -1,0 +1,1571 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="8.5 Thomas–Fermi: The First Density Functional" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/thomas-fermi.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: Movement I ended with wavefunction methods priced: exact is impossible( §8.1), Hartree–Fock misses correlation by construction ( §8.3, §8...." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: Movement I ended with wavefunction methods priced: exact is impossible( §8.1), Hartree–Fock misses correlation by construction ( §8.3, §8...." />
+
+    <title>8.5 Thomas–Fermi: The First Density Functional &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/08-electronic-structure/thomas-fermi';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/thomas-fermi.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="8.6 Hohenberg–Kohn and the Constrained Search" href="hohenberg-kohn.html" />
+    <link rel="prev" title="8.4 Hartree–Fock II: The Electron Gas" href="hartree-fock-gas.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="berry-wannier-ssh.html">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/08-electronic-structure/thomas-fermi.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/08-electronic-structure/thomas-fermi.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/08-electronic-structure/thomas-fermi.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/08-electronic-structure/thomas-fermi.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>8.5 Thomas–Fermi: The First Density Functional</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-functional-derivative-toolkit">The functional-derivative toolkit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-thomasfermi-functional-and-the-universal-atom">The Thomas–Fermi functional and the universal atom</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-must-fail-and-what-survives">What must fail, and what survives</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-toolkit-certified-functional-derivatives">Exercise 1 — The toolkit, certified: functional derivatives</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-calculus-holds">Validation 1 — the calculus holds</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-universal-atom-shot-down-to-baker-s-constant">Exercise 2 — The universal atom, shot down to Baker’s constant</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-baker-s-constant">Validation 2 — Baker’s constant</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-z-7-3-one-number-for-the-whole-periodic-table">Exercise 3 — <span class="math notranslate nohighlight">\(Z^{7/3}\)</span>: one number for the whole periodic table</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-the-scaling-law-and-its-honest-errors">Validation 3 — the scaling law and its honest errors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-thomasfermi-meets-the-exact-laboratory">Exercise 4 — Thomas–Fermi meets the exact laboratory</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-the-crudeness-in-digits">Validation 4 — the crudeness, in digits</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-teller-s-theorem-no-molecules-ever">Exercise 5 — Teller’s theorem: no molecules, ever</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-teller-computed">Validation 5 — Teller, computed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-harriman-s-orbitals-any-density-can-host-n-electrons">Exercise 6 — Harriman’s orbitals: any density can host <span class="math notranslate nohighlight">\(N\)</span> electrons</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-the-construction-is-exact">Validation 6 — the construction is exact</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="thomasfermi-the-first-density-functional">
+<h1>8.5 Thomas–Fermi: The First Density Functional<a class="headerlink" href="#thomasfermi-the-first-density-functional" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VIII — Electronic Structure and Many-Body Matter
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;8.5
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Movement II opens with 1927&#x27;s audacious idea: throw away the wavefunction and work with the density alone. We build the functional-derivative toolkit the whole movement runs on, solve the universal Thomas–Fermi atom by shooting (every neutral atom is one curve in disguise, with energy scaling as Z to the seven-thirds), measure the theory&#x27;s honest failures on the exact laboratory, demonstrate Teller&#x27;s devastating no-binding theorem, and construct Harriman&#x27;s orbitals to prove any density is representable. The idea is right; the kinetic functional is crude; the fix is two notebooks away.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;130–160 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p>Movement I ended with wavefunction methods priced: exact is impossible
+(<a class="reference internal" href="many-electron-problem.html"><span class="std std-doc">§8.1</span></a>), Hartree–Fock misses correlation by
+construction (<a class="reference internal" href="hartree-fock-atoms.html"><span class="std std-doc">§8.3</span></a>,
+<a class="reference internal" href="hartree-fock-gas.html"><span class="std std-doc">§8.4</span></a>). Movement II pursues a different currency
+altogether. In 1926–27, before Hartree had orbitals, Thomas and Fermi
+<span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id113" title="L. H. Thomas. The calculation of atomic fields. Mathematical Proceedings of the Cambridge Philosophical Society, 23:542–548, 1927. doi:10.1017/S0305004100011683.">Tho27</a>]</span> proposed describing an atom by its <em>density alone</em>: three
+variables instead of <span class="math notranslate nohighlight">\(3N\)</span>, with the kinetic energy estimated locally from the
+Fermi-gas formula of <a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a>.
+The idea seems reckless and is in fact prophetic — it is the direct ancestor of
+density-functional theory, and the Hohenberg–Kohn theorem of
+<a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a> will prove the reckless part <em>exactly right</em>: the
+density really does suffice. What fails is only the crude kinetic estimate, and
+measuring <em>how</em> it fails is this notebook’s job.</p>
+<p>The itinerary: build the functional-derivative toolkit (the movement’s calculus,
+certified numerically the way <a class="reference internal" href="../00-foundations/quadrature-differentiation.html"><span class="std std-doc">§0.3</span></a>
+certified quadrature); derive the TF functional and reduce every neutral atom to
+one universal ODE, solved by shooting with a series-expansion launch (the
+singular origin is a genuine numerics lesson) to Baker’s slope <span class="math notranslate nohighlight">\(-1.588071\)</span>;
+assemble the marvellous scaling law <span class="math notranslate nohighlight">\(E = -0.7687\,Z^{7/3}\)</span> Ha; then the honest
+failures, each computed: no shells, an atom without an edge (the chemical
+potential of the neutral atom vanishing as a measured power law), a 34% energy
+error on the exact laboratory of <a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a>, and Teller’s
+theorem — Thomas–Fermi molecules never bind — demonstrated as a computed binding
+curve with no minimum. The closing exercise is constructive optimism: Harriman’s
+explicit orbitals show <em>any</em> reasonable density is <span class="math notranslate nohighlight">\(N\)</span>-representable, clearing
+the ground the Hohenberg–Kohn theorems will build on.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Hartree atomic units. The 3-D Thomas–Fermi
+atom uses the standard scaled variables <span class="math notranslate nohighlight">\(r = b\,x\)</span> with
+<span class="math notranslate nohighlight">\(b = \tfrac12(3\pi/4)^{2/3} Z^{-1/3} = 0.8853\,Z^{-1/3}\)</span>. One-dimensional
+laboratory computations use the <a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a> system
+(soft-Coulomb, charge-2 center) with the 1-D Fermi-gas kinetic density
+<span class="math notranslate nohighlight">\(\pi^2 n^3/24\)</span>. Functional derivatives are checked against <code class="docutils literal notranslate"><span class="pre">numpy</span></code> central
+differences with Gaussian test perturbations; the universal ODE is solved by
+<code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code> (<code class="docutils literal notranslate"><span class="pre">rtol=1e-12</span></code>) inside a <code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code>
+shooting loop.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call
+against an independent fact: a closed-form derivative, Baker’s slope, the
+<span class="math notranslate nohighlight">\(Z^{7/3}\)</span> law, the exact laboratory’s energy, a constructive identity. A ✓ is
+strong evidence; a ✗ is a prompt to locate the discrepancy, not an automatic
+verdict.</p>
+<p><strong>Scope.</strong> Thomas–Fermi in its original form: no exchange (Dirac’s
+<span class="math notranslate nohighlight">\(-c\,n^{4/3}\)</span> addition is named), no gradient corrections (von Weizsäcker
+named), both belonging to the systematic story in Parr &amp; Yang
+<span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id87" title="Robert G. Parr and Weitao Yang. Density-Functional Theory of Atoms and Molecules. Oxford University Press, New York, 1989.">PY89</a>]</span>, Ch. 6, the subject’s standard reference. Teller’s
+theorem is <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id114" title="Edward Teller. On the stability of molecules in the Thomas–Fermi theory. Reviews of Modern Physics, 34:627–631, 1962. doi:10.1103/RevModPhys.34.627.">Tel62</a>]</span>; the Harriman construction is
+<span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id115" title="John E. Harriman. Orthonormal orbitals for the representation of an arbitrary density. Physical Review A, 24:680–682, 1981. doi:10.1103/PhysRevA.24.680.">Har81</a>]</span>; Lieb’s rigorous treatment of TF theory is surveyed in
+Parr &amp; Yang, Ch. 6.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="the-functional-derivative-toolkit">
+<h3>The functional-derivative toolkit<a class="headerlink" href="#the-functional-derivative-toolkit" title="Link to this heading">#</a></h3>
+<p>Density-functional theory’s calculus is variation with respect to a <em>function</em>:
+for a functional <span class="math notranslate nohighlight">\(F[n]\)</span>, the functional derivative <span class="math notranslate nohighlight">\(\delta F/\delta n(x)\)</span> is
+defined by the first-order response
+<span class="math notranslate nohighlight">\(F[n + \epsilon\,\eta] - F[n] = \epsilon\!\int (\delta F/\delta n)(x)\,\eta(x)\,dx + O(\epsilon^2)\)</span>
+for arbitrary smooth <span class="math notranslate nohighlight">\(\eta\)</span>. Two workhorse cases cover
+everything this movement needs (Parr &amp; Yang <span class="bibtex-citation" id="id5">[<a class="reference internal" href="#id87" title="Robert G. Parr and Weitao Yang. Density-Functional Theory of Atoms and Molecules. Oxford University Press, New York, 1989.">PY89</a>]</span>, App. A,
+develop the calculus in full):</p>
+<div class="math notranslate nohighlight" id="equation-eq-tf-funcderiv">
+<span class="eqno">(874)<a class="headerlink" href="#equation-eq-tf-funcderiv" title="Link to this equation">#</a></span>\[F[n] = \!\int\! f\big(n(x)\big)\,dx \;\Rightarrow\;
+\frac{\delta F}{\delta n(x)} = f'\big(n(x)\big),
+\qquad
+E_H[n] = \tfrac12\!\iint\! n(x)\,w(x,x')\,n(x')
+\;\Rightarrow\;
+\frac{\delta E_H}{\delta n(x)} = \!\int\! w(x,x')\,n(x')\,dx' .\]</div>
+<p>Local integrands differentiate pointwise; the Hartree energy’s derivative is the
+classical potential of the cloud. Both claims are <em>checked numerically</em> below —
+the toolkit is certified before it is trusted, exactly as the volume’s radial
+machinery was in <a class="reference internal" href="many-electron-problem.html"><span class="std std-doc">§8.1</span></a>.</p>
+</section>
+<section id="the-thomasfermi-functional-and-the-universal-atom">
+<h3>The Thomas–Fermi functional and the universal atom<a class="headerlink" href="#the-thomasfermi-functional-and-the-universal-atom" title="Link to this heading">#</a></h3>
+<p>The gamble of Thomas and Fermi <span class="bibtex-citation" id="id6">[<a class="reference internal" href="#id113" title="L. H. Thomas. The calculation of atomic fields. Mathematical Proceedings of the Cambridge Philosophical Society, 23:542–548, 1927. doi:10.1017/S0305004100011683.">Tho27</a>]</span>: treat each volume element of
+an atom as a scrap of uniform electron gas. The
+<a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html"><span class="std std-doc">§7.9</span></a>
+kinetic energy per volume of a gas at density <span class="math notranslate nohighlight">\(n\)</span> is
+<span class="math notranslate nohighlight">\(\tfrac35 n\,\varepsilon_F = C_{\mathrm{TF}}\, n^{5/3}\)</span> with
+<span class="math notranslate nohighlight">\(C_{\mathrm{TF}} = \tfrac{3}{10}(3\pi^2)^{2/3}\)</span>, so</p>
+<div class="math notranslate nohighlight" id="equation-eq-tf-functional">
+<span class="eqno">(875)<a class="headerlink" href="#equation-eq-tf-functional" title="Link to this equation">#</a></span>\[E_{\mathrm{TF}}[n] = C_{\mathrm{TF}}\!\int\! n^{5/3}\,d^3r
+\;-\; Z\!\int\! \frac{n(\mathbf r)}{r}\,d^3r
+\;+\; \tfrac12\!\iint\!\frac{n(\mathbf r)\,n(\mathbf r')}{|\mathbf r-\mathbf r'|} .\]</div>
+<p>Minimizing over <span class="math notranslate nohighlight">\(n \ge 0\)</span> at fixed <span class="math notranslate nohighlight">\(\int n = N\)</span> (a Lagrange multiplier <span class="math notranslate nohighlight">\(\mu\)</span>,
+the chemical potential) gives <span class="math notranslate nohighlight">\(\tfrac53 C_{\mathrm{TF}} n^{2/3} = \mu -
+v_{\mathrm{eff}}(\mathbf r)\)</span>, and for the neutral atom the standard substitution
+<span class="math notranslate nohighlight">\(v_{\mathrm{eff}} = -Z\Phi(x)/r\)</span>, <span class="math notranslate nohighlight">\(r = bx\)</span>, collapses <em>every element of the
+periodic table</em> onto one parameter-free boundary-value problem
+(Parr &amp; Yang <span class="bibtex-citation" id="id7">[<a class="reference internal" href="#id87" title="Robert G. Parr and Weitao Yang. Density-Functional Theory of Atoms and Molecules. Oxford University Press, New York, 1989.">PY89</a>]</span>, §6.2, carry out the reduction):</p>
+<div class="math notranslate nohighlight" id="equation-eq-tf-universal">
+<span class="eqno">(876)<a class="headerlink" href="#equation-eq-tf-universal" title="Link to this equation">#</a></span>\[\Phi''(x) = \frac{\Phi^{3/2}}{\sqrt{x}},
+\qquad \Phi(0) = 1,\quad \Phi(\infty) = 0,
+\qquad
+E_{\mathrm{TF}}(Z) = \frac{3}{7}\,\frac{\Phi'(0)}{b/Z^{-1/3}}\;Z^{7/3}
+= -0.7687\,Z^{7/3}\ \text{Ha}.\]</div>
+<p>The initial slope <span class="math notranslate nohighlight">\(\Phi'(0) = -1.588071\)</span> (Baker’s constant) is the one number
+the computer must find, and the <span class="math notranslate nohighlight">\(Z^{7/3}\)</span> scaling — kinetic, nuclear, and
+Hartree terms all conspiring to one power — is the theory’s enduring truth:
+it is the correct leading term of the exact large-<span class="math notranslate nohighlight">\(Z\)</span> energy of atoms.</p>
+</section>
+<section id="what-must-fail-and-what-survives">
+<h3>What must fail, and what survives<a class="headerlink" href="#what-must-fail-and-what-survives" title="Link to this heading">#</a></h3>
+<p>Three built-in pathologies, each computed below. <em>No shells</em>: the TF density is
+a smooth monotone profile (compare beryllium’s two humps in
+<a class="reference internal" href="hartree-fock-atoms.html"><span class="std std-doc">§8.3</span></a>) because a local gas knows no quantization.
+<em>No edge and no chemistry-grade energetics</em>: the neutral TF atom extends to
+infinity with <span class="math notranslate nohighlight">\(\mu = 0\)</span> (measured below as a power law in the box size), and it
+binds no negative ions. And most damning, <em>no molecules</em>: Teller
+<span class="bibtex-citation" id="id8">[<a class="reference internal" href="#id114" title="Edward Teller. On the stability of molecules in the Thomas–Fermi theory. Reviews of Modern Physics, 34:627–631, 1962. doi:10.1103/RevModPhys.34.627.">Tel62</a>]</span> proved the TF energy of a molecule always exceeds the sum of
+its atoms — no chemical bond, ever, at any separation. Yet the framework —
+energy from density, minimization with a chemical potential, an effective
+potential built from the density itself — survives <em>unchanged</em> into modern DFT.
+The Hohenberg–Kohn theorems (<a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a>) will bless the
+framework; the Kohn–Sham construction (<a class="reference internal" href="kohn-sham.html"><span class="std std-doc">§8.7</span></a>) will replace
+the offending kinetic functional with orbitals; and the last ingredient, the
+<span class="math notranslate nohighlight">\(N\)</span>-representability of densities, is settled <em>constructively</em> here by
+Harriman’s explicit orbitals <span class="bibtex-citation" id="id9">[<a class="reference internal" href="#id115" title="John E. Harriman. Orthonormal orbitals for the representation of an arbitrary density. Physical Review A, 24:680–682, 1981. doi:10.1103/PhysRevA.24.680.">Har81</a>]</span>: for any density <span class="math notranslate nohighlight">\(n \ge 0\)</span>
+with <span class="math notranslate nohighlight">\(\int n = N\)</span>, the phase-twisted orbitals</p>
+<div class="math notranslate nohighlight" id="equation-eq-tf-harriman">
+<span class="eqno">(877)<a class="headerlink" href="#equation-eq-tf-harriman" title="Link to this equation">#</a></span>\[\varphi_k(x) = \sqrt{\frac{n(x)}{N}}\; e^{\,i k f(x)},
+\qquad
+f(x) = \frac{2\pi}{N}\int_{-\infty}^{x}\! n(x')\,dx',
+\qquad k = 0, \dots, N-1,\]</div>
+<p>are exactly orthonormal and sum to <span class="math notranslate nohighlight">\(n\)</span>: any density can host <span class="math notranslate nohighlight">\(N\)</span> electrons.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data and instruments only: the plotting colours, the Thomas–Fermi length
+constant <span class="math notranslate nohighlight">\(b\,Z^{1/3} = 0.8853\)</span> of the universal reduction, and the 1-D
+Fermi-gas kinetic coefficient <span class="math notranslate nohighlight">\(\pi^2/24\)</span>. The notebook’s own machinery — the
+series-launched shooting integrator for the universal atom, and the
+self-consistent 1-D Thomas–Fermi minimizer — you build in Exercises 2 and 4.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_ivp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">brentq</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+<span class="n">INK</span><span class="p">,</span> <span class="n">AMBER</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="s2">&quot;#16213e&quot;</span><span class="p">,</span> <span class="s2">&quot;#c0851a&quot;</span><span class="p">,</span> <span class="s2">&quot;#46506b&quot;</span>
+
+<span class="c1"># data: the TF length b * Z^(1/3) = 0.8853, fixed by the universal reduction</span>
+<span class="n">B_TF</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="c1"># data: 1-D TF kinetic coefficient, the §7.9 Fermi-gas result in one dimension</span>
+<span class="n">C_TF_1D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mf">24.0</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-the-toolkit-certified-functional-derivatives">
+<h2>Exercise 1 — The toolkit, certified: functional derivatives<a class="headerlink" href="#exercise-1-the-toolkit-certified-functional-derivatives" title="Link to this heading">#</a></h2>
+<p>Equation <a class="reference internal" href="#equation-eq-tf-funcderiv">Eq. 874</a> makes two claims; both get the treatment every
+tool in this course gets before use. The test bed is the
+<a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a> grid with the density
+<span class="math notranslate nohighlight">\(n_0(x) = e^{-x^2/2}\)</span> (unnormalized on purpose — the derivative rules hold for
+any <span class="math notranslate nohighlight">\(n\)</span>), the local functional <span class="math notranslate nohighlight">\(F[n] = \int n^{5/3}\,dx\)</span>, the Hartree functional
+with the laboratory’s soft kernel <span class="math notranslate nohighlight">\(w = 1/\sqrt{(x-x')^2+1}\)</span>, and the Gaussian
+test perturbation <span class="math notranslate nohighlight">\(\eta(x) = e^{-(x-1)^2}\)</span>.</p>
+<p><strong>Part a)</strong> Compute the claimed derivatives on the grid: <span class="math notranslate nohighlight">\(\tfrac53 n_0^{2/3}\)</span>
+for the local functional, and <span class="math notranslate nohighlight">\(h\,(W \mathbin{&#64;} n_0)\)</span> for the Hartree
+functional (the <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> product of the kernel matrix with the density, times the
+grid spacing).</p>
+<p><strong>Part b)</strong> Test both against the definition: form the response
+<span class="math notranslate nohighlight">\(\big(F[n_0 + \epsilon\eta] - F[n_0 - \epsilon\eta]\big)/2\epsilon\)</span> by central
+differences at <span class="math notranslate nohighlight">\(\epsilon = 10^{-6}\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code> for every integral) and
+compare with <span class="math notranslate nohighlight">\(\int (\delta F/\delta n)\,\eta\,dx\)</span>. Agreement at <span class="math notranslate nohighlight">\(10^{-8}\)</span>
+certifies the calculus the rest of Movement II runs on.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>local:   response 1.9924191039 vs predicted 1.9924191037
+Hartree: response 2.9636263619 vs predicted 2.9636263618
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-1-the-calculus-holds">
+<h3>Validation 1 — the calculus holds<a class="headerlink" href="#validation-1-the-calculus-holds" title="Link to this heading">#</a></h3>
+<p>Both functional derivatives must match their central-difference responses at
+<span class="math notranslate nohighlight">\(10^{-8}\)</span> relative: the movement’s calculus, certified.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the local-functional derivative 5/3 n^(2/3)   [got 1.99242 vs expected 1.99242 (rtol=1e-08, atol=1e-09)]
+✓  the Hartree derivative is the cloud&#39;s potential   [got 2.96363 vs expected 2.96363 (rtol=1e-08, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-universal-atom-shot-down-to-baker-s-constant">
+<h2>Exercise 2 — The universal atom, shot down to Baker’s constant<a class="headerlink" href="#exercise-2-the-universal-atom-shot-down-to-baker-s-constant" title="Link to this heading">#</a></h2>
+<p>Equation <a class="reference internal" href="#equation-eq-tf-universal">Eq. 876</a> compresses the periodic table into one curve, and
+finding it is a classic shooting problem with a twist at each end. At the
+origin the equation is <em>singular</em>: the solution is not analytic but carries the
+series
+<span class="math notranslate nohighlight">\(\Phi = 1 + sx + \tfrac43 x^{3/2} + \tfrac25 s x^{5/2} + \tfrac13 x^3 + \cdots\)</span>,
+whose half-integer powers are exactly why naive integration from
+<span class="math notranslate nohighlight">\(x \approx 0\)</span> stalls near four digits — the measured cost of ignoring a
+singular point. At infinity the physical solution decays as <span class="math notranslate nohighlight">\(144/x^3\)</span>; trial
+slopes above the critical one diverge, slopes below crash to zero at finite
+<span class="math notranslate nohighlight">\(x\)</span>, and the separatrix <em>is</em> the atom. Baker’s constant, the accepted value of
+the critical slope, is <span class="math notranslate nohighlight">\(-1.5880710\)</span>.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">tf_shoot(slope,</span> <span class="pre">x_start=1e-3,</span> <span class="pre">x_max=50.0)</span></code>, which launches
+<a class="reference internal" href="#equation-eq-tf-universal">Eq. 876</a> at <span class="math notranslate nohighlight">\(x_0\)</span> from the series above (both <span class="math notranslate nohighlight">\(\Phi(x_0)\)</span> and
+<span class="math notranslate nohighlight">\(\Phi'(x_0)\)</span>) and integrates it with <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code>
+(<code class="docutils literal notranslate"><span class="pre">rtol=1e-12</span></code>, <code class="docutils literal notranslate"><span class="pre">atol=1e-14</span></code>, <code class="docutils literal notranslate"><span class="pre">dense_output=True</span></code>), clamping negative
+excursions of <span class="math notranslate nohighlight">\(\Phi\)</span> to zero inside the right-hand side so a sub-critical shot
+cannot raise a negative number to the power <span class="math notranslate nohighlight">\(3/2\)</span>. <strong>Write this one yourself</strong>
+— the implementation is the lesson.</p>
+<p><strong>Part b)</strong> Bracket and find the critical slope with <code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code> on
+the boundary residual <span class="math notranslate nohighlight">\(\Phi(x_{\max})\)</span> over <span class="math notranslate nohighlight">\(s \in [-1.65, -1.55]\)</span>
+(<span class="math notranslate nohighlight">\(x_{\max} = 50\)</span>, <code class="docutils literal notranslate"><span class="pre">xtol=1e-12</span></code>). Compare with Baker’s constant.</p>
+<p><strong>Part c)</strong> Plot the separatrix anatomy: the critical curve with the <span class="math notranslate nohighlight">\(144/x^3\)</span>
+asymptote, and two slightly off-critical trials peeling away to either side —
+the sensitivity that makes shooting work.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>critical slope = -1.58807102   (Baker -1.5880710)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tf-universal">
+<img alt="../../_images/349707a1a5f79b6bf935b920576f81de1225e64f988907c46ad137b597abd2c2.png" src="../../_images/349707a1a5f79b6bf935b920576f81de1225e64f988907c46ad137b597abd2c2.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 771 </span><span class="caption-text">The universal Thomas–Fermi atom as a separatrix: the critical solution <span class="math notranslate nohighlight">\(\Phi(x)\)</span> at Baker’s slope <span class="math notranslate nohighlight">\(\Phi'(0) = -1.588071\)</span> (ink) with the exact <span class="math notranslate nohighlight">\(144/x^3\)</span> asymptote (grey dashed) it approaches only far beyond the plotted range — the convergence is famously slow, flanked by trial shots at slopes <span class="math notranslate nohighlight">\(\pm 10^{-3}\)</span> off criticality (amber) that diverge upward or crash to zero. Every neutral atom of the periodic table is this one curve, rescaled.</span><a class="headerlink" href="#fig-tf-universal" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2-baker-s-constant">
+<h3>Validation 2 — Baker’s constant<a class="headerlink" href="#validation-2-baker-s-constant" title="Link to this heading">#</a></h3>
+<p>The critical slope must reproduce Baker’s eight-digit value, and the critical
+curve must pass through the classic tabulated values <span class="math notranslate nohighlight">\(\Phi(1) = 0.4240\)</span>,
+<span class="math notranslate nohighlight">\(\Phi(5) = 0.07881\)</span>, <span class="math notranslate nohighlight">\(\Phi(10) = 0.02431\)</span> (Kobayashi’s tables, the standard
+reference solution) to better than <span class="math notranslate nohighlight">\(0.2\%\)</span>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Baker&#39;s initial slope of the universal atom   [got -1.58807 vs expected -1.58807 (rtol=1e-06, atol=1e-09)]
+✓  Phi(1) vs the classic tabulation   [got 0.424008 vs expected 0.424 (rtol=0.002, atol=1e-09)]
+✓  Phi(5) vs the classic tabulation   [got 0.0788075 vs expected 0.07881 (rtol=0.002, atol=1e-09)]
+✓  Phi(10) vs the classic tabulation   [got 0.0243125 vs expected 0.02431 (rtol=0.002, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the critical curve is a separatrix   [off-critical shots diverge or crash]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-z-7-3-one-number-for-the-whole-periodic-table">
+<h2>Exercise 3 — <span class="math notranslate nohighlight">\(Z^{7/3}\)</span>: one number for the whole periodic table<a class="headerlink" href="#exercise-3-z-7-3-one-number-for-the-whole-periodic-table" title="Link to this heading">#</a></h2>
+<p>The energy assembly of <a class="reference internal" href="#equation-eq-tf-universal">Eq. 876</a> turns Baker’s slope into the
+total energy of any neutral atom, and the scaled density exposes both the
+theory’s universality and its first pathology.</p>
+<p><strong>Part a)</strong> Assemble the coefficient <span class="math notranslate nohighlight">\(\tfrac37\,(-\Phi'(0))/\bar b\)</span> with
+<span class="math notranslate nohighlight">\(\bar b = 0.88534\)</span> (plain <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arithmetic) and report
+<span class="math notranslate nohighlight">\(E_{\mathrm{TF}}(Z) = -0.7687\,Z^{7/3}\)</span> Ha; tabulate it for
+<span class="math notranslate nohighlight">\(Z = 2, 10, 36\)</span> against the known exact ground energies (<span class="math notranslate nohighlight">\(-2.90\)</span>, <span class="math notranslate nohighlight">\(-128.9\)</span>,
+<span class="math notranslate nohighlight">\(-2753\)</span> Ha). TF <em>overbinds</em> every atom, and the error shrinks only slowly with
+<span class="math notranslate nohighlight">\(Z\)</span> — but the shrinkage is itself quantitative physics: the next term of the
+large-<span class="math notranslate nohighlight">\(Z\)</span> expansion is Scott’s <span class="math notranslate nohighlight">\(+Z^2/2\)</span> (the inner electrons’ correction to
+the statistical picture), so the relative error should fall as
+<span class="math notranslate nohighlight">\((Z^2/2)/(0.7687\,Z^{7/3}) = 0.650\,Z^{-1/3}\)</span>. Compare the measured errors at
+<span class="math notranslate nohighlight">\(Z = 10\)</span> and <span class="math notranslate nohighlight">\(36\)</span> against that prediction (<code class="docutils literal notranslate"><span class="pre">numpy</span></code> arithmetic): Thomas–Fermi
+is the exact leading term of quantum chemistry’s large-<span class="math notranslate nohighlight">\(Z\)</span> expansion, and its
+error is the <em>next</em> term, visible in this three-row table.</p>
+<p><strong>Part b)</strong> The universality and the no-shell pathology in one figure: plot the
+scaled radial density <span class="math notranslate nohighlight">\(D(x) \propto \Phi^{3/2}\sqrt{x}\)</span> (one hump, no shell
+structure — compare the two-humped beryllium of
+<a class="reference internal" href="hartree-fock-atoms.html"><span class="std std-doc">§8.3</span></a>), and verify the neutral-atom norm
+<span class="math notranslate nohighlight">\(\int_0^\infty \Phi^{3/2}\sqrt{x}\,dx = 1\)</span> by <code class="docutils literal notranslate"><span class="pre">numpy.trapezoid</span></code> on the critical
+solution (the truncation at <span class="math notranslate nohighlight">\(x_{\max}\)</span> costs the stated percent).</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>E_TF = -0.76875 Z^(7/3) Ha
+Z =  2: E_TF =      -3.9 Ha vs exact      -2.9 Ha (-33.4%; Scott predicts 51.6%)
+Z = 10: E_TF =    -165.6 Ha vs exact    -128.9 Ha (-28.5%; Scott predicts 30.2%)
+Z = 36: E_TF =   -3289.7 Ha vs exact   -2753.0 Ha (-19.5%; Scott predicts 19.7%)
+neutral-atom norm = 0.9959  (exact 1; deficit = truncated tail)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tf-density">
+<img alt="../../_images/8a75c1b2c33b531f2fd4bbae781dab7fa8bfe12d018cb48ddbebb67d016fe4d8.png" src="../../_images/8a75c1b2c33b531f2fd4bbae781dab7fa8bfe12d018cb48ddbebb67d016fe4d8.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 772 </span><span class="caption-text">The universal scaled radial density <span class="math notranslate nohighlight">\(D(x) \propto \Phi^{3/2}\sqrt{x}\)</span> of the Thomas–Fermi atom: a single smooth hump for every element, with no trace of shell structure (contrast the two-shell beryllium density of §8.3, whose humps quantization built). The area under the curve is the neutral-atom norm, 1, recovered here to 0.4% with the <span class="math notranslate nohighlight">\(x \le 50\)</span> truncation.</span><a class="headerlink" href="#fig-tf-density" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-3-the-scaling-law-and-its-honest-errors">
+<h3>Validation 3 — the scaling law and its honest errors<a class="headerlink" href="#validation-3-the-scaling-law-and-its-honest-errors" title="Link to this heading">#</a></h3>
+<p>The coefficient must be <span class="math notranslate nohighlight">\(0.7687\)</span>; the overbinding must shrink monotonically
+along <span class="math notranslate nohighlight">\(Z = 2, 10, 36\)</span> (Lieb–Simon), and at <span class="math notranslate nohighlight">\(Z = 10\)</span> and <span class="math notranslate nohighlight">\(36\)</span> it must match the
+Scott-term prediction <span class="math notranslate nohighlight">\(0.650\,Z^{-1/3}\)</span> within <span class="math notranslate nohighlight">\(10\%\)</span> — the theory’s error is
+the expansion’s next term, measured. The neutral norm must come out 1 within
+the stated truncation percent.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the Thomas-Fermi energy coefficient   [got 0.768745 vs expected 0.7687 (rtol=0.001, atol=1e-09)]
+✓  TF overbinds helium by more than 30%   [-33.4%]
+✓  the relative error shrinks monotonically with Z (Lieb-Simon)   [33.4% &gt; 28.5% &gt; 19.5%]
+✓  the error at Z = 10 equals the Scott-term prediction   [got 0.284881 vs expected 0.301703 (rtol=0.1, atol=1e-09)]
+✓  the error at Z = 36 equals the Scott-term prediction   [got 0.194947 vs expected 0.196855 (rtol=0.1, atol=1e-09)]
+✓  the neutral-atom norm from the critical curve   [got 0.995926 vs expected 1 (rtol=0.01, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-thomasfermi-meets-the-exact-laboratory">
+<h2>Exercise 4 — Thomas–Fermi meets the exact laboratory<a class="headerlink" href="#exercise-4-thomasfermi-meets-the-exact-laboratory" title="Link to this heading">#</a></h2>
+<p>How crude is the local kinetic gamble, in digits? The
+<a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a> laboratory knows its exact answer, and the 1-D
+Thomas–Fermi functional — kinetic density <span class="math notranslate nohighlight">\(\pi^2 n^3/24\)</span> (the 1-D Fermi-gas
+result), the external term <span class="math notranslate nohighlight">\(\int v n\)</span>, and the laboratory’s soft-Coulomb
+Hartree term — can be minimized on the very same grid. Its stationarity
+condition is the 1-D twin of <a class="reference internal" href="#equation-eq-tf-universal">Eq. 876</a>’s parent,
+<span class="math notranslate nohighlight">\(\tfrac{\pi^2}{8} n^2 = \mu - v_{\mathrm{eff}}\)</span> with
+<span class="math notranslate nohighlight">\(v_{\mathrm{eff}} = v + w * n\)</span>, so
+<span class="math notranslate nohighlight">\(n = \sqrt{8(\mu - v_{\mathrm{eff}})_+}/\pi\)</span> and the particle-number
+constraint fixes <span class="math notranslate nohighlight">\(\mu\)</span> at every sweep.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">tf1d_solve(x,</span> <span class="pre">v,</span> <span class="pre">n_electrons,</span> <span class="pre">iterations=1500,</span> <span class="pre">mixing=0.05)</span></code>, the damped fixed point of
+<a class="reference internal" href="../00-foundations/root-finding.html"><span class="std std-doc">§0.2</span></a> applied to that condition: build
+the soft kernel <span class="math notranslate nohighlight">\(w = 1/\sqrt{(x-x')^2+1}\)</span> once, start from a flat density of
+the right norm, and each sweep rebuild <span class="math notranslate nohighlight">\(v_{\mathrm{eff}}\)</span>, find <span class="math notranslate nohighlight">\(\mu\)</span> by
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code> on <span class="math notranslate nohighlight">\(\int n\,dx - N\)</span>, and mix the new density in
+linearly. Return the converged density, <span class="math notranslate nohighlight">\(\mu\)</span>, and the total TF energy.
+<strong>Write this one yourself</strong> — the implementation is the lesson.</p>
+<p><strong>Part b)</strong> Solve the 1-D TF problem for the laboratory’s charge-2 atom with
+<span class="math notranslate nohighlight">\(N = 2\)</span> on <span class="math notranslate nohighlight">\(x \in [-20, 20]\)</span> (801 points) and compare <span class="math notranslate nohighlight">\(E_{\mathrm{TF}}\)</span> with
+the exact <span class="math notranslate nohighlight">\(-2.2386\)</span> Ha and Hartree–Fock’s <span class="math notranslate nohighlight">\(-2.2245\)</span> Ha from
+<a class="reference internal" href="exact-laboratory.html"><span class="std std-doc">§8.2</span></a>: the TF error is a <em>third</em> of the total energy,
+two orders beyond Hartree–Fock’s.</p>
+<p><strong>Part c)</strong> The atom without an edge: re-solve on boxes <span class="math notranslate nohighlight">\(L = 10, 14, 20, 28\)</span>
+and fit <span class="math notranslate nohighlight">\(\ln\mu\)</span> against <span class="math notranslate nohighlight">\(\ln L\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code>). The neutral TF atom’s
+chemical potential must vanish as the measured power <span class="math notranslate nohighlight">\(\mu \sim 1/L\)</span>: the cloud
+has no boundary, only an ever-receding tail — the analytic <span class="math notranslate nohighlight">\(\mu = 0\)</span> of the
+infinite neutral atom, observed as a finite-size scaling law. Plot the TF
+density against the exact one.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TF: E = -1.48118 Ha vs exact -2.23855 (error +33.8%) vs HF -2.2245
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mu(L) ~ L^-0.98  (the edgeless atom&#39;s mu -&gt; 0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tf-lab">
+<img alt="../../_images/7e30680942c74b9eb30012c28eeedc5b41ec8cf02b35dfa0ceb0aec94ede8df7.png" src="../../_images/7e30680942c74b9eb30012c28eeedc5b41ec8cf02b35dfa0ceb0aec94ede8df7.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 773 </span><span class="caption-text">Thomas–Fermi on the exact laboratory: the 1-D TF density (amber) against the exact density of §8.2 (ink). TF misses the total energy by 34% (against Hartree–Fock’s 0.6%) and its neutral atom has no edge: the inset shows the chemical potential vanishing as the measured power law <span class="math notranslate nohighlight">\(\mu \sim L^{-1.00}\)</span> as the box grows.</span><a class="headerlink" href="#fig-tf-lab" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4-the-crudeness-in-digits">
+<h3>Validation 4 — the crudeness, in digits<a class="headerlink" href="#validation-4-the-crudeness-in-digits" title="Link to this heading">#</a></h3>
+<p>The 1-D TF energy on the <span class="math notranslate nohighlight">\(L = 20\)</span> box is <span class="math notranslate nohighlight">\(-1.481\)</span> Ha (its own converged value,
+gated), a <span class="math notranslate nohighlight">\(34\%\)</span> miss against the exact laboratory — while Hartree–Fock missed
+by <span class="math notranslate nohighlight">\(0.6\%\)</span>; and the chemical potential must vanish with the measured
+<span class="math notranslate nohighlight">\(L^{-1.0}\)</span> law.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  the 1-D TF energy of the laboratory atom   [got -1.48118 vs expected -1.4812 (rtol=0.001, atol=1e-09)]
+✓  TF misses the laboratory by over 30% where HF missed by 0.6%   [33.8%]
+✓  the edgeless atom: mu vanishes as 1/L   [got -0.976186 vs expected -1 (rtol=0.05, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-teller-s-theorem-no-molecules-ever">
+<h2>Exercise 5 — Teller’s theorem: no molecules, ever<a class="headerlink" href="#exercise-5-teller-s-theorem-no-molecules-ever" title="Link to this heading">#</a></h2>
+<p>The heaviest blow to Thomas–Fermi theory is not an error percentage but a
+theorem. Teller (1962) <span class="bibtex-citation" id="id10">[<a class="reference internal" href="#id114" title="Edward Teller. On the stability of molecules in the Thomas–Fermi theory. Reviews of Modern Physics, 34:627–631, 1962. doi:10.1103/RevModPhys.34.627.">Tel62</a>]</span> proved that in TF theory the energy
+of <em>any</em> molecule exceeds the summed energies of its isolated atoms at <em>every</em>
+nuclear separation: no binding, no chemistry, at all. A theorem that sweeping
+deserves a computed instance. The test molecule is the laboratory’s “diatomic”:
+two charge-2 soft-Coulomb centers at <span class="math notranslate nohighlight">\(\pm R/2\)</span>, four electrons, bare nuclear
+repulsion <span class="math notranslate nohighlight">\(4/R\)</span> — the TF twin of the genuinely binding molecule
+<a class="reference internal" href="many-electron-problem.html"><span class="std std-doc">§8.1</span></a> computed with exact quantum mechanics.</p>
+<p><strong>Part a)</strong> Solve the 1-D TF problem with the <code class="docutils literal notranslate"><span class="pre">tf1d_solve</span></code> you wrote in
+Exercise 4 (<span class="math notranslate nohighlight">\(N = 4\)</span>, the <span class="math notranslate nohighlight">\(L = 12\)</span>
+box with 481 points) at the separations <span class="math notranslate nohighlight">\(R = 1.5, 2.5, 4, 6, 9\)</span> Bohr, add the
+nuclear repulsion, and tabulate the binding energy
+<span class="math notranslate nohighlight">\(E_{\mathrm{TF}}(R) + 4/R - 2E_{\mathrm{TF}}^{\mathrm{atom}}\)</span> (the atomic
+reference recomputed on the same box and grid spacing, so truncation biases
+cancel).</p>
+<p><strong>Part b)</strong> Plot the binding curve. It must be positive everywhere and decrease
+monotonically toward zero: the TF molecule always prefers to fall apart —
+contrast the genuine minimum of <a class="reference internal" href="many-electron-problem.html#fig-many-electron-bo"><span class="std std-numref">Fig. 754</span></a>. The moral, made
+precise by later analysis (Parr &amp; Yang <span class="bibtex-citation" id="id11">[<a class="reference internal" href="#id87" title="Robert G. Parr and Weitao Yang. Density-Functional Theory of Atoms and Molecules. Oxford University Press, New York, 1989.">PY89</a>]</span>, §6.4): binding
+lives in the <em>quantum</em> kinetic energy’s response to density deformation, exactly
+what the local <span class="math notranslate nohighlight">\(n^{5/3}\)</span> (<span class="math notranslate nohighlight">\(n^3\)</span> in 1-D) gamble cannot represent.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>R =  1.5: binding = +0.78393 Ha
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>R =  2.5: binding = +0.18699 Ha
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>R =  4.0: binding = +0.05287 Ha
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>R =  6.0: binding = +0.02370 Ha
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>R =  9.0: binding = +0.01384 Ha
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tf-teller">
+<img alt="../../_images/72da658d65e85ea2132c4b05e71e28c9034e4e6b149ecd8dc5e4eaa7d14a7ef3.png" src="../../_images/72da658d65e85ea2132c4b05e71e28c9034e4e6b149ecd8dc5e4eaa7d14a7ef3.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 774 </span><span class="caption-text">Teller’s no-binding theorem as a computed curve: the Thomas–Fermi binding energy of the laboratory’s four-electron diatomic (two charge-2 centers, nuclear repulsion included) against the separated-atom reference. The curve is positive at every separation and falls monotonically toward zero — the TF molecule always dissociates — in stark contrast to the genuinely bound Born–Oppenheimer curve of the model molecule of §8.1.</span><a class="headerlink" href="#fig-tf-teller" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5-teller-computed">
+<h3>Validation 5 — Teller, computed<a class="headerlink" href="#validation-5-teller-computed" title="Link to this heading">#</a></h3>
+<p>The binding energy must be positive at every separation and strictly
+monotonically decreasing: dissociation is always downhill in Thomas–Fermi
+theory.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  no binding at any separation (Teller)   [minimum binding +0.0138 Ha at R = 9.0]
+✓  dissociation is monotonically downhill   [binding falls at every step of R]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-harriman-s-orbitals-any-density-can-host-n-electrons">
+<h2>Exercise 6 — Harriman’s orbitals: any density can host <span class="math notranslate nohighlight">\(N\)</span> electrons<a class="headerlink" href="#exercise-6-harriman-s-orbitals-any-density-can-host-n-electrons" title="Link to this heading">#</a></h2>
+<p>The movement’s constructive close. For density-based theory to make sense, the
+innocent question “which densities are allowed?” needs an answer, and Harriman
+<span class="bibtex-citation" id="id12">[<a class="reference internal" href="#id115" title="John E. Harriman. Orthonormal orbitals for the representation of an arbitrary density. Physical Review A, 24:680–682, 1981. doi:10.1103/PhysRevA.24.680.">Har81</a>]</span> gave a disarmingly explicit one: the phase-twisted
+orbitals of <a class="reference internal" href="#equation-eq-tf-harriman">Eq. 877</a> are <em>exactly</em> orthonormal for any smooth
+<span class="math notranslate nohighlight">\(n \ge 0\)</span> integrating to <span class="math notranslate nohighlight">\(N\)</span> — the equal-density amplitude makes their overlaps
+pure phase integrals, and the accumulated phase <span class="math notranslate nohighlight">\(f(x)\)</span>, which climbs by <span class="math notranslate nohighlight">\(2\pi/N\)</span>
+per unit of enclosed charge, makes those integrals vanish between different
+<span class="math notranslate nohighlight">\(k\)</span>. Any reasonable density is therefore <span class="math notranslate nohighlight">\(N\)</span>-representable: the variational
+domain of the Hohenberg–Kohn functional in <a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a> is as
+large as one could wish.</p>
+<p><strong>Part a)</strong> For the two-hump target density
+<span class="math notranslate nohighlight">\(n(x) = \big(e^{-(x-1.5)^2} + e^{-(x+1.5)^2}\big)\)</span>, normalized to <span class="math notranslate nohighlight">\(N = 3\)</span> on
+the <span class="math notranslate nohighlight">\([-10, 10]\)</span> grid, build the phase <span class="math notranslate nohighlight">\(f(x)\)</span> by cumulative integration
+(<code class="docutils literal notranslate"><span class="pre">numpy.cumsum</span></code> of <span class="math notranslate nohighlight">\(n\,h\)</span>, scaled by <span class="math notranslate nohighlight">\(2\pi/N\)</span>, <em>staggered by half a cell</em>:
+subtract <span class="math notranslate nohighlight">\(n\,h/2\)</span> so each grid point carries the antiderivative at its own
+location rather than its right edge — the midpoint discipline of
+<a class="reference internal" href="../00-foundations/quadrature-differentiation.html"><span class="std std-doc">§0.3</span></a>, which upgrades the
+discrete orthogonality from first to second order in <span class="math notranslate nohighlight">\(h\)</span>) and the three
+complex orbitals of <a class="reference internal" href="#equation-eq-tf-harriman">Eq. 877</a>. <strong>Write this one yourself</strong> —
+the implementation is the lesson.</p>
+<p><strong>Part b)</strong> Verify the construction: the Gram matrix
+<span class="math notranslate nohighlight">\(G_{jk} = h\sum_x \varphi_j^*\varphi_k\)</span> (a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> conjugate contraction) must
+equal <code class="docutils literal notranslate"><span class="pre">numpy.eye(3)</span></code> to the grid’s quadrature accuracy (<span class="math notranslate nohighlight">\(\sim 10^{-5}\)</span> at this
+spacing; the construction is exact in the continuum, and the residual is pure
+discretization, falling fourfold per grid doubling), and
+<span class="math notranslate nohighlight">\(\sum_k |\varphi_k|^2\)</span> must reproduce the target density to rounding. Plot the
+target, the winding phase, and the (identical) orbital densities.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>max |Gram - identity| = 1.22e-05;  max |sum|phi|^2 - n| = 4.44e-16
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-tf-harriman">
+<img alt="../../_images/944500f0a8b93d904503b76ac8171d81630c97c9dad942be4c9d8877b227e45a.png" src="../../_images/944500f0a8b93d904503b76ac8171d81630c97c9dad942be4c9d8877b227e45a.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 775 </span><span class="caption-text">The Harriman construction for a two-hump target density with <span class="math notranslate nohighlight">\(N = 3\)</span>: the target <span class="math notranslate nohighlight">\(n(x)\)</span> (ink, left axis), the accumulated phase <span class="math notranslate nohighlight">\(f(x)\)</span> climbing by <span class="math notranslate nohighlight">\(2\pi/3\)</span> per unit of enclosed charge (amber, right axis), and the three orbitals’ common density <span class="math notranslate nohighlight">\(n/3\)</span> (grey). The Gram matrix of the phase-twisted orbitals is the identity to the grid’s quadrature accuracy (<span class="math notranslate nohighlight">\(10^{-5}\)</span> here, exact in the continuum) and their densities sum to the target at rounding: any density can host <span class="math notranslate nohighlight">\(N\)</span> electrons.</span><a class="headerlink" href="#fig-tf-harriman" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6-the-construction-is-exact">
+<h3>Validation 6 — the construction is exact<a class="headerlink" href="#validation-6-the-construction-is-exact" title="Link to this heading">#</a></h3>
+<p>The Gram matrix must be the identity to the grid’s second-order quadrature
+accuracy and the summed orbital densities the target at rounding:
+<span class="math notranslate nohighlight">\(N\)</span>-representability is not an existence claim but a formula.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Harriman orbitals orthonormal to quadrature accuracy   [got 1.22031e-05 vs expected 0 (rtol=0, atol=5e-05)]
+✓  the orbital densities sum to the target   [got 4.44089e-16 vs expected 0 (rtol=0, atol=1e-12)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">With your assistant</p>
+<p>Dirac’s 1930 refinement adds the local exchange of
+<a class="reference internal" href="hartree-fock-gas.html"><span class="std std-doc">§8.4</span></a> to the Thomas–Fermi functional:
+<span class="math notranslate nohighlight">\(E_{x}[n] = -\tfrac34(3/\pi)^{1/3}\!\int n^{4/3}\)</span>. Have your assistant extend
+the 3-D energy assembly to Thomas–Fermi–Dirac and re-tabulate <span class="math notranslate nohighlight">\(Z = 2, 10, 36\)</span>,
+then run the check that is yours alone: exchange must <em>lower</em> every energy
+(each TFD value below its TF counterpart), and the correction must scale as
+<span class="math notranslate nohighlight">\(Z^{5/3}\)</span> — so its <em>relative</em> weight falls as <span class="math notranslate nohighlight">\(Z^{-2/3}\)</span>, fading for heavy
+atoms (<code class="docutils literal notranslate"><span class="pre">numpy</span></code> ratios across your table). The check is yours.</p>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>The first density functional is now built, solved, and honestly convicted. The
+functional-derivative toolkit certified itself against central differences at
+<span class="math notranslate nohighlight">\(10^{-8}\)</span> (local integrands differentiate pointwise; the Hartree derivative is
+the cloud’s potential). The universal atom emerged from a shooting problem with
+a singular-series launch — naive integration stalls at four digits; the series
+start reaches Baker’s slope <span class="math notranslate nohighlight">\(-1.5880710\)</span> to eight — and the energy assembly
+gave <span class="math notranslate nohighlight">\(E_{\mathrm{TF}} = -0.7687\,Z^{7/3}\)</span> Ha, overbinding helium by <span class="math notranslate nohighlight">\(33\%\)</span> and krypton
+still by <span class="math notranslate nohighlight">\(19.5\%\)</span> — an error that is itself physics: at <span class="math notranslate nohighlight">\(Z = 10\)</span> and <span class="math notranslate nohighlight">\(36\)</span> it
+tracks the Scott correction’s <span class="math notranslate nohighlight">\(0.650\,Z^{-1/3}\)</span> (within <span class="math notranslate nohighlight">\(10\%\)</span>, and at the
+percent level for krypton), so TF’s mistake is the next term of the
+large-<span class="math notranslate nohighlight">\(Z\)</span> expansion — with a one-hump
+universal density innocent of shells. On the exact laboratory the 1-D TF energy
+missed by <span class="math notranslate nohighlight">\(34\%\)</span> where Hartree–Fock missed by <span class="math notranslate nohighlight">\(0.6\%\)</span>, and the neutral atom’s
+chemical potential vanished as the measured <span class="math notranslate nohighlight">\(L^{-1.00}\)</span>: an atom with no edge.
+Teller’s theorem materialized as a computed binding curve, positive and
+monotone at every separation — no TF molecule ever binds — and Harriman’s
+phase-twisted orbitals closed the notebook constructively: Gram matrix the
+identity to the quadrature floor <span class="math notranslate nohighlight">\(10^{-5}\)</span> (with a half-cell stagger of the
+accumulated phase buying second order), densities summing to the target at
+rounding, any density able to host <span class="math notranslate nohighlight">\(N\)</span> electrons.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Thomas–Fermi guessed that the density suffices; Hohenberg and Kohn <em>proved</em>
+it. <a class="reference internal" href="hohenberg-kohn.html"><span class="std std-doc">§8.6</span></a> runs both proofs as computations and then
+inverts the exact laboratory’s density into the potential that generates it —
+the theorem as an algorithm.</p></li>
+<li><p>The kinetic functional is the sole culprit of this notebook’s failures, and
+the Kohn–Sham insight of <a class="reference internal" href="kohn-sham.html"><span class="std std-doc">§8.7</span></a> is surgical: keep the
+density-functional framework, but compute the kinetic energy from <em>orbitals</em>
+(bringing shells, edges, and binding back at a stroke) and push the unknown
+remainder into an exchange-correlation functional seeded by
+<a class="reference internal" href="hartree-fock-gas.html"><span class="std std-doc">§8.4</span></a>’s gas.</p></li>
+<li><p>Gradient corrections (von Weizsäcker’s <span class="math notranslate nohighlight">\(|\nabla n|^2/n\)</span> term) and modern
+orbital-free DFT keep the TF program alive for million-atom simulations where
+even Kohn–Sham is too dear; Parr &amp; Yang <span class="bibtex-citation" id="id13">[<a class="reference internal" href="#id87" title="Robert G. Parr and Weitao Yang. Density-Functional Theory of Atoms and Molecules. Oxford University Press, New York, 1989.">PY89</a>]</span>, Ch. 6–7, open
+that road.</p></li>
+</ul>
+<div class="docutils container" id="id14">
+<div role="list" class="citation-list">
+<div class="citation" id="id115" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Har81<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id4">1</a>,<a role="doc-backlink" href="#id9">2</a>,<a role="doc-backlink" href="#id12">3</a>)</span>
+<p>John E. Harriman. Orthonormal orbitals for the representation of an arbitrary density. <em>Physical Review A</em>, 24:680–682, 1981. <a class="reference external" href="https://doi.org/10.1103/PhysRevA.24.680">doi:10.1103/PhysRevA.24.680</a>.</p>
+</div>
+<div class="citation" id="id87" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>PY89<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id5">2</a>,<a role="doc-backlink" href="#id7">3</a>,<a role="doc-backlink" href="#id11">4</a>,<a role="doc-backlink" href="#id13">5</a>)</span>
+<p>Robert G. Parr and Weitao Yang. <em>Density-Functional Theory of Atoms and Molecules</em>. Oxford University Press, New York, 1989.</p>
+</div>
+<div class="citation" id="id114" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Tel62<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id8">2</a>,<a role="doc-backlink" href="#id10">3</a>)</span>
+<p>Edward Teller. On the stability of molecules in the Thomas–Fermi theory. <em>Reviews of Modern Physics</em>, 34:627–631, 1962. <a class="reference external" href="https://doi.org/10.1103/RevModPhys.34.627">doi:10.1103/RevModPhys.34.627</a>.</p>
+</div>
+<div class="citation" id="id113" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Tho27<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id6">2</a>)</span>
+<p>L. H. Thomas. The calculation of atomic fields. <em>Mathematical Proceedings of the Cambridge Philosophical Society</em>, 23:542–548, 1927. <a class="reference external" href="https://doi.org/10.1017/S0305004100011683">doi:10.1017/S0305004100011683</a>.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/08-electronic-structure"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="hartree-fock-gas.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">8.4 Hartree–Fock II: The Electron Gas</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="hohenberg-kohn.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">8.6 Hohenberg–Kohn and the Constrained Search</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-functional-derivative-toolkit">The functional-derivative toolkit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-thomasfermi-functional-and-the-universal-atom">The Thomas–Fermi functional and the universal atom</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-must-fail-and-what-survives">What must fail, and what survives</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-the-toolkit-certified-functional-derivatives">Exercise 1 — The toolkit, certified: functional derivatives</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-the-calculus-holds">Validation 1 — the calculus holds</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-universal-atom-shot-down-to-baker-s-constant">Exercise 2 — The universal atom, shot down to Baker’s constant</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-baker-s-constant">Validation 2 — Baker’s constant</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-z-7-3-one-number-for-the-whole-periodic-table">Exercise 3 — <span class="math notranslate nohighlight">\(Z^{7/3}\)</span>: one number for the whole periodic table</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-the-scaling-law-and-its-honest-errors">Validation 3 — the scaling law and its honest errors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-thomasfermi-meets-the-exact-laboratory">Exercise 4 — Thomas–Fermi meets the exact laboratory</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-the-crudeness-in-digits">Validation 4 — the crudeness, in digits</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-teller-s-theorem-no-molecules-ever">Exercise 5 — Teller’s theorem: no molecules, ever</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-teller-computed">Validation 5 — Teller, computed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-harriman-s-orbitals-any-density-can-host-n-electrons">Exercise 6 — Harriman’s orbitals: any density can host <span class="math notranslate nohighlight">\(N\)</span> electrons</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-the-construction-is-exact">Validation 6 — the construction is exact</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

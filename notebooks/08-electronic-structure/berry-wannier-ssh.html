@@ -1,0 +1,1753 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="8.12 Berry Phase, Wannier Functions, and the SSH Model" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/berry-wannier-ssh.html" />
+<meta property="og:site_name" content="Elementary Computational Physics" />
+<meta property="og:description" content="Notebook overview: §8.9 ended with a provocation: the half-filled chain lowers its energy by dimerizing, and a dimerized chain can dimerize two ways — strong..." />
+<meta property="og:image" content="https://ramador.me/elementary-computational-physics-public/_static/og.png" />
+<meta property="og:image:alt" content="Elementary Computational Physics" />
+<meta name="description" content="Notebook overview: §8.9 ended with a provocation: the half-filled chain lowers its energy by dimerizing, and a dimerized chain can dimerize two ways — strong..." />
+
+    <title>8.12 Berry Phase, Wannier Functions, and the SSH Model &#8212; Elementary Computational Physics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ecp.css?v=db7e09ec" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"dd": "\\mathrm{d}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/08-electronic-structure/berry-wannier-ssh';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/home-button.js?v=6d5ef4fc"></script>
+    <script src="../../_static/goatcounter.js?v=ce435452"></script>
+    <script src="../../_static/pdf-button.js?v=7349c3a9"></script>
+    <script src="../../_static/sidebar-toggle.js?v=3f5afc5c"></script>
+    <link rel="canonical" href="https://ramador.me/elementary-computational-physics-public/notebooks/08-electronic-structure/berry-wannier-ssh.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="8.13 The Hubbard Model: Correlation on a Lattice" href="hubbard-model.html" />
+    <link rel="prev" title="8.11 Real Band Structures: The Empirical Pseudopotential Method" href="epm-band-structures.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../00-front-matter/preface.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Elementary Computational Physics - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="Elementary Computational Physics - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-front-matter/preface.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/meditations.html">Meditations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-front-matter/how-this-course-was-made.html">How This Course Was Made</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prologue/the-pendulum-three-ways.html">Prologue</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-foundations/index.html">Volume 0 — Mathematical &amp; Computational Foundations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/floating-point.html">0.1 Floating-Point Arithmetic and Numerical Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/root-finding.html">0.2 Root-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/quadrature-differentiation.html">0.3 Numerical Integration and Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/linear-systems.html">0.4 Linear Systems and Matrix Factorizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/eigenvalues-svd.html">0.5 Eigenvalues, Diagonalization, and the SVD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fft.html">0.6 The Fast Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/ode-solvers.html">0.7 Solving Ordinary Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/fitting-least-squares.html">0.8 Fitting and Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/symbolic-sympy.html">0.9 Symbolic Computation with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/scientific-python-age-of-ai.html">0.10 Scientific Python in the Age of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/random-numbers-monte-carlo.html">0.11 Random Numbers and Monte Carlo Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/interpolation-splines.html">0.12 Interpolation: Polynomials, Runge’s Warning, and Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/optimization.html">0.13 Optimization: Golden Sections, Amoebas, and Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-foundations/pde-stability.html">0.14 Partial Differential Equations: Stability, Explicit and Implicit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-elementary-mechanics/index.html">Volume I — Elementary Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/projectile-drag.html">1.1 Projectile Motion with Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/damped-driven-pendulum.html">1.2 The Damped, Driven Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/double-pendulum.html">1.3 The Double Pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/kepler-orbits.html">1.4 Kepler Orbits and the Two-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/coupled-oscillators.html">1.5 Coupled Oscillators and Normal Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/integrators.html">1.6 Symplectic vs. Naive Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/falling-chain.html">1.7 The Falling Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-elementary-mechanics/solar-system.html">1.8 The Solar System: N-Body Gravitation and the Long Game</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-classical-mechanics/index.html">Volume II — Analytical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrangian-sympy.html">2.1 Lagrangian Mechanics with SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/noether.html">2.2 Symmetry and Conservation: Noether’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamiltonian-phase-flow.html">2.3 Hamiltonian Mechanics and Phase Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/central-force.html">2.4 The Central-Force Problem and Orbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/scattering.html">2.5 Scattering and the Rutherford Cross-Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/rigid-body.html">2.6 Rigid-Body Rotation and the Spinning Top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/small-oscillations.html">2.7 Small Oscillations from a General Lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/brachistochrone.html">2.8 The Brachistochrone and Tautochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/lagrange-points.html">2.9 Lagrange Points and the Restricted Three-Body Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/hamilton-jacobi.html">2.10 Hamilton–Jacobi Theory and Action-Angle Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-classical-mechanics/nonlinear-chaos.html">2.11 Nonlinear Dynamics and Chaos: When Integrability Fails</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-electrodynamics/index.html">Volume III — Classical Electrodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/coulomb-field.html">3.1 Coulomb’s Law and the Electric Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/potential-energy.html">3.2 The Electric Potential and Electrostatic Energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/gauss-law.html">3.3 Gauss’s Law and the Differential Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/laplace-poisson.html">3.4 Laplace’s and Poisson’s Equations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/multipole-expansion.html">3.5 The Multipole Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/magnetostatics.html">3.6 Magnetostatics and the Vector Potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/induction.html">3.7 Electromagnetic Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/maxwell-waves.html">3.8 Maxwell’s Equations and Electromagnetic Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waveguides-cavities.html">3.9 Waveguides and Cavity Resonances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/radiation.html">3.10 Radiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/rlc-circuits.html">3.11 RLC and AC Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/relativistic-maxwell.html">3.12 The Relativistic Formulation of Maxwell’s Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/fields-in-matter.html">3.13 Fields in Matter: Dielectrics, Polarization, and Magnetic Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/wave-optics.html">3.14 Wave Optics: Diffraction, Interference, and the Fourier Lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/waves-in-media.html">3.15 Waves in Media: Dispersion, Absorption, and the Fresnel Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/anisotropic-dielectrics.html">3.16 Anisotropic Dielectrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/crystal-optics.html">3.17 Crystal Optics: Birefringence and the Wave Surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-electrodynamics/separation-of-variables.html">3.18 Separation of Variables and Sturm–Liouville</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-special-relativity/index.html">Volume IV — Special Relativity</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/crisis-and-postulates.html">4.1 The Crisis and the Postulates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/lorentz-transformation.html">4.2 The Lorentz Transformation, Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/spacetime-minkowski.html">4.3 Spacetime, Minkowski Diagrams, and Four-Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/paradoxes.html">4.4 The Paradoxes, Computed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/four-momentum-energy.html">4.5 Four-Momentum and E = mc²</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/collisions-decays.html">4.6 Relativistic Collisions and Decays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-lagrangian-fields.html">4.7 The Relativistic Lagrangian and Motion in Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/gr-capstone.html">4.8 A Taste of Curved Spacetime</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../04-special-relativity/relativistic-optics.html">4.9 Relativistic Optics: Doppler, Aberration, and What a Camera Sees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-classical-stat-mech/index.html">Volume V — Classical Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/counting.html">5.1 Counting: Combinatorics and Microstate Enumeration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/probability.html">5.2 Probability: Distributions, Expectation, and the Born Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/large-n-limit.html">5.3 The Large-N Limit: Stirling, the CLT, and Sharp Macrostates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/microstates-entropy-temperature.html">5.4 Microstates, Entropy, Temperature, and the Boltzmann Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ergodicity.html">5.5 Ergodicity: Time Averages versus Ensemble Averages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ideal-gas-fundamental-relation.html">5.6 The Classical Ideal Gas: Phase-Space Volume, Chemical Potential, and the Fundamental Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/potentials-legendre-maxwell.html">5.7 Thermodynamic Potentials, Legendre Transforms, and the Maxwell Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/partition-function.html">5.8 The Partition Function and the Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/grand-canonical-ensemble-equivalence.html">5.9 The Grand Canonical Ensemble, Fluctuations, and the Equivalence of Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/ising-emergence-universality.html">5.10 The Ising Model: Emergence, Symmetry Breaking, and Universality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/taste-of-nonequilibrium.html">5.11 A Taste of Non-Equilibrium: Irreversibility, the Arrow of Time, and the Approach to Equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/kinetic-theory.html">5.12 Kinetic Theory: Collisions, Mean Free Path, and Transport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/random-walks.html">5.13 Random Walks: From Coin Flips to the Diffusion Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/heat-engines.html">5.14 Heat Engines and Thermodynamic Cycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/van-der-waals.html">5.15 The van der Waals Gas: Phase Coexistence and the Critical Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/chemical-equilibrium-saha.html">5.16 Chemical Equilibrium and the Saha Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/molecular-dynamics.html">5.17 Molecular Dynamics: Periodic Boundaries, Cutoffs, and Pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-classical-stat-mech/nucleation.html">5.18 Nucleation: The Critical Droplet and the Metastable Lifetime</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-quantum-mechanics/index.html">Volume VI — Quantum Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/complex-vector-spaces.html">6.1 Complex Vector Spaces and Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/operators-spectral-theorem.html">6.2 Linear Operators, Hermitian and Unitary Operators, and the Spectral Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/dirac-notation-spectral-decomposition.html">6.3 Dirac Notation, Bases, and Spectral Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/stern-gerlach-qubit.html">6.4 The Stern–Gerlach Experiment and the Birth of the Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/postulates.html">6.5 The Postulates of Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/pauli-uncertainty.html">6.6 The Pauli Matrices, Incompatible Observables, and the Uncertainty Relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-evolution.html">6.7 Time Evolution and the Schrödinger Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bloch-sphere-entanglement.html">6.8 Qubits, the Bloch Sphere, and a First Taste of Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/position-representation.html">6.9 From Vectors to Wave Functions: The Position Representation and Continuous Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/schrodinger-on-a-computer.html">6.10 The Schrödinger Equation as a PDE, Solved on a Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bound-states-1d.html">6.11 Bound States in One Dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/harmonic-oscillator.html">6.12 The Quantum Harmonic Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-tunneling.html">6.13 Scattering, Tunneling, and Wave-Packet Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/angular-momentum-algebra.html">6.14 The Angular-Momentum Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/orbital-angular-momentum.html">6.15 Orbital Angular Momentum and the Spherical Harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/central-potentials-3d.html">6.16 The Three-Dimensional Schrödinger Equation and Central Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/hydrogen-atom.html">6.17 The Hydrogen Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/spin-magnetic.html">6.18 Spin, Magnetic Moments, and the Electron in a Magnetic Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/addition-angular-momenta.html">6.19 Addition of Angular Momenta and Clebsch–Gordan Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/identical-particles.html">6.20 Identical Particles, Exchange Symmetry, and the Pauli Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/perturbation-fine-structure.html">6.21 Time-Independent Perturbation Theory and Fine Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/variational-method.html">6.22 The Variational Method and Variational Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/wkb-semiclassical.html">6.23 The WKB Approximation and the Semiclassical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html">6.24 Time-Dependent Perturbation Theory and Fermi’s Golden Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/bell-inequality.html">6.25 Bell’s Inequality and the Failure of Local Realism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/density-matrix.html">6.26 The Density Matrix, Mixed States, and Decoherence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/quantum-information.html">6.27 Quantum Information: Gates, Circuits, Teleportation, and Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/aharonov-bohm.html">6.28 Gauge Invariance in Quantum Mechanics: The Aharonov–Bohm Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-quantum-mechanics/scattering-3d.html">6.29 Scattering in Three Dimensions: Partial Waves and the Born Approximation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/index.html">Volume VII — Quantum Statistical Mechanics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-residues.html">7.1 Complex Analysis I: Analytic Functions and the Residue Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/complex-analysis-applications.html">7.2 Complex Analysis II: Causality, Kramers–Kronig, Matsubara Sums, and Steepest Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/statistical-toolkit.html">7.3 The Statistical Toolkit: Densities of States, Polylogarithms, and the Bose and Fermi Integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/thermal-density-matrix.html">7.4 The Thermal Density Matrix and the Quantum Canonical Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/oscillator-at-temperature.html">7.5 The Quantum Oscillator at Temperature: Planck’s Occupation, Freezing Out, and the Classical Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/molecules-rotation-vibration.html">7.6 Molecules: Rotation, Vibration, and the Heat-Capacity Staircase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-fermi-dirac.html">7.7 Bose–Einstein and Fermi–Dirac: The Grand Canonical Derivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/classical-limit-thermal-wavelength.html">7.8 The Classical Limit and the Thermal Wavelength: The N! Derived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-zero-temperature.html">7.9 The Ideal Fermi Gas at T = 0: The Fermi Sea and the Stiffness of Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/fermi-gas-finite-temperature.html">7.10 The Fermi Gas at Finite Temperature: Sommerfeld’s 0.4%, and Two Mysteries Dissolved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/white-dwarfs-chandrasekhar.html">7.11 White Dwarfs and the Chandrasekhar Limit: Pauli versus Gravity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bloch-theorem-band-structure.html">7.12 Electrons in a Periodic Potential: Bloch’s Theorem and the Origin of Bands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/semiconductor-statistics.html">7.13 Semiconductors: Fermi–Dirac in a Gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/photon-gas-planck.html">7.14 The Photon Gas and Planck’s Law</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/einstein-a-b-coefficients.html">7.15 Einstein’s A and B Coefficients: Thermodynamics Predicts the Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/phonons-debye.html">7.16 Phonons and the Debye Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/bose-einstein-condensation.html">7.17 Bose–Einstein Condensation: The Ceiling Saturates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/quantum-paramagnets-brillouin.html">7.18 Quantum Paramagnets: The Brillouin Function and the Refrigerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/transverse-field-ising.html">7.19 The Transverse-Field Ising Chain: A Phase Transition at Absolute Zero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/imaginary-time-quantum-classical.html">7.20 Imaginary Time and the Quantum–Classical Mapping: Temperature Is a Length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/path-integral-monte-carlo.html">7.21 Path-Integral Monte Carlo: Coin Flips Compute Quantum Mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-quantum-statistical-mechanics/eigenstate-thermalization.html">7.22 Eigenstate Thermalization: Why Isolated Systems Forget</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-quantum-statistical-mechanics/coda-index.html">Coda (optional): The Many-Body Gateway</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/second-quantization.html">7.23 Second Quantization: The Occupation Number Becomes the State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/greens-functions.html">7.24 Green’s Functions: The Propagator at Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../07-quantum-statistical-mechanics/linear-response-kubo.html">7.25 Linear Response and Kubo: How Equilibrium Answers Questions</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Volume VIII — Electronic Structure and Many-Body Matter</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="many-electron-problem.html">8.1 The Many-Electron Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-laboratory.html">8.2 An Exact Laboratory: Two Electrons on a Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-atoms.html">8.3 Hartree–Fock I: Atoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hartree-fock-gas.html">8.4 Hartree–Fock II: The Electron Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thomas-fermi.html">8.5 Thomas–Fermi: The First Density Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hohenberg-kohn.html">8.6 Hohenberg–Kohn and the Constrained Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kohn-sham.html">8.7 The Kohn–Sham Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exact-conditions-band-gap.html">8.8 Exact Conditions and the Band-Gap Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tight-binding.html">8.9 Tight Binding: From Chain to Graphene</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plane-waves-pseudopotentials.html">8.10 Plane Waves and Pseudopotentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epm-band-structures.html">8.11 Real Band Structures: The Empirical Pseudopotential Method</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">8.12 Berry Phase, Wannier Functions, and the SSH Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hubbard-model.html">8.13 The Hubbard Model: Correlation on a Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quasiparticles-gw.html">8.14 Quasiparticles, Spectral Functions, and GW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optics-excitons.html">8.15 Optical Absorption and Excitons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tddft.html">8.16 Time-Dependent Density-Functional Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcs-superconductivity.html">8.17 BCS Superconductivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gaussian-basis-sets.html">8.18 Basis Sets, and the Error They Invent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../epilogue/index.html">Epilogue</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/oscillator-biography.html">E.1 The Oscillator’s Biography: One System, Eight Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/four-faces-of-the-action.html">E.2 Four Faces of the Action: One Principle, the Whole Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/universality.html">E.3 Universality: Why the Details Didn’t Matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../epilogue/how-we-knew.html">E.4 How We Knew: The Course’s Epistemology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../epilogue/afterword.html">Afterword</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/ramador09/elementary-computational-physics-binder/main?urlpath=tree/notebooks/08-electronic-structure/berry-wannier-ssh.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ramador09/elementary-computational-physics-binder/blob/main/notebooks/08-electronic-structure/berry-wannier-ssh.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ramador09/elementary-computational-physics-binder/issues/new?title=Issue%20on%20page%20%2Fnotebooks/08-electronic-structure/berry-wannier-ssh.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/08-electronic-structure/berry-wannier-ssh.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>8.12 Berry Phase, Wannier Functions, and the SSH Model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#berry-s-phase-discretized">Berry’s phase, discretized</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ssh-chain-and-its-winding-number">The SSH chain and its winding number</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zak-phase-wannier-functions-and-polarization">Zak phase, Wannier functions, and polarization</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-berry-s-phase-certified-on-berry-s-example">Exercise 1 — Berry’s phase, certified on Berry’s example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-geometry-against-berry-s-closed-form">Validation 1 — geometry against Berry’s closed form</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-ssh-chain-one-spectrum-two-insulators">Exercise 2 — The SSH chain: one spectrum, two insulators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-gaps-and-windings">Validation 2 — gaps and windings</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-zak-phase-quantized-and-gauge-proof">Exercise 3 — The Zak phase, quantized and gauge-proof</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-quantized-and-provably-gauge-free">Validation 3 — quantized, and provably gauge-free</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-bulkboundary-correspondence-the-edge-states-appear">Exercise 4 — Bulk–boundary correspondence: the edge states appear</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-the-boundary-keeps-the-bulk-s-promise">Validation 4 — the boundary keeps the bulk’s promise</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-wannier-functions-localization-is-a-gauge-you-must-earn">Exercise 5 — Wannier functions: localization is a gauge you must earn</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-localized-shredded-and-gap-rated">Validation 5 — localized, shredded, and gap-rated</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-polarization-only-the-jump-is-physical">Exercise 6 — Polarization: only the jump is physical</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-e-2-by-two-unrelated-formulas">Validation 6 — e/2, by two unrelated formulas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-verdict-winding-number-two-and-the-count-that-proves-it">Exercise 7 — Verdict: winding number two, and the count that proves it</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7-the-integer-counts-states">Validation 7 — the integer counts states</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="berry-phase-wannier-functions-and-the-ssh-model">
+<h1>8.12 Berry Phase, Wannier Functions, and the SSH Model<a class="headerlink" href="#berry-phase-wannier-functions-and-the-ssh-model" title="Link to this heading">#</a></h1>
+<!-- This single H1 (one per notebook, "# <number> <Title>") is the page's
+     title: it sets the sidebar entry, breadcrumb, browser tab, and search
+     result. The branded banner below is generated by the shared `ecp`
+     package, so the look of every notebook in the series lives in one place. --><div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="
+    font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+    background:#faf7f0;
+    border:1px solid #dcd6c8;
+    border-left:6px solid #c0851a;
+    border-radius:6px;
+    padding:26px 30px 22px 30px;
+    margin:4px 0 26px 0;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 8px 24px -18px rgba(22,33,62,.5);">
+
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:4px;">
+    Elementary Computational Physics
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;">
+    <span style="font-family:'Fraunces', 'Iowan Old Style', Georgia, serif;font-weight:900;font-size:22px;
+                 line-height:1.1;color:#16213e;
+                 font-variation-settings:'opsz' 144;">
+      Volume VIII — Electronic Structure and Many-Body Matter
+    </span>
+    <span style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:12px;letter-spacing:.06em;
+                 color:#46506b;">
+      Notebook&nbsp;8.12
+    </span>
+  </div>
+
+  <div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;font-size:15px;color:#46506b;
+                   margin-top:10px;max-width:62ch;">Movement III closes with the discovery that Bloch states carry geometry. A discrete Berry phase, built in six lines and certified on Berry&#x27;s own spin-1/2 example, is turned on the dimerized chain of §8.9 — the Su–Schrieffer–Heeger model — where it quantizes to 0 or π, predicts which chains carry zero-energy edge states (they appear at 10⁻¹⁰, on one sublattice, exactly when promised), builds exponentially localized Wannier functions whose centers are the modern theory of polarization, and jumps by exactly e/2 at the transition. A chain with winding number two, and four edge states, closes the case.</div>
+
+  <div style="margin-top:16px;"><div class='ecp-meta' style='font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#46506b;'>Level&nbsp;&middot;&nbsp;advanced&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;Est.&nbsp;&middot;&nbsp;150–180 min</div></div>
+
+  <div style="border-top:1px solid #dcd6c8;margin-top:16px;padding-top:12px;
+              display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+              font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;color:#46506b;
+              letter-spacing:.04em;">
+    <span>Raymond Amador</span>
+    <span>v1.4.0 &nbsp;·&nbsp; 2026-08-11 &nbsp;·&nbsp;
+          CC&nbsp;BY&nbsp;4.0 (text) / MIT (code)</span>
+  </div>
+</div></div></div>
+</div>
+<section id="notebook-overview">
+<h2>Notebook overview<a class="headerlink" href="#notebook-overview" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="tight-binding.html"><span class="std std-doc">§8.9</span></a> ended with a provocation: the half-filled chain
+lowers its energy by dimerizing, and a dimerized chain can dimerize <em>two
+ways</em> — strong bond first or weak bond first. The two patterns have
+<em>identical</em> band structures. Every observable built from band energies —
+total energy, gap, density of states — is blind to the difference. Yet one
+pattern, cut open, produces states at exactly zero energy bound to its ends,
+and the other produces none. Whatever distinguishes them is not in the
+spectrum; it is in the <em>eigenstates</em> — specifically, in how the Bloch state
+<span class="math notranslate nohighlight">\(|u_k\rangle\)</span> twists as <span class="math notranslate nohighlight">\(k\)</span> crosses the Brillouin zone. That twist is a
+Berry phase <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id57" title="Michael V. Berry. Quantal phase factors accompanying adiabatic changes. Proceedings of the Royal Society of London A, 392:45–57, 1984. doi:10.1098/rspa.1984.0023.">Ber84</a>]</span>, its crystal version is Zak’s phase
+<span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id117" title="J. Zak. Berry's phase for energy bands in solids. Physical Review Letters, 62:2747–2750, 1989. doi:10.1103/PhysRevLett.62.2747.">Zak89</a>]</span>, and this notebook builds the machinery from first
+principles and lets it loose on the simplest model that has any: the
+Su–Schrieffer–Heeger (SSH) chain <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id123" title="W. P. Su, J. R. Schrieffer, and A. J. Heeger. Solitons in polyacetylene. Physical Review Letters, 42:1698–1701, 1979.">SSH79</a>]</span>, written down for
+polyacetylene and now the hydrogen atom of topological matter
+<span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id98" title="János K. Asbóth, László Oroszlány, and András Pályi. A Short Course on Topological Insulators: Band Structure and Edge States in One and Two Dimensions. Volume 919 of Lecture Notes in Physics. Springer, Cham, 2016.">AsbothOroszlanyPalyi16</a>]</span>.</p>
+<p>The build: a <em>discrete</em> Berry phase — the phase of a product of overlaps,
+gauge-invariant by construction — certified on Berry’s original example (a
+spin-<span class="math notranslate nohighlight">\(\tfrac12\)</span> dragged around a cone picks up half the enclosed solid
+angle, and the computation reproduces <span class="math notranslate nohighlight">\(\gamma = -m\Omega\)</span> to <span class="math notranslate nohighlight">\(10^{-5}\)</span> with
+the predicted <span class="math notranslate nohighlight">\(O(1/N^2)\)</span> convergence). Then the SSH chain: its <span class="math notranslate nohighlight">\(2\times2\)</span>
+Bloch Hamiltonian, the winding of <span class="math notranslate nohighlight">\(\mathbf d(k)\)</span> that cleanly splits the two
+dimerizations, the Zak phase quantized to <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(\pi\)</span> at machine precision
+and <em>provably</em> gauge-independent (we re-run it through deliberately
+randomized eigenvector phases). The payoffs follow, each computed: edge
+states at <span class="math notranslate nohighlight">\(|E| \sim 10^{-10}\)</span> living on one sublattice to <span class="math notranslate nohighlight">\(10^{-31}\)</span>, with
+localization length exactly <span class="math notranslate nohighlight">\(1/[2\ln(w/v)]\)</span>; Wannier functions from an
+<code class="docutils literal notranslate"><span class="pre">ifft</span></code>, exponentially localized in a smooth gauge and destroyed by a random
+one (spreads 0.08 versus 300 — the Marzari–Vanderbilt lesson
+<span class="bibtex-citation" id="id5">[<a class="reference internal" href="#id115" title="Nicola Marzari and David Vanderbilt. Maximally localized generalized Wannier functions for composite energy bands. Physical Review B, 56:12847–12865, 1997. doi:10.1103/PhysRevB.56.12847.">MV97</a>]</span>); and the modern theory of polarization
+<span class="bibtex-citation" id="id6">[<a class="reference internal" href="#id124" title="R. D. King-Smith and David Vanderbilt. Theory of polarization of crystalline solids. Physical Review B, 47:1651–1654, 1993.">KSV93</a>]</span> — the Wannier center <em>is</em> the polarization, two
+independent formulas agree, and <span class="math notranslate nohighlight">\(P\)</span> jumps by exactly <span class="math notranslate nohighlight">\(e/2\)</span> across the
+transition. The verdict exercise builds a chain with winding number <em>two</em>
+and finds its promised <em>four</em> zero modes: bulk–boundary correspondence,
+counted.</p>
+<blockquote>
+<div><p><strong>Conventions (this notebook).</strong> Spinless electrons; the lower band
+filled. The SSH cell holds sites <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>; <span class="math notranslate nohighlight">\(v \geq 0\)</span> is the
+<em>intracell</em> hopping <span class="math notranslate nohighlight">\(A\!-\!B\)</span> and <span class="math notranslate nohighlight">\(w \geq 0\)</span> the <em>intercell</em> hopping
+<span class="math notranslate nohighlight">\(B\!-\!A\)</span>; lattice constant <span class="math notranslate nohighlight">\(a = 1\)</span> and hoppings in units of <span class="math notranslate nohighlight">\(w\)</span> unless
+stated. The Bloch Hamiltonian uses the cell-periodic convention
+<span class="math notranslate nohighlight">\(h(k) = v + we^{-ik}\)</span> (<a class="reference internal" href="#equation-eq-bws-ssh">Eq. 900</a>), so <span class="math notranslate nohighlight">\(|u_k\rangle\)</span> does not
+carry intracell positions; where physical positions matter (Resta’s
+formula) we say so. Eigenvectors come from <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code>
+(lower band = column 0), Berry phases from <code class="docutils literal notranslate"><span class="pre">numpy.angle</span></code> of an overlap
+product, Wannier functions from <code class="docutils literal notranslate"><span class="pre">numpy.fft.ifft</span></code>, and randomness from
+<code class="docutils literal notranslate"><span class="pre">numpy.random.default_rng(1966)</span></code>.</p>
+<p><strong>How to read the checks.</strong> Each exercise closes with a <code class="docutils literal notranslate"><span class="pre">validate</span></code> call
+against an independent fact: an exact quantization, a closed-form
+localization length, a gauge-invariance rerun, a counted number of zero
+modes. A ✓ is strong evidence; a ✗ is a prompt to locate the
+discrepancy, not an automatic verdict.</p>
+<p><strong>Scope.</strong> One dimension, one filled band, no interactions: Zak phase,
+winding number, Wannier functions, polarization. The two-dimensional
+story (Chern numbers, quantum Hall, <span class="math notranslate nohighlight">\(\mathbb{Z}_2\)</span> insulators) needs
+Berry <em>curvature</em> and is surveyed in Asbóth–Oroszlány–Pályi
+<span class="bibtex-citation" id="id7">[<a class="reference internal" href="#id98" title="János K. Asbóth, László Oroszlány, and András Pályi. A Short Course on Topological Insulators: Band Structure and Edge States in One and Two Dimensions. Volume 919 of Lecture Notes in Physics. Springer, Cham, 2016.">AsbothOroszlanyPalyi16</a>]</span> and Vanderbilt <span class="bibtex-citation" id="id8">[<a class="reference internal" href="#id97" title="David Vanderbilt. Berry Phases in Electronic Structure Theory: Electric Polarization, Orbital Magnetization and Topological Insulators. Cambridge University Press, Cambridge, 2018.">Van18</a>]</span>, whose Ch. 3–4
+this notebook follows in spirit; interactions wait for
+<a class="reference internal" href="hubbard-model.html"><span class="std std-doc">§8.13</span></a>.</p>
+</div></blockquote>
+</section>
+<section id="theory-in-brief">
+<h2>Theory in brief<a class="headerlink" href="#theory-in-brief" title="Link to this heading">#</a></h2>
+<section id="berry-s-phase-discretized">
+<h3>Berry’s phase, discretized<a class="headerlink" href="#berry-s-phase-discretized" title="Link to this heading">#</a></h3>
+<p>Drag a Hamiltonian <span class="math notranslate nohighlight">\(\hat H(\boldsymbol\lambda)\)</span> slowly around a closed loop
+in parameter space and the adiabatic theorem
+(<a class="reference internal" href="../06-quantum-mechanics/time-dependent-perturbation.html"><span class="std std-doc">§6.24</span></a>) keeps
+the system in the instantaneous eigenstate — but the state returns with a
+phase beyond the dynamical <span class="math notranslate nohighlight">\(e^{-i\int E\,dt/\hbar}\)</span>. Berry’s discovery
+<span class="bibtex-citation" id="id9">[<a class="reference internal" href="#id57" title="Michael V. Berry. Quantal phase factors accompanying adiabatic changes. Proceedings of the Royal Society of London A, 392:45–57, 1984. doi:10.1098/rspa.1984.0023.">Ber84</a>]</span> is that the extra phase is <em>geometric</em>: it depends only on
+the loop, not the speed. On a computer the loop is <span class="math notranslate nohighlight">\(N\)</span> discrete points
+<span class="math notranslate nohighlight">\(|u_1\rangle, |u_2\rangle, \dots, |u_N\rangle, |u_1\rangle\)</span>, and the
+geometric phase is the phase of the product of neighboring overlaps,</p>
+<div class="math notranslate nohighlight" id="equation-eq-bws-berry">
+<span class="eqno">(898)<a class="headerlink" href="#equation-eq-bws-berry" title="Link to this equation">#</a></span>\[\gamma \;=\; -\operatorname{Im}\,\ln \prod_{j=1}^{N}
+\langle u_j | u_{j+1} \rangle ,
+\qquad |u_{N+1}\rangle \equiv |u_1\rangle .\]</div>
+<p>This formula is the workhorse of the whole subject, and its crucial
+property is visible by inspection: multiply any <span class="math notranslate nohighlight">\(|u_j\rangle\)</span> by an
+arbitrary phase <span class="math notranslate nohighlight">\(e^{i\alpha_j}\)</span> (a <em>gauge transformation</em> — eigensolvers do
+this to us constantly) and the phase enters one overlap as <span class="math notranslate nohighlight">\(e^{-i\alpha_j}\)</span>
+(bra) and the adjacent one as <span class="math notranslate nohighlight">\(e^{+i\alpha_j}\)</span> (ket): the product is
+untouched. Gauge invariance is not a theorem to invoke; it is a
+cancellation you can point at — and Exercise 3 tests it with a random
+number generator. For a spin-<span class="math notranslate nohighlight">\(\tfrac12\)</span> in a field along
+<span class="math notranslate nohighlight">\(\hat{\mathbf n}\)</span>, transported around a circle of colatitude <span class="math notranslate nohighlight">\(\theta\)</span>, the
+answer is Berry’s celebrated</p>
+<div class="math notranslate nohighlight" id="equation-eq-bws-spin">
+<span class="eqno">(899)<a class="headerlink" href="#equation-eq-bws-spin" title="Link to this equation">#</a></span>\[\gamma_m \;=\; -\,m\,\Omega, \qquad \Omega = 2\pi(1 - \cos\theta) :\]</div>
+<p>each eigenstate (<span class="math notranslate nohighlight">\(m = \pm\tfrac12\)</span>) acquires minus <span class="math notranslate nohighlight">\(m\)</span> times the solid
+angle the loop subtends — geometry, with no dynamics anywhere in it.</p>
+</section>
+<section id="the-ssh-chain-and-its-winding-number">
+<h3>The SSH chain and its winding number<a class="headerlink" href="#the-ssh-chain-and-its-winding-number" title="Link to this heading">#</a></h3>
+<p>The dimerized chain of <a class="reference internal" href="tight-binding.html"><span class="std std-doc">§8.9</span></a>’s Peierls exercise,
+relabeled: two sites per cell, intracell hopping <span class="math notranslate nohighlight">\(v\)</span>, intercell hopping
+<span class="math notranslate nohighlight">\(w\)</span>. In the Bloch basis,</p>
+<div class="math notranslate nohighlight" id="equation-eq-bws-ssh">
+<span class="eqno">(900)<a class="headerlink" href="#equation-eq-bws-ssh" title="Link to this equation">#</a></span>\[\begin{split}H(k) = \begin{pmatrix} 0 &amp; h(k) \\ h^*(k) &amp; 0 \end{pmatrix},
+\qquad h(k) = v + w\,e^{-ik},
+\qquad \varepsilon_\pm(k) = \pm\,|h(k)| ,\end{split}\]</div>
+<p>with gap <span class="math notranslate nohighlight">\(2|v - w|\)</span>, closing only at <span class="math notranslate nohighlight">\(v = w\)</span> (at <span class="math notranslate nohighlight">\(k = \pi\)</span>) — the undimerized
+metallic chain. Because the Hamiltonian has no diagonal terms, it
+<em>anticommutes</em> with <span class="math notranslate nohighlight">\(\sigma_z\)</span>: chiral symmetry, which pins the spectrum
+symmetric about zero and will pin edge states <em>at</em> zero. Write
+<span class="math notranslate nohighlight">\(H(k) = \mathbf d(k)\cdot\boldsymbol\sigma\)</span> with
+<span class="math notranslate nohighlight">\(\mathbf d = (v + w\cos k,\; w\sin k,\; 0)\)</span>: as <span class="math notranslate nohighlight">\(k\)</span> crosses the zone,
+<span class="math notranslate nohighlight">\(\mathbf d(k)\)</span> traces a circle of radius <span class="math notranslate nohighlight">\(w\)</span> centered at <span class="math notranslate nohighlight">\((v, 0)\)</span>. The
+circle either encloses the origin (<span class="math notranslate nohighlight">\(w &gt; v\)</span>) or does not (<span class="math notranslate nohighlight">\(v &gt; w\)</span>), and no
+smooth deformation that keeps the gap open (<span class="math notranslate nohighlight">\(\mathbf d \neq 0\)</span>) can change
+which — an integer has been hiding in the Hamiltonian:</p>
+<div class="math notranslate nohighlight" id="equation-eq-bws-winding">
+<span class="eqno">(901)<a class="headerlink" href="#equation-eq-bws-winding" title="Link to this equation">#</a></span>\[W \;=\; \frac{1}{2\pi} \oint d\theta_d
+\;=\; \frac{1}{2\pi} \int_{-\pi}^{\pi}
+\frac{d}{dk}\big[\arg\!\big(d_x(k) + i\,d_y(k)\big)\big]\, dk \;\in\; \mathbb{Z} ,\]</div>
+<p>counted with the orientation of the <span class="math notranslate nohighlight">\(\mathbf d\)</span>-loop. Since
+<span class="math notranslate nohighlight">\(d_x + i\,d_y = h^*(k) = v + w\,e^{+ik}\)</span>, this is the winding of <span class="math notranslate nohighlight">\(h^*\)</span>,
+the form the code (and Exercise 7’s extended chain) uses; winding
+<span class="math notranslate nohighlight">\(\arg h(k)\)</span> itself would flip the sign to <span class="math notranslate nohighlight">\(W = -1\)</span> in the topological
+phase.</p>
+</section>
+<section id="zak-phase-wannier-functions-and-polarization">
+<h3>Zak phase, Wannier functions, and polarization<a class="headerlink" href="#zak-phase-wannier-functions-and-polarization" title="Link to this heading">#</a></h3>
+<p>Berry’s loop specialized to the Brillouin zone (a closed loop, since
+<span class="math notranslate nohighlight">\(k = -\pi\)</span> and <span class="math notranslate nohighlight">\(\pi\)</span> are the same point) is the <strong>Zak phase</strong>
+<span class="bibtex-citation" id="id10">[<a class="reference internal" href="#id117" title="J. Zak. Berry's phase for energy bands in solids. Physical Review Letters, 62:2747–2750, 1989. doi:10.1103/PhysRevLett.62.2747.">Zak89</a>]</span> of a band. Inversion symmetry forces
+<span class="math notranslate nohighlight">\(\gamma_{\mathrm{Zak}} \in \{0, \pi\}\)</span> mod <span class="math notranslate nohighlight">\(2\pi\)</span> — a two-valued label
+protected as long as the gap stays open, and equal to <span class="math notranslate nohighlight">\(\pi W\)</span> mod <span class="math notranslate nohighlight">\(2\pi\)</span>
+here. Its physical meaning runs through <strong>Wannier functions</strong>, the Fourier
+transforms of the Bloch states,</p>
+<div class="math notranslate nohighlight" id="equation-eq-bws-wannier">
+<span class="eqno">(902)<a class="headerlink" href="#equation-eq-bws-wannier" title="Link to this equation">#</a></span>\[|w_R\rangle \;=\; \frac{1}{N}\sum_k e^{-ikR}\,|u_k\rangle ,
+\qquad
+\bar x \;=\; \langle w_0|\,\hat x\,|w_0\rangle
+\;=\; \frac{\gamma_{\mathrm{Zak}}}{2\pi}\,a \;\;(\mathrm{mod}\; a) :\]</div>
+<p>the Zak phase <em>is</em> the position of the band’s charge within the cell. This
+is the modern theory of polarization <span class="bibtex-citation" id="id11">[<a class="reference internal" href="#id124" title="R. D. King-Smith and David Vanderbilt. Theory of polarization of crystalline solids. Physical Review B, 47:1651–1654, 1993.">KSV93</a>]</span>: <span class="math notranslate nohighlight">\(P = e\bar x/a\)</span>
+per cell, defined only modulo <span class="math notranslate nohighlight">\(e\)</span> (choosing which cell is “home” shifts
+<span class="math notranslate nohighlight">\(\bar x\)</span> by <span class="math notranslate nohighlight">\(a\)</span>), so absolute <span class="math notranslate nohighlight">\(P\)</span> is convention — but <em>changes</em> in <span class="math notranslate nohighlight">\(P\)</span> are
+physical, measurable charge flow. The catch in <a class="reference internal" href="#equation-eq-bws-wannier">Eq. 902</a> is
+the gauge: the <span class="math notranslate nohighlight">\(|u_k\rangle\)</span> must vary <em>smoothly</em> with <span class="math notranslate nohighlight">\(k\)</span>, or the Fourier
+sum shreds the Wannier function across the whole crystal. Exercise 5
+measures the damage, and Marzari–Vanderbilt <span class="bibtex-citation" id="id12">[<a class="reference internal" href="#id115" title="Nicola Marzari and David Vanderbilt. Maximally localized generalized Wannier functions for composite energy bands. Physical Review B, 56:12847–12865, 1997. doi:10.1103/PhysRevB.56.12847.">MV97</a>]</span> built the
+modern localized-orbital industry on repairing it.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>Data and instruments: the series colours, the seeded generator that supplies
+the deliberately pathological gauges of Exercises 3 and 5, and the loop that
+collects lower-band eigenvectors across the zone. The notebook’s own
+machinery — the discrete Berry phase, the winding number, the SSH Bloch
+matrix, and the open-chain Hamiltonian — you build in Exercises 1 to 4.</p>
+<p>The Setup below holds this notebook’s data and instruments — nothing you
+are asked to build. It is collapsed so the building stays yours; expand it
+whenever you want the details.</p>
+<!-- setup-policy: v2 --><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecp</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate</span>
+
+<span class="n">INK</span><span class="p">,</span> <span class="n">AMBER</span><span class="p">,</span> <span class="n">SOFT</span> <span class="o">=</span> <span class="s2">&quot;#16213e&quot;</span><span class="p">,</span> <span class="s2">&quot;#c0851a&quot;</span><span class="p">,</span> <span class="s2">&quot;#46506b&quot;</span>
+
+<span class="c1"># data: the notebook&#39;s single random stream, seeded so that the randomized</span>
+<span class="c1"># gauges of Exercises 3 and 5 are reproducible rather than anecdotal</span>
+<span class="n">RNG</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1966</span><span class="p">)</span>
+
+
+<span class="c1"># instrument: a state collector — one library eigendecomposition per k-point,</span>
+<span class="c1"># column 0 kept — plus the random-phase branch that hands Exercise 3 the</span>
+<span class="c1"># worst gauge a malicious eigensolver could produce. The lesson is what the</span>
+<span class="c1"># Berry phase does with these states, not the loop that gathers them. It</span>
+<span class="c1"># diagonalizes whatever `ssh_bloch` is bound to when it runs: the one you</span>
+<span class="c1"># build in Exercise 3 (Python looks the name up at call time).</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lower_band</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">n_k</span><span class="p">,</span> <span class="n">randomize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lower-band Bloch eigenvectors on a uniform k-grid over the zone.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    v, w : float</span>
+<span class="sd">        SSH hoppings.</span>
+<span class="sd">    n_k : int</span>
+<span class="sd">        Number of k-points, k_j = 2 pi j / n_k.</span>
+<span class="sd">    randomize : numpy.random.Generator, optional</span>
+<span class="sd">        If given, multiply every eigenvector by a random phase — a</span>
+<span class="sd">        deliberately pathological gauge for invariance tests.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Array of shape (n_k, 2): row j is u(k_j) for the lower band.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_k</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_k</span><span class="p">):</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">j</span> <span class="o">/</span> <span class="n">n_k</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">ssh_bloch</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">))</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">vecs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">randomize</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">u</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">randomize</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>
+        <span class="n">states</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span>
+    <span class="k">return</span> <span class="n">states</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-1-berry-s-phase-certified-on-berry-s-example">
+<h2>Exercise 1 — Berry’s phase, certified on Berry’s example<a class="headerlink" href="#exercise-1-berry-s-phase-certified-on-berry-s-example" title="Link to this heading">#</a></h2>
+<p>The whole notebook runs on one formula, and it is six lines long. Before
+trusting <a class="reference internal" href="#equation-eq-bws-berry">Eq. 898</a> on a crystal, certify it on the problem
+Berry solved by hand: a spin-<span class="math notranslate nohighlight">\(\tfrac12\)</span> in a unit field
+<span class="math notranslate nohighlight">\(\hat H = \hat{\mathbf n}\cdot\boldsymbol\sigma\)</span>, with <span class="math notranslate nohighlight">\(\hat{\mathbf n}\)</span>
+dragged once around a circle of colatitude <span class="math notranslate nohighlight">\(\theta\)</span>. There the answer is
+known in closed form, <a class="reference internal" href="#equation-eq-bws-spin">Eq. 899</a>, and the discretization’s own
+error law is known too: the overlap product replaces a line integral by a
+midpoint-like rule, so its error must fall as <span class="math notranslate nohighlight">\(O(1/N^2)\)</span>.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">berry_phase(states)</span></code>, the discrete geometric phase of
+<a class="reference internal" href="#equation-eq-bws-berry">Eq. 898</a>: given an array whose row <span class="math notranslate nohighlight">\(j\)</span> is <span class="math notranslate nohighlight">\(|u_j\rangle\)</span>,
+accumulate the product of neighbouring overlaps <span class="math notranslate nohighlight">\(\langle u_j|u_{j+1}\rangle\)</span>
+around the loop — closing it with <span class="math notranslate nohighlight">\(\langle u_N|u_1\rangle\)</span>, which the
+function supplies itself rather than demanding a repeated first row — and
+return <span class="math notranslate nohighlight">\(-\arg\)</span> of that product. <strong>Write this one yourself</strong> — the
+implementation is the lesson: the closure and the fact that the phase is
+taken of the <em>product</em> (never of the individual overlaps) are exactly what
+make the result gauge-invariant, and everything downstream inherits it.</p>
+<p><strong>Part b)</strong> For <span class="math notranslate nohighlight">\(N = 400\)</span> points on the loop, build the lower eigenstate
+(<span class="math notranslate nohighlight">\(m = -\tfrac12\)</span>, column 0 of <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code>) at each point and
+evaluate the Berry phase with your <code class="docutils literal notranslate"><span class="pre">berry_phase</span></code>. Sweep 21 colatitudes
+<span class="math notranslate nohighlight">\(\theta \in [0.15, \pi - 0.15]\)</span> and compare with <a class="reference internal" href="#equation-eq-bws-spin">Eq. 899</a>,
+<span class="math notranslate nohighlight">\(\gamma = +\Omega/2 = \pi(1 - \cos\theta)\)</span>, wrapped to <span class="math notranslate nohighlight">\((-\pi, \pi]\)</span> —
+phases are defined mod <span class="math notranslate nohighlight">\(2\pi\)</span>, so the theory curve <em>jumps</em> branch at
+<span class="math notranslate nohighlight">\(\theta = \pi/2\)</span>, and the computation should follow it. Compare phase
+distances <span class="math notranslate nohighlight">\(|e^{i\gamma} - e^{i\Omega/2}|\)</span>, not raw differences.</p>
+<p><strong>Part c)</strong> At <span class="math notranslate nohighlight">\(\theta = \pi/3\)</span>, compute the error at <span class="math notranslate nohighlight">\(N = 100\)</span> and
+<span class="math notranslate nohighlight">\(N = 1000\)</span> and confirm the ratio is <span class="math notranslate nohighlight">\(\approx 100\)</span> — the <span class="math notranslate nohighlight">\(O(1/N^2)\)</span>
+signature announced above.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>max phase distance to Omega/2 over 21 colatitudes: 2.470e-05
+errors: 3.877e-04 (N=100), 3.876e-06 (N=1000); ratio 100.0 (O(1/N^2) predicts 100)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-bws-spin">
+<img alt="../../_images/100f9d971292ee1b31b2de5ea2aa79d2ece69b72a8df0887e6ce7502532d31f4.png" src="../../_images/100f9d971292ee1b31b2de5ea2aa79d2ece69b72a8df0887e6ce7502532d31f4.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 803 </span><span class="caption-text">Berry’s phase, computed: the discrete overlap-product phase of the lower spin-<span class="math notranslate nohighlight">\(\frac{1}{2}\)</span> eigenstate around a circle of colatitude <span class="math notranslate nohighlight">\(\theta\)</span> (amber points, <span class="math notranslate nohighlight">\(N = 400\)</span>) against half the enclosed solid angle <span class="math notranslate nohighlight">\(\pi(1 - \cos\theta)\)</span> wrapped to <span class="math notranslate nohighlight">\((-\pi, \pi]\)</span> (ink curve). The branch jump at <span class="math notranslate nohighlight">\(\theta = \pi/2\)</span> is not a failure: phases live on a circle, and the computation follows the wrap. Maximum phase distance over the sweep: <span class="math notranslate nohighlight">\(2.5\times10^{-5}\)</span>, converging as <span class="math notranslate nohighlight">\(O(1/N^2)\)</span>.</span><a class="headerlink" href="#fig-bws-spin" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-1-geometry-against-berry-s-closed-form">
+<h3>Validation 1 — geometry against Berry’s closed form<a class="headerlink" href="#validation-1-geometry-against-berry-s-closed-form" title="Link to this heading">#</a></h3>
+<p>The sweep must match <span class="math notranslate nohighlight">\(\gamma = \Omega/2\)</span> in phase distance at the <span class="math notranslate nohighlight">\(10^{-4}\)</span>
+level for <span class="math notranslate nohighlight">\(N = 400\)</span>, and refining <span class="math notranslate nohighlight">\(100 \to 1000\)</span> points must shrink the
+error a hundredfold.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  gamma = Omega/2 across 21 colatitudes (N = 400)   [max phase distance 2.47e-05]
+✓  O(1/N^2) convergence of the discrete loop   [got 100.024 vs expected 100 (rtol=0.05, atol=1e-09)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2-the-ssh-chain-one-spectrum-two-insulators">
+<h2>Exercise 2 — The SSH chain: one spectrum, two insulators<a class="headerlink" href="#exercise-2-the-ssh-chain-one-spectrum-two-insulators" title="Link to this heading">#</a></h2>
+<p>Now the crystal. The machinery meets the model whose entire point is that
+the <em>spectrum</em> cannot tell its two phases apart — so the label that can
+tell them apart has to be counted off the <span class="math notranslate nohighlight">\(\mathbf d(k)\)</span> loop rather than
+read off a band, and it needs an instrument of its own.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">winding_number(v,</span> <span class="pre">w,</span> <span class="pre">w2=0.0,</span> <span class="pre">n_k=2000)</span></code>, the
+discretization of <a class="reference internal" href="#equation-eq-bws-winding">Eq. 901</a>. Evaluate
+<span class="math notranslate nohighlight">\(h^*(k) = v + w e^{ik} + w_2 e^{2ik}\)</span> on a closed grid of <span class="math notranslate nohighlight">\(n_k + 1\)</span> points
+spanning <span class="math notranslate nohighlight">\([0, 2\pi]\)</span>, take <code class="docutils literal notranslate"><span class="pre">numpy.angle</span></code>, and — this is the whole
+difficulty — pass it through <code class="docutils literal notranslate"><span class="pre">numpy.unwrap</span></code> before differencing, so that
+the <span class="math notranslate nohighlight">\(2\pi\)</span> jumps the branch cut inserts are removed instead of counted;
+then sum the increments and divide by <span class="math notranslate nohighlight">\(2\pi\)</span>. <strong>Write this one yourself</strong> —
+the implementation is the lesson: an integer that is <em>defined</em> as a total
+phase change can only be computed by a scheme that never loses a branch,
+and the same routine returns <span class="math notranslate nohighlight">\(W = 2\)</span> unchanged in Exercise 7. The <span class="math notranslate nohighlight">\(w_2\)</span>
+argument stays dormant until then.</p>
+<p><strong>Part b)</strong> Plot <span class="math notranslate nohighlight">\(\varepsilon_\pm(k) = \pm|v + we^{-ik}|\)</span> over the zone for
+<span class="math notranslate nohighlight">\((v, w) = (1, 0.5)\)</span>, <span class="math notranslate nohighlight">\((1, 1)\)</span>, and <span class="math notranslate nohighlight">\((0.5, 1)\)</span>. Report the gaps and confirm
+the closed form <span class="math notranslate nohighlight">\(2|v - w|\)</span>: the first and third cases are <em>identical</em>
+spectra with gap <span class="math notranslate nohighlight">\(1\)</span>, and the middle is the metal where the two insulators
+meet.</p>
+<p><strong>Part c)</strong> Plot the loop <span class="math notranslate nohighlight">\(\mathbf d(k) = (v + w\cos k,\; w\sin k)\)</span> for the
+two insulators — the emblem of the subject. Run your <code class="docutils literal notranslate"><span class="pre">winding_number</span></code> on
+both, and check <span class="math notranslate nohighlight">\(W = 0\)</span> (trivial, origin outside) versus <span class="math notranslate nohighlight">\(W = 1\)</span>
+(topological, origin enclosed) to <span class="math notranslate nohighlight">\(10^{-12}\)</span>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(v, w) = (1.0, 0.5): gap 1.000000  [2|v - w| = 1.000000]
+(v, w) = (1.0, 1.0): gap 0.000000  [2|v - w| = 0.000000]
+(v, w) = (0.5, 1.0): gap 1.000000  [2|v - w| = 1.000000]
+winding numbers: trivial -8.83e-18, topological 1.000000000000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-bws-ssh-bulk">
+<img alt="../../_images/998cb8aba36830850bd0f1244831ac4f0cd5e944e35e4d90fe9469b7b4876972.png" src="../../_images/998cb8aba36830850bd0f1244831ac4f0cd5e944e35e4d90fe9469b7b4876972.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 804 </span><span class="caption-text">One spectrum, two insulators. Left: SSH bands for <span class="math notranslate nohighlight">\((v, w) = (1, 0.5)\)</span> (thick ink) and <span class="math notranslate nohighlight">\((0.5, 1)\)</span> (amber, dashed and drawn on top so the coincidence is visible) coincide exactly — gap <span class="math notranslate nohighlight">\(2|v - w| = 1\)</span> both ways — with the <span class="math notranslate nohighlight">\(v = w\)</span> metal (grey) closing the gap at <span class="math notranslate nohighlight">\(k = \pm\pi\)</span>. Right: the loops <span class="math notranslate nohighlight">\(\mathbf{d}(k)\)</span> that the spectrum cannot see. The trivial loop (ink) leaves the origin outside (<span class="math notranslate nohighlight">\(W = 0\)</span>); the topological loop (amber) encloses it (<span class="math notranslate nohighlight">\(W = 1\)</span>, computed to <span class="math notranslate nohighlight">\(10^{-17}\)</span>). No deformation with <span class="math notranslate nohighlight">\(\mathbf{d} \neq 0\)</span> connects them.</span><a class="headerlink" href="#fig-bws-ssh-bulk" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-2-gaps-and-windings">
+<h3>Validation 2 — gaps and windings<a class="headerlink" href="#validation-2-gaps-and-windings" title="Link to this heading">#</a></h3>
+<p>Both insulators must show gap exactly <span class="math notranslate nohighlight">\(2|v - w| = 1\)</span>, the metal must close
+it, and the discretized winding integral must return the exact integers.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  trivial gap = 2|v - w|   [got 1 vs expected 1 (rtol=1e-09, atol=1e-09)]
+✓  topological gap = 2|v - w|   [got 1 vs expected 1 (rtol=1e-09, atol=1e-09)]
+✓  the v = w metal closes the gap   [gap 2.4e-16]
+✓  winding number, trivial phase   [got -8.83487e-18 vs expected 0 (rtol=1e-06, atol=1e-12)]
+✓  winding number, topological phase   [got 1 vs expected 1 (rtol=1e-06, atol=1e-12)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-the-zak-phase-quantized-and-gauge-proof">
+<h2>Exercise 3 — The Zak phase, quantized and gauge-proof<a class="headerlink" href="#exercise-3-the-zak-phase-quantized-and-gauge-proof" title="Link to this heading">#</a></h2>
+<p>The Berry machine, aimed down the Brillouin zone. Exercise 2 read the
+topology straight off <span class="math notranslate nohighlight">\(h(k)\)</span>, without ever forming a state; the Zak phase
+reads it off the <em>eigenvectors</em>, which means the <span class="math notranslate nohighlight">\(2\times2\)</span> matrix of
+<a class="reference internal" href="#equation-eq-bws-ssh">Eq. 900</a> has to exist as an object before anything can be
+diagonalized. The Setup’s <code class="docutils literal notranslate"><span class="pre">lower_band</span></code> is written to call it by name and
+collect column 0 across the zone, so the states this exercise works with
+come from the matrix built here.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">ssh_bloch(k,</span> <span class="pre">v,</span> <span class="pre">w)</span></code>, the Bloch Hamiltonian of
+<a class="reference internal" href="#equation-eq-bws-ssh">Eq. 900</a> in the cell-periodic gauge: a <span class="math notranslate nohighlight">\(2\times2\)</span> complex
+array, zero on the diagonal (that is the chiral symmetry), with
+<span class="math notranslate nohighlight">\(h(k) = v + we^{-ik}\)</span> above it and <span class="math notranslate nohighlight">\(h^*(k)\)</span> below.</p>
+<p><strong>Part b)</strong> With the Setup’s <code class="docutils literal notranslate"><span class="pre">lower_band</span></code> (<span class="math notranslate nohighlight">\(n_k = 200\)</span>) driving your
+<code class="docutils literal notranslate"><span class="pre">ssh_bloch</span></code>, and the <code class="docutils literal notranslate"><span class="pre">berry_phase</span></code> you wrote in Exercise 1, compute the
+Zak phase for <span class="math notranslate nohighlight">\((v, w) = (1, 0.5)\)</span>, <span class="math notranslate nohighlight">\((1, 0.8)\)</span>, <span class="math notranslate nohighlight">\((0.8, 1)\)</span>, and <span class="math notranslate nohighlight">\((0.5, 1)\)</span>.
+It must quantize: <span class="math notranslate nohighlight">\(0\)</span> whenever <span class="math notranslate nohighlight">\(v &gt; w\)</span>, <span class="math notranslate nohighlight">\(\pm\pi\)</span> (the same point on the
+phase circle) whenever <span class="math notranslate nohighlight">\(w &gt; v\)</span> — and not approximately, but to better than
+<span class="math notranslate nohighlight">\(10^{-10}\)</span>, because inversion symmetry forces the product in
+<a class="reference internal" href="#equation-eq-bws-berry">Eq. 898</a> to be real. Compare <span class="math notranslate nohighlight">\(e^{i\gamma}\)</span> against <span class="math notranslate nohighlight">\(\pm 1\)</span>, the
+quantization’s gauge-safe form.</p>
+<p><strong>Part c)</strong> Prove the gauge invariance experimentally: rerun both phases
+with <code class="docutils literal notranslate"><span class="pre">randomize=RNG</span></code>, which multiplies every eigenvector by an independent
+random phase — the worst gauge a malicious eigensolver could produce — and
+confirm <span class="math notranslate nohighlight">\(e^{i\gamma}\)</span> is unchanged at <span class="math notranslate nohighlight">\(10^{-8}\)</span>.</p>
+<p><strong>Part d)</strong> Convert to Wannier centers by <a class="reference internal" href="#equation-eq-bws-wannier">Eq. 902</a>:
+<span class="math notranslate nohighlight">\(\bar x = (\gamma/2\pi) \bmod 1\)</span>, which must land on exactly <span class="math notranslate nohighlight">\(0\)</span> (trivial)
+and exactly <span class="math notranslate nohighlight">\(\tfrac12\)</span> (topological) — the band’s charge sits <em>on</em> the cell
+in one phase and <em>between</em> cells in the other.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(v, w) = (1.0, 0.5): Zak phase -0.000000000000
+(v, w) = (1.0, 0.8): Zak phase -0.000000000000
+(v, w) = (0.8, 1.0): Zak phase -3.141592653590
+(v, w) = (0.5, 1.0): Zak phase +3.141592653590
+max distance of exp(i gamma) from quantized values: 6.83e-16
+(v, w) = (1.0, 0.5): randomized gauge -&gt; +0.000000000000  (dev 2.7e-16)
+(v, w) = (0.5, 1.0): randomized gauge -&gt; -3.141592653590  (dev 2.4e-16)
+Wannier centers: trivial -0.000000 a, topological 0.500000 a
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-3-quantized-and-provably-gauge-free">
+<h3>Validation 3 — quantized, and provably gauge-free<a class="headerlink" href="#validation-3-quantized-and-provably-gauge-free" title="Link to this heading">#</a></h3>
+<p>Quantization to <span class="math notranslate nohighlight">\(\{0, \pi\}\)</span> at <span class="math notranslate nohighlight">\(10^{-10}\)</span>, gauge invariance under full
+phase randomization at <span class="math notranslate nohighlight">\(10^{-8}\)</span>, and Wannier centers on <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(a/2\)</span>.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  Zak phase quantized to {0, pi} in all four cases   [max deviation 6.8e-16]
+✓  Zak phase survives a fully randomized gauge   [max deviation 2.7e-16]
+✓  trivial Wannier center at 0   [got -2.77556e-17 vs expected 0 (rtol=1e-06, atol=1e-10)]
+✓  topological Wannier center at a/2   [got 0.5 vs expected 0.5 (rtol=1e-06, atol=1e-10)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-bulkboundary-correspondence-the-edge-states-appear">
+<h2>Exercise 4 — Bulk–boundary correspondence: the edge states appear<a class="headerlink" href="#exercise-4-bulkboundary-correspondence-the-edge-states-appear" title="Link to this heading">#</a></h2>
+<p>The bulk invariant now makes a claim about <em>surfaces</em>: cut the chain open,
+and zero-energy end states must exist exactly when <span class="math notranslate nohighlight">\(W = 1\)</span>. This is the
+bulk–boundary correspondence, and it is checkable to ten digits — but only
+once there is a boundary, which means leaving <span class="math notranslate nohighlight">\(k\)</span>-space for a finite chain
+of <span class="math notranslate nohighlight">\(2N\)</span> sites written out bond by bond.</p>
+<p><strong>Part a)</strong> Write <code class="docutils literal notranslate"><span class="pre">ssh_open(n_cells,</span> <span class="pre">v,</span> <span class="pre">w,</span> <span class="pre">w2=0.0)</span></code>, the real-space
+Hamiltonian of an open chain of <code class="docutils literal notranslate"><span class="pre">n_cells</span></code> cells. Sites alternate
+<span class="math notranslate nohighlight">\(A, B, A, B, \dots\)</span>, so cell <span class="math notranslate nohighlight">\(i\)</span> owns sites <span class="math notranslate nohighlight">\(2i\)</span> and <span class="math notranslate nohighlight">\(2i + 1\)</span>: the
+intracell bond <span class="math notranslate nohighlight">\(A_i\!-\!B_i\)</span> carries <span class="math notranslate nohighlight">\(v\)</span>, the intercell bond
+<span class="math notranslate nohighlight">\(B_i\!-\!A_{i+1}\)</span> carries <span class="math notranslate nohighlight">\(w\)</span> and exists only for <span class="math notranslate nohighlight">\(i &lt; N - 1\)</span> (that missing
+last bond <em>is</em> the boundary), and the second-neighbour intercell bond
+<span class="math notranslate nohighlight">\(B_i\!-\!A_{i+2}\)</span> carries <span class="math notranslate nohighlight">\(w_2\)</span>, zero for the standard model and needed
+only in Exercise 7. Write both triangles of each entry: the matrix must
+come out symmetric. <strong>Write this one yourself</strong> — the implementation is
+the lesson: every bond you lay connects an even index to an odd one, and
+that index discipline is chiral symmetry made concrete, the reason the
+zero modes below sit at zero and not merely near it.</p>
+<p><strong>Part b)</strong> Diagonalize the open chain (your <code class="docutils literal notranslate"><span class="pre">ssh_open</span></code>, <span class="math notranslate nohighlight">\(N = 40\)</span> cells)
+with <code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigh</span></code> for <span class="math notranslate nohighlight">\(v/w\)</span> swept across the transition (<span class="math notranslate nohighlight">\(w = 1\)</span>),
+and plot the spectral flow: two states must detach from the bands and
+collapse onto <span class="math notranslate nohighlight">\(E = 0\)</span> precisely as <span class="math notranslate nohighlight">\(v/w\)</span> drops below <span class="math notranslate nohighlight">\(1\)</span>.</p>
+<p><strong>Part c)</strong> Pin the numbers at <span class="math notranslate nohighlight">\((v, w) = (0.5, 1)\)</span>: for <span class="math notranslate nohighlight">\(N = 30\)</span> the
+midgap pair must sit at <span class="math notranslate nohighlight">\(|E| &lt; 10^{-8}\)</span> (measured: <span class="math notranslate nohighlight">\(7.0\times10^{-10}\)</span>),
+while the trivial chain’s smallest <span class="math notranslate nohighlight">\(|E|\)</span> stays above <span class="math notranslate nohighlight">\(0.4\)</span>. The splitting
+is the two ends’ exponentially small overlap, so growing <span class="math notranslate nohighlight">\(N = 20 \to 30\)</span>
+must shrink it by exactly <span class="math notranslate nohighlight">\((w/v)^{10} = 1024\)</span> — a scaling law with no
+fitted constants.</p>
+<p><strong>Part d)</strong> Chiral symmetry makes a sharper claim: a zero mode is an
+eigenstate of <span class="math notranslate nohighlight">\(\sigma_z\)</span>, so the left edge state lives <em>entirely</em> on the
+<span class="math notranslate nohighlight">\(A\)</span> sublattice. Form the left-localized combination of the (numerically
+hybridized) midgap pair and measure its <span class="math notranslate nohighlight">\(B\)</span>-sublattice weight — it is not
+small, it is <span class="math notranslate nohighlight">\(10^{-31}\)</span>.</p>
+<p><strong>Part e)</strong> The decay is geometric, <span class="math notranslate nohighlight">\(|\psi_A(m)|^2 \propto (v/w)^{2m}\)</span>:
+fit the log-slope of the cell weights and confirm the localization length
+<span class="math notranslate nohighlight">\(\xi = 1/[2\ln(w/v)]\)</span> at <span class="math notranslate nohighlight">\(v = 0.3, 0.5, 0.7, 0.8\)</span> — four couplings, four
+ratios of <span class="math notranslate nohighlight">\(1.000\)</span>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>topological N = 30: |E_edge| = 6.985e-10  (&lt; 1e-8 demanded)
+splitting ratio N = 20 vs 30: 1024.0  [(w/v)^10 = 1024]
+trivial N = 30: min |E| = 0.5048
+left edge state: B-sublattice weight 8.74e-32
+v = 0.3: xi = 0.4153 cells, theory 0.4153, ratio 1.0000
+v = 0.5: xi = 0.7213 cells, theory 0.7213, ratio 1.0000
+v = 0.7: xi = 1.4018 cells, theory 1.4018, ratio 1.0000
+v = 0.8: xi = 2.2407 cells, theory 2.2407, ratio 1.0000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-bws-edges">
+<img alt="../../_images/b4e6c370a41c81a0be9b5776b53728ecbae414405195583b3142fb036ff65ab1.png" src="../../_images/b4e6c370a41c81a0be9b5776b53728ecbae414405195583b3142fb036ff65ab1.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 805 </span><span class="caption-text">Bulk–boundary correspondence, computed. Left: the open-chain spectrum (<span class="math notranslate nohighlight">\(N = 40\)</span> cells, <span class="math notranslate nohighlight">\(w = 1\)</span>) versus <span class="math notranslate nohighlight">\(v/w\)</span>; as the bulk winding number switches <span class="math notranslate nohighlight">\(1 \to 0\)</span> at <span class="math notranslate nohighlight">\(v = w\)</span>, a pair of states (amber) detaches from the bands and collapses exponentially onto zero energy as <span class="math notranslate nohighlight">\(v/w\)</span> drops below <span class="math notranslate nohighlight">\(1\)</span> (reaching <span class="math notranslate nohighlight">\(|E| \lesssim 10^{-12}\)</span> by <span class="math notranslate nohighlight">\(v/w = 0.5\)</span>), then dissolves back into the continuum in the trivial phase. Right: the left edge state at <span class="math notranslate nohighlight">\(v/w = 0.5\)</span> on a log scale — pure <span class="math notranslate nohighlight">\(A\)</span>-sublattice amplitudes (amber points) falling on the exact geometric law <span class="math notranslate nohighlight">\((v/w)^{2m}\)</span> (ink line) over eighteen decades, with <span class="math notranslate nohighlight">\(B\)</span>-sublattice weight at <span class="math notranslate nohighlight">\(10^{-31}\)</span>: chiral symmetry is not approximate.</span><a class="headerlink" href="#fig-bws-edges" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-4-the-boundary-keeps-the-bulk-s-promise">
+<h3>Validation 4 — the boundary keeps the bulk’s promise<a class="headerlink" href="#validation-4-the-boundary-keeps-the-bulk-s-promise" title="Link to this heading">#</a></h3>
+<p>Zero modes present at <span class="math notranslate nohighlight">\(10^{-8}\)</span> where <span class="math notranslate nohighlight">\(W = 1\)</span> and absent where <span class="math notranslate nohighlight">\(W = 0\)</span>;
+the parameter-free <span class="math notranslate nohighlight">\((w/v)^{10}\)</span> splitting law; sublattice purity; and the
+closed-form localization length at four couplings.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  edge pair at zero energy in the topological phase   [|E| = 7.0e-10]
+✓  no midgap states in the trivial phase   [min |E| = 0.505]
+✓  splitting shrinks by (w/v)^10 for N = 20 -&gt; 30   [got 1024 vs expected 1024 (rtol=0.01, atol=1e-09)]
+✓  left edge state pure A-sublattice (chiral symmetry)   [B weight 8.7e-32]
+✓  localization length = 1/[2 ln(w/v)] at four couplings   [got 9.78227e-09 vs expected 0 (rtol=1e-06, atol=0.01)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-wannier-functions-localization-is-a-gauge-you-must-earn">
+<h2>Exercise 5 — Wannier functions: localization is a gauge you must earn<a class="headerlink" href="#exercise-5-wannier-functions-localization-is-a-gauge-you-must-earn" title="Link to this heading">#</a></h2>
+<p>Equation <a class="reference internal" href="#equation-eq-bws-wannier">Eq. 902</a> looks innocent — an inverse Fourier
+transform — but it silently assumes the <span class="math notranslate nohighlight">\(|u_k\rangle\)</span> vary smoothly with
+<span class="math notranslate nohighlight">\(k\)</span>. Eigensolvers promise no such thing.</p>
+<p><strong>Part a)</strong> Build the lower-band Wannier function on a ring of 64 cells by
+<code class="docutils literal notranslate"><span class="pre">numpy.fft.ifft</span></code> of the Bloch states — diagonalizing the <code class="docutils literal notranslate"><span class="pre">ssh_bloch</span></code> you
+wrote in Exercise 3 — in a <em>smooth</em> gauge (fix each
+<span class="math notranslate nohighlight">\(u_k\)</span>’s first component real positive) for both phases, and in the
+random gauge for comparison. Plot the cell weights on a log scale.
+<strong>Write this one yourself</strong> — the implementation is the lesson: the single
+line that divides out <span class="math notranslate nohighlight">\(\arg u_k(0)\)</span> is the entire difference between a
+localized orbital and a shredded one, and nothing in the transform itself
+will warn you if you omit it.</p>
+<p><strong>Part b)</strong> Quantify with the spread
+<span class="math notranslate nohighlight">\(\Omega = \langle m^2\rangle - \langle m\rangle^2\)</span> over cell index: the
+smooth gauge gives <span class="math notranslate nohighlight">\(0.083\)</span> (trivial) and <span class="math notranslate nohighlight">\(0.333\)</span> (topological) cell²,
+the random gauge <span class="math notranslate nohighlight">\(\sim 300\)</span> — the state shredded over the whole ring.
+This factor of <span class="math notranslate nohighlight">\(10^3\)</span> is why the Marzari–Vanderbilt functional
+<span class="bibtex-citation" id="id13">[<a class="reference internal" href="#id115" title="Nicola Marzari and David Vanderbilt. Maximally localized generalized Wannier functions for composite energy bands. Physical Review B, 56:12847–12865, 1997. doi:10.1103/PhysRevB.56.12847.">MV97</a>]</span> (minimize <span class="math notranslate nohighlight">\(\Omega\)</span> over gauges) exists.</p>
+<p><strong>Part c)</strong> The smooth-gauge tails are exponential with the rate set by
+the gap: fit the log-slope of the tail at <span class="math notranslate nohighlight">\(v/w = 1.43\)</span>, <span class="math notranslate nohighlight">\(2\)</span>, and <span class="math notranslate nohighlight">\(3.33\)</span>
+and compare with <span class="math notranslate nohighlight">\(2\ln(v/w)\)</span> — the same analytic structure (the branch
+point of <span class="math notranslate nohighlight">\(|h(k)|\)</span> continued to complex <span class="math notranslate nohighlight">\(k\)</span>) that set the edge state’s
+<span class="math notranslate nohighlight">\(\xi\)</span>. The finite-window fit runs <span class="math notranslate nohighlight">\(5\)</span>–<span class="math notranslate nohighlight">\(18\%\)</span> steep because the tail
+carries a power-law prefactor on top of the exponential; the <em>ordering</em>
+and the rates land within <span class="math notranslate nohighlight">\(20\%\)</span>, and honesty about that window effect is
+part of the exercise.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>spreads [cell^2]: smooth trivial 0.0833, smooth topological 0.3333
+                  random gauge   339.2
+v/w = 1.43: tail rate 0.8407, 2 ln(v/w) = 0.7133, ratio 1.179
+v/w = 2.00: tail rate 1.5100, 2 ln(v/w) = 1.3863, ratio 1.089
+v/w = 3.33: tail rate 2.5301, 2 ln(v/w) = 2.4079, ratio 1.051
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-bws-wannier">
+<img alt="../../_images/b703e3b776a9872a1d54c9c266334224b0c506936716aeb61d31c944bee40166.png" src="../../_images/b703e3b776a9872a1d54c9c266334224b0c506936716aeb61d31c944bee40166.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 806 </span><span class="caption-text">Localization is a property of the gauge. Smooth-gauge Wannier probability by unit cell for the trivial (ink, spread <span class="math notranslate nohighlight">\(0.083\)</span> cell<span class="math notranslate nohighlight">\(^2\)</span>) and topological (amber, <span class="math notranslate nohighlight">\(0.333\)</span> cell<span class="math notranslate nohighlight">\(^2\)</span>) phases: exponential tails dropping fifteen decades in as many cells, with the topological function visibly straddling two cells (its center plots at <span class="math notranslate nohighlight">\(-a/2\)</span>, i.e. <span class="math notranslate nohighlight">\(a/2\)</span> mod <span class="math notranslate nohighlight">\(a\)</span>, because <code class="docutils literal notranslate"><span class="pre">ifft</span></code>’s <span class="math notranslate nohighlight">\(e^{+ikm}\)</span> kernel mirrors the <span class="math notranslate nohighlight">\(e^{-ikR}\)</span> of the definition). The same band in a randomized gauge (grey): spread <span class="math notranslate nohighlight">\(\sim 300\)</span> cell<span class="math notranslate nohighlight">\(^2\)</span>, the charge shredded over the whole 64-cell ring. Minimizing this spread over gauges is the Marzari–Vanderbilt program behind every modern Wannier code.</span><a class="headerlink" href="#fig-bws-wannier" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-5-localized-shredded-and-gap-rated">
+<h3>Validation 5 — localized, shredded, and gap-rated<a class="headerlink" href="#validation-5-localized-shredded-and-gap-rated" title="Link to this heading">#</a></h3>
+<p>Smooth-gauge spreads at their measured values, the random gauge worse by
+two orders of magnitude, and tail rates tracking <span class="math notranslate nohighlight">\(2\ln(v/w)\)</span> within the
+window-honest <span class="math notranslate nohighlight">\(20\%\)</span> — and <em>monotonically</em> in the gap.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  smooth trivial Wannier spread   [got 0.0833333 vs expected 0.0833 (rtol=0.05, atol=1e-09)]
+✓  smooth topological Wannier spread   [got 0.333333 vs expected 0.3333 (rtol=0.05, atol=1e-09)]
+✓  random gauge shreds the Wannier function   [spread 339 vs 0.333 cell^2]
+✓  Wannier tails exponential at the gap&#39;s rate (within window&#39;s 20%)   [rates 0.84 &lt; 1.51 &lt; 2.53]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-6-polarization-only-the-jump-is-physical">
+<h2>Exercise 6 — Polarization: only the jump is physical<a class="headerlink" href="#exercise-6-polarization-only-the-jump-is-physical" title="Link to this heading">#</a></h2>
+<p>The Wannier center of Exercise 3 is, by the modern theory
+<span class="bibtex-citation" id="id14">[<a class="reference internal" href="#id124" title="R. D. King-Smith and David Vanderbilt. Theory of polarization of crystalline solids. Physical Review B, 47:1651–1654, 1993.">KSV93</a>]</span>, the electronic polarization: <span class="math notranslate nohighlight">\(P = e\bar x/a\)</span> per
+cell, <em>defined only modulo</em> <span class="math notranslate nohighlight">\(e\)</span>. This exercise computes <span class="math notranslate nohighlight">\(P\)</span> by two
+independent routes and shows that where the routes disagree is exactly
+where polarization was never well-defined to begin with — while the <em>jump</em>
+at the transition is route-independent and exactly <span class="math notranslate nohighlight">\(e/2\)</span>.</p>
+<p><strong>Part a)</strong> Scan the Zak-phase Wannier center <span class="math notranslate nohighlight">\(\bar x(v)\)</span> across
+<span class="math notranslate nohighlight">\(v/w \in [0.5, 1.5]\)</span>, wrapping your Exercise 1 <code class="docutils literal notranslate"><span class="pre">berry_phase</span></code> and the
+Setup’s <code class="docutils literal notranslate"><span class="pre">lower_band</span></code> into a one-line <code class="docutils literal notranslate"><span class="pre">zak_center</span></code>:
+a step function, <span class="math notranslate nohighlight">\(\tfrac12\)</span> then <span class="math notranslate nohighlight">\(0\)</span>, switching at
+the gap closing — no intermediate values, because inversion symmetry
+allows none. Confirm the jump is <span class="math notranslate nohighlight">\(\tfrac12\)</span> even between <span class="math notranslate nohighlight">\(v/w = 0.99\)</span> and
+<span class="math notranslate nohighlight">\(1.01\)</span>.</p>
+<p><strong>Part b)</strong> Recompute <span class="math notranslate nohighlight">\(P\)</span> by Resta’s many-body formula <span class="bibtex-citation" id="id15">[<a class="reference internal" href="#id125" title="Raffaele Resta. Quantum-mechanical position operator in extended systems. Physical Review Letters, 80:1800–1803, 1998.">Res98</a>]</span>,
+built with <em>physical</em> site positions (<span class="math notranslate nohighlight">\(B\)</span> at <span class="math notranslate nohighlight">\(+a/2\)</span> within the cell) on a
+closed ring of 64 cells — the <code class="docutils literal notranslate"><span class="pre">ssh_open</span></code> you built in Exercise 4 with its
+one missing bond restored — with the lower band filled:
+<span class="math notranslate nohighlight">\(P = \frac{1}{2\pi}\operatorname{Im}\ln\det S\)</span> with
+<span class="math notranslate nohighlight">\(S_{mn} = \langle\psi_m|e^{2\pi i\hat x/L}|\psi_n\rangle\)</span>. It returns
+<span class="math notranslate nohighlight">\(0.75\)</span> and <span class="math notranslate nohighlight">\(0.25\)</span> — a quarter cell <em>below</em> the Zak plateaus (mod <span class="math notranslate nohighlight">\(a\)</span>,
+the same shift on both). Two ingredients add up: the bonding charge
+sits mid-bond, an intracell offset of <span class="math notranslate nohighlight">\(+\tfrac14\)</span> (dimer-limit bond
+centers at <span class="math notranslate nohighlight">\(m + \tfrac14\)</span> trivial, <span class="math notranslate nohighlight">\(m + \tfrac34\)</span> topological) — and
+Resta’s phase reports the <em>ring-averaged</em> center
+<span class="math notranslate nohighlight">\(\sum_m (m + x_{\mathrm{phys}})/N \bmod 1\)</span>, whose mean cell index
+<span class="math notranslate nohighlight">\((N-1)/2\)</span> contributes an extra <span class="math notranslate nohighlight">\(\tfrac12\)</span> for the even ring <span class="math notranslate nohighlight">\(N = 64\)</span>
+(an odd ring returns <span class="math notranslate nohighlight">\(0.25\)</span> and <span class="math notranslate nohighlight">\(0.75\)</span> — try it). Neither absolute
+number is wrong; absolute
+<span class="math notranslate nohighlight">\(P\)</span> is convention. The difference <span class="math notranslate nohighlight">\(P_{\mathrm{triv}} - P_{\mathrm{topo}}\)</span>
+must be exactly <span class="math notranslate nohighlight">\(\tfrac12\)</span> by <em>both</em> routes — that is the physical,
+quantized <span class="math notranslate nohighlight">\(e/2\)</span>: the fractional charge SSH attached to polyacetylene’s
+domain walls <span class="bibtex-citation" id="id16">[<a class="reference internal" href="#id123" title="W. P. Su, J. R. Schrieffer, and A. J. Heeger. Solitons in polyacetylene. Physical Review Letters, 42:1698–1701, 1979.">SSH79</a>]</span>.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Zak centers:   trivial 0.000000, topological 0.500000
+Resta centers: trivial 0.750000, topological 0.250000
+jump across v = w: Zak 0.500000, Resta 0.500000  (e/2 each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-bws-polarization">
+<img alt="../../_images/151c5164685ab2012810c8f2c51439d23bb35f5cae042260b6794adc19cc827f.png" src="../../_images/151c5164685ab2012810c8f2c51439d23bb35f5cae042260b6794adc19cc827f.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 807 </span><span class="caption-text">Only the jump is physical. The Wannier center <span class="math notranslate nohighlight">\(\bar{x}(v/w)\)</span> by the Zak route (ink steps: exactly <span class="math notranslate nohighlight">\(a/2\)</span>, then exactly <span class="math notranslate nohighlight">\(0\)</span>) and the Resta determinant with physical intracell positions (amber: a quarter cell lower, mod <span class="math notranslate nohighlight">\(a\)</span>, on both plateaus — the mid-bond <span class="math notranslate nohighlight">\(+a/4\)</span> basis offset plus the even ring’s half-cell mean cell index). The two conventions disagree about absolute <span class="math notranslate nohighlight">\(P\)</span> everywhere — and agree that the discontinuity at the gap closing is exactly <span class="math notranslate nohighlight">\(e/2\)</span> per cell, measured here between <span class="math notranslate nohighlight">\(v/w = 0.99\)</span> and <span class="math notranslate nohighlight">\(1.01\)</span>. Quantized charge transport survives any bookkeeping.</span><a class="headerlink" href="#fig-bws-polarization" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-6-e-2-by-two-unrelated-formulas">
+<h3>Validation 6 — e/2, by two unrelated formulas<a class="headerlink" href="#validation-6-e-2-by-two-unrelated-formulas" title="Link to this heading">#</a></h3>
+<p>Both routes must produce a jump of exactly <span class="math notranslate nohighlight">\(\tfrac12\)</span>, their mutual offset
+must be the same <span class="math notranslate nohighlight">\(-\tfrac14\)</span> (mod 1) shift on both plateaus — the <span class="math notranslate nohighlight">\(+\tfrac14\)</span>
+basis offset plus the even ring’s half cell, <span class="math notranslate nohighlight">\(\tfrac14 + \tfrac12 \equiv
+-\tfrac14\)</span> — and the step must be complete within <span class="math notranslate nohighlight">\(1\%\)</span> of the transition.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  polarization jump e/2 (Zak route)   [got 0.5 vs expected 0.5 (rtol=1e-06, atol=1e-06)]
+✓  polarization jump e/2 (Resta route)   [got 0.5 vs expected 0.5 (rtol=1e-06, atol=0.001)]
+✓  offset -1/4 mod 1 (basis + even-ring half cell), trivial side   [got -1.33227e-15 vs expected 0 (rtol=1e-06, atol=0.001)]
+✓  offset -1/4 mod 1 (basis + even-ring half cell), topological side   [got -1.22125e-15 vs expected 0 (rtol=1e-06, atol=0.001)]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-7-verdict-winding-number-two-and-the-count-that-proves-it">
+<h2>Exercise 7 — Verdict: winding number two, and the count that proves it<a class="headerlink" href="#exercise-7-verdict-winding-number-two-and-the-count-that-proves-it" title="Link to this heading">#</a></h2>
+<p>If <span class="math notranslate nohighlight">\(W\)</span> really is an integer — not a binary — there should be chains with
+<span class="math notranslate nohighlight">\(W = 2\)</span>, and the correspondence should promise <em>four</em> zero modes. Add a
+second-neighbor intercell hop <span class="math notranslate nohighlight">\(w_2\)</span> (<span class="math notranslate nohighlight">\(B_i \to A_{i+2}\)</span>, still <span class="math notranslate nohighlight">\(A\)</span>–<span class="math notranslate nohighlight">\(B\)</span> only,
+so chiral symmetry survives): <span class="math notranslate nohighlight">\(h^*(k) = v + we^{ik} + w_2 e^{2ik}\)</span> can now
+wind twice.</p>
+<p><strong>Part a)</strong> Compute <span class="math notranslate nohighlight">\(W\)</span> with your Exercise 2 <code class="docutils literal notranslate"><span class="pre">winding_number</span></code> — the <span class="math notranslate nohighlight">\(w_2\)</span>
+argument it has carried since then now earns its keep — for the three
+regimes: <span class="math notranslate nohighlight">\(v\)</span>-dominant <span class="math notranslate nohighlight">\((1, 0.3, 0.2)\)</span>, <span class="math notranslate nohighlight">\(w\)</span>-dominant <span class="math notranslate nohighlight">\((0.3, 1, 0.2)\)</span>,
+<span class="math notranslate nohighlight">\(w_2\)</span>-dominant <span class="math notranslate nohighlight">\((0.2, 0.3, 1)\)</span>. Plot the three <span class="math notranslate nohighlight">\(h(k)\)</span> loops: zero, one,
+and two turns around the origin.</p>
+<p><strong>Part b)</strong> Diagonalize the open chains with your Exercise 4 <code class="docutils literal notranslate"><span class="pre">ssh_open</span></code>
+(<span class="math notranslate nohighlight">\(N = 40\)</span> cells, its <span class="math notranslate nohighlight">\(w_2\)</span> bond now nonzero) and <em>count</em> the
+zero modes (<span class="math notranslate nohighlight">\(|E| &lt; 10^{-6}\)</span>): the counts must be <span class="math notranslate nohighlight">\(0\)</span>, <span class="math notranslate nohighlight">\(2\)</span>, and <span class="math notranslate nohighlight">\(4\)</span> — two
+per edge in the doubly wound phase, at <span class="math notranslate nohighlight">\(|E| \sim 10^{-14}\)</span>, with the rest
+of the spectrum gapped at <span class="math notranslate nohighlight">\(0.756\)</span>. Print the verdict table for the whole
+notebook.</p>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v-dominant   (v, w, w2) = (1.0, 0.3, 0.2): W = -0.000000
+w-dominant   (v, w, w2) = (0.3, 1.0, 0.2): W = +1.000000
+w2-dominant  (v, w, w2) = (0.2, 0.3, 1.0): W = +2.000000
+v-dominant  : 0 zero modes (smallest |E| 7.6e-01, next band 0.756)
+w-dominant  : 2 zero modes (smallest |E| 1.3e-27, next band 0.502)
+w2-dominant : 4 zero modes (smallest |E| 1.6e-18, next band 0.756)
+
+--- Verdict: the bulk predicts the boundary ---
+         phase  Zak/pi    W  edge modes  x_bar/a
+       trivial       0    0           0      0.0
+   topological       1    1           2      0.5
+  doubly wound       —    2           4        —
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_solution tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<figure class="align-default" id="fig-bws-winding-two">
+<img alt="../../_images/ec3beec0a8d91400b58d555b3ce651ff9bf0476a5fd484f7fe50650e03177555.png" src="../../_images/ec3beec0a8d91400b58d555b3ce651ff9bf0476a5fd484f7fe50650e03177555.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 808 </span><span class="caption-text">The integer, not the binary. Left: <span class="math notranslate nohighlight">\(h(k)\)</span> for the extended SSH chain in its three regimes — <span class="math notranslate nohighlight">\(v\)</span>-dominant (grey, <span class="math notranslate nohighlight">\(W = 0\)</span>), <span class="math notranslate nohighlight">\(w\)</span>-dominant (ink, <span class="math notranslate nohighlight">\(W = 1\)</span>), and <span class="math notranslate nohighlight">\(w_2\)</span>-dominant (amber, <span class="math notranslate nohighlight">\(W = 2\)</span>: the curve is a limaçon looping the origin twice). Right: the eight smallest <span class="math notranslate nohighlight">\(|E|\)</span> of each open chain by rank (values floored at <span class="math notranslate nohighlight">\(10^{-16}\)</span> for the log axis) — exactly <span class="math notranslate nohighlight">\(0\)</span>, <span class="math notranslate nohighlight">\(2\)</span>, and <span class="math notranslate nohighlight">\(4\)</span> points fall below the <span class="math notranslate nohighlight">\(10^{-6}\)</span> threshold (two per edge when <span class="math notranslate nohighlight">\(W = 2\)</span>, at <span class="math notranslate nohighlight">\(|E| \sim 10^{-14}\)</span>), with the next state at <span class="math notranslate nohighlight">\(|E| = 0.756\)</span>. The bulk integer counts boundary states: the correspondence, verified beyond the binary case.</span><a class="headerlink" href="#fig-bws-winding-two" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="validation-7-the-integer-counts-states">
+<h3>Validation 7 — the integer counts states<a class="headerlink" href="#validation-7-the-integer-counts-states" title="Link to this heading">#</a></h3>
+<p>Windings <span class="math notranslate nohighlight">\(0\)</span>, <span class="math notranslate nohighlight">\(1\)</span>, <span class="math notranslate nohighlight">\(2\)</span> exact; zero-mode counts <span class="math notranslate nohighlight">\(0\)</span>, <span class="math notranslate nohighlight">\(2\)</span>, <span class="math notranslate nohighlight">\(4\)</span> exact; and
+the doubly wound modes at machine zero with a genuine gap above them.</p>
+<div class="cell tag_validation tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓  extended chain: W = 0   [got -1.76697e-17 vs expected 0 (rtol=1e-06, atol=1e-10)]
+✓  extended chain: W = 1   [got 1 vs expected 1 (rtol=1e-06, atol=1e-10)]
+✓  extended chain: W = 2   [got 2 vs expected 2 (rtol=1e-06, atol=1e-10)]
+✓  zero-mode counts = 2|W| at both edges   [counts [0, 2, 4]]
+✓  four modes at machine zero, gapped from the bands   [|E|_4 = 1.4e-14, |E|_5 = 0.756]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">With your assistant</p>
+<p>The e/2 jump hints at something bigger: make <span class="math notranslate nohighlight">\(v\)</span> and <span class="math notranslate nohighlight">\(w\)</span> <em>time-dependent</em>
+and the polarization can be pumped. The Rice–Mele cycle adds a staggered
+on-site term <span class="math notranslate nohighlight">\(\pm u\)</span> to <a class="reference internal" href="#equation-eq-bws-ssh">Eq. 900</a> and steers
+<span class="math notranslate nohighlight">\((v - w, u)\)</span> once around the origin — around the gap closing. Have your
+assistant build the cycle (<span class="math notranslate nohighlight">\(v - w = \cos\tau\)</span>, <span class="math notranslate nohighlight">\(u = \sin\tau\)</span>, say, with
+<span class="math notranslate nohighlight">\(w = 1\)</span>) and track the Wannier center <span class="math notranslate nohighlight">\(\bar x(\tau)\)</span> through one period
+with the Zak machinery above. Then run the check that is yours alone: the
+accumulated center must wind <em>exactly once</em> — total displacement
+<span class="math notranslate nohighlight">\(\Delta\bar x = 1.0\)</span> cell per cycle (<code class="docutils literal notranslate"><span class="pre">numpy.unwrap</span></code> on <span class="math notranslate nohighlight">\(2\pi\bar x\)</span>,
+<code class="docutils literal notranslate"><span class="pre">numpy.isclose</span></code> with <code class="docutils literal notranslate"><span class="pre">atol=1e-6</span></code>) — Thouless’s quantized pump, the Chern
+number smuggled into one dimension plus time. The check is yours.</p>
+</div>
+</section>
+</section>
+<section id="notebook-summary">
+<h2>Notebook summary<a class="headerlink" href="#notebook-summary" title="Link to this heading">#</a></h2>
+<p>The volume’s window on topology opened with a six-line formula. The
+discrete Berry phase — <code class="docutils literal notranslate"><span class="pre">numpy.angle</span></code> of an overlap product — reproduced
+Berry’s solid-angle law across 21 loop geometries at <span class="math notranslate nohighlight">\(2.5\times10^{-5}\)</span>
+with the predicted hundredfold error drop from <span class="math notranslate nohighlight">\(N = 100\)</span> to <span class="math notranslate nohighlight">\(1000\)</span>, and
+its gauge invariance was demonstrated rather than asserted: full phase
+randomization of every eigenvector moved the Zak phase by less than
+<span class="math notranslate nohighlight">\(10^{-14}\)</span>. Aimed at the SSH chain, the machinery split what the spectrum
+cannot: two dimerizations with identical bands carry windings <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(1\)</span>,
+Zak phases <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(\pi\)</span> quantized to eleven digits, and Wannier centers
+at <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(a/2\)</span>. The bulk’s promises were kept at the boundary — edge
+states at <span class="math notranslate nohighlight">\(7\times10^{-10}\)</span> obeying the parameter-free <span class="math notranslate nohighlight">\((w/v)^{10}\)</span>
+splitting law (measured <span class="math notranslate nohighlight">\(1024.0\)</span> against <span class="math notranslate nohighlight">\(1024\)</span>), pure <span class="math notranslate nohighlight">\(A\)</span>-sublattice to
+<span class="math notranslate nohighlight">\(10^{-31}\)</span>, localization length <span class="math notranslate nohighlight">\(1/[2\ln(w/v)]\)</span> at four couplings within
+<span class="math notranslate nohighlight">\(1\%\)</span> — and in the charge: smooth-gauge Wannier functions localized to
+<span class="math notranslate nohighlight">\(0.08\)</span>–<span class="math notranslate nohighlight">\(0.33\)</span> cell² (a random gauge shreds them to <span class="math notranslate nohighlight">\(300\)</span>), polarization
+computed by two unrelated formulas that disagree about the convention and
+agree that the jump is exactly <span class="math notranslate nohighlight">\(e/2\)</span>. The verdict chain wound twice and
+produced exactly four zero modes at <span class="math notranslate nohighlight">\(10^{-14}\)</span>: the integer counts states.</p>
+</section>
+<section id="outlook">
+<h2>Outlook<a class="headerlink" href="#outlook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Everything here was one filled band in one dimension. In two dimensions
+the Berry phase per unit area — the Berry <em>curvature</em> — integrates to
+the Chern number, and its boundary promise is the quantum Hall effect’s
+dissipationless edge currents; Vanderbilt <span class="bibtex-citation" id="id17">[<a class="reference internal" href="#id97" title="David Vanderbilt. Berry Phases in Electronic Structure Theory: Electric Polarization, Orbital Magnetization and Topological Insulators. Cambridge University Press, Cambridge, 2018.">Van18</a>]</span> carries
+exactly this notebook’s machinery there.</p></li>
+<li><p>The Wannier functions built by <code class="docutils literal notranslate"><span class="pre">ifft</span></code> become, in production codes, the
+maximally localized orbitals of Marzari–Vanderbilt <span class="bibtex-citation" id="id18">[<a class="reference internal" href="#id115" title="Nicola Marzari and David Vanderbilt. Maximally localized generalized Wannier functions for composite energy bands. Physical Review B, 56:12847–12865, 1997. doi:10.1103/PhysRevB.56.12847.">MV97</a>]</span> —
+the standard post-processing of the DFT bands of
+<a class="reference internal" href="exact-conditions-band-gap.html"><span class="std std-doc">§8.8</span></a> and the natural basis for the
+models of the next movement.</p></li>
+<li><p>A localized orbital with a known center is precisely where interactions
+bite hardest. Put a repulsion <span class="math notranslate nohighlight">\(U\)</span> on it and the band picture faces its
+reckoning: the Hubbard model of <a class="reference internal" href="hubbard-model.html"><span class="std std-doc">§8.13</span></a>, where
+Movement IV begins.</p></li>
+</ul>
+<div class="docutils container" id="id19">
+<div role="list" class="citation-list">
+<div class="citation" id="id98" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>AsbothOroszlanyPalyi16<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id4">1</a>,<a role="doc-backlink" href="#id7">2</a>)</span>
+<p>János K. Asbóth, László Oroszlány, and András Pályi. <em>A Short Course on Topological Insulators: Band Structure and Edge States in One and Two Dimensions</em>. Volume 919 of Lecture Notes in Physics. Springer, Cham, 2016.</p>
+</div>
+<div class="citation" id="id57" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Ber84<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id9">2</a>)</span>
+<p>Michael V. Berry. Quantal phase factors accompanying adiabatic changes. <em>Proceedings of the Royal Society of London A</em>, 392:45–57, 1984. <a class="reference external" href="https://doi.org/10.1098/rspa.1984.0023">doi:10.1098/rspa.1984.0023</a>.</p>
+</div>
+<div class="citation" id="id124" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>KSV93<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id6">1</a>,<a role="doc-backlink" href="#id11">2</a>,<a role="doc-backlink" href="#id14">3</a>)</span>
+<p>R. D. King-Smith and David Vanderbilt. Theory of polarization of crystalline solids. <em>Physical Review B</em>, 47:1651–1654, 1993.</p>
+</div>
+<div class="citation" id="id115" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>MV97<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id5">1</a>,<a role="doc-backlink" href="#id12">2</a>,<a role="doc-backlink" href="#id13">3</a>,<a role="doc-backlink" href="#id18">4</a>)</span>
+<p>Nicola Marzari and David Vanderbilt. Maximally localized generalized Wannier functions for composite energy bands. <em>Physical Review B</em>, 56:12847–12865, 1997. <a class="reference external" href="https://doi.org/10.1103/PhysRevB.56.12847">doi:10.1103/PhysRevB.56.12847</a>.</p>
+</div>
+<div class="citation" id="id125" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id15">Res98</a><span class="fn-bracket">]</span></span>
+<p>Raffaele Resta. Quantum-mechanical position operator in extended systems. <em>Physical Review Letters</em>, 80:1800–1803, 1998.</p>
+</div>
+<div class="citation" id="id123" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>SSH79<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id16">2</a>)</span>
+<p>W. P. Su, J. R. Schrieffer, and A. J. Heeger. Solitons in polyacetylene. <em>Physical Review Letters</em>, 42:1698–1701, 1979.</p>
+</div>
+<div class="citation" id="id97" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Van18<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id8">1</a>,<a role="doc-backlink" href="#id17">2</a>)</span>
+<p>David Vanderbilt. <em>Berry Phases in Electronic Structure Theory: Electric Polarization, Orbital Magnetization and Topological Insulators</em>. Cambridge University Press, Cambridge, 2018.</p>
+</div>
+<div class="citation" id="id117" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Zak89<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id10">2</a>)</span>
+<p>J. Zak. Berry's phase for energy bands in solids. <em>Physical Review Letters</em>, 62:2747–2750, 1989. <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.62.2747">doi:10.1103/PhysRevLett.62.2747</a>.</p>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');</style>
+<div style="font-family:'Source Serif 4', 'Iowan Old Style', Georgia, serif;background:#faf7f0;border:1px solid #dcd6c8;
+            border-left:6px solid #c0851a;border-radius:6px;
+            padding:18px 22px;margin:30px 0 8px 0;">
+  <div style="font-family:'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;font-size:11px;letter-spacing:.12em;
+              text-transform:uppercase;color:#c0851a;font-weight:600;
+              margin-bottom:6px;">Take this notebook with you</div>
+  <div style="font-size:14.5px;color:#16213e;line-height:1.55;max-width:66ch;">
+    Use the download button (&#8595;) in the toolbar above to save this notebook
+    and run it yourself. The published notebooks ship <b>without worked
+    solutions</b>; if you would like the reference solutions &mdash; to teach
+    from or to check your own work &mdash; get in touch: <a href='mailto:hello@ramador.me' style='color:#c0851a;text-decoration:none;border-bottom:1px solid #c0851a;'>hello@ramador.me</a>.
+  </div>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/08-electronic-structure"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="epm-band-structures.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">8.11 Real Band Structures: The Empirical Pseudopotential Method</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="hubbard-model.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">8.13 The Hubbard Model: Correlation on a Lattice</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-overview">Notebook overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-in-brief">Theory in brief</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#berry-s-phase-discretized">Berry’s phase, discretized</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ssh-chain-and-its-winding-number">The SSH chain and its winding number</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zak-phase-wannier-functions-and-polarization">Zak phase, Wannier functions, and polarization</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-berry-s-phase-certified-on-berry-s-example">Exercise 1 — Berry’s phase, certified on Berry’s example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-1-geometry-against-berry-s-closed-form">Validation 1 — geometry against Berry’s closed form</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-the-ssh-chain-one-spectrum-two-insulators">Exercise 2 — The SSH chain: one spectrum, two insulators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-2-gaps-and-windings">Validation 2 — gaps and windings</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-the-zak-phase-quantized-and-gauge-proof">Exercise 3 — The Zak phase, quantized and gauge-proof</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-3-quantized-and-provably-gauge-free">Validation 3 — quantized, and provably gauge-free</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-bulkboundary-correspondence-the-edge-states-appear">Exercise 4 — Bulk–boundary correspondence: the edge states appear</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-4-the-boundary-keeps-the-bulk-s-promise">Validation 4 — the boundary keeps the bulk’s promise</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-wannier-functions-localization-is-a-gauge-you-must-earn">Exercise 5 — Wannier functions: localization is a gauge you must earn</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-5-localized-shredded-and-gap-rated">Validation 5 — localized, shredded, and gap-rated</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-polarization-only-the-jump-is-physical">Exercise 6 — Polarization: only the jump is physical</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-6-e-2-by-two-unrelated-formulas">Validation 6 — e/2, by two unrelated formulas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-verdict-winding-number-two-and-the-count-that-proves-it">Exercise 7 — Verdict: winding number two, and the count that proves it</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-7-the-integer-counts-states">Validation 7 — the integer counts states</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-summary">Notebook summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">Outlook</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Raymond Amador
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 · CC BY 4.0 (text) / MIT (code).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
